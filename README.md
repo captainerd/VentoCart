@@ -1,12 +1,15 @@
 <p>&nbsp;</p>
+<h1>Welcome to VentoCart! This ambitious project is a Fork I&rsquo;ve done on the OpenCart version 4.0.2.4, in order to implement the most basic features of a modern and complete e-commerce system, that is production ready of-the-box, adding these features as extensions would be too complicated and troublesome.<br />
+While the database scheme has undergone significant alterations, efforts have been made to ensure a level of extension compatibility, event system haven&rsquo;t been altered in any way. I am excited to announce the first set of improvements, Let me break it down for you.</h1>
+
+
 ![image](https://github.com/captainerd/VentoCart/assets/58100748/a1312ad4-97b8-4418-b2d0-b6c53b5eb3f2)
 
 ![image](https://github.com/captainerd/VentoCart/assets/58100748/54dd0c33-98e8-40b7-8976-d907d158e288)
 
 ![image](https://github.com/captainerd/VentoCart/assets/58100748/971ca5c5-d3d5-4ba7-9d57-dba25cd904b5)
 
-<p>Welcome to VentoCart! This ambitious project is a Fork I&rsquo;ve done on the OpenCart version 4.0.2.4, in order to implement the most basic features of a modern and complete e-commerce system, that is production ready of-the-box, adding these features as extensions would be too complicated and troublesome.<br />
-While the database scheme has undergone significant alterations, efforts have been made to ensure a level of extension compatibility, event system haven&rsquo;t been altered in any way. I am excited to announce the first set of improvements, Let me break it down for you.</p>
+ 
 
 <p><strong>1. Real Variation System: </strong>We&#39;ve replaced the previous pseudo-variation system entirely with a dynamic system that allows you to create unique combinations of options with model numbers, SKU codes, stock, and prices.</p>
 
