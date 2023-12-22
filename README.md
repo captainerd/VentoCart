@@ -1,6 +1,6 @@
 <p>&nbsp;</p>
 <h4>Welcome to VentoCart! This ambitious project is a Fork I&rsquo;ve done on the OpenCart version 4.0.2.4, in order to implement the most basic features of a modern and complete e-commerce system, that is production ready of-the-box, adding these features as extensions would be too complicated and troublesome.<br />
-
+ <br /> <br />
  While the database scheme has undergone significant alterations, efforts have been made to ensure a level of extension compatibility, event system haven&rsquo;t been altered in any way. I am excited to announce the first set of improvements, Let me break it down for you.</h4>
 
 
