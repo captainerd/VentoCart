@@ -1,0 +1,46 @@
+<?=  $header    ?>
+<div id="account-payment-method" class="container">
+<?=  $breadcrumb  ?>
+  <div class="row"><?=  $column_left  ?>
+    <div id="content" class="col"><?=  $content_top  ?>
+      <h1><?= $this->e($heading_title ) ?></h1>
+      <div id="payment-method"><?=  $list   ?></div>
+      <div class="text-end"><a href="<?=  $continue   ?>" class="btn btn-primary"><?= $this->e($button_continue ) ?></a></div>
+      <?=  $content_bottom  ?></div>
+    <?=  $column_right  ?></div>
+</div>
+<script type="text/javascript"><!--
+$('#payment-method').on('click', '.btn-danger', function (e) {
+    e.preventDefault();
+
+    var element = this;
+
+    $.ajax({
+        url: $(element).attr('href'),
+        dataType: 'json',
+        beforeSend: function () {
+            $(element).prop('disabled', true);
+        },
+        complete: function () {
+            $(element).prop('disabled', false);
+        },
+        success: function (json) {
+            $('.alert-dismissible').remove();
+
+            if (json['error']) {
+                $('#alert').prepend('<div class="alert alert-danger alert-dismissible"><i class="fa-solid fa-circle-exclamation"></i> ' + json['error'] + ' <button type="button" class="btn-close" data-bs-dismiss="alert"></button></div>');
+            }
+
+            if (json['success']) {
+                $('#alert').prepend('<div class="alert alert-success alert-dismissible"><i class="fa-solid fa-circle-check"></i> ' + json['success'] + ' <button type="button" class="btn-close" data-bs-dismiss="alert"></button></div>');
+
+                $('#payment-method').load('index.php?route=account/payment_method.list&customer_token=<?= $this->e($customer_token ) ?>');
+            }
+        },
+        error: function (xhr, ajaxOptions, thrownError) {
+            //x console.log(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+        }
+    });
+});
+//--></script>
+<?=  $footer  ?>

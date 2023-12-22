@@ -1,0 +1,468 @@
+<div id="modal-image" class="modal">
+  <div id="filemanager" class="modal-dialog modal-lg">
+    <div  class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">{{ heading_title }}</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div data-filename="" id="cropper">
+        <H3>{{title_crop}}</H3>
+        
+
+        <a href="" id="rotateLeft" class="btn btn-primary btn-block" ><i class="fa fa-chevron-left"></i></a>
+        <a href="" id="rotateRight" class="btn btn-primary btn-block"><i class="fa fa-chevron-right"></i></a>
+        <!-- leftbox --> 
+        <div class="box-2">
+            <div class="result"></div>
+        </div>
+        <!--rightbox-->
+        <div class="box-2 img-result hide">
+            <!-- result of crop -->
+            <img class="cropped" src="" alt="">
+        </div> 
+        <a href="" class="btn download hide">Download</a> <button class="btn save btn-primary btn-block">{{button_save}}</button>
+    </div>
+      <div id="mod-content"  class="modal-body"></div>
+    </div>
+  </div>
+</div>
+  <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/cropper/2.3.4/cropper.min.css'>
+ <style>
+    .page {
+	margin: 1em auto;
+	max-width: 768px;
+	display: flex;
+	align-items: flex-start;
+	flex-wrap: wrap;
+	height: 100%;
+}
+#cropper {
+    padding: 10px;
+}
+.box {
+	padding: 0.5em;
+	width: 100%;
+	margin:0.5em;
+}
+
+.box-2 {
+	padding: 0.5em;
+	width: calc(100%/2 - 1em);
+}
+
+.options label,
+.options input{
+	width:4em;
+	padding:0.5em 1em;
+}
+.save {
+    width: 100%;
+	margin:0.8em 0.3em;
+	 
+}
+
+.hide {
+	display: none;
+}
+
+img {
+	max-width: 100%;
+}
+</style>
+
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/cropperjs/0.8.1/cropper.min.js'></script>
+  <script type="text/javascript"> 
+  
+    // Initialize variables
+var cropper = null;
+var image = null;
+var save = document.querySelector('.save');
+var dwn = document.querySelector('.download');
+
+// Function to convert a data URI to a Blob
+function dataURItoBlob(dataURI) {
+    let byteString = atob(dataURI.split(',')[1]);
+    let ab = new ArrayBuffer(byteString.length);
+    let ia = new Uint8Array(ab);
+    for (let i = 0; i < byteString.length; i++) {
+        ia[i] = byteString.charCodeAt(i);
+    }
+    return new Blob([ab], { type: 'image/png' });
+}
+
+// Rotate image left
+$('#rotateLeft').on('click', function (e) {
+    e.preventDefault();
+    cropper.rotate(-90);
+});
+
+// Rotate image right
+$('#rotateRight').on('click', function (e) {
+    e.preventDefault();
+    cropper.rotate(90);
+});
+
+// Save image on click
+save.addEventListener('click', function (e) {
+    e.preventDefault();
+  
+    // Get result as data URI
+    let imgSrc = cropper.getCroppedCanvas({}).toDataURL();
+    
+    // Show cropped image
+    $('#mod-content').show();
+    cropped.src = imgSrc;
+    dwn.classList.remove('hide');
+    dwn.download = $('#cropper').data('filename');
+    dwn.setAttribute('href', imgSrc);
+
+    // Create a FormData object
+    let formData = new FormData();
+    formData.append('file[]', dataURItoBlob(imgSrc), $('#cropper').data('filename'));
+
+    // Define the URL where you want to upload the image
+ 
+
+    let url = 'index.php?route=common/filemanager.upload&user_token={{ user_token }}';
+
+    var directory = $('#input-directory').val();
+ 
+if (directory) {
+    
+    url += '&directory=' + encodeURIComponent(directory);
+}
+
+
+    // Make an AJAX request to upload the image
+    $.ajax({
+        url: url,
+        type: 'post',
+        dataType: 'json',
+        data: formData,
+        cache: false,
+        contentType: false,
+        processData: false,
+        beforeSend: function () {
+            // Add loading or button disable logic here
+        },
+        complete: function () {
+            // Add logic to re-enable buttons or handle completion here
+        },
+        success: function (json) {
+            if (json['error']) {
+                     //remove cropper generated html
+    
+                $('.result').html('');
+                cropper.destroy(); //destroy old cropper.
+                $('#cropper').hide();  
+                alert(json['error']);
+            }
+            if (json['success']) {
+           
+                //remove cropper generated html
+                cropper.destroy(); //destroy old cropper.
+                $('#cropper').hide();  
+                $('.result').html('');
+                $('#button-refresh').trigger('click');
+                setTimeout(() => {
+                    alert(json['success']);
+                },100)
+                
+            }
+        },
+        error: function (xhr, ajaxOptions, thrownError) {
+            //x console.log(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+        }
+    });
+});
+if (window.product_id) {
+    $('#modal-image .modal-body').load('index.php?route=common/filemanager.list&user_token={{ user_token }}' + '&directory=' + encodeURIComponent("products/" + window.product_id));
+} else {
+
+  $('#modal-image .modal-body').load('index.php?route=common/filemanager.list&user_token={{ user_token }}');
+}
+  $('#cropper').hide();
+  $('#modal-image').on('click', '#button-parent', function (e) {
+      e.preventDefault();
+  
+      $('#modal-image .modal-body').load($(this).attr('href'));
+  });
+
+  $('#modal-image').on('click', '#button-refresh', function (e) {
+   
+      e.preventDefault();
+
+      $('#modal-image .modal-body').load($(this).attr('href'));
+  });
+
+  $('#modal-image').on('keydown', '#input-search', function (e) {
+      if (e.which == 13) {
+          $('#button-search').trigger('click');
+      }
+  });
+
+  $('#modal-image').on('click', '#button-search', function (e) {
+      var url = 'index.php?route=common/filemanager.list&user_token={{ user_token }}';
+
+      var directory = $('#input-directory').val();
+
+      if (directory) {
+          url += '&directory=' + encodeURIComponent(directory);
+      }
+
+      var filter_name = $('#input-search').val();
+
+      if (filter_name) {
+          url += '&filter_name=' + encodeURIComponent(filter_name);
+      }
+
+    {% if thumb %}
+      url += '&thumb={{ thumb|escape('js') }}';
+    {% endif %}
+
+    {% if target %}
+      url += '&target={{ target|escape('js') }}';
+    {% endif %}
+
+    {% if ckeditor %}
+      url += '&ckeditor={{ ckeditor|escape('js') }}';
+    {% endif %}
+
+      $('#modal-image .modal-body').load(url);
+  });
+
+  $('#modal-image').on('click', '#button-upload', function () {
+    
+      $('#form-upload').remove();
+
+      $('body').prepend('<form enctype="multipart/form-data" id="form-upload" style="display: none;"><input type="file" name="file[]" value="" multiple="multiple"/></form>');
+
+      $('#form-upload input[name=\'file[]\']').trigger('click');
+//
+
+
+
+
+
+
+
+      //
+
+      $('#form-upload input[name=\'file[]\']').on('change', function () {
+          for (i = 0; i < this.files.length; i++) {
+
+ 
+
+              if ((this.files[0].size / 1024) > {{ config_file_max_size }}) {
+                  $(this).val('');
+
+                  alert('{{ error_upload_size }}');
+              }
+  var file = this.files[0]; // Get the selected file
+
+
+  //We only crop images to keep ratio for catalog (products, categories)
+  if (file && window.location.href.indexOf("index.php?route=catalog") !== -1) {
+
+$('#cropper').data('filename', file.name);
+image = new Image();
+image.src = URL.createObjectURL(file);
+
+image.onload = function() {
+  var width = this.width;
+  var height = this.height;
+  var ratio = width / height;
+
+  if (ratio != 1) {
+    // Ask for confirmation
+    var userConfirmed = window.confirm("{{confirm_image_crop}}");
+    
+    if (userConfirmed) {
+      $('#mod-content').hide();
+      $('#cropper').show();
+
+      result = document.querySelector('.result'),
+      img_result = document.querySelector('.img-result'),
+      cropped = document.querySelector('.cropped'),
+      result.appendChild(image);
+      cropper = new Cropper(image, {
+        aspectRatio: 1, 
+        viewMode: 1, 
+      });
+
+      $('#form-upload input[name=\'file[]\']').val('');
+    } else {
+      // If the user cancels, you can add any other logic here
+      // For example, do not proceed with any cropping-related actions
+    }
+    return; // Since ratio != 1 it needs cropping before uploading.
+  }
+};
+}
+
+ }
+});
+
+      if (typeof timer != 'undefined') {
+          clearInterval(timer);
+      }
+      timer = setInterval(function () {
+          if ($('#form-upload input[name=\'file[]\']').val() !== '') {
+              clearInterval(timer);
+              var url = 'index.php?route=common/filemanager.upload&user_token={{ user_token }}';
+              var directory = $('#input-directory').val();
+
+              if (directory) {
+                  url += '&directory=' + encodeURIComponent(directory);
+              }
+              $.ajax({
+                  url: url,
+                  type: 'post',
+                  dataType: 'json',
+                  data: new FormData($('#form-upload')[0]),
+                  cache: false,
+                  contentType: false,
+                  processData: false,
+                  beforeSend: function () {
+                      $('#button-upload').button('loading');
+                  },
+                  complete: function () {
+                      $('#button-upload').button('reset');
+                  },
+                  success: function (json) {
+                      if (json['error']) {
+                          alert(json['error']);
+                      }
+                      if (json['success']) {
+                          alert(json['success']);
+                          $('#button-refresh').trigger('click');
+                      }
+                  },
+                  error: function (xhr, ajaxOptions, thrownError) {
+                      //x console.log(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+                  }
+              });
+          }
+      }, 500);
+  });
+
+  $('#modal-image').on('click', '#button-folder', function () {
+      $('#modal-folder').slideToggle();
+  });
+
+  $('#modal-image').on('click', '#button-create', function () {
+      var url = 'index.php?route=common/filemanager.folder&user_token={{ user_token }}';
+      var directory = $('#input-directory').val();
+      if (directory) {
+          url += '&directory=' + encodeURIComponent(directory);
+      }
+      $.ajax({
+          url: url,
+          type: 'post',
+          dataType: 'json',
+          data: 'folder=' + encodeURIComponent($('#input-folder').val()),
+          beforeSend: function () {
+              $('#button-create').button('loading');
+          },
+          complete: function () {
+              $('#button-create').button('reset');
+          },
+          success: function (json) {
+              if (json['error']) {
+                  alert(json['error']);
+              }
+
+              if (json['success']) {
+                  alert(json['success']);
+
+                  $('#button-refresh').trigger('click');
+              }
+          },
+          error: function (xhr, ajaxOptions, thrownError) {
+              //x console.log(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+          }
+      });
+  });
+
+  $('#modal-image').on('click', '#button-delete', function (e) {
+      if (confirm('{{ text_confirm }}')) {
+          $.ajax({
+              url: 'index.php?route=common/filemanager.delete&user_token={{ user_token }}',
+              type: 'post',
+              dataType: 'json',
+              data: $('input[name^=\'path\']:checked'),
+              beforeSend: function () {
+                  $('#button-delete').button('loading');
+              },
+              complete: function () {
+                  $('#button-delete').button('reset');
+              },
+              success: function (json) {
+                  if (json['error']) {
+                      alert(json['error']);
+                  }
+
+                  if (json['success']) {
+                      alert(json['success']);
+
+                      $('#button-refresh').trigger('click');
+                  }
+              },
+              error: function (xhr, ajaxOptions, thrownError) {
+                  //x console.log(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+              }
+          });
+      }
+  });
+
+  $('#modal-image').on('click', 'a.directory', function (e) {
+      e.preventDefault();
+      $('#modal-image .modal-body').load($(this).attr('href'));
+  });
+ 
+  $('#modal-image').on('click', 'a.thumbnail', function (e) {
+    
+      e.preventDefault();
+    {% if thumb %}
+      //try for an image
+      let val = '';
+      let type = 'img';
+      val = $(this).find('img').attr('src');
+      if (typeof val === 'undefined') {
+        type = 'video';
+        val = $(this).find('source').attr('src');
+      }
+   
+      let $thumbnail = $('{{ thumb|escape('js') }}');
+      let keepId = "{{ thumb|escape('js') }}".replace('#','');
+ 
+if (type === 'video') {
+    // Replace with video element
+    var $video = $('<video id="' + keepId + '" controls>');
+    $video.append('<source src="' + val + '" type="video/mp4">');
+    $thumbnail.replaceWith($video);
+} else {
+    // Replace with image element
+    var $image = $('<img id="' + keepId + '" >');
+    $image.attr('src', val);
+    $thumbnail.replaceWith($image);
+}
+ 
+      $('{{ target|escape('js') }}').val('catalog/' + $(this).parent().parent().find('input').val());
+    {% endif %}
+    {% if ckeditor %}
+      CKEDITOR.instances['{{ ckeditor|escape('js') }}'].insertHtml('<img src="' + $(this).attr('href') + '" alt="" title=""/>');
+    {% endif %}
+      $('#modal-image').modal('hide');
+  });
+
+  $('#modal-image').on('click', '.pagination a', function (e) {
+      e.preventDefault();
+     
+      $('#modal-image .modal-body').load($(this).attr('href'));
+  });
+
+   
+
+ </script>
+</div> 
