@@ -3,41 +3,42 @@ $color_2: #0084ff;
 $color_3: #ffffff;
 $color_4: #333;
 $color_5: #f5733d;
-$color_6: #a0a0a0;
-$color_7: #080808;
-$color_8: #000000;
-$color_9: #fbfffd;
-$color_10: #2e89ff;
-$color_11: #444;
-$color_12: #F00;
-$color_13: #888;
-$color_14: #333333;
-$color_15: #fff;
-$color_16: #e2e2e2;
-$color_17: #ccc;
-$color_18: #999;
+$color_6: #ffffff83;
+$color_7: #a0a0a0;
+$color_8: #080808;
+$color_9: #000000;
+$color_10: #fbfffd;
+$color_11: #2e89ff;
+$color_12: #444;
+$color_13: #e2e2e2;
+$color_14: #fff;
+$color_15: #ccc;
+$color_16: #F00;
+$color_17: #888;
+$color_18: #333333;
 $color_19: #FC0;
 $color_20: #E69500;
-$color_21: #dc512c;
-$color_22: #FFF;
-$color_23: #ecf0f1;
-$color_24: #FFFFFF;
+$color_21: #999;
+$color_22: #dc512c;
+$color_23: #FFF;
+$color_24: #ecf0f1;
+$color_25: #FFFFFF;
 $font-family_1: "Open Sans", sans-serif;
 $background-color_1: #33333391;
 $background-color_2: #2667e9ac;
 $background-color_3: #ffffff;
-$background-color_4: #e0e0e0;
+$background-color_4: #d5d5d5;
 $background-color_5: #fbfbfb;
 $background-color_6: rgba(0, 0, 0, 0.52);
 $background-color_7: white;
 $background-color_8: #262626;
 $background-color_9: #4c4c4c;
 $background-color_10: #333232;
-$background-color_11: #EEEEEE;
-$background-color_12: #229ac8;
-$background-color_13: transparent;
-$background-color_14: rgba(0, 0, 0, 0.1);
-$background-color_15: #1c1c1c;
+$background-color_11: #1c1c1c;
+$background-color_12: #EEEEEE;
+$background-color_13: #229ac8;
+$background-color_14: transparent;
+$background-color_15: rgba(0, 0, 0, 0.1);
 $border-color_1: #d7d7d7;
 $border-color_2: #fff;
 $border-color_3: #1f90bb #1f90bb #145e7a;
@@ -112,7 +113,7 @@ a {
 	z-index: 1;
 	img {
 		width: 100%;
-		padding: 5px;
+		padding: 2px;
 		border-radius: 10px;
 		height: 100%;
 		object-fit: cover;
@@ -127,6 +128,14 @@ a {
 .title-desc {
 	height: 107px;
 	overflow: hidden;
+	h4 {
+		overflow: hidden;
+		display: -webkit-box;
+		-webkit-line-clamp: 2;
+		-webkit-box-orient: vertical;
+		white-space: normal;
+		height: 36px;
+	}
 }
 .product-price {
 	font-size: 18px;
@@ -148,15 +157,16 @@ a {
 	}
 }
 .image-option {
-	border-radius: 10px;
-	cursor: pointer;
-	border: 2px solid #d7d7d7;
-	&:hover {
-		border: 2px solid #898989;
-	}
 	img {
+		border-radius: 10px;
+		cursor: pointer;
+		border: 2px solid #d7d7d7;
 		padding: 0 !important;
 		border-radius: 10px;
+		&:hover {
+			margin: 0px;
+			border: 2px solid #ff7700;
+		}
 	}
 }
 [id^="input-option-"] {
@@ -165,38 +175,88 @@ a {
 	flex-direction: row;
 }
 .form-check-product {
-	margin: 0px !important;
-	padding-left: 5px;
+	margin-bottom: 3px !important;
+	margin-left: 7px;
 	input {
 		display: none;
 		&:disabled {
 			+ {
-				label {
+				.form-check-product-label {
 					background-color: $background-color_4;
-					border: 2px solid #e0e0e0;
-					color: $color_6;
+					border: 2px dashed #ffffff;
+					color: $color_7;
 					cursor: not-allowed;
+				}
+				.image-option {
+					img {
+						border: 2px dashed #bdbdbd;
+						cursor: not-allowed;
+					}
 				}
 			}
 		}
 		&:checked {
 			+ {
-				label {
-					border: 2px solid #898989;
-					color: $color_7;
+				.image-option {
+					img {
+						border: 2px solid #ff7700;
+					}
+				}
+				.form-check-product-label {
+					border: 2px solid #787878;
+					color: $color_8;
 					background-color: $background-color_5;
 				}
 			}
 		}
 	}
 }
+.play-overlay {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	cursor: pointer;
+	border: 4px solid #ffffff83;
+	border-radius: 50%;
+	width: 60px;
+	height: 60px;
+	box-sizing: border-box;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	i {
+		font-size: 30px;
+		color: $color_6;
+	}
+}
+.picview-container {
+	position: relative;
+	width: 100%;
+	overflow: hidden;
+	padding-bottom: 100%;
+	img {
+		position: absolute;
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+	}
+	video {
+		position: absolute;
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+	}
+}
 .form-check-product-label {
 	display: inline-block;
-	padding: 8px 8px;
+	padding: 5px 12px;
+	min-width: 64px;
 	border-radius: 10px;
+	text-align: center;
 	margin-right: 5px;
 	background-color: $background-color_5;
-	color: $color_8;
+	color: $color_9;
 	cursor: pointer;
 	border: 2px solid #d7d7d7;
 	&:hover {
@@ -273,62 +333,62 @@ a {
 		max-width: 500px;
 		width: 96%;
 		z-index: 10000;
-		color: $color_9;
+		color: $color_10;
 		background-color: $background-color_10;
 		border-color: $border-color_1;
 	}
 }
 .alert {
 	a {
-		color: $color_10;
+		color: $color_11;
 	}
 }
 h1 {
-	color: $color_11;
+	color: $color_12;
 	font-size: 33px;
 }
 h2 {
-	color: $color_11;
+	color: $color_12;
 	font-size: 27px;
 }
 h3 {
-	color: $color_11;
+	color: $color_12;
 	font-size: 21px;
 }
 h4 {
-	color: $color_11;
+	color: $color_12;
 	font-size: 15px;
 }
 h5 {
-	color: $color_11;
+	color: $color_12;
 }
 h6 {
-	color: $color_11;
+	color: $color_12;
 	font-size: 10.2px;
 }
 footer {
+	margin-top: 30px;
+	padding-top: 30px;
+	padding-bottom: 1px;
+	background-color: $background-color_11;
+	border-top: 1px solid #ddd;
+	color: $color_13;
 	h5 {
 		font-size: 12px;
 		font-weight: bold;
-		color: $color_15;
+		color: $color_14;
 		margin-top: 10px;
 		margin-bottom: 10px;
 	}
 	a {
 		font-size: 1.1em;
 		text-decoration: none;
-		color: $color_17;
+		color: $color_15;
 		font-weight: 300;
 		&:hover {
-			color: $color_15;
+			color: $color_14;
 		}
 	}
-	margin-top: 30px;
-	padding-top: 30px;
-	padding-bottom: 1px;
-	background-color: $background-color_15;
-	border-top: 1px solid #ddd;
-	color: $color_16;
 	hr {
 		border-top: none;
 		border-bottom: 1px solid #666;
@@ -361,14 +421,14 @@ div.required {
 	.col-form-label {
 		&:before {
 			content: "* ";
-			color: $color_12;
+			color: $color_16;
 			font-weight: bold;
 		}
 	}
 	.form-label {
 		&:before {
 			content: "* ";
-			color: $color_12;
+			color: $color_16;
 			font-weight: bold;
 		}
 	}
@@ -379,7 +439,7 @@ div.required {
 	line-height: 30px;
 }
 #top {
-	background-color: $background-color_11;
+	background-color: $background-color_12;
 	border-bottom: 1px solid #e2e2e2;
 	padding: 10px 0;
 	margin: 0 0 20px 0;
@@ -388,17 +448,17 @@ div.required {
 	.nav {
 		>.list-inline {
 			>.list-inline-item {
-				color: $color_13;
+				color: $color_17;
 				text-shadow: 0 1px 0 #FFF;
 			}
 			.list-inline-item {
 				>a {
-					color: $color_13;
+					color: $color_17;
 					text-shadow: 0 1px 0 #FFF;
 				}
 				.dropdown {
 					>a {
-						color: $color_13;
+						color: $color_17;
 						text-shadow: 0 1px 0 #FFF;
 					}
 				}
@@ -406,11 +466,11 @@ div.required {
 		}
 	}
 	.btn-link {
-		color: $color_13;
+		color: $color_17;
 		text-shadow: 0 1px 0 #FFF;
 		text-decoration: none;
 		&:hover {
-			color: $color_11;
+			color: $color_12;
 		}
 	}
 	a {
@@ -444,9 +504,7 @@ div.required {
 	.dropdown-menu {
 		background: #f8f8f8;
 		box-shadow: 0 4px 8px rgba(0, 0, 0, 0.322);
-		li {
-			min-width: 427px;
-		}
+		width: 450px;
 	}
 }
 #menu {
@@ -478,7 +536,7 @@ div.required {
 			padding: 3px 20px;
 			clear: both;
 			line-height: 20px;
-			color: $color_14;
+			color: $color_18;
 			font-size: 12px;
 		}
 	}
@@ -494,14 +552,14 @@ div.required {
 		&:hover {
 			text-decoration: none;
 			color: $color_3;
-			background-color: $background-color_12;
+			background-color: $background-color_13;
 			background-image: linear-gradient(to bottom, #23a1d1, #1f90bb);
 			background-repeat: repeat-x;
 		}
 		&:focus {
 			text-decoration: none;
 			color: $color_3;
-			background-color: $background-color_12;
+			background-color: $background-color_13;
 			background-image: linear-gradient(to bottom, #23a1d1, #1f90bb);
 			background-repeat: repeat-x;
 		}
@@ -511,12 +569,12 @@ div.required {
 		font-size: 16px;
 		font-weight: 700;
 		line-height: 40px;
-		color: $color_15;
+		color: $color_14;
 		text-shadow: 0 1px 0 rgba(0, 0, 0, 0.2);
 	}
 	.navbar-toggler {
 		i {
-			color: $color_15;
+			color: $color_14;
 			border-color: $border-color_2;
 			font-size: 0.9em;
 		}
@@ -524,13 +582,13 @@ div.required {
 	.navbar-nav {
 		>li {
 			>a {
-				color: $color_15;
+				color: $color_14;
 				text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
 				padding: 10px 15px 10px 15px;
 				min-height: 15px;
-				background-color: $background-color_13;
+				background-color: $background-color_14;
 				&:hover {
-					background-color: $background-color_14;
+					background-color: $background-color_15;
 				}
 			}
 		}
@@ -558,21 +616,21 @@ div.required {
 	}
 }
 .rating.fa-star {
-	color: $color_18;
+	color: $color_21;
 	font-size: 15px;
 }
 .price {
-	color: $color_11;
+	color: $color_12;
 }
 .price-new {
 	font-weight: 600;
 }
 .price-old {
-	color: $color_21;
+	color: $color_22;
 	text-decoration: line-through;
 }
 .price-tax {
-	color: $color_18;
+	color: $color_21;
 	font-size: 12px;
 	display: block;
 }
@@ -580,9 +638,9 @@ div.required {
 	.navbar-toggler {
 		font-size: 15px;
 		font-stretch: expanded;
-		color: $color_22;
+		color: $color_23;
 		padding: 6px 12px;
-		background-color: $background-color_12;
+		background-color: $background-color_13;
 		background-image: linear-gradient(to bottom, #23a1d1, #1f90bb);
 		background-repeat: repeat-x;
 		border-color: $border-color_3;
@@ -618,11 +676,11 @@ div.required {
 	height: 150px;
 	z-index: 9999;
 	opacity: 0.95;
-	color: $color_23;
+	color: $color_24;
 	background: #343a40;
 	div {
 		font-size: 16px;
-		color: $color_24;
+		color: $color_25;
 	}
 }
 @media (min-width: 768px) {
@@ -639,13 +697,9 @@ div.required {
 		}
 	}
 }
-@media (max-width: 768px) {
-	#header-cart {
-		.dropdown-menu {
-			li {
-				min-width: 100%;
-			}
-		}
+@media (max-width: 1370px) {
+	.quick-view-content {
+		width: 80%;
 	}
 }
 @media (max-width: 767px) {
@@ -661,13 +715,13 @@ div.required {
 		div.dropdown-menu {
 			margin-left: 0 !important;
 			padding-bottom: 10px;
-			background-color: $background-color_14;
+			background-color: $background-color_15;
 		}
 		.dropdown-inner {
 			display: block;
 			a {
 				width: 100%;
-				color: $color_15;
+				color: $color_14;
 			}
 		}
 		.dropdown-menu {
@@ -690,7 +744,22 @@ div.required {
 			margin-top: 0;
 			border: none;
 			border-radius: 0;
-			color: $color_15;
+			color: $color_14;
+		}
+	}
+	.quick-view-content {
+		width: 90%;
+	}
+	#alert {
+		width: 100% !important;
+	}
+	#header-cart {
+		.dropdown-menu {
+			background: #f8f8f8;
+			box-shadow: 0 4px 8px rgba(0, 0, 0, 0.322);
+			max-width: 320px;
+			max-height: 421px;
+			overflow: scroll !important;
 		}
 	}
 }
