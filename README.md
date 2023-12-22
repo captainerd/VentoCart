@@ -10,7 +10,7 @@ While the database scheme has undergone significant alterations, efforts have be
 
 ![image](https://github.com/captainerd/VentoCart/assets/58100748/971ca5c5-d3d5-4ba7-9d57-dba25cd904b5)
 
-<font color="blue">### 1. Real Variation System:</font>
+### 1. <font color="blue">Real Variation System:</font>
 We've replaced the previous pseudo-variation system entirely with a dynamic system that allows you to create unique combinations of options with model numbers, SKU codes, stock, and prices.
 
 All variations stay on the same product page, and all options or variations selected by the client will update the price via JS in real time for an interactive experience.
