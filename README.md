@@ -62,7 +62,11 @@ The client can display a product in a small pop-up from anywhere on the website 
 
 ### 17. *** Added video support:
 Now you can use a video (mkv, mp4, and avi) for a product main thumbnail or as extra in the photo collection, supported both by the regular media slider or via PhotoSwipe. 
+
+### 18. Improved Image Organization:
+Each product has now its own directory for media by using the product ID as the directory name. This improves organization and keeps your media files neatly organized
+
 </br></br>
-Sure I am forgetting few others, but that's it for now. Lastly, since you can't use the vanilla installation, we've put in place a small web installer and a terminal one. If you have any questions or issues don't hesitate to reach out.
+Sure I am forgetting few other feautres and improvements, but that's it for now. Lastly, since you can't use the vanilla installation, we've put in place a small web installer and a terminal one. If you have any questions or issues don't hesitate to reach out.
 
 ![image](https://github.com/captainerd/VentoCart/assets/58100748/e37c7923-4d03-496c-b40c-27587ada0645)
