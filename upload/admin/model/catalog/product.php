@@ -228,7 +228,7 @@ class Product extends \Opencart\System\Engine\Model
 
 		if (isset($data['product_store'])) {
 			foreach ($data['product_store'] as $store_id) {
-				$this->db->query("INSERT INTO `" . DB_PREFIX . "product_to_store` SET `product_id` = '" . (int) $product_id . "', `store_id` = '" . (int) $store_id . "'");
+				if ($store_id) $this->db->query("INSERT INTO `" . DB_PREFIX . "product_to_store` SET `product_id` = '" . (int) $product_id . "', `store_id` = '" . (int) $store_id . "'");
 			}
 		}
 
