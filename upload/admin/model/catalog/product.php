@@ -227,8 +227,8 @@ class Product extends \Opencart\System\Engine\Model
 		$this->db->query("DELETE FROM `" . DB_PREFIX . "product_to_store` WHERE `product_id` = '" . (int) $product_id . "'");
 
 		if (isset($data['product_store'])) {
-			foreach ($data['product_store'] as $store_id) {
-				if ($store_id) $this->db->query("INSERT INTO `" . DB_PREFIX . "product_to_store` SET `product_id` = '" . (int) $product_id . "', `store_id` = '" . (int) $store_id . "'");
+			foreach (array_unique($data['product_store']) as $store_id) {
+				 $this->db->query("INSERT INTO `" . DB_PREFIX . "product_to_store` SET `product_id` = '" . (int) $product_id . "', `store_id` = '" . (int) $store_id . "'");
 			}
 		}
 
