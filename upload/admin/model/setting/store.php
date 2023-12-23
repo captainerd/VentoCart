@@ -92,7 +92,7 @@ class Store extends \Opencart\System\Engine\Model {
 	 * @return array
 	 */
 	public function getStores(array $data = []): array {
-		$sql = "SELECT * FROM `" . DB_PREFIX . "store` ORDER BY `url`";
+		$sql = "SELECT * FROM `" . DB_PREFIX . "store` WHERE store_id > '0' ORDER BY `url`";
 
 		$store_data = $this->cache->get('store.' . md5($sql));
 
