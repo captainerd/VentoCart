@@ -161,6 +161,7 @@ class Product extends \Opencart\System\Engine\Model
 	public function editProduct(int $product_id, array $data): void
 	{
 	 
+	 
 		$this->db->query("UPDATE `" . DB_PREFIX . "product` SET 
 		`model` = '" . $this->db->escape((string) $data['model']) . "', 
 		`sku` = '" . $this->db->escape((string) $data['sku']) . "', 
@@ -197,14 +198,14 @@ class Product extends \Opencart\System\Engine\Model
 		if ($data['image']) {
 			$this->db->query("UPDATE `" . DB_PREFIX . "product` SET `image` = '" . $this->db->escape((string) $data['image']) . "' WHERE `product_id` = '" . (int) $product_id . "'");
 		}
-
+	 
 		// Description
 		$this->db->query("DELETE FROM `" . DB_PREFIX . "product_description` WHERE `product_id` = '" . (int) $product_id . "'");
-
+ 
 		foreach ($data['product_description'] as $language_id => $value) {
 			$this->db->query("INSERT INTO `" . DB_PREFIX . "product_description` SET `product_id` = '" . (int) $product_id . "', `language_id` = '" . (int) $language_id . "', `name` = '" . $this->db->escape($value['name']) . "', `description` = '" . $this->db->escape($value['description']) . "', `tag` = '" . $this->db->escape($value['tag']) . "', `meta_title` = '" . $this->db->escape($value['meta_title']) . "', `meta_description` = '" . $this->db->escape($value['meta_description']) . "', `meta_keyword` = '" . $this->db->escape($value['meta_keyword']) . "'");
 		}
-
+	 
 		// Categories
 		$this->db->query("DELETE FROM `" . DB_PREFIX . "product_to_category` WHERE `product_id` = '" . (int) $product_id . "'");
 
@@ -213,22 +214,23 @@ class Product extends \Opencart\System\Engine\Model
 				$this->db->query("INSERT INTO `" . DB_PREFIX . "product_to_category` SET `product_id` = '" . (int) $product_id . "', `category_id` = '" . (int) $category_id . "'");
 			}
 		}
-
+	 
 		// Filters
 		$this->db->query("DELETE FROM `" . DB_PREFIX . "product_filter` WHERE `product_id` = '" . (int) $product_id . "'");
-
+	 
 		if (isset($data['product_filter'])) {
 			foreach ($data['product_filter'] as $filter_id) {
 				$this->db->query("INSERT INTO `" . DB_PREFIX . "product_filter` SET `product_id` = '" . (int) $product_id . "', `filter_id` = '" . (int) $filter_id . "'");
 			}
 		}
-
+	 
 		// Stores
 		$this->db->query("DELETE FROM `" . DB_PREFIX . "product_to_store` WHERE `product_id` = '" . (int) $product_id . "'");
 
+		 
 		if (isset($data['product_store'])) {
 			foreach (array_unique($data['product_store']) as $store_id) {
-				 $this->db->query("INSERT INTO `" . DB_PREFIX . "product_to_store` SET `product_id` = '" . (int) $product_id . "', `store_id` = '" . (int) $store_id . "'");
+			 $this->db->query("INSERT INTO `" . DB_PREFIX . "product_to_store` SET `product_id` = '" . (int) $product_id . "', `store_id` = '" . (int) $store_id . "'");
 			}
 		}
 
@@ -240,7 +242,7 @@ class Product extends \Opencart\System\Engine\Model
 				$this->db->query("INSERT INTO `" . DB_PREFIX . "product_to_download` SET `product_id` = '" . (int) $product_id . "', `download_id` = '" . (int) $download_id . "'");
 			}
 		}
-
+	 
 		// Related
 		$this->db->query("DELETE FROM `" . DB_PREFIX . "product_related` WHERE `product_id` = '" . (int) $product_id . "'");
 		$this->db->query("DELETE FROM `" . DB_PREFIX . "product_related` WHERE `related_id` = '" . (int) $product_id . "'");
@@ -271,7 +273,7 @@ class Product extends \Opencart\System\Engine\Model
 		}
 
 		// Options
-
+	 
 		if (isset($data['product_option'])) {
 			foreach ($data['product_option'] as $product_option) {
 				// Marked for deletion, delete and proceed.
@@ -411,86 +413,39 @@ class Product extends \Opencart\System\Engine\Model
 	private function updateOrInsertProductOption($product_id, $required, $product_option_value)
 	{
 		$value_id = isset($product_option_value['option_value_id']) ? $product_option_value['option_value_id'] : $product_option_value['product_option_value_id'];
-
-		$result = $this->db->query("SELECT poption_id FROM `" . DB_PREFIX . "product_options` WHERE product_id = '" . $product_id . "' AND poption_id = '" . (int) $product_option_value['poption_id'] . "'");
-
-		if ($result->num_rows) {
-			// If the record exists, update it
-			$this->db->query("
-            UPDATE `" . DB_PREFIX . "product_options`
-            SET 
-                `product_id` = '" . $product_id . "', 
-                `required` = '" . $required . "',
-                `quantity` = '" . (int) $product_option_value['quantity'] . "', 
-                `subtract` = '" . (int) $product_option_value['subtract'] . "', 
-                `option_id` = '" . (int) $value_id . "', 
-                `price` = '" . (float) $product_option_value['price'] . "', 
-                `price_prefix` = '" . $this->db->escape($product_option_value['price_prefix']) . "', 
-                `points` = '" . (int) $product_option_value['points'] . "', 
-                `points_prefix` = '" . $this->db->escape($product_option_value['points_prefix']) . "', 
-                `weight` = '" . (float) $product_option_value['weight'] . "', 
-                `weight_prefix` = '" . $this->db->escape($product_option_value['weight_prefix']) . "'
-            WHERE poption_id = '" . (int) $product_option_value['poption_id'] . "'
-        ");
-		} else {
-			// If the record does not exist, insert a new one
-			$this->db->query("
-            INSERT INTO `" . DB_PREFIX . "product_options` 
-            SET 
-                `product_id` = '" . $product_id . "', 
-                `option_id` = '" . (int) $value_id . "', 
-                `required` = '" . $required . "',
-                `quantity` = '" . (int) $product_option_value['quantity'] . "', 
-                `subtract` = '" . (int) $product_option_value['subtract'] . "', 
-                `price` = '" . (float) $product_option_value['price'] . "', 
-                `price_prefix` = '" . $this->db->escape($product_option_value['price_prefix']) . "', 
-                `points` = '" . (int) $product_option_value['points'] . "', 
-                `points_prefix` = '" . $this->db->escape($product_option_value['points_prefix']) . "', 
-                `weight` = '" . (float) $product_option_value['weight'] . "', 
-                `weight_prefix` = '" . $this->db->escape($product_option_value['weight_prefix']) . "'
-        ");
-		}
+	
+		$this->db->query("
+			REPLACE INTO `" . DB_PREFIX . "product_options`
+			SET 
+				`poption_id` = '" . (int) $product_option_value['poption_id'] . "',
+				`product_id` = '" . $product_id . "', 
+				`option_id` = '" . (int) $value_id . "', 
+				`required` = '" . $required . "',
+				`quantity` = '" . (int) $product_option_value['quantity'] . "', 
+				`subtract` = '" . (int) $product_option_value['subtract'] . "', 
+				`price` = '" . (float) $product_option_value['price'] . "', 
+				`price_prefix` = '" . $this->db->escape($product_option_value['price_prefix']) . "', 
+				`points` = '" . (int) $product_option_value['points'] . "', 
+				`points_prefix` = '" . $this->db->escape($product_option_value['points_prefix']) . "', 
+				`weight` = '" . (float) $product_option_value['weight'] . "', 
+				`weight_prefix` = '" . $this->db->escape($product_option_value['weight_prefix']) . "'
+		");
 	}
 	private function updateOrInsertProductOptionForOtherTypes($product_id, $required, $product_option)
 	{
-
-		 $poption_id = isset($product_option['poption_id']) ? $product_option['poption_id'] : 0;
+		$poption_id = isset($product_option['poption_id']) ? $product_option['poption_id'] : 0;
 		// Common properties
 		$product_id = (int) $product_id;
-
-		// Check if the record with the given product_id and value_id already exists
-		$result = $this->db->query("
-		SELECT poption_id
-		FROM `" . DB_PREFIX . "product_options`
-		WHERE product_id = '" . $product_id . "'
-		AND poption_id = '" .  (int) $poption_id . "'
-	");
-
-		if ($result->num_rows) {
-			// If the record exists, update it
-			$this->db->query("
-			UPDATE `" . DB_PREFIX . "product_options`
-			SET 
-				`required` = '" . (int) $required . "',
-				`value` = '" . $this->db->escape($product_option['value']) . "',
-				`option_id` = '" . $this->db->escape($product_option['option_id']) . "'
-			WHERE product_id = '" . $product_id . "'
-			AND poption_id = '" .  (int) $poption_id . "'
-		");
-
-		} else {
-
-			// If the record does not exist, insert a new one
-			$this->db->query("
-			INSERT INTO `" . DB_PREFIX . "product_options` 
+	
+		$this->db->query("
+			REPLACE INTO `" . DB_PREFIX . "product_options`
 			SET 
 				`product_id` = '" . $product_id . "', 
-				`poption_id` = '" .  (int) $poption_id. "', 
+				`poption_id` = '" . (int) $poption_id . "', 
 				`option_id` = '" . $this->db->escape($product_option['option_id']) . "',
 				`required` = '" . (int) $required . "',
 				`value` = '" . $this->db->escape($product_option['value']) . "'
 		");
-		}
 	}
 	public function copyProduct(int $product_id): void
 	{
