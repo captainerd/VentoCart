@@ -265,15 +265,15 @@ class Download extends \Opencart\System\Engine\Controller {
 			$json['error']['filename'] = $this->language->get('error_exists');
 		}
 
-		if (preg_match('/[^a-zA-Z0-9\/_-]|[\p{Cyrillic}]+/u', $this->request->post['filename'])) {
-			$json['error']['filename'] = $this->language->get('error_filename_character');
+		if (preg_match('/[^a-zA-Z0-9\/_.-]|[\p{Cyrillic}]+/u', $this->request->post['filename'])) {
+		 	$json['error']['filename'] = $this->language->get('error_filename_character');
 		}
 
 		if ((oc_strlen($this->request->post['mask']) < 3) || (oc_strlen($this->request->post['mask']) > 128)) {
 			$json['error']['mask'] = $this->language->get('error_mask');
 		}
 
-		if (preg_match('/[^a-zA-Z0-9\/_-]|[\p{Cyrillic}]+/u', $this->request->post['mask'])) {
+		if (preg_match('/[^a-zA-Z0-9\/_.-]|[\p{Cyrillic}]+/u', $this->request->post['mask'])) {
 			$json['error']['mask'] = $this->language->get('error_mask_character');
 		}
 
