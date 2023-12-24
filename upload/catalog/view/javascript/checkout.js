@@ -32,13 +32,13 @@ class AddressCheckOut {
     $('#input-register-acc').on('change', this.onRegisterAccChange);
     $('#input-customer-group').on('change', this.onCustomerGroupChange);
     $('#input-address-match').on('change', this.onAddressMatchChange);
-    $('select[name$=\'_country_id\']').on('change', this.onCountryChange);
-    $('select[name$=\'_zone_id\']').on('change', this.onZoneChange);
+    $('select[name$=\'country_id\']').on('change', this.onCountryChange);
+    $('select[name$=\'zone_id\']').on('change', this.onZoneChange);
     $('#form-' + this.formName).on('submit', this.onSubmitForm);
 
     // Trigger initial change events
     $('#input-customer-group').trigger('change');
-    $('select[name$=\'_country_id\']').trigger('change');
+    $('select[name$=\'country_id\']').trigger('change');
     $('#form-' + this.formName + ' :input:not(:checkbox,:radio,:button)').on('change keyup', function (e) {
 
       if (e.data && e.data[0]) {
@@ -152,12 +152,12 @@ class AddressCheckOut {
   }
 
   onCountryChange(event) {
-
+ 
     var element = event.target;
-    var type = $(event.target).attr('name').slice(0, -11);
-
+    var type = $(event.target).attr('id').split('-')[1];
+ 
     if ($('#input-' + type + '-country').val() == "") return;
-
+ 
     $.ajax({
       url: 'index.php?route=localisation/country&language=' + window.lang + '&country_id=' + $('#input-' + type + '-country').val(),
       dataType: 'json',
