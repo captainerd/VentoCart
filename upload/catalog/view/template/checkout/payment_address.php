@@ -355,9 +355,8 @@ $('#form-payment-address').on('submit', function(e) {
     window.lang = '<?= $this->e($language) ?>';
       window.text_select = '<?= $this->e($text_select ) ?>';
       window.text_none = '<?= $this->e($text_select ) ?>';
-    populatePaymentAndShippingMethods();
- 
-   // window.checkoutInit = new AddressCheckOut("register", <?= $this->e($country_company_fields ) ?>, $);
+    
+   if (typeof window.checkoutInit == 'undefined') window.checkoutInit = new AddressCheckOut("form-payment-address",   $);
 });
 </script>
 
