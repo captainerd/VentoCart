@@ -612,7 +612,7 @@ class Product extends \Opencart\System\Engine\Controller {
 			$this->document->setTitle($this->language->get('text_error'));
 
 			$data['continue'] = $this->url->link('common/home', 'language=' . $this->config->get('config_language'));
-
+			$data['heading_title'] = $this->language->get('text_error');
 			$data['column_left'] = $this->load->controller('common/column_left');
 			$data['column_right'] = $this->load->controller('common/column_right');
 			$data['content_top'] = $this->load->controller('common/content_top');
