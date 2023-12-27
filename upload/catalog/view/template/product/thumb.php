@@ -1,6 +1,6 @@
 <form method="post" data-oc-toggle="ajax" data-oc-load="<?= $this->e($cart) ?>" data-oc-target="#header-cart">
     <div class="product-formxx mx-auto">
-        <a class="prodclick" href="<?= $this->e($href) ?>">
+        <a class="prodclick" href="<?= $href ?>">
             <div class="product-thumb picview-container img-zoom-container">
  
                 <?php
