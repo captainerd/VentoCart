@@ -10,7 +10,7 @@
           <div >
             <h3><?= $topic['name'] ?></h4>
             <p><?= $topic['preview'] ?></p>
-            <a href="<?= $topic['href'] ?>">Read more</a>
+            <a href="<?= $topic['href'] ?>"><?=$text_readmore?></a>
           </div>
         <?php endif; ?>
       </div>
