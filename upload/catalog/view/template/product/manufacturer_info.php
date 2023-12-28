@@ -3,12 +3,12 @@
 <?=  $breadcrumb  ?>
   <div class="row"><?=  $column_left  ?>
     <div id="content" class="col"><?=  $content_top  ?>
-      <h1><?= $this->e($heading_title ) ?></h1>
+      <h1><?= $this->e($heading_title) ?></h1>
       <?php if ($products): ?>
         <div id="display-control" class="row">
           <div class="col-md-3">
             <div class="mb-3">
-              <a href="<?= $this->e($compare ) ?>" id="compare-total" class="btn btn-primary d-block"><i class="fa-solid fa-arrow-right-arrow-left"></i> <span class="d-inline d-md-none d-lg-inline"><?= $this->e($text_compare ) ?></span></a>
+              <a href="<?= $compare  ?>" id="compare-total" class="btn btn-primary d-block"><i class="fa-solid fa-arrow-right-arrow-left"></i> <span class="d-inline d-md-none d-lg-inline"><?= $this->e($text_compare ) ?></span></a>
             </div>
           </div>
           <div class="col-md-1 d-none d-md-block">
@@ -23,8 +23,8 @@
               <select id="input-sort" class="form-select" onchange="location = this.value;">
                 <?php foreach ($sorts as $sorts): ?>
 
-                 <option value="<?= $this->e($sorts['href']) ?>"<?= ($sorts['value'] == sprintf('%s-%s', $sort, $order)) ? ' selected' : '' ?>>
-    <?= $this->e($sorts['text']) ?>
+                 <option value="<?=  $sorts['href'] ?>"<?= ($sorts['value'] == sprintf('%s-%s', $sort, $order)) ? ' selected' : '' ?>>
+    <?=  $sorts['text']  ?>
 </option>
 
                     <?php endforeach; ?>
@@ -36,7 +36,7 @@
               <label for="input-limit" class="input-group-text"><?=  $text_limit   ?></label>
               <select id="input-limit" class="form-select" onchange="location = this.value;">
                 <?php foreach ($limits as $limits): ?>
-                  <option value="<?= $this->e($limits['href']) ?>"<?php if ($limits['value'] == $limit): ?> selected<?php endif; ?>><?= $this->e($limits['text']) ?></option>
+                  <option value="<?=  $limits['href']  ?>"<?php if ($limits['value'] == $limit): ?> selected<?php endif; ?>><?=  $limits['text']  ?></option>
                 <?php endforeach; ?>
               </select>
             </div>

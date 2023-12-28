@@ -14,7 +14,7 @@
 
                 ?>
 
-                <a href="<?= $this->e($product['href'])?>">
+                <a href="<?= $product['href'] ?>">
 
                 <?php if ($isVideo): ?>
 
@@ -35,7 +35,7 @@
               <?php endif; ?>
             </div>
             <div class="col-md-6 col-12">
-              <a href="<?= $this->e($product['href']) ?>" class="text-decoration-none"><?=  $product['name'] ?></a>
+              <a href="<?= $product['href'] ?>" class="text-decoration-none"><?=  $product['name'] ?></a>
               <?php if (!$product['stock']): ?>
                 <span class="text-danger">***</span>
               <?php endif; ?>

@@ -18,7 +18,7 @@
         </fieldset>
         <div class="row">
           <div class="col">
-            <a href="<?= $this->e($back ) ?>" class="btn btn-light"><?= $this->e($button_back ) ?></a>
+            <a href="<?=  $back   ?>" class="btn btn-light"><?= $this->e($button_back ) ?></a>
           </div>
           <div class="col text-end">
             <button type="submit" class="btn btn-primary"><?= $this->e($button_continue ) ?></button>

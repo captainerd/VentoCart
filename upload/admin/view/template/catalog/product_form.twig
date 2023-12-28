@@ -107,7 +107,7 @@
                       </div>
                     </div>
 
-                    <div class="alert alert-info"><i class="fa-solid fa-info-circle"></i> {{ text_keyword }}</div>
+                    
                     <div id="product-seo" class="table-responsive">
                       <table class="table table-bordered table-hover">
                         <thead>
@@ -124,7 +124,7 @@
                                 {% for language in languages %}
                                   <div class="input-group">
                                     <div class="input-group-text"><img src="{{ language.image }}" title="{{ language.name }}"/></div>
-                                    <input type="text" name="product_seo_url[{{ store.store_id }}][{{ language.language_id }}]" value="{% if product_seo_url[store.store_id][language.language_id] %}{{ product_seo_url[store.store_id][language.language_id] }}{% endif %}" id="input-keyword-{{ store.store_id }}-{{ language.language_id }}" placeholder="{{ entry_keyword }}" class="form-control"/>
+                                    <input type="text" name="product_seo_url[{{ store.store_id }}][{{ language.language_id }}]" value="{% if product_seo_url[store.store_id][language.language_id] %}{{ product_seo_url[store.store_id][language.language_id] }}{% endif %}" id="input-keyword-{{ store.store_id }}-{{ language.language_id }}" placeholder="{{ entry_keyword }}" class="form-control seoinput"/>
                                   </div>
                                   <div id="error-keyword-{{ store.store_id }}-{{ language.language_id }}" class="invalid-feedback"></div>
                                 {% endfor %}</td>

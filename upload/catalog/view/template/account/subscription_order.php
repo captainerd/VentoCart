@@ -12,7 +12,7 @@
             <?php if (!empty($orders)): ?>
                 <?php foreach ($orders as $order): ?>
                     <tr>
-                        <td class="text-end"><a href="<?= $this->e($order['view']) ?>" target="_blank"><?= $this->e($order['order_id']) ?></a></td>
+                        <td class="text-end"><a href="<?= $order['view'] ?>" target="_blank"><?= $this->e($order['order_id']) ?></a></td>
                         <td class="text-start"><?= $this->e($order['status']) ?></td>
                         <td class="text-end"><?= $this->e($order['total']) ?></td>
                         <td class="text-start"><?= $this->e($order['date_added']) ?></td>

@@ -2,9 +2,9 @@
   <div class="card-header"><i class="fa-solid fa-filter"></i> <?= $this->e($heading_title ) ?></div>
   <div class="list-group list-group-flush">
     <?php foreach ($filter_groups as $filter_group): ?>
-      <a class="list-group-item"><?= $this->e($filter_group['name']) ?></a>
+      <a class="list-group-item"><?= $filter_group['name'] ?></a>
       <div class="list-group-item">
-        <div id="filter-group-<?= $this->e($filter_group['filter_group_id']) ?>">
+        <div id="filter-group-<?= $filter_group['filter_group_id'] ?>">
           <?php foreach ($filter_group['filter'] as $filter): ?>
             <div class="form-check">
 
@@ -17,7 +17,7 @@
     <?= (in_array($filter['filter_id'], $filter_category)) ? 'checked' : '' ?>
 />
             
-              <label for="input-filter-<?= $this->e($filter['filter_id']) ?>" class="form-check-label"><?= $this->e($filter['name']) ?></label>
+              <label for="input-filter-<?= $this->e($filter['filter_id']) ?>" class="form-check-label"><?= $filter['name'] ?></label>
             </div>
           <?php endforeach; ?>
         </div>
@@ -25,7 +25,7 @@
     <?php endforeach; ?>
   </div>
   <div class="card-footer text-right">
-    <button type="button" id="button-filter" class="btn btn-primary"><i class="fa-solid fa-filter"></i> <?= $this->e($button_filter ) ?></button>
+    <button type="button" id="button-filter" class="btn btn-primary"><i class="fa-solid fa-filter"></i> <?= $button_filter  ?></button>
   </div>
 </div>
 <script type="text/javascript"><!--
@@ -36,6 +36,6 @@ $('#button-filter').on('click', function () {
         filter.push(this.value);
     });
 
-    location = '<?= $this->e($action ) ?>&filter=' + filter.join(',');
+    location = '<?= $action  ?>&filter=' + filter.join(',');
 });
 //--></script>

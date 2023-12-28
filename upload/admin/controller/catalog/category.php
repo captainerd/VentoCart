@@ -53,6 +53,16 @@ class Category extends \Opencart\System\Engine\Controller {
 		$this->response->setOutput($this->getList());
 	}
 
+	public function updateSortOrder(): void {
+		$newsort = $this->request->post['newSort'];
+		$this->load->model('catalog/category');
+		foreach( $newsort as $categoery_id => $updatesort) {
+			$this->model_catalog_category->updateSort($categoery_id, $updatesort);
+		}
+		$this->response->setOutput(json_encode(['status' => 'ok']));
+
+
+	}
 	protected function getList(): string {
 		if (isset($this->request->get['sort'])) {
 			$sort = $this->request->get['sort'];
@@ -91,10 +101,10 @@ class Category extends \Opencart\System\Engine\Controller {
 		$data['categories'] = [];
 
 		$filter_data = [
-			'sort'  => $sort,
-			'order' => $order,
+			'sort'  => "sort_order",
+			'order' => "ASC",
 			'start' => ($page - 1) * $this->config->get('config_pagination_admin'),
-			'limit' => $this->config->get('config_pagination_admin')
+			'limit' => 10000
 		];
 
 		$this->load->model('catalog/category');
@@ -140,14 +150,14 @@ class Category extends \Opencart\System\Engine\Controller {
 		$data['pagination'] = $this->load->controller('common/pagination', [
 			'total' => $category_total,
 			'page'  => $page,
-			'limit' => $this->config->get('config_pagination_admin'),
+			'limit' => 10000,
 			'url'   => $this->url->link('catalog/category.list', 'user_token=' . $this->session->data['user_token'] . $url . '&page={page}')
 		]);
 
 		$data['results'] = sprintf($this->language->get('text_pagination'), ($category_total) ? (($page - 1) * $this->config->get('config_pagination_admin')) + 1 : 0, ((($page - 1) * $this->config->get('config_pagination_admin')) > ($category_total - $this->config->get('config_pagination_admin'))) ? $category_total : ((($page - 1) * $this->config->get('config_pagination_admin')) + $this->config->get('config_pagination_admin')), $category_total, ceil($category_total / $this->config->get('config_pagination_admin')));
 
-		$data['sort'] = $sort;
-		$data['order'] = $order;
+		$data['sort'] = "sort_order";
+		$data['order'] = "ASC";
 
 		return $this->load->view('catalog/category_list', $data);
 	}
@@ -349,6 +359,7 @@ class Category extends \Opencart\System\Engine\Controller {
 		$this->response->setOutput($this->load->view('catalog/category_form', $data));
 	}
 
+ 
 	public function save(): void {
 		$this->load->language('catalog/category');
 
@@ -387,13 +398,12 @@ class Category extends \Opencart\System\Engine\Controller {
 
 			foreach ($this->request->post['category_seo_url'] as $store_id => $language) {
 				foreach ($language as $language_id => $keyword) {
+					
 					if ((oc_strlen(trim($keyword)) < 1) || (oc_strlen($keyword) > 64)) {
 						$json['error']['keyword_' . $store_id . '_' . $language_id] = $this->language->get('error_keyword');
 					}
 
-					if (preg_match('/[^a-zA-Z0-9\/_-]|[\p{Cyrillic}]+/u', $keyword)) {
-						$json['error']['keyword_' . $store_id . '_' . $language_id] = $this->language->get('error_keyword_character');
-					}
+			
 
 					$seo_url_info = $this->model_design_seo_url->getSeoUrlByKeyword($keyword, $store_id);
 

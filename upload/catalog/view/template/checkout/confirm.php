@@ -51,7 +51,7 @@
       <div class="styled-item">
         <div class="styled-item-content">
           <div>
-            <?= $this->e($product['quantity']) ?> x <a href="<?= $this->e($product['href']) ?>"><?= $this->e($product['name']) ?></a>
+            <?= $this->e($product['quantity']) ?> x <a href="<?= $product['href'] ?>"><?= $this->e($product['name']) ?></a>
             <?php foreach ($product['option'] as $option): ?>
               <br/>
               <small> - <?= $this->e($option['name']) ?>: <?= $this->e($option['value']) ?></small>

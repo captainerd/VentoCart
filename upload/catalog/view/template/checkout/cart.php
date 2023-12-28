@@ -21,8 +21,8 @@
 
       <br/>
       <div class="row">
-        <div class="col"><a href="<?= $this->e($continue ) ?>" class="btn btn-light"><?= $this->e($button_shopping ) ?></a></div>
-        <div class="col text-end"><a href="<?= $this->e($checkout ) ?>" class="btn btn-primary btn-wide"><?= $this->e($button_checkout ) ?></a></div>
+        <div class="col"><a href="<?= $continue  ?>" class="btn btn-light"><?= $this->e($button_shopping ) ?></a></div>
+        <div class="col text-end"><a href="<?= $checkout  ?>" class="btn btn-primary btn-wide"><?= $this->e($button_checkout ) ?></a></div>
       </div>
       <?=  $content_bottom  ?></div>
     <?=  $column_right  ?></div>

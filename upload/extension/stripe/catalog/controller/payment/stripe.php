@@ -220,7 +220,7 @@ class Stripe extends \Opencart\System\Engine\Controller   {
 
 	private function initStripe() {
 		 
-		require_once(DIR_EXTENSION . 'stripe/system/library/stripe.php');
+		require_once(DIR_EXTENSION . 'stripe/system/vendor/autoload.php');
 		if($this->config->get('payment_stripe_environment') == 'live' || (isset($this->request->request['livemode']) && $this->request->request['livemode'] == "true")) {
 			$stripe_secret_key = $this->config->get('payment_stripe_live_secret_key');
 		} else {

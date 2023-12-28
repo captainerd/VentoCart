@@ -21,13 +21,13 @@
             <tr>
               <td><?= $this->e($text_name ) ?></td>
               <?php foreach ($products as $product): ?>
-                <td><a href="<?= $this->e($product['href']) ?>"><strong><?= $this->e($product['name']) ?></strong></a></td>
+                <td><a href="<?= $product['href'] ?>"><strong><?= $this->e($product['name']) ?></strong></a></td>
               <?php endforeach; ?>
             </tr>
             <tr>
               <td><?= $this->e($text_image ) ?></td>
               <?php foreach ($products as $product): ?>
-                <td class="text-center"><?php if ($product['thumb']): ?> <img src="<?= $this->e($product['thumb']) ?>" alt="<?= $this->e($product['name']) ?>" title="<?= $this->e($product['name']) ?>" class="img-thumbnail"/> <?php endif; ?></td>
+                <td class="text-center"><?php if ($product['thumb']): ?> <img src="<?=  $product['thumb']  ?>" alt="<?= $this->e($product['name']) ?>" title="<?= $this->e($product['name']) ?>" class="img-thumbnail"/> <?php endif; ?></td>
               <?php endforeach; ?>
             </tr>
             <tr>
@@ -117,7 +117,7 @@
               <td class="text-center">
                 <form action="<?= $add_to_cart  ?>" method="post" data-oc-toggle="ajax" data-oc-load="<?=  $cart   ?>" data-oc-target="#header-cart">
                   <button type="submit" id="button-confirm" class="btn btn-primary btn-block"><?= $this->e($button_cart ) ?></button>
-                  <input type="hidden" name="product_id" value="<?= $this->e($product['product_id']) ?>"/> <input type="hidden" name="quantity" value="<?= $this->e($product['minimum']) ?>"/>
+                  <input type="hidden" name="product_id" value="<?=  $product['product_id']  ?>"/> <input type="hidden" name="quantity" value="<?=  $product['minimum']  ?>"/>
                   <a href="<?=  $product['remove']  ?>" class="btn btn-danger btn-block"><?= $this->e($button_remove ) ?></a>
                 </form>
               </td>

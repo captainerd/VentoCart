@@ -141,7 +141,7 @@ class Product extends \Opencart\System\Engine\Model
 		if (isset($data['product_seo_url'])) {
 			foreach ($data['product_seo_url'] as $store_id => $language) {
 				foreach ($language as $language_id => $keyword) {
-					$this->db->query("INSERT INTO `" . DB_PREFIX . "seo_url` SET `store_id` = '" . (int) $store_id . "', `language_id` = '" . (int) $language_id . "', `key` = 'product_id', `value` = '" . (int) $product_id . "', `keyword` = '" . $this->db->escape($this->convertToSEOUrl($keyword)) . "'");
+					$this->db->query("INSERT INTO `" . DB_PREFIX . "seo_url` SET `store_id` = '" . (int) $store_id . "', `language_id` = '" . (int) $language_id . "', `key` = 'product_id', `value` = '" . (int) $product_id . "', `keyword` = '" . $this->db->escape($this->convertToSeoFriendly($keyword)) . "'");
 				}
 			}
 		}
@@ -371,7 +371,7 @@ class Product extends \Opencart\System\Engine\Model
 		if (isset($data['product_seo_url'])) {
 			foreach ($data['product_seo_url'] as $store_id => $language) {
 				foreach ($language as $language_id => $keyword) {
-					$this->db->query("INSERT INTO `" . DB_PREFIX . "seo_url` SET `store_id` = '" . (int) $store_id . "', `language_id` = '" . (int) $language_id . "', `key` = 'product_id', `value` = '" . (int) $product_id . "', `keyword` = '" . $this->db->escape($this->convertToSEOUrl($keyword)) . "'");
+					$this->db->query("INSERT INTO `" . DB_PREFIX . "seo_url` SET `store_id` = '" . (int) $store_id . "', `language_id` = '" . (int) $language_id . "', `key` = 'product_id', `value` = '" . (int) $product_id . "', `keyword` = '" . $this->db->escape($this->convertToSeoFriendly($keyword)) . "'");
 				}
 			}
 		}
@@ -892,19 +892,23 @@ class Product extends \Opencart\System\Engine\Model
 
 		return $product_store_data;
 	}
-	private function convertToSEOUrl($text) {
+ 
+	private function convertToSeoFriendly($text) {
+		// Transliterate non-Latin characters
+		$text = transliterator_transliterate('Any-Latin; Latin-ASCII; Lower()', $text);
+	
 		// Convert to lowercase
-		$seoText = strtolower($text);
+		$text = strtolower($text);
 	
-		// Remove special characters, replace spaces with hyphens
-		$seoText = preg_replace('/[^\w\s-]/u', '', $seoText);
-		$seoText = preg_replace('/\s+/', '-', $seoText);
+		// Remove special characters and replace spaces with dashes
+		$text = preg_replace('/[^a-z0-9]+/', '-', $text);
 	
-		// Remove leading and trailing hyphens
-		$seoText = trim($seoText, '-');
+		// Remove leading and trailing dashes
+		$text = trim($text, '-');
 	
-		return $seoText;
+		return $text;
 	}
+
 	public function getSeoUrls(int $product_id): array
 	{
 		$product_seo_url_data = [];

@@ -21,6 +21,32 @@ function getURLVar(key) {
         }
     }
 }
+$(document).ready(function () {
+    $('.seoinput').seoFriendlyInput();
+});
+
+//Seo conversion jquery plugin
+(function ($) {
+    $.fn.seoFriendlyInput = function () {
+        return this.each(function () {
+            $(this).on('input', function () {
+                var inputValue = $(this).val();
+
+                // Convert to lowercase
+                var seoFriendlyText = inputValue.toLowerCase();
+
+                // Replace spaces with dashes
+                seoFriendlyText = seoFriendlyText.replace(/\s+/g, '-');
+
+                // Remove symbols and replace spaces with dashes
+                seoFriendlyText = seoFriendlyText.replace(/[^\p{L}\d-]+/gu, '');
+
+                // Update the input value
+                $(this).val(seoFriendlyText);
+            });
+        });
+    };
+})(jQuery);
 
 // On August 17 2021, Internet Explorer 11 (IE11) will no longer be supported by Microsoft's 365 applications and services.
 function isIE() {

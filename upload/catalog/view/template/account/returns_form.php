@@ -2,7 +2,7 @@
 <div id="account-return" class="container">
   <ul class="breadcrumb">
     <?php foreach ($breadcrumbs as $breadcrumb): ?>
-      <li class="breadcrumb-item"><a href="<?= $this->e($breadcrumb['href']) ?>"> <?= $this->e($breadcrumb['text']) ?></a></li>
+      <li class="breadcrumb-item"><a href="<?= $breadcrumb['href'] ?>"> <?= $this->e($breadcrumb['text']) ?></a></li>
     <?php endforeach; ?>
   </ul>
   <div class="row"><?=  $column_left  ?>
@@ -114,7 +114,7 @@
           <?= $this->e($captcha ) ?>
         </fieldset>
         <div class="row">
-          <div class="col-3"><a href="<?= $this->e($back ) ?>" class="btn btn-light"><?= $this->e($button_back ) ?></a></div>
+          <div class="col-3"><a href="<?= $back  ?>" class="btn btn-light"><?= $this->e($button_back ) ?></a></div>
           <div class="col text-end">
             <?php if ($text_agree): ?>
               <div class="form-check form-switch form-switch-lg form-check-reverse form-check-inline">

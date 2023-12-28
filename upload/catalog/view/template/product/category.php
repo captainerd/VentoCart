@@ -31,7 +31,7 @@
             <div class="col-sm-3">
               <ul>
                 <?php foreach ($categories as $category): ?>
-                  <li><a href="<?= $this->e($category['href']) ?>">
+                  <li><a href="<?=  $category['href']  ?>">
                       <?= $this->e($category['name']) ?>
                     </a></li>
                 <?php endforeach; ?>
@@ -59,7 +59,7 @@
         <div id="display-control" class="row">
           <div class="col-lg-3">
             <div class="mb-3">
-              <a href="<?= $this->e($compare) ?>" id="compare-total" class="btn btn-primary d-block"><i
+              <a href="<?= $compare ?>" id="compare-total" class="btn btn-primary d-block"><i
                   class="fa-solid fa-arrow-right-arrow-left"></i> <span class="d-none d-xl-inline">
                   <?= $this->e($text_compare) ?>
                 </span></a>
@@ -79,8 +79,8 @@
                 <?= $this->e($text_sort) ?>
               </label> <select id="input-sort" class="form-select" onchange="location = this.value;">
                 <?php foreach ($sorts as $sorts): ?>
-                  <option value="<?= $this->e($sorts['href']) ?>" <?= ($sorts['value'] == sprintf('%s-%s', $sort, $order)) ? ' selected' : '' ?>>
-                    <?= $this->e($sorts['text']) ?>
+                  <option value="<?= $sorts['href']  ?>" <?= ($sorts['value'] == sprintf('%s-%s', $sort, $order)) ? ' selected' : '' ?>>
+                    <?= $sorts['text'] ?>
                   </option>
 
 
@@ -91,11 +91,11 @@
           <div class="col-lg-3 col-6">
             <div class="input-group mb-3">
               <label for="input-limit" class="input-group-text">
-                <?= $this->e($text_limit) ?>
+                <?=  $text_limit  ?>
               </label> <select id="input-limit" class="form-select" onchange="location = this.value;">
                 <?php foreach ($limits as $limits): ?>
-                  <option value="<?= $this->e($limits['href']) ?>" <?php if ($limits['value'] == $limit): ?> selected<?php endif; ?>>
-                    <?= $this->e($limits['text']) ?>
+                  <option value="<?=  $limits['href']  ?>" <?php if ($limits['value'] == $limit): ?> selected<?php endif; ?>>
+                    <?=  $limits['text']  ?>
                   </option>
                 <?php endforeach; ?>
               </select>
@@ -122,7 +122,7 @@
         <p>
           <?= $this->e($text_no_results) ?>
         </p>
-        <div class="text-end"><a href="<?= $this->e($continue) ?>" class="btn btn-primary">
+        <div class="text-end"><a href="<?= $continue ?>" class="btn btn-primary">
             <?= $this->e($button_continue) ?>
           </a></div>
       <?php endif; ?>

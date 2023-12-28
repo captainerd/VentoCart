@@ -12,7 +12,7 @@ class SeoUrl extends \Opencart\System\Engine\Model {
 	 * @return int
 	 */
 	public function addSeoUrl(array $data): int {
-		$this->db->query("INSERT INTO `" . DB_PREFIX . "seo_url` SET `store_id` = '" . (int)$data['store_id'] . "', `language_id` = '" . (int)$data['language_id'] . "', `key` = '" . $this->db->escape((string)$data['key']) . "', `value` = '" . $this->db->escape((string)$data['value']) . "', `keyword` = '" . $this->db->escape((string)$data['keyword']) . "', `sort_order` = '" . (int)$data['sort_order'] . "'");
+		$this->db->query("INSERT INTO `" . DB_PREFIX . "seo_url` SET `store_id` = '" . (int)$data['store_id'] . "', `language_id` = '" . (int)$data['language_id'] . "', `key` = '" . $this->db->escape((string)$data['key']) . "', `value` = '" . $this->db->escape((string)$data['value']) . "', `keyword` = '" . $this->db->escape((string)$this->convertToSeoFriendly($data['keyword'])) . "', `sort_order` = '" . (int)$data['sort_order'] . "'");
 
 		return $this->db->getLastId();
 	}
@@ -24,7 +24,7 @@ class SeoUrl extends \Opencart\System\Engine\Model {
 	 * @return void
 	 */
 	public function editSeoUrl(int $seo_url_id, array $data): void {
-		$this->db->query("UPDATE `" . DB_PREFIX . "seo_url` SET `store_id` = '" . (int)$data['store_id'] . "', `language_id` = '" . (int)$data['language_id'] . "', `key` = '" . $this->db->escape((string)$data['key']) . "', `value` = '" . $this->db->escape((string)$data['value']) . "', `keyword` = '" . $this->db->escape((string)$data['keyword']) . "', `sort_order` = '" . (int)$data['sort_order'] . "' WHERE `seo_url_id` = '" . (int)$seo_url_id . "'");
+		$this->db->query("UPDATE `" . DB_PREFIX . "seo_url` SET `store_id` = '" . (int)$data['store_id'] . "', `language_id` = '" . (int)$data['language_id'] . "', `key` = '" . $this->db->escape((string)$data['key']) . "', `value` = '" . $this->db->escape((string)$data['value']) . "', `keyword` = '" . $this->db->escape((string)$this->convertToSeoFriendly($data['keyword'])) . "', `sort_order` = '" . (int)$data['sort_order'] . "' WHERE `seo_url_id` = '" . (int)$seo_url_id . "'");
 	}
 
 	/**
@@ -189,5 +189,21 @@ class SeoUrl extends \Opencart\System\Engine\Model {
 		$query = $this->db->query($sql);
 
 		return $query->row;
+	}
+
+	private function convertToSeoFriendly($text) {
+		// Transliterate non-Latin characters
+		$text = transliterator_transliterate('Any-Latin; Latin-ASCII; Lower()', $text);
+	
+		// Convert to lowercase
+		$text = strtolower($text);
+	
+		// Remove special characters and replace spaces with dashes
+		$text = preg_replace('/[^a-z0-9]+/', '-', $text);
+	
+		// Remove leading and trailing dashes
+		$text = trim($text, '-');
+	
+		return $text;
 	}
 }

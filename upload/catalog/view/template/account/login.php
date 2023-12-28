@@ -16,7 +16,7 @@
             <p><strong><?= $this->e($text_register ) ?></strong></p>
             <p><?= $this->e($text_register_account ) ?></p>
             <div class="text-end">
-              <a href="<?= $this->e($register ) ?>" class="btn btn-primary"><?= $this->e($button_continue ) ?></a>
+              <a href="<?=  $register  ?>" class="btn btn-primary"><?= $this->e($button_continue ) ?></a>
             </div>
           </div>
         </div>
@@ -27,12 +27,14 @@
               <p><strong><?= $this->e($text_i_am_returning_customer ) ?></strong></p>
               <div class="mb-3">
                 <label for="input-email" class="col-form-label"><?= $this->e($entry_email ) ?></label>
-                <input type="text" name="email" value="<?= $this->e(isset($email) ) ?>" placeholder="<?= $this->e($entry_email ) ?>" id="input-email" class="form-control"/>
+                <input type="text" name="email" value="<?=  isset($email) ? $email : '' ?>" placeholder="<?=  $entry_email   ?>" id="input-email" class="form-control"/>
               </div>
               <div class="mb-3">
                 <label for="input-password" class="col-form-label"><?= $this->e($entry_password ) ?></label>
-                <input type="password" name="password" value="<?= $this->e(isset($password) ) ?>" placeholder="<?= $this->e($entry_password ) ?>" id="input-password" class="form-control mb-1"/>
-                <a href="<?= $this->e($forgotten ) ?>"><?= $this->e($text_forgotten ) ?></a>
+
+                <input type="password" name="password" value="<?= isset($password) ? $password : '' ?>" placeholder="<?= $this->e($entry_password ) ?>" id="input-password" class="form-control mb-1"/>
+               
+                <a href="<?= $forgotten   ?>"><?= $this->e($text_forgotten ) ?></a>
               </div>
               <div class="text-end">
                 <button type="submit" class="btn btn-primary"><?= $this->e($button_login ) ?></button>

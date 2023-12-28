@@ -8,7 +8,7 @@
         <div id="display-control" class="row">
           <div class="col-md-3">
             <div class="mb-3">
-              <a href="<?= $this->e($compare ) ?>" id="compare-total" class="btn btn-primary d-block"><i class="fa-solid fa-arrow-right-arrow-left"></i> <span class="d-inline d-md-none d-lg-inline"><?= $this->e($text_compare ) ?></span></a>
+              <a href="<?= $compare  ?>" id="compare-total" class="btn btn-primary d-block"><i class="fa-solid fa-arrow-right-arrow-left"></i> <span class="d-inline d-md-none d-lg-inline"><?= $this->e($text_compare ) ?></span></a>
             </div>
           </div>
           <div class="col-md-1 d-none d-md-block">
@@ -21,7 +21,7 @@
             <div class="input-group mb-3">
               <label for="input-sort" class="input-group-text"><?= $this->e($text_sort ) ?></label> <select id="input-sort" class="form-select" onchange="location = this.value;">
                 <?php foreach ($sorts as $sorts): ?>
-                  <option value="<?= $this->e($sorts['href']) ?>"<?php if ($sorts->value == sprintf('%s-%s', $sort, $order)): ?> selected<?php endif; ?>><?= $this->e($sorts['text']) ?></option>
+                  <option value="<?= $sorts['href'] ?>"<?php if ($sorts->value == sprintf('%s-%s', $sort, $order)): ?> selected<?php endif; ?>><?= $this->e($sorts['text']) ?></option>
                 <?php endforeach; ?>
               </select>
             </div>
@@ -31,7 +31,7 @@
               <label for="input-limit" class="input-group-text"><?= $this->e($text_limit ) ?></label>
               <select id="input-limit" class="form-select" onchange="location = this.value;">
                 <?php foreach ($limits as $limits): ?>
-                  <option value="<?= $this->e($limits['href']) ?>"<?php if ($limits['value'] == $$limit): ?> selected<?php endif; ?>><?= $this->e($limits['text']) ?></option>
+                  <option value="<?= $limits['href'] ?>"<?php if ($limits['value'] == $$limit): ?> selected<?php endif; ?>><?= $this->e($limits['text']) ?></option>
                 <?php endforeach; ?>
               </select>
             </div>
@@ -48,7 +48,7 @@
         </div>
       <?php else: ?>
         <p><?=  $text_no_results  ?></p>
-        <div class="text-end"><a href="<?= $this->e($continue ) ?>" class="btn btn-primary"><?= $this->e($button_continue ) ?></a></div>
+        <div class="text-end"><a href="<?= $continue  ?>" class="btn btn-primary"><?= $this->e($button_continue ) ?></a></div>
       <?php endif; ?>
       <?=  $content_bottom  ?></div>
     <?=  $column_right  ?></div>

@@ -14,8 +14,8 @@
       <tbody>
         <?php foreach ($products as $product): ?>
           <tr>
-            <td class="text-center"><?php if ($product['thumb']): ?><a href="<?= $this->e($product['href']) ?>"><img src="<?= $this->e($product['thumb']) ?>" alt="<?= $this->e($product['name']) ?>" title="<?= $this->e($product['name']) ?>"/></a><?php endif; ?></td>
-            <td class="text-start"><a href="<?= $this->e($product['href']) ?>"><?= $this->e($product['name']) ?></a></td>
+            <td class="text-center"><?php if ($product['thumb']): ?><a href="<?= $product['href'] ?>"><img src="<?= $this->e($product['thumb']) ?>" alt="<?= $this->e($product['name']) ?>" title="<?= $this->e($product['name']) ?>"/></a><?php endif; ?></td>
+            <td class="text-start"><a href="<?= $product['href'] ?>"><?= $this->e($product['name']) ?></a></td>
             <td class="text-start"><?= $this->e($product['model']) ?></td>
             <td class="text-end"><?= $this->e($product['stock']) ?></td>
             <td class="text-end">

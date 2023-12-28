@@ -20,13 +20,13 @@
               <?php foreach ($subscriptions as $subscription): ?>
                 <tr>
                   <td class="text-end">#<?= $this->e($subscription['subscription_id']) ?></td>
-                  <td class="text-start"><a href="<?= $this->e($subscription['product']) ?>"><?= $this->e($subscription['product_name']) ?></a>
+                  <td class="text-start"><a href="<?= $subscription['product'] ?>"><?= $this->e($subscription['product_name']) ?></a>
                     <br/>
                     <?= $this->e($subscription['description']) ?>
                   </td>
                   <td class="text-start"><?= $this->e($subscription['status']) ?></td>
                   <td class="text-start"><?= $this->e($subscription['date_added']) ?></td>
-                  <td class="text-end"><a href="<?= $this->e($subscription['view']) ?>" data-bs-toggle="tooltip" title="<?= $this->e($button_view ) ?>" class="btn btn-info"><i class="fa-solid fa-eye"></i></a></td>
+                  <td class="text-end"><a href="<?= $subscription['view'] ?>" data-bs-toggle="tooltip" title="<?= $this->e($button_view ) ?>" class="btn btn-info"><i class="fa-solid fa-eye"></i></a></td>
                 </tr>
               <?php endforeach; ?>
             </tbody>

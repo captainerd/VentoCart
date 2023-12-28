@@ -5,17 +5,17 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <title><?= $this->e($title ) ?></title>
-  <base href="<?= $this->e($base ) ?>"/>
+  <base href="<?= $base  ?>"/>
   <?php if ($description): ?>
     <meta name="description" content="<?= $this->e($description ) ?>"/>
   <?php endif; ?>
   <?php if (isset($keyw) || isset($ds)): ?>
     <meta name="keywords" content="<?= $this->e($keywords ) ?>"/>
   <?php endif; ?>
-  <script src="<?= $this->e($jquery ) ?>" type="text/javascript"></script>
-  <link href="<?= $this->e($bootstrap ) ?>" type="text/css" rel="stylesheet" media="screen"/>
-  <link href="<?= $this->e($icons ) ?>" type="text/css" rel="stylesheet"/>
-  <link href="<?= $this->e($stylesheet ) ?>" type="text/css" rel="stylesheet"/>
+  <script src="<?= $jquery  ?>" type="text/javascript"></script>
+  <link href="<?= $bootstrap  ?>" type="text/css" rel="stylesheet" media="screen"/>
+  <link href="<?= $icons  ?>" type="text/css" rel="stylesheet"/>
+  <link href="<?= $stylesheet  ?>" type="text/css" rel="stylesheet"/>
   <script type="text/javascript" src="catalog/view/javascript/jquery/datetimepicker/moment.min.js"></script>
   <script type="text/javascript" src="catalog/view/javascript/jquery/datetimepicker/moment-with-locales.min.js"></script>
   <script type="text/javascript" src="catalog/view/javascript/jquery/datetimepicker/daterangepicker.js"></script>
@@ -46,7 +46,7 @@
     </div>
     <div class="nav float-end">
       <ul class="list-inline">
-        <li class="list-inline-item"><a href="<?= $this->e($contact ) ?>"><i class="fa-solid fa-phone"></i></a> <span class="d-none d-md-inline"><?= $this->e($telephone ) ?></span></li>
+        <li class="list-inline-item"><a href="<?= $contact  ?>"><i class="fa-solid fa-phone"></i></a> <span class="d-none d-md-inline"><?= $this->e($telephone ) ?></span></li>
         <li class="list-inline-item">
           <div class="dropdown">
             <a href="<?= isset($account) ? $this->e($account ) : '' ?>"   data-bs-toggle="dropdown"><i class="fa-solid fa-user"></i> <span class="d-none d-md-inline"><?= $this->e($text_account ) ?></span> <i class="fa-solid fa-caret-down"></i></a>
@@ -77,9 +77,9 @@
       <div class="col-md-3 col-lg-4">
         <div id="logo">
           <?php if ($logo): ?>
-            <a href="<?= $this->e($home ) ?>"><img src="<?= $this->e($logo ) ?>" title="<?= $this->e($name ) ?>" alt="<?= $this->e($name ) ?>" class="img-fluid"/></a>
+            <a href="<?= $home  ?>"><img src="<?= $this->e($logo ) ?>" title="<?= $this->e($name ) ?>" alt="<?= $this->e($name ) ?>" class="img-fluid"/></a>
           <?php else: ?>
-            <h1><a href="<?= $this->e($home ) ?>"><?= $this->e($name ) ?></a></h1>
+            <h1><a href="<?= $home  ?>"><?= $this->e($name ) ?></a></h1>
           <?php endif; ?>
         </div>
       </div>

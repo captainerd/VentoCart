@@ -3,7 +3,7 @@
     <div class="carousel-indicators">
       <?php $banner_row = 0; ?>
       <?php foreach (array_chunk($banners, $items) as $banner): ?>
-        <button type="button" data-bs-target="#carousel-banner-<?= $this->e($module ) ?>" data-bs-slide-to="<?= $this->e($banner_row ) ?>"<?php if ($banner_row == 0): ?> class="active"<?php endif; ?>></button>
+        <button type="button" data-bs-target="#carousel-banner-<?= $module  ?>" data-bs-slide-to="<?= $banner_row  ?>"<?php if ($banner_row == 0): ?> class="active"<?php endif; ?>></button>
         <?php $banner_row = $banner_row + 1; ?>
       <?php endforeach; ?>
     </div>
@@ -14,11 +14,11 @@
       <div class="carousel-item<?php if ($banner_row == 0): ?> active<?php endif; ?>">
         <div class="row justify-content-center">
           <?php foreach ($carousel as $banner): ?>
-            <div class="col-<?= $this->e(round(12 / $items)) ?> text-center">
+            <div class="col-<?= round(12 / $items) ?> text-center">
               <?php if ($banner['link']): ?>
-                <a href="<?=  $banner['link']  ?>"><img src="<?= $this->e($banner['image']) ?>" alt="<?= $this->e($banner['title']) ?>" class="img-fluid"/></a>
+                <a href="<?=  $banner['link']  ?>"><img src="<?= $banner['image'] ?>" alt="<?= $banner['title'] ?>" class="img-fluid"/></a>
               <?php else: ?>
-                <img src="<?=  $banner['image']  ?>" alt="<?= $this->e($banner['title']) ?>" class="img-fluid"/>
+                <img src="<?=  $banner['image']  ?>" alt="<?= $banner['title'] ?>" class="img-fluid"/>
               <?php endif; ?>
             </div>
           <?php endforeach; ?>
@@ -28,13 +28,13 @@
     <?php endforeach; ?>
   </div>
   <?php if (!empty($controls) && count(array_chunk($banners, $items)) > 1): ?>
-    <button type="button" class="carousel-control-prev" data-bs-target="#carousel-banner-<?= $this->e($module ) ?>" data-bs-slide="prev"><span class="fa-solid fa-chevron-left"></span></button>
-    <button type="button" class="carousel-control-next" data-bs-target="#carousel-banner-<?= $this->e($module ) ?>" data-bs-slide="next"><span class="fa-solid fa-chevron-right"></span></button>
+    <button type="button" class="carousel-control-prev" data-bs-target="#carousel-banner-<?= $module  ?>" data-bs-slide="prev"><span class="fa-solid fa-chevron-left"></span></button>
+    <button type="button" class="carousel-control-next" data-bs-target="#carousel-banner-<?= $module  ?>" data-bs-slide="next"><span class="fa-solid fa-chevron-right"></span></button>
   <?php endif; ?>
 </div>
 <script type="text/javascript"><!--
 $(document).ready(function () {
-    new bootstrap.Carousel(document.querySelector('#carousel-banner-<?= $this->e($module ) ?>'), {
+    new bootstrap.Carousel(document.querySelector('#carousel-banner-<?= $module  ?>'), {
         ride: 'carousel',
         interval: <?=  $interval  ?>,
         wrap: true

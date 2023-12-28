@@ -16,9 +16,9 @@
       <ul class="dropdown-menu">
         <?php foreach ($currencies as $currency): ?>
           <?php if ($currency['symbol_left']): ?>
-            <li><a href="<?= $this->e($currency['code']) ?>" class="dropdown-item"><?= $this->e($currency['symbol_left']) ?> <?= $this->e($currency['title']) ?></a></li>
+            <li><a href="<?= $currency['code'] ?>" class="dropdown-item"><?= $this->e($currency['symbol_left']) ?> <?= $this->e($currency['title']) ?></a></li>
           <?php else: ?>
-            <li><a href="<?= $this->e($currency['code']) ?>" class="dropdown-item"><?= $this->e($currency['symbol_right']) ?> <?= $this->e($currency['title']) ?></a></li>
+            <li><a href="<?= $currency['code'] ?>" class="dropdown-item"><?= $this->e($currency['symbol_right']) ?> <?= $this->e($currency['title']) ?></a></li>
           <?php endif; ?>
         <?php endforeach; ?>
       </ul>

@@ -19,7 +19,7 @@ aaa<?=  $breadcrumb  ?>
               <?php foreach ($rewards as $reward): ?>
                 <tr>
                   <td class="text-start"><?= $this->e($reward['date_added']) ?></td>
-                  <td class="text-start"><?php if (isset($reward['order_id'])): ?> <a href="<?= $this->e($reward['href']) ?>"><?= $this->e($reward['description']) ?></a> <?php else: ?>
+                  <td class="text-start"><?php if (isset($reward['order_id'])): ?> <a href="<?= $reward['href'] ?>"><?= $this->e($reward['description']) ?></a> <?php else: ?>
                       <?= $this->e($reward['description']) ?>
                     <?php endif; ?></td>
                   <td class="text-end"><?= $this->e($reward['points']) ?></td>

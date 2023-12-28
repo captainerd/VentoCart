@@ -35,7 +35,10 @@ function executeSqlFile($dbConnection, $sqlFile)
             
         $query = $query . $line;
         if ($endWith == ';') {
-            mysqli_query($dbConnection,str_replace('ve_',$prefix."_",$query)) or die('Error');
+            $result = mysqli_query($dbConnection,str_replace('ve_',$prefix."_",$query));
+            if (!$result) {
+                die('Error: ' . mysqli_error($dbConnection));
+            }
             $query= '';		
         }
     }
@@ -43,8 +46,8 @@ function executeSqlFile($dbConnection, $sqlFile)
 $additionalQuery1 = "TRUNCATE TABLE `". $prefix . "_user`";
 $additionalQuery2 = "INSERT INTO `" . $prefix . "_user` (`user_id`, `user_group_id`, `username`, `password`, `firstname`, `lastname`, `email`, `image`, `code`, `ip`, `status`, `date_added`) VALUES
 (1, 1, '". $adminUsername . "', '" .$passweb . "', 'John', 'Doe', '". $adminEmail. "', '', '', '127.0.0.1', 1, '2023-12-02 14:48:28')";
-mysqli_query($dbConnection, $additionalQuery1) or die('Error: ' . mysqli_error($dbConnection));
-mysqli_query($dbConnection, $additionalQuery2) or die('Error: ' . mysqli_error($dbConnection));
+mysqli_query($dbConnection, $additionalQuery1) or die('Error: 1 ' . mysqli_error($dbConnection));
+mysqli_query($dbConnection, $additionalQuery2) or die('Error: 2 ' . mysqli_error($dbConnection));
 
 
 //Set up front config

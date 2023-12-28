@@ -8,15 +8,15 @@
         <div class="col-sm-6">
           <ul>
             <?php foreach ($categories as $category_1): ?>
-              <li><a href="<?= $this->e($category_1['href']) ?>"><?= $this->e($category_1['name']) ?></a>
+              <li><a href="<?= $category_1['href'] ?>"><?= $this->e($category_1['name']) ?></a>
                 <?php if (isset($category_2['children'])): ?>
                   <ul>
                     <?php foreach ($category_1['children'] as $category_2): ?>
-                      <li><a href="<?= $this->e($category_2['href']) ?>"><?= $this->e($category_2['name']) ?></a>
+                      <li><a href="<?= $category_2['href'] ?>"><?= $this->e($category_2['name']) ?></a>
                         <?php if (isset($category_2['children'])): ?>
                           <ul>
                             <?php foreach ($category_2['children'] as $category_3): ?>
-                              <li><a href="<?= $this->e($category_3['href']) ?>"><?= $this->e($category_3['name']) ?></a></li>
+                              <li><a href="<?= $category_3['href'] ?>"><?= $this->e($category_3['name']) ?></a></li>
                             <?php endforeach; ?>
                           </ul>
                         <?php endif; ?>
@@ -30,25 +30,25 @@
         </div>
         <div class="col-sm-6">
           <ul>
-            <li><a href="<?= $this->e($special ) ?>"><?= $this->e($text_special ) ?></a></li>
-            <li><a href="<?= $this->e($account ) ?>"><?= $this->e($text_account ) ?></a>
+            <li><a href="<?= $special  ?>"><?= $this->e($text_special ) ?></a></li>
+            <li><a href="<?= $account  ?>"><?= $this->e($text_account ) ?></a>
               <ul>
-                <li><a href="<?= $this->e($edit ) ?>"><?= $this->e($text_edit ) ?></a></li>
-                <li><a href="<?= $this->e($password ) ?>"><?= $this->e($text_password ) ?></a></li>
-                <li><a href="<?= $this->e($address ) ?>"><?= $this->e($text_address ) ?></a></li>
-                <li><a href="<?= $this->e($history ) ?>"><?= $this->e($text_history ) ?></a></li>
-                <li><a href="<?= $this->e($download ) ?>"><?= $this->e($text_download ) ?></a></li>
+                <li><a href="<?=  $edit  ?>"><?= $this->e($text_edit ) ?></a></li>
+                <li><a href="<?=  $password  ?>"><?= $this->e($text_password ) ?></a></li>
+                <li><a href="<?=  $address  ?>"><?= $this->e($text_address ) ?></a></li>
+                <li><a href="<?=  $history  ?>"><?= $this->e($text_history ) ?></a></li>
+                <li><a href="<?=  $download  ?>"><?= $this->e($text_download ) ?></a></li>
               </ul>
             </li>
-            <li><a href="<?= $this->e($history ) ?>"><?= $this->e($text_cart ) ?></a></li>
-            <li><a href="<?= $this->e($checkout ) ?>"><?= $this->e($text_checkout ) ?></a></li>
-            <li><a href="<?= $this->e($search ) ?>"><?= $this->e($text_search ) ?></a></li>
+            <li><a href="<?= $history  ?>"><?= $this->e($text_cart ) ?></a></li>
+            <li><a href="<?= $checkout  ?>"><?= $this->e($text_checkout ) ?></a></li>
+            <li><a href="<?= $search ?>"><?= $this->e($text_search ) ?></a></li>
             <li><?= $this->e($text_information ) ?>
               <ul>
                 <?php foreach ($informations as $information): ?>
-                  <li><a href="<?= $this->e($information['href']) ?>"><?= $this->e($information['title']) ?></a></li>
+                  <li><a href="<?= $information['href'] ?>"><?= $this->e($information['title']) ?></a></li>
                 <?php endforeach; ?>
-                <li><a href="<?= $this->e($contact ) ?>"><?= $this->e($text_contact ) ?></a></li>
+                <li><a href="<?= $contact ?>"><?= $this->e($text_contact ) ?></a></li>
               </ul>
             </li>
           </ul>

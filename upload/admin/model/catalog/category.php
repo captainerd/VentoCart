@@ -58,7 +58,7 @@ class Category extends \Opencart\System\Engine\Model {
 					$keyword = $seo_url_info['keyword'] . '/' . $keyword;
 				}
 
-				$this->db->query("INSERT INTO `" . DB_PREFIX . "seo_url` SET `store_id` = '" . (int)$store_id . "', `language_id` = '" . (int)$language_id . "', `key` = 'path', `value`= '" . $this->db->escape($path) . "', `keyword` = '" . $this->db->escape($keyword) . "'");
+				$this->db->query("INSERT INTO `" . DB_PREFIX . "seo_url` SET `store_id` = '" . (int)$store_id . "', `language_id` = '" . (int)$language_id . "', `key` = 'path', `value`= '" . $this->db->escape($path) . "', `keyword` = '" .  $this->db->escape($this->convertToSeoFriendly($keyword)) . "'");
 			}
 		}
 
@@ -71,7 +71,9 @@ class Category extends \Opencart\System\Engine\Model {
 
 		return $category_id;
 	}
-
+	public function updateSort($category_id, $newsort) {
+		$this->db->query("UPDATE `" . DB_PREFIX . "category` SET `sort_order` = '" . (int)$newsort . "' WHERE `category_id` = '" . (int)$category_id . "'");
+	}
 	public function editCategory(int $category_id, array $data): void {
 		$this->db->query("UPDATE `" . DB_PREFIX . "category` SET `parent_id` = '" . (int)$data['parent_id'] . "', `top` = '" . (isset($data['top']) ? (int)$data['top'] : 0) . "', `column` = '" . (int)$data['column'] . "', `sort_order` = '" . (int)$data['sort_order'] . "', `status` = '" . (bool)(isset($data['status']) ? $data['status'] : 0) . "', `date_modified` = NOW() WHERE `category_id` = '" . (int)$category_id . "'");
 
@@ -180,11 +182,11 @@ class Category extends \Opencart\System\Engine\Model {
 					$keyword = $parent_info['keyword'] . '/' . $keyword;
 				}
 
-				$this->db->query("INSERT INTO `" . DB_PREFIX . "seo_url` SET `store_id` = '" . (int)$store_id . "', `language_id` = '" . (int)$language_id . "', `key` = 'path', `value` = '" . $this->db->escape($path_new) . "', `keyword` = '" . $this->db->escape($keyword) . "'");
+				$this->db->query("INSERT INTO `" . DB_PREFIX . "seo_url` SET `store_id` = '" . (int)$store_id . "', `language_id` = '" . (int)$language_id . "', `key` = 'path', `value` = '" . $this->db->escape($path_new) . "', `keyword` = '" . $this->db->escape($this->convertToSeoFriendly($keyword)) . "'");
 
 				// Update sub category seo urls
 				if (isset($seo_url_data[$store_id][$language_id])) {
-					$this->db->query("UPDATE `" . DB_PREFIX . "seo_url` SET `value` = CONCAT('" . $this->db->escape($path_new . '_') . "', SUBSTRING(`value`, " . (strlen($path_old . '_') + 1) . ")), `keyword` = CONCAT('" . $this->db->escape($keyword) . "', SUBSTRING(`keyword`, " . (oc_strlen($seo_url_data[$store_id][$language_id]) + 1) . ")) WHERE `store_id` = '" . (int)$store_id . "' AND `language_id` = '" . (int)$language_id . "' AND `key` = 'path' AND `value` LIKE '" . $this->db->escape($path_old . '\_%') . "'");
+					$this->db->query("UPDATE `" . DB_PREFIX . "seo_url` SET `value` = CONCAT('" . $this->db->escape($path_new . '_') . "', SUBSTRING(`value`, " . (strlen($path_old . '_') + 1) . ")), `keyword` = CONCAT('" . $this->db->escape($this->convertToSeoFriendly($keyword)) . "', SUBSTRING(`keyword`, " . (oc_strlen($seo_url_data[$store_id][$language_id]) + 1) . ")) WHERE `store_id` = '" . (int)$store_id . "' AND `language_id` = '" . (int)$language_id . "' AND `key` = 'path' AND `value` LIKE '" . $this->db->escape($path_old . '\_%') . "'");
 				}
 			}
 		}
@@ -376,5 +378,21 @@ class Category extends \Opencart\System\Engine\Model {
 		$query = $this->db->query("SELECT COUNT(*) AS `total` FROM `" . DB_PREFIX . "category_to_layout` WHERE `layout_id` = '" . (int)$layout_id . "'");
 
 		return (int)$query->row['total'];
+	}
+
+	private function convertToSeoFriendly($text) {
+		// Transliterate non-Latin characters
+		$text = transliterator_transliterate('Any-Latin; Latin-ASCII; Lower()', $text);
+	
+		// Convert to lowercase
+		$text = strtolower($text);
+	
+		// Remove special characters and replace spaces with dashes
+		$text = preg_replace('/[^a-z0-9]+/', '-', $text);
+	
+		// Remove leading and trailing dashes
+		$text = trim($text, '-');
+	
+		return $text;
 	}
 }

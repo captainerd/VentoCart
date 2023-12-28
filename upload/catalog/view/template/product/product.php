@@ -52,9 +52,9 @@ $isVideo = in_array($popupExtension, $videoExtensions);
 
 
                 <div id="pictureContainer" style="<?php if ($isVideo): ?> display:none; <?php endif; ?> " >
-                <a href="<?= $this->e($popup ) ?>"      data-pswp-width="800" data-pswp-height="800" title="<?= $this->e($heading_title ) ?>">
+                <a href="<?= $popup  ?>"      data-pswp-width="800" data-pswp-height="800" title="<?= $this->e($heading_title ) ?>">
                 
-                <img   src="<?= $this->e($thumb ) ?>" title="<?= $this->e($heading_title ) ?>" alt="<?= $this->e($heading_title ) ?>" class="img-thumbnailz magnifyglass img-zoom mb-3"/></a>
+                <img   src="<?=  $thumb   ?>" title="<?= $this->e($heading_title ) ?>" alt="<?= $this->e($heading_title ) ?>" class="img-thumbnailz magnifyglass img-zoom mb-3"/></a>
                 <div class="magnifying-glass"></div>
               
               </div>
@@ -80,18 +80,18 @@ $isVideo = in_array($popupExtension, $videoExtensions);
 
             <?php if ($isVideo): ?>
                 <!-- Video Thumbnail -->
-                <a data-pswp-width="800" data-pswp-height="800" data-pswp-type="video" href="<?= $this->e($image['popup']) ?>" title="<?= $this->e($heading_title) ?>">
+                <a data-pswp-width="800" data-pswp-height="800" data-pswp-type="video" href="<?= $image['popup'] ?>" title="<?= $this->e($heading_title) ?>">
              
               
-                <video class="img-thumbnailz" style="width:<?=$thumb_width?>px; height:<?=$thumb_height?>px; object-fit: cover;">
+                <video class="img-thumbnailz splider-image" style="width:<?=$thumb_width?>px; height:<?=$thumb_height?>px; object-fit: cover;">
                     <source src="<?= $this->e($image['popup']) ?>" type="video/<?= $fileExtension ?>">
                     Your browser does not support the video tag.
                 </video>
             <?php else: ?>
-              <a data-pswp-width="800" data-pswp-height="800"  href="<?= $this->e($image['popup']) ?>" title="<?= $this->e($heading_title) ?>">
+              <a data-pswp-width="800" data-pswp-height="800"  href="<?= $image['popup'] ?>" title="<?= $this->e($heading_title) ?>">
              
                 <!-- Image -->
-                <img loading="lazy"  draggable="false" src="<?= $this->e($image['thumb']) ?>" title="<?= $this->e($heading_title) ?>" alt="<?= $this->e($heading_title) ?>" class="img-thumbnailz"/>
+                <img   draggable="false" src="<?= $this->e($image['thumb']) ?>" title="<?= $this->e($heading_title) ?>" alt="<?= $this->e($heading_title) ?>" class="img-thumbnailz splider-image"/>
             <?php endif; ?>
         </a>
     </li> &nbsp;
@@ -366,7 +366,7 @@ $isVideo = in_array($popupExtension, $videoExtensions);
                 <ul class="list-unstyled">
 
                   <?php if ($manufacturer): ?>
-                    <li><?= $this->e($text_manufacturer ) ?> <a href="<?= $this->e($manufacturers ) ?>"><?= $this->e($manufacturer ) ?></a></li>
+                    <li><?= $this->e($text_manufacturer ) ?> <a href="<?= $manufacturers  ?>"><?= $this->e($manufacturer ) ?></a></li>
                   <?php endif; ?>
       
                   <li><b> <?= $this->e($text_model ) ?></b> <?= $this->e($sku ) ?></li>
@@ -470,7 +470,7 @@ $isVideo = in_array($popupExtension, $videoExtensions);
       <?php if ($tags): ?>
         <p><?= $this->e($text_tags ) ?>
         <?php for ($i = 0; $i <= count($tags) - 1; $i++): ?>
-            <a href="<?= $this->e($tags[i]['href'] ) ?>"><?= $this->e($tags[i]['tag'] ) ?></a><?php if (!$loop['end']): ?>,<?php endif; ?>
+            <a href="<?= $tags[$i]['href']  ?>"><?= $this->e($tags[$i]['tag'] ) ?></a><?php if (!$loop['end']): ?>,<?php endif; ?>
               <?php endfor; ?>
         </p>
       <?php endif; ?>

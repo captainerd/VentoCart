@@ -82,7 +82,7 @@
           <tbody>
             <?php foreach ($products as $product): ?>
               <tr>
-                <td class="text-start"><a href="<?= $this->e($product['href']) ?>"><?= $this->e($product['name']) ?></a>
+                <td class="text-start"><a href="<?= $product['href'] ?>"><?= $this->e($product['name']) ?></a>
                   <?php foreach ($product['option'] as $option): ?>
                     <br/>
                     <small> - <?= $this->e($option['name']) ?>: <?= $this->e($option['value']) ?></small>
@@ -93,15 +93,15 @@
                   <?php endif; ?>
                   <?php if ($product['subscription']): ?>
                     <br/>
-                    <small> - <?= $this->e($text_subscription ) ?>: <a href="<?= $this->e($product['subscription']) ?>" target="_blank"><?= $this->e($product['subscription_description']) ?></a></small>
+                    <small> - <?= $this->e($text_subscription ) ?>: <a href="<?= $product['subscription'] ?>" target="_blank"><?= $this->e($product['subscription_description']) ?></a></small>
                   <?php endif; ?>
                 </td>
                 <td class="text-start"><?= $this->e($product['model']) ?></td>
                 <td class="text-end"><?= $this->e($product['quantity']) ?></td>
                 <td class="text-end"><?= $this->e($product['price']) ?></td>
                 <td class="text-end"><?= $this->e($product['total']) ?></td>
-                <td class="text-end text-nowrap"><?php if (isset($product['reorder'])): ?><a href="<?= $this->e($product['reorder']) ?>" data-bs-toggle="tooltip" title="<?= $this->e($button_reorder ) ?>" class="btn btn-primary"><i class="fa-solid fa-cart-shopping"></i></a><?php endif; ?>
-                  <a href="<?= $this->e($product['return']) ?>" data-bs-toggle="tooltip" title="<?= $this->e($button_return ) ?>" class="btn btn-danger"><i class="fa-solid fa-reply"></i></a></td>
+                <td class="text-end text-nowrap"><?php if (isset($product['reorder'])): ?><a href="<?= $product['reorder'] ?>" data-bs-toggle="tooltip" title="<?= $this->e($button_reorder ) ?>" class="btn btn-primary"><i class="fa-solid fa-cart-shopping"></i></a><?php endif; ?>
+                  <a href="<?= $product['return'] ?>" data-bs-toggle="tooltip" title="<?= $this->e($button_return ) ?>" class="btn btn-danger"><i class="fa-solid fa-reply"></i></a></td>
               </tr>
             <?php endforeach; ?>
 

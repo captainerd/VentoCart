@@ -22,7 +22,7 @@
 
 
 
-                  <a class="d-block" href="<?= $this->e($product['href']) ?>">
+                  <a class="d-block" href="<?= $product['href'] ?>">
                   
                   <?php if ($isVideo): ?>
                     
@@ -41,7 +41,7 @@
                   <?php endif; ?>
               </div>
               <div class="col-7 col-md-4 text-start text-truncate overflow-hidden"  style="max-height: 60px;">
-                <a href="<?= $this->e($product['href']) ?>"><?= $this->e($product['name']) ?></a>
+                <a href="<?= $product['href'] ?>"><?= $this->e($product['name']) ?></a>
 
                 <?php if ($product['option']): ?>
                   <?php foreach ($product['option'] as $option): ?>

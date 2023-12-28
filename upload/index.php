@@ -1,5 +1,6 @@
 <?php
 // Version
+ini_set('short_open_tag', 'On');
 define('VERSION', '4.0.2.4');
 
 // Configuration

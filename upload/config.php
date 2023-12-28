@@ -1,5 +1,6 @@
 <?php
 // APPLICATION
+
 define('APPLICATION', 'Catalog');
 
 // HTTP
@@ -29,6 +30,6 @@ define('DB_PASSWORD', '');
 define('DB_SSL_KEY', '');
 define('DB_SSL_CERT', '');
 define('DB_SSL_CA', '');
-define('DB_DATABASE', 'neo');
+define('DB_DATABASE', 'develop');
 define('DB_PORT', '3306');
 define('DB_PREFIX', 've_');

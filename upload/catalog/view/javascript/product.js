@@ -127,13 +127,7 @@ $(document).ready(function () {
         });
       })
   
-      function updateBackground() {
-        if (!$blowupLens) {
-          $blowupLens = $("#BlowupLens");
-        }
-    
-        $blowupLens.css("background-image", "url(" + encodeURI($element.attr("src")) + ")");
-      }
+ 
 
       // Hide magnification lens
       $element.mouseleave(function () {
@@ -324,7 +318,10 @@ $(document).ready(function () {
             $(".magnifyglass").blowup();
         });
 
-
+        $("img").on("load", function () {
+       
+            checkOverflow();
+        });
 
         function checkOverflow() {
             var container = $(".slider-container")[0];

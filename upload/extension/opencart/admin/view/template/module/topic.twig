@@ -15,21 +15,50 @@
   </div>
   <div class="container-fluid">
     <div class="card">
-      <div class="card-header"><i class="fa-solid fa-pencil"></i> {{ text_edit }}</div>
-      <div class="card-body">
-        <form id="form-module" action="{{ save }}" method="post" data-oc-toggle="ajax">
-          <div class="row mb-3">
-            <label class="col-sm-2 col-form-label">{{ entry_status }}</label>
-            <div class="col-sm-10">
-              <div class="form-check form-switch form-switch-lg">
-                <input type="hidden" name="module_topic_status" value="0"/>
-                <input type="checkbox" name="module_topic_status" value="1" id="input-status" class="form-check-input"{% if module_topic_status %} checked{% endif %}/>
+        <div class="card-header"><i class="fa-solid fa-pencil"></i> {{ text_edit }}</div>
+        <div class="card-body">
+            <form id="form-module" action="{{ save }}" method="post" data-oc-toggle="ajax">
+              <div class="row mb-3">
+                <label for="input-name" class="col-sm-2 col-form-label">{{ entry_name }}</label>
+                <div class="col-sm-10">
+                  <input type="text" name="name" value="{{ name }}" placeholder="{{ entry_name }}" id="input-name" class="form-control"/>
+                  <div id="error-name" class="invalid-feedback"></div>
+                </div>
               </div>
-            </div>
-          </div>
-        </form>
-      </div>
+
+                <div class="row mb-3">
+                    <label class="col-sm-2 col-form-label">{{ entry_status }}</label>
+                    <div class="col-sm-10">
+                        <div class="form-check form-switch form-switch-lg">
+                            <input type="hidden" name="status" value="0"/>
+                            <input type="checkbox" name="status" value="1" id="input-status"
+                                   class="form-check-input"{% if  status %} checked{% endif %}/>
+                        </div>
+                    </div>
+                </div>
+                <div class="row mb-3">
+                  <label class="col-sm-2 col-form-label">{{ entry_preview }}</label>
+                  <div class="col-sm-10">
+                      <div class="form-check form-switch form-switch-lg">
+                          <input type="hidden" name="preview" value="0"/>
+                          <input type="checkbox" name="preview" value="1" id="input-preview"
+                                 class="form-check-input"{% if  preview %} checked{% endif %}/>
+                      </div>
+                  </div>
+              </div>
+                <input type="hidden" name="module_id" value="{{ module_id }}" id="input-module-id"/>
+                <!-- Add an extra input for Preview Word Count -->
+                <div class="row mb-3">
+                    <label class="col-sm-2 col-form-label">{{ entry_preview_word_count }}</label>
+                    <div class="col-sm-10">
+                        <input type="text" name="preview_word_count" value="{{  preview_word_count }}" class="form-control" />
+                    </div>
+                </div>
+
+            </form>
+        </div>
     </div>
-  </div>
+</div>
+
 </div>
 {{ footer }}

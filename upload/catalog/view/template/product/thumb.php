@@ -29,7 +29,7 @@
                 <div class="product-buttonsov">
                     <div class="product-buttons">
                         <button type="button" class="quick-view-button" data-bs-toggle="tooltip"
-                            targ="<?= $this->e($href) ?>&quickview=1" title="Quick view"><i
+                            targ="<?= $href ?>&quickview=1" title="Quick view"><i
                                 class="fa-solid fa-search"></i></button>
                         <button type="submit" data-oc-where="cart" formaction="<?= $this->e($add_to_cart) ?>"
                             data-bs-toggle="tooltip" title="<?= $this->e($button_cart) ?>"><i
