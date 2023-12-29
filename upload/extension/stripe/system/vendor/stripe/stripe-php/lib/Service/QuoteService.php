@@ -49,7 +49,7 @@ class QuoteService extends \Stripe\Service\AbstractService
      *
      * @throws \Stripe\Exception\ApiErrorException if the request fails
      *
-     * @return \Stripe\Collection<\Stripe\Quote>
+     * @return \Stripe\Collection<\Stripe\LineItem>
      */
     public function allComputedUpfrontLineItems($id, $params = null, $opts = null)
     {
@@ -67,7 +67,7 @@ class QuoteService extends \Stripe\Service\AbstractService
      *
      * @throws \Stripe\Exception\ApiErrorException if the request fails
      *
-     * @return \Stripe\Collection<\Stripe\Quote>
+     * @return \Stripe\Collection<\Stripe\LineItem>
      */
     public function allLineItems($id, $params = null, $opts = null)
     {
@@ -125,6 +125,28 @@ class QuoteService extends \Stripe\Service\AbstractService
     }
 
     /**
+     * Download the PDF for a finalized quote.
+     *
+     * @param string $id
+     * @param callable $readBodyChunkCallable
+     * @param null|array $params
+     * @param null|array|\Stripe\Util\RequestOptions $opts
+     *
+     * @throws \Stripe\Exception\ApiErrorException if the request fails
+     *
+     * @return mixed
+     */
+    public function pdf($id, $readBodyChunkCallable, $params = null, $opts = null)
+    {
+        $opts = \Stripe\Util\RequestOptions::parse($opts);
+        if (!isset($opts->apiBase)) {
+            $opts->apiBase = $this->getClient()->getFilesBase();
+        }
+
+        return $this->requestStream('get', $this->buildPath('/v1/quotes/%s/pdf', $id), $readBodyChunkCallable, $params, $opts);
+    }
+
+    /**
      * Retrieves the quote with the given ID.
      *
      * @param string $id
@@ -154,24 +176,5 @@ class QuoteService extends \Stripe\Service\AbstractService
     public function update($id, $params = null, $opts = null)
     {
         return $this->request('post', $this->buildPath('/v1/quotes/%s', $id), $params, $opts);
-    }
-
-    /**
-     * Download the PDF for a finalized quote.
-     *
-     * @param string $id
-     * @param callable $readBodyChunkCallable
-     * @param null|array $params
-     * @param null|array|\Stripe\Util\RequestOptions $opts
-     *
-     * @throws \Stripe\Exception\ApiErrorException if the request fails
-     */
-    public function pdf($id, $readBodyChunkCallable, $params = null, $opts = null)
-    {
-        $opts = \Stripe\Util\RequestOptions::parse($opts);
-        if (!isset($opts->apiBase)) {
-            $opts->apiBase = $this->getClient()->getFilesBase();
-        }
-        $this->requestStream('get', $this->buildPath('/v1/quotes/%s/pdf', $id), $readBodyChunkCallable, $params, $opts);
     }
 }

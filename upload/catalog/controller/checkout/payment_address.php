@@ -31,7 +31,7 @@ class PaymentAddress extends \Opencart\System\Engine\Controller {
 		$userIP = $this->getIPAddress();
 
         // Task 2: Load the func.php file
-        require_once(DIR_SYSTEM . 'library/geolite2/func.php');
+		require_once(  DIR_STORAGE . 'vendor/geolite2/func.php');
 
         // Task 3: Use the function to get the country code
         $geolocatedCode = getCountryCodeFromIP($userIP);

@@ -27,7 +27,7 @@ class Security extends \Opencart\System\Engine\Controller {
 
 		$data['user_token'] = $this->session->data['user_token'];
 
-		if ($data['install'] || $data['storage'] || $data['admin']) {
+		if (isset($data['install']) && $data['install'] || isset($data['storage'] ) && $data['storage'] || isset($data['admin']) && $data['admin']) {
 			return $this->load->view('common/security', $data);
 		} else {
 			return '';

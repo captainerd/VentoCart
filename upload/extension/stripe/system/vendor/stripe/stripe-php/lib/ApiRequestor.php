@@ -65,6 +65,9 @@ class ApiRequestor
                 'request_duration_ms' => $requestTelemetry->requestDuration,
             ],
         ];
+        if (\count($requestTelemetry->usage) > 0) {
+            $payload['last_request_metrics']['usage'] = $requestTelemetry->usage;
+        }
 
         $result = \json_encode($payload);
         if (false !== $result) {
@@ -106,21 +109,22 @@ class ApiRequestor
     }
 
     /**
-     * @param string     $method
+     * @param 'delete'|'get'|'post' $method
      * @param string     $url
      * @param null|array $params
      * @param null|array $headers
+     * @param string[] $usage
      *
      * @throws Exception\ApiErrorException
      *
      * @return array tuple containing (ApiReponse, API key)
      */
-    public function request($method, $url, $params = null, $headers = null)
+    public function request($method, $url, $params = null, $headers = null, $usage = [])
     {
         $params = $params ?: [];
         $headers = $headers ?: [];
         list($rbody, $rcode, $rheaders, $myApiKey) =
-        $this->_requestRaw($method, $url, $params, $headers);
+        $this->_requestRaw($method, $url, $params, $headers, $usage);
         $json = $this->_interpretResponse($rbody, $rcode, $rheaders);
         $resp = new ApiResponse($rbody, $rcode, $rheaders, $json);
 
@@ -128,20 +132,21 @@ class ApiRequestor
     }
 
     /**
-     * @param string     $method
+     * @param 'delete'|'get'|'post' $method
      * @param string     $url
      * @param callable $readBodyChunkCallable
      * @param null|array $params
      * @param null|array $headers
+     * @param string[] $usage
      *
      * @throws Exception\ApiErrorException
      */
-    public function requestStream($method, $url, $readBodyChunkCallable, $params = null, $headers = null)
+    public function requestStream($method, $url, $readBodyChunkCallable, $params = null, $headers = null, $usage = [])
     {
         $params = $params ?: [];
         $headers = $headers ?: [];
         list($rbody, $rcode, $rheaders, $myApiKey) =
-        $this->_requestRawStreaming($method, $url, $params, $headers, $readBodyChunkCallable);
+        $this->_requestRawStreaming($method, $url, $params, $headers, $usage, $readBodyChunkCallable);
         if ($rcode >= 300) {
             $this->_interpretResponse($rbody, $rcode, $rheaders);
         }
@@ -295,9 +300,8 @@ class ApiRequestor
     /**
      * @static
      *
-     * @param string $disabledFunctionsOutput - String value of the 'disable_function' setting, as output by \ini_get('disable_functions')
+     * @param string $disableFunctionsOutput - String value of the 'disable_function' setting, as output by \ini_get('disable_functions')
      * @param string $functionName - Name of the function we are interesting in seeing whether or not it is disabled
-     * @param mixed $disableFunctionsOutput
      *
      * @return bool
      */
@@ -326,7 +330,7 @@ class ApiRequestor
         $uaString = 'Stripe/v1 PhpBindings/' . Stripe::VERSION;
 
         $langVersion = \PHP_VERSION;
-        $uname_disabled = static::_isDisabled(\ini_get('disable_functions'), 'php_uname');
+        $uname_disabled = self::_isDisabled(\ini_get('disable_functions'), 'php_uname');
         $uname = $uname_disabled ? '(disabled)' : \php_uname();
 
         $appInfo = Stripe::getAppInfo();
@@ -349,6 +353,7 @@ class ApiRequestor
             'X-Stripe-Client-User-Agent' => \json_encode($ua),
             'User-Agent' => $uaString,
             'Authorization' => 'Bearer ' . $apiKey,
+            'Stripe-Version' => Stripe::getApiVersion(),
         ];
     }
 
@@ -378,7 +383,7 @@ class ApiRequestor
 
         if ($params && \is_array($params)) {
             $optionKeysInParams = \array_filter(
-                static::$OPTIONS_KEYS,
+                self::$OPTIONS_KEYS,
                 function ($key) use ($params) {
                     return \array_key_exists($key, $params);
                 }
@@ -394,9 +399,6 @@ class ApiRequestor
         $absUrl = $this->_apiBase . $url;
         $params = self::_encodeObjects($params);
         $defaultHeaders = $this->_defaultHeaders($myApiKey, $clientUAInfo);
-        if (Stripe::$apiVersion) {
-            $defaultHeaders['Stripe-Version'] = Stripe::$apiVersion;
-        }
 
         if (Stripe::$accountId) {
             $defaultHeaders['Stripe-Account'] = Stripe::$accountId;
@@ -433,17 +435,18 @@ class ApiRequestor
     }
 
     /**
-     * @param string $method
+     * @param 'delete'|'get'|'post' $method
      * @param string $url
      * @param array $params
      * @param array $headers
+     * @param string[] $usage
      *
      * @throws Exception\AuthenticationException
      * @throws Exception\ApiConnectionException
      *
      * @return array
      */
-    private function _requestRaw($method, $url, $params, $headers)
+    private function _requestRaw($method, $url, $params, $headers, $usage)
     {
         list($absUrl, $rawHeaders, $params, $hasFile, $myApiKey) = $this->_prepareRequest($method, $url, $params, $headers);
 
@@ -462,7 +465,8 @@ class ApiRequestor
         && '' !== $rheaders['request-id']) {
             self::$requestTelemetry = new RequestTelemetry(
                 $rheaders['request-id'],
-                Util\Util::currentTimeMillis() - $requestStartMs
+                Util\Util::currentTimeMillis() - $requestStartMs,
+                $usage
             );
         }
 
@@ -470,19 +474,19 @@ class ApiRequestor
     }
 
     /**
-     * @param string $method
+     * @param 'delete'|'get'|'post' $method
      * @param string $url
      * @param array $params
      * @param array $headers
-     * @param callable $readBodyChunk
-     * @param mixed $readBodyChunkCallable
+     * @param string[] $usage
+     * @param callable $readBodyChunkCallable
      *
      * @throws Exception\AuthenticationException
      * @throws Exception\ApiConnectionException
      *
      * @return array
      */
-    private function _requestRawStreaming($method, $url, $params, $headers, $readBodyChunkCallable)
+    private function _requestRawStreaming($method, $url, $params, $headers, $usage, $readBodyChunkCallable)
     {
         list($absUrl, $rawHeaders, $params, $hasFile, $myApiKey) = $this->_prepareRequest($method, $url, $params, $headers);
 
