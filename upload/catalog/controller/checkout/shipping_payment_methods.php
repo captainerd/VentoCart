@@ -210,10 +210,10 @@ class ShippingPaymentMethods extends \Opencart\System\Engine\Controller
 
 
             // Validate if payment address is set if required in settings
-            if ($this->config->get('config_checkout_payment_address') && !isset($this->session->data['payment_address'])) {
+            if ( !isset($this->session->data['payment_address'])) {
                 $json['error'] = $this->language->get('error_payment_address');
             } else {
-                $this->session->data['shipping_address'] = $this->session->data['payment_address'];
+               // $this->session->data['shipping_address'] = $this->session->data['payment_address'];
             }
 
             // Payment method
@@ -386,7 +386,7 @@ class ShippingPaymentMethods extends \Opencart\System\Engine\Controller
                 $disabled = $this->language->get('error_customer');
             }
 
-            if ($this->config->get('config_checkout_payment_address') && !isset($this->session->data['payment_address'])) {
+            if ( !isset($this->session->data['payment_address'])) {
                 $disabled = $this->language->get('error_payment_address');
             }
 
@@ -409,11 +409,7 @@ class ShippingPaymentMethods extends \Opencart\System\Engine\Controller
         if (!$json) {
             $payment_address = [];
 
-            if ($this->config->get('config_checkout_payment_address') && isset($this->session->data['payment_address'])) {
-                $payment_address = $this->session->data['payment_address'];
-            } elseif ($this->config->get('config_checkout_shipping_address') && isset($this->session->data['shipping_address']) && isset($this->session->data['shipping_address']['address_id'])) {
-                $payment_address = $this->session->data['shipping_address'];
-            }
+         
 
             // Payment methods
             $this->load->model('checkout/payment_method');

@@ -28,7 +28,7 @@ class Plates
 	protected array $path = [];
 
 	protected bool $convert = false;
-
+	private $adaptor;
 	/**
 	 * Constructor
 	 *

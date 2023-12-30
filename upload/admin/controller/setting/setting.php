@@ -72,6 +72,7 @@ class Setting extends \Opencart\System\Engine\Controller {
 		$data['config_email'] = $this->config->get('config_email');
 		$data['config_telephone'] = $this->config->get('config_telephone');
 		$data['config_image'] = $this->config->get('config_image');
+	 
 
 		$this->load->model('tool/image');
 
@@ -225,8 +226,8 @@ class Setting extends \Opencart\System\Engine\Controller {
 		// Checkout
 		$data['config_cart_weight'] = $this->config->get('config_cart_weight');
 		$data['config_checkout_guest'] = $this->config->get('config_checkout_guest');
-		$data['config_checkout_payment_address'] = $this->config->get('config_checkout_payment_address');
-		$data['config_checkout_shipping_address'] = $this->config->get('config_checkout_shipping_address');
+		$data['config_show_company_field'] = $this->config->get('config_show_company_field');
+ 
 		$data['config_checkout_id'] = $this->config->get('config_checkout_id');
 
 		if ($this->config->get('config_invoice_prefix')) {

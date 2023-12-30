@@ -143,10 +143,12 @@
  </div>
  
       <div class="row row-cols-1 row-cols-md-2 ">
+        <?php if ($config_show_company_field): ?>
         <div id="company_field" class="col mb-3 ">
           <label for="input-payment-company" class="form-label"><?= $this->e($entry_company ) ?></label> <input type="text" name="payment_company[0]" value="<?= $this->e($payment_company ) ?>" placeholder="<?= $this->e($entry_company ) ?>" id="input-payment-company" class="form-control"/>
           <div id="error-payment-company" class="invalid-feedback"></div>
         </div>
+        <?php endif;?>
         <div class="col mb-3 required">
           <label for="input-payment-address-1" class="form-label"><?= $this->e($entry_address_1 ) ?></label> <input type="text" name="payment_address_1" value="<?= $this->e($payment_address_1 ) ?>" placeholder="<?= $this->e($entry_address_1 ) ?>" id="input-payment-address-1" class="form-control"/>
           <div id="error-payment-address-1" class="invalid-feedback"></div>
@@ -296,10 +298,10 @@
 
       </div>
     
-  <fieldset id="shipping-address" style="display: <?php if (!$config_checkout_payment_address): ?>block<?php else: ?>none<?php endif; ?>;">
+  <fieldset id="shipping-address" style="display:  none;">
     <legend><?= $this->e($text_shipping_address ) ?></legend>
     <div class="row row-cols-1 row-cols-md-2">
-      <?php if ($config_checkout_payment_address): ?>
+   
         <div class="col mb-3 required">
           <label for="input-shipping-firstname" class="form-label"><?= $this->e($entry_firstname ) ?></label>
           <input type="text" name="shipping_firstname" value="<?= $this->e($shipping_firstname ) ?>" placeholder="<?= $this->e($entry_firstname ) ?>" id="input-shipping-firstname" class="form-control"/>
@@ -310,7 +312,7 @@
           <input type="text" name="shipping_lastname" value="<?= $this->e($shipping_lastname ) ?>" placeholder="<?= $this->e($entry_lastname ) ?>" id="input-shipping-lastname" class="form-control"/>
           <div id="error-shipping-lastname" class="invalid-feedback"></div>
         </div>
-      <?php endif; ?>
+   
       <div class="col mb-3 d-none">
         <label for="input-shipping-company" class="form-label"><?= $this->e($entry_company ) ?></label>
         <input type="text" name="shipping_company" value="<?= $this->e($shipping_company ) ?>" placeholder="<?= $this->e($entry_company ) ?>" id="input-shipping-company" class="form-control"/>
@@ -474,7 +476,7 @@
   </fieldset>
 
   <div id class="row row-cols-1 row-cols-md-2">
-    <div id="password" class="col mb-3 required d-none">
+    <div id="password" class="col mb-3 required     <?php if ($config_checkout_guest): ?>d-none  <?php endif; ?>">
       <fieldset>
         <legend><?= $this->e($text_your_password ) ?></legend>
         <div class="row">
