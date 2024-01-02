@@ -1436,26 +1436,31 @@ $('#report').on('click', '.pagination a', function (e) {
 });
 
 $(document).ready(function() {
+// Event delegation for the 'apply' select
+$(document).on('change', '[name^="product_special["][name$="[apply]"]', function () {
+    // Check if the selected value is "Total (Options and Variations)"
+    if ($(this).val() == '1') {
+        // Get the corresponding 'type' select element
+        var typeSelect = $(this).closest('tr').find('[name^="product_special["][name$="[type]"]');
+        
+        // Automatically select the "% Off Percentage" option in the 'type' select
+        typeSelect.val('1');
+    }
+});
+
+// Event delegation for the 'type' select
+$(document).on('change', '[name^="product_special["][name$="[type]"]', function () {
+    // Check if the selected value is "New Price"
+    if ($(this).val() == '0') {
+        // Get the corresponding 'apply' select element
+        var applySelect = $(this).closest('tr').find('[name^="product_special["][name$="[apply]"]');
+        
+        // If "New Price" is selected, set the 'apply' select to the default option ("Product Price")
+        applySelect.val('0');
+    }
+});
+
  
-    $("select[name^='product_special']").change(function() {
- 
-        var selectedValue = $(this).val();
-       if ($(this).attr('name').endsWith('[apply]') && selectedValue == 0) {
-        let selname = $(this).attr('name').replace('apply','type');
-        $("select[name='" + selname + "'] option[value='0']").prop('disabled', false);
-     
-       }
-
-       if ($(this).attr('name').endsWith('[apply]') && selectedValue == 1) {
-        let selname = $(this).attr('name').replace('apply','type');
-        $("select[name='" + selname + "']").val('1');
-        $("select[name='" + selname + "'] option[value='0']").prop('disabled', true);
-       }
-
-
-    });
-
-    
 });
 
  
