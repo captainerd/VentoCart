@@ -334,8 +334,57 @@ public function reloadOptions() {
 	$this->response->setOutput($this->loadOptions($product_id));
 }
 
+	public function addOption(): void {
+		$this->load->model('catalog/option');
+ 
+$product_id = $this->request->get['product_id'];
+ 
+ $optionsave['option_description'] = [];
+ $this->load->model('catalog/product');
+ $options = $this->request->post['options'];
+ $optionsave['type'] = $this->request->post['type'];
+ $optionsave['sort_order'] = 0;
+ 
+$optionsave['option_id'] = 0;
+ $optionsave['option_value'] = [];
 
+     foreach($options  as $language_id => $values) {
+		foreach($values as $key => $value) {
+			if ($key == 'option_group_name') {
+				$optionsave['option_description'][$language_id] =  ['name' => $value];
+
+			}  
+	if ($key == 'option_q_name') {
+		foreach($value as $pkey => $poption) {
+		 if (is_numeric($pkey)) {
+			$optionsave['option_value'][$pkey]['option_value_id'] = null;
+			$optionsave['option_value'][$pkey]['image'] = '';
+			$optionsave['option_value'][$pkey]['sort_order'] = 0;						 
+			$optionsave['option_value'][$pkey]['option_value_description'][$language_id] = ['name' => $poption];			
+			 
+		 }
+
+		}
+	}
+		}
+	 }
+	 
+	$poptions_id = $this->model_catalog_option->addOption($optionsave);
+ 
+	 $result = $this->model_catalog_product->addAllOptions($poptions_id, $product_id);
+	 if ($result) {
+		$this->response->setOutput(json_encode(['status' => 'ok']));
+	 }
+ 
+
+		
+	}
 	public function loadOptions($product_id) {
+		$this->load->model('localisation/language');
+
+		$data['languages'] = $this->model_localisation_language->getLanguages();
+
+		$data['product_id'] = $product_id;
 	 $data['user_token'] = $this->session->data['user_token'];
 	 		$this->load->language('catalog/product');
 	// Options
@@ -344,6 +393,7 @@ public function reloadOptions() {
 
 	if($product_id) {
 		$product_options = $this->model_catalog_product->getOptions($product_id);
+	 
 	} else {
 		$product_options = [];
 	}
@@ -352,10 +402,10 @@ public function reloadOptions() {
 	$product_option_value_data = [];
 
 	foreach($product_options as $product_option) {
-
+ 
 		$option_value_info = $this->model_catalog_option->getOption($product_option['option_id']);
 		$option_value = $this->model_catalog_option->getOption($product_option['option_id'], true);
-		
+		 
 		$product_option_value_data[$option_value['group_id']][] = [
 
 			'name' => $option_value_info['name'],
@@ -368,23 +418,35 @@ public function reloadOptions() {
 			'points' => round($product_option['points']),
 			'points_prefix' => $product_option['points_prefix'],
 			'weight' => round($product_option['weight']),
+			'sort_order' => isset($product_option['sort_order']) ? $product_option['sort_order'] : '0',
+			'value' => isset($product_option['value']) ? $product_option['value'] : '',
+			'image' => isset($product_option['value']) ? '/image/'.  $product_option['value'] : '',
 			'weight_prefix' => $product_option['weight_prefix'],
 			'poption_id' => $product_option['poption_id'],  
 		];
- 
+		$iduse = $option_value['option_id'];
+		if ( $option_value['type'] == 'text' || 
+		$option_value['type'] == 'textarea' || 
+		$option_value['type'] == 'date' || 
+		$option_value['type'] == 'time' || 
+		$option_value['type'] == 'datetime'  
+		) {
+		 $iduse = $product_option['poption_id'];
+		}
 
-		$data['product_options'][$option_value['option_id']] = [
+		$data['product_options'][$iduse] = [
 			'product_option_value' => $product_option_value_data[$option_value['group_id']],
 			'option_id' => $option_value['option_id'], //doubles until someone  
 			'poption_id' => $product_option['poption_id'], 
 			'name' => $option_value['name'],
+			'sort_order' => isset($product_option['sort_order']) ? $product_option['sort_order'] : '0',
 			'type' => $option_value['type'],
 			'value' => isset($option_value['value']) ? $product_option['value'] : $product_option['value'],
 			'required' => $product_option['required']
 		];
 
 	}
-
+ 
 	$data['option_values'] = [];
 
 	foreach($data['product_options'] as $product_option) {

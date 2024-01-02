@@ -6,7 +6,7 @@ class Option extends \Opencart\System\Engine\Model
 	public function addOption(array $data): int
 	{
 		$group_id = 0;
-
+ 
 		foreach ($data['option_description'] as $language_id => $value) {
 			$this->db->query("
 				INSERT INTO `" . DB_PREFIX . "options` 
@@ -15,7 +15,6 @@ class Option extends \Opencart\System\Engine\Model
 					`language_id` = '" . (int) $language_id . "', 
 					`group_id` = '" . (int) $group_id . "', 
 					`option_n` = '-1',
-					`sort_order` = '" . $this->db->escape($data['sort_order']) . "',
 					`name` = '" . $this->db->escape($value['name']) . "'
 			");
 
@@ -36,9 +35,7 @@ class Option extends \Opencart\System\Engine\Model
 						`name` = '" . $this->db->escape($option_value_description['name']) . "', 
 						`group_id` = '" . (int) $group_id . "', 
 						`language_id` = '" . (int) $language_id . "', 
-						`option_n` = '" . (int) $index . "', 
-						`image` = '" . $this->db->escape(html_entity_decode($voption['image'], ENT_QUOTES, 'UTF-8')) . "', 
-						`sort_order` = '" . (int) $voption['sort_order'] . "'
+						`option_n` = '" . (int) $index . "' 
 				");
 				}
 			}
@@ -83,9 +80,7 @@ class Option extends \Opencart\System\Engine\Model
 						`name` = '" . $this->db->escape($option_value_description['name']) . "', 
 						`group_id` = '" . (int) $option_id . "', 
 						`language_id` = '" . (int) $language_id . "', 
-						`option_n` = '" . (int) $index . "', 
-						`image` = '" . $this->db->escape(html_entity_decode($voption['image'], ENT_QUOTES, 'UTF-8')) . "', 
-						`sort_order` = '" . (int) $voption['sort_order'] . "'  
+						`option_n` = '" . (int) $index . "' 
 					WHERE 
 						`option_n` = '" . (int) $index . "' AND 
 						`group_id` = '" . (int) $option_id . "' AND 
@@ -99,9 +94,7 @@ class Option extends \Opencart\System\Engine\Model
 						`name` = '" . $this->db->escape($option_value_description['name']) . "', 
 						`group_id` = '" . (int) $option_id . "', 
 						`language_id` = '" . (int) $language_id . "', 
-						`option_n` = '" . (int) $index . "', 
-						`image` = '" . $this->db->escape(html_entity_decode($voption['image'], ENT_QUOTES, 'UTF-8')) . "', 
-						`sort_order` = '" . (int) $voption['sort_order'] . "'
+						`option_n` = '" . (int) $index . "' 
 				");
 					}
 
@@ -175,9 +168,8 @@ class Option extends \Opencart\System\Engine\Model
 							`language_id` = '" . (int) $language_id . "',
 							`name` = '" . $this->db->escape($option['name']) . "',
 							`type` = '" . $this->db->escape($option['type']) . "',
-							`image` = '" . $this->db->escape(isset($option['image']) ? $option['image'] : '') . "',
-							`option_n` = '" . $this->db->escape($option['option_n']) . "',
-							`sort_order` = '" . (int) $option['sort_order'] . "'
+							`option_n` = '" . $this->db->escape($option['option_n']) . "'
+					 
 					"); 
 				 }
 		  } 
@@ -239,6 +231,7 @@ class Option extends \Opencart\System\Engine\Model
 	}
 	public function getOptions(array $data = []): array
 	{
+ 
 		$sql = "
 			SELECT * 
 			FROM `" . DB_PREFIX . "options`  
@@ -251,8 +244,7 @@ class Option extends \Opencart\System\Engine\Model
 
 		$sort_data = [
 			'name',
-			'type',
-			'sort_order'
+			'type' 
 		];
 
 		if (isset($data['sort']) && in_array($data['sort'], $sort_data)) {

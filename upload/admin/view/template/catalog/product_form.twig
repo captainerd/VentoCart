@@ -1,5 +1,7 @@
 {{ header }}{{ column_left }}
+
 <div id="content">
+  
   <div class="page-header">
     <div class="container-fluid">
       <div class="float-end">
@@ -25,13 +27,14 @@
             <li class="nav-item"><a href="#tab-data" data-bs-toggle="tab" class="nav-link">{{ tab_data }}</a></li>
             <li class="nav-item"><a href="#tab-pricing" data-bs-toggle="tab" class="nav-link">{{ tab_pricing }}</a></li>
             <li class="nav-item"><a href="#tab-links" data-bs-toggle="tab" class="nav-link">{{ tab_links }}</a></li>
+            <li class="nav-item"><a href="#tab-image" data-bs-toggle="tab" class="nav-link">{{ tab_image }}</a></li>
             <li class="nav-item"><a href="#tab-attribute" data-bs-toggle="tab" class="nav-link">{{ tab_attribute }}</a></li>
             <li class="nav-item"><a href="#tab-option" data-bs-toggle="tab" class="nav-link">{{ tab_option }}</a></li>
             <li class="nav-item"><a href="#tab-variations" data-bs-toggle="tab"  id="tab-variations-link" class="nav-link">{{ tab_variations }}</a></li>
             <li class="nav-item"><a href="#tab-subscription" data-bs-toggle="tab" class="nav-link">{{ tab_subscription }}</a></li>
      
     
-            <li class="nav-item"><a href="#tab-image" data-bs-toggle="tab" class="nav-link">{{ tab_image }}</a></li>
+       
             <li class="nav-item"><a href="#tab-reward" data-bs-toggle="tab" class="nav-link">{{ tab_reward }}</a></li>
   
             <li class="nav-item"><a href="#tab-design" data-bs-toggle="tab" class="nav-link">{{ tab_design }}</a></li>
@@ -107,7 +110,6 @@
                       </div>
                     </div>
 
-                    
                     <div id="product-seo" class="table-responsive">
                       <table class="table table-bordered table-hover">
                         <thead>
@@ -121,20 +123,22 @@
                             <tr>
                               <td class="text-start">{{ store.name }}</td>
                               <td class="text-start">
-                                {% for language in languages %}
+               
                                   <div class="input-group">
                                     <div class="input-group-text"><img src="{{ language.image }}" title="{{ language.name }}"/></div>
                                     <input type="text" name="product_seo_url[{{ store.store_id }}][{{ language.language_id }}]" value="{% if product_seo_url[store.store_id][language.language_id] %}{{ product_seo_url[store.store_id][language.language_id] }}{% endif %}" id="input-keyword-{{ store.store_id }}-{{ language.language_id }}" placeholder="{{ entry_keyword }}" class="form-control seoinput"/>
                                   </div>
                                   <div id="error-keyword-{{ store.store_id }}-{{ language.language_id }}" class="invalid-feedback"></div>
-                                {% endfor %}</td>
+                      
                             </tr>
                           {% endfor %}
                         </tbody>
                       </table>
                     </div>
+        
 
                   </div>
+  
                 {% endfor %}
               </div>
             </div>
@@ -152,8 +156,8 @@
                     <div id="error-model" class="invalid-feedback"></div>
                   </div>
                 </div>
-                <div class="row mb-3">
-                  <label for="input-sku" class="col-sm-2 col-form-label">{{ entry_sku }}</label>
+                <div class="row mb-3 required">
+                  <label for="input-sku" class="col-sm-2   col-form-label">{{ entry_sku }}</label>
                   <div class="col-sm-10">
                     <div class="input-group">
                       <input type="text" name="sku" value="{{ sku }}" placeholder="{{ entry_sku }}" id="input-sku" class="form-control"/>
@@ -915,9 +919,7 @@
               </fieldset>
             </div>
 
-            <div id="tab-seo" class="tab-pane">
- 
-            </div>
+    
             <div id="tab-design" class="tab-pane">
               <div class="table-responsive">
                 <table id="product-layout" class="table table-bordered table-hover">
@@ -1336,6 +1338,33 @@ $('#report').on('click', '.pagination a', function (e) {
  
 
     $(document).ready(function () {
+
+ var canWriteSeo = false;
+    // Attach keypress event listener to the input field
+ // Attach keypress event listener to the input field
+ $('input[name^="product_description["][name$="[name]"]').on('input', function() {
+      // Get the number inside the brackets, i.e., [1], [2], etc.
+      var index = $(this).attr('name').match(/\[(\d+)\]/)[1];
+      
+      // Get the input value and convert to meta title format
+      var inputValue = $(this).val();
+      var metaTitleValue = inputValue;
+
+      // Update the corresponding meta title field
+      $('input[name="product_description[' + index + '][meta_title]"]').val(metaTitleValue);
+       metaTitleValue = metaTitleValue.toLowerCase().replace(/\s+/g, '-');
+      // Check if the associated SEO URL field is empty and update it if needed
+      $('input[name$="[1]"][name^="product_seo_url"]').each(function() {
+      if ($(this).val().length === 0) {
+        canWriteSeo = true;
+      }
+      if (canWriteSeo) {
+        $(this).val(metaTitleValue);
+      }
+    });
+    });
+ 
+
     // Intercept form submission
     $('#form-product').submit(function (e) {
         e.preventDefault(); // Prevent the default form submission
@@ -1373,7 +1402,7 @@ $('#report').on('click', '.pagination a', function (e) {
              
                 // Handle the successful response here
                 var userToken = encodeURIComponent('{{user_token}}');
-    var productId = encodeURIComponent('{{product_id}}');
+    var productId =  $("#input-product-id").val();
     //submit occurred reload option tab content
     $("#option").html('<i class="fas fa-spinner fa-spin fa-3x y d-flex align-items-center justify-content-center"></i>  ');
     $("#option").load('index.php?route=catalog/product.reloadOptions&user_token=' + userToken + '&product_id=' + productId);
@@ -1392,7 +1421,7 @@ $('#report').on('click', '.pagination a', function (e) {
                 }, 5500);
 
                 var userToken = encodeURIComponent('{{user_token}}');
-    var productId = encodeURIComponent('{{product_id}}');
+    var productId =  $("#input-product-id").val();
     //error occurred, reload option tab content
     $("#option").html('<i class="fas fa-spinner fa-spin fa-3x y d-flex align-items-center justify-content-center"></i>  ');
      $("#option").load('index.php?route=catalog/product.reloadOptions&user_token=' + userToken + '&product_id=' + productId);
@@ -1400,7 +1429,7 @@ $('#report').on('click', '.pagination a', function (e) {
         });
     });
     var userToken = encodeURIComponent('{{user_token}}');
-    var productId = encodeURIComponent('{{product_id}}');
+    var productId =  $("#input-product-id").val();
    //initial page load, load option tab content
    $("#option").html('<i class="fas fa-spinner fa-spin fa-3x y d-flex align-items-center justify-content-center"></i>  ');
     $("#option").load('index.php?route=catalog/product.reloadOptions&user_token=' + userToken + '&product_id=' + productId);
@@ -1425,8 +1454,91 @@ $(document).ready(function() {
 
 
     });
+
+    
 });
+
+ 
 
 
 //--></script>
+
+<!-- options tab -->
+<script>
+  $(document).ready(function() {
+ 
+    $(document).on('click', '.add-or-edit-btn', function () {
+var rowId = $("#" + $(this).data('option-value-row'));
+
+ 
+ 
+var icon = $(this).find('i');
+var tr =  $(this).closest('table');
+
+opt = tr.find('.option-select :selected:first').text();
+
+ 
+ rowId.find('.option-title-accordion').text(opt.trim());
+
+if (icon.hasClass('fa-unlock')) {
+  // If it's currently unlocked, change icon to lock and remove .read-only class
+  icon.removeClass('fa-unlock').addClass('fa-lock');
+  tr.find('input, select').removeClass('read-only');
+} else {
+  // If it's currently locked, change icon to unlock and add .read-only class
+  icon.removeClass('fa-lock').addClass('fa-unlock');
+  tr.find('input, select').addClass('read-only');
+}
+});
+
+$(document).on('click', '.add-q-option', function () {
+$(this).hide();
+event.preventDefault();
+window.addQuickOption();
+});
+    
+  });
+
+  $(document).on('click', '.add-opt-button', function () {
+  let rowId = $(this).data('option-row');
+ 
+  let valuerow = $("#option-row-" + rowId + " .accordion-item").length - 1;
+  let template = $('#option-template-div').html();
+  valuerow++;
+  valuerow++;
+ 
+  $('#collapse' + rowId).attr('aria-expanded', 'true');
+  $('#collapse' + rowId).removeClass('collapse');
+ 
+
+template = template.replace(/xxx/g, '' );
+template = template.replace(/option-row-placeholder/g, rowId);
+template = template.replace(/option-valuerow-placeholder/g, valuerow );
+ 
+ let copySelect = $("#select-default-row-" + rowId).clone();
+ copySelect.removeClass('d-none');
+ copySelect.addClass('read-only');
+ let selname = "product_option["  + rowId + "][product_option_value][" + valuerow + "][option_value_id]"
+ copySelect.attr('name', selname);
+ copySelect.addClass('option-select');
+ let position = $("#option-row-"  + rowId + " .accordion-item").length - 1;
+ let selectedOptionValue = copySelect.find('option:eq('+ position + ')').val();
+ template = template.replace(/option-name-placeholder/g, copySelect.find('option:eq('+ position + ')').text());
+
+ template = $(template);
+ template.find('.insertselect').append(copySelect);
+
+ 
+
+// Set the value attribute of the input
+let inputName = "product_option[" + rowId + "][product_option_value][" + valuerow + "][option_value_id]";
+ 
+template.find('[name="' + inputName + '"]').val(selectedOptionValue);
+$("#option-row-body-" + rowId).append(template);
+ 
+   initializeSortables();
+ 
+ 
+});
+</script>
 {{ footer }}

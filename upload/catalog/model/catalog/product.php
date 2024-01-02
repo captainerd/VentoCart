@@ -446,6 +446,13 @@ class Product extends \Opencart\System\Engine\Model
 
 		foreach ($product_option_query->rows as $product_option) {
 
+			if ($product_option['group_type'] == 'radio' || $product_option['group_type'] == 'checkbox' && isset($product_option['value'])
+			&& $product_option['value'] != "") {
+				$product_option['image'] = $product_option['value'];
+			   
+			}
+
+
 			$product_option_value_data[$product_option['group_id']][] = [
 				'product_option_value_id' => $product_option['poption_id'],
 				'option_value_id' => $product_option['poption_id'],

@@ -377,10 +377,14 @@ class Product extends \Opencart\System\Engine\Controller {
 
 			$product_options = $this->model_catalog_product->getOptions($product_id);
 			$variations = $this->model_catalog_product->getVariations($product_id);
-
+		 
 			$data['variations'] = $variations;
 		 
 			foreach ($product_options as $option) {
+
+		 
+			 
+
 				if ((int)$this->request->get['product_id'] && !isset($product_info['override']['variant'][$option['product_option_id']])) {
 					$product_option_value_data = [];
 
@@ -416,7 +420,7 @@ class Product extends \Opencart\System\Engine\Controller {
 
 						}
 				
-						 
+					 
 					$data['options'][] = [
 						'product_option_id'    => $option['product_option_id'],
 						'product_option_value' => $product_option_value_data,

@@ -4,7 +4,7 @@
 define('APPLICATION', 'Catalog');
 
 // HTTP
-define('HTTP_SERVER', 'http://127.0.0.1/');
+define('HTTP_SERVER', 'http://localhost/');
 
 // DIR
 define('DIR_OPENCART', '/var/www/html/');
@@ -30,6 +30,6 @@ define('DB_PASSWORD', '');
 define('DB_SSL_KEY', '');
 define('DB_SSL_CERT', '');
 define('DB_SSL_CA', '');
-define('DB_DATABASE', 'upload');
+define('DB_DATABASE', 'testa');
 define('DB_PORT', '3306');
 define('DB_PREFIX', 've_');

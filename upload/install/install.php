@@ -37,7 +37,8 @@ function executeSqlFile($dbConnection, $sqlFile)
         if ($endWith == ';') {
             $result = mysqli_query($dbConnection,str_replace('ve_',$prefix."_",$query));
             if (!$result) {
-                die('Error: ' . mysqli_error($dbConnection));
+               
+                die('Error  : ' . mysqli_error($dbConnection));
             }
             $query= '';		
         }

@@ -106,7 +106,6 @@ class Option extends \Opencart\System\Engine\Controller {
 			$data['options'][] = [
 				'option_id'  => $result['option_id'],
 				'name'       => $result['name'],
-				'sort_order' => $result['sort_order'],
 				'edit'       => $this->url->link('catalog/option.form', 'user_token=' . $this->session->data['user_token'] . '&option_id=' . $result['option_id'] . $url)
 			];
 		}
@@ -204,10 +203,10 @@ class Option extends \Opencart\System\Engine\Controller {
 		 
 		if (!empty($option_info)) {
 			$data['type'] = $option_info[0]['type'];
-			$data['sort_order'] = $option_info[0]['sort_order'];
+	 
 		} else {
 			$data['type'] = '';
-			$data['sort_order'] = '';
+		 
 		}
 
 		$this->load->model('tool/image');

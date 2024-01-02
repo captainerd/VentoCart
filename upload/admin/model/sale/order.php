@@ -296,13 +296,13 @@ class Order extends \Opencart\System\Engine\Model {
 		foreach ($query->rows as $index => $row) {
 			if (!empty($row['variation_id'])) {
 				$queryvar = $this->db->query("SELECT * FROM `" . DB_PREFIX . "variations` WHERE `variation_id` = '" . (int)$row['variation_id'] . "'");
-				$query->rows[$index]['model'] = $queryvar->row['model'];
-				$query->rows[$index]['sku'] = $queryvar->row['sku'];
+				if (isset($queryvar->row['model'])) $query->rows[$index]['model'] = $queryvar->row['model'];
+				if (isset($queryvar->row['sku'])) $query->rows[$index]['sku'] = $queryvar->row['sku'];
 
 			} else {
 				$queryvar = $this->db->query("SELECT * FROM `" . DB_PREFIX . "product` WHERE `product_id` = '" . (int)$row['product_id'] . "'");
-				$query->rows[$index]['model'] = $queryvar->row['model'];
-				$query->rows[$index]['sku'] = $queryvar->row['sku'];
+				if (isset($queryvar->row['model'])) $query->rows[$index]['model'] = $queryvar->row['model'];
+				if (isset($queryvar->row['sku']))  $query->rows[$index]['sku'] = $queryvar->row['sku'];
 			}
 
 

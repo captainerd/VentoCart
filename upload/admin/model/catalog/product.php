@@ -282,11 +282,11 @@ class Product extends \Opencart\System\Engine\Model
 
 					continue;
 				}
-
+				if (!isset($product_option['required'])) $product_option['required'] = 0;
 				// Common properties
 				$product_id = (int) $product_id;
 				$required = (int) $product_option['required'];
-
+				 
 				// Select, radio, checkbox, or image type
 				if (in_array($product_option['type'], ['select', 'radio', 'checkbox', 'image'])) {
 					if (isset($product_option['product_option_value'])) {
@@ -387,8 +387,67 @@ class Product extends \Opencart\System\Engine\Model
 
 		$this->cache->delete('product');
 	}
-
-	
+	public function addAllOptions($option_id, $product_id) {
+		 
+		// First, select all options where group_id='$option_id' AND language_id = $this->config->get('config_language_id')
+		$query = $this->db->query("
+			SELECT *
+			FROM `" . DB_PREFIX . "options`
+			WHERE `group_id` = '" . (int) $option_id . "'
+			AND `language_id` = '" . (int) $this->config->get('config_language_id') . "'
+		");
+	 
+		// Loop through the selected options
+	 
+		foreach ($query->rows as $option) {
+		 
+			// Check if 'type' is not text, textarea, date, time, or datetime
+	 
+			if (!in_array($option['type'], array('file', 'text', 'textarea', 'date', 'time', 'datetime'))) {
+				// Insert values into DB_PREFIX . "product_options" where option_n != -1
+			 if ($option['option_n'] != -1) {
+				$this->db->query("
+					INSERT INTO `" . DB_PREFIX . "product_options` 
+					SET 
+						`product_id` = '" . (int) $product_id . "', 
+						`option_id` = '" . (int) $option['option_id'] . "', 
+						`required` = '0',
+						`quantity` = '" . (int) 100 . "', 
+						`subtract` = '" . (int) 0 . "', 
+						`price` = '" . (float) 0 . "', 
+						`price_prefix` = '+', 
+						`points` = '" . (int) 0 . "', 
+						`points_prefix` = '+', 
+						`weight` = '" . (float) 0 . "', 
+						`weight_prefix` = '+', 
+						`sort_order` = '" . (int) 0 . "'
+				");
+			 }
+			} else {
+				if ($option['option_n'] == -1) {
+		 
+				$this->db->query("
+					INSERT INTO `" . DB_PREFIX . "product_options` 
+					SET 
+						`product_id` = '" . (int) $product_id . "', 
+						`option_id` = '" . (int) $option['option_id'] . "', 
+						`required` = '0',
+						`quantity` = '" . (int) 100 . "', 
+						`subtract` = '" . (int) 0 . "', 
+						`price` = '" . (float) 0 . "', 
+						`price_prefix` = '+', 
+						`points` = '" . (int) 0 . "', 
+						`points_prefix` = '+', 
+						`weight` = '" . (float) 0 . "', 
+						`weight_prefix` = '+', 
+						`sort_order` = '" . (int) 0 . "'
+				");
+				}
+			}
+		}
+		
+		return true;
+	}
 	public function SEOKeywordExists($product_id, $store_id, $language_id, $seoKeyword) {
 		$query = $this->db->query("
 			SELECT COUNT(*) AS total
@@ -413,7 +472,7 @@ class Product extends \Opencart\System\Engine\Model
 	private function updateOrInsertProductOption($product_id, $required, $product_option_value)
 	{
 		$value_id = isset($product_option_value['option_value_id']) ? $product_option_value['option_value_id'] : $product_option_value['product_option_value_id'];
-	
+		$image = isset($product_option_value['image']) ? $product_option_value['image'] : '';
 		$this->db->query("
 			REPLACE INTO `" . DB_PREFIX . "product_options`
 			SET 
@@ -428,7 +487,9 @@ class Product extends \Opencart\System\Engine\Model
 				`points` = '" . (int) $product_option_value['points'] . "', 
 				`points_prefix` = '" . $this->db->escape($product_option_value['points_prefix']) . "', 
 				`weight` = '" . (float) $product_option_value['weight'] . "', 
-				`weight_prefix` = '" . $this->db->escape($product_option_value['weight_prefix']) . "'
+				`weight_prefix` = '" . $this->db->escape($product_option_value['weight_prefix']) . "',
+				`sort_order` = '" . (int) $product_option_value['sort_order']. "',
+				`value` = '" . $this->db->escape($image) . "' 
 		");
 	}
 	private function updateOrInsertProductOptionForOtherTypes($product_id, $required, $product_option)
@@ -436,7 +497,7 @@ class Product extends \Opencart\System\Engine\Model
 		$poption_id = isset($product_option['poption_id']) ? $product_option['poption_id'] : 0;
 		// Common properties
 		$product_id = (int) $product_id;
-	
+		if (!isset($product_option['value'])) $product_option['value'] = '';
 		$this->db->query("
 			REPLACE INTO `" . DB_PREFIX . "product_options`
 			SET 
@@ -444,6 +505,7 @@ class Product extends \Opencart\System\Engine\Model
 				`poption_id` = '" . (int) $poption_id . "', 
 				`option_id` = '" . $this->db->escape($product_option['option_id']) . "',
 				`required` = '" . (int) $required . "',
+				`sort_order` = '" . (int) $product_option['sort_order']. "',
 				`value` = '" . $this->db->escape($product_option['value']) . "'
 		");
 	}
@@ -801,7 +863,7 @@ class Product extends \Opencart\System\Engine\Model
 		LEFT JOIN `" . DB_PREFIX . "options` og ON o.group_id = og.option_id
 		WHERE po.product_id = '" . (int) $product_id . "'
 		AND o.language_id = '" . (int) $this->config->get('config_language_id') . "'
-		ORDER BY po.sort_order
+		 
 	");
 
 		foreach ($product_option_query->rows as $product_option) {
@@ -810,7 +872,7 @@ class Product extends \Opencart\System\Engine\Model
 				'product_option_value_id' => $product_option['poption_id'],
 				'option_value_id' => $product_option['poption_id'],
 				'name' => $product_option['name'],
-				'image' => $product_option['image'],
+				'image' => '',
 				'quantity' => $product_option['quantity'],
 				'subtract' => $product_option['subtract'],
 				'price' => $product_option['price'],

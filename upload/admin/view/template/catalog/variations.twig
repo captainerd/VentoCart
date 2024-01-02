@@ -151,57 +151,57 @@
 
 				<form id="existingVariationsForm">
 					<div class="table-responsive">
-						<table style="width: 100%" class="table table-bordered table-hover">
-							<thead>
-								<tr>
-									<th>{{entry_sku}}</th>
-									<th>{{column_quantity}}</th>
-									<th>{{column_price}}</th>
-									<th>{{text_option_value}}</th>
-									<th>
-										<button title="{{ text_add_variation }}" type="button" class="btn btn-primary addvariationNew" data-bs-toggle="modal" data-bs-target="#addVariationModal">
-											<i class="fas fa-plus-circle"></i>
-										</button>
-									</th>
-								</tr>
-							</thead>
+						<div class="container-fluid mt-4">
+							<div class="row">
+							  <div class="col-md-12">
+								<button title="{{ text_add_variation }}" type="button" class="btn btn-primary addvariationNew" data-bs-toggle="modal" data-bs-target="#addVariationModal">
+								  <i class="fas fa-plus-circle"></i>  
+								</button>
+							  </div>
+							</div>
 							{% if existing_variations %}
-								<tbody>
-									{% for variation in existing_variations %}
-										<tr>
-											<td>{{ variation.sku }}</td>
-											<td>{{ variation.quantity }}</td>
-											<td>{{ variation.price_formated }}</td>
-											<td>
-												<!-- Display options for the variation -->
-												{% for option in variation.options %}
-													<span class="variation-option">
-														<span class="name">{{ option.name }}:</span>
-														{{ option.value }}
-													</span>
-													{% if not loop.last %}
-														<span class="separator">+</span>
-													{% endif %}
-												{% endfor %}
-											</td>
-											<td>
-												<!-- Delete button for each variation -->
-												<button data-bs-toggle="tooltip" title="{{ button_delete }}" type="button" class="btn btn-danger delete-variation" data-variation-id="{{ variation.variation_id }}">
-													<i class="fas fa-solid fa-minus-circle"></i>
-												</button>
-												<button data-bs-toggle="tooltip" title="{{ button_edit }}" class="btn btn-primary edit-variation" data-variation-id="{{ variation.variation_id }}">
-													<i class="fa-solid fa-pencil"></i>
-												</button>
-												
-
-											</td>
-										</tr>
-									{% endfor %}
-								</tbody>
+							  <div class="row mt-2">
+								{% for variation in existing_variations %}
+								  <div class="col-md-4">
+									<div class="card mb-4">
+									  <div class="card-body">
+										<p class="card-text">
+											{% for option in variation.options %}
+											  <span class="variation-option">
+												<span class="name">{{ option.name }}:</span>
+												{{ option.value }}
+											  </span>
+											  {% if not loop.last %}
+												<span class="separator">+</span>
+											  {% endif %}
+											{% endfor %}
+										  </p>
+										<h5 class="card-title">{{ variation.sku }}</h5>
+										<p class="card-text">{{ variation.quantity }}</p>
+										<p class="card-text">{{ variation.price_formated }}</p>
+								 
+										<div class="btn-group">
+										  <button data-bs-toggle="tooltip" title="{{ button_delete }}" type="button" class="btn btn-danger delete-variation" data-variation-id="{{ variation.variation_id }}">
+											<i class="fas fa-solid fa-minus-circle"></i>  
+										  </button>
+										  <button data-bs-toggle="tooltip" title="{{ button_edit }}" class="btn btn-primary edit-variation" data-variation-id="{{ variation.variation_id }}">
+											<i class="fa-solid fa-pencil"></i>  
+										  </button>
+										</div>
+									  </div>
+									</div>
+								  </div>
+								{% endfor %}
+							  </div>
 							{% else %}
-								<p>No variations yet for this product.</p>
+							  <div class="row mt-2">
+								<div class="col-md-12">
+								  <p>No variations yet for this product.</p>
+								</div>
+							  </div>
 							{% endif %}
-						</table>
+						  </div>
+						  
 					</div>
 				</form>
 
@@ -307,7 +307,7 @@ $(document).ready(function () {
 		// Submit the form using Ajax
 		$.ajax({
 			type: 'POST',
-			url: 'index.php?route=catalog/variations.savevariations&user_token=   {{ user_token }}&product_id=   {{ product_id }}',
+			url: 'index.php?route=catalog/variations.savevariations&user_token={{ user_token }}&product_id={{ product_id }}',
 			data: formData,
 			dataType: 'json',
 			success: function (json) {

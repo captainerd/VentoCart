@@ -1,0 +1,1952 @@
+2023-12-31 10:16:37 - PHP Warning: Array to string conversion
+File: /var/www/html/system/storage/cache/template/b5/b50996acec6c0a75d7e7c2a67b3f8054.php
+Line: 1059
+
+2023-12-31 10:16:37 - PHP Warning: Array to string conversion
+File: /var/www/html/system/storage/cache/template/b5/b50996acec6c0a75d7e7c2a67b3f8054.php
+Line: 1059
+
+2023-12-31 10:16:58 - PHP Warning: Array to string conversion
+File: /var/www/html/system/storage/cache/template/b5/b50996acec6c0a75d7e7c2a67b3f8054.php
+Line: 1059
+
+2023-12-31 10:16:58 - PHP Warning: Array to string conversion
+File: /var/www/html/system/storage/cache/template/b5/b50996acec6c0a75d7e7c2a67b3f8054.php
+Line: 1059
+
+2023-12-31 14:28:17 - PHP Warning: Undefined array key "subtract"
+File: /var/www/html/admin/model/catalog/product.php
+Line: 425
+
+2023-12-31 14:28:17 - PHP Warning: Undefined array key "price"
+File: /var/www/html/admin/model/catalog/product.php
+Line: 426
+
+2023-12-31 14:28:17 - PHP Warning: Undefined array key "price_prefix"
+File: /var/www/html/admin/model/catalog/product.php
+Line: 427
+
+2023-12-31 14:28:17 - 0:  Opencart\System\Library\DB::escape(): Argument #1 ($value) must be of type string, null given, called in /var/www/html/admin/model/catalog/product.php on line 427
+File: /var/www/html/system/library/db.php
+Line: 62
+
+2023-12-31 14:29:42 - PHP Warning: Undefined array key "subtract"
+File: /var/www/html/admin/model/catalog/product.php
+Line: 425
+
+2023-12-31 14:29:42 - PHP Warning: Undefined array key "price"
+File: /var/www/html/admin/model/catalog/product.php
+Line: 426
+
+2023-12-31 14:29:42 - PHP Warning: Undefined array key "price_prefix"
+File: /var/www/html/admin/model/catalog/product.php
+Line: 427
+
+2023-12-31 14:29:42 - 0:  Opencart\System\Library\DB::escape(): Argument #1 ($value) must be of type string, null given, called in /var/www/html/admin/model/catalog/product.php on line 427
+File: /var/www/html/system/library/db.php
+Line: 62
+
+2023-12-31 22:33:39 - PHP Warning: Undefined array key "group"
+File: /var/www/html/admin/controller/catalog/product.php
+Line: 339
+
+2023-12-31 22:34:43 - PHP Warning: Undefined array key "group"
+File: /var/www/html/admin/controller/catalog/product.php
+Line: 339
+
+2023-12-31 23:50:17 - PHP Warning: Undefined array key "required"
+File: /var/www/html/admin/model/catalog/product.php
+Line: 288
+
+2023-12-31 23:50:17 - PHP Warning: Undefined array key "type"
+File: /var/www/html/admin/model/catalog/product.php
+Line: 291
+
+2023-12-31 23:50:17 - PHP Warning: Undefined array key "option_id"
+File: /var/www/html/admin/model/catalog/product.php
+Line: 445
+
+2023-12-31 23:50:17 - 0:  Opencart\System\Library\DB::escape(): Argument #1 ($value) must be of type string, null given, called in /var/www/html/admin/model/catalog/product.php on line 445
+File: /var/www/html/system/library/db.php
+Line: 62
+
+2023-12-31 23:55:20 - PHP Warning: Undefined array key "required"
+File: /var/www/html/admin/model/catalog/product.php
+Line: 288
+
+2023-12-31 23:55:20 - PHP Warning: Undefined array key "required"
+File: /var/www/html/admin/model/catalog/product.php
+Line: 288
+
+2023-12-31 23:55:35 - PHP Warning: Undefined array key "group_id"
+File: /var/www/html/admin/model/catalog/option.php
+Line: 209
+
+2023-12-31 23:55:35 - PHP Warning: Undefined array key "group_id"
+File: /var/www/html/admin/controller/catalog/product.php
+Line: 372
+
+2023-12-31 23:55:35 - PHP Warning: Undefined array key "name"
+File: /var/www/html/admin/controller/catalog/product.php
+Line: 374
+
+2023-12-31 23:55:35 - PHP Warning: Undefined array key "option_id"
+File: /var/www/html/admin/controller/catalog/product.php
+Line: 389
+
+2023-12-31 23:55:35 - PHP Warning: Undefined array key "group_id"
+File: /var/www/html/admin/controller/catalog/product.php
+Line: 390
+
+2023-12-31 23:55:35 - PHP Warning: Undefined array key "option_id"
+File: /var/www/html/admin/controller/catalog/product.php
+Line: 391
+
+2023-12-31 23:55:35 - PHP Warning: Undefined array key "name"
+File: /var/www/html/admin/controller/catalog/product.php
+Line: 393
+
+2023-12-31 23:55:35 - PHP Warning: Undefined array key "type"
+File: /var/www/html/admin/controller/catalog/product.php
+Line: 394
+
+2023-12-31 23:55:38 - PHP Warning: Undefined array key "group_id"
+File: /var/www/html/admin/model/catalog/option.php
+Line: 209
+
+2023-12-31 23:55:38 - PHP Warning: Undefined array key "group_id"
+File: /var/www/html/admin/controller/catalog/product.php
+Line: 372
+
+2023-12-31 23:55:38 - PHP Warning: Undefined array key "name"
+File: /var/www/html/admin/controller/catalog/product.php
+Line: 374
+
+2023-12-31 23:55:38 - PHP Warning: Undefined array key "option_id"
+File: /var/www/html/admin/controller/catalog/product.php
+Line: 389
+
+2023-12-31 23:55:38 - PHP Warning: Undefined array key "group_id"
+File: /var/www/html/admin/controller/catalog/product.php
+Line: 390
+
+2023-12-31 23:55:38 - PHP Warning: Undefined array key "option_id"
+File: /var/www/html/admin/controller/catalog/product.php
+Line: 391
+
+2023-12-31 23:55:38 - PHP Warning: Undefined array key "name"
+File: /var/www/html/admin/controller/catalog/product.php
+Line: 393
+
+2023-12-31 23:55:38 - PHP Warning: Undefined array key "type"
+File: /var/www/html/admin/controller/catalog/product.php
+Line: 394
+
+2023-12-31 23:55:39 - PHP Warning: Undefined array key "group_id"
+File: /var/www/html/admin/model/catalog/option.php
+Line: 209
+
+2023-12-31 23:55:39 - PHP Warning: Undefined array key "group_id"
+File: /var/www/html/admin/controller/catalog/product.php
+Line: 372
+
+2023-12-31 23:55:39 - PHP Warning: Undefined array key "name"
+File: /var/www/html/admin/controller/catalog/product.php
+Line: 374
+
+2023-12-31 23:55:39 - PHP Warning: Undefined array key "option_id"
+File: /var/www/html/admin/controller/catalog/product.php
+Line: 389
+
+2023-12-31 23:55:39 - PHP Warning: Undefined array key "group_id"
+File: /var/www/html/admin/controller/catalog/product.php
+Line: 390
+
+2023-12-31 23:55:39 - PHP Warning: Undefined array key "option_id"
+File: /var/www/html/admin/controller/catalog/product.php
+Line: 391
+
+2023-12-31 23:55:39 - PHP Warning: Undefined array key "name"
+File: /var/www/html/admin/controller/catalog/product.php
+Line: 393
+
+2023-12-31 23:55:39 - PHP Warning: Undefined array key "type"
+File: /var/www/html/admin/controller/catalog/product.php
+Line: 394
+
+2023-12-31 23:55:54 - PHP Warning: Undefined array key "required"
+File: /var/www/html/admin/model/catalog/product.php
+Line: 288
+
+2023-12-31 23:55:55 - PHP Warning: Undefined array key "group_id"
+File: /var/www/html/admin/model/catalog/option.php
+Line: 209
+
+2023-12-31 23:55:55 - PHP Warning: Undefined array key "group_id"
+File: /var/www/html/admin/controller/catalog/product.php
+Line: 372
+
+2023-12-31 23:55:55 - PHP Warning: Undefined array key "name"
+File: /var/www/html/admin/controller/catalog/product.php
+Line: 374
+
+2023-12-31 23:55:55 - PHP Warning: Undefined array key "option_id"
+File: /var/www/html/admin/controller/catalog/product.php
+Line: 389
+
+2023-12-31 23:55:55 - PHP Warning: Undefined array key "group_id"
+File: /var/www/html/admin/controller/catalog/product.php
+Line: 390
+
+2023-12-31 23:55:55 - PHP Warning: Undefined array key "option_id"
+File: /var/www/html/admin/controller/catalog/product.php
+Line: 391
+
+2023-12-31 23:55:55 - PHP Warning: Undefined array key "name"
+File: /var/www/html/admin/controller/catalog/product.php
+Line: 393
+
+2023-12-31 23:55:55 - PHP Warning: Undefined array key "type"
+File: /var/www/html/admin/controller/catalog/product.php
+Line: 394
+
+2023-12-31 23:55:56 - PHP Warning: Undefined array key "group_id"
+File: /var/www/html/admin/model/catalog/option.php
+Line: 209
+
+2023-12-31 23:55:56 - PHP Warning: Undefined array key "group_id"
+File: /var/www/html/admin/controller/catalog/product.php
+Line: 372
+
+2023-12-31 23:55:56 - PHP Warning: Undefined array key "name"
+File: /var/www/html/admin/controller/catalog/product.php
+Line: 374
+
+2023-12-31 23:55:56 - PHP Warning: Undefined array key "option_id"
+File: /var/www/html/admin/controller/catalog/product.php
+Line: 389
+
+2023-12-31 23:55:56 - PHP Warning: Undefined array key "group_id"
+File: /var/www/html/admin/controller/catalog/product.php
+Line: 390
+
+2023-12-31 23:55:56 - PHP Warning: Undefined array key "option_id"
+File: /var/www/html/admin/controller/catalog/product.php
+Line: 391
+
+2023-12-31 23:55:56 - PHP Warning: Undefined array key "name"
+File: /var/www/html/admin/controller/catalog/product.php
+Line: 393
+
+2023-12-31 23:55:56 - PHP Warning: Undefined array key "type"
+File: /var/www/html/admin/controller/catalog/product.php
+Line: 394
+
+2023-12-31 23:55:57 - PHP Warning: Undefined array key "group_id"
+File: /var/www/html/admin/model/catalog/option.php
+Line: 209
+
+2023-12-31 23:55:57 - PHP Warning: Undefined array key "group_id"
+File: /var/www/html/admin/controller/catalog/product.php
+Line: 372
+
+2023-12-31 23:55:57 - PHP Warning: Undefined array key "name"
+File: /var/www/html/admin/controller/catalog/product.php
+Line: 374
+
+2023-12-31 23:55:57 - PHP Warning: Undefined array key "option_id"
+File: /var/www/html/admin/controller/catalog/product.php
+Line: 389
+
+2023-12-31 23:55:57 - PHP Warning: Undefined array key "group_id"
+File: /var/www/html/admin/controller/catalog/product.php
+Line: 390
+
+2023-12-31 23:55:57 - PHP Warning: Undefined array key "option_id"
+File: /var/www/html/admin/controller/catalog/product.php
+Line: 391
+
+2023-12-31 23:55:57 - PHP Warning: Undefined array key "name"
+File: /var/www/html/admin/controller/catalog/product.php
+Line: 393
+
+2023-12-31 23:55:57 - PHP Warning: Undefined array key "type"
+File: /var/www/html/admin/controller/catalog/product.php
+Line: 394
+
+2023-12-31 23:56:02 - PHP Warning: Undefined array key "required"
+File: /var/www/html/admin/model/catalog/product.php
+Line: 288
+
+2023-12-31 23:56:03 - PHP Warning: Undefined array key "group_id"
+File: /var/www/html/admin/model/catalog/option.php
+Line: 209
+
+2023-12-31 23:56:03 - PHP Warning: Undefined array key "group_id"
+File: /var/www/html/admin/controller/catalog/product.php
+Line: 372
+
+2023-12-31 23:56:03 - PHP Warning: Undefined array key "name"
+File: /var/www/html/admin/controller/catalog/product.php
+Line: 374
+
+2023-12-31 23:56:03 - PHP Warning: Undefined array key "option_id"
+File: /var/www/html/admin/controller/catalog/product.php
+Line: 389
+
+2023-12-31 23:56:03 - PHP Warning: Undefined array key "group_id"
+File: /var/www/html/admin/controller/catalog/product.php
+Line: 390
+
+2023-12-31 23:56:03 - PHP Warning: Undefined array key "option_id"
+File: /var/www/html/admin/controller/catalog/product.php
+Line: 391
+
+2023-12-31 23:56:03 - PHP Warning: Undefined array key "name"
+File: /var/www/html/admin/controller/catalog/product.php
+Line: 393
+
+2023-12-31 23:56:03 - PHP Warning: Undefined array key "type"
+File: /var/www/html/admin/controller/catalog/product.php
+Line: 394
+
+2023-12-31 23:58:07 - PHP Warning: Undefined array key "required"
+File: /var/www/html/admin/model/catalog/product.php
+Line: 288
+
+2023-12-31 23:58:07 - PHP Warning: Undefined array key "required"
+File: /var/www/html/admin/model/catalog/product.php
+Line: 288
+
+2023-12-31 23:58:08 - PHP Warning: Undefined array key "group_id"
+File: /var/www/html/admin/model/catalog/option.php
+Line: 209
+
+2023-12-31 23:58:08 - PHP Warning: Undefined array key "group_id"
+File: /var/www/html/admin/controller/catalog/product.php
+Line: 372
+
+2023-12-31 23:58:08 - PHP Warning: Undefined array key "name"
+File: /var/www/html/admin/controller/catalog/product.php
+Line: 374
+
+2023-12-31 23:58:08 - PHP Warning: Undefined array key "option_id"
+File: /var/www/html/admin/controller/catalog/product.php
+Line: 389
+
+2023-12-31 23:58:08 - PHP Warning: Undefined array key "group_id"
+File: /var/www/html/admin/controller/catalog/product.php
+Line: 390
+
+2023-12-31 23:58:08 - PHP Warning: Undefined array key "option_id"
+File: /var/www/html/admin/controller/catalog/product.php
+Line: 391
+
+2023-12-31 23:58:08 - PHP Warning: Undefined array key "name"
+File: /var/www/html/admin/controller/catalog/product.php
+Line: 393
+
+2023-12-31 23:58:08 - PHP Warning: Undefined array key "type"
+File: /var/www/html/admin/controller/catalog/product.php
+Line: 394
+
+2023-12-31 23:58:10 - PHP Warning: Undefined array key "group_id"
+File: /var/www/html/admin/model/catalog/option.php
+Line: 209
+
+2023-12-31 23:58:10 - PHP Warning: Undefined array key "group_id"
+File: /var/www/html/admin/controller/catalog/product.php
+Line: 372
+
+2023-12-31 23:58:10 - PHP Warning: Undefined array key "name"
+File: /var/www/html/admin/controller/catalog/product.php
+Line: 374
+
+2023-12-31 23:58:10 - PHP Warning: Undefined array key "option_id"
+File: /var/www/html/admin/controller/catalog/product.php
+Line: 389
+
+2023-12-31 23:58:10 - PHP Warning: Undefined array key "group_id"
+File: /var/www/html/admin/controller/catalog/product.php
+Line: 390
+
+2023-12-31 23:58:10 - PHP Warning: Undefined array key "option_id"
+File: /var/www/html/admin/controller/catalog/product.php
+Line: 391
+
+2023-12-31 23:58:10 - PHP Warning: Undefined array key "name"
+File: /var/www/html/admin/controller/catalog/product.php
+Line: 393
+
+2023-12-31 23:58:10 - PHP Warning: Undefined array key "type"
+File: /var/www/html/admin/controller/catalog/product.php
+Line: 394
+
+2023-12-31 23:58:10 - PHP Warning: Undefined array key "group_id"
+File: /var/www/html/admin/model/catalog/option.php
+Line: 209
+
+2023-12-31 23:58:10 - PHP Warning: Undefined array key "group_id"
+File: /var/www/html/admin/controller/catalog/product.php
+Line: 372
+
+2023-12-31 23:58:10 - PHP Warning: Undefined array key "name"
+File: /var/www/html/admin/controller/catalog/product.php
+Line: 374
+
+2023-12-31 23:58:10 - PHP Warning: Undefined array key "option_id"
+File: /var/www/html/admin/controller/catalog/product.php
+Line: 389
+
+2023-12-31 23:58:10 - PHP Warning: Undefined array key "group_id"
+File: /var/www/html/admin/controller/catalog/product.php
+Line: 390
+
+2023-12-31 23:58:10 - PHP Warning: Undefined array key "option_id"
+File: /var/www/html/admin/controller/catalog/product.php
+Line: 391
+
+2023-12-31 23:58:10 - PHP Warning: Undefined array key "name"
+File: /var/www/html/admin/controller/catalog/product.php
+Line: 393
+
+2023-12-31 23:58:10 - PHP Warning: Undefined array key "type"
+File: /var/www/html/admin/controller/catalog/product.php
+Line: 394
+
+2024-01-01 00:09:14 - PHP Warning: Undefined array key "group_id"
+File: /var/www/html/admin/model/catalog/option.php
+Line: 209
+
+2024-01-01 00:09:14 - PHP Warning: Undefined array key "group_id"
+File: /var/www/html/admin/controller/catalog/product.php
+Line: 372
+
+2024-01-01 00:09:14 - PHP Warning: Undefined array key "name"
+File: /var/www/html/admin/controller/catalog/product.php
+Line: 374
+
+2024-01-01 00:09:14 - PHP Warning: Undefined array key "option_id"
+File: /var/www/html/admin/controller/catalog/product.php
+Line: 389
+
+2024-01-01 00:09:14 - PHP Warning: Undefined array key "group_id"
+File: /var/www/html/admin/controller/catalog/product.php
+Line: 390
+
+2024-01-01 00:09:14 - PHP Warning: Undefined array key "option_id"
+File: /var/www/html/admin/controller/catalog/product.php
+Line: 391
+
+2024-01-01 00:09:14 - PHP Warning: Undefined array key "name"
+File: /var/www/html/admin/controller/catalog/product.php
+Line: 393
+
+2024-01-01 00:09:14 - PHP Warning: Undefined array key "type"
+File: /var/www/html/admin/controller/catalog/product.php
+Line: 394
+
+2024-01-01 00:09:18 - PHP Warning: Undefined array key "group_id"
+File: /var/www/html/admin/model/catalog/option.php
+Line: 209
+
+2024-01-01 00:09:18 - PHP Warning: Undefined array key "group_id"
+File: /var/www/html/admin/controller/catalog/product.php
+Line: 372
+
+2024-01-01 00:09:18 - PHP Warning: Undefined array key "name"
+File: /var/www/html/admin/controller/catalog/product.php
+Line: 374
+
+2024-01-01 00:09:18 - PHP Warning: Undefined array key "option_id"
+File: /var/www/html/admin/controller/catalog/product.php
+Line: 389
+
+2024-01-01 00:09:18 - PHP Warning: Undefined array key "group_id"
+File: /var/www/html/admin/controller/catalog/product.php
+Line: 390
+
+2024-01-01 00:09:18 - PHP Warning: Undefined array key "option_id"
+File: /var/www/html/admin/controller/catalog/product.php
+Line: 391
+
+2024-01-01 00:09:18 - PHP Warning: Undefined array key "name"
+File: /var/www/html/admin/controller/catalog/product.php
+Line: 393
+
+2024-01-01 00:09:18 - PHP Warning: Undefined array key "type"
+File: /var/www/html/admin/controller/catalog/product.php
+Line: 394
+
+2024-01-01 00:09:18 - PHP Warning: Undefined array key "group_id"
+File: /var/www/html/admin/model/catalog/option.php
+Line: 209
+
+2024-01-01 00:09:18 - PHP Warning: Undefined array key "group_id"
+File: /var/www/html/admin/controller/catalog/product.php
+Line: 372
+
+2024-01-01 00:09:18 - PHP Warning: Undefined array key "name"
+File: /var/www/html/admin/controller/catalog/product.php
+Line: 374
+
+2024-01-01 00:09:18 - PHP Warning: Undefined array key "option_id"
+File: /var/www/html/admin/controller/catalog/product.php
+Line: 389
+
+2024-01-01 00:09:18 - PHP Warning: Undefined array key "group_id"
+File: /var/www/html/admin/controller/catalog/product.php
+Line: 390
+
+2024-01-01 00:09:18 - PHP Warning: Undefined array key "option_id"
+File: /var/www/html/admin/controller/catalog/product.php
+Line: 391
+
+2024-01-01 00:09:18 - PHP Warning: Undefined array key "name"
+File: /var/www/html/admin/controller/catalog/product.php
+Line: 393
+
+2024-01-01 00:09:18 - PHP Warning: Undefined array key "type"
+File: /var/www/html/admin/controller/catalog/product.php
+Line: 394
+
+2024-01-01 00:18:21 - PHP Warning: Undefined array key "group_id"
+File: /var/www/html/admin/model/catalog/option.php
+Line: 209
+
+2024-01-01 00:18:21 - PHP Warning: Undefined array key "group_id"
+File: /var/www/html/admin/controller/catalog/product.php
+Line: 372
+
+2024-01-01 00:18:21 - PHP Warning: Undefined array key "name"
+File: /var/www/html/admin/controller/catalog/product.php
+Line: 374
+
+2024-01-01 00:18:21 - PHP Warning: Undefined array key "option_id"
+File: /var/www/html/admin/controller/catalog/product.php
+Line: 389
+
+2024-01-01 00:18:21 - PHP Warning: Undefined array key "group_id"
+File: /var/www/html/admin/controller/catalog/product.php
+Line: 390
+
+2024-01-01 00:18:21 - PHP Warning: Undefined array key "option_id"
+File: /var/www/html/admin/controller/catalog/product.php
+Line: 391
+
+2024-01-01 00:18:21 - PHP Warning: Undefined array key "name"
+File: /var/www/html/admin/controller/catalog/product.php
+Line: 393
+
+2024-01-01 00:18:21 - PHP Warning: Undefined array key "type"
+File: /var/www/html/admin/controller/catalog/product.php
+Line: 394
+
+2024-01-01 00:29:22 - PHP Warning: Undefined array key "group_id"
+File: /var/www/html/admin/model/catalog/option.php
+Line: 209
+
+2024-01-01 00:29:22 - PHP Warning: Undefined array key "group_id"
+File: /var/www/html/admin/controller/catalog/product.php
+Line: 372
+
+2024-01-01 00:29:22 - PHP Warning: Undefined array key "name"
+File: /var/www/html/admin/controller/catalog/product.php
+Line: 374
+
+2024-01-01 00:29:22 - PHP Warning: Undefined array key "option_id"
+File: /var/www/html/admin/controller/catalog/product.php
+Line: 389
+
+2024-01-01 00:29:22 - PHP Warning: Undefined array key "group_id"
+File: /var/www/html/admin/controller/catalog/product.php
+Line: 390
+
+2024-01-01 00:29:22 - PHP Warning: Undefined array key "option_id"
+File: /var/www/html/admin/controller/catalog/product.php
+Line: 391
+
+2024-01-01 00:29:22 - PHP Warning: Undefined array key "name"
+File: /var/www/html/admin/controller/catalog/product.php
+Line: 393
+
+2024-01-01 00:29:22 - PHP Warning: Undefined array key "type"
+File: /var/www/html/admin/controller/catalog/product.php
+Line: 394
+
+2024-01-01 00:29:28 - PHP Warning: Undefined array key "group_id"
+File: /var/www/html/admin/model/catalog/option.php
+Line: 209
+
+2024-01-01 00:29:28 - PHP Warning: Undefined array key "group_id"
+File: /var/www/html/admin/controller/catalog/product.php
+Line: 372
+
+2024-01-01 00:29:28 - PHP Warning: Undefined array key "name"
+File: /var/www/html/admin/controller/catalog/product.php
+Line: 374
+
+2024-01-01 00:29:28 - PHP Warning: Undefined array key "option_id"
+File: /var/www/html/admin/controller/catalog/product.php
+Line: 389
+
+2024-01-01 00:29:28 - PHP Warning: Undefined array key "group_id"
+File: /var/www/html/admin/controller/catalog/product.php
+Line: 390
+
+2024-01-01 00:29:28 - PHP Warning: Undefined array key "option_id"
+File: /var/www/html/admin/controller/catalog/product.php
+Line: 391
+
+2024-01-01 00:29:28 - PHP Warning: Undefined array key "name"
+File: /var/www/html/admin/controller/catalog/product.php
+Line: 393
+
+2024-01-01 00:29:28 - PHP Warning: Undefined array key "type"
+File: /var/www/html/admin/controller/catalog/product.php
+Line: 394
+
+2024-01-01 00:29:29 - PHP Warning: Undefined array key "group_id"
+File: /var/www/html/admin/model/catalog/option.php
+Line: 209
+
+2024-01-01 00:29:29 - PHP Warning: Undefined array key "group_id"
+File: /var/www/html/admin/controller/catalog/product.php
+Line: 372
+
+2024-01-01 00:29:29 - PHP Warning: Undefined array key "name"
+File: /var/www/html/admin/controller/catalog/product.php
+Line: 374
+
+2024-01-01 00:29:29 - PHP Warning: Undefined array key "option_id"
+File: /var/www/html/admin/controller/catalog/product.php
+Line: 389
+
+2024-01-01 00:29:29 - PHP Warning: Undefined array key "group_id"
+File: /var/www/html/admin/controller/catalog/product.php
+Line: 390
+
+2024-01-01 00:29:29 - PHP Warning: Undefined array key "option_id"
+File: /var/www/html/admin/controller/catalog/product.php
+Line: 391
+
+2024-01-01 00:29:29 - PHP Warning: Undefined array key "name"
+File: /var/www/html/admin/controller/catalog/product.php
+Line: 393
+
+2024-01-01 00:29:29 - PHP Warning: Undefined array key "type"
+File: /var/www/html/admin/controller/catalog/product.php
+Line: 394
+
+2024-01-01 00:29:44 - PHP Warning: Undefined array key "group_id"
+File: /var/www/html/admin/model/catalog/option.php
+Line: 209
+
+2024-01-01 00:29:44 - PHP Warning: Undefined array key "group_id"
+File: /var/www/html/admin/controller/catalog/product.php
+Line: 372
+
+2024-01-01 00:29:44 - PHP Warning: Undefined array key "name"
+File: /var/www/html/admin/controller/catalog/product.php
+Line: 374
+
+2024-01-01 00:29:44 - PHP Warning: Undefined array key "option_id"
+File: /var/www/html/admin/controller/catalog/product.php
+Line: 389
+
+2024-01-01 00:29:44 - PHP Warning: Undefined array key "group_id"
+File: /var/www/html/admin/controller/catalog/product.php
+Line: 390
+
+2024-01-01 00:29:44 - PHP Warning: Undefined array key "option_id"
+File: /var/www/html/admin/controller/catalog/product.php
+Line: 391
+
+2024-01-01 00:29:44 - PHP Warning: Undefined array key "name"
+File: /var/www/html/admin/controller/catalog/product.php
+Line: 393
+
+2024-01-01 00:29:44 - PHP Warning: Undefined array key "type"
+File: /var/www/html/admin/controller/catalog/product.php
+Line: 394
+
+2024-01-01 00:38:09 - PHP Warning: Undefined array key "poption_id"
+File: /var/www/html/admin/controller/catalog/product.php
+Line: 389
+
+2024-01-01 00:38:09 - PHP Warning: Undefined array key "poption_id"
+File: /var/www/html/admin/controller/catalog/product.php
+Line: 389
+
+2024-01-01 00:38:09 - PHP Warning: Undefined array key "poption_id"
+File: /var/www/html/admin/controller/catalog/product.php
+Line: 389
+
+2024-01-01 00:38:09 - PHP Warning: Undefined array key "poption_id"
+File: /var/www/html/admin/controller/catalog/product.php
+Line: 389
+
+2024-01-01 00:38:09 - PHP Warning: Undefined array key "poption_id"
+File: /var/www/html/admin/controller/catalog/product.php
+Line: 389
+
+2024-01-01 00:38:09 - PHP Warning: Undefined array key "poption_id"
+File: /var/www/html/admin/controller/catalog/product.php
+Line: 389
+
+2024-01-01 00:38:09 - PHP Warning: Undefined array key "poption_id"
+File: /var/www/html/admin/controller/catalog/product.php
+Line: 389
+
+2024-01-01 00:38:09 - PHP Warning: Undefined array key "poption_id"
+File: /var/www/html/admin/controller/catalog/product.php
+Line: 389
+
+2024-01-01 00:38:09 - PHP Warning: Undefined array key "poption_id"
+File: /var/www/html/admin/controller/catalog/product.php
+Line: 389
+
+2024-01-01 00:38:09 - PHP Warning: Undefined array key "poption_id"
+File: /var/www/html/admin/controller/catalog/product.php
+Line: 389
+
+2024-01-01 00:38:09 - PHP Warning: Undefined array key "poption_id"
+File: /var/www/html/admin/controller/catalog/product.php
+Line: 389
+
+2024-01-01 00:38:09 - PHP Warning: Undefined array key "poption_id"
+File: /var/www/html/admin/controller/catalog/product.php
+Line: 389
+
+2024-01-01 00:38:10 - PHP Warning: Undefined array key "poption_id"
+File: /var/www/html/admin/controller/catalog/product.php
+Line: 389
+
+2024-01-01 00:38:10 - PHP Warning: Undefined array key "poption_id"
+File: /var/www/html/admin/controller/catalog/product.php
+Line: 389
+
+2024-01-01 00:38:10 - PHP Warning: Undefined array key "poption_id"
+File: /var/www/html/admin/controller/catalog/product.php
+Line: 389
+
+2024-01-01 00:38:10 - PHP Warning: Undefined array key "poption_id"
+File: /var/www/html/admin/controller/catalog/product.php
+Line: 389
+
+2024-01-01 00:38:10 - PHP Warning: Undefined array key "poption_id"
+File: /var/www/html/admin/controller/catalog/product.php
+Line: 389
+
+2024-01-01 00:38:10 - PHP Warning: Undefined array key "poption_id"
+File: /var/www/html/admin/controller/catalog/product.php
+Line: 389
+
+2024-01-01 00:38:10 - PHP Warning: Undefined array key "poption_id"
+File: /var/www/html/admin/controller/catalog/product.php
+Line: 389
+
+2024-01-01 00:38:10 - PHP Warning: Undefined array key "poption_id"
+File: /var/www/html/admin/controller/catalog/product.php
+Line: 389
+
+2024-01-01 00:38:10 - PHP Warning: Undefined array key "poption_id"
+File: /var/www/html/admin/controller/catalog/product.php
+Line: 389
+
+2024-01-01 00:38:10 - PHP Warning: Undefined array key "poption_id"
+File: /var/www/html/admin/controller/catalog/product.php
+Line: 389
+
+2024-01-01 00:38:10 - PHP Warning: Undefined array key "poption_id"
+File: /var/www/html/admin/controller/catalog/product.php
+Line: 389
+
+2024-01-01 00:38:10 - PHP Warning: Undefined array key "poption_id"
+File: /var/www/html/admin/controller/catalog/product.php
+Line: 389
+
+2024-01-01 00:38:50 - PHP Warning: Undefined array key "poption_id"
+File: /var/www/html/admin/controller/catalog/product.php
+Line: 388
+
+2024-01-01 00:38:50 - PHP Warning: Undefined array key "poption_id"
+File: /var/www/html/admin/controller/catalog/product.php
+Line: 389
+
+2024-01-01 00:38:50 - PHP Warning: Undefined array key "poption_id"
+File: /var/www/html/admin/controller/catalog/product.php
+Line: 388
+
+2024-01-01 00:38:50 - PHP Warning: Undefined array key "poption_id"
+File: /var/www/html/admin/controller/catalog/product.php
+Line: 389
+
+2024-01-01 00:38:50 - PHP Warning: Undefined array key "poption_id"
+File: /var/www/html/admin/controller/catalog/product.php
+Line: 388
+
+2024-01-01 00:38:50 - PHP Warning: Undefined array key "poption_id"
+File: /var/www/html/admin/controller/catalog/product.php
+Line: 389
+
+2024-01-01 00:38:50 - PHP Warning: Undefined array key "poption_id"
+File: /var/www/html/admin/controller/catalog/product.php
+Line: 388
+
+2024-01-01 00:38:50 - PHP Warning: Undefined array key "poption_id"
+File: /var/www/html/admin/controller/catalog/product.php
+Line: 389
+
+2024-01-01 00:38:50 - PHP Warning: Undefined array key "poption_id"
+File: /var/www/html/admin/controller/catalog/product.php
+Line: 388
+
+2024-01-01 00:38:50 - PHP Warning: Undefined array key "poption_id"
+File: /var/www/html/admin/controller/catalog/product.php
+Line: 389
+
+2024-01-01 00:38:50 - PHP Warning: Undefined array key "poption_id"
+File: /var/www/html/admin/controller/catalog/product.php
+Line: 388
+
+2024-01-01 00:38:50 - PHP Warning: Undefined array key "poption_id"
+File: /var/www/html/admin/controller/catalog/product.php
+Line: 389
+
+2024-01-01 00:38:50 - PHP Warning: Undefined array key "poption_id"
+File: /var/www/html/admin/controller/catalog/product.php
+Line: 388
+
+2024-01-01 00:38:50 - PHP Warning: Undefined array key "poption_id"
+File: /var/www/html/admin/controller/catalog/product.php
+Line: 389
+
+2024-01-01 00:38:50 - PHP Warning: Undefined array key "poption_id"
+File: /var/www/html/admin/controller/catalog/product.php
+Line: 388
+
+2024-01-01 00:38:50 - PHP Warning: Undefined array key "poption_id"
+File: /var/www/html/admin/controller/catalog/product.php
+Line: 389
+
+2024-01-01 00:38:50 - PHP Warning: Undefined array key "poption_id"
+File: /var/www/html/admin/controller/catalog/product.php
+Line: 388
+
+2024-01-01 00:38:50 - PHP Warning: Undefined array key "poption_id"
+File: /var/www/html/admin/controller/catalog/product.php
+Line: 389
+
+2024-01-01 00:38:50 - PHP Warning: Undefined array key "poption_id"
+File: /var/www/html/admin/controller/catalog/product.php
+Line: 388
+
+2024-01-01 00:38:50 - PHP Warning: Undefined array key "poption_id"
+File: /var/www/html/admin/controller/catalog/product.php
+Line: 389
+
+2024-01-01 00:38:50 - PHP Warning: Undefined array key "poption_id"
+File: /var/www/html/admin/controller/catalog/product.php
+Line: 388
+
+2024-01-01 00:38:50 - PHP Warning: Undefined array key "poption_id"
+File: /var/www/html/admin/controller/catalog/product.php
+Line: 389
+
+2024-01-01 00:38:50 - PHP Warning: Undefined array key "poption_id"
+File: /var/www/html/admin/controller/catalog/product.php
+Line: 388
+
+2024-01-01 00:38:50 - PHP Warning: Undefined array key "poption_id"
+File: /var/www/html/admin/controller/catalog/product.php
+Line: 389
+
+2024-01-01 00:38:51 - PHP Warning: Undefined array key "poption_id"
+File: /var/www/html/admin/controller/catalog/product.php
+Line: 388
+
+2024-01-01 00:38:51 - PHP Warning: Undefined array key "poption_id"
+File: /var/www/html/admin/controller/catalog/product.php
+Line: 389
+
+2024-01-01 00:38:51 - PHP Warning: Undefined array key "poption_id"
+File: /var/www/html/admin/controller/catalog/product.php
+Line: 388
+
+2024-01-01 00:38:51 - PHP Warning: Undefined array key "poption_id"
+File: /var/www/html/admin/controller/catalog/product.php
+Line: 389
+
+2024-01-01 00:38:51 - PHP Warning: Undefined array key "poption_id"
+File: /var/www/html/admin/controller/catalog/product.php
+Line: 388
+
+2024-01-01 00:38:51 - PHP Warning: Undefined array key "poption_id"
+File: /var/www/html/admin/controller/catalog/product.php
+Line: 389
+
+2024-01-01 00:38:51 - PHP Warning: Undefined array key "poption_id"
+File: /var/www/html/admin/controller/catalog/product.php
+Line: 388
+
+2024-01-01 00:38:51 - PHP Warning: Undefined array key "poption_id"
+File: /var/www/html/admin/controller/catalog/product.php
+Line: 389
+
+2024-01-01 00:38:51 - PHP Warning: Undefined array key "poption_id"
+File: /var/www/html/admin/controller/catalog/product.php
+Line: 388
+
+2024-01-01 00:38:51 - PHP Warning: Undefined array key "poption_id"
+File: /var/www/html/admin/controller/catalog/product.php
+Line: 389
+
+2024-01-01 00:38:51 - PHP Warning: Undefined array key "poption_id"
+File: /var/www/html/admin/controller/catalog/product.php
+Line: 388
+
+2024-01-01 00:38:51 - PHP Warning: Undefined array key "poption_id"
+File: /var/www/html/admin/controller/catalog/product.php
+Line: 389
+
+2024-01-01 00:38:51 - PHP Warning: Undefined array key "poption_id"
+File: /var/www/html/admin/controller/catalog/product.php
+Line: 388
+
+2024-01-01 00:38:51 - PHP Warning: Undefined array key "poption_id"
+File: /var/www/html/admin/controller/catalog/product.php
+Line: 389
+
+2024-01-01 00:38:51 - PHP Warning: Undefined array key "poption_id"
+File: /var/www/html/admin/controller/catalog/product.php
+Line: 388
+
+2024-01-01 00:38:51 - PHP Warning: Undefined array key "poption_id"
+File: /var/www/html/admin/controller/catalog/product.php
+Line: 389
+
+2024-01-01 00:38:51 - PHP Warning: Undefined array key "poption_id"
+File: /var/www/html/admin/controller/catalog/product.php
+Line: 388
+
+2024-01-01 00:38:51 - PHP Warning: Undefined array key "poption_id"
+File: /var/www/html/admin/controller/catalog/product.php
+Line: 389
+
+2024-01-01 00:38:51 - PHP Warning: Undefined array key "poption_id"
+File: /var/www/html/admin/controller/catalog/product.php
+Line: 388
+
+2024-01-01 00:38:51 - PHP Warning: Undefined array key "poption_id"
+File: /var/www/html/admin/controller/catalog/product.php
+Line: 389
+
+2024-01-01 00:38:51 - PHP Warning: Undefined array key "poption_id"
+File: /var/www/html/admin/controller/catalog/product.php
+Line: 388
+
+2024-01-01 00:38:51 - PHP Warning: Undefined array key "poption_id"
+File: /var/www/html/admin/controller/catalog/product.php
+Line: 389
+
+2024-01-01 00:38:51 - PHP Warning: Undefined array key "poption_id"
+File: /var/www/html/admin/controller/catalog/product.php
+Line: 388
+
+2024-01-01 00:38:51 - PHP Warning: Undefined array key "poption_id"
+File: /var/www/html/admin/controller/catalog/product.php
+Line: 389
+
+2024-01-01 02:13:28 - PHP Warning: Undefined array key "required"
+File: /var/www/html/admin/model/catalog/product.php
+Line: 288
+
+2024-01-01 02:13:28 - PHP Warning: Undefined array key "type"
+File: /var/www/html/admin/model/catalog/product.php
+Line: 291
+
+2024-01-01 02:13:28 - PHP Warning: Undefined array key "option_id"
+File: /var/www/html/admin/model/catalog/product.php
+Line: 445
+
+2024-01-01 02:13:28 - 0:  Opencart\System\Library\DB::escape(): Argument #1 ($value) must be of type string, null given, called in /var/www/html/admin/model/catalog/product.php on line 445
+File: /var/www/html/system/library/db.php
+Line: 62
+
+2024-01-01 02:14:12 - PHP Warning: Undefined array key "required"
+File: /var/www/html/admin/model/catalog/product.php
+Line: 288
+
+2024-01-01 02:14:12 - PHP Warning: Undefined array key "type"
+File: /var/www/html/admin/model/catalog/product.php
+Line: 291
+
+2024-01-01 02:14:12 - PHP Warning: Undefined array key "option_id"
+File: /var/www/html/admin/model/catalog/product.php
+Line: 445
+
+2024-01-01 02:14:12 - 0:  Opencart\System\Library\DB::escape(): Argument #1 ($value) must be of type string, null given, called in /var/www/html/admin/model/catalog/product.php on line 445
+File: /var/www/html/system/library/db.php
+Line: 62
+
+2024-01-01 02:14:28 - PHP Warning: Undefined array key "required"
+File: /var/www/html/admin/model/catalog/product.php
+Line: 288
+
+2024-01-01 02:14:28 - PHP Warning: Undefined array key "type"
+File: /var/www/html/admin/model/catalog/product.php
+Line: 291
+
+2024-01-01 02:14:28 - PHP Warning: Undefined array key "option_id"
+File: /var/www/html/admin/model/catalog/product.php
+Line: 445
+
+2024-01-01 02:14:28 - 0:  Opencart\System\Library\DB::escape(): Argument #1 ($value) must be of type string, null given, called in /var/www/html/admin/model/catalog/product.php on line 445
+File: /var/www/html/system/library/db.php
+Line: 62
+
+2024-01-01 02:14:32 - PHP Warning: Undefined array key "required"
+File: /var/www/html/admin/model/catalog/product.php
+Line: 288
+
+2024-01-01 02:14:32 - PHP Warning: Undefined array key "type"
+File: /var/www/html/admin/model/catalog/product.php
+Line: 291
+
+2024-01-01 02:14:32 - PHP Warning: Undefined array key "option_id"
+File: /var/www/html/admin/model/catalog/product.php
+Line: 445
+
+2024-01-01 02:14:32 - 0:  Opencart\System\Library\DB::escape(): Argument #1 ($value) must be of type string, null given, called in /var/www/html/admin/model/catalog/product.php on line 445
+File: /var/www/html/system/library/db.php
+Line: 62
+
+2024-01-01 02:14:34 - PHP Warning: Undefined array key "required"
+File: /var/www/html/admin/model/catalog/product.php
+Line: 288
+
+2024-01-01 02:14:34 - PHP Warning: Undefined array key "type"
+File: /var/www/html/admin/model/catalog/product.php
+Line: 291
+
+2024-01-01 02:14:34 - PHP Warning: Undefined array key "option_id"
+File: /var/www/html/admin/model/catalog/product.php
+Line: 445
+
+2024-01-01 02:14:34 - 0:  Opencart\System\Library\DB::escape(): Argument #1 ($value) must be of type string, null given, called in /var/www/html/admin/model/catalog/product.php on line 445
+File: /var/www/html/system/library/db.php
+Line: 62
+
+2024-01-01 02:14:37 - PHP Warning: Undefined array key "required"
+File: /var/www/html/admin/model/catalog/product.php
+Line: 288
+
+2024-01-01 02:14:37 - PHP Warning: Undefined array key "type"
+File: /var/www/html/admin/model/catalog/product.php
+Line: 291
+
+2024-01-01 02:14:37 - PHP Warning: Undefined array key "option_id"
+File: /var/www/html/admin/model/catalog/product.php
+Line: 445
+
+2024-01-01 02:14:37 - 0:  Opencart\System\Library\DB::escape(): Argument #1 ($value) must be of type string, null given, called in /var/www/html/admin/model/catalog/product.php on line 445
+File: /var/www/html/system/library/db.php
+Line: 62
+
+2024-01-01 02:14:48 - PHP Warning: Undefined array key "required"
+File: /var/www/html/admin/model/catalog/product.php
+Line: 288
+
+2024-01-01 02:14:48 - PHP Warning: Undefined array key "type"
+File: /var/www/html/admin/model/catalog/product.php
+Line: 291
+
+2024-01-01 02:14:48 - PHP Warning: Undefined array key "option_id"
+File: /var/www/html/admin/model/catalog/product.php
+Line: 445
+
+2024-01-01 02:14:48 - 0:  Opencart\System\Library\DB::escape(): Argument #1 ($value) must be of type string, null given, called in /var/www/html/admin/model/catalog/product.php on line 445
+File: /var/www/html/system/library/db.php
+Line: 62
+
+2024-01-01 02:15:27 - PHP Warning: Undefined array key "required"
+File: /var/www/html/admin/model/catalog/product.php
+Line: 288
+
+2024-01-01 02:15:27 - PHP Warning: Undefined array key "type"
+File: /var/www/html/admin/model/catalog/product.php
+Line: 291
+
+2024-01-01 02:15:27 - PHP Warning: Undefined array key "option_id"
+File: /var/www/html/admin/model/catalog/product.php
+Line: 445
+
+2024-01-01 02:15:27 - 0:  Opencart\System\Library\DB::escape(): Argument #1 ($value) must be of type string, null given, called in /var/www/html/admin/model/catalog/product.php on line 445
+File: /var/www/html/system/library/db.php
+Line: 62
+
+2024-01-01 02:15:50 - PHP Warning: Undefined array key "required"
+File: /var/www/html/admin/model/catalog/product.php
+Line: 288
+
+2024-01-01 02:15:50 - PHP Warning: Undefined array key "type"
+File: /var/www/html/admin/model/catalog/product.php
+Line: 291
+
+2024-01-01 02:15:50 - PHP Warning: Undefined array key "option_id"
+File: /var/www/html/admin/model/catalog/product.php
+Line: 445
+
+2024-01-01 02:15:50 - 0:  Opencart\System\Library\DB::escape(): Argument #1 ($value) must be of type string, null given, called in /var/www/html/admin/model/catalog/product.php on line 445
+File: /var/www/html/system/library/db.php
+Line: 62
+
+2024-01-01 02:16:52 - PHP Warning: Undefined array key "type"
+File: /var/www/html/admin/model/catalog/product.php
+Line: 291
+
+2024-01-01 02:16:52 - PHP Warning: Undefined array key "option_id"
+File: /var/www/html/admin/model/catalog/product.php
+Line: 445
+
+2024-01-01 02:16:52 - 0:  Opencart\System\Library\DB::escape(): Argument #1 ($value) must be of type string, null given, called in /var/www/html/admin/model/catalog/product.php on line 445
+File: /var/www/html/system/library/db.php
+Line: 62
+
+2024-01-01 02:19:33 - PHP Warning: Undefined array key "type"
+File: /var/www/html/admin/model/catalog/product.php
+Line: 291
+
+2024-01-01 02:19:33 - PHP Warning: Undefined array key "option_id"
+File: /var/www/html/admin/model/catalog/product.php
+Line: 445
+
+2024-01-01 02:19:33 - 0:  Opencart\System\Library\DB::escape(): Argument #1 ($value) must be of type string, null given, called in /var/www/html/admin/model/catalog/product.php on line 445
+File: /var/www/html/system/library/db.php
+Line: 62
+
+2024-01-01 02:19:40 - PHP Warning: Undefined array key "type"
+File: /var/www/html/admin/model/catalog/product.php
+Line: 291
+
+2024-01-01 02:19:40 - PHP Warning: Undefined array key "option_id"
+File: /var/www/html/admin/model/catalog/product.php
+Line: 445
+
+2024-01-01 02:19:40 - 0:  Opencart\System\Library\DB::escape(): Argument #1 ($value) must be of type string, null given, called in /var/www/html/admin/model/catalog/product.php on line 445
+File: /var/www/html/system/library/db.php
+Line: 62
+
+2024-01-01 02:19:52 - PHP Warning: Undefined array key "type"
+File: /var/www/html/admin/model/catalog/product.php
+Line: 291
+
+2024-01-01 02:19:52 - PHP Warning: Undefined array key "option_id"
+File: /var/www/html/admin/model/catalog/product.php
+Line: 445
+
+2024-01-01 02:19:52 - 0:  Opencart\System\Library\DB::escape(): Argument #1 ($value) must be of type string, null given, called in /var/www/html/admin/model/catalog/product.php on line 445
+File: /var/www/html/system/library/db.php
+Line: 62
+
+2024-01-01 02:21:49 - PHP Warning: Undefined array key "type"
+File: /var/www/html/admin/model/catalog/product.php
+Line: 291
+
+2024-01-01 02:21:49 - PHP Warning: Undefined array key "option_id"
+File: /var/www/html/admin/model/catalog/product.php
+Line: 445
+
+2024-01-01 02:21:49 - 0:  Opencart\System\Library\DB::escape(): Argument #1 ($value) must be of type string, null given, called in /var/www/html/admin/model/catalog/product.php on line 445
+File: /var/www/html/system/library/db.php
+Line: 62
+
+2024-01-01 02:21:56 - PHP Warning: Undefined array key "type"
+File: /var/www/html/admin/model/catalog/product.php
+Line: 291
+
+2024-01-01 02:21:56 - PHP Warning: Undefined array key "option_id"
+File: /var/www/html/admin/model/catalog/product.php
+Line: 445
+
+2024-01-01 02:21:56 - 0:  Opencart\System\Library\DB::escape(): Argument #1 ($value) must be of type string, null given, called in /var/www/html/admin/model/catalog/product.php on line 445
+File: /var/www/html/system/library/db.php
+Line: 62
+
+2024-01-01 02:22:23 - PHP Warning: Undefined array key "type"
+File: /var/www/html/admin/model/catalog/product.php
+Line: 291
+
+2024-01-01 02:22:23 - PHP Warning: Undefined array key "option_id"
+File: /var/www/html/admin/model/catalog/product.php
+Line: 445
+
+2024-01-01 02:22:23 - 0:  Opencart\System\Library\DB::escape(): Argument #1 ($value) must be of type string, null given, called in /var/www/html/admin/model/catalog/product.php on line 445
+File: /var/www/html/system/library/db.php
+Line: 62
+
+2024-01-01 02:22:33 - PHP Warning: Undefined array key "type"
+File: /var/www/html/admin/model/catalog/product.php
+Line: 291
+
+2024-01-01 02:22:33 - PHP Warning: Undefined array key "option_id"
+File: /var/www/html/admin/model/catalog/product.php
+Line: 445
+
+2024-01-01 02:22:33 - 0:  Opencart\System\Library\DB::escape(): Argument #1 ($value) must be of type string, null given, called in /var/www/html/admin/model/catalog/product.php on line 445
+File: /var/www/html/system/library/db.php
+Line: 62
+
+2024-01-01 02:24:02 - PHP Warning: Undefined array key "type"
+File: /var/www/html/admin/model/catalog/product.php
+Line: 291
+
+2024-01-01 02:24:02 - PHP Warning: Undefined array key "option_id"
+File: /var/www/html/admin/model/catalog/product.php
+Line: 445
+
+2024-01-01 02:24:02 - 0:  Opencart\System\Library\DB::escape(): Argument #1 ($value) must be of type string, null given, called in /var/www/html/admin/model/catalog/product.php on line 445
+File: /var/www/html/system/library/db.php
+Line: 62
+
+2024-01-01 03:07:28 - PHP Warning: Undefined array key "poption_id"
+File: /var/www/html/admin/model/catalog/product.php
+Line: 420
+
+2024-01-01 03:07:28 - PHP Warning: Undefined array key "quantity"
+File: /var/www/html/admin/model/catalog/product.php
+Line: 424
+
+2024-01-01 03:07:28 - PHP Warning: Undefined array key "subtract"
+File: /var/www/html/admin/model/catalog/product.php
+Line: 425
+
+2024-01-01 03:07:28 - PHP Warning: Undefined array key "price"
+File: /var/www/html/admin/model/catalog/product.php
+Line: 426
+
+2024-01-01 03:07:28 - PHP Warning: Undefined array key "price_prefix"
+File: /var/www/html/admin/model/catalog/product.php
+Line: 427
+
+2024-01-01 03:07:28 - 0:  Opencart\System\Library\DB::escape(): Argument #1 ($value) must be of type string, null given, called in /var/www/html/admin/model/catalog/product.php on line 427
+File: /var/www/html/system/library/db.php
+Line: 62
+
+2024-01-01 05:26:57 - PHP Warning: Undefined array key "type"
+File: /var/www/html/admin/model/catalog/product.php
+Line: 291
+
+2024-01-01 05:26:57 - PHP Warning: Undefined array key "option_id"
+File: /var/www/html/admin/model/catalog/product.php
+Line: 447
+
+2024-01-01 05:26:57 - 0:  Opencart\System\Library\DB::escape(): Argument #1 ($value) must be of type string, null given, called in /var/www/html/admin/model/catalog/product.php on line 447
+File: /var/www/html/system/library/db.php
+Line: 62
+
+2024-01-01 05:27:07 - PHP Warning: Undefined array key "type"
+File: /var/www/html/admin/model/catalog/product.php
+Line: 291
+
+2024-01-01 05:27:07 - PHP Warning: Undefined array key "option_id"
+File: /var/www/html/admin/model/catalog/product.php
+Line: 447
+
+2024-01-01 05:27:07 - 0:  Opencart\System\Library\DB::escape(): Argument #1 ($value) must be of type string, null given, called in /var/www/html/admin/model/catalog/product.php on line 447
+File: /var/www/html/system/library/db.php
+Line: 62
+
+2024-01-01 05:27:55 - PHP Warning: Undefined array key "type"
+File: /var/www/html/admin/model/catalog/product.php
+Line: 291
+
+2024-01-01 05:27:55 - PHP Warning: Undefined array key "option_id"
+File: /var/www/html/admin/model/catalog/product.php
+Line: 447
+
+2024-01-01 05:27:55 - 0:  Opencart\System\Library\DB::escape(): Argument #1 ($value) must be of type string, null given, called in /var/www/html/admin/model/catalog/product.php on line 447
+File: /var/www/html/system/library/db.php
+Line: 62
+
+2024-01-01 05:28:32 - PHP Warning: Undefined array key "sort_order"
+File: /var/www/html/admin/model/catalog/product.php
+Line: 449
+
+2024-01-01 05:28:32 - PHP Warning: Undefined array key "type"
+File: /var/www/html/admin/model/catalog/product.php
+Line: 291
+
+2024-01-01 05:28:32 - PHP Warning: Undefined array key "option_id"
+File: /var/www/html/admin/model/catalog/product.php
+Line: 447
+
+2024-01-01 05:28:32 - 0:  Opencart\System\Library\DB::escape(): Argument #1 ($value) must be of type string, null given, called in /var/www/html/admin/model/catalog/product.php on line 447
+File: /var/www/html/system/library/db.php
+Line: 62
+
+2024-01-01 05:30:01 - PHP Warning: Undefined array key "type"
+File: /var/www/html/admin/model/catalog/product.php
+Line: 291
+
+2024-01-01 05:30:01 - PHP Warning: Undefined array key "option_id"
+File: /var/www/html/admin/model/catalog/product.php
+Line: 447
+
+2024-01-01 05:30:01 - 0:  Opencart\System\Library\DB::escape(): Argument #1 ($value) must be of type string, null given, called in /var/www/html/admin/model/catalog/product.php on line 447
+File: /var/www/html/system/library/db.php
+Line: 62
+
+2024-01-01 05:31:37 - PHP Warning: Undefined array key "type"
+File: /var/www/html/admin/model/catalog/product.php
+Line: 291
+
+2024-01-01 05:31:37 - PHP Warning: Undefined array key "option_id"
+File: /var/www/html/admin/model/catalog/product.php
+Line: 447
+
+2024-01-01 05:31:37 - 0:  Opencart\System\Library\DB::escape(): Argument #1 ($value) must be of type string, null given, called in /var/www/html/admin/model/catalog/product.php on line 447
+File: /var/www/html/system/library/db.php
+Line: 62
+
+2024-01-01 07:36:16 - PHP Warning: Undefined array key "group"
+File: /var/www/html/admin/controller/catalog/product.php
+Line: 339
+
+2024-01-01 07:36:30 - PHP Warning: Undefined array key "group"
+File: /var/www/html/admin/controller/catalog/product.php
+Line: 339
+
+2024-01-01 07:55:36 - PHP Warning: Undefined array key "type"
+File: /var/www/html/admin/controller/catalog/product.php
+Line: 345
+
+2024-01-01 07:55:36 - PHP Warning: Undefined array key "options"
+File: /var/www/html/admin/controller/catalog/product.php
+Line: 346
+
+2024-01-01 07:55:36 - PHP Warning: foreach() argument must be of type array|object, null given
+File: /var/www/html/admin/controller/catalog/product.php
+Line: 346
+
+2024-01-01 07:55:40 - PHP Warning: Undefined array key "type"
+File: /var/www/html/admin/controller/catalog/product.php
+Line: 345
+
+2024-01-01 07:55:40 - PHP Warning: Undefined array key "options"
+File: /var/www/html/admin/controller/catalog/product.php
+Line: 346
+
+2024-01-01 07:55:40 - PHP Warning: foreach() argument must be of type array|object, null given
+File: /var/www/html/admin/controller/catalog/product.php
+Line: 346
+
+2024-01-01 07:56:03 - PHP Warning: Undefined array key "type"
+File: /var/www/html/admin/controller/catalog/product.php
+Line: 345
+
+2024-01-01 07:56:03 - PHP Warning: Undefined array key "options"
+File: /var/www/html/admin/controller/catalog/product.php
+Line: 346
+
+2024-01-01 07:56:03 - PHP Unknown: json_decode(): Passing null to parameter #1 ($json) of type string is deprecated
+File: /var/www/html/admin/controller/catalog/product.php
+Line: 346
+
+2024-01-01 07:56:03 - PHP Warning: foreach() argument must be of type array|object, null given
+File: /var/www/html/admin/controller/catalog/product.php
+Line: 346
+
+2024-01-01 07:56:19 - PHP Warning: Undefined array key "options"
+File: /var/www/html/admin/controller/catalog/product.php
+Line: 340
+
+2024-01-01 07:56:19 - PHP Unknown: json_decode(): Passing null to parameter #1 ($json) of type string is deprecated
+File: /var/www/html/admin/controller/catalog/product.php
+Line: 340
+
+2024-01-01 07:56:19 - PHP Warning: Undefined array key "type"
+File: /var/www/html/admin/controller/catalog/product.php
+Line: 345
+
+2024-01-01 07:56:19 - PHP Warning: Undefined array key "options"
+File: /var/www/html/admin/controller/catalog/product.php
+Line: 346
+
+2024-01-01 07:56:19 - PHP Unknown: json_decode(): Passing null to parameter #1 ($json) of type string is deprecated
+File: /var/www/html/admin/controller/catalog/product.php
+Line: 346
+
+2024-01-01 07:56:19 - PHP Warning: foreach() argument must be of type array|object, null given
+File: /var/www/html/admin/controller/catalog/product.php
+Line: 346
+
+2024-01-01 07:57:43 - PHP Warning: Undefined array key "options"
+File: /var/www/html/admin/controller/catalog/product.php
+Line: 340
+
+2024-01-01 07:57:43 - PHP Unknown: json_decode(): Passing null to parameter #1 ($json) of type string is deprecated
+File: /var/www/html/admin/controller/catalog/product.php
+Line: 340
+
+2024-01-01 07:57:43 - PHP Warning: Undefined array key "type"
+File: /var/www/html/admin/controller/catalog/product.php
+Line: 345
+
+2024-01-01 07:57:43 - PHP Warning: Undefined array key "options"
+File: /var/www/html/admin/controller/catalog/product.php
+Line: 346
+
+2024-01-01 07:57:43 - PHP Unknown: json_decode(): Passing null to parameter #1 ($json) of type string is deprecated
+File: /var/www/html/admin/controller/catalog/product.php
+Line: 346
+
+2024-01-01 07:57:43 - PHP Warning: foreach() argument must be of type array|object, null given
+File: /var/www/html/admin/controller/catalog/product.php
+Line: 346
+
+2024-01-01 07:57:45 - PHP Warning: Undefined array key "options"
+File: /var/www/html/admin/controller/catalog/product.php
+Line: 340
+
+2024-01-01 07:57:45 - PHP Unknown: json_decode(): Passing null to parameter #1 ($json) of type string is deprecated
+File: /var/www/html/admin/controller/catalog/product.php
+Line: 340
+
+2024-01-01 07:57:45 - PHP Warning: Undefined array key "type"
+File: /var/www/html/admin/controller/catalog/product.php
+Line: 345
+
+2024-01-01 07:57:45 - PHP Warning: Undefined array key "options"
+File: /var/www/html/admin/controller/catalog/product.php
+Line: 346
+
+2024-01-01 07:57:45 - PHP Unknown: json_decode(): Passing null to parameter #1 ($json) of type string is deprecated
+File: /var/www/html/admin/controller/catalog/product.php
+Line: 346
+
+2024-01-01 07:57:45 - PHP Warning: foreach() argument must be of type array|object, null given
+File: /var/www/html/admin/controller/catalog/product.php
+Line: 346
+
+2024-01-01 07:58:34 - 0:  json_decode(): Argument #1 ($json) must be of type string, array given
+File: /var/www/html/admin/controller/catalog/product.php
+Line: 340
+
+2024-01-01 07:58:36 - 0:  json_decode(): Argument #1 ($json) must be of type string, array given
+File: /var/www/html/admin/controller/catalog/product.php
+Line: 340
+
+2024-01-01 07:59:05 - 0:  json_decode(): Argument #1 ($json) must be of type string, array given
+File: /var/www/html/admin/controller/catalog/product.php
+Line: 346
+
+2024-01-01 08:03:06 - PHP Warning: Undefined variable $key
+File: /var/www/html/admin/controller/catalog/product.php
+Line: 348
+
+2024-01-01 08:03:06 - PHP Warning: Undefined variable $key
+File: /var/www/html/admin/controller/catalog/product.php
+Line: 358
+
+2024-01-01 08:03:06 - PHP Warning: Undefined variable $key
+File: /var/www/html/admin/controller/catalog/product.php
+Line: 348
+
+2024-01-01 08:03:06 - PHP Warning: Undefined variable $key
+File: /var/www/html/admin/controller/catalog/product.php
+Line: 358
+
+2024-01-01 08:03:06 - PHP Warning: Undefined variable $key
+File: /var/www/html/admin/controller/catalog/product.php
+Line: 348
+
+2024-01-01 08:03:06 - PHP Warning: Undefined variable $key
+File: /var/www/html/admin/controller/catalog/product.php
+Line: 358
+
+2024-01-01 08:03:06 - PHP Warning: Undefined variable $key
+File: /var/www/html/admin/controller/catalog/product.php
+Line: 348
+
+2024-01-01 08:03:06 - PHP Warning: Undefined variable $key
+File: /var/www/html/admin/controller/catalog/product.php
+Line: 358
+
+2024-01-01 08:03:06 - PHP Warning: Undefined variable $key
+File: /var/www/html/admin/controller/catalog/product.php
+Line: 348
+
+2024-01-01 08:03:06 - PHP Warning: Undefined variable $key
+File: /var/www/html/admin/controller/catalog/product.php
+Line: 358
+
+2024-01-01 08:03:06 - PHP Warning: Undefined variable $key
+File: /var/www/html/admin/controller/catalog/product.php
+Line: 348
+
+2024-01-01 08:03:06 - PHP Warning: Undefined variable $key
+File: /var/www/html/admin/controller/catalog/product.php
+Line: 358
+
+2024-01-01 08:11:02 - 0:  ksort(): Argument #1 ($array) must be of type array, string given
+File: /var/www/html/admin/controller/catalog/product.php
+Line: 346
+
+2024-01-01 08:11:05 - 0:  ksort(): Argument #1 ($array) must be of type array, string given
+File: /var/www/html/admin/controller/catalog/product.php
+Line: 346
+
+2024-01-01 08:43:05 - PHP Warning: Array to string conversion
+File: /var/www/html/admin/controller/catalog/product.php
+Line: 362
+
+2024-01-01 08:45:53 - PHP Warning: Array to string conversion
+File: /var/www/html/admin/controller/catalog/product.php
+Line: 362
+
+2024-01-01 08:48:24 - PHP Warning: Array to string conversion
+File: /var/www/html/admin/controller/catalog/product.php
+Line: 362
+
+2024-01-01 08:48:24 - PHP Warning: Array to string conversion
+File: /var/www/html/admin/controller/catalog/product.php
+Line: 362
+
+2024-01-01 09:06:24 - PHP Warning: Undefined variable $type
+File: /var/www/html/admin/controller/catalog/product.php
+Line: 361
+
+2024-01-01 09:06:24 - PHP Warning: Undefined variable $type
+File: /var/www/html/admin/controller/catalog/product.php
+Line: 361
+
+2024-01-01 09:12:54 - PHP Warning: Undefined array key 1
+File: /var/www/html/admin/controller/catalog/product.php
+Line: 362
+
+2024-01-01 09:12:54 - PHP Warning: Undefined array key 13
+File: /var/www/html/admin/controller/catalog/product.php
+Line: 362
+
+2024-01-01 09:23:15 - PHP Warning: Undefined array key "sort_order"
+File: /var/www/html/admin/model/catalog/option.php
+Line: 18
+
+2024-01-01 09:23:15 - 0:  Opencart\System\Library\DB::escape(): Argument #1 ($value) must be of type string, null given, called in /var/www/html/admin/model/catalog/option.php on line 18
+File: /var/www/html/system/library/db.php
+Line: 62
+
+2024-01-01 10:00:22 - PHP Warning: Undefined array key "product_id"
+File: /var/www/html/admin/controller/catalog/product.php
+Line: 340
+
+2024-01-01 10:00:27 - PHP Warning: Undefined array key "product_id"
+File: /var/www/html/admin/controller/catalog/product.php
+Line: 340
+
+2024-01-01 10:51:47 - PHP Warning: Undefined array key "value"
+File: /var/www/html/admin/model/catalog/product.php
+Line: 509
+
+2024-01-01 10:51:47 - 0:  Opencart\System\Library\DB::escape(): Argument #1 ($value) must be of type string, null given, called in /var/www/html/admin/model/catalog/product.php on line 509
+File: /var/www/html/system/library/db.php
+Line: 62
+
+2024-01-01 10:51:53 - PHP Warning: Undefined array key "value"
+File: /var/www/html/admin/model/catalog/product.php
+Line: 509
+
+2024-01-01 10:51:53 - 0:  Opencart\System\Library\DB::escape(): Argument #1 ($value) must be of type string, null given, called in /var/www/html/admin/model/catalog/product.php on line 509
+File: /var/www/html/system/library/db.php
+Line: 62
+
+2024-01-01 10:51:59 - PHP Warning: Undefined array key "value"
+File: /var/www/html/admin/model/catalog/product.php
+Line: 509
+
+2024-01-01 10:51:59 - 0:  Opencart\System\Library\DB::escape(): Argument #1 ($value) must be of type string, null given, called in /var/www/html/admin/model/catalog/product.php on line 509
+File: /var/www/html/system/library/db.php
+Line: 62
+
+2024-01-01 11:04:47 - PHP Warning: Undefined array key "value"
+File: /var/www/html/admin/model/catalog/product.php
+Line: 509
+
+2024-01-01 11:04:47 - 0:  Opencart\System\Library\DB::escape(): Argument #1 ($value) must be of type string, null given, called in /var/www/html/admin/model/catalog/product.php on line 509
+File: /var/www/html/system/library/db.php
+Line: 62
+
+2024-01-01 11:04:50 - PHP Warning: Undefined array key "value"
+File: /var/www/html/admin/model/catalog/product.php
+Line: 509
+
+2024-01-01 11:04:50 - 0:  Opencart\System\Library\DB::escape(): Argument #1 ($value) must be of type string, null given, called in /var/www/html/admin/model/catalog/product.php on line 509
+File: /var/www/html/system/library/db.php
+Line: 62
+
+2024-01-01 11:17:15 - PHP Warning: Undefined array key "route"
+File: /var/www/html/admin/model/design/translation.php
+Line: 15
+
+2024-01-02 07:14:40 - PHP Warning: Undefined array key "poption_id"
+File: /var/www/html/admin/model/catalog/product.php
+Line: 406
+
+2024-01-02 07:14:40 - PHP Warning: Undefined array key "poption_id"
+File: /var/www/html/admin/model/catalog/product.php
+Line: 406
+
+2024-01-02 07:14:40 - PHP Warning: Undefined array key "poption_id"
+File: /var/www/html/admin/model/catalog/product.php
+Line: 406
+
+2024-01-02 07:14:40 - PHP Warning: Undefined array key "poption_id"
+File: /var/www/html/admin/model/catalog/product.php
+Line: 406
+
+2024-01-02 07:14:40 - PHP Warning: Undefined array key "poption_id"
+File: /var/www/html/admin/model/catalog/product.php
+Line: 406
+
+2024-01-02 07:14:40 - PHP Warning: Undefined array key "poption_id"
+File: /var/www/html/admin/model/catalog/product.php
+Line: 406
+
+2024-01-02 08:19:34 - PHP Warning:  Undefined variable $222 in /var/www/html/catalog/view/template/checkout/register.php on line 346
+2024-01-02 08:19:34 - PHP Warning:  Undefined variable $222 in /var/www/html/catalog/view/template/checkout/register.php on line 346
+2024-01-02 08:19:34 - PHP Warning:  Undefined variable $222 in /var/www/html/catalog/view/template/checkout/register.php on line 346
+2024-01-02 08:19:34 - PHP Warning:  Undefined variable $222 in /var/www/html/catalog/view/template/checkout/register.php on line 346
+2024-01-02 08:19:34 - PHP Warning:  Undefined variable $222 in /var/www/html/catalog/view/template/checkout/register.php on line 346
+2024-01-02 08:19:34 - PHP Warning:  Undefined variable $222 in /var/www/html/catalog/view/template/checkout/register.php on line 346
+2024-01-02 08:19:34 - PHP Warning:  Undefined variable $222 in /var/www/html/catalog/view/template/checkout/register.php on line 346
+2024-01-02 08:19:34 - PHP Warning:  Undefined variable $222 in /var/www/html/catalog/view/template/checkout/register.php on line 346
+2024-01-02 08:19:34 - PHP Warning:  Undefined variable $222 in /var/www/html/catalog/view/template/checkout/register.php on line 346
+2024-01-02 08:19:34 - PHP Warning:  Undefined variable $222 in /var/www/html/catalog/view/template/checkout/register.php on line 346
+2024-01-02 08:19:34 - PHP Warning:  Undefined variable $222 in /var/www/html/catalog/view/template/checkout/register.php on line 346
+2024-01-02 08:19:34 - PHP Warning:  Undefined variable $222 in /var/www/html/catalog/view/template/checkout/register.php on line 346
+2024-01-02 08:19:34 - PHP Warning:  Undefined variable $222 in /var/www/html/catalog/view/template/checkout/register.php on line 346
+2024-01-02 08:19:34 - PHP Warning:  Undefined variable $222 in /var/www/html/catalog/view/template/checkout/register.php on line 346
+2024-01-02 08:19:34 - PHP Warning:  Undefined variable $222 in /var/www/html/catalog/view/template/checkout/register.php on line 346
+2024-01-02 08:19:34 - PHP Warning:  Undefined variable $222 in /var/www/html/catalog/view/template/checkout/register.php on line 346
+2024-01-02 08:19:34 - PHP Warning:  Undefined variable $222 in /var/www/html/catalog/view/template/checkout/register.php on line 346
+2024-01-02 08:19:34 - PHP Warning:  Undefined variable $222 in /var/www/html/catalog/view/template/checkout/register.php on line 346
+2024-01-02 08:19:34 - PHP Warning:  Undefined variable $222 in /var/www/html/catalog/view/template/checkout/register.php on line 346
+2024-01-02 08:19:34 - PHP Warning:  Undefined variable $222 in /var/www/html/catalog/view/template/checkout/register.php on line 346
+2024-01-02 08:19:34 - PHP Warning:  Undefined variable $222 in /var/www/html/catalog/view/template/checkout/register.php on line 346
+2024-01-02 08:19:34 - PHP Warning:  Undefined variable $222 in /var/www/html/catalog/view/template/checkout/register.php on line 346
+2024-01-02 08:19:34 - PHP Warning:  Undefined variable $222 in /var/www/html/catalog/view/template/checkout/register.php on line 346
+2024-01-02 08:19:34 - PHP Warning:  Undefined variable $222 in /var/www/html/catalog/view/template/checkout/register.php on line 346
+2024-01-02 08:19:34 - PHP Warning:  Undefined variable $222 in /var/www/html/catalog/view/template/checkout/register.php on line 346
+2024-01-02 08:19:34 - PHP Warning:  Undefined variable $222 in /var/www/html/catalog/view/template/checkout/register.php on line 346
+2024-01-02 08:19:34 - PHP Warning:  Undefined variable $222 in /var/www/html/catalog/view/template/checkout/register.php on line 346
+2024-01-02 08:19:34 - PHP Warning:  Undefined variable $222 in /var/www/html/catalog/view/template/checkout/register.php on line 346
+2024-01-02 08:19:34 - PHP Warning:  Undefined variable $222 in /var/www/html/catalog/view/template/checkout/register.php on line 346
+2024-01-02 08:19:34 - PHP Warning:  Undefined variable $222 in /var/www/html/catalog/view/template/checkout/register.php on line 346
+2024-01-02 08:19:34 - PHP Warning:  Undefined variable $222 in /var/www/html/catalog/view/template/checkout/register.php on line 346
+2024-01-02 08:19:34 - PHP Warning:  Undefined variable $222 in /var/www/html/catalog/view/template/checkout/register.php on line 346
+2024-01-02 08:19:34 - PHP Warning:  Undefined variable $222 in /var/www/html/catalog/view/template/checkout/register.php on line 346
+2024-01-02 08:19:34 - PHP Warning:  Undefined variable $222 in /var/www/html/catalog/view/template/checkout/register.php on line 346
+2024-01-02 08:19:34 - PHP Warning:  Undefined variable $222 in /var/www/html/catalog/view/template/checkout/register.php on line 346
+2024-01-02 08:19:34 - PHP Warning:  Undefined variable $222 in /var/www/html/catalog/view/template/checkout/register.php on line 346
+2024-01-02 08:19:34 - PHP Warning:  Undefined variable $222 in /var/www/html/catalog/view/template/checkout/register.php on line 346
+2024-01-02 08:19:34 - PHP Warning:  Undefined variable $222 in /var/www/html/catalog/view/template/checkout/register.php on line 346
+2024-01-02 08:19:34 - PHP Warning:  Undefined variable $222 in /var/www/html/catalog/view/template/checkout/register.php on line 346
+2024-01-02 08:19:34 - PHP Warning:  Undefined variable $222 in /var/www/html/catalog/view/template/checkout/register.php on line 346
+2024-01-02 08:19:34 - PHP Warning:  Undefined variable $222 in /var/www/html/catalog/view/template/checkout/register.php on line 346
+2024-01-02 08:19:34 - PHP Warning:  Undefined variable $222 in /var/www/html/catalog/view/template/checkout/register.php on line 346
+2024-01-02 08:19:34 - PHP Warning:  Undefined variable $222 in /var/www/html/catalog/view/template/checkout/register.php on line 346
+2024-01-02 08:19:34 - PHP Warning:  Undefined variable $222 in /var/www/html/catalog/view/template/checkout/register.php on line 346
+2024-01-02 08:19:34 - PHP Warning:  Undefined variable $222 in /var/www/html/catalog/view/template/checkout/register.php on line 346
+2024-01-02 08:19:34 - PHP Warning:  Undefined variable $222 in /var/www/html/catalog/view/template/checkout/register.php on line 346
+2024-01-02 08:19:34 - PHP Warning:  Undefined variable $222 in /var/www/html/catalog/view/template/checkout/register.php on line 346
+2024-01-02 08:19:34 - PHP Warning:  Undefined variable $222 in /var/www/html/catalog/view/template/checkout/register.php on line 346
+2024-01-02 08:19:34 - PHP Warning:  Undefined variable $222 in /var/www/html/catalog/view/template/checkout/register.php on line 346
+2024-01-02 08:19:34 - PHP Warning:  Undefined variable $222 in /var/www/html/catalog/view/template/checkout/register.php on line 346
+2024-01-02 08:19:34 - PHP Warning:  Undefined variable $222 in /var/www/html/catalog/view/template/checkout/register.php on line 346
+2024-01-02 08:19:34 - PHP Warning:  Undefined variable $222 in /var/www/html/catalog/view/template/checkout/register.php on line 346
+2024-01-02 08:19:34 - PHP Warning:  Undefined variable $222 in /var/www/html/catalog/view/template/checkout/register.php on line 346
+2024-01-02 08:19:34 - PHP Warning:  Undefined variable $222 in /var/www/html/catalog/view/template/checkout/register.php on line 346
+2024-01-02 08:19:34 - PHP Warning:  Undefined variable $222 in /var/www/html/catalog/view/template/checkout/register.php on line 346
+2024-01-02 08:19:34 - PHP Warning:  Undefined variable $222 in /var/www/html/catalog/view/template/checkout/register.php on line 346
+2024-01-02 08:19:34 - PHP Warning:  Undefined variable $222 in /var/www/html/catalog/view/template/checkout/register.php on line 346
+2024-01-02 08:19:34 - PHP Warning:  Undefined variable $222 in /var/www/html/catalog/view/template/checkout/register.php on line 346
+2024-01-02 08:19:34 - PHP Warning:  Undefined variable $222 in /var/www/html/catalog/view/template/checkout/register.php on line 346
+2024-01-02 08:19:34 - PHP Warning:  Undefined variable $222 in /var/www/html/catalog/view/template/checkout/register.php on line 346
+2024-01-02 08:19:34 - PHP Warning:  Undefined variable $222 in /var/www/html/catalog/view/template/checkout/register.php on line 346
+2024-01-02 08:19:34 - PHP Warning:  Undefined variable $222 in /var/www/html/catalog/view/template/checkout/register.php on line 346
+2024-01-02 08:19:34 - PHP Warning:  Undefined variable $222 in /var/www/html/catalog/view/template/checkout/register.php on line 346
+2024-01-02 08:19:34 - PHP Warning:  Undefined variable $222 in /var/www/html/catalog/view/template/checkout/register.php on line 346
+2024-01-02 08:19:34 - PHP Warning:  Undefined variable $222 in /var/www/html/catalog/view/template/checkout/register.php on line 346
+2024-01-02 08:19:34 - PHP Warning:  Undefined variable $222 in /var/www/html/catalog/view/template/checkout/register.php on line 346
+2024-01-02 08:19:34 - PHP Warning:  Undefined variable $222 in /var/www/html/catalog/view/template/checkout/register.php on line 346
+2024-01-02 08:19:34 - PHP Warning:  Undefined variable $222 in /var/www/html/catalog/view/template/checkout/register.php on line 346
+2024-01-02 08:19:34 - PHP Warning:  Undefined variable $222 in /var/www/html/catalog/view/template/checkout/register.php on line 346
+2024-01-02 08:19:34 - PHP Warning:  Undefined variable $222 in /var/www/html/catalog/view/template/checkout/register.php on line 346
+2024-01-02 08:19:34 - PHP Warning:  Undefined variable $222 in /var/www/html/catalog/view/template/checkout/register.php on line 346
+2024-01-02 08:19:34 - PHP Warning:  Undefined variable $222 in /var/www/html/catalog/view/template/checkout/register.php on line 346
+2024-01-02 08:19:34 - PHP Warning:  Undefined variable $222 in /var/www/html/catalog/view/template/checkout/register.php on line 346
+2024-01-02 08:19:34 - PHP Warning:  Undefined variable $222 in /var/www/html/catalog/view/template/checkout/register.php on line 346
+2024-01-02 08:19:34 - PHP Warning:  Undefined variable $222 in /var/www/html/catalog/view/template/checkout/register.php on line 346
+2024-01-02 08:19:34 - PHP Warning:  Undefined variable $222 in /var/www/html/catalog/view/template/checkout/register.php on line 346
+2024-01-02 08:19:34 - PHP Warning:  Undefined variable $222 in /var/www/html/catalog/view/template/checkout/register.php on line 346
+2024-01-02 08:19:34 - PHP Warning:  Undefined variable $222 in /var/www/html/catalog/view/template/checkout/register.php on line 346
+2024-01-02 08:19:34 - PHP Warning:  Undefined variable $222 in /var/www/html/catalog/view/template/checkout/register.php on line 346
+2024-01-02 08:19:34 - PHP Warning:  Undefined variable $222 in /var/www/html/catalog/view/template/checkout/register.php on line 346
+2024-01-02 08:19:34 - PHP Warning:  Undefined variable $222 in /var/www/html/catalog/view/template/checkout/register.php on line 346
+2024-01-02 08:19:34 - PHP Warning:  Undefined variable $222 in /var/www/html/catalog/view/template/checkout/register.php on line 346
+2024-01-02 08:19:34 - PHP Warning:  Undefined variable $222 in /var/www/html/catalog/view/template/checkout/register.php on line 346
+2024-01-02 08:19:34 - PHP Warning:  Undefined variable $222 in /var/www/html/catalog/view/template/checkout/register.php on line 346
+2024-01-02 08:19:34 - PHP Warning:  Undefined variable $222 in /var/www/html/catalog/view/template/checkout/register.php on line 346
+2024-01-02 08:19:34 - PHP Warning:  Undefined variable $222 in /var/www/html/catalog/view/template/checkout/register.php on line 346
+2024-01-02 08:19:34 - PHP Warning:  Undefined variable $222 in /var/www/html/catalog/view/template/checkout/register.php on line 346
+2024-01-02 08:19:34 - PHP Warning:  Undefined variable $222 in /var/www/html/catalog/view/template/checkout/register.php on line 346
+2024-01-02 08:19:34 - PHP Warning:  Undefined variable $222 in /var/www/html/catalog/view/template/checkout/register.php on line 346
+2024-01-02 08:19:34 - PHP Warning:  Undefined variable $222 in /var/www/html/catalog/view/template/checkout/register.php on line 346
+2024-01-02 08:19:34 - PHP Warning:  Undefined variable $222 in /var/www/html/catalog/view/template/checkout/register.php on line 346
+2024-01-02 08:19:34 - PHP Warning:  Undefined variable $222 in /var/www/html/catalog/view/template/checkout/register.php on line 346
+2024-01-02 08:19:34 - PHP Warning:  Undefined variable $222 in /var/www/html/catalog/view/template/checkout/register.php on line 346
+2024-01-02 08:19:34 - PHP Warning:  Undefined variable $222 in /var/www/html/catalog/view/template/checkout/register.php on line 346
+2024-01-02 08:19:34 - PHP Warning:  Undefined variable $222 in /var/www/html/catalog/view/template/checkout/register.php on line 346
+2024-01-02 08:19:34 - PHP Warning:  Undefined variable $222 in /var/www/html/catalog/view/template/checkout/register.php on line 346
+2024-01-02 08:19:34 - PHP Warning:  Undefined variable $222 in /var/www/html/catalog/view/template/checkout/register.php on line 346
+2024-01-02 08:19:34 - PHP Warning:  Undefined variable $222 in /var/www/html/catalog/view/template/checkout/register.php on line 346
+2024-01-02 08:19:34 - PHP Warning:  Undefined variable $222 in /var/www/html/catalog/view/template/checkout/register.php on line 346
+2024-01-02 08:19:34 - PHP Warning:  Undefined variable $222 in /var/www/html/catalog/view/template/checkout/register.php on line 346
+2024-01-02 08:19:34 - PHP Warning:  Undefined variable $222 in /var/www/html/catalog/view/template/checkout/register.php on line 346
+2024-01-02 08:19:34 - PHP Warning:  Undefined variable $222 in /var/www/html/catalog/view/template/checkout/register.php on line 346
+2024-01-02 08:19:34 - PHP Warning:  Undefined variable $222 in /var/www/html/catalog/view/template/checkout/register.php on line 346
+2024-01-02 08:19:34 - PHP Warning:  Undefined variable $222 in /var/www/html/catalog/view/template/checkout/register.php on line 346
+2024-01-02 08:19:34 - PHP Warning:  Undefined variable $222 in /var/www/html/catalog/view/template/checkout/register.php on line 346
+2024-01-02 08:19:34 - PHP Warning:  Undefined variable $222 in /var/www/html/catalog/view/template/checkout/register.php on line 346
+2024-01-02 08:19:34 - PHP Warning:  Undefined variable $222 in /var/www/html/catalog/view/template/checkout/register.php on line 346
+2024-01-02 08:19:34 - PHP Warning:  Undefined variable $222 in /var/www/html/catalog/view/template/checkout/register.php on line 346
+2024-01-02 08:19:34 - PHP Warning:  Undefined variable $222 in /var/www/html/catalog/view/template/checkout/register.php on line 346
+2024-01-02 08:19:34 - PHP Warning:  Undefined variable $222 in /var/www/html/catalog/view/template/checkout/register.php on line 346
+2024-01-02 08:19:34 - PHP Warning:  Undefined variable $222 in /var/www/html/catalog/view/template/checkout/register.php on line 346
+2024-01-02 08:19:34 - PHP Warning:  Undefined variable $222 in /var/www/html/catalog/view/template/checkout/register.php on line 346
+2024-01-02 08:19:34 - PHP Warning:  Undefined variable $222 in /var/www/html/catalog/view/template/checkout/register.php on line 346
+2024-01-02 08:19:34 - PHP Warning:  Undefined variable $222 in /var/www/html/catalog/view/template/checkout/register.php on line 346
+2024-01-02 08:19:34 - PHP Warning:  Undefined variable $222 in /var/www/html/catalog/view/template/checkout/register.php on line 346
+2024-01-02 08:19:34 - PHP Warning:  Undefined variable $222 in /var/www/html/catalog/view/template/checkout/register.php on line 346
+2024-01-02 08:19:34 - PHP Warning:  Undefined variable $222 in /var/www/html/catalog/view/template/checkout/register.php on line 346
+2024-01-02 08:19:34 - PHP Warning:  Undefined variable $222 in /var/www/html/catalog/view/template/checkout/register.php on line 346
+2024-01-02 08:19:34 - PHP Warning:  Undefined variable $222 in /var/www/html/catalog/view/template/checkout/register.php on line 346
+2024-01-02 08:19:34 - PHP Warning:  Undefined variable $222 in /var/www/html/catalog/view/template/checkout/register.php on line 346
+2024-01-02 08:19:34 - PHP Warning:  Undefined variable $222 in /var/www/html/catalog/view/template/checkout/register.php on line 346
+2024-01-02 08:19:34 - PHP Warning:  Undefined variable $222 in /var/www/html/catalog/view/template/checkout/register.php on line 346
+2024-01-02 08:19:34 - PHP Warning:  Undefined variable $222 in /var/www/html/catalog/view/template/checkout/register.php on line 346
+2024-01-02 08:19:34 - PHP Warning:  Undefined variable $222 in /var/www/html/catalog/view/template/checkout/register.php on line 346
+2024-01-02 08:19:34 - PHP Warning:  Undefined variable $222 in /var/www/html/catalog/view/template/checkout/register.php on line 346
+2024-01-02 08:19:34 - PHP Warning:  Undefined variable $222 in /var/www/html/catalog/view/template/checkout/register.php on line 346
+2024-01-02 08:19:34 - PHP Warning:  Undefined variable $222 in /var/www/html/catalog/view/template/checkout/register.php on line 346
+2024-01-02 08:19:34 - PHP Warning:  Undefined variable $222 in /var/www/html/catalog/view/template/checkout/register.php on line 346
+2024-01-02 08:19:34 - PHP Warning:  Undefined variable $222 in /var/www/html/catalog/view/template/checkout/register.php on line 346
+2024-01-02 08:19:34 - PHP Warning:  Undefined variable $222 in /var/www/html/catalog/view/template/checkout/register.php on line 346
+2024-01-02 08:19:34 - PHP Warning:  Undefined variable $222 in /var/www/html/catalog/view/template/checkout/register.php on line 346
+2024-01-02 08:19:34 - PHP Warning:  Undefined variable $222 in /var/www/html/catalog/view/template/checkout/register.php on line 346
+2024-01-02 08:19:34 - PHP Warning:  Undefined variable $222 in /var/www/html/catalog/view/template/checkout/register.php on line 346
+2024-01-02 08:19:34 - PHP Warning:  Undefined variable $222 in /var/www/html/catalog/view/template/checkout/register.php on line 346
+2024-01-02 08:19:34 - PHP Warning:  Undefined variable $222 in /var/www/html/catalog/view/template/checkout/register.php on line 346
+2024-01-02 08:19:34 - PHP Warning:  Undefined variable $222 in /var/www/html/catalog/view/template/checkout/register.php on line 346
+2024-01-02 08:19:34 - PHP Warning:  Undefined variable $222 in /var/www/html/catalog/view/template/checkout/register.php on line 346
+2024-01-02 08:19:34 - PHP Warning:  Undefined variable $222 in /var/www/html/catalog/view/template/checkout/register.php on line 346
+2024-01-02 08:19:34 - PHP Warning:  Undefined variable $222 in /var/www/html/catalog/view/template/checkout/register.php on line 346
+2024-01-02 08:19:34 - PHP Warning:  Undefined variable $222 in /var/www/html/catalog/view/template/checkout/register.php on line 346
+2024-01-02 08:19:34 - PHP Warning:  Undefined variable $222 in /var/www/html/catalog/view/template/checkout/register.php on line 346
+2024-01-02 08:19:34 - PHP Warning:  Undefined variable $222 in /var/www/html/catalog/view/template/checkout/register.php on line 346
+2024-01-02 08:19:34 - PHP Warning:  Undefined variable $222 in /var/www/html/catalog/view/template/checkout/register.php on line 346
+2024-01-02 08:19:34 - PHP Warning:  Undefined variable $222 in /var/www/html/catalog/view/template/checkout/register.php on line 346
+2024-01-02 08:19:34 - PHP Warning:  Undefined variable $222 in /var/www/html/catalog/view/template/checkout/register.php on line 346
+2024-01-02 08:19:34 - PHP Warning:  Undefined variable $222 in /var/www/html/catalog/view/template/checkout/register.php on line 346
+2024-01-02 08:19:34 - PHP Warning:  Undefined variable $222 in /var/www/html/catalog/view/template/checkout/register.php on line 346
+2024-01-02 08:19:34 - PHP Warning:  Undefined variable $222 in /var/www/html/catalog/view/template/checkout/register.php on line 346
+2024-01-02 08:19:34 - PHP Warning:  Undefined variable $222 in /var/www/html/catalog/view/template/checkout/register.php on line 346
+2024-01-02 08:19:34 - PHP Warning:  Undefined variable $222 in /var/www/html/catalog/view/template/checkout/register.php on line 346
+2024-01-02 08:19:34 - PHP Warning:  Undefined variable $222 in /var/www/html/catalog/view/template/checkout/register.php on line 346
+2024-01-02 08:19:34 - PHP Warning:  Undefined variable $222 in /var/www/html/catalog/view/template/checkout/register.php on line 346
+2024-01-02 08:19:34 - PHP Warning:  Undefined variable $222 in /var/www/html/catalog/view/template/checkout/register.php on line 346
+2024-01-02 08:19:34 - PHP Warning:  Undefined variable $222 in /var/www/html/catalog/view/template/checkout/register.php on line 346
+2024-01-02 08:19:34 - PHP Warning:  Undefined variable $222 in /var/www/html/catalog/view/template/checkout/register.php on line 346
+2024-01-02 08:19:34 - PHP Warning:  Undefined variable $222 in /var/www/html/catalog/view/template/checkout/register.php on line 346
+2024-01-02 08:19:34 - PHP Warning:  Undefined variable $222 in /var/www/html/catalog/view/template/checkout/register.php on line 346
+2024-01-02 08:19:34 - PHP Warning:  Undefined variable $222 in /var/www/html/catalog/view/template/checkout/register.php on line 346
+2024-01-02 08:19:34 - PHP Warning:  Undefined variable $222 in /var/www/html/catalog/view/template/checkout/register.php on line 346
+2024-01-02 08:19:34 - PHP Warning:  Undefined variable $222 in /var/www/html/catalog/view/template/checkout/register.php on line 346
+2024-01-02 08:19:34 - PHP Warning:  Undefined variable $222 in /var/www/html/catalog/view/template/checkout/register.php on line 346
+2024-01-02 08:19:34 - PHP Warning:  Undefined variable $222 in /var/www/html/catalog/view/template/checkout/register.php on line 346
+2024-01-02 08:19:34 - PHP Warning:  Undefined variable $222 in /var/www/html/catalog/view/template/checkout/register.php on line 346
+2024-01-02 08:19:34 - PHP Warning:  Undefined variable $222 in /var/www/html/catalog/view/template/checkout/register.php on line 346
+2024-01-02 08:19:34 - PHP Warning:  Undefined variable $222 in /var/www/html/catalog/view/template/checkout/register.php on line 346
+2024-01-02 08:19:34 - PHP Warning:  Undefined variable $222 in /var/www/html/catalog/view/template/checkout/register.php on line 346
+2024-01-02 08:19:34 - PHP Warning:  Undefined variable $222 in /var/www/html/catalog/view/template/checkout/register.php on line 346
+2024-01-02 08:19:34 - PHP Warning:  Undefined variable $222 in /var/www/html/catalog/view/template/checkout/register.php on line 346
+2024-01-02 08:19:34 - PHP Warning:  Undefined variable $222 in /var/www/html/catalog/view/template/checkout/register.php on line 346
+2024-01-02 08:19:34 - PHP Warning:  Undefined variable $222 in /var/www/html/catalog/view/template/checkout/register.php on line 346
+2024-01-02 08:19:34 - PHP Warning:  Undefined variable $222 in /var/www/html/catalog/view/template/checkout/register.php on line 346
+2024-01-02 08:19:34 - PHP Warning:  Undefined variable $222 in /var/www/html/catalog/view/template/checkout/register.php on line 346
+2024-01-02 08:19:34 - PHP Warning:  Undefined variable $222 in /var/www/html/catalog/view/template/checkout/register.php on line 346
+2024-01-02 08:19:34 - PHP Warning:  Undefined variable $222 in /var/www/html/catalog/view/template/checkout/register.php on line 346
+2024-01-02 08:19:34 - PHP Warning:  Undefined variable $222 in /var/www/html/catalog/view/template/checkout/register.php on line 346
+2024-01-02 08:19:34 - PHP Warning:  Undefined variable $222 in /var/www/html/catalog/view/template/checkout/register.php on line 346
+2024-01-02 08:19:34 - PHP Warning:  Undefined variable $222 in /var/www/html/catalog/view/template/checkout/register.php on line 346
+2024-01-02 08:19:34 - PHP Warning:  Undefined variable $222 in /var/www/html/catalog/view/template/checkout/register.php on line 346
+2024-01-02 08:19:34 - PHP Warning:  Undefined variable $222 in /var/www/html/catalog/view/template/checkout/register.php on line 346
+2024-01-02 08:19:34 - PHP Warning:  Undefined variable $222 in /var/www/html/catalog/view/template/checkout/register.php on line 346
+2024-01-02 08:19:34 - PHP Warning:  Undefined variable $222 in /var/www/html/catalog/view/template/checkout/register.php on line 346
+2024-01-02 08:19:34 - PHP Warning:  Undefined variable $222 in /var/www/html/catalog/view/template/checkout/register.php on line 346
+2024-01-02 08:19:34 - PHP Warning:  Undefined variable $222 in /var/www/html/catalog/view/template/checkout/register.php on line 346
+2024-01-02 08:19:34 - PHP Warning:  Undefined variable $222 in /var/www/html/catalog/view/template/checkout/register.php on line 346
+2024-01-02 08:19:34 - PHP Warning:  Undefined variable $222 in /var/www/html/catalog/view/template/checkout/register.php on line 346
+2024-01-02 08:19:34 - PHP Warning:  Undefined variable $222 in /var/www/html/catalog/view/template/checkout/register.php on line 346
+2024-01-02 08:19:34 - PHP Warning:  Undefined variable $222 in /var/www/html/catalog/view/template/checkout/register.php on line 346
+2024-01-02 08:19:34 - PHP Warning:  Undefined variable $222 in /var/www/html/catalog/view/template/checkout/register.php on line 346
+2024-01-02 08:19:34 - PHP Warning:  Undefined variable $222 in /var/www/html/catalog/view/template/checkout/register.php on line 346
+2024-01-02 08:19:34 - PHP Warning:  Undefined variable $222 in /var/www/html/catalog/view/template/checkout/register.php on line 346
+2024-01-02 08:19:34 - PHP Warning:  Undefined variable $222 in /var/www/html/catalog/view/template/checkout/register.php on line 346
+2024-01-02 08:19:34 - PHP Warning:  Undefined variable $222 in /var/www/html/catalog/view/template/checkout/register.php on line 346
+2024-01-02 08:19:34 - PHP Warning:  Undefined variable $222 in /var/www/html/catalog/view/template/checkout/register.php on line 346
+2024-01-02 08:19:34 - PHP Warning:  Undefined variable $222 in /var/www/html/catalog/view/template/checkout/register.php on line 346
+2024-01-02 08:19:34 - PHP Warning:  Undefined variable $222 in /var/www/html/catalog/view/template/checkout/register.php on line 346
+2024-01-02 08:19:34 - PHP Warning:  Undefined variable $222 in /var/www/html/catalog/view/template/checkout/register.php on line 346
+2024-01-02 08:19:34 - PHP Warning:  Undefined variable $222 in /var/www/html/catalog/view/template/checkout/register.php on line 346
+2024-01-02 08:19:34 - PHP Warning:  Undefined variable $222 in /var/www/html/catalog/view/template/checkout/register.php on line 346
+2024-01-02 08:19:34 - PHP Warning:  Undefined variable $222 in /var/www/html/catalog/view/template/checkout/register.php on line 346
+2024-01-02 08:19:34 - PHP Warning:  Undefined variable $222 in /var/www/html/catalog/view/template/checkout/register.php on line 346
+2024-01-02 08:19:34 - PHP Warning:  Undefined variable $222 in /var/www/html/catalog/view/template/checkout/register.php on line 346
+2024-01-02 08:19:34 - PHP Warning:  Undefined variable $222 in /var/www/html/catalog/view/template/checkout/register.php on line 346
+2024-01-02 08:19:34 - PHP Warning:  Undefined variable $222 in /var/www/html/catalog/view/template/checkout/register.php on line 346
+2024-01-02 08:19:34 - PHP Warning:  Undefined variable $222 in /var/www/html/catalog/view/template/checkout/register.php on line 346
+2024-01-02 08:19:34 - PHP Warning:  Undefined variable $222 in /var/www/html/catalog/view/template/checkout/register.php on line 346
+2024-01-02 08:19:34 - PHP Warning:  Undefined variable $222 in /var/www/html/catalog/view/template/checkout/register.php on line 346
+2024-01-02 08:19:34 - PHP Warning:  Undefined variable $222 in /var/www/html/catalog/view/template/checkout/register.php on line 346
+2024-01-02 08:19:34 - PHP Warning:  Undefined variable $222 in /var/www/html/catalog/view/template/checkout/register.php on line 346
+2024-01-02 08:19:34 - PHP Warning:  Undefined variable $222 in /var/www/html/catalog/view/template/checkout/register.php on line 346
+2024-01-02 08:19:34 - PHP Warning:  Undefined variable $222 in /var/www/html/catalog/view/template/checkout/register.php on line 346
+2024-01-02 08:19:34 - PHP Warning:  Undefined variable $222 in /var/www/html/catalog/view/template/checkout/register.php on line 346
+2024-01-02 08:19:34 - PHP Warning:  Undefined variable $222 in /var/www/html/catalog/view/template/checkout/register.php on line 346
+2024-01-02 08:19:34 - PHP Warning:  Undefined variable $222 in /var/www/html/catalog/view/template/checkout/register.php on line 346
+2024-01-02 08:19:34 - PHP Warning:  Undefined variable $222 in /var/www/html/catalog/view/template/checkout/register.php on line 346
+2024-01-02 08:19:34 - PHP Warning:  Undefined variable $222 in /var/www/html/catalog/view/template/checkout/register.php on line 346
+2024-01-02 08:19:34 - PHP Warning:  Undefined variable $222 in /var/www/html/catalog/view/template/checkout/register.php on line 346
+2024-01-02 08:19:34 - PHP Warning:  Undefined variable $222 in /var/www/html/catalog/view/template/checkout/register.php on line 346
+2024-01-02 08:19:34 - PHP Warning:  Undefined variable $222 in /var/www/html/catalog/view/template/checkout/register.php on line 346
+2024-01-02 08:19:34 - PHP Warning:  Undefined variable $222 in /var/www/html/catalog/view/template/checkout/register.php on line 346
+2024-01-02 08:19:34 - PHP Warning:  Undefined variable $222 in /var/www/html/catalog/view/template/checkout/register.php on line 346
+2024-01-02 08:19:34 - PHP Warning:  Undefined variable $222 in /var/www/html/catalog/view/template/checkout/register.php on line 346
+2024-01-02 08:19:34 - PHP Warning:  Undefined variable $222 in /var/www/html/catalog/view/template/checkout/register.php on line 346
+2024-01-02 08:19:34 - PHP Warning:  Undefined variable $222 in /var/www/html/catalog/view/template/checkout/register.php on line 346
+2024-01-02 08:19:34 - PHP Warning:  Undefined variable $222 in /var/www/html/catalog/view/template/checkout/register.php on line 346
+2024-01-02 08:19:34 - PHP Warning:  Undefined variable $222 in /var/www/html/catalog/view/template/checkout/register.php on line 346
+2024-01-02 08:19:34 - PHP Warning:  Undefined variable $222 in /var/www/html/catalog/view/template/checkout/register.php on line 346
+2024-01-02 08:19:34 - PHP Warning:  Undefined variable $222 in /var/www/html/catalog/view/template/checkout/register.php on line 346
+2024-01-02 08:19:34 - PHP Warning:  Undefined variable $222 in /var/www/html/catalog/view/template/checkout/register.php on line 346
+2024-01-02 08:19:34 - PHP Warning:  Undefined variable $222 in /var/www/html/catalog/view/template/checkout/register.php on line 346
+2024-01-02 08:19:34 - PHP Warning:  Undefined variable $222 in /var/www/html/catalog/view/template/checkout/register.php on line 346
+2024-01-02 08:19:34 - PHP Warning:  Undefined variable $222 in /var/www/html/catalog/view/template/checkout/register.php on line 346
+2024-01-02 08:19:34 - PHP Warning:  Undefined variable $222 in /var/www/html/catalog/view/template/checkout/register.php on line 346
+2024-01-02 08:19:34 - PHP Warning:  Undefined variable $222 in /var/www/html/catalog/view/template/checkout/register.php on line 346
+2024-01-02 08:19:34 - PHP Warning:  Undefined variable $222 in /var/www/html/catalog/view/template/checkout/register.php on line 346
+2024-01-02 08:19:34 - PHP Warning:  Undefined variable $222 in /var/www/html/catalog/view/template/checkout/register.php on line 346
+2024-01-02 08:19:34 - PHP Warning:  Undefined variable $222 in /var/www/html/catalog/view/template/checkout/register.php on line 346
+2024-01-02 08:19:34 - PHP Warning:  Undefined variable $222 in /var/www/html/catalog/view/template/checkout/register.php on line 346
+2024-01-02 08:19:34 - PHP Warning:  Undefined variable $222 in /var/www/html/catalog/view/template/checkout/register.php on line 346
+2024-01-02 08:19:34 - PHP Warning:  Undefined variable $222 in /var/www/html/catalog/view/template/checkout/register.php on line 346
+2024-01-02 08:19:34 - PHP Warning:  Undefined variable $222 in /var/www/html/catalog/view/template/checkout/register.php on line 346
+2024-01-02 08:19:34 - PHP Warning:  Undefined variable $222 in /var/www/html/catalog/view/template/checkout/register.php on line 346
+2024-01-02 08:19:34 - PHP Warning:  Undefined variable $222 in /var/www/html/catalog/view/template/checkout/register.php on line 346
+2024-01-02 08:19:34 - PHP Warning:  Undefined variable $222 in /var/www/html/catalog/view/template/checkout/register.php on line 346
+2024-01-02 08:19:34 - PHP Warning:  Undefined variable $222 in /var/www/html/catalog/view/template/checkout/register.php on line 346
+2024-01-02 08:19:34 - PHP Warning:  Undefined variable $222 in /var/www/html/catalog/view/template/checkout/register.php on line 346
+2024-01-02 08:19:34 - PHP Warning:  Undefined variable $222 in /var/www/html/catalog/view/template/checkout/register.php on line 346
+2024-01-02 08:19:34 - PHP Warning:  Undefined variable $222 in /var/www/html/catalog/view/template/checkout/register.php on line 346
+2024-01-02 08:19:34 - PHP Warning:  Undefined variable $222 in /var/www/html/catalog/view/template/checkout/register.php on line 346
+2024-01-02 08:19:34 - PHP Warning:  Undefined variable $222 in /var/www/html/catalog/view/template/checkout/register.php on line 346
+2024-01-02 08:19:34 - PHP Warning:  Undefined variable $222 in /var/www/html/catalog/view/template/checkout/register.php on line 346
+2024-01-02 08:19:34 - PHP Warning:  Undefined variable $222 in /var/www/html/catalog/view/template/checkout/register.php on line 346
+2024-01-02 08:19:34 - PHP Warning:  Undefined variable $222 in /var/www/html/catalog/view/template/checkout/register.php on line 346
+2024-01-02 08:19:34 - PHP Warning:  Undefined variable $222 in /var/www/html/catalog/view/template/checkout/register.php on line 346
+2024-01-02 08:19:34 - PHP Warning:  Undefined variable $payment in /var/www/html/catalog/view/template/checkout/payment.php on line 1
+2024-01-02 08:29:00 - PHP Warning: Undefined array key "model"
+File: /var/www/html/admin/model/sale/order.php
+Line: 304
+
+2024-01-02 08:29:00 - PHP Warning: Undefined array key "sku"
+File: /var/www/html/admin/model/sale/order.php
+Line: 305
+
+2024-01-02 08:39:36 - PHP Warning: Undefined array key "sort_order"
+File: /var/www/html/admin/model/catalog/option.php
+Line: 18
+
+2024-01-02 08:39:36 - 0:  Opencart\System\Library\DB::escape(): Argument #1 ($value) must be of type string, null given, called in /var/www/html/admin/model/catalog/option.php on line 18
+File: /var/www/html/system/library/db.php
+Line: 62
+
+2024-01-02 08:39:37 - PHP Warning: Undefined array key "sort_order"
+File: /var/www/html/admin/model/catalog/option.php
+Line: 18
+
+2024-01-02 08:39:37 - 0:  Opencart\System\Library\DB::escape(): Argument #1 ($value) must be of type string, null given, called in /var/www/html/admin/model/catalog/option.php on line 18
+File: /var/www/html/system/library/db.php
+Line: 62
+
+2024-01-02 08:41:47 - PHP Warning: Undefined array key "sort_order"
+File: /var/www/html/admin/model/catalog/option.php
+Line: 53
+
+2024-01-02 08:41:47 - 0:  Opencart\System\Library\DB::escape(): Argument #1 ($value) must be of type string, null given, called in /var/www/html/admin/model/catalog/option.php on line 53
+File: /var/www/html/system/library/db.php
+Line: 62
+
+2024-01-02 08:41:48 - PHP Warning: Undefined array key "sort_order"
+File: /var/www/html/admin/controller/catalog/option.php
+Line: 109
+
+2024-01-02 08:53:53 - PHP Warning: Undefined array key "image"
+File: /var/www/html/admin/model/catalog/product.php
+Line: 875
+
+2024-01-02 08:53:53 - PHP Warning: Undefined array key "image"
+File: /var/www/html/admin/model/catalog/product.php
+Line: 875
+
+2024-01-02 08:53:53 - PHP Warning: Undefined array key "image"
+File: /var/www/html/admin/model/catalog/product.php
+Line: 875
+
+2024-01-02 08:53:54 - PHP Warning: Undefined array key "image"
+File: /var/www/html/admin/model/catalog/product.php
+Line: 875
+
+2024-01-02 08:53:54 - PHP Warning: Undefined array key "image"
+File: /var/www/html/admin/model/catalog/product.php
+Line: 875
+
+2024-01-02 08:53:54 - PHP Warning: Undefined array key "image"
+File: /var/www/html/admin/model/catalog/product.php
+Line: 875
+
+2024-01-02 10:48:45 - PHP Warning: file_get_contents(https://developers.cjdropshipping.com/api2.0/v1/shopping/order/list?pageNum=1&amp;pageSize=10): Failed to open stream: HTTP request failed! HTTP/1.1 401 
+
+File: /var/www/html/extension/cjdropshipping_import/system/library/cjapi.class.php
+Line: 120
+
+2024-01-02 10:48:46 - PHP Warning: file_get_contents(https://developers.cjdropshipping.com/api2.0/v1/shopping/pay/getBalance): Failed to open stream: HTTP request failed! HTTP/1.1 401 
+
+File: /var/www/html/extension/cjdropshipping_import/system/library/cjapi.class.php
+Line: 120
+
+2024-01-02 10:48:46 - PHP Warning: Trying to access array offset on value of type bool
+File: /var/www/html/extension/cjdropshipping_import/admin/controller/other/cjdropshipping_import.php
+Line: 875
+
+2024-01-02 11:33:58 - PHP Warning: Undefined array key "sort_order"
+File: /var/www/html/admin/controller/catalog/option.php
+Line: 206
+
+2024-01-02 11:34:29 - PHP Warning: Undefined array key "sort_order"
+File: /var/www/html/admin/controller/catalog/option.php
+Line: 206
+

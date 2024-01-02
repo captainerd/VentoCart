@@ -36,6 +36,7 @@ $_['text_reward']             = 'Buy Points';
 $_['text_points']             = 'Reward Points';
 $_['text_report']             = 'Reports';
 $_['text_discount']             = 'Discount';
+$_['text_add_new_option']       = "Add New Option";
 $_['text_quantity_discount']             = 'Quantity Discount';
 $_['text_temporary_attributes'] = '* If you want to copy/paste a temporary set of attributes, add a dummy attribute and then in the text area, you can use the format: "title: text" or "title:text". Each attribute should be on a new line.';
 $_['text_notice_image']         = '<strong>Notice:</strong> Please save the product before uploading media.';
@@ -52,11 +53,14 @@ $_['column_store']            = 'Store';
 $_['column_country']          = 'Country';
 $_['column_date_added']       = 'Date Added';
 $_['column_action']           = 'Action';
-
+ 
 // Entry
 $_['entry_save_variation']    = 'Save Variation';
 $_['entry_name']              = 'Product Name';
-
+$_['entry_select_language']   = 'Select Language';
+$_['option_type']             = 'Option Type';
+$_['entry_existing_option']   = "Existing Option";
+$_['entry_new_option']        = 'New Option';
 $_['entry_description']       = 'Description';
 $_['entry_meta_title']        = 'Meta Tag Title';
 $_['entry_meta_keyword']      = 'Meta Tag Keywords';
@@ -118,7 +122,8 @@ $_['option_end_price']        = 'Total (Options and Variations)';
 $_['option_price']            = 'New price';
 $_['option_percentage']       = '% Off Percentage';
 $_['entry_value']             = 'Value';
-
+$_['entry_option_name']       = "Option #zzz Name";
+$_['entry_group_option_name'] = 'Option Group Name';
 // Help
 $_['help_var_price_notice']   = 'Variation pricing overrides option pricing.';
  
