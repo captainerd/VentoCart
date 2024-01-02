@@ -780,7 +780,7 @@
 
 
 
-              <div id="noticeimage" {% if product_id > 0 %} style="visibility: hidden;" {% endif %} class="alert alert-info alert-dismissible fade show" role="alert">
+              <div id="noticeimage" {% if product_id > 0 %} style="visibility: hidden;" {% endif %} class="alert alert-info show" role="alert">
               {{text_notice_image}}
               
             </div>
@@ -1396,7 +1396,7 @@ $('#report').on('click', '.pagination a', function (e) {
                 }
               }
                 setTimeout(() => {
-                    $(".alert").alert('close');
+                  $('#alert').alert('close');
                 }, 5500);
 
              
@@ -1417,7 +1417,7 @@ $('#report').on('click', '.pagination a', function (e) {
                 $('#alert').prepend('<div class="alert alert-success alert-dismissible"><i class="fa-solid fa-circle-check"></i> ' + JSON.stringify(error) + ' <button type="button" class="btn-close" data-bs-dismiss="alert"></button></div>');
                 
                 setTimeout(() => {
-                    $(".alert").alert('close');
+                  $('#alert').alert('close');
                 }, 5500);
 
                 var userToken = encodeURIComponent('{{user_token}}');
