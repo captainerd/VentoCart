@@ -527,8 +527,8 @@ $(document).ready(function () {
             if (variation) {
 
                 //Apply any potential discount ('special' only when type is total)
-                currentPrice = currentPrice - (currentPrice * window.discount / 100);
-                currentPrice = parseFloat(variation.price);
+                currentPrice = variation.price - ((variation.price) * window.discount / 100);
+                currentPrice = parseFloat(currentPrice);
                //Apply any potential taxes
              
                 currentPrice = calculateTax(currentPrice);

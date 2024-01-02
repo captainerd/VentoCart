@@ -137,7 +137,7 @@ $isVideo = in_array($popupExtension, $videoExtensions);
                   <li><h3><span class="price-new  price-calc price-offer"><?= $this->e($special ) ?> </span>   </h3>
                 
                 <?php if (isset($special_ends) && $special_ends !== '0000-00-00' && strtotime($special_ends) > time()): ?>
-            <h4><b> <span class="alert-danger"> -%<?= $special_off ?> Off - <?= $text_ends_in?>:</span> 
+            <h4><b> <span class="alert-danger"> <?php if (isset($special_off)):?> -%<?= $special_off ?> Off - <?php endif;?><?= $text_ends_in?>:</span> 
               <span  class="text-danger" id="coundown"> <?= $special_ends ?> </span></b></h4>
                <?php endif; ?>
 

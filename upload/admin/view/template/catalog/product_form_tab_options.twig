@@ -285,7 +285,7 @@ color: #595959;
           name="product_option[{{ option_row }}][product_option_value][{{ option_value_row }}][price_prefix]">
           <option value="+" {% if product_option_value.price_prefix=='+' %}selected{% endif %}>+</option>
           <option value="-" {% if product_option_value.price_prefix=='-' %}selected{% endif %}>-</option>
-          <option value="-" {% if product_option_value.price_prefix=='=' %}selected{% endif %}>=</option>
+          <option value="=" {% if product_option_value.price_prefix=='=' %}selected{% endif %}>=</option>
         </select>
       </div>
       <input class="read-only form-control" pattern="[0-9]+([\.,][0-9]+)?" style="min-width: 80px;" type="text"

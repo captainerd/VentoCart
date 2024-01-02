@@ -1384,19 +1384,19 @@ $('#report').on('click', '.pagination a', function (e) {
                 window.product_id = response.product_id;
               }
                 if (response.success) { 
-                    $('#alert').prepend('<div class="alert alert-success alert-dismissible"><i class="fa-solid fa-circle-check"></i> ' + response.success + ' <button type="button" class="btn-close" data-bs-dismiss="alert"></button></div>');
+                    $('#alert').prepend('<div class="alert alertsp2 alert-success alert-dismissible"><i class="fa-solid fa-circle-check"></i> ' + response.success + ' <button type="button" class="btn-close" data-bs-dismiss="alert"></button></div>');
                 } else {
                   if (typeof response.error !== "undefined") {
                     console.log( response.error)
                     Object.entries(response.error).map(([key, value]) => {
-                    $('#alert').prepend('<div class="alert alert-danger alert-dismissible"><i class="fa-solid fa-circle-check"></i> ' + key + ': ' + value + ' <button type="button" class="btn-close" data-bs-dismiss="alert"></button></div>');
+                    $('#alert').prepend('<div class="alert alertsp2 alert-danger alert-dismissible"><i class="fa-solid fa-circle-check"></i> ' + key + ': ' + value + ' <button type="button" class="btn-close" data-bs-dismiss="alert"></button></div>');
                     });
                   } else {
-                    $('#alert').prepend('<div class="alert alert-success alert-dismissible"><i class="fa-solid fa-circle-check"></i> ' + JSON.stringify(response) + ' <button type="button" class="btn-close" data-bs-dismiss="alert"></button></div>');
+                    $('#alert').prepend('<div class="alert alertsp2 alert-success alert-dismissible"><i class="fa-solid fa-circle-check"></i> ' + JSON.stringify(response) + ' <button type="button" class="btn-close" data-bs-dismiss="alert"></button></div>');
                 }
               }
                 setTimeout(() => {
-                  $('#alert').alert('close');
+                  $('.alertsp2').alert('close');
                 }, 5500);
 
              
@@ -1414,10 +1414,10 @@ $('#report').on('click', '.pagination a', function (e) {
                 alert(JSON.stringify(error));
          
                
-                $('#alert').prepend('<div class="alert alert-success alert-dismissible"><i class="fa-solid fa-circle-check"></i> ' + JSON.stringify(error) + ' <button type="button" class="btn-close" data-bs-dismiss="alert"></button></div>');
+                $('#alert').prepend('<div class="alert alertsp2 alert-success alert-dismissible"><i class="fa-solid fa-circle-check"></i> ' + JSON.stringify(error) + ' <button type="button" class="btn-close" data-bs-dismiss="alert"></button></div>');
                 
                 setTimeout(() => {
-                  $('#alert').alert('close');
+                  $('.alertsp2').alert('close');
                 }, 5500);
 
                 var userToken = encodeURIComponent('{{user_token}}');
