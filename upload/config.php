@@ -4,7 +4,7 @@
 define('APPLICATION', 'Catalog');
 
 // HTTP
-define('HTTP_SERVER', 'http://localhost/');
+define('HTTP_SERVER', 'http://127.0.0.1/');
 
 // DIR
 define('DIR_OPENCART', '/var/www/html/');
