@@ -160,26 +160,26 @@
 							  </div>
 							</div>
 							{% if existing_variations %}
-							  <div class="row mt-2">
+							<div class="row mt-2">
 								{% for variation in existing_variations %}
 								  <div class="col-md-4">
 									<div class="card mb-4">
 									  <div class="card-body">
 										<p class="card-text">
-											{% for option in variation.options %}
-											  <span class="variation-option">
-												<span class="name">{{ option.name }}:</span>
-												{{ option.value }}
-											  </span>
-											  {% if not loop.last %}
-												<span class="separator">+</span>
-											  {% endif %}
-											{% endfor %}
-										  </p>
-										<h5 class="card-title">{{ variation.sku }}</h5>
-										<p class="card-text">{{ variation.quantity }}</p>
-										<p class="card-text">{{ variation.price_formated }}</p>
-								 
+										  {% for option in variation.options %}
+											<span class="variation-option">
+											  <span class="name">{{ option.name }}:</span>
+											  {{ option.value }}
+											</span>
+											{% if not loop.last %}
+											  <span class="separator">+</span>
+											{% endif %}
+										  {% endfor %}
+										</p>
+										<h5 class="card-title">{{ entry_sku }}: {{ variation.sku }}</h5>
+										<p class="card-text">{{ text_stock }}: {{ variation.quantity }}</p>
+										<p class="card-text">{{ text_price }}: {{ variation.price_formated }}</p>
+										
 										<div class="btn-group">
 										  <button data-bs-toggle="tooltip" title="{{ button_delete }}" type="button" class="btn btn-danger delete-variation" data-variation-id="{{ variation.variation_id }}">
 											<i class="fas fa-solid fa-minus-circle"></i>  
@@ -193,6 +193,7 @@
 								  </div>
 								{% endfor %}
 							  </div>
+							  
 							{% else %}
 							  <div class="row mt-2">
 								<div class="col-md-12">
@@ -303,11 +304,11 @@ $(document).ready(function () {
 
 		// Collect form data
 		var formData = $(this).serialize();
-
+		let product_id =  $("#input-product-id").val();
 		// Submit the form using Ajax
 		$.ajax({
 			type: 'POST',
-			url: 'index.php?route=catalog/variations.savevariations&user_token={{ user_token }}&product_id={{ product_id }}',
+			url: 'index.php?route=catalog/variations.savevariations&user_token={{ user_token }}&product_id=' + product_id, 
 			data: formData,
 			dataType: 'json',
 			success: function (json) {
