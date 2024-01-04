@@ -457,7 +457,7 @@ class Product extends \Opencart\System\Engine\Model
 				'product_option_value_id' => $product_option['poption_id'],
 				'option_value_id' => $product_option['poption_id'],
 				'name' => $product_option['o2_name'],
-				'image' => $product_option['image'],
+				'image' => isset($product_option['image']) ? $product_option['image'] : "",
 				'quantity' => $product_option['quantity'],
 				'subtract' => $product_option['subtract'],
 				'price' => $product_option['price'],
