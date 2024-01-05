@@ -982,6 +982,9 @@ $(document).ready(function () {
           $("#option").load(
             'index.php?route=catalog/product.reloadOptions&user_token={{user_token}}&product_id=' +  product_id
             );
+
+            window.loadVariations();
+            
         } else {
           console.log(response);
         }

@@ -973,7 +973,6 @@
       // Get the tab content div
       var $tabContent = $('#tab-variations');
       window.product_id = $("#input-product-id").val();
-      // URL to load content from
  
 
       // Function to load content
@@ -982,7 +981,7 @@
          $tabContent.html('<i class="fas fa-spinner fa-spin fa-3x y d-flex align-items-center justify-content-center"></i>  ');
 
          // Load content using AJAX
-         $tabContent.load('index.php?route=catalog/variations&user_token={{ user_token }}&product_id={{ product_id }}', function () {
+         $tabContent.load('index.php?route=catalog/variations&user_token={{ user_token }}&product_id=' +   window.product_id, function () {
             // Your loaded content's JavaScript code here
             $(document).ready(function () {
                // Additional initialization for the loaded content
