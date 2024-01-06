@@ -343,7 +343,7 @@
         <select name="shipping_country_id" id="input-shipping-country" class="form-select">
           <option value=""><?= $this->e($text_select ) ?></option>
           <?php foreach ($countries as $country): ?>
-            <option value="<?= $this->e($country['country_id']) ?>"<?php if ($country['country_id'] == $$shipping_country_id): ?> selected<?php endif; ?>><?= $this->e($country['name']) ?></option>
+            <option value="<?= $this->e($country['country_id']) ?>"<?php if ($country['country_id'] == $shipping_country_id): ?> selected<?php endif; ?>><?= $this->e($country['name']) ?></option>
           <?php endforeach; ?>
         </select>
         <div id="error-shipping-country" class="invalid-feedback"></div>
