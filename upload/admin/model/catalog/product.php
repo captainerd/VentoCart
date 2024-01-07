@@ -195,6 +195,17 @@ class Product extends \Opencart\System\Engine\Model
 		`sort_order` = '" . (int) $data['sort_order'] . "', 
 		`date_modified` = NOW() WHERE `product_id` = '" . (int) $product_id . "'");
 
+	 
+
+		// Remove the element if found, and give it to main image array
+		if ( array_search(0, array_column($data['product_image'], 'sort_order')) !== false) {
+			$data['image'] = array_splice($data['product_image'],  array_search(0, array_column($data['product_image'], 'sort_order')), 1)[0]['image'];
+		}
+		
+		// Shift the array keys to ensure consecutive numeric keys for the extra images.
+		$data['product_image'] = array_values($data['product_image']);
+	 
+	 
 		if ($data['image']) {
 			$this->db->query("UPDATE `" . DB_PREFIX . "product` SET `image` = '" . $this->db->escape((string) $data['image']) . "' WHERE `product_id` = '" . (int) $product_id . "'");
 		}

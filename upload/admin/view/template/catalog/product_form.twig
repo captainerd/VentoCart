@@ -1,7 +1,18 @@
 {{ header }}{{ column_left }}
-
+ 
 <div id="content">
-  
+  <style>
+    .move-btns {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 50px;
+  }
+
+  .move-btns button {
+      margin-bottom: 5px;
+  }
+</style>
   <div class="page-header">
     <div class="container-fluid">
       <div class="float-end">
@@ -787,56 +798,82 @@
 
 
               <div id="tabimage-content" {% if product_id == 0 %} style="display:none" {% endif %}> 
-                      <fieldset>
+ 
+
+                <fieldset>
+                  <legend>{{ text_image_additional }}</legend>
+                  <div class="table-responsive">
+                    <table id="product-image" class="table table-bordered table-hover">
+                      <thead>
+                        <tr >
+                          <td style="width: 100px;" class="text-start">{{ entry_sort_order }}</td>
+                          <td class="text-start">{{ entry_image }}</td>
+                
+                        </tr>
+                      </thead>
+                      <tbody>
+
+
+ 
                 <legend>{{ text_image }}</legend>
-                <div class="row">
-                  <div class="col-sm-4 col-md-3 mb-3">
-                    <div id="image" class="card image">
+                <tr id="product-image-row-{{ image_row }}">
+                          <td>
+                            <div class="move-btns">
+                              <button type="button" class="move-up btn btn-light"><i class="fas fa-arrow-up"></i></button>
+                              <button type="button" class="move-down btn btn-light"><i class="fas fa-arrow-down"></i></button>
+                          </div>
 
-                      {% if  thumb|split('.')|last in ['mkv', 'avi', 'mp4'] %}
-
-                      <video  id="thumb-image"   class="img-thumbnail thumbnail" width="320" height="240">
-                        <source  class="thumbnail" src="{{  thumb }}" type="video/{{  thumb|split('.')|last }}">
-                        Your browser does not support the video tag.
-                      </video>
-
-                      {% else %}
-                      <img src="{{ thumb }}" alt="" title="" id="thumb-image" data-oc-placeholder="{{ placeholder }}" class="card-img-top"/> 
-                  
-                      {% endif %}
-                      <input type="hidden" name="image" value="{{ image }}" id="input-image"/>
-                      <div class="card-body">
-                        <button type="button" data-oc-toggle="image" data-oc-target="#input-image" data-oc-thumb="#thumb-image" class="btn btn-primary btn-sm btn-block"><i class="fa-solid fa-pencil"></i> {{ button_edit }}</button>
-                        <button type="button" data-oc-toggle="clear" data-oc-target="#input-image" data-oc-thumb="#thumb-image" class="btn btn-warning btn-sm btn-block"><i class="fa-regular fa-trash-can"></i> {{ button_clear }}</button>
-
-                   
-
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </fieldset>
+    
+            </td>
+            <td>
+       
 
               <fieldset>
-                <legend>{{ text_image_additional }}</legend>
-                <div class="table-responsive">
-                  <table id="product-image" class="table table-bordered table-hover">
-                    <thead>
-                      <tr>
-                        <td class="text-start">{{ entry_image }}</td>
-                        <td class="text-start">{{ entry_sort_order }}</td>
-                        <td class="text-end">
+                <div class="card image">
 
-                      
+          {% if  thumb|split('.')|last in ['mkv', 'avi', 'mp4'] %}
 
-                        </td>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {% set image_row = 0 %}
+          <video  id="thumb-image"   class="img-thumbnail thumbnail" width="320" height="240">
+            <source  class="thumbnail" src="{{  thumb }}" type="video/{{  thumb|split('.')|last }}">
+            Your browser does not support the video tag.
+          </video>
+
+          {% else %}
+          <img src="{{ thumb }}" alt="" title="" id="thumb-image" data-oc-placeholder="{{ placeholder }}" class="card-img-top"/> 
+      
+          {% endif %}
+          <input type="hidden"  name="product_image[0][image]"value="{{ image }}" id="input-image"/>
+          <input type="hidden" name="product_image[0][sort_order]" value="0" placeholder="{{ entry_sort_order }}" class="form-control"/>
+          <div class="card-body">
+            <button type="button" data-oc-toggle="image" data-oc-target="#input-image" data-oc-thumb="#thumb-image" class="btn btn-primary btn-sm btn-block"><i class="fa-solid fa-pencil"></i> {{ button_edit }}</button>
+            <button type="button"  data-bs-toggle="tooltip" title="{{ button_remove }}"  class="btn btn-sm btn-img-delete btn-danger"><i class="fa-solid fa-minus-circle"></i> {{button_delete}} </button> 
+       
+
+          </div>
+        </div>
+
+  </fieldset>
+
+
+
+            </td>
+          </tr>
+                      {% set image_row = 1 %}
                       {% for product_image in product_images %}
                         <tr id="product-image-row-{{ image_row }}">
                           <td>
+
+                            <div class="move-btns">
+                              <button type="button" class="move-up btn btn-light"><i class="fas fa-arrow-up"></i></button>
+                              <button type="button" class="move-down btn btn-light"><i class="fas fa-arrow-down"></i></button>
+                          </div>
+
+                      
+                          </td>
+                          
+                          <td class="text-start">
+                       
+
                             <div class="card image">
 
                               {% if  product_image.thumb|split('.')|last in ['mkv', 'avi', 'mp4'] %}
@@ -851,23 +888,30 @@
                               
                              {% endif %}
                              <input type="hidden" name="product_image[{{ image_row }}][image]" value="{{ product_image.image }}" id="input-product-image-{{ image_row }}"/>
-                           
+                             <input type="hidden" name="product_image[{{ image_row }}][sort_order]" value="{{ product_image.sort_order }}" placeholder="{{ entry_sort_order }}" class="form-control"/> 
+                   
                               <div class="card-body">
                                 <button type="button" data-oc-toggle="image" data-oc-target="#input-product-image-{{ image_row }}" data-oc-thumb="#product-image-{{ image_row }}" class="btn btn-primary btn-sm btn-block"><i class="fa-solid fa-pencil"></i> {{ button_edit }}</button>
-                                <button type="button" data-oc-toggle="clear" data-oc-target="#input-product-image-{{ image_row }}" data-oc-thumb="#product-image-{{ image_row }}" class="btn btn-warning btn-sm btn-block"><i class="fa-regular fa-trash-can"></i> {{ button_clear }}</button>
+ 
+                           
+                                <button type="button"  data-bs-toggle="tooltip" title="{{ button_remove }}"   class="btn btn-sm btn-img-delete btn-danger"><i class="fa-solid fa-minus-circle"></i> {{button_delete}} </button> 
+ 
                               </div>
                             </div>
-                          </td>
-                          <td class="text-start"><input type="text" name="product_image[{{ image_row }}][sort_order]" value="{{ product_image.sort_order }}" placeholder="{{ entry_sort_order }}" class="form-control"/></td>
-                          <td class="text-end"><button type="button" onclick="$('#product-image-row-{{ image_row }}').remove();" data-bs-toggle="tooltip" title="{{ button_remove }}" class="btn btn-danger"><i class="fa-solid fa-minus-circle"></i></button></td>
+
+
+
+
+                            
+ </td>
                         </tr>
                         {% set image_row = image_row + 1 %}
                       {% endfor %}
                     </tbody>
                     <tfoot>
                       <tr>
-                        <td colspan="2"></td>
-                        <td class="text-end"><button type="button" id="button-image" data-bs-toggle="tooltip" title="{{ button_image_add }}" class="btn btn-primary"><i class="fa-solid fa-plus-circle"></i></button></td>
+                        <td  ></td>
+                        <td class="text-center"><button type="button" id="button-image" data-bs-toggle="tooltip" title="{{ button_image_add }}" class="btn btn-primary"><i class="fa-solid fa-plus-circle"></i> {{ button_image_add }}</button></td>
                       </tr>
                     </tfoot>
                   </table>
@@ -1284,25 +1328,7 @@ $('#button-special').on('click', function () {
     special_row++;
 });
 
-var image_row = {{ image_row }};
-
-$('#button-image').on('click', function () {
-    html = '<tr id="product-image-row-' + image_row + '">';
-    html += '  <td><div class="card image">';
-    html += '    <img src="{{ placeholder|escape('js') }}" alt="" title="" id="thumb-image-' + image_row + '" data-oc-placeholder="{{ placeholder|escape('js') }}" class="card-img-top"/> <input type="hidden" name="product_image[' + image_row + '][image]" value="" id="input-product-image-' + image_row + '"/>';
-    html += '    <div class="card-body">';
-    html += '      <button type="button" data-oc-toggle="image" data-oc-target="#input-product-image-' + image_row + '" data-oc-thumb="#thumb-image-' + image_row + '" class="btn btn-primary btn-sm btn-block"><i class="fa-solid fa-pencil"></i> {{ button_edit|escape('js') }}</button>';
-    html += '      <button type="button" data-oc-toggle="clear" data-oc-target="#input-product-image-' + image_row + '" data-oc-thumb="#thumb-image-' + image_row + '" class="btn btn-warning btn-sm btn-block"><i class="fa-regular fa-trash-can"></i> {{ button_clear|escape('js') }}</button>';
-    html += '    </div>';
-    html += '  </div></td>';
-    html += '  <td class="text-start"><input type="text" name="product_image[' + image_row + '][sort_order]" value="0" placeholder="{{ entry_sort_order|escape('js') }}" class="form-control"/></td>';
-    html += '  <td class="text-end"><button type="button" onclick="$(\'#product-image-row-' + image_row + '\').remove();" data-bs-toggle="tooltip" title="{{ button_remove|escape('js') }}" class="btn btn-danger"><i class="fa-solid fa-minus-circle"></i></button></td>';
-    html += '</tr>';
-
-    $('#product-image tbody').append(html);
-
-    image_row++;
-});
+ 
 
 var subscription_row = {{ subscription_row }};
 
@@ -1469,8 +1495,88 @@ $(document).on('change', '[name^="product_special["][name$="[type]"]', function 
 
 <!-- options tab -->
 <script>
-  $(document).ready(function() {
  
+  $(document).ready(function() {
+
+    var image_row = {{ image_row }};
+
+$('#button-image').on('click', function () {
+    // Clone the last row
+    var newRow = $('#product-image tbody tr:last').clone();
+
+    // Update the attributes and content
+    newRow.attr('id', 'product-image-row-' + image_row);
+    newRow.find('img').attr({
+        'id': 'thumb-image-' + image_row,
+        'src': '{{ placeholder|escape('js') }}',
+        'data-oc-placeholder': '{{ placeholder|escape('js') }}'
+    });
+    newRow.find('input[name^="product_image"]').each(function() {
+        var newName = $(this).attr('name').replace(/(\d+)/, image_row);
+        $(this).attr({
+            'name': newName,
+            'value': '',
+            'id': 'input-product-image-' + image_row
+        });
+    });
+    newRow.find('input[type="text"]').val('0');
+    newRow.find('button[data-oc-target^="#input-product-image"]').each(function() {
+        var newTarget = $(this).attr('data-oc-target').replace(/(\d+)/, image_row);
+        $(this).attr('data-oc-target', newTarget);
+    });
+     
+    newRow.find('.btn-primary').attr('data-oc-thumb', '#thumb-image-' + image_row);
+       
+   
+
+    // Append the new row after the last row
+    $('#product-image tbody tr:last').after(newRow);
+    updateImageSortOrder();
+    image_row++;
+});
+
+
+    $(document).on('click', '.btn-img-delete', function () {
+ 
+        var confirmResult = confirm("Are you sure you want to delete this image?");
+        if (confirmResult) {
+            // User clicked "OK" in the confirmation dialog
+            $(this).closest("tr").remove();
+            updateImageSortOrder();
+        }
+       
+    });
+    $(document).on('click', '.move-up', function () {
+          event.preventDefault();
+            var row = $(this).closest("tr");
+            if (row.index() > 0) {
+                row.insertBefore(row.prev());
+                updateImageSortOrder();
+            }
+        });
+
+        // Move row down
+        $(document).on('click', '.move-down', function () {
+ 
+          event.preventDefault();
+            var row = $(this).closest("tr");
+            if (row.index() < $("#product-image tr").length - 1) {
+                row.insertAfter(row.next());
+                updateImageSortOrder();
+            }
+        });
+
+        function updateImageSortOrder() {
+          $("#product-image tr").each(function(index) {
+    var sortOrderInput = $(this).find('input[name^="product_image["][name$="][sort_order]"]');
+    if (sortOrderInput.length > 0) {
+        sortOrderInput.val(index - 1);
+    }
+});
+
+        }
+
+
     $(document).on('click', '.add-or-edit-btn', function () {
 var rowId = $("#" + $(this).data('option-value-row'));
 
@@ -1542,6 +1648,9 @@ $("#option-row-body-" + rowId).append(template);
  
    initializeSortables();
  
+
+ 
+      
  
 });
 </script>
