@@ -109,7 +109,7 @@
         var currentUrl = window.location.href;
 
 // Remove the "/install" part
-var baseUrl = currentUrl.replace('install/', '');
+var baseUrl = currentUrl.replace('install/index.php?passed=1', '');
 
 $("#weburl").val(baseUrl)
         $("#installBtn").click(function(event) {
