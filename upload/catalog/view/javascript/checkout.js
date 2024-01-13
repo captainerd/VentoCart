@@ -99,13 +99,13 @@ class AddressCheckOut {
     $('#form-' + this.formName + ' .required :input:not(:checkbox,:radio,:button)').filter(':visible').each(function (index, element) {
 
       let value = $(element).val();
-
+     
 
 
       let parentDiv = $(element).closest('div'); // Get the parent div of the input field
-
-      if (typeof value !== "undefined" && !parentDiv.hasClass('d-none') && value.length < 1) {
-
+ 
+      if (value !== null && value !== undefined && !parentDiv.hasClass('d-none') && value.length < 1) {
+        console.log("mpikeeeeeeeeee");
         if (!invalidFieldApplied) { // Check if class is not applied yet
           $(element).addClass('is-invalid');
 
@@ -138,14 +138,15 @@ class AddressCheckOut {
         }, 4000);
       }
 
-      if ($('input[name="payment_method"]:checked').val() && $('input[name="shipping_method"]:checked').val()) {
+  
         $("#button-confirm").attr('disabled', true);
-    
+      
         if ($("#input-register-acc").val()  != 1) {
+       
           $("#button-confirm").html(window.loaderDiv);
           $('#button-confirm').show();
         }
-      }
+     
       $('#checkout-payment').show();
     }
   }
@@ -450,7 +451,7 @@ $(document).ready(function () {
 
     if (!$('input[name="shipping_method"]:checked').val()) {
       $("#checkout-shipping-method").addClass("is-invalid");
-      return;
+    //  return;
     } else {
 
       $("#checkout-shipping-method").removeClass("is-invalid");
@@ -459,7 +460,7 @@ $(document).ready(function () {
 
     if (!$('input[name="payment_method"]:checked').val()) {
       $("#checkout-payment-method").addClass("is-invalid");
-      return;
+   //   return;
     } else {
       $("#checkout-payment-method").removeClass("is-invalid");
     }

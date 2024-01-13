@@ -21,11 +21,16 @@
 
 ## No-Referrer-Header
 <IfModule mod_headers.c>
-  Header set Referrer-Policy "no-referrer"
+Header set Referrer-Policy "no-referrer"
+Header set Access-Control-Allow-Origin "*"
+Header set Access-Control-Allow-Methods "GET, POST, PUT, DELETE, OPTIONS"
+Header set Access-Control-Allow-Headers "X-Oc-Merchant-Language, X-Oc-Store-Id, Content-Type,X-Oc-Merchant-Id, X-Oc-Session"
+Header set Access-Control-Allow-Credentials: true
 </IfModule>
 
 ## Suppress mime type detection in browsers for unknown types and prevent FLOC
 <IfModule mod_headers.c>
+  Header set Access-Control-Allow-Origin "*"
   Header always set X-Content-Type-Options "nosniff"
   Header always set Permissions-Policy "interest-cohort=()"
 </IfModule>
@@ -55,6 +60,7 @@ RewriteCond %{REQUEST_FILENAME} !-d
 RewriteCond %{REQUEST_URI} !.*\.(ico|gif|jpg|jpeg|png|webp|js|css|svg)
 RewriteRule ^([^?]*) index.php?_route_=$1 [L,QSA]
 
+
 ## Optional error documents
 #ErrorDocument 400 /index.php?route=error/not_found
 #ErrorDocument 401 /index.php?route=error/permission
@@ -74,7 +80,7 @@ RewriteRule ^([^?]*) index.php?_route_=$1 [L,QSA]
 # php_flag magic_quotes_gpc Off
 
 # 3. Set max upload file size. Most hosts will limit this and not allow it to be overridden but you can try
-php_value upload_max_filesize 999M
+# php_value upload_max_filesize 999M
 
 # 4. set max post size. uncomment this line if you have a lot of product options or are getting errors where forms are not saving all fields
 # php_value post_max_size 999M

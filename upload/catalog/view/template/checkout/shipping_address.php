@@ -60,7 +60,7 @@
           <select name="country_id" id="input-shipping-country" class="form-select country-select">
             <option value="0"><?= $this->e($text_select ) ?></option>
             <?php foreach ($countries as $country): ?>
-            <option value="<?= $this->e($country['country_id']) ?>"<?php if ($pre_select_country_id != 0 && $country['country_id'] == $pre_select_country_id || ($pre_select_country_id == 0 and $country['country_id'] == $payment_country_id)): ?> selected<?php endif; ?>>
+            <option value="<?= $this->e($country['country_id']) ?>"<?php if ($pre_select_country_id != 0 && $country['country_id'] == $pre_select_country_id || (isset( $payment_country_id) && $pre_select_country_id == 0 and $country['country_id'] == $payment_country_id)): ?> selected<?php endif; ?>>
               <?= $this->e($country['name']) ?>
             </option>
             <?php endforeach; ?>

@@ -7,8 +7,16 @@ class Order extends \Opencart\System\Engine\Model {
 		$order_id = $this->db->getLastId();
 
 		// Products
-		if (isset($data['products'])) {
-			$data['products'] = array_unique($data['products']);
+		if (isset($data['products']) && is_array($data['products'])) {
+			
+		    $uniqueProducts = [];
+			foreach ($data['products'] as $product) {
+				// Check if the product is not already in the $uniqueProducts array
+				if (!in_array($product, $uniqueProducts)) {
+					$uniqueProducts[] = $product;
+				}
+			}
+			$data['products'] = $uniqueProducts;
 		 
 			foreach ($data['products'] as $product) {
 				$this->db->query("INSERT INTO `" . DB_PREFIX . "order_product` SET `order_id` = '" . (int)$order_id . "', `product_id` = '" . (int)$product['product_id'] . "', `variation_id` = '" . (int)$product['variation_id'] . "', `name` = '" . $this->db->escape($product['name']) . "', `model` = '" . $this->db->escape($product['model']) . "', `quantity` = '" . (int)$product['quantity'] . "', `price` = '" . (float)$product['price'] . "', `total` = '" . (float)$product['total'] . "', `tax` = '" . (float)$product['tax'] . "', `reward` = '" . (int)$product['reward'] . "'");

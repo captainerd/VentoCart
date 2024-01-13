@@ -107,7 +107,7 @@ z-index: 1000;
 <div style="display: flex;">
   
   <button type="button" style="flex-grow: 1;" id="button-confirm" class="btn btn-success ">
-    -
+    <?=$button_text?>
   
   </button>
 </div>

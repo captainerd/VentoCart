@@ -46,7 +46,7 @@ class Checkout extends \Opencart\System\Engine\Controller {
 			$data['register'] = '';
 		}
 
-		if ($this->customer->isLogged() && $this->config->get('config_checkout_payment_address')) {
+		if ($this->customer->isLogged()) {
 			$data['payment_address'] = $this->load->controller('checkout/payment_address');
 		} else {
 			$data['payment_address'] = '';
@@ -81,6 +81,13 @@ class Checkout extends \Opencart\System\Engine\Controller {
 		$data['header'] = $this->load->controller('common/header');
 
 		$data['coupon'] = $this->load->controller('extension/opencart/total/coupon');
+        $this->load->language('checkout/register');
+  
+        if ($this->config->get('config_checkout_guest') ) {
+            $data['button_text'] = $this->language->get('text_guest_checkout');
+        } else {
+            $data['button_text'] = $this->language->get('text_registration_required');
+        }
 
 		$this->response->setOutput($this->load->view('checkout/checkout_ajax', $data));
 	}
@@ -113,7 +120,7 @@ class Checkout extends \Opencart\System\Engine\Controller {
         }
 
         // Validate if payment address is set if required in settings
-        if ($this->config->get('config_checkout_payment_address') && !isset($this->session->data['payment_address'])) {
+        if ( !isset($this->session->data['payment_address'])) {
             // $json['error'] = $this->language->get('error_payment_address');
         }
 
@@ -125,7 +132,7 @@ class Checkout extends \Opencart\System\Engine\Controller {
         // Payment method
         if (isset($this->request->post['payment_method'])) {
             $payment = explode('.', $this->request->post['payment_method']);
-            $this->preSelectShipping();
+            
 
             if (!isset($payment[0]) || !isset($payment[1]) || !isset($this->session->data['payment_methods'][$payment[0]]['quote'][$payment[1]])) {
                 $json['error'] = $this->language->get('error_payment_method');
@@ -137,7 +144,7 @@ class Checkout extends \Opencart\System\Engine\Controller {
         // Shipping method
         if (isset($this->request->post['shipping_method'])) {
             $shipping = explode('.', $this->request->post['shipping_method']);
-            $this->preSelectShipping();
+            
 
             if (!isset($shipping[0]) || !isset($shipping[1]) || !isset($this->session->data['shipping_methods'][$shipping[0]]['quote'][$shipping[1]])) {
                 $json['error'] = $this->language->get('error_shipping_method');

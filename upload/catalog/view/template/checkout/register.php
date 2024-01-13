@@ -539,10 +539,13 @@
 <script type="text/javascript">
      // Populate shipping methods and payment methods on page load
     $(document).ready(function() {
+
+ 
       window.lang = '<?= $this->e($language) ?>';
       window.text_select = '<?= $this->e($text_select ) ?>';
       window.text_none = '<?= $this->e($text_select ) ?>';
-      window.checkoutInit = new AddressCheckOut("register", $);
+      if (typeof window.checkoutInit == 'undefined')  window.checkoutInit = new AddressCheckOut("register", $);
+     
  
  
 
