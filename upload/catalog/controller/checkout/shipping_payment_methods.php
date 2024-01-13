@@ -112,6 +112,7 @@ class ShippingPaymentMethods extends \Opencart\System\Engine\Controller
     public function quote()
     {
         $this->load->language('checkout/shipping_method');
+   
 
         $json = [];
 
@@ -148,7 +149,7 @@ class ShippingPaymentMethods extends \Opencart\System\Engine\Controller
                 $this->session->data['shipping_address'] = $t;
                 $shipping_methods = $this->model_checkout_shipping_method->getMethods($t);
             }
-
+         
             if ($shipping_methods) {
                 $this->preSelectShipping();
                 $json['shipping_methods'] = $this->session->data['shipping_methods'] = $shipping_methods;
@@ -352,6 +353,10 @@ class ShippingPaymentMethods extends \Opencart\System\Engine\Controller
         } else {
             $json['error_shipping'] = $this->language->get('error_no_shipping');
         }
+        if (!$this->cart->hasShipping()) {
+            $json['error_shipping'] = $this->language->get('text_shipping_not_needed');
+        }
+
 
         $this->response->addHeader('Content-Type: application/json');
         $this->response->setOutput(json_encode($json));

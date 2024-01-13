@@ -418,3 +418,17 @@ $('.country-select').on('change', function(event) {
 
 $('#input-shipping-country').trigger('change');
  </script>
+<script type="text/javascript">
+ 
+ 
+ // Populate shipping methods and payment methods on page load
+ $(document).ready(function() {
+   window.lang = '<?= $this->e($language) ?>';
+     window.text_select = '<?= $this->e($text_select ) ?>';
+     window.text_none = '<?= $this->e($text_select ) ?>';
+   
+  if (typeof window.checkoutInit == 'undefined') window.checkoutInit = new AddressCheckOut("form-payment-address",   $);
+});
+</script>
+
+<script src="catalog/view/javascript/checkout.js" type="text/javascript"></script>

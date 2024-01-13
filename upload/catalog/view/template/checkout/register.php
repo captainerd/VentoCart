@@ -498,12 +498,12 @@
   
       <hr/>
       <div class="form-check    ">
-        <input type="checkbox" name="account" value="1" id="input-register-acc" class="form-check-input" /> 
+        <input type="checkbox" name="account" value="0" id="input-register-acc" class="form-check-input" /> 
         <label for="input-register-acc" class="form-check-label"><?= $this->e($text_register ) ?></label>
       </div>
+  <?php else:?>
   
-  
-    
+    <input type="hidden" id="input-register-acc" name="account" value="1"  /> 
     
   <?php endif; ?>
  

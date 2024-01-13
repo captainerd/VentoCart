@@ -131,16 +131,20 @@ class AddressCheckOut {
 
 
         clearTimeout(this.submitThrottling);
+     
         this.submitThrottling = setTimeout(() => {
-          if (!$('#input-register-acc').is(':checked')) $('#form-' + this.formName).trigger('submit', [true]);
+          if ($("#input-register-acc").val()  != 1)  $('#form-' + this.formName).trigger('submit', [true]);
 
         }, 4000);
       }
 
       if ($('input[name="payment_method"]:checked').val() && $('input[name="shipping_method"]:checked').val()) {
         $("#button-confirm").attr('disabled', true);
-        $("#button-confirm").html(window.loaderDiv);
-        if (!$('#input-register-acc').is(':checked')) $('#button-confirm').show();
+    
+        if ($("#input-register-acc").val()  != 1) {
+          $("#button-confirm").html(window.loaderDiv);
+          $('#button-confirm').show();
+        }
       }
       $('#checkout-payment').show();
     }
@@ -427,7 +431,17 @@ function populateMethods(containerId, methods, name) {
 
 //Save the selected Payment/Shipping Settings
 $(document).ready(function () {
-
+  
+  $("#input-register-acc").change(function() {
+    // Check if the checkbox is checked
+    if ($(this).prop("checked")) {
+      // Set the value to 1 when checked
+      $(this).val(1);
+    } else {
+      // Set the value to 0 when unchecked
+      $(this).val(0);
+    }
+  });
 
   $(document).on('change', '#payment-shipping-method-form', function (e, arg = false) {
 

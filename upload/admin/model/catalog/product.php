@@ -9,7 +9,7 @@ class Product extends \Opencart\System\Engine\Model
 
 		$product_id = $this->db->getLastId();
 
-		if ($data['image']) {
+		if (isset($data['image'])) {
 			$this->db->query("UPDATE `" . DB_PREFIX . "product` SET `image` = '" . $this->db->escape((string) $data['image']) . "' WHERE `product_id` = '" . (int) $product_id . "'");
 		}
 
