@@ -16,3 +16,5 @@ $_['error_payment_address']  = 'Payment address required!';
 $_['error_shipping_address'] = 'Shipping address required!';
 $_['error_shipping_method']  = 'Shipping method required!';
 $_['error_no_shipping']      = 'No Shipping options are available. Please <a href="%s">contact us</a> for assistance!';
+
+$_['text_shipping_not_needed'] = "You have no products that require shipping";
