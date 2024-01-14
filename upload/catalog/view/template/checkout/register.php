@@ -545,7 +545,7 @@
       window.text_select = '<?= $this->e($text_select ) ?>';
       window.text_none = '<?= $this->e($text_select ) ?>';
       if (typeof window.checkoutInit == 'undefined')  {
-        console.log("Run register reag");
+        
         window.checkoutInit = new AddressCheckOut("register", $);
 
       }
