@@ -1,3 +1,3 @@
- <?= $payment  ?> 
+ <?= isset($payment) ? $payment : '' ?> 
    
   

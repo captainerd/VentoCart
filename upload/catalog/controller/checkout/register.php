@@ -290,9 +290,9 @@ class Register extends \Opencart\System\Engine\Controller {
 
 		if (!$json) {
 			// If not guest checkout disabled, login require price or cart has downloads
-			if (!$this->request->post['account'] && (!$this->config->get('config_checkout_guest') || $this->config->get('config_customer_price'))) {
+			if (!$this->customer->isLogged() && !$this->request->post['account'] && (!$this->config->get('config_checkout_guest') || $this->config->get('config_customer_price'))) {
 				$json['error']['warning'] = $this->language->get('error_guest');
-			}
+			} 
 
 			// Customer Group
 			if ($this->request->post['customer_group_id']) {

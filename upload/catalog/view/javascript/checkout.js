@@ -35,7 +35,7 @@ class AddressCheckOut {
     $('select[name$=\'country_id\']').on('change', this.onCountryChange);
     $('select[name$=\'zone_id\']').on('change', this.onZoneChange);
     $('#form-' + this.formName).on('submit', this.onSubmitForm);
-
+   
     // Trigger initial change events
     $('#input-customer-group').trigger('change');
     $('select[name$=\'country_id\']').trigger('change');
@@ -93,7 +93,7 @@ class AddressCheckOut {
   }
 
   checkFieldLength(e, throttle = true) {
-
+ 
     let hasInvalidFields = false;
     let invalidFieldApplied = false; // New variable to track if the class is already applied
     $('#form-' + this.formName + ' .required :input:not(:checkbox,:radio,:button)').filter(':visible').each(function (index, element) {
@@ -103,9 +103,10 @@ class AddressCheckOut {
 
 
       let parentDiv = $(element).closest('div'); // Get the parent div of the input field
- 
+    
+      
       if (value !== null && value !== undefined && !parentDiv.hasClass('d-none') && value.length < 1) {
-        console.log("mpikeeeeeeeeee");
+      
         if (!invalidFieldApplied) { // Check if class is not applied yet
           $(element).addClass('is-invalid');
 
@@ -231,6 +232,7 @@ class AddressCheckOut {
   onSubmitForm(event, arg = true) {
 
     event.preventDefault();
+    if ( this.formName !== 'register') { return; }
   
     $.ajax({
       url: 'index.php?route=checkout/register.save&language=' + window.lang,
@@ -449,22 +451,7 @@ $(document).ready(function () {
     e.preventDefault();
     let dontShow = true;
 
-    if (!$('input[name="shipping_method"]:checked').val()) {
-      $("#checkout-shipping-method").addClass("is-invalid");
-    //  return;
-    } else {
-
-      $("#checkout-shipping-method").removeClass("is-invalid");
-    }
-
-
-    if (!$('input[name="payment_method"]:checked').val()) {
-      $("#checkout-payment-method").addClass("is-invalid");
-   //   return;
-    } else {
-      $("#checkout-payment-method").removeClass("is-invalid");
-    }
-
+  
 
     if (!$('input[name="payment_method"]:checked').val() || $('input[name="payment_method"]:checked').val().length < 2) {
       $('#overlay').fadeOut();
@@ -547,6 +534,162 @@ $(document).ready(function () {
       }
     }
   });
+
+
+  $('input[name$=\'_existing\']').on('change', function() {
+    var name = $(this).attr('name');
+    var word = name.substring(0, name.indexOf('_existing'));
+
+    if ($(this).val() == 1) {
+        $('#' + word + '-existing').show();
+        $('#' + word + '-new').hide();
+    } else {
+        $('#' + word + '-existing').hide();
+        $('#' + word + '-new').show();
+    }
+});
+
+
+$('.address-select').on('change', function() {
+  var element = this;
+  var type = $(element).data('type');  
+
+  chain.attach(function() {
+      return $.ajax({
+          url: 'index.php?route=checkout/address.address&language=' + window.lang + '&address_id=' + $(element).val() + '&address_type=' + type,
+          dataType: 'json',
+          beforeSend: function() {
+              $(element).prop('disabled', true);
+          },
+          complete: function() {
+              $(element).prop('disabled', false);
+          },
+          success: function(json) {
+              //x console.log(json);
+
+              $('#input-' + type + '-address').removeClass('is-invalid');
+              $('#error-' + type + '-address').removeClass('d-block');
+
+              if (json['redirect']) {
+                  location = json['redirect'];
+              }
+
+              if (json['error']) {
+                  $('#input-' + type + '-address').addClass('is-invalid');
+                  $('#error-' + type + '-address').html(json['error']).addClass('d-block');
+              }
+
+              if (json['success']) {
+                  $('#alert').prepend('<div class="alert alert-success alert-dismissible"><i class="fa-solid fa-circle-check"></i> ' + json['success'] + ' <button type="button" class="btn-close" data-bs-dismiss="alert"></button></div>');
+
+                  $('#input-shipping-method').val('');
+                  $('#input-' + type + '-method').val('');
+
+                  // $('#checkout-confirm').load('index.php?route=checkout/confirm.confirm&language=<?= $this->e($language ) ?>');
+                  populatePaymentAndShippingMethods();
+              }
+          },
+          error: function(xhr, ajaxOptions, thrownError) {
+              //x console.log(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+          }
+      });
+  });
+});
+$('.address-form').on('submit', function(e) {
+  e.preventDefault();
+ 
+  var element = this;
+  var type = $(element).data('type');  
+
+  chain.attach(function() {
+      return $.ajax({
+        url: 'index.php?route=checkout/address.save&language=' + window.lang + '&address_id=' + $(element).val() + '&address_type=' + type,
+          type: 'post',
+          data: $('#form-' + type + '-address').serialize(),
+          dataType: 'json',
+          contentType: 'application/x-www-form-urlencoded',
+          beforeSend: function() {
+              $('#button-' + type + '-address').button('loading');
+          },
+          complete: function() {
+              $('#button-' + type + '-address').button('reset');
+          },
+          success: function(json) {
+              //x console.log(json);
+
+              $('#form-' + type + '-address').find('.is-invalid').removeClass('is-invalid');
+              $('#form-' + type + '-address').find('.invalid-feedback').removeClass('d-block');
+
+              if (json['redirect']) {
+                  location = json['redirect'];
+              }
+
+              if (json['error']) {
+                  if (json['error']['warning']) {
+                      $('#alert').prepend('<div class="alert alert-danger alert-dismissible"><i class="fa-solid fa-circle-exclamation"></i> ' + json['error']['warning'] + ' <button type="button" class="btn-close" data-bs-dismiss="alert"></button></div>');
+                  }
+
+                  for (i in json['error']) {
+                      for (key in json['error']) {
+                    
+                          $('#input-' + type + '-' + key.replaceAll('_', '-')).addClass('is-invalid').find('.form-control, .form-select, .form-check-input, .form-check-label').addClass('is-invalid');
+                          $('#error-' + type + '-' + key.replaceAll('_', '-')).html(json['error'][key]).addClass('d-block');
+                          $("#button-confirm").text(json['error'][key]).removeClass('btn-success').addClass('btn-danger').attr('disabled', true);
+                      }
+                  }
+              }
+
+              if (json['success']) {
+                  $('#alert').prepend('<div class="alert alert-success alert-dismissible"><i class="fa-solid fa-circle-check"></i> ' + json['success'] + ' <button type="button" class="btn-close" data-bs-dismiss="alert"></button></div>');
+
+                  $('#form-' + type + '-address')[0].reset();
+
+               
+                 let html = '';
+                  if (json['addresses']) {
+                      for (i in json['addresses']) {
+                          html += '<option value="' + json['addresses'][i]['address_id'] + '">' + json['addresses'][i]['firstname'] + ' ' + json['addresses'][i]['lastname'] + ', ' + (json['addresses'][i]['company'] ? json['addresses'][i]['company'] + ', ' : '') + json['addresses'][i]['address_1'] + ', ' + json['addresses'][i]['city'] + ', ' + json['addresses'][i]['zone'] + ', ' + json['addresses'][i]['country'] + '</option>';
+                      }
+                  }
+
+                  // Payment Address
+                  $('#input-' + type + '-address').html(html);
+
+                  $('#input-' + type + '-address').val(json['address_id']);
+
+                  $('#' + type + '-addresses').css({display: 'block'});
+
+                  $('#input-' + type + '-existing').trigger('click');
+
+                  $("#button-confirm").attr('disabled', false);
+                  $("#button-confirm").text(window.btntxt).removeClass('btn-danger').addClass('btn-success').attr('disabled', true);
+            
+                  populatePaymentAndShippingMethods();
+                
+              }
+          },
+          error: function(xhr, ajaxOptions, thrownError) {
+          
+          }
+      });
+  });
+});
+
+$('#input-sameaddress').on('change', function() {
+ 
+  toggleShippingAddressForm();
+});
+
+// Function to toggle the visibility of the shipping address form
+function toggleShippingAddressForm() {
+  if ($('#input-sameaddress').prop('checked')) {
+    $('.shipping-address-form').removeClass("d-none");
+   
+  } else {
+    $('.shipping-address-form').addClass("d-none");
+  }
+}
+
 
 });
 

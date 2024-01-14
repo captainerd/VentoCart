@@ -544,7 +544,11 @@
       window.lang = '<?= $this->e($language) ?>';
       window.text_select = '<?= $this->e($text_select ) ?>';
       window.text_none = '<?= $this->e($text_select ) ?>';
-      if (typeof window.checkoutInit == 'undefined')  window.checkoutInit = new AddressCheckOut("register", $);
+      if (typeof window.checkoutInit == 'undefined')  {
+        console.log("Run register reag");
+        window.checkoutInit = new AddressCheckOut("register", $);
+
+      }
      
  
  
@@ -557,4 +561,4 @@
 
 </script>
 
-  <script src="catalog/view/javascript/checkout.js" type="text/javascript"></script>
+ 

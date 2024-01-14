@@ -48,7 +48,8 @@ z-index: 1000;
   font-size: 48px;  
 }
 </style>  
-  
+<script src="catalog/view/javascript/checkout.js" type="text/javascript"></script>
+ 
  
  
   <div class="row"><?=  $column_left   ?>
@@ -70,11 +71,7 @@ z-index: 1000;
             <?php if ($shipping_address): ?>
               <div id="checkout-shipping-address"><?=  $shipping_address   ?></div>
             <?php endif; ?>
-            <?php if (!$register): ?>
-           
-            <?=  $coupon   ?> 
-       
-            <?php endif; ?>
+    
           </div>
         <?php endif; ?>
         <div class="col">
@@ -83,11 +80,12 @@ z-index: 1000;
  
       <?=  $shipping_payment_methods   ?> 
          
-          <?php if ($register): ?>
+      <div class="my-3">
    
           <?=  $coupon  ?> 
+        </div>
         
-          <?php endif; ?>
+   
       
         </div>
         

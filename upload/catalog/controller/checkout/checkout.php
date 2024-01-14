@@ -47,13 +47,23 @@ class Checkout extends \Opencart\System\Engine\Controller {
 		}
 
 		if ($this->customer->isLogged()) {
-			$data['payment_address'] = $this->load->controller('checkout/payment_address');
+            $this->load->language('checkout/register');
+		
+            $this->load->language('checkout/payment_address');
+            $data_address = $this->load->controller('checkout/address');
+            $data_address['type'] = 'payment';
+            $data_address['HasShipping'] = $this->cart->hasShipping();
+            $data['payment_address'] =  $this->load->view('checkout/address', $data_address );
 		} else {
 			$data['payment_address'] = '';
 		}
-
 		if ($this->customer->isLogged() && $this->cart->hasShipping()) {
-			$data['shipping_address'] = $this->load->controller('checkout/shipping_address');
+            $this->load->language('checkout/register');
+		
+            $this->load->language('checkout/shipping_address');
+			$data_address = $this->load->controller('checkout/address');
+            $data_address['type'] = 'shipping';
+            $data['shipping_address'] =  $this->load->view('checkout/address', $data_address );
 		}  else {
 			$data['shipping_address'] = '';
 		}
