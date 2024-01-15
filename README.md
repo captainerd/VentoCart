@@ -1,72 +1,99 @@
-# Welcome to VentoCart!
+Features added from v1.0.5 up to v1.0.9:
+    **Revamped further checkout page:**
+        Fixed various bugs, removed doublicated code.
 
-This ambitious project is a Fork I’ve done on the OpenCart version 4.0.2.4, implementing the most basic features of a modern and complete e-commerce system, production-ready out-of-the-box. Adding these features as extensions would be too complicated and troublesome.
+    **Mouse Drag And Drop Categories:**
+        Sort categories with mouse drag and drop instead of decimal inputs.
 
-While the database scheme has undergone significant alterations, efforts have been made to ensure a level of extension compatibility. The event system hasn't been altered in any way. I am excited to announce the first set of improvements. Let me break it down for you.
+    **Up And Down Photos Sort:**
+        Sort product images with up and down controls instead of decimal inputs.
 
-![image](https://github.com/captainerd/VentoCart/assets/58100748/a1312ad4-97b8-4418-b2d0-b6c53b5eb3f2)
+    **Drag And Drop Options:**
+        Options can now be arranged using drag and drop.
+
+    **Revamped Options UI:**
+        Options redesigned to accordion UI for improved usability.
+
+    **Add New Option Group:**
+        New option groups can be added from the same page of the options tab of a product.
+
+    **Easier full language translations:** 
+        All language files/structure created automatically 
+        All flag images available from select; auto-detects locale and language code by country.
+        New language file editor and language exporter for easy translation, 
+        export one big .txt, translated it and import it back. 
+
+
+**Changelog from Genesis fork up to v1.0.5:**
+
+    Real Variation System:
+        Replaced pseudo-variation system with dynamic system for unique combinations.
+        All variations on same product page; options update price in real time via JS.
+
+    Optimized Options Handling:
+        Reduced related SQL tables from 5 to 2 for streamlined handling.
+        Fewer loops, less SQL joins, and queries for developers.
+
+    Cleaned Breadcrumbs:
+        Template ul loops for breadcrumbs now in a separate file for easier styling customization.
+
+    Bug Fixes and Code Refinement:
+        Addressed bugs, ensuring stability.
+        Code improvements for smoother performance.
+
+    Improved Attribute Management:
+        One-to-one relationship for efficient attribute management.
+        Attribute groups eliminated; copy-paste mass-attributes for one product.
+
+    Switched Template Engine to Plates:
+        Moved to Plates template engine for better performance and security.
+        Allows use of both Plates and Twig templates.
+
+    Enhanced Image Management:
+        Added image cropper for cropping and rotating images.
+        Cropper prompts action for images missing 1:1 square ratio for catalog photos.
+
+    Advanced Option Pricing:
+        Option prices can now use '=' in addition to '+' and '-'.
+
+    Streamlined CSS and Bootstrap Integration:
+        Reduced CSS lines for easier customization with clean Bootstrap look.
+
+    Responsive Cart Grid:
+        Replaced cart tables with Bootstrap <div> grid for improved responsiveness.
+
+    Simplified Checkout Process:
+        Revamped checkout into interactive AJAX page for easier form filling.
+        Real-time options update as client fills the form.
+
+    Address Field and Phone Requirement:
+        Replaced Address 2 with mandatory phone field for better alignment with courier/postal services.
+        Added IP geolocation for auto-selecting client's country.
+
+    Enhanced Photo Gallery:
+        Integrated PhotoSwipe for responsive, swipe-enabled photo gallery.
+
+    Custom Product Photo Slider:
+        Built lightweight JavaScript photo slider for organized product pages.
+
+    Most Viewed Module:
+        Introduced module to display top products based on views over time.
+
+    Quick View Feature:
+        Clients can view product in small pop-up before deciding to go to full page.
+
+    Added Video Support:
+        Supports video (mkv, mp4, avi) for product thumbnails or in photo collections.
+
+    Improved Image Organization:
+        Each product has its own directory using product ID for better organization.
+
+
+ ![image](https://github.com/captainerd/VentoCart/assets/58100748/a1312ad4-97b8-4418-b2d0-b6c53b5eb3f2)
 
 ![image](https://github.com/captainerd/VentoCart/assets/58100748/54dd0c33-98e8-40b7-8976-d907d158e288)
 
 ![image](https://github.com/captainerd/VentoCart/assets/58100748/971ca5c5-d3d5-4ba7-9d57-dba25cd904b5)
 
-### 1.*** Real Variation System:
-We've replaced the previous pseudo-variation system entirely with a dynamic system that allows you to create unique combinations of options with model numbers, SKU codes, stock, and prices.
 
-All variations stay on the same product page, and all options or variations selected by the client will update the price via JS in real time for an interactive experience.
-
-### 2. Optimized Options Handling:
-We've streamlined options handling by reducing the number of related SQL tables from 5 or so, down to 2. This means fewer loops, less SQL left joins and queries, and less confusion for developers.
-
-### 3. Cleaned breadcrumbs:
-Repeated template ul loops in each template file related to breadcrumbs have been placed into its own template file, making it easier to customize the template styling.
-
-### 4. Bug Fixes and Code Refinement:
-We took the time to address bugs found in our forked version, ensuring that your platform is stable and reliable. We also made some code improvements to make everything run smoother.
-
-### 5. Improved Attribute Management:
-Now, you can manage attributes more efficiently with a one-to-one relationship. The attribute groups got nuked. You can even copy-paste temporary sets of mass-attributes for one product, at once, new line each or name:value
-
-### 6. *** Switched Template Engine to Plates:
-We're now using Plates template engine for the whole front application template. It offers better performance, is secure, and has the syntax you already know, native PHP. We kept twig in place so you can use both, no need for any action by your side to switch. Either upload a .twig or a .php plates file. Plates are prioritized.
-
-### 7. Enhanced Image Management:
-We've added an image cropper that lets you crop and rotate images. If an image is detected that is missing the 1:1 square ratio for the catalog photos, our cropper will automatically pop up asking you if you want to take any action.
-
-### 8. Advanced Option Pricing:
-Now you can choose '=' for option prices in addition to '+' and '-'.
-
-### 9. Streamlined CSS and Bootstrap Integration:
-We've reduced down the number of CSS lines and made it easier to customize your ecommerce with a clean Bootstrap look.
-
-### 10. Responsive Cart Grid:
-We replaced all tables related to the cart with the vanilla Bootstrap <div> grid system for better responsiveness and mobile compatibility, no CSS just Bootstrap that was already there.
-
-### 11. *** Simplified Checkout Process:
-Our checkout page has been revamped into an interactive AJAX page, making it easier than ever before to fill out forms and reduce abandoned carts, no pop-up modals or next pages, the options are updated as the client fills the form.
-
-### 12. Address Field and Phone Requirement:
-We've replaced the Address 2 field with a mandatory phone field. The decision behind this is because one address and a phone number align better with the real vouchers of Courier/postal services when filling addresses, and the fewer the fields the better. Plus, The checkout page now includes IP. geolocation from maxmind in order to auto-select the client's country. On top of that, we've added an auto-complete for the country phone code (+nn)
-
-### 13. *** Enhanced Photo Gallery:
-We've integrated PhotoSwipe, which is a full-featured, responsive photo gallery with smooth swiping functionality on mobile devices.
-
-### 14. Custom Product Photo Slider:
-We've also built a custom lightweight JavaScript photo slider that keeps your product pages organized and allows you to handle extensive photo collections efficiently.
-
-### 15. Most Viewed Module:
-Introducing a Most Viewed module, which lets you display top products based on weekly, monthly, yearly, or all-time products with most views.
-
-### 16. Introduced a Quick View feature:
-The client can display a product in a small pop-up from anywhere on the website before deciding to view the page product in full.
-
-### 17. *** Added video support:
-Now you can use a video (mkv, mp4, and avi) for a product main thumbnail or as extra in the photo collection, supported both by the regular media slider or via PhotoSwipe. 
-
-### 18. Improved Image Organization:
-Each product has now its own directory for media by using the product ID as the directory name. This improves organization and keeps your media files neatly organized
-
-</br></br>
-Sure I am forgetting few other feautres and improvements, but that's it for now. Lastly, since you can't use the vanilla installation, we've put in place a small web installer and a terminal one. If you have any questions or issues don't hesitate to reach out.
-
-![image](https://github.com/captainerd/VentoCart/assets/58100748/e37c7923-4d03-496c-b40c-27587ada0645)
+ ![image](https://github.com/captainerd/VentoCart/assets/58100748/e37c7923-4d03-496c-b40c-27587ada0645)

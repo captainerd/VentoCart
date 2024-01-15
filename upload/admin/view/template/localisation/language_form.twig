@@ -1,4 +1,7 @@
 {{ header }}{{ column_left }}
+
+ 
+
 <div id="content">
   <div class="page-header">
     <div class="container-fluid">
@@ -13,11 +16,31 @@
       </ol>
     </div>
   </div>
+
+  
   <div class="container-fluid">
+
+    
     <div class="card">
       <div class="card-header"><i class="fa-solid fa-pencil"></i> {{ text_form }}</div>
       <div class="card-body">
         <form id="form-language" action="{{ save }}" method="post" data-oc-toggle="ajax">
+
+
+          <div class="row mb-3">
+            <label class="col-sm-2 col-form-label">{{entry_country_flag}} <img style="width: 25px;" id="flag" src=""/></label>  
+            <div class="col-sm-10">
+              <input type="hidden" name="flag" id="input-flag"/>
+                <select class="form-select" id="country-select">
+                  <option>-- Select Country --</option>
+                    {% for country in countries %}
+                        <option value="{{ country['locale'] }}" data-language="{{ country['languageFullName'] }}" data-code="{{ country['isoCountryCode'] }}" data-flag="{{ country['flag'] }}">
+                            {{ country['country'] }}
+                        </option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
 
           <div class="row mb-3 required">
             <label for="input-name" class="col-sm-2 col-form-label">{{ entry_name }}</label>
@@ -61,6 +84,8 @@
               <div class="form-text">{{ help_status }}</div>
             </div>
           </div>
+ 
+
 
           <div class="row mb-3">
             <label for="input-sort-order" class="col-sm-2 col-form-label">{{ entry_sort_order }}</label>
@@ -71,8 +96,52 @@
 
           <input type="hidden" name="language_id" value="{{ language_id }}" id="input-language-id"/>
         </form>
+        <div class="row mb-3">   
+          <label for="input-extension" class="col-sm-2 col-form-label"></label>
+          <div class="col-sm-10">
+          <button type="button" id="translate" class="btn btn-primary">Proceed to Translate</button>
+        </div>
+
+      </div>
       </div>
     </div>
+
+
+    
   </div>
 </div>
+
+
+<script>
+    $(document).ready(function () {
+        $("#country-select").change(function () {
+            let selectedOption = $(this).find(":selected");
+            let locale = selectedOption.val();
+            let isoCountryCode = selectedOption.data("code");
+            let flag = selectedOption.data("flag");
+            let language = selectedOption.data("language");
+            // Set values to hidden input fields
+            $("#flag").attr('src', "/catalog/language/flags/" + flag);
+            $("#input-flag").val(flag);
+            $("#input-locale").val(locale);
+            $("#input-name").val(language);
+            $("#input-code").val(isoCountryCode);
+        });
+
+        $("#translate").click(function() {
+          if ($("#input-language-id").val() == 0) {
+            alert('Save the language first');
+            return;
+          }
+      // Construct the URL with the desired parameters
+      var userToken = "{{user_token}}";  
+      var languageCode = $("#input-code").val();
+      var redirectUrl = "index.php?route=localisation/language.translate&user_token=" + userToken + "&code=" + languageCode + '&language_id=' + $("#input-language-id").val();
+
+      // Redirect to the specified URL
+      window.location.href = redirectUrl;
+    });
+
+    });
+</script>
 {{ footer }}
