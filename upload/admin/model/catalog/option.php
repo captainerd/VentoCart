@@ -50,7 +50,6 @@ class Option extends \Opencart\System\Engine\Model
 				SET 
 					`type` = '" . $this->db->escape($data['type']) . "', 
 					`option_n` = '-1',
-					`sort_order` = '" . $this->db->escape($data['sort_order']) . "',
 					`name` = '" . $this->db->escape($value['name']) . "' 
 				WHERE 
 					`option_n` = '-1' AND 

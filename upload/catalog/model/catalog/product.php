@@ -416,7 +416,7 @@ class Product extends \Opencart\System\Engine\Model
  
 		//Populate missing language options
 								$this->db->query("
-           INSERT INTO ve_options (name, type, group_id, language_id, option_n)
+           INSERT INTO " . DB_PREFIX . "options (name, type, group_id, language_id, option_n)
            SELECT 
          	  	   vo.name, 
       	      	   vo.type, 

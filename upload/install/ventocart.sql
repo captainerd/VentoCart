@@ -9559,6 +9559,12 @@ ALTER TABLE `ve_notification`
 ALTER TABLE `ve_options`
   ADD PRIMARY KEY (`option_id`);
 
+CREATE INDEX idx_ve_options_language_id ON ve_options (language_id);
+CREATE INDEX idx_ve_options_group_id ON ve_options (group_id);
+CREATE INDEX idx_ve_options_group_option_language ON ve_options (group_id, option_n, language_id);
+
+
+
 --
 -- Indexes for table `ve_order`
 --
