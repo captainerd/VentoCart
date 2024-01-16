@@ -1,10 +1,6 @@
 <?=  $header ?>
 <div id="account-return" class="container">
-  <ul class="breadcrumb">
-    <?php foreach ($breadcrumbs as $breadcrumb): ?>
-      <li class="breadcrumb-item"><a href="<?= $breadcrumb['href'] ?>"> <?= $this->e($breadcrumb['text']) ?></a></li>
-    <?php endforeach; ?>
-  </ul>
+<?= $breadcrumb?>
   <div class="row"><?=  $column_left  ?>
     <div id="content" class="col"><?=  $content_top  ?>
       <h1><?= $this->e($heading_title ) ?></h1>
