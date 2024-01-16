@@ -139,6 +139,28 @@
                                                         for="everything">{{text_everything}}</label>
                                                 </div>
                                             </div>
+
+
+                                            <div class="col-sm-2">
+                                                <label class="form-check-label mb-2"
+                                                    for=""><strong>Format:</strong></label>
+                                                <div class="form-check">
+                                                    <input class="form-check-input" value="numeric" type="radio"
+                                                        name="option-type" id="option-type-numeric">
+                                                    <label class="form-check-label"
+                                                        for="option-type-numeric">Numeric keys</label>
+                                                </div> 
+                                                <div class="form-check">
+                                                    <input class="form-check-input" checked value="variable" type="radio"
+                                                        name="option-type" id="option-type-var">
+                                                    <label class="form-check-label"
+                                                        for="option-type-var">Variable keys</label>
+                                                </div>
+                                            
+                                            
+                                            </div>
+
+
                                         </div>
                                         <div class="row mb-3">
                                             <div class="col-sm-2">
@@ -217,7 +239,7 @@
 
         $("#download").click(function () {
 
-            window.open('index.php?route=localisation/language.downloadFile&user_token={{user_token}}&code={{code}}&part=' + $('input[name="option-part"]:checked').val(), '_blank');
+            window.open('index.php?route=localisation/language.downloadFile&user_token={{user_token}}&code={{code}}&part=' + $('input[name="option-part"]:checked').val() + '&type=' +  $('input[name="option-type"]:checked').val(), '_blank');
         });
 
         $('#fileInput').change(function () {
@@ -238,7 +260,7 @@
 
                 // Perform AJAX request to handle file upload
                 $.ajax({
-                    url: 'index.php?route=localisation/language.importFile&user_token={{user_token}}&code={{code}}',
+                    url: 'index.php?route=localisation/language.importFile&user_token={{user_token}}&code={{code}}' + '&type=' +  $('input[name="option-type"]:checked').val(),
                     type: 'POST',
                     data: formData,
                     contentType: false,

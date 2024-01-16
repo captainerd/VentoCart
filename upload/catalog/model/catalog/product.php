@@ -414,6 +414,34 @@ class Product extends \Opencart\System\Engine\Model
 	{
 		$product_option_data = [];
  
+		//Populate missing language options
+								$this->db->query("
+           INSERT INTO ve_options (name, type, group_id, language_id, option_n)
+           SELECT 
+         	  	   vo.name, 
+      	      	   vo.type, 
+              	   vo.group_id, 
+              	   " . (int) $this->config->get('config_language_id') . " AS language_id,
+		   		   vo.option_n
+ 		   FROM ve_options vo
+
+ 		   WHERE vo.language_id = 1
+		   
+           AND NOT EXISTS (
+
+           SELECT 1
+
+           FROM ve_options vo_existing
+
+           WHERE vo_existing.group_id = vo.group_id
+
+           AND vo_existing.option_n = vo.option_n
+
+           AND vo_existing.language_id = " . (int) $this->config->get('config_language_id') . ")");
+
+
+		   //Retrieve options
+
 		$product_option_query = $this->db->query("
 		SELECT 
      			   po.*, 
@@ -440,8 +468,7 @@ class Product extends \Opencart\System\Engine\Model
     			      AND o3.group_id = o.group_id AND o3.language_id = '" . (int) $this->config->get('config_language_id') . "'
   	  
 		WHERE          po.product_id = '" . (int) $product_id . "'
-        ORDER BY       po.sort_order
-");
+        ORDER BY       po.sort_order");
 
 
 		foreach ($product_option_query->rows as $product_option) {

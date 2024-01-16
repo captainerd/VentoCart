@@ -40,9 +40,10 @@ $_['error_store']       = 'Warning: This language cannot be deleted as it is cur
 $_['error_order']       = 'Warning: This language cannot be deleted as it is currently assigned to %s orders!';
 
 
-$_['info_translation'] = '<strong>Please Note:</strong> This file employs virtual IDs to facilitate both human and machine translation. 
-During the export and import processes, refrain from installing or uninstalling any extensions, and avoid making 
-alterations to the system. Ensure that the text file format remains unchanged. Translate the file, and once completed, proceed to upload it.';
+$_['info_translation'] = '<strong>Please Note:</strong> Numeric is unstable and has the potential to break language files when 
+installing or uninstalling extensions during different import/export versions, preffer <b>Variable Keys</b> type if possible.  
+
+';
 
 $_['info_backup_export'] = '<strong>Always keep a backup</strong> export a fresh backup before importing a translation.';
 
