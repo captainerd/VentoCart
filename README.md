@@ -1,6 +1,6 @@
 Features added from v1.0.5 up to v1.0.9:
     **Revamped further checkout page:**
-        Fixed various bugs, removed doublicated code.
+        Fixed various bugs, removed dublicated code.
 
     **Mouse Drag And Drop Categories:**
         Sort categories with mouse drag and drop instead of decimal inputs.
