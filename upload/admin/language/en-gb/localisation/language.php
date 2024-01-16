@@ -66,9 +66,13 @@ $_['text_file_content_saved'] = 'File content saved successfully';
 $_['text_error_saving_file'] = 'Error saving file content';
 $_['text_file_contains_errors']  = 'File contains errors, could not save.';
 
+$_['button_proceed_to_translate'] = 'Proceed to Translate';
 $_['button_save_file'] = "Save";
 $_['button_download_file'] = "Download export";
 $_['option_select_file'] = '-- Select a file --';
 
 
 
+$_['option_select_country'] = '-- Select Country --';
+$_['option_select_language'] = '-- Select Language --';
+ 
