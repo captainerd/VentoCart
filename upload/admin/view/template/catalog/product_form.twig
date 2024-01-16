@@ -1520,11 +1520,10 @@ $('#button-image').on('click', function () {
         });
     });
     newRow.find('input[type="text"]').val('0');
-    newRow.find('button[data-oc-target^="#input-product-image"]').each(function() {
-        var newTarget = $(this).attr('data-oc-target').replace(/(\d+)/, image_row);
-        $(this).attr('data-oc-target', newTarget);
-    });
-     
+ 
+    newRow.find('button[data-oc-toggle="image"]').each(function() {
+      $(this).attr('data-oc-target', '#input-product-image-' + image_row);
+});
     newRow.find('.btn-primary').attr('data-oc-thumb', '#thumb-image-' + image_row);
        
    
