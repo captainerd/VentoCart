@@ -926,6 +926,10 @@ class Language extends \Opencart\System\Engine\Controller
 			$langCode = $this->request->post['code'];
 			$catalogDir = DIR_CATALOG . "language/" . $langCode;
 			$adminDir = DIR_APPLICATION . "language/" . $langCode;
+
+			$this->recursiveDelete($adminDir);
+			$this->recursiveDelete($catalogDir);
+
 			$this->recursiveCopy(DIR_CATALOG . "language/en-gb", $catalogDir);
 			$this->recursiveCopy(DIR_APPLICATION . "language/en-gb", $adminDir);
 
@@ -939,12 +943,14 @@ class Language extends \Opencart\System\Engine\Controller
 				$targetLang = DIR_EXTENSION . $item . "/admin/language/" . $langCode;
 
 				if (is_dir($defaultLang) && filetype($defaultLang) === 'dir' && !is_dir($targetLang)) {
+					$this->recursiveDelete($targetLang);
 					$this->recursiveCopy($defaultLang, $targetLang);
 				}
 				$defaultLang = DIR_EXTENSION . $item . "/catalog/language/en-gb";
 				$targetLang = DIR_EXTENSION . $item . "/catalog/language/" . $langCode;
 
 				if (is_dir($defaultLang) && filetype($defaultLang) === 'dir' && !is_dir($targetLang)) {
+					$this->recursiveDelete($targetLang);
 					$this->recursiveCopy($defaultLang, $targetLang);
 				}
 
@@ -1021,7 +1027,8 @@ class Language extends \Opencart\System\Engine\Controller
 		}
 
 		if (!$json) {
-			if ($language_info['code'] != "en-gb") {
+			 
+			if (isset($language_info['code']) && $language_info['code'] != "en-gb") {
 				$this->load->model('localisation/language');
 				$catalogDir = DIR_CATALOG . "language/" . $language_info['code'];
 				$adminDir = DIR_APPLICATION . "language/" . $language_info['code'];
