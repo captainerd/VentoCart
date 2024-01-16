@@ -335,6 +335,9 @@ class AddressCheckOut {
 // Make an AJAX call to fetch payment and shipping methods
 function populatePaymentAndShippingMethods() {
 
+  $("#shipping-methods-container").html('<div class="spinner-grow text-primary" role="status"><span class="sr-only">Loading...</span></div>');
+  $("#payment-methods-container").html('<div class="spinner-grow text-primary" role="status"><span class="sr-only">Loading...</span></div>');
+
   $.ajax({
     url: 'index.php?route=checkout/shipping_payment_methods.getPaymentAndShipping',
     type: 'get',
@@ -343,11 +346,13 @@ function populatePaymentAndShippingMethods() {
 
       if (json.shipping_methods) {
         // Populate shipping methods in your HTML
+       
         populateMethods('shipping-methods-container', json.shipping_methods, "shipping_method");
       }
       if (json.payment_methods) {
 
         // Populate payment methods in your HTML
+ 
         populateMethods('payment-methods-container', json.payment_methods, "payment_method");
 
 
@@ -371,11 +376,11 @@ function populatePaymentAndShippingMethods() {
 // Function to populate methods in your HTML element
 function populateMethods(containerId, methods, name) {
   let containerElement = document.getElementById(containerId);
-
+ 
   // Clear existing content
   if (containerElement) containerElement.innerHTML = '';
   if (!containerElement) return;
-
+ 
   // Generate and append new radio buttons and labels
   Object.keys(methods).forEach((mcode, mindex) => {
 

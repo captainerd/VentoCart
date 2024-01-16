@@ -50,8 +50,8 @@
  
   </div>
 </footer>
-<?= $this->e($cookie ) ?>
-<script src="<?= $this->e($bootstrap ) ?>" type="text/javascript"></script>
+<?=  $cookie  ?>
+<script src="<?=  $bootstrap   ?>" type="text/javascript"></script>
 <?php foreach ($scripts as $script): ?>
   <script src="<?=  $script['href']  ?>" type="text/javascript"></script>
 <?php endforeach; ?>

@@ -359,7 +359,9 @@ class ShippingPaymentMethods extends \Opencart\System\Engine\Controller
 
         if ($shippingMethods && isset($shippingMethods['shipping_methods'])) {
             $json['shipping_methods'] = $shippingMethods['shipping_methods'];
-        }  
+        }  else {
+            $json['error_shipping'] = $this->language->get('fill_the_form');
+        }
         if (!$this->cart->hasShipping()) {
             $json['error_shipping'] = $this->language->get('text_shipping_not_needed');
         }

@@ -1,11 +1,11 @@
-<?= $this->layout('layout', ['title' => $title]) ?>
+<?=$header?>
 
 <div id="account-gdpr" class="container">
 <?php $breadcrumb ?>
 
-    <?php if ($success): ?>
+    <?php if (isset($success)): ?>
         <div class="alert alert-success alert-dismissible">
-            <i class="fa-solid fa-circle-check"></i> <?= $this->e($success) ?>
+            <i class="fa-solid fa-circle-check"></i> <?=  $success  ?>
             <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
         </div>
     <?php endif; ?>
@@ -16,16 +16,16 @@
         <div id="content" class="col">
             <?= $content_top ?>
 
-            <h1><?= $this->e($heading_title) ?></h1>
-            <p><?= $this->e($text_gdpr) ?></p>
+            <h1><?=  $heading_title ?></h1>
+            <p><?=  sprintf($text_gdpr, $store, $gdpr, $title)  ?></p>
 
-            <form action="<?= $this->e($action) ?>" method="post" data-oc-toggle="ajax">
+            <form action="<?=  $action  ?>" method="post" data-oc-toggle="ajax">
                 <fieldset>
-                    <legend id="account"><?= $this->e($text_verification) ?></legend>
+                    <legend id="account"><?=  $text_verification ?></legend>
                     <div class="mb-3">
-                        <p><label for="input-email" class="form-check-label"><?= $this->e($text_email) ?></label></p>
+                        <p><label for="input-email" class="form-check-label"><?=  $text_email  ?></label></p>
                         <div class="input-group">
-                            <input type="text" name="email" value="<?=  $email  ?>" placeholder="<?= $this->e($entry_email) ?>" id="input-email" class="form-control"/>
+                            <input type="text" name="email" value="<?=  $email  ?>" placeholder="<?=  $entry_email  ?>" id="input-email" class="form-control"/>
                             <div class="input-group-text"><i class="fa-solid fa-envelope"></i></div>
                         </div>
                         <div id="error-email" class="invalid-feedback"></div>
@@ -33,7 +33,7 @@
                 </fieldset>
 
                 <fieldset>
-                    <legend id="action"><?= $this->e($text_action) ?></legend>
+                    <legend id="action"><?=  $text_action  ?></legend>
 
                     <div class="mb-3">
                         <div class="form-check">
@@ -42,16 +42,16 @@
                         </div>
                         <div class="form-check">
                             <input type="radio" name="action" value="remove" id="input-remove" class="form-check-input"/>
-                            <label for="input-remove" class="form-check-label"><strong><?= $this->e($text_remove) ?></strong></label>
+                            <label for="input-remove" class="form-check-label"><strong><?=  $text_remove  ?></strong></label>
                         </div>
                     </div>
 
                     <div id="collapse-remove" class="alert alert-warning collapse">
                         <p><i class="fa-solid fa-triangle-exclamation"></i> <?= $this->e($text_warning) ?></p>
                         <ul>
-                            <li><?= $this->e($text_access) ?></li>
-                            <li><?= $this->e($text_history) ?></li>
-                            <li><?= $this->e($text_limit) ?></li>
+                        <li><?=  sprintf($text_access, $store)  ?></li>
+                        <li><?=  $text_history  ?></li>
+                        <li><?=  sprintf($text_limit, $limit)  ?></li>
                         </ul>
                     </div>
                 </fieldset>
