@@ -41,7 +41,7 @@ $_['error_order']       = 'Warning: This language cannot be deleted as it is cur
 
 
 $_['info_translation'] = '<strong>Please Note:</strong> Numeric is unstable and has the potential to break language files when 
-installing or uninstalling extensions during different import/export versions, preffer <b>Variable Keys</b> type if possible.  
+installing or uninstalling extensions during different import/export versions, prefer <b>Variable Keys</b> type if possible.  
 
 ';
 
