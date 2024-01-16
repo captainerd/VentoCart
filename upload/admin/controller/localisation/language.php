@@ -739,36 +739,35 @@ class Language extends \Opencart\System\Engine\Controller
 					$country = str_replace(".png", "", $file);
 					$country = str_replace("_", " ", $country);
 					$country = ucwords($country);
-
-					$locale = null;
+			
+					$locales = [];
 					$isoCountryCode = null;
-
-					$locales = \ResourceBundle::getLocales('');
-
-					foreach ($locales as $loc) {
+			
+					$allLocales = \ResourceBundle::getLocales('');
+			
+					foreach ($allLocales as $loc) {
 						$countryNames = explode(', ', \Locale::getDisplayRegion($loc));
 						if (in_array($country, $countryNames)) {
-							$locale = $loc;
 							$isoCountryCode = \Locale::getRegion($loc);
-							$languageFullName = \Locale::getDisplayLanguage($loc);
-
-							break;
+							$locales[] = [
+								'locale' => $loc,
+								'languageFullName' => \Locale::getDisplayLanguage($loc),
+							];
 						}
 					}
-
-					if ($locale !== null && $isoCountryCode !== null) {
+			
+					if ($locales) {
 						$countries[] = [
 							'flag' => $file,
 							'country' => $country,
-							'locale' => $locale,
+							'locales' => $locales,
 							'isoCountryCode' => $isoCountryCode,
-							'languageFullName' => $languageFullName,
 						];
 					}
 				}
 			}
 		}
-
+	 
 
 
 		$data['countries'] = $countries;
@@ -910,7 +909,7 @@ class Language extends \Opencart\System\Engine\Controller
 		}
 
 		$language_info = $this->model_localisation_language->getLanguageByCode($this->request->post['code']);
-
+	 
 		if (!$this->request->post['language_id']) {
 			if ($language_info) {
 				$json['error']['warning'] = $this->language->get('error_exists');
@@ -923,6 +922,10 @@ class Language extends \Opencart\System\Engine\Controller
 
 		if (!$json) {
 			$this->load->model('localisation/language');
+
+
+			//Flag is set, it is a new language
+			if (isset($this->request->post['flag'])) {
 			$langCode = $this->request->post['code'];
 			$catalogDir = DIR_CATALOG . "language/" . $langCode;
 			$adminDir = DIR_APPLICATION . "language/" . $langCode;
@@ -964,6 +967,7 @@ class Language extends \Opencart\System\Engine\Controller
 				copy(DIR_CATALOG . "language/flags/" . $this->request->post['flag'], $adminDir . "/" . $langCode . ".png");
 
 			}
+		}
 
 			if (!$this->request->post['language_id']) {
 				$json['language_id'] = $this->model_localisation_language->addLanguage($this->request->post);
@@ -1076,7 +1080,7 @@ class Language extends \Opencart\System\Engine\Controller
 	{
 		if (!is_dir($directory)) {
 			// If it's not a directory, delete the file
-			unlink($directory);
+			if (file_exists($directory)) { unlink($directory); }
 		} else {
 			// If it's a directory, delete its contents and then the directory itself
 			$files = scandir($directory);

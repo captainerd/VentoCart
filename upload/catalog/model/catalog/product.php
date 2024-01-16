@@ -414,30 +414,6 @@ class Product extends \Opencart\System\Engine\Model
 	{
 		$product_option_data = [];
  
-		//Populate missing language options
-								$this->db->query("
-           INSERT INTO " . DB_PREFIX . "options (name, type, group_id, language_id, option_n)
-           SELECT 
-         	  	   vo.name, 
-      	      	   vo.type, 
-              	   vo.group_id, 
-              	   " . (int) $this->config->get('config_language_id') . " AS language_id,
-		   		   vo.option_n
- 		   FROM ve_options vo
-
- 		   WHERE vo.language_id = 1
-		   
-           AND NOT EXISTS (
-
-           SELECT 1
-
-           FROM ve_options vo_existing
-
-           WHERE vo_existing.group_id = vo.group_id
-
-           AND vo_existing.option_n = vo.option_n
-
-           AND vo_existing.language_id = " . (int) $this->config->get('config_language_id') . ")");
 
 
 		   //Retrieve options
