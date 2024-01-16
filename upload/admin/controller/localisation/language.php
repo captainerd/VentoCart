@@ -584,7 +584,7 @@ class Language extends \Opencart\System\Engine\Controller
 				$id_file++;
 			}
 		}
-
+		$filef .= "\n$*file*=end";
 
 		$outputFileName = $langCode . '_output.txt';
 
