@@ -833,19 +833,19 @@
 
           {% if  thumb|split('.')|last in ['mkv', 'avi', 'mp4'] %}
 
-          <video  id="thumb-image"   class="img-thumbnail thumbnail" width="320" height="240">
+          <video  id="product-product-image-0"   class="img-thumbnail thumbnail" width="320" height="240">
             <source  class="thumbnail" src="{{  thumb }}" type="video/{{  thumb|split('.')|last }}">
             Your browser does not support the video tag.
           </video>
 
           {% else %}
-          <img src="{{ thumb }}" alt="" title="" id="thumb-image" data-oc-placeholder="{{ placeholder }}" class="card-img-top"/> 
+          <img src="{{ thumb }}" alt="" title="" id="product-product-image-0" data-oc-placeholder="{{ placeholder }}" class="card-img-top"/> 
       
           {% endif %}
-          <input type="hidden"  name="product_image[0][image]"value="{{ image }}" id="input-image"/>
+          <input type="hidden"  name="product_image[0][image]"value="{{ image }}" id="input-product-image-0"/>
           <input type="hidden" name="product_image[0][sort_order]" value="0" placeholder="{{ entry_sort_order }}" class="form-control"/>
           <div class="card-body">
-            <button type="button" data-oc-toggle="image" data-oc-target="#input-image" data-oc-thumb="#thumb-image" class="btn btn-primary btn-sm btn-block"><i class="fa-solid fa-pencil"></i> {{ button_edit }}</button>
+            <button type="button" data-oc-toggle="image" data-oc-target="#input-product-image-0" data-oc-thumb="#product-product-image-0" class="btn btn-primary btn-sm btn-block"><i class="fa-solid fa-pencil"></i> {{ button_edit }}</button>
             <button type="button"  data-bs-toggle="tooltip" title="{{ button_remove }}"  class="btn btn-sm btn-img-delete btn-danger"><i class="fa-solid fa-minus-circle"></i> {{button_delete}} </button> 
        
 

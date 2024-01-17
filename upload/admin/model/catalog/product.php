@@ -8,10 +8,9 @@ class Product extends \Opencart\System\Engine\Model
 		$this->db->query("INSERT INTO `" . DB_PREFIX . "product` SET  `model` = '" . $this->db->escape((string) $data['model']) . "', `sku` = '" . $this->db->escape((string) $data['sku']) . "', `upc` = '" . $this->db->escape((string) $data['upc']) . "', `ean` = '" . $this->db->escape((string) $data['ean']) . "', `jan` = '" . $this->db->escape((string) $data['jan']) . "', `isbn` = '" . $this->db->escape((string) $data['isbn']) . "', `mpn` = '" . $this->db->escape((string) $data['mpn']) . "', `location` = '" . $this->db->escape((string) $data['location']) . "', `variant` = '" . $this->db->escape(!empty($data['variant']) ? json_encode($data['variant']) : '') . "', `override` = '" . $this->db->escape(!empty($data['override']) ? json_encode($data['override']) : '') . "', `quantity` = '" . (int) $data['quantity'] . "', `minimum` = '" . (int) $data['minimum'] . "', `subtract` = '" . (isset($data['subtract']) ? (bool) $data['subtract'] : 0) . "', `stock_status_id` = '" . (int) $data['stock_status_id'] . "', `date_available` = '" . $this->db->escape((string) $data['date_available']) . "', `manufacturer_id` = '" . (int) $data['manufacturer_id'] . "', `shipping` = '" . (isset($data['shipping']) ? (bool) $data['shipping'] : 0) . "', `price` = '" . (float) $data['price'] . "', `points` = '" . (int) $data['points'] . "', `weight` = '" . (float) $data['weight'] . "', `weight_class_id` = '" . (int) $data['weight_class_id'] . "', `length` = '" . (float) $data['length'] . "', `width` = '" . (float) $data['width'] . "', `height` = '" . (float) $data['height'] . "', `length_class_id` = '" . (int) $data['length_class_id'] . "', `status` = '" . (bool) (isset($data['status']) ? $data['status'] : 0) . "', `tax_class_id` = '" . (int) $data['tax_class_id'] . "', `sort_order` = '" . (int) $data['sort_order'] . "', `date_added` = NOW(), `date_modified` = NOW()");
 
 		$product_id = $this->db->getLastId();
+		 
 
-		if (isset($data['image'])) {
-			$this->db->query("UPDATE `" . DB_PREFIX . "product` SET `image` = '" . $this->db->escape((string) $data['image']) . "' WHERE `product_id` = '" . (int) $product_id . "'");
-		}
+		//No image uploads until product is saved
 
 		// Description
 		foreach ($data['product_description'] as $language_id => $value) {
@@ -50,10 +49,6 @@ class Product extends \Opencart\System\Engine\Model
 		if (isset($data['product_related'])) {
 			foreach ($data['product_related'] as $related_id) {
 
-
-
-
-
 				$this->db->query("DELETE FROM `" . DB_PREFIX . "product_related` WHERE `product_id` = '" . (int) $product_id . "' AND `related_id` = '" . (int) $related_id . "'");
 				$this->db->query("INSERT INTO `" . DB_PREFIX . "product_related` SET `product_id` = '" . (int) $product_id . "', `related_id` = '" . (int) $related_id . "'");
 				$this->db->query("DELETE FROM `" . DB_PREFIX . "product_related` WHERE `product_id` = '" . (int) $related_id . "' AND `related_id` = '" . (int) $product_id . "'");
@@ -76,23 +71,31 @@ class Product extends \Opencart\System\Engine\Model
 		}
 
 		// Options
+  
 		if (isset($data['product_option'])) {
 			foreach ($data['product_option'] as $product_option) {
-				if ($product_option['type'] == 'select' || $product_option['type'] == 'radio' || $product_option['type'] == 'checkbox' || $product_option['type'] == 'image') {
+		 
+				if (!isset($product_option['required'])) $product_option['required'] = 0;
+				// Common properties
+				$product_id = (int) $product_id;
+				$required = (int) $product_option['required'];
+				 
+				// Select, radio, checkbox, or image type
+				if (in_array($product_option['type'], ['select', 'radio', 'checkbox', 'image'])) {
 					if (isset($product_option['product_option_value'])) {
-						$this->db->query("INSERT INTO `" . DB_PREFIX . "product_option` SET `product_id` = '" . (int) $product_id . "', `option_id` = '" . (int) $product_option['option_id'] . "', `required` = '" . (int) $product_option['required'] . "'");
-
-						$product_option_id = $this->db->getLastId();
-
 						foreach ($product_option['product_option_value'] as $product_option_value) {
-							$this->db->query("INSERT INTO `" . DB_PREFIX . "product_option_value` SET `product_option_id` = '" . (int) $product_option_id . "', `product_id` = '" . (int) $product_id . "', `option_id` = '" . (int) $product_option['option_id'] . "', `option_value_id` = '" . (int) $product_option_value['option_value_id'] . "', `quantity` = '" . (int) $product_option_value['quantity'] . "', `subtract` = '" . (int) $product_option_value['subtract'] . "', `price` = '" . (float) $product_option_value['price'] . "', `price_prefix` = '" . $this->db->escape($product_option_value['price_prefix']) . "', `points` = '" . (int) $product_option_value['points'] . "', `points_prefix` = '" . $this->db->escape($product_option_value['points_prefix']) . "', `weight` = '" . (float) $product_option_value['weight'] . "', `weight_prefix` = '" . $this->db->escape($product_option_value['weight_prefix']) . "'");
+
+
+							$this->updateOrInsertProductOption($product_id, $required, $product_option_value);
 						}
 					}
 				} else {
-					$this->db->query("INSERT INTO `" . DB_PREFIX . "product_option` SET `product_id` = '" . (int) $product_id . "', `option_id` = '" . (int) $product_option['option_id'] . "', `value` = '" . $this->db->escape($product_option['value']) . "', `required` = '" . (int) $product_option['required'] . "'");
+					// Other types
+					$this->updateOrInsertProductOptionForOtherTypes($product_id, $required, $product_option);
 				}
 			}
 		}
+
 
 		// Subscription
 		if (isset($data['product_subscription'])) {
@@ -119,12 +122,7 @@ class Product extends \Opencart\System\Engine\Model
 			}
 		}
 
-		// Images
-		if (isset($data['product_image'])) {
-			foreach ($data['product_image'] as $product_image) {
-				$this->db->query("INSERT INTO `" . DB_PREFIX . "product_image` SET `product_id` = '" . (int) $product_id . "', `image` = '" . $this->db->escape($product_image['image']) . "', `sort_order` = '" . (int) $product_image['sort_order'] . "'");
-			}
-		}
+	 
 
 		// Reward
 		if (isset($data['product_reward'])) {
@@ -196,20 +194,18 @@ class Product extends \Opencart\System\Engine\Model
 		`date_modified` = NOW() WHERE `product_id` = '" . (int) $product_id . "'");
 
 	 
-
-		// Remove the element if found, and give it to main image array
-		if ( array_search(0, array_column($data['product_image'], 'sort_order')) !== false) {
-			$data['image'] = array_splice($data['product_image'],  array_search(0, array_column($data['product_image'], 'sort_order')), 1)[0]['image'];
-		}
+		//Resort array based on sort_order 
+		usort($data['product_image'], function ($a, $b) {
+			return $a['sort_order'] - $b['sort_order'];
+		});
 		
-		// Shift the array keys to ensure consecutive numeric keys for the extra images.
-		$data['product_image'] = array_values($data['product_image']);
-	 
-	 
-		if ($data['image']) {
-			$this->db->query("UPDATE `" . DB_PREFIX . "product` SET `image` = '" . $this->db->escape((string) $data['image']) . "' WHERE `product_id` = '" . (int) $product_id . "'");
+		if ($data['product_image'][0]['image']) {
+			$this->db->query("UPDATE `" . DB_PREFIX . "product` SET `image` = '" . $this->db->escape((string) $data['product_image'][0]['image']) . "' WHERE `product_id` = '" . (int) $product_id . "'");
 		}
-	 
+		//Remove the "product" main image from the array 
+		array_shift($data['product_image']);
+
+
 		// Description
 		$this->db->query("DELETE FROM `" . DB_PREFIX . "product_description` WHERE `product_id` = '" . (int) $product_id . "'");
  
