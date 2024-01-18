@@ -1379,7 +1379,7 @@ $('#report').on('click', '.pagination a', function (e) {
       $('input[name="product_description[' + index + '][meta_title]"]').val(metaTitleValue);
        metaTitleValue = metaTitleValue.toLowerCase().replace(/\s+/g, '-');
       // Check if the associated SEO URL field is empty and update it if needed
-      $('input[name$="[1]"][name^="product_seo_url"]').each(function() {
+      $('input[name$="['+ index + ']"][name^="product_seo_url"]').each(function() {
       if ($(this).val().length === 0) {
         canWriteSeo = true;
       }

@@ -31,12 +31,14 @@ $_['entry_column']            = 'Columns';
 $_['entry_sort_order']        = 'Sort Order';
 $_['entry_status']            = 'Status';
 $_['entry_layout']            = 'Layout Override';
+$_['entry_url']               = 'Redirect URL';
 
 // Help
 $_['help_parent']             = '(Autocomplete)';
 $_['help_filter']             = '(Autocomplete)';
 $_['help_top']                = 'Display in the top menu bar. Only works for the top parent categories.';
 $_['help_column']             = 'Number of columns to use for the bottom 3 categories. Only works for the top parent categories.';
+$_['help_redirect']           = 'Filling this with any value will link to that instead';
 
 // Error
 $_['error_warning']           = 'Warning: Please check the form carefully for errors!';
