@@ -47,7 +47,7 @@
 	var sortedCategories = Object.values(categories).sort((a, b) => a.sort_order - b.sort_order);
 	var superI = sortedCategories.length;
 	var processedCategories = {};
-
+	$(document).ready(function () {
 	function processCategory(category) {
 		let buildHTMLobject = {};
 		let newAccordion = $("#category-id-standby").clone();
@@ -105,18 +105,20 @@
 	function getCategoryById(categoryId) {
 		return sortedCategories.find(category => category.category_id === categoryId);
 	}
-	while (superI > 0) {
-		Object.keys(sortedCategories).forEach((categoryId, index) => {
-			const category = sortedCategories[categoryId];
-			if (category && category.category_id && processCategory(category)) {
-				superI--;
-			}
-		});
-		if (superI == 0) {
-			initializeSortables();
-		}
-	}
 
+ 
+		while (superI > 0) {
+			Object.keys(sortedCategories).forEach((categoryId, index) => {
+				const category = sortedCategories[categoryId];
+				if (category && category.category_id && processCategory(category)) {
+					superI--;
+				}
+			});
+			if (superI == 0) {
+				initializeSortables();
+			}
+		}
+	 
 	$("#accordionContainer .accordion").each(function () {
 		var accordionBody = $(this).find(".accordion-body");
 		if (accordionBody.text().length < 2) {
@@ -197,4 +199,5 @@
 		const params = new URLSearchParams(window.location.search);
 		return params.get(name) || '';
 	}
+});
 </script>
