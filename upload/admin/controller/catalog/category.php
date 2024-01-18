@@ -37,6 +37,7 @@ class Category extends \Opencart\System\Engine\Controller {
 		$data['delete'] = $this->url->link('catalog/category.delete', 'user_token=' . $this->session->data['user_token']);
 
 		$data['list'] = $this->getList();
+	 
 
 		$data['user_token'] = $this->session->data['user_token'];
 
@@ -112,16 +113,18 @@ class Category extends \Opencart\System\Engine\Controller {
 		$category_total = $this->model_catalog_category->getTotalCategories();
 
 		$results = $this->model_catalog_category->getCategories($filter_data);
-
+ 
 		foreach ($results as $result) {
-			$data['categories'][] = [
-				'category_id' => $result['category_id'],
+	 
+			$data['categories'][ $result['category_id']] = [
+				'category_id' => (int) $result['category_id'],
+				'parent_id' => (int) $result['parent_id'],
 				'name'        => $result['name'],
-				'sort_order'  => $result['sort_order'],
+				'sort_order'  => (int) $result['sort_order'],
 				'edit'        => $this->url->link('catalog/category.form', 'user_token=' . $this->session->data['user_token'] . '&category_id=' . $result['category_id'] . $url)
 			];
-		}
-
+	}
+ 
 		$url = '';
 
 		if ($order == 'ASC') {

@@ -1,144 +1,200 @@
+<style>
+	.my-handle {
+		cursor: grab;
+		font-size: 21px;
+		cursor: -webkit-grabbing;
+		color: #595959;
+	}
+</style>
 <form id="form-category" method="post" data-oc-toggle="ajax" data-oc-load="{{ action }}" data-oc-target="#category">
-	<div class="table-responsive">
-		<table id="categorysorter" class="table table-bordered table-hover table-striped">
-			<thead>
-				<tr>
-					<td class="text-center" style="width: 1px;"><input type="checkbox"
-							onclick="$('input[name*=\'selected\']').prop('checked', $(this).prop('checked'));"
-							class="form-check-input" /></td>
-					<td class="text-start"><a href="{{ sort_name }}" {% if sort=='name' %} class="{{ order|lower }}" {%
-							endif %}>{{ column_name }}</a></td>
-					<td class="text-end"><a href="{{ sort_sort_order }}" {% if sort=='sort_order' %}
-							class="{{ order|lower }}" {% endif %}>{{ column_sort_order }}</a></td>
-					<td class="text-end">{{ column_action }}</td>
-				</tr>
-			</thead>
-			<tbody class="sortable-table">
-				{% if categories %}
-				{% for category in categories %}
-				<tr data-catid="{{category.category_id }}">
-					<td class="text-center"><input type="checkbox" name="selected[]" value="{{ category.category_id }}"
-							class="form-check-input" /></td>
-					<td class="text-start">{{ category.name }}</td>
-					<td class="text-end">{{ category.sort_order }}</td>
-					<td class="text-end"><a href="{{ category.edit }}" data-bs-toggle="tooltip"
-							title="{{ button_edit }}" class="btn btn-primary"><i class="fa-solid fa-pencil"></i></a>
-					</td>
-				</tr>
-				{% endfor %}
-				{% else %}
-				<tr>
-					<td class="text-center" colspan="4">{{ text_no_results }}</td>
-				</tr>
-				{% endif %}
-			</tbody>
-		</table>
-	</div>
-	<div class="row">
-		<div class="col-sm-6 text-start">{{ pagination }}</div>
-		<div class="col-sm-6 text-end">{{ results }}</div>
-	</div>
-</form>
+	<!-- Template seceleton for accordion -->
+	<div id="category-id-standby" class="accordion accordion-flush d-none">
+		<div class="accordion-item">
+			<h2 class="accordion-header" id="flush-headingx}">
+				<div class="d-flex align-items-center">
+					<button class="flex-grow-1 border  rounded accordion-button collapsed" type="button"
+						data-bs-toggle="collapse" data-bs-target="#flush-collapsex" aria-expanded="false"
+						aria-controls="flush-collapsex">
+						<span class="my-handle" aria-hidden="true">
+							<i class="fa-solid mx-2 fa-grip-vertical"></i>
+						</span>
 
+					</button>
+				</div>
+			</h2>
+			<div id="flush-collapsex" class="accordion-collapse collapse" aria-labelledby="flush-headingx"
+				data-bs-parent="#accordionFlushExample">
+				<div class="accordion-body"></div>
+			</div>
+		</div>
+	</div>
+	<!-- END //Template seceleton for accordion -->
+
+	{% if categories %}
+	<ul class="listWithHandle" id="accordionContainer" style="padding: 0; margin: 0">
+	</ul>
+	{% endif %}
+	</div>
+
+</form>
+<style>
+
+</style>
 
 <script type="text/javascript" src="view/javascript/Sortable.min.js"></script>
 <script>
-	$(document).ready(function () {
- 
-		new Sortable(document.querySelector('.sortable-table'), {
-			animation: 150, // Optional animation time in milliseconds
-			handle: 'td',   // Restrict drag start click to the specified element
-			onEnd: function (evt) {
-				// Callback function called after the sorting is completed
-				handleSortEnd(evt);
-			}
+	var categories = {{ categories| json_encode | raw }};
+	var sortedCategories = Object.values(categories).sort((a, b) => a.sort_order - b.sort_order);
+	var superI = sortedCategories.length;
+	var processedCategories = {};
+
+	function processCategory(category) {
+		let buildHTMLobject = {};
+		let newAccordion = $("#category-id-standby").clone();
+		newAccordion.attr("id", "category-id-" + category.category_id);
+		let listItem = $('<li class="list-group-item"></li>');
+		newAccordion.find(".accordion-button").append(category.name);
+
+		let editButton = $('<a>', {
+			href: category.edit,
+			'data-bs-toggle': 'tooltip',
+			class: 'btn btnedit btn-primary',
+			'aria-label': 'Edit',
+			'data-bs-original-title': 'Edit',
+			css: {
+				'z-index': 100,
+				position: 'absolute',
+				right: '50px'
+			},
+			html: '<i class="fa-solid fa-pencil"></i>'
 		});
 
-		// Your additional JavaScript logic here
-		function handleSortEnd(evt) {
-			// This function is called when the sorting operation is completed
-			var categoryPositions = {}; // Object to store positions
+		newAccordion.find(".accordion-button").append(editButton);
+		newAccordion.removeClass("d-none");
+		let ariaLabelledById = "accordion-heading-" + category.category_id;
+		let ariaControls = "accordion-collapse-" + category.category_id;
+		let accbody = "accordion-body-" + category.category_id;
+		let accbutton = "accordion-button-" + category.category_id;
+		newAccordion.find(".accordion-body").attr("id", accbody);
+		newAccordion.find(".accordion-button").attr("id", accbutton);
+		newAccordion.find(".accordion-header").attr("id", ariaLabelledById);
+		newAccordion.find(".accordion-button").attr("data-bs-target", "#" + ariaControls);
+		newAccordion.find(".accordion-button").attr("data-catid", category.category_id);
+		newAccordion.find(".accordion-collapse").attr("id", ariaControls);
+		newAccordion.find(".accordion-collapse").attr("aria-labelledby", ariaLabelledById);
+		newAccordion.find(".accordion-collapse").attr("data-bs-parent", "#" + ariaLabelledById);
+		if (category.parent_id == 0 && $("#accordion-body-" + category.category_id).length == 0) {
+			newAccordion.appendTo(listItem);
+			$("#accordionContainer").append(listItem);
+			return true;
+		} else {
+			if ($("#accordion-body-" + category.parent_id).length > 0 && $("#accordion-body-" + category.category_id).length == 0) {
 
-			// Loop through each row in the table
-			$('#categorysorter tbody tr').each(function (index) {
-				// Get the value of data-catid attribute
-				var catId = $(this).data('catid');
-
-				// Store the data-catid and its position in the object
-				categoryPositions[catId] = index;
-			});
-
-			// Output the resulting object to the console
-			updateSortOrder(reverseObjectKeys(categoryPositions));
+				if ($("#accordion-body-" + category.parent_id).length < 2) {
+					$("#accordion-body-" + category.parent_id).append('<ul class="listWithHandle" id="real-body-ul-' + category.parent_id + '" style="padding: 0; margin: 0"></ul>');
+					newAccordion.appendTo(listItem);
+					$('#real-body-ul-' + category.parent_id).append(listItem);
+				}
+				return true;
+			} else {
+				return false;
+			}
 		}
-		function reverseObjectKeys(obj) {
-    return Object.keys(obj).reverse().reduce(function(result, key) {
-        result[key] = obj[key];
-        return result;
-    }, {});
-}
+	}
+
+	function getCategoryById(categoryId) {
+		return sortedCategories.find(category => category.category_id === categoryId);
+	}
+	while (superI > 0) {
+		Object.keys(sortedCategories).forEach((categoryId, index) => {
+			const category = sortedCategories[categoryId];
+			if (category && category.category_id && processCategory(category)) {
+				superI--;
+			}
+		});
+		if (superI == 0) {
+			initializeSortables();
+		}
+	}
+
+	$("#accordionContainer .accordion").each(function () {
+		var accordionBody = $(this).find(".accordion-body");
+		if (accordionBody.text().length < 2) {
+			accordionBody.addClass("d-none");
+		} else {
+			$("#" + accordionBody.attr('id').replace("accordion-body", "accordion-button")).append(' <span class="mx-4"> <i class="fas fa-chevron-down"></i></span>');
+		}
+	});
+	$(".accordion-button").click(function () {
+		var accordionBody = $(this).closest(".accordion-item").find(".accordion-body");
+
+		if (accordionBody.text().trim().length < 2) {
+			$(this).addClass("collapsed");
+		}
+	});
+
+	$(document).on("click", ".btnedit", function (event) {
+		event.preventDefault(); // Prevent the default behavior of the link
+		window.location.href = $(this).attr('href').replace(/&amp;/g, '&');
+	});
+
+	function initializeSortables() {
+		$('.listWithHandle').each(function () {
+			// Check if Sortable instance already exists
+			if (!$(this).data('sortable')) {
+				// Create Sortable instance
+				Sortable.create(this, {
+					handle: '.my-handle',
+					animation: 150,
+					onEnd: function (event) {
+						// Update the values after sorting is complete
+						handleSortEnd(event);
+					}
+				});
+			}
+		});
+	}
+
+	function handleSortEnd(evt) {
+		var categoryPositions = {};
+		$('#accordionContainer .accordion-button').each(function (index) {
+			var catId = $(this).data('catid');
+			categoryPositions[catId] = index;
+		});
+		updateSortOrder(reverseObjectKeys(categoryPositions));
+	}
+	function reverseObjectKeys(obj) {
+		return Object.keys(obj).reverse().reduce(function (result, key) {
+			result[key] = obj[key];
+			return result;
+		}, {});
+	}
 
 	function updateSortOrder(sortObject) {
-        // Specify the URL where you want to send the POST request
-       
-        // Make sure sortObject is not empty
-        if ($.isEmptyObject(sortObject)) {
-            console.log('Sort object is empty. Nothing to update.');
-            return;
-        }
-
-        // Make an AJAX POST request
-        $.ajax({
-            type: 'POST',
+		if ($.isEmptyObject(sortObject)) {
+			console.log('Sort object is empty. Nothing to update.');
+			return;
+		}
+		$.ajax({
+			type: 'POST',
 			dataType: 'json',
-            url: 'index.php?route=catalog/category.updateSortOrder&user_token=' + getUrlParameter('user_token'),
-            data: { newSort:  sortObject },
-            success: function (response) {
-                if (response.status == "ok") {
+			url: 'index.php?route=catalog/category.updateSortOrder&user_token=' + getUrlParameter('user_token'),
+			data: { newSort: sortObject },
+			success: function (response) {
+				if (response.status == "ok") {
 					$('#alert').prepend('<div class="alert alert-success alert-dismissible"><i class="fa-solid fa-circle-check"></i> Sorting updated. <button type="button" class="btn-close" data-bs-dismiss="alert"></button></div>');
 					setTimeout(() => {
-                    $(".alert").alert('close');
-                }, 5500);
+						$(".alert").alert('close');
+					}, 5500);
 				}
-            },
-            error: function (error) {
-                console.error('Error updating sort order:', error);
-            }
-        });
-    }
-});
- 
- 
-function getUrlParameter(name) {
-    name = name.replace(/[[]/, '\\[').replace(/[\]]/, '\\]');
-    var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
-    var results = regex.exec(location.search);
-    return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
-}
-
+			},
+			error: function (error) {
+				console.error('Error updating sort order:', error);
+			}
+		});
+	}
+	function getUrlParameter(name) {
+		const params = new URLSearchParams(window.location.search);
+		return params.get(name) || '';
+	}
 </script>
-<style>
-	.sortable-table {
-		cursor: grab;
-		/* Set cursor to 'grab' for supported browsers */
-		cursor: -moz-grab;
-		cursor: -webkit-grab;
-		user-select: none;
-		/* Disable text selection during dragging for better UX */
-		border: 1px solid #ccc;
-		/* Add a border for visual indication */
-		box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
-		/* Add a subtle box shadow */
-		transition: transform 0.2s ease;
-		/* Add a smooth transition effect */
-	}
-
-	.sortable-table tr:active {
-		cursor: grabbing;
-		/* Set cursor to 'grabbing' when the element is being dragged */
-		cursor: -moz-grabbing;
-		background-color: #005eff;
-		cursor: -webkit-grabbing;
-
-	}
-</style>
