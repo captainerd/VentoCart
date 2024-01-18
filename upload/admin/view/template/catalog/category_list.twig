@@ -59,17 +59,18 @@
 			href: category.edit,
 			'data-bs-toggle': 'tooltip',
 			class: 'btn btnedit btn-primary',
-			'aria-label': 'Edit',
-			'data-bs-original-title': 'Edit',
-			css: {
-				'z-index': 100,
-				position: 'absolute',
-				right: '50px'
-			},
+			'aria-label': '{{ button_edit }}"',
+			'data-bs-original-title': '{{ button_edit }}"',
 			html: '<i class="fa-solid fa-pencil"></i>'
 		});
+		checkbox = $('<input style="border-color: #828282; margin-top: 8px;" class="mx-3 form-check-input" type="checkbox" name="selected[]" value="'+  category.category_id  +'"  />');
+		controlContainer = $('<span style="position: absolute; right: 50px;"></span>');
+		controlContainer.append(checkbox);
+		controlContainer.append(editButton);
+	 
 
-		newAccordion.find(".accordion-button").append(editButton);
+		newAccordion.find(".accordion-button").append(controlContainer);
+	 
 		newAccordion.removeClass("d-none");
 		let ariaLabelledById = "accordion-heading-" + category.category_id;
 		let ariaControls = "accordion-collapse-" + category.category_id;
