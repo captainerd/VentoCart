@@ -6,7 +6,7 @@
     <div id="content" class="col">
       <?= $content_top ?>
       <h1>
-        <?= $this->e($heading_title) ?>
+        <?=  $heading_title  ?>
       </h1>
       <?php if (isset($image) || isset($description)): ?>
         <div class="row">

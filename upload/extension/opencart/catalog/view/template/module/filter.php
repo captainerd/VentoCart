@@ -1,5 +1,5 @@
 <div class="card">
-  <div class="card-header"><i class="fa-solid fa-filter"></i> <?= $this->e($heading_title ) ?></div>
+  <div class="card-header"><i class="fa-solid fa-filter"></i> <?= $heading_title ?></div>
   <div class="list-group list-group-flush">
     <?php foreach ($filter_groups as $filter_group): ?>
       <a class="list-group-item"><?= $filter_group['name'] ?></a>
@@ -11,13 +11,13 @@
         <input
     type="checkbox"
     name="filter[]"
-    value="<?= $this->e($filter['filter_id']) ?>"
-    id="input-filter-<?= $this->e($filter['filter_id']) ?>"
+    value="<?= $filter['filter_id']  ?>"
+    id="input-filter-<?= $filter['filter_id']  ?>"
     class="form-check-input"
     <?= (in_array($filter['filter_id'], $filter_category)) ? 'checked' : '' ?>
 />
             
-              <label for="input-filter-<?= $this->e($filter['filter_id']) ?>" class="form-check-label"><?= $filter['name'] ?></label>
+              <label for="input-filter-<?= $filter['filter_id']  ?>" class="form-check-label"><?= $filter['name'] ?></label>
             </div>
           <?php endforeach; ?>
         </div>

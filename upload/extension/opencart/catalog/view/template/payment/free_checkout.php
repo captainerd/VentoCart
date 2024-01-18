@@ -1,12 +1,12 @@
 <div class="text-end">
-  <button type="button" id="button-confirm" class="btn btn-primary">{{ button_confirm }}</button>
+  <button type="button" id="button-confirm" class="btn btn-primary"><?=$button_confirm?> </button>
 </div>
 <script type="text/javascript"><!--
-$('#button-confirm').on('click', function () {
+$('#button-confirm').on('click', function() {
     var element = this;
 
     $.ajax({
-        url: 'index.php?route=extension/opencart/payment/cod.confirm&language={{ language }}',
+        url: 'index.php?route=extension/opencart/payment/free_checkout.confirm&language=<?=$language?>',
         dataType: 'json',
         beforeSend: function () {
             $(element).button('loading');

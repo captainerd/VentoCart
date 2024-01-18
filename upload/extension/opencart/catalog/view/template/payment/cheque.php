@@ -1,23 +1,24 @@
 <fieldset>
-  <legend>{{ text_instruction }}</legend>
-  <div class="border rounded p-3 mb-2">
-    <p><b>{{ text_payable }}</b></p>
-    <p>{{ payable }}</p>
-    <b>{{ text_address }}</b>
-    <br/>
-    <p>{{ address }}</p>
-    <p>{{ text_payment }}</p>
-  </div>
-  <div class="text-end">
-    <button type="button" id="button-confirm" class="btn btn-primary">{{ button_confirm }}</button>
-  </div>
+    <legend><?= $text_instruction ?></legend>
+    <div class="border rounded p-3 mb-2">
+        <p><b><?= $text_payable ?></b></p>
+        <p><?= $payable ?></p>
+        <b><?= $text_address ?></b>
+        <br/>
+        <p><?= $address ?></p>
+        <p><?= $text_payment ?></p>
+    </div>
+    <div class="text-end">
+        <button type="button" id="button-confirm" class="btn btn-primary"><?= $button_confirm ?></button>
+    </div>
 </fieldset>
+
 <script type="text/javascript"><!--
 $('#button-confirm').on('click', function () {
     var element = this;
 
     $.ajax({
-        url: 'index.php?route=extension/opencart/payment/cheque.confirm&language={{ language }}',
+        url: 'index.php?route=extension/opencart/payment/cheque.confirm&language=<?=$language?>',
         dataType: 'json',
         beforeSend: function () {
             $(element).button('loading');

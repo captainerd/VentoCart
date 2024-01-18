@@ -191,6 +191,8 @@ $("#weburl").val(baseUrl)
                                     alert(response.message);
                                   
                                     $("#progressContainer").hide();
+                                    $("#formContainer").show();
+       
                                     $("#installBtn").attr('disabled',false);
                                     break;
                                 // Add more cases for other possible statuses

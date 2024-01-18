@@ -114,7 +114,7 @@ $isVideo = in_array($popupExtension, $videoExtensions);
         <?php endif; ?>
 
         <div class="col-sm">
-          <h3><b><?=  $heading_title ?></b></h3>
+          <h3><?=  $heading_title ?></h3>
           <form method="post" data-oc-toggle="ajax" >
             <div class="btn-group" style="float: right">
               

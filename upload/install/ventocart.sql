@@ -247,6 +247,10 @@ CREATE TABLE `ve_banner` (
   `status` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC;
 
+
+INSERT INTO `ve_banner` (`banner_id`, `name`, `status`) VALUES
+(1, 'Banner', 1);
+
 -- --------------------------------------------------------
 
 --
@@ -262,6 +266,15 @@ CREATE TABLE `ve_banner_image` (
   `image` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `sort_order` int NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC;
+
+
+
+ 
+INSERT INTO `ve_banner_image` (`banner_image_id`, `banner_id`, `language_id`, `title`, `link`, `image`, `sort_order`) VALUES
+(3, 1, 1, 'Vento Laptop', '', 'catalog/banner1.png', 0),
+(4, 1, 1, 'Vento leds', '', 'catalog/banner8.png', 0),
+(5, 1, 1, 'vento shoes', '', 'catalog/banner22.png', 0);
+
 
 -- --------------------------------------------------------
 
@@ -2755,10 +2768,8 @@ CREATE TABLE `ve_module` (
 --
 
 INSERT INTO `ve_module` (`module_id`, `name`, `code`, `setting`) VALUES
-(1, 'Category Banner', 'opencart.banner', '{\"name\":\"Category Banner\",\"banner_id\":\"6\",\"effect\":\"fade\",\"items\":\"1\",\"controls\":\"0\",\"indicators\":\"0\",\"interval\":\"5000\",\"width\":\"200\",\"height\":\"180\",\"status\":\"1\"}'),
 (2, 'Featured', 'opencart.featured', '{\"name\":\"Featured\",\"product_name\":\"\",\"product\":[\"43\",\"40\",\"42\",\"30\"],\"axis\":\"horizontal\",\"limit\":\"4\",\"width\":\"200\",\"height\":\"200\",\"status\":\"1\"}'),
-(3, 'Homepage Slideshow', 'opencart.banner', '{\"name\":\"Homepage Slideshow\",\"banner_id\":\"7\",\"effect\":\"slide\",\"items\":\"1\",\"controls\":\"1\",\"indicators\":\"1\",\"interval\":\"5000\",\"width\":\"1140\",\"height\":\"380\",\"status\":\"1\"}'),
-(4, 'Homepage Manufacturers', 'opencart.banner', '{\"name\":\"Homepage Manufacturers\",\"banner_id\":\"8\",\"effect\":\"slide\",\"items\":\"5\",\"controls\":\"1\",\"indicators\":\"1\",\"interval\":\"5000\",\"width\":\"130\",\"height\":\"100\",\"status\":\"1\"}'),
+(3, 'Homepage Slideshow', 'opencart.banner', '{\"name\":\"Homepage Slideshow\",\"banner_id\":\"1\",\"effect\":\"slide\",\"items\":\"1\",\"controls\":\"1\",\"indicators\":\"1\",\"interval\":\"5000\",\"width\":\"1140\",\"height\":\"380\",\"status\":\"1\",\"module_id\":\"3\"}'),
 (5, 'best', 'opencart.bestseller', '{\"name\":\"best\",\"axis\":\"horizontal\",\"limit\":\"5\",\"width\":\"200\",\"height\":\"200\",\"status\":\"1\",\"module_id\":\"0\"}'),
 (6, 'Most viewed', 'opencart.mostviewed', '{\"name\":\"Most viewed\",\"axis\":\"horizontal\",\"limit\":\"4\",\"timeframe\":\"month\",\"width\":\"200\",\"height\":\"200\",\"status\":\"1\",\"module_id\":\"6\"}'),
 (7, 'Latest', 'opencart.latest', '{\"name\":\"Latest\",\"axis\":\"horizontal\",\"limit\":\"5\",\"width\":\"200\",\"height\":\"200\",\"status\":\"1\",\"module_id\":\"0\"}');

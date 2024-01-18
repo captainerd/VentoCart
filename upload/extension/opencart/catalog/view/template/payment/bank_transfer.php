@@ -1,12 +1,12 @@
 <fieldset>
-  <legend><?= $this->e($text_instruction ) ?></legend>
-  <p><b><?= $this->e($text_description ) ?></b></p>
+  <legend><?=  $text_instruction  ?></legend>
+  <p><b><?=  $text_description  ?></b></p>
   <div class="border rounded p-3 mb-2">
-    <p><?= $this->e($bank ) ?></p>
-    <p><?= $this->e($text_payment ) ?></p>
+    <p><?=  $bank   ?></p>
+    <p><?= $text_payment   ?></p>
   </div>
   <div class="text-end">
-    <button type="button" id="button-confirm" class="btn btn-primary"><?= $this->e($button_confirm ) ?></button>
+    <button type="button" id="button-confirm" class="btn btn-primary"><?= $button_confirm   ?></button>
   </div>
 </fieldset>
 <script type="text/javascript"><!--
@@ -14,7 +14,7 @@ $('#button-confirm').on('click', function () {
     var element = this;
 
     $.ajax({
-        url: 'index.php?route=extension/opencart/payment/bank_transfer.confirm&language=<?= $this->e($language ) ?>',
+        url: 'index.php?route=extension/opencart/payment/bank_transfer.confirm&language=<?= $language  ?>',
         dataType: 'json',
         beforeSend: function () {
             $(element).button('loading');

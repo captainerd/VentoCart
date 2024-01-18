@@ -125,11 +125,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['ajax'])) {
     }
 
     // Connect to the database
-    $dbConnection = new mysqli($host, $user, $password, $database);
-
-    if (!$dbConnection) {
-        // Send JSON response
-        echo json_encode(["status" => "Failed", "message" => "Connection failed: " . mysqli_connect_error()]);
+    try {
+        $dbConnection = new mysqli($host, $user, $password, $database);
+    
+        if ($dbConnection->connect_error) {
+            throw new Exception("Connection failed: " . $dbConnection->connect_error);
+        }
+    
+        // Continue with your script if the connection is successful
+    
+    } catch (mysqli_sql_exception $e) {
+        // Send JSON response for database connection error
+        echo json_encode(["status" => "Failed", "message" => $e->getMessage()]);
+        exit();
+    } catch (Exception $e) {
+        // Send JSON response for other exceptions
+        echo json_encode(["status" => "Failed", "message" => $e->getMessage()]);
         exit();
     }
 
