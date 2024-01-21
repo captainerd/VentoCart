@@ -17,7 +17,7 @@
                 </div>
                 <div class="alert alert-warning" role="alert">Warning:
                     <ul>
-                        <li> Install directory will be automatically removed on a succesfull installation</li>
+                        <li> Install directory will be automatically removed on a successful installation</li>
                         <li> All database tables for chosen perfix will be droped</li>
                         <li> Admin directory will be renamed to the chosen value</li>
           
