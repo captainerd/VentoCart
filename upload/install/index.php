@@ -50,7 +50,7 @@ function checkStorageAccess() {
         $https_status = "403";
     }
   
-    // Check if both URLs return a 404 forbiden status code
+    // Check if both URLs return a 403 forbidden status code
     return $http_status === '403' && $https_status === '403';
 }
  
