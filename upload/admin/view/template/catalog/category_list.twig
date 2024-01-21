@@ -46,10 +46,11 @@
 	var categories = {{ categories| json_encode | raw }};
 	var sortedCategories = Object.values(categories).sort((a, b) => a.sort_order - b.sort_order);
 	var superI = sortedCategories.length;
-	var processedCategories = {};
+
 	$(document).ready(function () {
+
 	function processCategory(category) {
-		let buildHTMLobject = {};
+		
 		let newAccordion = $("#category-id-standby").clone();
 		newAccordion.attr("id", "category-id-" + category.category_id);
 		let listItem = $('<li class="list-group-item"></li>');

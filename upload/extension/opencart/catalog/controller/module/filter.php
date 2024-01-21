@@ -13,6 +13,7 @@ class Filter extends \Opencart\System\Engine\Controller {
 		if (isset($this->request->get['path'])) {
 			$parts = explode('_', (string)$this->request->get['path']);
 		} else {
+			$this->request->get['path'] = '';
 			$parts = [];
 		}
 

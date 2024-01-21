@@ -1,5 +1,15 @@
 {{ header }}{{ column_left }}
+
 <div id="content">
+  <style>
+	.my-handle {
+		cursor: grab;
+		font-size: 21px;
+		cursor: -webkit-grabbing;
+		color: #595959;
+	}
+</style>
+<script type="text/javascript" src="view/javascript/Sortable.min.js"></script>
   <div class="page-header">
     <div class="container-fluid">
       <div class="float-end">
@@ -71,12 +81,15 @@
                       <td class="text-center">{{ text_column_left }}</td>
                     </tr>
                   </thead>
-                  <tbody>
+                  <tbody  class="listWithHandle">
                     {% for layout_module in layout_modules %}
                       {% if layout_module.position == 'column_left' %}
-                        <tr id="module-row-{{ module_row }}">
-                          <td class="text-start">
+                        <tr data-modid="{{layout_module.layout_module_id}}"  id="module-row-{{ module_row }}">
+                          <td class="text-start"> 
                             <div class="input-group input-group-sm">
+                              <span class="my-handle" aria-hidden="true">
+                                <i class="fa-solid mx-2 fa-grip-vertical"></i>
+                              </span>
                               <select name="layout_module[{{ module_row }}][code]" class="form-select input-sm">
                                 {% for extension in extensions %}
                                   <optgroup label="{{ extension.name }}">
@@ -112,12 +125,15 @@
                       <td class="text-center">{{ text_content_top }}</td>
                     </tr>
                   </thead>
-                  <tbody>
+                  <tbody   class="listWithHandle">
                     {% for layout_module in layout_modules %}
                       {% if layout_module.position == 'content_top' %}
-                        <tr id="module-row-{{ module_row }}">
+                        <tr data-modid="{{layout_module.layout_module_id}}"  id="module-row-{{ module_row }}">
                           <td class="text-start">
                             <div class="input-group input-group-sm">
+                              <span class="my-handle" aria-hidden="true">
+                                <i class="fa-solid mx-2 fa-grip-vertical"></i>
+                              </span>
                               <select name="layout_module[{{ module_row }}][code]" class="form-select input-sm">
                                 {% for extension in extensions %}
                                   <optgroup label="{{ extension.name }}">
@@ -151,12 +167,15 @@
                       <td class="text-center">{{ text_content_bottom }}</td>
                     </tr>
                   </thead>
-                  <tbody>
+                  <tbody    class="listWithHandle">
                     {% for layout_module in layout_modules %}
                       {% if layout_module.position == 'content_bottom' %}
-                        <tr id="module-row-{{ module_row }}">
-                          <td class="text-start">
+                        <tr data-modid="{{layout_module.layout_module_id}}" id="module-row-{{ module_row }}"> 
+                          <td class="text-start">	 
                             <div class="input-group input-group-sm">
+                              <span class="my-handle" aria-hidden="true">
+                                <i class="fa-solid mx-2 fa-grip-vertical"></i>
+                              </span>
                               <select name="layout_module[{{ module_row }}][code]" class="form-select input-sm">
                                 {% for extension in extensions %}
                                   <optgroup label="{{ extension.name }}">
@@ -192,12 +211,15 @@
                       <td class="text-center">{{ text_column_right }}</td>
                     </tr>
                   </thead>
-                  <tbody>
+                  <tbody class="listWithHandle">
                     {% for layout_module in layout_modules %}
                       {% if layout_module.position == 'column_right' %}
-                        <tr id="module-row-{{ module_row }}">
+                        <tr data-modid="{{layout_module.layout_module_id}}" id="module-row-{{ module_row }}">
                           <td class="text-end">
                             <div class="input-group input-group-sm">
+                              <span class="my-handle" aria-hidden="true">
+                                <i class="fa-solid mx-2 fa-grip-vertical"></i>
+                              </span>
                               <select name="layout_module[{{ module_row }}][code]" class="form-select input-sm">
                                 {% for extension in extensions %}
                                   <optgroup label="{{ extension.name }}">
@@ -258,7 +280,7 @@ var module_row = {{ module_row }};
 
 function addModule(type) {
     html = '<tr id="module-row-' + module_row + '">';
-    html += '  <td class="text-start"><div class="input-group input-group-sm">';
+    html += '  <td class="text-start"><div class="input-group input-group-sm">    <span class="my-handle" aria-hidden="true"> <i class="fa-solid mx-2 fa-grip-vertical"></i> </span>';
     html += '    <select name="layout_module[' + module_row + '][code]" class="form-select input-sm">';
   {% for extension in extensions %}
     html += '    <optgroup label="{{ extension.name|escape('js') }}">';
@@ -287,6 +309,7 @@ function addModule(type) {
     $('#module-' + type + ' select:last').trigger('change');
 
     module_row++;
+    initializeSortables();
 }
 
 $('#module-column-left, #module-column-right, #module-content-top, #module-content-bottom').on('change', 'select[name*=\'code\']', function () {
@@ -298,5 +321,40 @@ $('#module-column-left, #module-column-right, #module-content-top, #module-conte
         $(this).parent().find('a').attr('href', 'index.php?route=extension/' + part[0] + '/module/' + part[1] + '&user_token={{ user_token }}&module_id=' + part[2]);
     }
 });
+
+function initializeSortables() {
+		$('.listWithHandle').each(function () {
+			// Check if Sortable instance already exists
+			if (!$(this).data('sortable')) {
+				// Create Sortable instance
+				Sortable.create(this, {
+					handle: '.my-handle',
+					animation: 150,
+					onEnd: function (event) {
+						// Update the values after sorting is complete
+						handleSortEnd(event.item);
+					}
+				});
+			}
+		});
+	}
+  initializeSortables();
+
+	function handleSortEnd(sortedItem) {
+ 
+		let categoryPositions = {};
+  
+    $(sortedItem).closest('tbody').find('tr').each(function (index) {
+      $(this).find('input[name^="layout_module"][name$="[sort_order]"]').val(index);
+			let catId = $(this).data('modid');
+      if (!catId) return;
+     
+			categoryPositions[catId] = index;
+		});
+ 
+	}
+ 
+ 
+ 
 //--></script>
 {{ footer }}

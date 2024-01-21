@@ -276,6 +276,7 @@ class Layout extends \Opencart\System\Engine\Controller {
 					'code'       => $layout_module['code'],
 					'position'   => $layout_module['position'],
 					'sort_order' => $layout_module['sort_order'],
+					'layout_module_id' => $layout_module['layout_module_id'],
 					'edit'       => $this->url->link('extension/' . $part[0] . '/module/' . $part[1], 'user_token=' . $this->session->data['user_token'])
 				];
 			} else {
@@ -286,6 +287,7 @@ class Layout extends \Opencart\System\Engine\Controller {
 						'code'       => $layout_module['code'],
 						'position'   => $layout_module['position'],
 						'sort_order' => $layout_module['sort_order'],
+						'layout_module_id' => $layout_module['layout_module_id'],
 						'edit'   	 => $this->url->link('extension/' . $part[0] . '/module/' . $part[1], 'user_token=' . $this->session->data['user_token'] . '&module_id=' . $part[2])
 					];
 				}
@@ -300,10 +302,11 @@ class Layout extends \Opencart\System\Engine\Controller {
 
 		$this->response->setOutput($this->load->view('design/layout_form', $data));
 	}
-
+ 
 	/**
 	 * @return void
 	 */
+
 	public function save(): void {
 		$this->load->language('design/layout');
 
