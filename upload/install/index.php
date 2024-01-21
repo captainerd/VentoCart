@@ -31,7 +31,28 @@ function checkWebPSupport()
 
     return $info['WebP Support'];
 }
+function checkStorageAccess() {
+    $this_site = $_SERVER['HTTP_HOST'];
 
+    $http_url = "http://$this_site/system/storage/download/";
+    $https_url = "https://$this_site/system/storage/download/";
+
+    // Check HTTP URL
+    $http_headers = get_headers($http_url);
+    $http_status = isset($http_headers[0]) ? explode(" ", $http_headers[0])[1] : false;
+    
+    // Check HTTPS URL
+    $https_headers = get_headers($https_url);
+    if ($https_headers) {
+    $https_status = isset($https_headers[0]) ? explode(" ", $https_headers[0])[1] : false;
+    } else {
+        //https doesnt work at all
+        $https_status = "403";
+    }
+  
+    // Check if both URLs return a 404 forbiden status code
+    return $http_status === '403' && $https_status === '403';
+}
  
 
 // PHP Settings
@@ -41,6 +62,7 @@ $phpSettings = [
     // ['Magic Quotes GPC', ini_get('magic_quotes_gpc'), 'Off', 'n'], Magic Quotes GPC was deprecated in PHP 5.3.0 and completely removed in PHP 5.4.0.
     ['File Uploads', ini_get('file_uploads'), 'On', 'n'],
     ['Session Auto Start', ini_get('session.auto_start'), 'Off', 'n'],
+    ['Restrict Storage Dir Access', checkStorageAccess(), true,true], 
 ];
 
 // PHP Extensions
