@@ -629,4 +629,30 @@ class Product extends \Opencart\System\Engine\Controller {
 			$this->response->setOutput($this->load->view('error/not_found', $data));
 		}
 	}
+	/*  
+	* @return void
+	*/
+	public function getImage(): void {
+		//Helper function for fetching dynamically images at any size, for your
+		//scripts and themes
+		$this->load->model('tool/image');
+		$width  = $this->request->get['width'];
+		$height = $this->request->get['height'];
+		$image =  urldecode($this->request->get['image']);
+		$result = $this->model_tool_image->resize(html_entity_decode($image, ENT_QUOTES, 'UTF-8'), $width, 	$height);
+		$path = preg_replace('#.*?(' . preg_quote('image/cache', '#') . '.*?)$#', '$1', 	$result);
+ 
+		$imageContent = file_get_contents(DIR_OPENCART . $path);
+		if ($imageContent !== false) {
+			// Set headers to indicate it's an image
+			header('Content-Type: image/jpeg');
+			header('Content-Length: ' . strlen($imageContent));
+		
+			// Output the image content
+			echo $imageContent;
+		} else {
+			// If fetching failed, handle the error
+			echo 'Error fetching image';
+		}
+	}
 }
