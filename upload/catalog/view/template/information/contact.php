@@ -1,45 +1,45 @@
 <?=  $header  ?>
 <div id="information-contact" class="container">
 <?=  $breadcrumb  ?>
-  <div class="row"><?= $this->e($column_left ) ?>
-    <div id="content" class="col"><?= $this->e($content_top ) ?>
-      <h1><?= $this->e($heading_title ) ?></h1>
-      <h3><?= $this->e($text_location ) ?></h3>
+  <div class="row"><?=  $column_left  ?>
+    <div id="content" class="col"><?=  $content_top  ?>
+      <h1><?=  $heading_title   ?></h1>
+      <h3><?=  $text_location  ?></h3>
       <div class="card">
         <div class="card-body">
           <div class="row">
             <?php if ($image): ?>
-              <div class="col-sm-3"><img src="<?= $this->e($image ) ?>" alt="<?= $this->e($store ) ?>" title="<?= $this->e($store ) ?>" class="img-thumbnail"/></div>
+              <div class="col-sm-3"><img src="<?=  $image   ?>" alt="<?=  $store  ?>" title="<?=  $store  ?>" class="img-thumbnail"/></div>
             <?php endif; ?>
-            <div class="col-sm-3"><strong><?= $this->e($store ) ?></strong>
+            <div class="col-sm-3"><strong><?=  $store   ?></strong>
               <br/>
               <address>
-                <?= $this->e($address ) ?>
+                <?=  $address  ?>
               </address>
               <?php if ($geocode): ?>
-                <a href="https://maps.google.com/maps?q=<?= urlencode($this->e($geocode))  ?>&hl=<?= $this->e($geocode_hl ) ?>&t=m&z=15" target="_blank" class="btn btn-info"><i class="fa-solid fa-location-dot"></i> <?= $this->e($button_map ) ?></a>
+                <a href="https://maps.google.com/maps?q=<?= urlencode( $geocode )  ?>&hl=<?= $geocode_hl  ?>&t=m&z=15" target="_blank" class="btn btn-info"><i class="fa-solid fa-location-dot"></i> <?= $this->e($button_map ) ?></a>
               <?php endif; ?>
             </div>
             <?php if ($telephone): ?>
-            <div class="col-sm-3"><strong><?= $this->e($text_telephone ) ?></strong>
+            <div class="col-sm-3"><strong><?=  $text_telephone   ?></strong>
               <br/>
-              <?= $this->e($telephone ) ?>
+              <?=  $telephone  ?>
               <br/>
               <br/>
             </div>
             <?php endif; ?>
             <div class="col-sm-3">
               <?php if ($open): ?>
-                <strong><?= $this->e($text_open ) ?></strong>
+                <strong><?=  $text_open  ?></strong>
                 <br/>
                 <?= $this->e($open ) ?>
                 <br/>
                 <br/>
               <?php endif; ?>
               <?php if ($comment): ?>
-                <strong><?= $this->e($text_comment ) ?></strong>
+                <strong><?=  $text_comment  ?></strong>
                 <br/>
-                <?= $this->e($comment ) ?>
+                <?=  $comment   ?>
               <?php endif; ?>
             </div>
           </div>
@@ -70,19 +70,19 @@
                     </div>
                     <div class="col-sm-3"><strong><?= $this->e($text_telephone ) ?></strong>
                       <br/>
-                      <?= $this->e($location['telephone']) ?>
+                      <?=  $location['telephone']  ?>
                       <br/>
                       <br/>
                     </div>
                     <div class="col-sm-3">
-                      <?php if ($location.open): ?>
-                        <strong><?= $this->e($text_open ) ?></strong>
+                      <?php if ($location['open']): ?>
+                        <strong><?=  $text_open  ?></strong>
                         <br/>
                         <?= $this->e($location['open']) ?>
                         <br/>
                         <br/>
                       <?php endif; ?>
-                      <?php if ($location.comment): ?>
+                      <?php if ($location['comment']): ?>
                         <strong><?= $this->e($text_comment ) ?></strong>
                         <br/>
                         <?= $this->e($location['comment']) ?>
