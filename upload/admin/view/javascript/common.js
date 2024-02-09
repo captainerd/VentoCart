@@ -58,9 +58,13 @@ function initTinyMCE() {
                 if (urlParams.has('route')) {
                     if (urlParams.get('route') === 'catalog/category.form') {
                         directory = 'categories/';
-                    } else if (urlParams.get('route') === 'cms/topic.form' || urlParams.get('route') === 'cms/article.form') {
+                    } else if (urlParams.get('route') === 'design/banner.form') {
+                        directory = 'banners/';
+                    } else if (urlParams.get('route') === 'catalog/manufacturer.form') {
+                        directory = 'manufacturers/';
+                    }  else if (urlParams.get('route') === 'cms/topic.form' || urlParams.get('route') === 'cms/article.form') {
                         directory = 'blog/';
-                    } else if (urlParams.get('route') === 'catalog/product.form') {
+                    }  else if (urlParams.get('route') === 'catalog/product.form') {
                         directory = 'products/';
                         if ($("#input-product-id")) {
                             directory += $("#input-product-id").val() + '/';

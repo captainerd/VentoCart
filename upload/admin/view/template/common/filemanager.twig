@@ -110,7 +110,7 @@ var cropped = null;
  var multiselect = false;
 //add multiple images to product
 var urlParams = new URLSearchParams(window.location.search);
-if (urlParams.has('route') && urlParams.get('route') === 'catalog/product.form' && document.querySelector('.nav-tabs .nav-link.active').getAttribute('href') == "#tab-image") {
+if (urlParams.has('route') && urlParams.get('route') === 'catalog/product.form' && (document.querySelector('.nav-tabs .nav-link.active').getAttribute('href') == "#tab-image" || document.querySelector('.nav-tabs .nav-link.active').getAttribute('href') == "#tab-general")) {
     multiselect = true;
  
 $(document).ready(function() {
@@ -313,7 +313,7 @@ if (directory) {
             //x console.log(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
         }
     });
-});
+}); 
 var urlParams = new URLSearchParams(window.location.search);
 
 if (urlParams.has('route') && (urlParams.get('route') === 'catalog/manufacturer.form')) {
