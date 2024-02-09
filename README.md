@@ -25,7 +25,7 @@ VentoCart is a robust fork of OpenCart version 4, meticulously crafted to offer 
 
 VentoCart not only offers a feature-rich e-commerce solution but also prioritizes modernization and ease of use. With VentoCart, configuring and managing your store is faster and more straightforward than ever before.
 
-# Ventocart Change-log v4.5.3.1
+# Ventocart Change-log v4.5.5.1
 
 ## Features & Enhancements
 
