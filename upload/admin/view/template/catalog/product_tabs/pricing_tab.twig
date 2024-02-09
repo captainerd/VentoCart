@@ -1,0 +1,229 @@
+ 
+
+    <fieldset>
+      <legend>{{ text_price }}</legend>
+      <div class="row mb-3">
+        <label for="input-price" class="col-sm-2 col-form-label">{{ entry_price }}</label>
+        <div class="col-sm-10">
+          <div class="input-group">
+            <input type="text" name="price" value="{{ price }}" placeholder="{{ entry_price }}" id="input-price" class="form-control"/>
+      
+          </div>
+        </div>
+      </div>
+      <div class="row mb-3">
+        <label for="input-price" class="col-sm-2 col-form-label">{{entry_supply_cost}}</label>
+        <div class="col-sm-10">
+          <div class="input-group">
+            <input type="text" name="supply_cost" value="{{ supply_cost }}" placeholder="{{ supply_cost }}" id="input-supply-cost" class="form-control"/>
+      
+          </div>
+        </div>
+      </div>
+
+      <div class="row mb-3">
+        <label for="input-tax-class" class="col-sm-2 col-form-label">{{ entry_tax_class }}</label>
+        <div class="col-sm-10">
+          <div class="input-group">
+            <select name="tax_class_id" id="input-tax-class" class="form-select">
+              <option value="0">{{ text_none }}</option>
+              {% for tax_class in tax_classes %}
+                <option value="{{ tax_class.tax_class_id }}"{% if tax_class.tax_class_id == tax_class_id %} selected{% endif %}>{{ tax_class.title }}</option>
+              {% endfor %}
+            </select>
+      
+          </div>
+        </div>
+      </div>
+    </fieldset>
+    <fieldset>
+
+    <h4>{{text_quantity_discount}}</h4>
+    <div class="table-responsive">
+      <table id="product-discount" class="table table-bordered table-hover">
+        <thead>
+          <tr>
+            <td class="text-start">{{ entry_customer_group }}</td>
+            <td class="text-end">{{ entry_quantity }}</td>
+            <td class="text-end">{{ entry_priority }}</td>
+            <td class="text-end">{{ entry_price }}</td>
+            <td class="text-start">{{ entry_date_start }}</td>
+            <td class="text-start">{{ entry_date_end }}</td>
+            <td class="text-end"> </td>
+          </tr>
+        </thead>
+        <tbody>
+          {% set discount_row = 0 %}
+          {% for product_discount in product_discounts %}
+            <tr id="discount-row-{{ discount_row }}">
+              <td class="text-start"><select name="product_discount[{{ discount_row }}][customer_group_id]" class="form-select">
+                  {% for customer_group in customer_groups %}
+                    <option value="{{ customer_group.customer_group_id }}"{% if customer_group.customer_group_id == product_discount.customer_group_id %} selected{% endif %}>{{ customer_group.name }}</option>
+                  {% endfor %}
+                </select></td>
+              <td class="text-end"><input type="text" name="product_discount[{{ discount_row }}][quantity]" value="{{ product_discount.quantity }}" placeholder="{{ entry_quantity }}" class="form-control"/></td>
+              <td class="text-end"><input type="text" name="product_discount[{{ discount_row }}][priority]" value="{{ product_discount.priority }}" placeholder="{{ entry_priority }}" class="form-control"/></td>
+              <td class="text-end"><input type="text" name="product_discount[{{ discount_row }}][price]" value="{{ product_discount.price }}" placeholder="{{ entry_price }}" class="form-control"/></td>
+              <td class="text-start">
+                <div class="input-group">
+                  <input type="text" name="product_discount[{{ discount_row }}][date_start]" value="{{ product_discount.date_start }}" placeholder="{{ entry_date_start }}" class="form-control date"/>
+                  <div class="input-group-text"><i class="fa-regular fa-calendar"></i></div>
+                </div>
+              </td>
+              <td class="text-start">
+                <div class="input-group">
+                  <input type="text" name="product_discount[{{ discount_row }}][date_end]" value="{{ product_discount.date_end }}" placeholder="{{ entry_date_end }}" class="form-control date"/>
+                  <div class="input-group-text"><i class="fa-regular fa-calendar"></i></div>
+                </div>
+              </td>
+              <td class="text-end"><button type="button" onclick="$('#discount-row-{{ discount_row }}').remove();" data-bs-toggle="tooltip" title="{{ button_remove }}" class="btn btn-danger"><i class="fa-solid fa-minus-circle"></i></button></td>
+            </tr>
+            {% set discount_row = discount_row + 1 %}
+          {% endfor %}
+        </tbody>
+        <tfoot>
+          <tr>
+            <td colspan="6"></td>
+            <td class="text-end"><button type="button" id="button-discount" data-bs-toggle="tooltip" title="{{ button_discount_add }}" class="btn btn-primary"><i class="fa-solid fa-plus-circle"></i></button></td>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+<hr/>
+<h4>{{text_discount}}</h4>
+              <div class="table-responsive">
+      <table id="product-special" class="table table-bordered table-hover">
+        <thead>
+          <tr>
+            <td class="text-start">{{ entry_customer_group }}</td>
+            <td class="text-end">{{ entry_priority }}</td>
+            <td class="text-end">{{ entry_value }}</td>
+            <td class="text-end">{{entry_applies}} </td>
+            <td class="text-end">{{entry_type}} </td>
+            <td class="text-start">{{ entry_date_start }}</td>
+            <td class="text-start">{{ entry_date_end }}</td>
+            <td class="text-center">
+              
+         
+            
+            
+            </td>
+          </tr>
+        </thead>
+        <tbody>
+          {% set special_row = 0 %}
+          {% for product_special in product_specials %}
+            <tr id="special-row-{{ special_row }}">
+              <td class="text-start"><select name="product_special[{{ special_row }}][customer_group_id]" class="form-select">
+                  {% for customer_group in customer_groups %}
+                    <option value="{{ customer_group.customer_group_id }}"{% if customer_group.customer_group_id == product_special.customer_group_id %} selected{% endif %}>{{ customer_group.name }}</option>
+                  {% endfor %}
+                </select></td>
+              <td class="text-end"><input type="text" name="product_special[{{ special_row }}][priority]" value="{{ product_special.priority }}" placeholder="{{ entry_priority }}" class="form-control"/></td>
+              <td class="text-end"><input type="text" name="product_special[{{ special_row }}][price]" value="{{ product_special.price }}" placeholder="{{ entry_price }}" class="form-control"/></td>
+              <td class="text-end">
+                
+               
+           <select class="form-select" name="product_special[{{ special_row }}][apply]">
+            <option value="0" {% if product_special.apply == 0 %}selected{% endif %}>{{option_product_price}}</option>
+            <option value="1" {% if product_special.apply == 1 %}selected{% endif %}>{{option_end_price}}</option>
+      
+
+           </select>
+           </td>
+           <td class="text-end">
+            <select class="form-select" name="product_special[{{ special_row }}][type]">
+              <option value="0" {% if product_special.type == 0 %}selected{% endif %}>{{option_price}}</option>
+              <option value="1" {% if product_special.type == 1 %}selected{% endif %}>{{option_percentage}}</option>
+
+             </select>
+
+            </td>
+           
+           
+                <td class="text-start">
+                <div class="input-group">
+                  <input type="text" name="product_special[{{ special_row }}][date_start]" value="{{ product_special.date_start }}" placeholder="{{ entry_date_start }}" class="form-control date"/>
+                  <div class="input-group-text"><i class="fa-regular fa-calendar"></i></div>
+                </div>
+              </td>
+              <td class="text-start">
+                <div class="input-group">
+                  <input type="text" name="product_special[{{ special_row }}][date_end]" value="{{ product_special.date_end }}" placeholder="{{ entry_date_end }}" class="form-control date"/>
+                  <div class="input-group-text"><i class="fa-regular fa-calendar"></i></div>
+                </div>
+              </td>
+              <td class="text-end"><button type="button" onclick="$('#special-row-{{ special_row }}').remove();" data-bs-toggle="tooltip" title="{{ button_remove }}" class="btn btn-danger"><i class="fa-solid fa-minus-circle"></i></button></td>
+            </tr>
+            {% set special_row = special_row + 1 %}
+          {% endfor %}
+        </tbody>
+        <tfoot>
+          <tr>
+            <td colspan="7"></td>
+            <td class="text-end"><button type="button" id="button-special" data-bs-toggle="tooltip" title="{{ button_special_add }}" class="btn btn-primary"><i class="fa-solid fa-plus-circle"></i></button></td>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+ 
+    <script>
+        
+        var discount_row = {{ discount_row }};
+
+$('#button-discount').on('click', function () {
+    html = '<tr id="discount-row-' + discount_row + '">';
+    html += '  <td class="text-start"><select name="product_discount[' + discount_row + '][customer_group_id]" class="form-select">';
+  {% for customer_group in customer_groups %}
+    html += '    <option value="{{ customer_group.customer_group_id }}">{{ customer_group.name|escape('js') }}</option>';
+  {% endfor %}
+    html += '  </select><input type="hidden" name="product_discount[' + discount_row + '][product_discount_id]" value=""/></td>';
+    html += '  <td class="text-end"><input type="text" name="product_discount[' + discount_row + '][quantity]" value="" placeholder="{{ entry_quantity|escape('js') }}" class="form-control"/></td>';
+    html += '  <td class="text-end"><input type="text" name="product_discount[' + discount_row + '][priority]" value="" placeholder="{{ entry_priority|escape('js') }}" class="form-control"/></td>';
+    html += '  <td class="text-end"><input type="text" name="product_discount[' + discount_row + '][price]" value="" placeholder="{{ entry_price|escape('js') }}" class="form-control"/></td>';
+    html += '  <td class="text-start"><div class="input-group"><input type="text" name="product_discount[' + discount_row + '][date_start]" value="" placeholder="{{ entry_date_start|escape('js') }}" class="form-control date"/><div class="input-group-text"><i class="fa-regular fa-calendar"></i></div></div></td>';
+    html += '  <td class="text-start"><div class="input-group"><input type="text" name="product_discount[' + discount_row + '][date_end]" value="" placeholder="{{ entry_date_end|escape('js') }}" class="form-control date"/><div class="input-group-text"><i class="fa-regular fa-calendar"></i></div></div></td>';
+    html += '  <td class="text-end"><button type="button" onclick="$(\'#discount-row-' + discount_row + '\').remove();" data-bs-toggle="tooltip" title="{{ button_remove|escape('js') }}" class="btn btn-danger"><i class="fa-solid fa-minus-circle"></i></button></td>';
+    html += '</tr>';
+
+    $('#product-discount tbody').append(html);
+
+    discount_row++;
+});
+
+var special_row = {{ special_row }};
+
+$('#button-special').on('click', function () {
+    html = '<tr id="special-row-' + special_row + '">';
+    html += '  <td class="text-start"><select name="product_special[' + special_row + '][customer_group_id]" class="form-select">';
+  {% for customer_group in customer_groups %}
+    html += '      <option value="{{ customer_group.customer_group_id }}">{{ customer_group.name|escape('js') }}</option>';
+  {% endfor %}
+    html += '  </select><input type="hidden" name="product_special[' + special_row + '][product_special_id]" value=""/></td>';
+    html += '  <td class="text-end"><input type="text" name="product_special[' + special_row + '][priority]" value="" placeholder="{{ entry_priority|escape('js') }}" class="form-control"/></td>';
+    html += '  <td class="text-end"><input type="text" name="product_special[' + special_row + '][price]" value="" placeholder="{{ entry_price|escape('js') }}" class="form-control"/></td>';
+  
+    html += '  </select></td>';
+    html += '  <td class="text-end"><select name="product_special[' + special_row + '][apply]" class="form-select">';
+    html += '      <option value="0">{{option_product_price}}</option>';
+    html += '      <option value="1">{{option_end_price}}</option>';
+    html += '  </select></td>';
+
+    // New select for "type"
+    html += '  <td class="text-end"><select name="product_special[' + special_row + '][type]" class="form-select">';
+    html += '      <option value="0">{{option_price}}</option>';
+    html += '      <option value="1">{{option_percentage}}</option>';
+    html += '  </select></td>';
+  
+    html += '  <td class="text-start"><div class="input-group"><input type="text" name="product_special[' + special_row + '][date_start]" value="" placeholder="{{ entry_date_start|escape('js') }}" class="form-control date"/><div class="input-group-text"><i class="fa-regular fa-calendar"></i></div></div></td>';
+    html += '  <td class="text-start"><div class="input-group"><input type="text" name="product_special[' + special_row + '][date_end]" value="" placeholder="{{ entry_date_end|escape('js') }}" class="form-control date"/><div class="input-group-text"><i class="fa-regular fa-calendar"></i></div></div></td>';
+    html += '  <td class="text-end"><button type="button" onclick="$(\'#special-row-' + special_row + '\').remove();" data-bs-toggle="tooltip" title="{{ button_remove|escape('js') }}" class="btn btn-danger"><i class="fa-solid fa-minus-circle"></i></button></td>';
+    html += '</tr>';
+
+    $('#product-special tbody').append(html);
+
+    special_row++;
+});
+
+
+        </script>

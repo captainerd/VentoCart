@@ -158,7 +158,7 @@ class Manufacturer extends \Opencart\System\Engine\Controller {
 
 			$this->load->model('catalog/product');
 			$this->load->model('tool/image');
-
+			 
 			$results = $this->model_catalog_product->getProducts($filter_data);
 
 			foreach ($results as $result) {

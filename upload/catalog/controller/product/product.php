@@ -636,10 +636,15 @@ class Product extends \Opencart\System\Engine\Controller {
 		//Helper function for fetching dynamically images at any size, for your
 		//scripts and themes
 		$this->load->model('tool/image');
+
 		$width  = $this->request->get['width'];
 		$height = $this->request->get['height'];
 		$image =  urldecode($this->request->get['image']);
+		if (!isset($this->request->get['crop'])) {
 		$result = $this->model_tool_image->resize(html_entity_decode($image, ENT_QUOTES, 'UTF-8'), $width, 	$height);
+		} else {
+	    $result = $this->model_tool_image->resize(html_entity_decode($image, ENT_QUOTES, 'UTF-8'), $width, 	$height, '',true);	
+		}
 		$path = preg_replace('#.*?(' . preg_quote('image/cache', '#') . '.*?)$#', '$1', 	$result);
  
 		$imageContent = file_get_contents(DIR_OPENCART . $path);

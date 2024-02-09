@@ -241,6 +241,7 @@ class Attribute extends \Opencart\System\Engine\Controller {
 		$this->response->setOutput($this->load->view('catalog/attribute_form', $data));
 	}
 
+ 
 	/**
 	 * @return void
 	 */
@@ -335,10 +336,16 @@ class Attribute extends \Opencart\System\Engine\Controller {
  
 		if (isset($this->request->get['filter_name'])) {
 			$this->load->model('catalog/attribute');
-
+			if (!isset($this->request->get['product_id'])) {
+				//Exclude is used, to exclude all already existing-installed attributes to a product 
+				$exlude = -1;
+			} else {
+				$exlude = $this->request->get['product_id'];
+			}
 			$filter_data = [
 				'filter_name' => $this->request->get['filter_name'],
 				'start'       => 0,
+				'exclude'	=>	$exlude,
 				'limit'       => 5
 			];
 
@@ -361,6 +368,38 @@ class Attribute extends \Opencart\System\Engine\Controller {
 
 		array_multisort($sort_order, SORT_ASC, $json);
 
+		$this->response->addHeader('Content-Type: application/json');
+		$this->response->setOutput(json_encode($json));
+	}
+
+	public function autocompleteChild(): void {
+		$json = [];
+	
+		if (
+			isset($this->request->get['attribute_lang']) &&
+			isset($this->request->get['filter_name']) &&
+			isset($this->request->get['attribute_id']) &&
+			isset($this->request->get['attribute_type'])
+		) {
+			$this->load->model('catalog/attribute');
+			$results = $this->model_catalog_attribute->getAttributesChilds(
+				$this->request->get['attribute_lang'],
+				$this->request->get['filter_name'],
+				$this->request->get['attribute_id'],
+				$this->request->get['attribute_type']
+			);
+	
+			foreach ($results as $result) {
+				$json[] = [
+					'attribute_id'    => uniqid(),
+					'name' => strip_tags(html_entity_decode($result[$this->request->get['attribute_type']], ENT_QUOTES, 'UTF-8')),
+				];
+			}
+		}
+	
+		$sort_order = array_column($json, 'name');
+		array_multisort($sort_order, SORT_ASC, $json);
+	
 		$this->response->addHeader('Content-Type: application/json');
 		$this->response->setOutput(json_encode($json));
 	}

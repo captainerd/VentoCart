@@ -1,0 +1,160 @@
+<div id="noticeimage" {% if product_id> 0 %} style="display: none;" {% endif %} class="alert alert-info show"
+    role="alert">
+    {{text_notice_image}}
+
+</div>
+
+<div class="text-center mt-2">
+    <button {% if product_id==0 %} disabled="true" {% endif %} id="add-new-image-button" type="button"
+        data-bs-toggle="tooltip" title="{{ button_image_add }}" class="btn btn-primary">
+        <i class="fa-solid fa-plus-circle"></i> {{ button_image_add }}
+    </button>
+</div>
+
+<legend>{{ text_image_additional }}</legend>
+
+<div id="tabimage-content" {% if product_id==0 %} style="display:none" {% endif %}>
+
+    <fieldset>
+
+        <!-- Hidden Template for adding new image -->
+        <div id="new-image-template" style="width: 10vw; min-width: 130px; cursor: grab"
+            class="card d-none m-1 image-sortable">
+            <img data-oc-placeholder="{{ placeholder }}" id="product-image-row_placeholder" src="{{ placeholder  }}"
+                alt="" title="" class="card-img-top" />
+            <input id="input-product-image-row_placeholder" type="hidden"
+                name="xxxxxproduct_image[row_placeholder][image]" value="" />
+            <input type="hidden" name="xxxxxproduct_image[row_placeholder][sort_order]" value="" />
+
+            <div class="card-body">
+                <button type="button" data-oc-toggle="image" data-oc-target="#input-product-image-row_placeholder"
+                    data-oc-thumb="#product-image-row_placeholder"
+                    class="btn mb-2 btn-block btn-primary btn-sm btn-block">
+                    <i class="fa-solid fa-pencil"></i> {{ button_edit }}
+                </button>
+                <button type="button" data-bs-toggle="tooltip" title="{{ button_remove }}"
+                    class="btn mb-2 btn-sm btn-img-delete btn-danger">
+                    <i class="fa-solid fa-minus-circle"></i> {{ button_delete }}
+                </button>
+            </div>
+        </div>
+        <!-- end template -->
+
+        <div id="image-sortable-container" class="d-flex   flex-wrap">
+
+            {% set image_row = 1 %}
+            {% for product_image in product_images %}
+            <div style="width: 10vw; min-width: 130px; cursor: grab" class="card m-1 image-sortable">
+                {% if product_image.thumb|split('.')|last in ['mkv', 'avi', 'mp4'] %}
+                <video id="product-image-{{ image_row }}" class="img-thumbnail thumbnail"  style="max-height: 190px;object-fit: cover;" >
+                    <source class="thumbnail" src="{{ product_image.thumb }}"
+                        type="video/{{ product_image.thumb|split('.')|last }}">
+                    Your browser does not support the video tag.
+                </video>
+                {% else %}
+                <img src="{{ product_image.thumb }}" alt="" title="" id="product-image-{{ image_row }}"
+                    data-oc-placeholder="{{ placeholder }}" class="card-img-top" />
+                {% endif %}
+
+                <input type="hidden" name="product_image[{{ image_row }}][image]" value="{{ product_image.image }}"
+                    id="input-product-image-{{ image_row }}" />
+
+                <input type="hidden" name="product_image[{{ image_row }}][sort_order]"
+                    value="{{ product_image.sort_order }}" placeholder="{{ entry_sort_order }}" />
+
+                <div class="card-body">
+                    <button type="button" data-oc-toggle="image" data-oc-target="#input-product-image-{{ image_row }}"
+                        data-oc-thumb="#product-image-{{ image_row }}"
+                        class="btn mb-2  btn-block btn-primary btn-sm btn-block">
+                        <i class="fa-solid fa-pencil"></i> {{ button_edit }}
+                    </button>
+                    <button type="button" data-bs-toggle="tooltip" title="{{ button_remove }}"
+                        class="btn mb-2 btn-sm btn-img-delete btn-danger">
+                        <i class="fa-solid fa-minus-circle"></i> {{ button_delete }}
+                    </button>
+                </div>
+            </div>
+            {% set image_row = image_row + 1 %}
+            {% endfor %}
+        </div>
+
+
+    </fieldset>
+    <div class="form-text">{{help_drag_n_drop}}</div>
+
+</div>
+
+
+<script>
+
+    var targetElement = null;
+    function updateImageSortOrder() {
+        $('#image-sortable-container').find('input[name^="product_image["][name$="][sort_order]"]').each(function (index) {
+            // Update the sort_order input value based on the index
+
+            $(this).val(index);
+        });
+    }
+
+    $(document).ready(function () {
+        // Image tab Section
+
+        // Add new image
+        $('#add-new-image-button').on('click', function () {
+            var newRow = $('#new-image-template').clone();
+            var newCount = $('#image-sortable-container').find(".image-sortable").length + 1;
+
+            // Update the regex to match any text with row_placeholder
+            var newHtml = newRow.html().replace(/row_placeholder/g, newCount);
+            newHtml = newHtml.replace(/xxxxx/g, '');
+
+            newRow.html(newHtml);
+            newRow.removeClass('d-none');
+            $('#image-sortable-container').append(newRow);
+            newRow.find('input[type="text"]').val('0');
+            newRow.find('.btn-primary').trigger('click');
+            updateImageSortOrder();
+        });
+
+
+        $(document).on('click', '.btn-img-delete', function () {
+
+            var confirmResult = confirm("Are you sure you want to delete this image?");
+            if (confirmResult) {
+                // User clicked "OK" in the confirmation dialog
+                $(this).closest('.image-sortable').remove();
+                updateImageSortOrder();
+            }
+            if ($('#image-sortable-container').find(".image-sortable").length == 0) {
+                $('#add-new-image-button').trigger('click');
+            }
+        });
+
+        // Initialize sortables
+        Sortable.create(document.getElementById('image-sortable-container'), {
+            handle: '.image-sortable',
+            placeholder: 'placeholder',
+            animation: 150,
+            onEnd: function (event) {
+
+                updateImageSortOrder()
+
+            }
+        });
+
+        $(document).on('click', '.btn-primary', function () {
+            let ocTarget = $(this).data('oc-thumb');
+          
+            if (typeof ocTarget != "undefined" && ocTarget != "") {
+                window.activeEditor = false;
+              
+                  targetElement = $(ocTarget);
+            }
+
+        });
+
+    });
+
+
+
+</script>

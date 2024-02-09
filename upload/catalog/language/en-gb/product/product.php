@@ -36,3 +36,4 @@ $_['entry_rating']               = 'Rating';
 $_['tab_description']            = 'Description';
 $_['tab_attribute']              = 'Specification';
 $_['tab_review']                 = 'Reviews (%s)';
+$_['attribute_general']            = 'General';

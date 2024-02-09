@@ -23,7 +23,100 @@ function getURLVar(key) {
 }
 $(document).ready(function () {
     $('.seoinput').seoFriendlyInput();
+    //file manager pointer
+
+
 });
+function initTinyMCE() {
+    tinymce.init({
+        plugins: "code image media  link preview autolink table visualblocks emoticons",
+        promotion: false,
+        fontsize_formats: "8pt 10pt 12pt 14pt 18pt 24pt 36pt",
+        selector: 'textarea[data-oc-toggle="ckeditor"]',
+        toolbar: 'paste code  undo redo  removeformat  formatselect | blockquote  | bold italic underline strikethrough | hr | forecolor | backcolor  | alignleft aligncenter alignright alignjustify | uploadImage  media | bullist numlist | table   | link | view | emoticons',
+        paste_preprocess: function (plugin, args) {
+            let tempDiv = document.createElement('div');
+            tempDiv.innerHTML = args.content;
+          
+            // Get all img elements within tempDiv
+            let imgElements = tempDiv.querySelectorAll('img');
+        
+            // Process each img element
+            imgElements.forEach(function(imgElementA) {
+                let srcValue = imgElementA.getAttribute('src');
+                if ( $("#input-product-id").val() == 0) {
+                    alert('Pasting images onto unsaved products will not result in uploads; instead, they will be hotlinked');
+                    return;
+                }
+                if (!srcValue) return;
+                let imgid = "Upl-" + Math.floor(Math.random() * 100000000100069).toString();
+                imgElementA.setAttribute('id',imgid);
+              
+                // Define the upload directory based on the route
+                let directory = '/';
+                let urlParams = new URLSearchParams(window.location.search);
+                if (urlParams.has('route')) {
+                    if (urlParams.get('route') === 'catalog/category.form') {
+                        directory = 'categories/';
+                    } else if (urlParams.get('route') === 'cms/topic.form' || urlParams.get('route') === 'cms/article.form') {
+                        directory = 'blog/';
+                    } else if (urlParams.get('route') === 'catalog/product.form') {
+                        directory = 'products/';
+                        if ($("#input-product-id")) {
+                            directory += $("#input-product-id").val() + '/';
+                        }
+                    }
+                }
+                    args.content =  tempDiv.innerHTML;
+                    uploadPastedImage(srcValue, directory, function(response) {
+                        window.editor.dom.setAttrib(imgid, 'src', response);
+                        window.editor.dom.setAttrib(imgid, 'width', '40%');
+                    });
+            });
+        },
+
+        setup: function (editor) {
+            window.editor = editor;
+            editor.ui.registry.addButton('uploadImage', {
+                icon: 'image', // Font Awesome icon for image
+                tooltip: 'Insert Image', // Tooltip for the button
+                onAction: function () {
+                    window.activeEditor = true;
+                    $('#modal-image').remove();
+                    $.ajax({
+                        url: 'index.php?route=common/filemanager&user_token=' + getURLVar('user_token'),
+                        dataType: 'html',
+                        success: function (html) {
+                            $('body').append(html);
+
+                            $('#modal-image').modal('show');
+                        }
+                    });
+                }
+            });
+        }
+    });
+
+}
+ 
+function uploadPastedImage(imgUrl, directory, callback) {
+ 
+    $.ajax({
+        url: 'index.php?route=common/filemanager.uploadFromURL&user_token=' + getURLVar('user_token'),
+        data: { imgUrl: imgUrl, directory: directory },
+        type: 'post',
+        dataType: 'json',
+        success: function (response) {
+            // Invoke the callback function with the response
+            callback('/image/catalog/' + directory + response.filename);
+        },
+        error: function (xhr, status, error) {
+            // Handle error
+            console.error('Error uploading image:', error);
+        }
+    });
+}
+ 
 
 //Seo conversion jquery plugin
 (function ($) {
@@ -187,6 +280,7 @@ $(document).ready(function () {
     $(document).on('click', 'button', oc_alert);
 });
 
+
 // Forms
 $(document).on('submit', 'form', function (e) {
     var element = this;
@@ -263,12 +357,8 @@ $(document).on('submit', 'form', function (e) {
         console.log('enctype ' + enctype);
         console.log($(element).serialize());
 
-        // https://github.com/opencart/opencart/issues/9690
-        if (typeof CKEDITOR != 'undefined') {
-            for (instance in CKEDITOR.instances) {
-                CKEDITOR.instances[instance].updateElement();
-            }
-        }
+
+
 
         $.ajax({
             url: action.replaceAll('&amp;', '&'),
@@ -593,10 +683,10 @@ var chain = new Chain();
 }(jQuery);
 
 // Button
-$(document).ready(function() {
-    +function($) {
-        $.fn.button = function(state) {
-            return this.each(function() {
+$(document).ready(function () {
+    +function ($) {
+        $.fn.button = function (state) {
+            return this.each(function () {
                 var element = this;
 
                 if (state == 'loading') {

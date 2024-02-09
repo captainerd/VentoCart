@@ -40,10 +40,28 @@ class Category extends \Opencart\System\Engine\Model
 
 		if (isset($data['category_filter'])) {
 			foreach ($data['category_filter'] as $filter_id) {
-				$this->db->query("INSERT INTO `" . DB_PREFIX . "category_filter` SET `category_id` = '" . (int) $category_id . "', `filter_id` = '" . (int) $filter_id . "'");
+				$this->db->query("INSERT INTO `" . DB_PREFIX . "category_filter` SET `category_id` = '" . (int) $category_id . "', `filter_id` = '" . (int) $filter_id . "', `type` = 'filter'");
 			}
 		}
 
+		if (isset($data['category_option_filter'])) {
+			foreach ($data['category_option_filter'] as $filter_id) {
+				$this->db->query("INSERT INTO `" . DB_PREFIX . "category_filter` SET `category_id` = '" . (int) $category_id . "', `filter_id` = '" . (int) $filter_id . "', `type` = 'option' ");
+			}
+		}
+
+		if (isset($data['category_attribute_filter'])) {
+			foreach ($data['category_attribute_filter'] as $filter_id) {
+				$this->db->query("INSERT INTO `" . DB_PREFIX . "category_filter` SET `category_id` = '" . (int) $category_id . "', `filter_id` = '" . (int) $filter_id . "', `type` = 'attribute' ");
+			}
+		}
+
+		if (isset($data['category_manufacturer_filter'])) {
+			foreach ($data['category_manufacturer_filter'] as $filter_id) {
+				$this->db->query("INSERT INTO `" . DB_PREFIX . "category_filter` SET `category_id` = '" . (int) $category_id . "', `filter_id` = '" . (int) $filter_id . "', `type` = 'manufacturer' ");
+			}
+		}
+		
 		if (isset($data['category_store'])) {
 			foreach ($data['category_store'] as $store_id) {
 				$this->db->query("INSERT INTO `" . DB_PREFIX . "category_to_store` SET `category_id` = '" . (int) $category_id . "', `store_id` = '" . (int) $store_id . "'");
@@ -88,6 +106,7 @@ class Category extends \Opencart\System\Engine\Model
 	}
 	public function editCategory(int $category_id, array $data): void
 	{
+	 
 
 		if (isset($data['redirect_url']) && $data['redirect_url'] != "") {
 			foreach ($data['category_description'] as $language_id => $value) {
@@ -165,9 +184,27 @@ class Category extends \Opencart\System\Engine\Model
 
 		if (isset($data['category_filter'])) {
 			foreach ($data['category_filter'] as $filter_id) {
-				$this->db->query("INSERT INTO `" . DB_PREFIX . "category_filter` SET `category_id` = '" . (int) $category_id . "', `filter_id` = '" . (int) $filter_id . "'");
+				$this->db->query("INSERT INTO `" . DB_PREFIX . "category_filter` SET `category_id` = '" . (int) $category_id . "', `filter_id` = '" . (int) $filter_id . "', `type` = 'filter' ");
 			}
 		}
+		if (isset($data['category_option_filter'])) {
+			foreach ($data['category_option_filter'] as $filter_id) {
+				$this->db->query("INSERT INTO `" . DB_PREFIX . "category_filter` SET `category_id` = '" . (int) $category_id . "', `filter_id` = '" . (int) $filter_id . "', `type` = 'option' ");
+			}
+		}
+
+		if (isset($data['category_attribute_filter'])) {
+			foreach ($data['category_attribute_filter'] as $filter_id) {
+				$this->db->query("INSERT INTO `" . DB_PREFIX . "category_filter` SET `category_id` = '" . (int) $category_id . "', `filter_id` = '" . (int) $filter_id . "', `type` = 'attribute' ");
+			}
+		}
+
+		if (isset($data['category_manufacturer_filter'])) {
+			foreach ($data['category_manufacturer_filter'] as $filter_id) {
+				$this->db->query("INSERT INTO `" . DB_PREFIX . "category_filter` SET `category_id` = '" . (int) $category_id . "', `filter_id` = '" . (int) $filter_id . "', `type` = 'manufacturer' ");
+			}
+		}
+ 
 
 		$this->db->query("DELETE FROM `" . DB_PREFIX . "category_to_store` WHERE `category_id` = '" . (int) $category_id . "'");
 
@@ -377,11 +414,13 @@ class Category extends \Opencart\System\Engine\Model
 		$query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "category_filter` WHERE `category_id` = '" . (int) $category_id . "'");
 
 		foreach ($query->rows as $result) {
-			$category_filter_data[] = $result['filter_id'];
+			$category_filter_data[] = ['id'=> $result['filter_id'], 'type' => $result['type'] ];
 		}
 
 		return $category_filter_data;
 	}
+
+ 
 
 	public function getSeoUrls(int $category_id): array
 	{

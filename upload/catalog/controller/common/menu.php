@@ -29,9 +29,11 @@ class Menu extends \Opencart\System\Engine\Controller {
 
 				$children_data = $this->buildMenu($category['category_id']);
 			 
+		 
 	
 				$menu[] = [
 					'name'     => $category['name'],
+					'top'     => $category['top'],
 					'image'     => $category['image'],
 					'children' => $children_data,
 					'column'   => $category['column'] ? $category['column'] : 1,

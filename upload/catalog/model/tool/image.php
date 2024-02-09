@@ -15,7 +15,7 @@ class Image extends \Opencart\System\Engine\Model {
 	 * @return string
 	 * @throws \Exception
 	 */
-	public function resize(string $filename, int $width, int $height, string $default = ''): string {
+	public function resize(string $filename, int $width, int $height, string $default = '', bool $crop = false): string {
 		if (!is_file(DIR_IMAGE . $filename) || substr(str_replace('\\', '/', realpath(DIR_IMAGE . $filename)), 0, strlen(DIR_IMAGE)) != DIR_IMAGE) {
 			return '';
 		}
@@ -50,7 +50,12 @@ class Image extends \Opencart\System\Engine\Model {
 
 			if ($width_orig != $width || $height_orig != $height) {
 				$image = new \Opencart\System\Library\Image(DIR_IMAGE . $image_old);
+				if (!$crop ) {
+			 
 				$image->resize($width, $height, $default);
+				} else {
+			     $image->crop($width, $height, $default);
+				}
 				$image->save(DIR_IMAGE . $image_new);
 			} else {
 				copy(DIR_IMAGE . $image_old, DIR_IMAGE . $image_new);

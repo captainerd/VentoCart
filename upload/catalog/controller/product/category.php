@@ -12,41 +12,19 @@ class Category extends \Opencart\System\Engine\Controller {
 	public function index(): ?object {
 		$this->load->language('product/category');
 
-		if (isset($this->request->get['path'])) {
-			$path = (string)$this->request->get['path'];
-		} else {
-			$path = '';
-		}
-
-		if (isset($this->request->get['filter'])) {
-			$filter = $this->request->get['filter'];
-		} else {
-			$filter = '';
-		}
-
-		if (isset($this->request->get['sort'])) {
-			$sort = $this->request->get['sort'];
-		} else {
-			$sort = 'p.sort_order';
-		}
-
-		if (isset($this->request->get['order'])) {
-			$order = $this->request->get['order'];
-		} else {
-			$order = 'ASC';
-		}
-
-		if (isset($this->request->get['page'])) {
-			$page = (int)$this->request->get['page'];
-		} else {
-			$page = 1;
-		}
-
-		if (isset($this->request->get['limit']) && (int)$this->request->get['limit']) {
-			$limit = (int)$this->request->get['limit'];
-		} else {
-			$limit = $this->config->get('config_pagination');
-		}
+		$path = isset($this->request->get['path']) ? (string)$this->request->get['path'] : '';
+		$filter = isset($this->request->get['filter']) ? $this->request->get['filter'] : '';
+		$filter_option = isset($this->request->get['filter_option']) ? $this->request->get['filter_option'] : '';
+		$filter_attribute = isset($this->request->get['filter_attribute']) ? $this->request->get['filter_attribute'] : '';
+		$filter_manufacturer_id = isset($this->request->get['manufacturer_id']) ? $this->request->get['manufacturer_id'] : '';
+	 
+		$filter_availability = isset($this->request->get['filter_availability']) ? $this->request->get['filter_availability'] : '';
+		$sort = isset($this->request->get['sort']) ? $this->request->get['sort'] : 'p.sort_order';
+		$order = isset($this->request->get['order']) ? $this->request->get['order'] : 'ASC';
+		$page = isset($this->request->get['page']) ? (int)$this->request->get['page'] : 1;
+		$limit = isset($this->request->get['limit']) && (int)$this->request->get['limit'] ? (int)$this->request->get['limit'] : $this->config->get('config_pagination');
+		
+		
 
 		$parts = explode('_', $path);
 
@@ -194,6 +172,7 @@ class Category extends \Opencart\System\Engine\Controller {
 				$url .= '&filter=' . $this->request->get['filter'];
 			}
 
+			
 			if (isset($this->request->get['sort'])) {
 				$url .= '&sort=' . $this->request->get['sort'];
 			}
@@ -216,6 +195,10 @@ class Category extends \Opencart\System\Engine\Controller {
 				'filter_category_id'  => $category_id,
 				'filter_sub_category' => false,
 				'filter_filter'       => $filter,
+				'filter_option'       => $filter_option,
+				'filter_manufacturer_id'  => $filter_manufacturer_id,
+				'filter_availability' => $filter_availability,
+				'filter_attribute'     => $filter_attribute,
 				'sort'                => $sort,
 				'order'               => $order,
 				'start'               => ($page - 1) * $limit,
@@ -285,6 +268,41 @@ class Category extends \Opencart\System\Engine\Controller {
 				$url .= '&limit=' . $this->request->get['limit'];
 			}
 
+		 
+			if (!empty($filter_attribute)) {
+				
+				foreach ($filter_attribute as $values) {
+					foreach ($values as $key => $value) {
+						 
+						if (is_array($value)) {
+						 
+							foreach ($value as $subkey => $subvalue) {
+								$url .= "&filter_attribute[][{$key}][{$subkey}]={$subvalue}";
+							 
+							}
+						}
+					}
+				}
+			}
+		 
+			if (!empty($filter_availability)) {
+				foreach($filter_availability as $index => $filter_availability_entity) {
+
+						$url .= '&filter_availability[]=' . urlencode($filter_availability_entity);
+				}
+			}
+
+			if (!empty($filter_option)) {
+				foreach($filter_option as $index => $filter_option_entity) {
+						$url .= '&filter_option[]=' . urlencode($filter_option_entity);
+				}
+			}
+			if (!empty($filter_manufacturer_id)) {
+				foreach($filter_manufacturer_id as $index => $manufacturer_ids) {
+						$url .= '&manufacturer_id[]=' . urlencode($manufacturer_ids);
+				}
+			}
+
 			$data['sorts'] = [];
 
 			$data['sorts'][] = [
@@ -343,7 +361,7 @@ class Category extends \Opencart\System\Engine\Controller {
 				'href'  => $this->url->link('product/category', 'language=' . $this->config->get('config_language') . '&sort=p.model&order=DESC' . $url)
 			];
 
-			$url = '';
+			 
 
 			if (isset($this->request->get['path'])) {
 				$url .= '&path=' . $this->request->get['path'];

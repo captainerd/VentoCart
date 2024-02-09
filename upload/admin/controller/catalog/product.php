@@ -405,10 +405,11 @@ $optionsave['option_id'] = 0;
  
 		$option_value_info = $this->model_catalog_option->getOption($product_option['option_id']);
 		$option_value = $this->model_catalog_option->getOption($product_option['option_id'], true);
-		 
+	 
 		$product_option_value_data[$option_value['group_id']][] = [
-
+		 
 			'name' => $option_value_info['name'],
+		 
 			'quantity' => $product_option['quantity'],
 			'subtract' => $product_option['subtract'],
 			'product_option_value_id' => $product_option['option_id'], //until we fix the twig  
@@ -445,14 +446,15 @@ $optionsave['option_id'] = 0;
 			'required' => $product_option['required']
 		];
 
-	}
+	 
+}
  
 	$data['option_values'] = [];
 
 	foreach($data['product_options'] as $product_option) {
 		if($product_option['type'] == 'select' || $product_option['type'] == 'radio' || $product_option['type'] == 'checkbox' || $product_option['type'] == 'image') {
 			if(!isset($data['option_values'][$product_option['option_id']])) {
-
+			 
 				$data['option_values'][$product_option['option_id']] = $this->model_catalog_option->getValues($product_option['option_id']);
 			
 			
@@ -465,29 +467,29 @@ $optionsave['option_id'] = 0;
 		
 					return $item;
 				}, $data['option_values'][$product_option['option_id']]);
+
+		 
 			}
 		}
 	}
-
-	 
-
-
-
+ 
+  
  
 
 	$data['options'] = [];
 
-	return $this->load->view('catalog/product_form_tab_options', $data);
+	return $this->load->view('catalog/product_tabs/options_tab', $data);
 
 
 	}
 	public function form(): void {
 		$this->load->language('catalog/product');
-
+	 
 		$this->document->setTitle($this->language->get('heading_title'));
 
-		$this->document->addScript('view/javascript/ckeditor/ckeditor.js');
-		$this->document->addScript('view/javascript/ckeditor/adapters/jquery.js');
+		$this->document->addScript('view/javascript/tinymce/tinymce.min.js');
+	 
+ 
 
 		$data['text_form'] = !isset($this->request->get['product_id']) ? $this->language->get('text_add') : $this->language->get('text_edit');
 
@@ -940,19 +942,8 @@ $optionsave['option_id'] = 0;
 			$product_attributes = [];
 		}
 
-		$data['product_attributes'] = [];
-
-		foreach($product_attributes as $product_attribute) {
-			$attribute_info = $this->model_catalog_attribute->getAttribute($product_attribute['attribute_id']);
-
-			if($attribute_info) {
-				$data['product_attributes'][] = [
-					'attribute_id' => $product_attribute['attribute_id'],
-					'name' => $attribute_info['name'],
-					'product_attribute_description' => $product_attribute['product_attribute_description']
-				];
-			}
-		}
+		$data['product_attributes'] = $product_attributes;
+ 
 
 		$this->load->model('customer/customer_group');
 
@@ -1027,10 +1018,10 @@ $optionsave['option_id'] = 0;
 
 		$this->load->model('tool/image');
 
-		$data['placeholder'] = $this->model_tool_image->resize('no_image.png', 100, 100);
+		$data['placeholder'] = $this->model_tool_image->resize('no_image.png', 300, 300);
 
 		if(is_file(DIR_IMAGE.html_entity_decode($data['image'], ENT_QUOTES, 'UTF-8'))) {
-			$data['thumb'] = $this->model_tool_image->resize(html_entity_decode($data['image'], ENT_QUOTES, 'UTF-8'), 100, 100);
+			$data['thumb'] = $this->model_tool_image->resize(html_entity_decode($data['image'], ENT_QUOTES, 'UTF-8'), 300, 300);
 		} else {
 			$data['thumb'] = $data['placeholder'];
 		}
@@ -1055,7 +1046,7 @@ $optionsave['option_id'] = 0;
 
 			$data['product_images'][] = [
 				'image' => $image,
-				'thumb' => $this->model_tool_image->resize(html_entity_decode($thumb, ENT_QUOTES, 'UTF-8'), 100, 100),
+				'thumb' => $this->model_tool_image->resize(html_entity_decode($thumb, ENT_QUOTES, 'UTF-8'), 300, 300),
 				'sort_order' => $product_image['sort_order']
 			];
 		}
@@ -1099,6 +1090,15 @@ $optionsave['option_id'] = 0;
 		$data['header'] = $this->load->controller('common/header');
 		$data['column_left'] = $this->load->controller('common/column_left');
 		$data['footer'] = $this->load->controller('common/footer');
+
+		//Tabs
+		$data['images_tab'] =  $this->load->view('catalog/product_tabs/images_tab', $data);
+		$data['attributes_tab'] =  $this->load->view('catalog/product_tabs/attributes_tab', $data);
+		$data['general_tab'] =  $this->load->view('catalog/product_tabs/general_tab', $data);
+		$data['data_tab'] =  $this->load->view('catalog/product_tabs/data_tab', $data);
+		$data['links_tab'] =  $this->load->view('catalog/product_tabs/links_tab', $data);
+		$data['subscription_tab'] =  $this->load->view('catalog/product_tabs/subscription_tab', $data);
+		$data['pricing_tab'] =  $this->load->view('catalog/product_tabs/pricing_tab', $data);
 
 		$this->response->setOutput($this->load->view('catalog/product_form', $data));
 	}
@@ -1299,104 +1299,6 @@ $optionsave['option_id'] = 0;
 		return $this->load->view('catalog/product_report', $data);
 	}
 
-	public function autocomplete(): void {
-		$json = [];
 
-		if(isset($this->request->get['filter_name'])) {
-			$filter_name = $this->request->get['filter_name'];
-		} else {
-			$filter_name = '';
-		}
-
-		if(isset($this->request->get['filter_model'])) {
-			$filter_model = $this->request->get['filter_model'];
-		} else {
-			$filter_model = '';
-		}
-
-		if(isset($this->request->get['limit'])) {
-			$limit = (int)$this->request->get['limit'];
-		} else {
-			$limit = 5;
-		}
-
-		$filter_data = [
-			'filter_name' => $filter_name,
-			'filter_model' => $filter_model,
-			'start' => 0,
-			'limit' => $limit
-		];
-
-		$this->load->model('catalog/product');
-		$this->load->model('catalog/option');
-		$this->load->model('catalog/subscription_plan');
-
-		$results = $this->model_catalog_product->getProducts($filter_data);
-
-		foreach($results as $result) {
-			$option_data = [];
-
-			$product_options = $this->model_catalog_product->getOptions($result['product_id']);
-
-			foreach($product_options as $product_option) {
-				$option_info = $this->model_catalog_option->getOption($product_option['option_id']);
-
-				if($option_info) {
-					$product_option_value_data = [];
-
-					foreach($product_option['product_option_value'] as $product_option_value) {
-						$option_value_info = $this->model_catalog_option->getValue($product_option_value['option_value_id']);
-
-						if($option_value_info) {
-							$product_option_value_data[] = [
-								'product_option_value_id' => $product_option_value['product_option_value_id'],
-								'option_value_id' => $product_option_value['option_value_id'],
-								'name' => $option_value_info['name'],
-								'price' => (float)$product_option_value['price'] ? $this->currency->format($product_option_value['price'], $this->config->get('config_currency')) : false,
-								'price_prefix' => $product_option_value['price_prefix']
-							];
-						}
-					}
-
-					$option_data[] = [
-						'product_option_id' => $product_option['product_option_id'],
-						'product_option_value' => $product_option_value_data,
-						'option_id' => $product_option['option_id'],
-						'name' => $option_info['name'],
-						'type' => $option_info['type'],
-						'value' => $product_option['value'],
-						'required' => $product_option['required']
-					];
-				}
-			}
-
-			$subscription_data = [];
-
-			$product_subscriptions = $this->model_catalog_product->getSubscriptions($result['product_id']);
-
-			foreach($product_subscriptions as $product_subscription) {
-				$subscription_plan_info = $this->model_catalog_subscription_plan->getSubscriptionPlan($product_subscription['subscription_plan_id']);
-
-				if($subscription_plan_info) {
-					$subscription_data[] = [
-						'subscription_plan_id' => $subscription_plan_info['subscription_plan_id'],
-						'name' => $subscription_plan_info['name']
-					];
-				}
-			}
-
-			$json[] = [
-				'product_id' => $result['product_id'],
-				'name' => strip_tags(html_entity_decode($result['name'], ENT_QUOTES, 'UTF-8')),
-				'model' => $result['model'],
-				'option' => $option_data,
-				'subscription' => $subscription_data,
-				'price' => $result['price']
-			];
-		}
-
-		$this->response->addHeader('Content-Type: application/json');
-		$this->response->setOutput(json_encode($json));
-	}
 
 }

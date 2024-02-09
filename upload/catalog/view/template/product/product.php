@@ -61,7 +61,13 @@ $isVideo = in_array($popupExtension, $videoExtensions);
             
                 <?php endif; ?>
           
-          
+                <script>
+    <?php foreach ($images as $image): ?>
+        var img<?php echo md5($image['popup']); ?> = new Image();
+        img<?php echo md5($image['popup']); ?>.src = '<?php echo $image['popup']; ?>';
+    <?php endforeach; ?>
+</script>
+
             </div>
             
               <?php if ($images): ?>
@@ -425,25 +431,31 @@ $isVideo = in_array($popupExtension, $videoExtensions);
         <div class="tab-content">
 
           <div id="tab-description" class="tab-pane fade show active mb-4"><?=  $description   ?></div>
-
+        
           <?php if ($attribute_groups): ?>
             <div id="tab-specification" class="tab-pane fade">
-              <div class="table-responsive">
-                <table class="table table-bordered table-striped table-hover">
-                  <tbody>
-                      <?php foreach ($attribute_groups as $attribute_group): ?>
-                      
-                        
-                              <tr>
-                                  <td width="20%"> <?= $this->e($attribute_group['name']) ?> </td>
-                                  <td><?= $this->e($attribute_group['text']) ?></td>
-                              </tr>
-                          
-                      <?php endforeach; ?>
-                  </tbody>
-              </table>
-              
-              </div>
+            <div class="container  mt-4">
+  <?php if ($attribute_groups): ?>
+    <dl class="row">
+      <?php foreach ($attribute_groups as $attribute_group_key => $attribute_group): ?>
+      
+        <dt class="col-sm-3">
+            <h3>  <?php echo isset($attribute_group['name']) && !empty($attribute_group['name']) ? $attribute_group['name'] : $attribute_general; ?></h3>
+      </dt>
+         
+
+        <dl class="row">
+          <?php foreach ($attribute_group['values'] as $attribute): ?>
+            <dt class="col-sm-3"><?php echo $attribute['name']; ?></dt>
+            <dd class="col-sm-9"><?php echo $attribute['text_value']; ?></dd>
+            <hr>
+          <?php endforeach; ?>
+        </dl>
+
+      <?php endforeach; ?>
+    </dl>
+  <?php endif; ?>
+</div>
             </div>
           <?php endif; ?>
 

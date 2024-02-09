@@ -48,7 +48,7 @@ class Blog extends \Opencart\System\Engine\Controller {
 			'text' => $this->language->get('text_home'),
 			'href' => $this->url->link('common/home', 'language=' . $this->config->get('config_language'))
 		];
-		$data['breadcrumb'] = $this->load->view('common/breadcrumb', $datab);
+	 
 		$url = '';
 
 		if (isset($this->request->get['search'])) {
@@ -71,7 +71,7 @@ class Blog extends \Opencart\System\Engine\Controller {
 			$url .= '&page=' . $this->request->get['page'];
 		}
 
-		$data['breadcrumbs'][] = [
+		$datab['breadcrumbs'][] = [
 			'text' => $this->language->get('text_blog'),
 			'href' => $this->url->link('cms/blog', 'language=' . $this->config->get('config_language') . $url)
 		];
@@ -103,7 +103,7 @@ class Blog extends \Opencart\System\Engine\Controller {
 				$url .= '&page=' . $this->request->get['page'];
 			}
 
-			$data['breadcrumbs'][] = [
+			$datab['breadcrumbs'][] = [
 				'text' => $topic_info['name'],
 				'href' => $this->url->link('cms/blog', 'language=' . $this->config->get('config_language') . $url)
 			];
@@ -151,7 +151,7 @@ class Blog extends \Opencart\System\Engine\Controller {
 		$this->load->model('cms/article');
 
 		$results = $this->model_cms_article->getArticles($filter_data);
-
+		$data['breadcrumb'] = $this->load->view('common/breadcrumb', $datab);
 		foreach ($results as $result) {
 			$description = trim(strip_tags(html_entity_decode($result['description'], ENT_QUOTES, 'UTF-8')));
 
@@ -275,14 +275,14 @@ class Blog extends \Opencart\System\Engine\Controller {
 			$this->document->setDescription($article_info['meta_description']);
 			$this->document->setKeywords($article_info['meta_keyword']);
 
-			$data['breadcrumbs'] = [];
+			$datab['breadcrumbs'] = [];
 
-			$data['breadcrumbs'][] = [
+			$datab['breadcrumbs'][] = [
 				'text' => $this->language->get('text_home'),
 				'href' => $this->url->link('common/home', 'language=' . $this->config->get('config_language'))
 			];
 
-			$data['breadcrumbs'][] = [
+			$datab['breadcrumbs'][] = [
 				'text' => $this->language->get('text_blog'),
 				'href' => $this->url->link('cms/blog', 'language=' . $this->config->get('config_language'))
 			];
@@ -330,7 +330,7 @@ class Blog extends \Opencart\System\Engine\Controller {
 			$this->load->model('tool/image');
 
 			if (is_file(DIR_IMAGE . html_entity_decode($article_info['image'], ENT_QUOTES, 'UTF-8'))) {
-				$data['image'] = $this->model_tool_image->resize(html_entity_decode($article_info['image'], ENT_QUOTES, 'UTF-8'), $this->config->get('config_image_article_width'), $this->config->get('config_image_article_height'));
+				$data['image'] = $this->model_tool_image->resize(html_entity_decode($article_info['image'], ENT_QUOTES, 'UTF-8'), $this->config->get('config_image_article_width'), $this->config->get('config_image_article_height'),'',true);
 			} else {
 				$data['image'] = '';
 			}
@@ -354,7 +354,8 @@ class Blog extends \Opencart\System\Engine\Controller {
 					];
 				}
 			}
-
+			$data['breadcrumb'] = $this->load->view('common/breadcrumb', $datab);
+			
 			$data['comment'] = $this->config->get('config_comment_status') ? $this->load->controller('cms/comment') : '';
 			$data['comment_total'] = $this->model_cms_article->getTotalComments($article_id);
 

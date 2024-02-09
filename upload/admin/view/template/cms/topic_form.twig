@@ -147,8 +147,26 @@
   </div>
 </div>
 <script type="text/javascript"><!--
-$('textarea[data-oc-toggle=\'ckeditor\']').ckeditor({
-    language: '{{ ckeditor }}'
-});
+  initTinyMCE();
+
+  var canWriteSeo = false;
+ $('input[name^="topic_description["][name$="[name]"]').on('input', function() {
+ 
+      var index = $(this).attr('name').match(/\[(\d+)\]/)[1];
+      var inputValue = $(this).val();
+      var metaTitleValue = inputValue;
+ 
+      $('input[name="topic_description[' + index + '][meta_title]"]').val(metaTitleValue);
+       metaTitleValue = metaTitleValue.toLowerCase().replace(/\s+/g, '-');
+      $('input[name$="['+ index + ']"][name^="topic_seo_url"]').each(function() {
+      if ($(this).val().length === 0) {
+        canWriteSeo = true;
+      }
+      if (canWriteSeo) {
+        $(this).val(metaTitleValue);
+      }
+    });
+    });
+
 //--></script>
 {{ footer }}

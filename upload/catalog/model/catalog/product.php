@@ -22,7 +22,7 @@ class Product extends \Opencart\System\Engine\Model
 
 		// Storing some sub queries so that we are not typing them out multiple times.
 		$this->statement['discount'] = "(SELECT `pd2`.`price` FROM `" . DB_PREFIX . "product_discount` `pd2` WHERE `pd2`.`product_id` = `p`.`product_id` AND `pd2`.`customer_group_id` = '" . (int) $this->config->get('config_customer_group_id') . "'AND `pd2`.`quantity` = '1' AND ((`pd2`.`date_start` = '0000-00-00' OR `pd2`.`date_start` < NOW()) AND (`pd2`.`date_end` = '0000-00-00' OR `pd2`.`date_end` > NOW())) ORDER BY `pd2`.`priority` ASC, `pd2`.`price` ASC LIMIT 1) AS `discount`";
-		
+
 		//Added a CASE if type=1 then its percentage
 		$this->statement['special'] = "(SELECT  
 		CASE 
@@ -35,13 +35,14 @@ class Product extends \Opencart\System\Engine\Model
 		AND ((`ps`.`date_start` = '0000-00-00' OR `ps`.`date_start` < NOW()) 
 		AND (`ps`.`date_end` = '0000-00-00' OR `ps`.`date_end` > NOW())) 
 		ORDER BY `ps`.`priority` ASC, `ps`.`price` ASC LIMIT 1) AS `special`";
-		
+
 		$this->statement['reward'] = "(SELECT `pr`.`points` FROM `" . DB_PREFIX . "product_reward` `pr` WHERE `pr`.`product_id` = `p`.`product_id` AND `pr`.`customer_group_id` = '" . (int) $this->config->get('config_customer_group_id') . "') AS `reward`";
 		$this->statement['review'] = "(SELECT COUNT(*) FROM `" . DB_PREFIX . "review` `r` WHERE `r`.`product_id` = `p`.`product_id` AND `r`.`status` = '1' GROUP BY `r`.`product_id`) AS `reviews`";
 	}
 
-	
-	public function getSpecial($product_id) {
+
+	public function getSpecial($product_id)
+	{
 		$query = $this->db->query("
 			SELECT *
 			FROM `" . DB_PREFIX . "product_special`
@@ -55,7 +56,7 @@ class Product extends \Opencart\System\Engine\Model
 			ORDER BY `priority` ASC
 			LIMIT 1
 		");
-					
+
 		return $query->row;
 	}
 
@@ -164,105 +165,78 @@ class Product extends \Opencart\System\Engine\Model
 	 */
 	public function getProducts(array $data = []): array
 	{
-		$sql = "SELECT DISTINCT *, `pd`.`name`, `p`.`image`, " . $this->statement['discount'] . ", " . $this->statement['special'] . ", " . $this->statement['reward'] . ", " . $this->statement['review'];
+
+		$sql = "
+		SELECT *, `pd`.`name`, `p`.`image`, " .
+			$this->statement['discount'] . ", " .
+			$this->statement['special'] . ", " .
+			$this->statement['reward'] . ", " .
+			$this->statement['review'] . "
+		FROM `" . DB_PREFIX . "product` `p`
+		INNER JOIN `" . DB_PREFIX . "product_to_store` `p2s` ON (`p`.`product_id` = `p2s`.`product_id` AND `p2s`.`store_id` = '" . (int) $this->config->get('config_store_id') . "')
+		LEFT JOIN `" . DB_PREFIX . "product_description` `pd` ON (`p`.`product_id` = `pd`.`product_id` AND `pd`.`language_id` = '" . (int) $this->config->get('config_language_id') . "')
+			AND `p`.`status` = '1' AND `p`.`date_available` <= NOW() ";
+
+		// Category  filter
 
 		if (!empty($data['filter_category_id'])) {
-			$sql .= " FROM `" . DB_PREFIX . "category_to_store` `c2s`";
 
-			if (!empty($data['filter_sub_category'])) {
-				$sql .= " LEFT JOIN `" . DB_PREFIX . "category_path` `cp` ON (`cp`.`category_id` = `c2s`.`category_id` AND `c2s`.`store_id` = '" . (int) $this->config->get('config_store_id') . "') LEFT JOIN `" . DB_PREFIX . "product_to_category` `p2c` ON (`p2c`.`category_id` = `cp`.`category_id`)";
-			} else {
-				$sql .= " LEFT JOIN `" . DB_PREFIX . "product_to_category` `p2c` ON (`p2c`.`category_id` = `c2s`.`category_id` AND `c2s`.`store_id` = '" . (int) $this->config->get('config_store_id') . "')";
-			}
+			$sql .= " INNER JOIN `" . DB_PREFIX . "product_to_category` `p2c` 
+			ON (`p`.`product_id` = `p2c`.`product_id` AND `p2c`.`category_id` = " . (int) $data['filter_category_id'] . ")";
 
-			$sql .= " LEFT JOIN `" . DB_PREFIX . "product_to_store` `p2s` ON (`p2s`.`product_id` = `p2c`.`product_id` AND `p2s`.`store_id` = '" . (int) $this->config->get('config_store_id') . "')";
-
-			if (!empty($data['filter_filter'])) {
-				$sql .= " LEFT JOIN `" . DB_PREFIX . "product_filter` `pf` ON (`pf`.`product_id` = `p2s`.`product_id`) LEFT JOIN `" . DB_PREFIX . "product` `p` ON (`p`.`product_id` = `pf`.`product_id` AND `p`.`status` = '1' AND `p`.`date_available` <= NOW())";
-			} else {
-				$sql .= " LEFT JOIN `" . DB_PREFIX . "product` `p` ON (`p`.`product_id` = `p2s`.`product_id` AND `p`.`status` = '1' AND `p`.`date_available` <= NOW())";
-			}
-		} else {
-			$sql .= " FROM `" . DB_PREFIX . "product_to_store` `p2s` LEFT JOIN `" . DB_PREFIX . "product` `p` ON (`p`.`product_id` = `p2s`.`product_id` AND `p`.`status` = '1' AND `p2s`.`store_id` = '" . (int) $this->config->get('config_store_id') . "' AND `p`.`date_available` <= NOW())";
 		}
 
-		$sql .= " LEFT JOIN `" . DB_PREFIX . "product_description` `pd` ON (`p`.`product_id` = `pd`.`product_id`) WHERE `pd`.`language_id` = '" . (int) $this->config->get('config_language_id') . "'";
+		// Manufacturer filter
+	 
+		if (!empty($data['filter_manufacturer_id'])) {
 
-		if (!empty($data['filter_category_id'])) {
-			if (!empty($data['filter_sub_category'])) {
-				$sql .= " AND `cp`.`path_id` = '" . (int) $data['filter_category_id'] . "'";
-			} else {
-				$sql .= " AND `p2c`.`category_id` = '" . (int) $data['filter_category_id'] . "'";
-			}
-
-			if (!empty($data['filter_filter'])) {
-				$implode = [];
-
-				$filters = explode(',', $data['filter_filter']);
-
-				foreach ($filters as $filter_id) {
-					$implode[] = (int) $filter_id;
-				}
-
-				$sql .= " AND `pf`.`filter_id` IN (" . implode(',', $implode) . ")";
-			}
+			 if (is_array($data['filter_manufacturer_id'])) {
+				$data['filter_manufacturer_id'] = implode(',',$data['filter_manufacturer_id']);
+			 }
+			 
+			$sql .= " INNER JOIN `" . DB_PREFIX . "manufacturer` `m` ON (`p`.`manufacturer_id` = `m`.`manufacturer_id` AND `m`.`manufacturer_id` IN (" . $data['filter_manufacturer_id'] . "))";
 		}
+		
+
+
+		// Availability filter
+
+		if (!empty($data['filter_availability'])) {
+
+			$sql .= " INNER JOIN `" . DB_PREFIX . "product` `pffa` ON (`pffa`.`product_id` = `p2s`.`product_id` AND `pffa`.`status` = '1' AND `pffa`.`stock_status_id` IN (" . implode(',', array_map('intval', $data['filter_availability'])) . ") AND `pffa`.`date_available` <= NOW())";
+		}
+
+
+		// Legacy filter
+
+		if (!empty($data['filter_filter'])) {
+
+			$sql .= $this->buildLegacyFilterSQL($data);
+
+		}
+
+		// Option filter
+
+		if (!empty($data['filter_option'])) {
+
+			$sql .= $this->buildOptionsFilterSQL($data);
+		}
+
+		// Attribute filter
+
+		if (!empty($data['filter_attribute'])) {
+
+			$sql .= $this->buildAttributesFilterSQL($data);
+		}
+
+		// Search and Tag filter
 
 		if (!empty($data['filter_search']) || !empty($data['filter_tag'])) {
-			$sql .= " AND (";
 
-			if (!empty($data['filter_search'])) {
-				$implode = [];
-
-				$words = explode(' ', trim(preg_replace('/\s+/', ' ', $data['filter_search'])));
-
-				foreach ($words as $word) {
-					$implode[] = "`pd`.`name` LIKE '" . $this->db->escape('%' . $word . '%') . "'";
-				}
-
-				if ($implode) {
-					$sql .= " (" . implode(" OR ", $implode) . ")";
-				}
-
-				if (!empty($data['filter_description'])) {
-					$sql .= " OR `pd`.`description` LIKE '" . $this->db->escape('%' . (string) $data['filter_search'] . '%') . "'";
-				}
-			}
-
-			if (!empty($data['filter_search']) && !empty($data['filter_tag'])) {
-				$sql .= " OR ";
-			}
-
-			if (!empty($data['filter_tag'])) {
-				$implode = [];
-
-				$words = explode(' ', trim(preg_replace('/\s+/', ' ', $data['filter_tag'])));
-
-				foreach ($words as $word) {
-					$implode[] = "`pd`.`tag` LIKE '" . $this->db->escape('%' . $word . '%') . "'";
-				}
-
-				if ($implode) {
-					$sql .= " (" . implode(" OR ", $implode) . ")";
-				}
-			}
-
-			if (!empty($data['filter_search'])) {
-				$sql .= " OR LCASE(`p`.`model`) = '" . $this->db->escape(oc_strtolower($data['filter_search'])) . "'";
-				$sql .= " OR LCASE(`p`.`sku`) = '" . $this->db->escape(oc_strtolower($data['filter_search'])) . "'";
-				$sql .= " OR LCASE(`p`.`upc`) = '" . $this->db->escape(oc_strtolower($data['filter_search'])) . "'";
-				$sql .= " OR LCASE(`p`.`ean`) = '" . $this->db->escape(oc_strtolower($data['filter_search'])) . "'";
-				$sql .= " OR LCASE(`p`.`jan`) = '" . $this->db->escape(oc_strtolower($data['filter_search'])) . "'";
-				$sql .= " OR LCASE(`p`.`isbn`) = '" . $this->db->escape(oc_strtolower($data['filter_search'])) . "'";
-				$sql .= " OR LCASE(`p`.`mpn`) = '" . $this->db->escape(oc_strtolower($data['filter_search'])) . "'";
-			}
-
-			$sql .= ")";
+			$sql .= $this->buildSearchFilterSQL($data);
 		}
 
-		if (!empty($data['filter_manufacturer_id'])) {
-			$sql .= " AND `p`.`manufacturer_id` = '" . (int) $data['filter_manufacturer_id'] . "'";
-		}
+		// Sorting
 
 		$sort_data = [
 			'pd.name',
@@ -275,29 +249,45 @@ class Product extends \Opencart\System\Engine\Model
 		];
 
 		if (isset($data['sort']) && in_array($data['sort'], $sort_data)) {
+
 			if ($data['sort'] == 'pd.name' || $data['sort'] == 'p.model') {
+
 				$sql .= " ORDER BY LCASE(" . $data['sort'] . ")";
+
 			} elseif ($data['sort'] == 'p.price') {
+
 				$sql .= " ORDER BY (CASE WHEN `special` IS NOT NULL THEN `special` WHEN `discount` IS NOT NULL THEN `discount` ELSE `p`.`price` END)";
+
 			} else {
+
 				$sql .= " ORDER BY " . $data['sort'];
 			}
+
 		} else {
+
 			$sql .= " ORDER BY `p`.`sort_order`";
 		}
 
 		if (isset($data['order']) && ($data['order'] == 'DESC')) {
+
 			$sql .= " DESC, LCASE(`pd`.`name`) DESC";
+
 		} else {
+			
 			$sql .= " ASC, LCASE(`pd`.`name`) ASC";
 		}
 
+		//Pagenation
+
 		if (isset($data['start']) || isset($data['limit'])) {
+
 			if ($data['start'] < 0) {
+
 				$data['start'] = 0;
 			}
 
 			if ($data['limit'] < 1) {
+
 				$data['limit'] = 20;
 			}
 
@@ -307,6 +297,7 @@ class Product extends \Opencart\System\Engine\Model
 		$product_data = $this->cache->get('product.' . md5($sql));
 
 		if (!$product_data) {
+
 			$query = $this->db->query($sql);
 
 			$product_data = $query->rows;
@@ -316,6 +307,7 @@ class Product extends \Opencart\System\Engine\Model
 
 		return $product_data;
 	}
+
 
 	/**
 	 * @param int $product_id
@@ -330,78 +322,209 @@ class Product extends \Opencart\System\Engine\Model
 	}
 
 	/**
+	 * @param array $data
+	 *
+	 * @return string
+	 */
+	public function buildLegacyFilterSQL($data)
+	{
+
+		$sql = " INNER JOIN (
+			SELECT `product_id` 
+			FROM `" . DB_PREFIX . "product_filter`
+			WHERE `filter_id` IN (" . $this->db->escape($data['filter_filter']) . ")
+			GROUP BY `product_id`
+		) `pf` ON (`pf`.`product_id` = `p`.`product_id`) ";
+
+		return $sql;
+	}
+
+	/**
+	 * @param array $data
+	 *
+	 * @return string
+	 */
+	public function buildSearchFilterSQL($data)
+	{
+	
+		$sql = "";
+		$sql .= " AND (";
+
+		if (!empty($data['filter_search'])) {
+			$implode = [];
+
+			$words = explode(' ', trim(preg_replace('/\s+/', ' ', $data['filter_search'])));
+
+			foreach ($words as $word) {
+				$implode[] = "`pd`.`name` LIKE '" . $this->db->escape('%' . $word . '%') . "'";
+			}
+
+			if ($implode) {
+				$sql .= " (" . implode(" OR ", $implode) . ")";
+			}
+
+			if (!empty($data['filter_description'])) {
+				$sql .= " OR `pd`.`description` LIKE '" . $this->db->escape('%' . (string) $data['filter_search'] . '%') . "'";
+			}
+		}
+
+		if (!empty($data['filter_search']) && !empty($data['filter_tag'])) {
+			$sql .= " OR ";
+		}
+
+		if (!empty($data['filter_tag'])) {
+			$implode = [];
+
+			$words = explode(' ', trim(preg_replace('/\s+/', ' ', $data['filter_tag'])));
+
+			foreach ($words as $word) {
+				$implode[] = "`pd`.`tag` LIKE '" . $this->db->escape('%' . $word . '%') . "'";
+			}
+
+			if ($implode) {
+				$sql .= " (" . implode(" OR ", $implode) . ")";
+			}
+		}
+
+		if (!empty($data['filter_search'])) {
+			$sql .= " OR LCASE(`p`.`model`) = '" . $this->db->escape(oc_strtolower($data['filter_search'])) . "'";
+			$sql .= " OR LCASE(`p`.`sku`) = '" . $this->db->escape(oc_strtolower($data['filter_search'])) . "'";
+			$sql .= " OR LCASE(`p`.`upc`) = '" . $this->db->escape(oc_strtolower($data['filter_search'])) . "'";
+			$sql .= " OR LCASE(`p`.`ean`) = '" . $this->db->escape(oc_strtolower($data['filter_search'])) . "'";
+			$sql .= " OR LCASE(`p`.`jan`) = '" . $this->db->escape(oc_strtolower($data['filter_search'])) . "'";
+			$sql .= " OR LCASE(`p`.`isbn`) = '" . $this->db->escape(oc_strtolower($data['filter_search'])) . "'";
+			$sql .= " OR LCASE(`p`.`mpn`) = '" . $this->db->escape(oc_strtolower($data['filter_search'])) . "'";
+		}
+
+		$sql .= ")";
+		return $sql;
+	}
+ 
+	/**
+	 * @param array $data
+	 *
+	 * @return string
+	 */
+	public function buildOptionsFilterSQL($data)
+	{
+		$sql = "";
+		$query = $this->db->query("
+		SELECT group_id, option_n
+		FROM `" . DB_PREFIX . "options`
+		WHERE `option_id` IN (" . implode(',', array_map('intval', $data['filter_option'])) . ")
+	");
+		$groupOptionPairs = $query->rows;
+		$groupIds = array_column($groupOptionPairs, 'group_id');
+		$optionNs = array_column($groupOptionPairs, 'option_n');
+		if (!empty($groupIds) && !empty($optionNs)) {
+			$conditions = [];
+			foreach ($groupOptionPairs as $pair) {
+				$conditions[] = "(`group_id` = " . (int) $pair['group_id'] . " AND `option_n` = " . (int) $pair['option_n'] . ")";
+			}
+			$secondQuery = $this->db->query("
+			SELECT DISTINCT *
+			FROM `" . DB_PREFIX . "options`
+			WHERE " . implode(' OR ', $conditions)
+			);
+
+			$optionIds = array_column($secondQuery->rows, 'option_id');
+			$sql .= " INNER JOIN (
+			SELECT DISTINCT po.product_id 
+			FROM `" . DB_PREFIX . "product_options` po
+			WHERE po.`option_id` IN (" . implode(',', array_map('intval', $optionIds)) . ")
+		) AS subquery_alias ON (`subquery_alias`.`product_id` = `p`.`product_id`) ";
+		}
+		return $sql;
+	}
+
+
+
+	/**
+	 * @param array $data
+	 *
+	 * @return string
+	 */
+	public function buildAttributesFilterSQL($data)
+{
+    $sql = "";
+    $attributeSets = [];
+
+    // Extract attribute values and organize them in $attributeSets
+    foreach ($data['filter_attribute'] as $index => $values) {
+        $id = array_keys($values);
+        $pos = $id[0];
+        $id = array_keys($values[$pos]);
+
+        $escapedValue = $this->db->escape(strval($values[$pos][$id[0]]));
+
+        // Organize values based on position
+        if ($pos == 1) {
+            $attributeSets[$id[0]]['text'][] = "'{$escapedValue}'";
+        }
+        if ($pos == 2) {
+            $attributeSets[$id[0]]['value_text'][] = "'{$escapedValue}'";
+        }
+    }
+
+    // Build SQL query based on organized attribute values
+    foreach ($attributeSets as $id => $value) {
+        $sql .= " INNER JOIN (
+            SELECT 
+                `product_id`, 
+                GROUP_CONCAT(`text`, `value_text` SEPARATOR ',') AS `attribute_values`
+            FROM `" . DB_PREFIX . "product_attribute`
+            WHERE `attribute_id` = '" . $id . "' ";
+ 
+        if (!empty($value['text'])) {
+            $sql .= " AND   `text` IN (" . implode(',', $value['text']) . ")";
+        }
+ 
+        if (!empty($value['value_text'])) {
+            $sql .= " AND   `value_text` IN (" . implode(',', $value['value_text']) . ")";
+        }
+
+        $sql .= "  GROUP BY `product_id`
+        ) `pa{$id}` ON (`pa{$id}`.`product_id` = `p`.`product_id`) ";
+    }
+
+    return $sql;
+}
+
+
+
+	/**
 	 * @param int $product_id
 	 *
 	 * @return array
 	 */
 	public function getAttributes(int $product_id): array
 	{
-		$product_attribute_group_data = [];
 
 		$product_attribute_group_query = $this->db->query("
-			SELECT DISTINCT a.attribute_group_id, ad.name
-			FROM `" . DB_PREFIX . "product_attribute` pa
-			LEFT JOIN `" . DB_PREFIX . "attribute` a ON (pa.attribute_id = a.attribute_id)
-			LEFT JOIN `" . DB_PREFIX . "attribute_description` ad ON (a.attribute_id = ad.attribute_id)
-			WHERE pa.product_id = '" . (int) $product_id . "' AND ad.language_id = '" . (int) $this->config->get('config_language_id') . "'
-			ORDER BY a.sort_order, ad.name
-		");
-		$product_attribute_data = [];
-		foreach ($product_attribute_group_query->rows as $product_attribute_group) {
-
-
-			$product_attribute_query = $this->db->query("
-				SELECT a.attribute_id, ad.name, pa.text
-				FROM `" . DB_PREFIX . "product_attribute` pa
-				LEFT JOIN `" . DB_PREFIX . "attribute` a ON (pa.attribute_id = a.attribute_id)
-				LEFT JOIN `" . DB_PREFIX . "attribute_description` ad ON (a.attribute_id = ad.attribute_id)
-				WHERE pa.product_id = '" . (int) $product_id . "' AND a.attribute_group_id = '" . (int) $product_attribute_group['attribute_group_id'] . "'
-					AND ad.language_id = '" . (int) $this->config->get('config_language_id') . "' AND pa.language_id = '" . (int) $this->config->get('config_language_id') . "'
-				ORDER BY a.sort_order, ad.name
-			");
-
-			foreach ($product_attribute_query->rows as $product_attribute) {
-				$newlines = preg_split('/\r\n|\r|\n/', $product_attribute['text']);
-
-				if (count($newlines) > 1) {
-					$nextAdd = '';
-
-					foreach ($newlines as $index => $line) {
-						$twocolumns = explode(':', $line);
-
-						if (count($twocolumns) == 2) {
-							array_push($product_attribute_data, [
-								'name' => $twocolumns[0],
-								'text' => $twocolumns[1],
-							]);
-						} else {
-							if ($index % 2 == 0) {
-								array_push($product_attribute_data, [
-									'name' => $nextAdd,
-									'text' => $line,
-								]);
-								$nextAdd = '';
-							} else {
-								$nextAdd = $line;
-							}
-						}
-					}
-				} else {
-					array_push($product_attribute_data, [
-						'name' => $product_attribute['name'],
-						'text' => $product_attribute['text']
-					]);
-				}
+		SELECT
+			*
+		FROM `" . DB_PREFIX . "product_attribute` pa
+		  JOIN `" . DB_PREFIX . "attribute` a ON (pa.attribute_id = a.attribute_id)
+		  JOIN `" . DB_PREFIX . "attribute_description` ad ON (a.attribute_id = ad.attribute_id)
+		WHERE pa.product_id = '" . (int) $product_id . "' AND ad.language_id = '" . (int) $this->config->get('config_language_id') . "'
+		GROUP BY a.attribute_id, pa.text, pa.value_text
+		ORDER BY pa.sort_order, ad.name 
+	");
+	
+	$results = array();
+	foreach ($product_attribute_group_query->rows as $row) {
+ 
+		if (!empty($row['value_text']) && !empty($row['text'])) {
+			$results[$row['attribute_id']]['name'] =  $row['name'];	 
+		$results[$row['attribute_id']]['values'][] = ['name' => $row['text'], 'text_value' =>  $row['value_text'] ];
+		} else {
+			if (!empty($row['text'])) {
+				$results['general']['values'][] = ['name' => $row['name'], 'text_value' =>  $row['text']  ];
 			}
-
-			// Move the json_encode and die outside the loop
-
-
 		}
-		// Move the json_encode and die outside the loop
-
-
-		return isset($product_attribute_data) ? $product_attribute_data : [];
+	}
+	
+		return $results;
 
 	}
 
@@ -413,10 +536,10 @@ class Product extends \Opencart\System\Engine\Model
 	public function getOptions(int $product_id): array
 	{
 		$product_option_data = [];
- 
 
 
-		   //Retrieve options
+
+		//Retrieve options
 
 		$product_option_query = $this->db->query("
 		SELECT 
@@ -449,10 +572,12 @@ class Product extends \Opencart\System\Engine\Model
 
 		foreach ($product_option_query->rows as $product_option) {
 
-			if ($product_option['group_type'] == 'radio' || $product_option['group_type'] == 'checkbox' && isset($product_option['value'])
-			&& $product_option['value'] != "") {
+			if (
+				$product_option['group_type'] == 'radio' || $product_option['group_type'] == 'checkbox' && isset($product_option['value'])
+				&& $product_option['value'] != ""
+			) {
 				$product_option['image'] = $product_option['value'];
-			   
+
 			}
 
 

@@ -6,13 +6,17 @@ $_['heading_title']         = 'Image Manager';
 $_['text_uploaded']         = 'Success: Your file has been uploaded!';
 $_['text_directory']        = 'Success: Directory created!';
 $_['text_delete']           = 'Success: Your file or directory has been deleted!';
-$_['text_empty_folder']     = 'Currently, there are no uploaded media for the product directory. You can upload a video or a picture, or click the up icon to choose from another directory.';
+$_['text_empty_folder']     = 'Currently, there are no uploaded media for this directory.';
 
 
 // Entry
 $_['entry_search']          = 'Search..';
 $_['entry_folder']          = 'Folder Name';
- 
+$_['entry_set_ratio']      = 'Set Ratio';
+$_['btn_clear_ratio']      =  'Clear Ratio';
+$_['button_add']       = 'Add ';
+$_['button_crop']       = 'Crop Or Rotate';
+$_['text_only_one_crop']  = 'Please select only one image to crop.';
 
 // Error
 $_['error_permission']      = 'Warning: Permission Denied!';

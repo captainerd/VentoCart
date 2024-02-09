@@ -1,4 +1,6 @@
-<div id="carousel-banner-<?=  $module   ?>" class="carousel slide<?php if ($effect == 'fade'): ?> carousel-fade<?php endif; ?>" data-bs-ride="carousel">
+<div class="container mb-3">
+
+<div  id="carousel-banner-<?=  $module   ?>" class="carousel slide<?php if ($effect == 'fade'): ?> carousel-fade<?php endif; ?>" data-bs-ride="carousel">
   <?php if (!empty($indicators) && count(array_chunk($banners, $items)) > 1): ?>
     <div class="carousel-indicators">
       <?php $banner_row = 0; ?>
@@ -31,7 +33,7 @@
     <button type="button" class="carousel-control-prev" data-bs-target="#carousel-banner-<?= $module  ?>" data-bs-slide="prev"><span class="fa-solid fa-chevron-left"></span></button>
     <button type="button" class="carousel-control-next" data-bs-target="#carousel-banner-<?= $module  ?>" data-bs-slide="next"><span class="fa-solid fa-chevron-right"></span></button>
   <?php endif; ?>
-</div>
+</div></div>
 <script type="text/javascript"><!--
 $(document).ready(function () {
     new bootstrap.Carousel(document.querySelector('#carousel-banner-<?= $module  ?>'), {

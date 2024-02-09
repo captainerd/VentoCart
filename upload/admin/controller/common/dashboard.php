@@ -15,7 +15,13 @@ class Dashboard extends \Opencart\System\Engine\Controller {
 		$this->document->setTitle($this->language->get('heading_title'));
 
 		$data['breadcrumbs'] = [];
-
+		$data['new_version'] = false;
+		$currVersion = file_get_contents('https://raw.githubusercontent.com/captainerd/VentoCart/main/VERSION');
+		$currVersion = trim($currVersion);
+		if (VERSION != $currVersion) {
+			$data['installed_version'] = VERSION;
+	     $data['new_version'] = $currVersion;
+		}
 		$data['breadcrumbs'][] = [
 			'text' => $this->language->get('text_home'),
 			'href' => $this->url->link('common/dashboard', 'user_token=' . $this->session->data['user_token'])

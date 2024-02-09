@@ -121,6 +121,86 @@
 </div>
 
 
+
+
+
+
+
+
+
+
+<div class="row mb-3">
+  <label class="col-sm-2 col-form-label">{{ entry_option_filter }}</label>
+  <div class="col-sm-10">
+    <input type="text" name="option_filter" value="" placeholder="{{ entry_option_filter }}" id="input-option-filter" data-oc-target="autocomplete-option-filter" class="form-control" autocomplete="off"/>
+    <ul id="autocomplete-option-filter" class="dropdown-menu"></ul>
+    <div class="form-control p-0" style="height: 150px; overflow: auto;">
+      <table id="category-option-filter" class="table table-sm m-0">
+        <tbody>
+          {% for category_option_filter in category_option_filters %}
+            <tr id="category-filter-{{ category_filter.option_id }}">
+              <td>{{ category_option_filter.name }}<input type="hidden" name="category_option_filter[]" value="{{ category_option_filter.option_id }}"/></td>
+              <td class="text-end"><button type="button" class="btn btn-danger btn-sm"><i class="fa-solid fa-minus-circle"></i></button></td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    <div class="form-text">{{ help_filter }}</div>
+  </div>
+</div>
+
+
+
+
+
+<div class="row mb-3">
+  <label class="col-sm-2 col-form-label">{{ entry_attribute_filter }}</label>
+  <div class="col-sm-10">
+    <input type="text" name="attribute_filter" value="" placeholder="{{ entry_attribute_filter }}" id="input-attribute-filter" data-oc-target="autocomplete-attribute-filter" class="form-control" autocomplete="off"/>
+    <ul id="autocomplete-attribute-filter" class="dropdown-menu"></ul>
+    <div class="form-control p-0" style="height: 150px; overflow: auto;">
+      <table id="category-attribute-filter" class="table table-sm m-0">
+        <tbody>
+          {% for category_attribute_filter in category_attribute_filters %}
+            <tr id="category-filter-{{ category_attribute_filter.attribute_id }}">
+              <td>{{ category_attribute_filter.name }}<input type="hidden" name="category_attribute_filter[]" value="{{ category_attribute_filter.attribute_id }}"/></td>
+              <td class="text-end"><button type="button" class="btn btn-danger btn-sm"><i class="fa-solid fa-minus-circle"></i></button></td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    <div class="form-text">{{ help_attribute_filter }}</div>
+  </div>
+</div>
+
+
+<div class="row mb-3">
+  <label class="col-sm-2 col-form-label">{{ entry_manufacturer_filter }}</label>
+  <div class="col-sm-10">
+    <input type="text" name="manufacturer_filter" value="" placeholder="{{ entry_manufacturer_filter }}" id="input-manufacturer-filter" data-oc-target="autocomplete-manufacturer-filter" class="form-control" autocomplete="off"/>
+    <ul id="autocomplete-manufacturer-filter" class="dropdown-menu"></ul>
+    <div class="form-control p-0" style="height: 150px; overflow: auto;">
+      <table id="category-manufacturer-filter" class="table table-sm m-0">
+        <tbody>
+          {% for category_manufacturer_filter in category_manufacturer_filters %}
+            <tr id="category-filter-{{ category_manufacturer_filter.manufacturer_id }}">
+              <td>{{ category_manufacturer_filter.name }}<input type="hidden" name="category_manufacturer_filter[]" value="{{ category_manufacturer_filter.manufacturer_id }}"/></td>
+              <td class="text-end"><button type="button" class="btn btn-danger btn-sm"><i class="fa-solid fa-minus-circle"></i></button></td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    <div class="form-text">{{ help_attribute_filter }}</div>
+  </div>
+</div>
+
+
+
+
+
               <div class="row mb-3">
                 <label class="col-sm-2 col-form-label">{{ entry_filter }}</label>
                 <div class="col-sm-10">
@@ -246,9 +326,7 @@
   </div>
 </div>
 <script type="text/javascript"><!--
-$('textarea[data-oc-toggle=\'ckeditor\']').ckeditor({
-    language: '{{ ckeditor }}'
-});
+  initTinyMCE();
 
 $('input[name^="category_description["][name$="[name]"]').on('input', function() {
       // Get the number inside the brackets, i.e., [1], [2], etc.
@@ -328,8 +406,99 @@ $('#input-filter').autocomplete({
     }
 });
 
-$('#category-filter').on('click', '.btn', function () {
+
+$('#input-option-filter').autocomplete({
+    'source': function (request, response) {
+        $.ajax({
+            url: 'index.php?route=catalog/option.autocomplete&filter=1&user_token={{ user_token }}&filter_name=' + encodeURIComponent(request),
+            dataType: 'json',
+            success: function (json) {
+                response($.map(json, function (item) {
+                    return {
+                        label: item['name'],
+                        value: item['option_id']
+                    }
+                }));
+            }
+        });
+    },
+    'select': function (item) {
+      console.log(item)
+        $('#input-option-filter').val('');
+
+        $('#category-option-filter-' + item['value']).remove();
+
+        html = '<tr id="category-option-filter-' + item['value'] + '">';
+        html += '  <td>' + item['label'] + '<input type="hidden" name="category_option_filter[]" value="' + item['value'] + '"/></td>';
+        html += '  <td class="text-end"><button type="button" class="btn btn-danger btn-sm"><i class="fa-solid fa-minus-circle"></i></button></td>';
+        html += '</tr>';
+
+        $('#category-option-filter tbody').append(html);
+    }
+});
+
+$('#input-attribute-filter').autocomplete({
+    'source': function (request, response) {
+        $.ajax({
+            url: 'index.php?route=catalog/attribute.autocomplete&filter=1&user_token={{ user_token }}&filter_name=' + encodeURIComponent(request),
+            dataType: 'json',
+            success: function (json) {
+                response($.map(json, function (item) {
+                    return {
+                        label: item['name'],
+                        value: item['attribute_id']
+                    }
+                }));
+            }
+        });
+    },
+    'select': function (item) {
+        $('#input-attribute-filter').val('');
+
+        $('#category-attribute-filter-' + item['value']).remove();
+
+        html = '<tr id="category-attribute-filter-' + item['value'] + '">';
+        html += '  <td>' + item['label'] + '<input type="hidden" name="category_attribute_filter[]" value="' + item['value'] + '"/></td>';
+        html += '  <td class="text-end"><button type="button" class="btn btn-danger btn-sm"><i class="fa-solid fa-minus-circle"></i></button></td>';
+        html += '</tr>';
+
+        $('#category-attribute-filter tbody').append(html);
+    }
+});
+$('#input-manufacturer-filter').autocomplete({
+    'source': function (request, response) {
+        $.ajax({
+            url: 'index.php?route=catalog/manufacturer.autocomplete&filter=1&user_token={{ user_token }}&filter_name=' + encodeURIComponent(request),
+            dataType: 'json',
+            success: function (json) {
+                response($.map(json, function (item) {
+                    return {
+                        label: item['name'],
+                        value: item['manufacturer_id']
+                    }
+                }));
+            }
+        });
+    },
+    'select': function (item) {
+        $('#input-manufacturer-filter').val('');
+
+        $('#category-manufacturer-filter-' + item['value']).remove();
+
+        html = '<tr id="category-manufacturer-filter-' + item['value'] + '">';
+        html += '  <td>' + item['label'] + '<input type="hidden" name="category_manufacturer_filter[]" value="' + item['value'] + '"/></td>';
+        html += '  <td class="text-end"><button type="button" class="btn btn-danger btn-sm"><i class="fa-solid fa-minus-circle"></i></button></td>';
+        html += '</tr>';
+
+        $('#category-manufacturer-filter tbody').append(html);
+    }
+});
+
+
+
+$('#category-filter,  #category-manufacturer-filter, #category-option-filter, #category-attribute-filter').on('click', '.btn', function () {
     $(this).parent().parent().remove();
 });
+
 //--></script>
 {{ footer }}

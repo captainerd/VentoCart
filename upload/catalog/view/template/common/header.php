@@ -1,16 +1,16 @@
 <!DOCTYPE html>
-<html dir="<?= $this->e($direction ) ?>" lang="<?= $this->e($lang ) ?>">
+<html dir="<?=  $direction   ?>" lang="<?=  $lang   ?>">
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title><?= $this->e($title ) ?></title>
+  <title><?=  $title  ?></title>
   <base href="<?= $base  ?>"/>
   <?php if ($description): ?>
-    <meta name="description" content="<?= $this->e($description ) ?>"/>
+    <meta name="description" content="<?=  $description ?>"/>
   <?php endif; ?>
   <?php if (isset($keyw) || isset($ds)): ?>
-    <meta name="keywords" content="<?= $this->e($keywords ) ?>"/>
+    <meta name="keywords" content="<?= $keywords  ?>"/>
   <?php endif; ?>
   <script src="<?= $jquery  ?>" type="text/javascript"></script>
   <link href="<?= $bootstrap  ?>" type="text/css" rel="stylesheet" media="screen"/>
@@ -22,16 +22,16 @@
   <link href="catalog/view/javascript/jquery/datetimepicker/daterangepicker.css" rel="stylesheet" type="text/css"/>
   <script src="catalog/view/javascript/common.js" type="text/javascript"></script>
   <?php foreach ($styles as $style): ?>
-    <link href="<?= $style['href']  ?>" type="text/css" rel="<?= $this->e($style['rel']) ?>" media="<?= $this->e($style['media']) ?>"/>
+    <link href="<?= $style['href']  ?>" type="text/css" rel="<?= $style['rel']  ?>" media="<?=  $style['media'] ?>"/>
   <?php endforeach; ?>
   <?php foreach ($scripts as $script): ?>
     <script src="<?=  $script['href']  ?>" type="text/javascript"></script>
   <?php endforeach; ?>
   <?php foreach ($links as $link): ?>
-    <link href="<?=  $link['href'] ?>" rel="<?= $this->e($link['rel']) ?>"/>
+    <link href="<?=  $link['href'] ?>" rel="<?=  $link['rel']  ?>"/>
   <?php endforeach; ?>
   <?php foreach ($analytics as $analytic): ?>
-    <?= $this->e($analytic ) ?>
+    <?=  $analytic  ?>
   <?php endforeach; ?>
 </head>
 <body>

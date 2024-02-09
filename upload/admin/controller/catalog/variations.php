@@ -199,7 +199,7 @@ class Variations extends \Opencart\System\Engine\Controller
 		$data['option_data'] = $option_data;
 
 
-		$this->response->setOutput($this->load->view('catalog/variations', $data));
+		$this->response->setOutput($this->load->view('catalog/product_tabs/variations_tab', $data));
 
 	}
 

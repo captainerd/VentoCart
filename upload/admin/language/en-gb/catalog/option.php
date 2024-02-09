@@ -33,6 +33,8 @@ $_['entry_option_value'] = 'Option Value Name';
 $_['entry_image']        = 'Image';
 $_['entry_sort_order']   = 'Sort Order';
 
+$_['options_form_information'] = "Images and sort order here are only relevant to the category filter. Please don't upload product-related images here, but rather use generic images (e.g., a red picture for the color red, etc.).";
+
 // Error
 $_['error_warning']      = 'Warning: Please check the form carefully for errors!';
 $_['error_permission']   = 'Warning: You do not have permission to modify options!';

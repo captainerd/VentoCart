@@ -3,8 +3,10 @@
     <a href="{{ parent }}" id="button-parent" data-bs-toggle="tooltip" title="{{ button_parent }}" class="btn btn-light"><i class="fa-solid fa-level-up-alt"></i></a>
     <a href="{{ refresh }}" id="button-refresh" data-bs-toggle="tooltip" title="{{ button_refresh }}" class="btn btn-light"><i class="fa-solid fa-rotate"></i></a>
     <button type="button" data-bs-toggle="tooltip" title="{{ button_upload }}" id="button-upload" class="btn btn-primary"><i class="fa-solid fa-upload"></i></button>
+    <button type="button" data-bs-toggle="tooltip" style="background-color: #00a45f;" title="{{ button_crop }}" id="button-crop" class="btn btn-primary"><i class="fa-solid fa-crop"></i></button>
     <button type="button" data-bs-toggle="tooltip" title="{{ button_folder }}" id="button-folder" class="btn btn-light"><i class="fa-solid fa-folder"></i></button>
     <button type="button" data-bs-toggle="tooltip" title="{{ button_delete }}" id="button-delete" class="btn btn-danger"><i class="fa-regular fa-trash-can"></i></button>
+ 
     <input type="hidden" name="directory" value="{{ directory }}" id="input-directory"/>
   </div>
   <div class="col-sm-7">
@@ -27,23 +29,43 @@
 <hr/>
 
  
-  
+ <style>
+  .desktop-icon {
+  display: inline-block;
+  margin-right: 20px;
+}
+
+.thumbnail {
+  display: block;
+}
+.icon-img:hover {
+    border: 1px solid #ff0000; /* Red border with 1px width */
+}
+
+.icon-img {
+  width: 100px;
+  height: 100px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  margin-bottom: 5px;
+}
  
 
+ </style>
 
 {% if images is empty %}
 <div class="mb-3">{{text_empty_folder}}</div>
 {% endif %}
 
-<div class="row row-cols-sm-3 row-cols-lg-4">
+<div style="max-height: 339px;overflow: auto;background-color: #f2f2f2;" class="row row-cols-sm-6 row-cols-lg-6">
   
   {% set path_row = 0 %}
 
   
   {% for directory in directories %}
     <div class="mb-3">
-      <div class="mb-1" style="min-height: 140px;">
-        <a href="{{ directory.href }}" class="directory mb-1"><i class="fa-solid fa-folder fa-5x"></i></a>
+      <div class="mb-1"  >
+        <a href="{{ directory.href }}" class="directory mb-1"><i class="fa-solid fa-folder icon-img fa-4x"></i></a>
       </div>
       
       <div class="form-check">
@@ -58,28 +80,31 @@
  
 
   {% for image in images %}
-  <div class="mb-3">
-    <div class="mb-1" style="min-height: 140px;">
-      <a href="{{ image.href }}" class="thumbnail mb-1">
-        {% if image.path|split('.')|last in ['mkv', 'avi', 'mp4'] %}
-          <video class="img-thumbnail thumbnail" width="320" height="240">
-            <source  class="thumbnail" src="{{ image.thumb }}" type="video/{{ image.path|split('.')|last }}">
-            Your browser does not support the video tag.
-          </video>
-        {% else %}
-          <img src="{{ image.thumb }}" alt="{{ image.name }}" title="{{ image.name }}" class="img-thumbnail"/>
-        {% endif %}
-      </a>
-    </div>
+  <div class="desktop-icon mb-1">
+    <a href="{{ image.href }}"   class="thumbnail mb-1">
+      {% if image.path|split('.')|last in ['mkv', 'avi', 'mp4'] %}
+      <video class="icon-img"  >
+        <source src="{{ image.thumb }}" type="video/{{ image.path|split('.')|last }}">
+        Your browser does not support the video tag.
+      </video>
+      {% else %}
+      <img src="{{ image.thumb }}" id="input-path-{{ path_row }}" alt="{{ image.name }}" title="{{ image.name }}" class="icon-img"/>
+      {% endif %}
+  
     <div class="form-check">
-      <label for="input-path-{{ path_row }}" class="form-check-label">{{ image.name }}</label>
-      <input type="checkbox" name="path[]" value="{{ image.path }}" id="input-path-{{ path_row }}" class="form-check-input"/>
+      <label style="max-width: 75px;" for="input-path-{{ path_row }}" class="form-check-label text-truncate">{{ image.name }}</label>
+      <input type="checkbox" data-imgSrc="{{ image.thumb }}" name="path[]" value="{{ image.path }}" id="input-path-{{ path_row }}" class="form-check-input"/>
     </div>
+  </a>
   </div>
   {% set path_row = path_row + 1 %}
-{% endfor %}
+  {% endfor %}
+  
  
 </div>
+<button id="addMutli" class="btn m-2 btn-primary d-none"><i class="fas fa-plus-circle"></i>
+   {{button_add}}</button> 
 {% if pagination %}
-  <div class="modal-footer">{{ pagination }}</div>
+  <div class="modal-footer">
+    {{ pagination }}</div>
 {% endif %}

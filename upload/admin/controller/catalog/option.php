@@ -190,7 +190,8 @@ class Option extends \Opencart\System\Engine\Controller {
 			$this->load->model('catalog/option');
 
 			$option_info = $this->model_catalog_option->getGroup($this->request->get['option_id']);
-			$data['option_id'] = (int)$this->request->get['option_id'];
+		 
+			$data['option_id'] = (int)$option_info[0]['group_id'];
 			
 		} else {
 			$data['option_id'] = 0;
@@ -243,31 +244,11 @@ class Option extends \Opencart\System\Engine\Controller {
 		if (($this->request->post['type'] == 'image' ||  $this->request->post['type'] == 'select' || $this->request->post['type'] == 'radio' || $this->request->post['type'] == 'checkbox') && !isset($this->request->post['option_value'])) {
 			$json['error']['warning'] =    $this->language->get('error_type');
 		}
-
-		if (isset($this->request->post['option_value'])) {
-			if (isset($this->request->post['option_id'])) {
-				$this->load->model('catalog/product');
-
-				$option_value_data = [];
-
-				foreach ($this->request->post['option_value'] as $option_value) {
-					if ($option_value['option_value_id']) {
-						$option_value_data[] = $option_value['option_value_id'];
-					}
-				}
-				/*   
-				$product_option_values = $this->model_catalog_product->getOptionValuesByOptionId($this->request->post['option_id']);
-
-				foreach ($product_option_values as $product_option_value) {
-					if (!in_array($product_option_value['option_value_id'], $option_value_data)) {
-						$json['error']['warning'] = sprintf($this->language->get('error_value'), $this->model_catalog_product->getTotalProductsByOptionValueId($product_option_value['option_value_id']));
-					}
-				}*/
-			}
-		}
+ 
 
 		if (isset($this->request->post['option_value'])) {
 			foreach ($this->request->post['option_value'] as $option_value_id => $option_value) {
+				if (!isset($option_value['option_value_description'])) { continue; }
 				foreach ($option_value['option_value_description'] as $language_id => $option_value_description) {
 					if ((oc_strlen(trim($option_value_description['name'])) < 1) || (oc_strlen($option_value_description['name']) > 128)) {
 						$json['error']['option_value_' . $option_value_id . '_' . $language_id] = $this->language->get('error_option_value');
@@ -337,7 +318,7 @@ class Option extends \Opencart\System\Engine\Controller {
 
 	public function autocomplete(): void {
 		$json = [];
-
+ 
 		if (isset($this->request->get['filter_name'])) {
 			$this->load->language('catalog/option');
 
@@ -365,13 +346,14 @@ class Option extends \Opencart\System\Engine\Controller {
 						} else {
 							$image = $this->model_tool_image->resize('no_image.png', 50, 50);
 						}
-
+						 
 						$option_value_data[] = [
 							'option_value_id' => $option_value['option_id'],
 							'name'            => strip_tags(html_entity_decode($option_value['name'], ENT_QUOTES, 'UTF-8')),
 							'image'           => $image
 						];
-					}
+					 
+				}
 
 					$sort_order = [];
 

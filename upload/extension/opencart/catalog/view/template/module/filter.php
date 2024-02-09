@@ -1,4 +1,4 @@
-<div class="card">
+<div class="card mb-3">
   <div class="card-header"><i class="fa-solid fa-filter"></i> <?= $heading_title ?></div>
   <div class="list-group list-group-flush">
     <?php foreach ($filter_groups as $filter_group): ?>

@@ -13,12 +13,21 @@
           <li class="breadcrumb-item"><a href="{{ breadcrumb.href }}">{{ breadcrumb.text }}</a></li>
         {% endfor %}
       </ol>
-      <button id="security_modal" style="font-size:  32px; color: #0063f7" class="fa-regular nav-link   fa-solid fa-cog"></button>
-    </div>
+ 
+      </div>
   </div>
   <div class="container-fluid">
+    {% if new_version %}
+    <div class="container mt-4">
+      <div class="alert alert-warning alert-dismissible fade show" role="alert">
+          <strong>Attention!</strong> A new version is available:  <strong>{{new_version}}</strong> You are using {{installed_version}} Please visit VentoCart project to update.
+       
+      </div>
+  </div>
+        {% endif %}
     {% for row in rows %}
       <div class="row">
+        
         {% for dashboard_1 in row %}
           {% set class = 'col-lg-%s %s'|format(dashboard_1.width, 'col-md-3 col-sm-6') %}
           {% for dashboard_2 in row %}
@@ -31,6 +40,7 @@
       </div>
     {% endfor %}
   </div>
+  
   {{ security }}
 </div>
 <script type="text/javascript"><!--

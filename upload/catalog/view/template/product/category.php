@@ -16,7 +16,7 @@
           <?php endif; ?>
           <?php if ($description): ?>
             <div class="col-9">
-              <?= $this->e($description) ?>
+              <?=  $description  ?>
             </div>
           <?php endif; ?>
         </div>
@@ -24,7 +24,7 @@
       <?php endif; ?>
       <?php if (isset($categories)): ?>
         <h3>
-          <?= $this->e($text_refine) ?>
+          <?=  $text_refine ?>
         </h3>
         <?php if (count($categories) <= 5): ?>
           <div class="row">
@@ -32,7 +32,7 @@
               <ul>
                 <?php foreach ($categories as $category): ?>
                   <li><a href="<?=  $category['href']  ?>">
-                      <?= $this->e($category['name']) ?>
+                      <?=  $category['name']  ?>
                     </a></li>
                 <?php endforeach; ?>
               </ul>
@@ -61,7 +61,7 @@
             <div class="mb-3">
               <a href="<?= $compare ?>" id="compare-total" class="btn btn-primary d-block"><i
                   class="fa-solid fa-arrow-right-arrow-left"></i> <span class="d-none d-xl-inline">
-                  <?= $this->e($text_compare) ?>
+                  <?=  $text_compare  ?>
                 </span></a>
             </div>
           </div>
@@ -76,7 +76,7 @@
           <div class="col-lg-4 offset-lg-1 col-6">
             <div class="input-group mb-3">
               <label for="input-sort" class="input-group-text">
-                <?= $this->e($text_sort) ?>
+                <?=  $text_sort  ?>
               </label> <select id="input-sort" class="form-select" onchange="location = this.value;">
                 <?php foreach ($sorts as $sorts): ?>
                   <option value="<?= $sorts['href']  ?>" <?= ($sorts['value'] == sprintf('%s-%s', $sort, $order)) ? ' selected' : '' ?>>

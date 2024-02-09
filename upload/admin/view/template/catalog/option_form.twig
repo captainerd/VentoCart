@@ -1,5 +1,19 @@
 {{ header }}{{ column_left }}
+
+ 
+ 
 <div id="content">
+ 
+ 
+  <style>
+	.my-handle {
+		cursor: grab;
+		font-size: 21px;
+		cursor: -webkit-grabbing;
+		color: #595959;
+	}
+</style>
+  <script type="text/javascript" src="view/javascript/Sortable.min.js"></script>
   <div class="page-header">
     <div class="container-fluid">
       <div class="float-end">
@@ -50,6 +64,7 @@
                 {% endfor %}
               </div>
             </div>
+            
             <div class="row mb-3">
               <label for="input-type" class="col-sm-2 col-form-label">{{ entry_type }}</label>
               <div class="col-sm-10">
@@ -75,8 +90,12 @@
                 </select>
               </div>
             </div>
-            <div class="row mb-3">
-         
+        
+              <div class="container mt-5">
+                <div class="alert alert-warning" role="alert">
+             {{options_form_information}}
+                </div>
+           
         
             </div>
           </fieldset>
@@ -86,12 +105,12 @@
               <thead>
                 <tr>
                   <td class="text-start required">{{ entry_option_value }}</td>
-        
-                  <td class="text-end">{{ entry_sort_order }}</td>
+                  <td  style="width: 100px;" class="text-center">{{ entry_image }}</td>
+                  <td style="width: 100px;" class="text-end">{{ entry_sort_order }}</td>
                   <td></td>
                 </tr>
               </thead>
-              <tbody>
+              <tbody class="listWithHandle">
                 
                 {% set option_value_row = 0 %}
 
@@ -117,9 +136,25 @@
                       </td>
               
  
-                      <td class="text-end"><button type="button" onclick="$('#option-value-row-{{ option_value_row }}').remove();" data-bs-toggle="tooltip" title="{{ button_remove }}" class="btn btn-danger"><i class="fa-solid fa-minus-circle"></i></button></td>
-                    </tr>
                 
+                            <td class="text-center">
+                      <div class="card image">
+                        <img src="/image/{{ option.image }}" alt="" title="" id="thumb-image-{{ option_value_row }}" data-oc-placeholder="{{ placeholder }}" class="card-img-top"/> <input type="hidden" name="option_value[{{ option_value_row }}][image]" value="{{ option.image }}" id="input-image-{{ option_value_row }}"/>
+                        <div class="card-body">
+                          <button type="button" data-oc-toggle="image" data-oc-target="#input-image-{{ option_value_row }}" data-oc-thumb="#thumb-image-{{ option_value_row }}" class="btn btn-primary btn-sm btn-block"><i class="fa-solid fa-pencil"></i> {{ button_edit }}</button>
+                          <button type="button" data-oc-toggle="clear" data-oc-target="#input-image-{{ option_value_row }}" data-oc-thumb="#thumb-image-{{ option_value_row }}" class="btn btn-warning btn-sm btn-block"><i class="fa-regular fa-trash-can"></i> {{ button_clear }}</button>
+                        </div>
+                      </div>
+                    </td>
+                    <td class="text-end">
+                      
+                      <span class="my-handle" aria-hidden="true">
+                        <i class="fa-solid mx-2 fa-grip-vertical"></i>
+                      </span>
+                      <input type="hidden" name="option_value[{{ option_value_row }}][sort_order]" value="{{ option.option_n }}" placeholder="{{ entry_sort_order }}" class="form-control"/></td>
+                    <td class="text-end"><button type="button"  data-row="{{option_value_row}}" data-bs-toggle="tooltip" title="{{ button_remove }}" class="btn btn-danger"><i class="fa-solid fa-minus-circle"></i></button></td>
+              
+                  </tr>
                     {% set option_value_row = option_value_row + 1 %}
                   {% endif %}
                 {% endfor %}
@@ -127,7 +162,7 @@
               </tbody>
               <tfoot>
                 <tr>
-                  <td colspan="1"></td>
+                  <td colspan="3"></td>
                   <td class="text-end"><button type="button" onclick="addOptionValue();" data-bs-toggle="tooltip" title="{{ button_option_value_add }}" class="btn btn-primary"><i class="fa-solid fa-plus-circle"></i></button></td>
                 </tr>
               </tfoot>
@@ -140,6 +175,13 @@
   </div>
 </div>
 <script type="text/javascript"><!--
+
+
+  $('.btn-danger').on('click', function() {
+    $("#option-value").append('<input type="hidden" value="1" name="option_value[' + $(this).data('row') + '][delete]" />');
+    $('#option-value-row-' +  $(this).data('row') ).remove();
+   
+  });
 $('#input-type').on('change', function() {
     if (this.value == 'select' || this.value == 'radio' || this.value == 'checkbox' || this.value == 'image') {
         $('#option-value').parent().show();
@@ -152,6 +194,7 @@ $('#input-type').trigger('change');
 
 var option_value_row = {{ option_value_row }};
 
+
 function addOptionValue() {
     html = '<tr id="option-value-row-' + option_value_row + '">';
     html += '  <td class="text-start"><input type="hidden" name="option_value[' + option_value_row + '][option_value_id]" value="" />';
@@ -163,14 +206,82 @@ function addOptionValue() {
     html += '    <div id="error-option-value-' + option_value_row + '-{{ language.language_id }}" class="invalid-feedback"></div>';
   {% endfor %}
     html += '  </td>';
- 
- 
+    html += '  <td class="text-center">';
+    html += '    <div class="card image">';
+    html += '      <img src=" " alt="" title="" id="thumb-image-' + option_value_row + '" data-oc-placeholder="{{ placeholder|escape('js') }}" class="card-img-top"/>';
+    html += '      <input type="hidden" name="option_value[' + option_value_row + '][image]" value="" id="input-image-' + option_value_row + '"/>';
+    html += '      <div class="card-body">';
+    html += '        <button type="button" data-oc-toggle="image" data-oc-target="#input-image-' + option_value_row + '" data-oc-thumb="#thumb-image-' + option_value_row + '" class="btn btn-primary btn-sm btn-block"><i class="fa-solid fa-pencil"></i> {{ button_edit|escape('js') }}</button>';
+    html += '        <button type="button" data-oc-toggle="clear" data-oc-target="#input-image-' + option_value_row + '" data-oc-thumb="#thumb-image-' + option_value_row + '" class="btn btn-warning btn-sm btn-block"><i class="fa-regular fa-trash-can"></i> {{ button_clear|escape('js') }}</button>';
+    html += '      </div>';
+    html += '    </div>';
+    html += '  </td>';
+    html += '  <td class="text-end">   <span class="my-handle" aria-hidden="true"> <i class="fa-solid mx-2 fa-grip-vertical"></i> </span><input type="hidden" name="option_value[' + option_value_row + '][sort_order]" value="" placeholder="{{ entry_sort_order|escape('js') }}" class="form-control"/></td>';
     html += '  <td class="text-end"><button type="button" onclick="$(\'#option-value-row-' + option_value_row + '\').remove();" data-bs-toggle="tooltip" title="{{ button_remove|escape('js') }}" class="btn btn-danger"><i class="fa-solid fa-minus-circle"></i></button></td>';
     html += '</tr>';
 
     $('#option-value tbody').append(html);
 
     option_value_row++;
+    handleSortEnd();
 }
+
+
+
+
+function initializeSortables() {
+		$('.listWithHandle').each(function () {
+			// Check if Sortable instance already exists
+			if (!$(this).data('sortable')) {
+				// Create Sortable instance
+				Sortable.create(this, {
+					handle: '.my-handle',
+					animation: 150,
+					onEnd: function (event) {
+						// Update the values after sorting is complete
+						handleSortEnd();
+					}
+				});
+			}
+		});
+	}
+  initializeSortables();
+
+	function handleSortEnd() {
+  
+  
+    $('#option-value').find('tr').each(function (index) {
+      $(this).find('input[name^="option_value"][name$="[sort_order]"]').val(index - 1);
+		 
+   
+		});
+ 
+	}
+
+
+
+ // Get all the rows inside the table body
+ var rows = $('tbody > tr');
+
+// Sort the rows based on the input value in the last column
+rows.sort(function (a, b) {
+    var aValue = parseInt($(a).find('input[name^="option_value["][name$="][sort_order]"]').val());
+    var bValue = parseInt($(b).find('input[name^="option_value["][name$="][sort_order]"]').val());
+    
+    // Compare the values for sorting
+    return aValue - bValue;
+});
+
+// Append the sorted rows back to the table body
+$('tbody').append(rows);
+$('.btn-warning').on('click', function () {
+        // Extract the value of the "data-oc-thumb" attribute
+        var thumbSrc = $(this).data('oc-thumb');
+ 
+        $(thumbSrc).attr('src', '');
+        handleSortEnd();
+ 
+    });
+    
 //--></script>
 {{ footer }} 

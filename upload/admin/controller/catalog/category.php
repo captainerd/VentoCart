@@ -170,8 +170,7 @@ class Category extends \Opencart\System\Engine\Controller {
 
 		$this->document->setTitle($this->language->get('heading_title'));
 
-		$this->document->addScript('view/javascript/ckeditor/ckeditor.js');
-		$this->document->addScript('view/javascript/ckeditor/adapters/jquery.js');
+		$this->document->addScript('view/javascript/tinymce/tinymce.min.js');
 
 		$data['text_form'] = !isset($this->request->get['category_id']) ? $this->language->get('text_add') : $this->language->get('text_edit');
 
@@ -217,16 +216,20 @@ class Category extends \Opencart\System\Engine\Controller {
 			$data['category_id'] = (int)$this->request->get['category_id'];
 			$data['category_description'] = $this->model_catalog_category->getDescriptions($this->request->get['category_id']);
 			$filters = $this->model_catalog_category->getFilters($this->request->get['category_id']);
+		 
 		} else {
 			$data['category_id'] = 0;
 			$data['category_description'] = [];
 			$filters = [];
+	 
 		}
 
 		$this->load->model('tool/image');
 		$this->load->model('setting/store');
 		$this->load->model('catalog/filter');
-
+		$this->load->model('catalog/option');
+		$this->load->model('catalog/attribute');
+		$this->load->model('catalog/manufacturer');
 
 		if (!empty($category_info)) {
 			$data['path'] = $category_info['path'];
@@ -250,19 +253,58 @@ class Category extends \Opencart\System\Engine\Controller {
 
 
 		$data['category_filters'] = [];
-
+		$data['category_option_filters'] = [];
+		$data['category_attribute_filters'] = [];
+		$data['category_manufacturer_filters'] = [];
 		foreach ($filters as $filter_id) {
-			$filter_info = $this->model_catalog_filter->getFilter($filter_id);
+	 
 
-			if ($filter_info) {
+			if ( $filter_id['type'] == "filter") {
+				$filter_info = $this->model_catalog_filter->getFilter($filter_id['id']);
+				if ($filter_info ) {
 				$data['category_filters'][] = [
 					'filter_id' => $filter_info['filter_id'],
 					'name'      => $filter_info['group'] . ' &gt; ' . $filter_info['name']
 				];
 			}
-		}
+			}
+			if ($filter_id['type'] == "option") {
+			 
+				$filter_option_info = $this->model_catalog_option->getOption($filter_id['id']);
+				if ($filter_option_info ) {
+				$data['category_option_filters'][] = [
+					'option_id' => $filter_option_info['option_id'],
+					'name'      => $filter_option_info['name']
+				];
+			}
+			}
+			if ($filter_id['type'] == "attribute") {
+			 
+				$filter_option_info = $this->model_catalog_attribute->getAttribute($filter_id['id']);
+			 
+				if ($filter_option_info ) {
+				$data['category_attribute_filters'][] = [
+					'attribute_id' => $filter_option_info['attribute_id'],
+					'name'      => $filter_option_info['name']
+				];
+			}
+			}
 
-	 
+			if ($filter_id['type'] == "manufacturer") {
+			 
+				$filter_option_info = $this->model_catalog_manufacturer->getManufacturer($filter_id['id']);
+			 
+				if ($filter_option_info ) {
+				$data['category_manufacturer_filters'][] = [
+					'manufacturer_id' => $filter_option_info['manufacturer_id'],
+					'name'      => $filter_option_info['name']
+				];
+			}
+			}
+
+		}
+ 
+		
 
 		$data['stores'] = [];
 		
@@ -392,6 +434,7 @@ class Category extends \Opencart\System\Engine\Controller {
 		}
 
 		if (!$json) {
+		 
 			if (!$this->request->post['category_id']) {
 				$json['category_id'] = $this->model_catalog_category->addCategory($this->request->post);
 			} else {

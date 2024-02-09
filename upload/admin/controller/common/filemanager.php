@@ -1,20 +1,23 @@
 <?php
 namespace Opencart\Admin\Controller\Common;
+
 /**
  * Class File Manager
  *
  * @package Opencart\Admin\Controller\Common
  */
-class FileManager extends \Opencart\System\Engine\Controller {
+class FileManager extends \Opencart\System\Engine\Controller
+{
 	/**
 	 * @return void
 	 */
-	public function index(): void {
+	public function index(): void
+	{
 		$this->load->language('common/filemanager');
 
 		$data['error_upload_size'] = sprintf($this->language->get('error_upload_size'), $this->config->get('config_file_max_size'));
 
-		$data['config_file_max_size'] = ((int)$this->config->get('config_file_max_size') * 1024 * 1024);
+		$data['config_file_max_size'] = ((int) $this->config->get('config_file_max_size') * 1024 * 1024);
 
 		// Return the target ID for the file manager to set the value
 		if (isset($this->request->get['target'])) {
@@ -44,7 +47,8 @@ class FileManager extends \Opencart\System\Engine\Controller {
 	/**
 	 * @return void
 	 */
-	public function list(): void {
+	public function list(): void
+	{
 		$this->load->language('common/filemanager');
 
 		$base = DIR_IMAGE . 'catalog/';
@@ -63,7 +67,7 @@ class FileManager extends \Opencart\System\Engine\Controller {
 		}
 
 		if (isset($this->request->get['page'])) {
-			$page = (int)$this->request->get['page'];
+			$page = (int) $this->request->get['page'];
 		} else {
 			$page = 1;
 		}
@@ -90,19 +94,19 @@ class FileManager extends \Opencart\System\Engine\Controller {
 		$this->load->model('tool/image');
 
 		// Get directories and files
-        $paths = array_merge(
-            glob($directory . $filter_name . '*', GLOB_ONLYDIR),
-            glob($directory . $filter_name . '*{' . implode(',', $allowed) . '}', GLOB_BRACE)
-        );
+		$paths = array_merge(
+			glob($directory . $filter_name . '*', GLOB_ONLYDIR),
+			glob($directory . $filter_name . '*{' . implode(',', $allowed) . '}', GLOB_BRACE)
+		);
 
 		$total = count($paths);
-		$limit = 16;
+		$limit = 25;
 		$start = ($page - 1) * $limit;
 
 		if ($paths) {
 			// Split the array based on current page number and max number of items per page of 10
-            foreach (array_slice($paths, $start, $limit) as $path) {
-                $path = str_replace('\\', '/', realpath($path));
+			foreach (array_slice($paths, $start, $limit) as $path) {
+				$path = str_replace('\\', '/', realpath($path));
 
 				if (substr($path, 0, strlen($path)) == $path) {
 					$name = basename($path);
@@ -131,15 +135,17 @@ class FileManager extends \Opencart\System\Engine\Controller {
 
 					if (is_file($path) && in_array(substr($path, strrpos($path, '.')), $allowed)) {
 						$data['images'][] = [
-							'name'  => $name,
-							'path'  => oc_substr($path, oc_strlen($base)),
-							'href'  => HTTP_CATALOG . 'image/catalog/' . oc_substr($path, oc_strlen($base)),
+							'name' => $name,
+							'path' => oc_substr($path, oc_strlen($base)),
+							'href' => HTTP_CATALOG . 'image/catalog/' . oc_substr($path, oc_strlen($base)),
 							'thumb' => $this->model_tool_image->resize(oc_substr($path, oc_strlen(DIR_IMAGE)), $this->config->get('config_image_default_width'), $this->config->get('config_image_default_height'))
 						];
 					}
 				}
 			}
 		}
+		$data['width'] = $this->config->get('config_image_default_width');
+		$data['height'] = $this->config->get('config_image_default_height');
 
 		if (isset($this->request->get['directory'])) {
 			$data['directory'] = urldecode($this->request->get['directory']);
@@ -232,22 +238,64 @@ class FileManager extends \Opencart\System\Engine\Controller {
 		// Get total number of files and directories
 		$data['pagination'] = $this->load->controller('common/pagination', [
 			'total' => $total,
-			'page'  => $page,
+			'page' => $page,
 			'limit' => $limit,
-			'url'   => $this->url->link('common/filemanager.list', 'user_token=' . $this->session->data['user_token'] . $url . '&page={page}')
+			'url' => $this->url->link('common/filemanager.list', 'user_token=' . $this->session->data['user_token'] . $url . '&page={page}')
 		]);
 
 		$this->response->setOutput($this->load->view('common/filemanager_list', $data));
 	}
 
+	 /**
+	 * @return void
+	 */
+
+	public function uploadFromURL(): void
+	{	
+		if (isset($this->request->post['imgUrl'], $this->request->post['directory'])) {
+			// Sanitize user input
+			$imageUrl = filter_var($this->request->post['imgUrl'], FILTER_SANITIZE_URL);
+			$directory = filter_var($this->request->post['directory'], FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+		
+			$json = [];
+			// Validate directory format
+			if (preg_match('/^[a-zA-Z0-9_\/]+$/', $directory)) {
+				// Fetch image content
+				$imageContent = file_get_contents($imageUrl);
+				// If image content is successfully fetched
+				if ($imageContent !== false) {
+					// Extract file extension from imageUrl
+					$extension = pathinfo($imageUrl, PATHINFO_EXTENSION);
+					// Generate filename
+					$filename = "pasted_" . substr(md5($imageUrl), 0, 10) . '.' . $extension;
+					// Construct absolute path
+					$base = DIR_IMAGE . 'catalog/' . $directory  . $filename;
+					// Save image content to file
+					file_put_contents($base, $imageContent);
+					$json['filename'] = $filename;
+				} else {
+					$json['error'] = 'Failed to fetch image content.';
+				}
+			} else {
+				$json['error'] = 'Invalid directory format.';
+			}
+		} else {
+			$json['error'] = 'Required parameters are missing.';
+		}
+
+		$this->response->setOutput(json_encode($json));
+
+	}
 	/**
 	 * @return void
 	 */
-	public function upload(): void {
+	public function upload(): void
+	{
 		$this->load->language('common/filemanager');
 
 		$json = [];
-
+		$files = [];
+		$ckeditor = false;
 		$base = DIR_IMAGE . 'catalog/';
 
 		// Check user has permission
@@ -269,16 +317,16 @@ class FileManager extends \Opencart\System\Engine\Controller {
 
 		if (!$json) {
 			// Check if multiple files are uploaded or just one
-			$files = [];
+
 
 			if (!empty($this->request->files['file']['name']) && is_array($this->request->files['file']['name'])) {
 				foreach (array_keys($this->request->files['file']['name']) as $key) {
 					$files[] = [
-						'name'     => $this->request->files['file']['name'][$key],
-						'type'     => $this->request->files['file']['type'][$key],
+						'name' => $this->request->files['file']['name'][$key],
+						'type' => $this->request->files['file']['type'][$key],
 						'tmp_name' => $this->request->files['file']['tmp_name'][$key],
-						'error'    => $this->request->files['file']['error'][$key],
-						'size'     => $this->request->files['file']['size'][$key]
+						'error' => $this->request->files['file']['error'][$key],
+						'size' => $this->request->files['file']['size'][$key]
 					];
 				}
 			}
@@ -311,7 +359,7 @@ class FileManager extends \Opencart\System\Engine\Controller {
 					];
 
 					if (!in_array(substr($filename, strrpos($filename, '.') + 1), $allowed)) {
-						$json['error'] =  $this->language->get('error_file_type');
+						$json['error'] = $this->language->get('error_file_type');
 					}
 
 					// Allowed file mime types
@@ -335,10 +383,10 @@ class FileManager extends \Opencart\System\Engine\Controller {
 
 					// Return any upload error
 					if ($file['error'] != UPLOAD_ERR_OK) {
-						$json['error'] =  $this->language->get('error_upload_' . $file['error']);
+						$json['error'] = $this->language->get('error_upload_' . $file['error']);
 					}
 				} else {
-					$json['error'] =  $this->get_upload_error_message($file['error']); 
+					$json['error'] = $this->get_upload_error_message($file['error']);
 				}
 
 				if (!$json) {
@@ -348,7 +396,9 @@ class FileManager extends \Opencart\System\Engine\Controller {
 		}
 
 		if (!$json) {
+
 			$json['success'] = $this->language->get('text_uploaded');
+
 		}
 
 		$this->response->addHeader('Content-Type: application/json');
@@ -356,7 +406,8 @@ class FileManager extends \Opencart\System\Engine\Controller {
 	}
 
 
-	private function get_upload_error_message($error_code) {
+	private function get_upload_error_message($error_code)
+	{
 		switch ($error_code) {
 			case UPLOAD_ERR_INI_SIZE:
 				return 'The uploaded file exceeds the upload_max_filesize directive in php.ini.';
@@ -380,7 +431,8 @@ class FileManager extends \Opencart\System\Engine\Controller {
 	/**
 	 * @return void
 	 */
-	public function folder(): void {
+	public function folder(): void
+	{
 		$this->load->language('common/filemanager');
 
 		$json = [];
@@ -436,7 +488,8 @@ class FileManager extends \Opencart\System\Engine\Controller {
 	/**
 	 * @return void
 	 */
-	public function delete(): void {
+	public function delete(): void
+	{
 		$this->load->language('common/filemanager');
 
 		$json = [];

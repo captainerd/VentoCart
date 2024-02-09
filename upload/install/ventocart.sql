@@ -1,31 +1,12 @@
--- phpMyAdmin SQL Dump
--- version 5.1.1deb5ubuntu1
--- https://www.phpmyadmin.net/
---
--- Host: localhost:3306
--- Generation Time: Jan 02, 2024 at 04:21 PM
--- Server version: 8.0.35-0ubuntu0.22.04.1
--- PHP Version: 8.1.2-1ubuntu2.14
-
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
 SET time_zone = "+00:00";
-
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
 /*!40101 SET NAMES utf8mb4 */;
 
---
--- Database: `upload`
---
-
--- --------------------------------------------------------
-
---
--- Table structure for table `ve_address`
---
 
 CREATE TABLE `ve_address` (
   `address_id` int NOT NULL,
@@ -43,41 +24,19 @@ CREATE TABLE `ve_address` (
   `default` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC;
 
--- --------------------------------------------------------
-
---
--- Table structure for table `ve_address_format`
---
-
 CREATE TABLE `ve_address_format` (
   `address_format_id` int NOT NULL,
   `name` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `address_format` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC;
 
---
--- Dumping data for table `ve_address_format`
---
-
 INSERT INTO `ve_address_format` (`address_format_id`, `name`, `address_format`) VALUES
 (1, 'Address Format', '{firstname} {lastname}\n{company}\n{address_1}\n{phone}\n{city}, {zone} {postcode}\n{country}');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `ve_antispam`
---
 
 CREATE TABLE `ve_antispam` (
   `antispam_id` int NOT NULL,
   `keyword` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `ve_api`
---
 
 CREATE TABLE `ve_api` (
   `api_id` int NOT NULL,
@@ -88,30 +47,14 @@ CREATE TABLE `ve_api` (
   `date_modified` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC;
 
---
--- Dumping data for table `ve_api`
---
-
 INSERT INTO `ve_api` (`api_id`, `username`, `key`, `status`, `date_added`, `date_modified`) VALUES
 (1, 'Default', 'xAajzSqmAuMoRD6isBuwAIOUVwd7j3RS8cyEfnGPWMvx88WYzTZNSvPzIEjDP4WPRfgAV8uKOzCUV7kskSpFYM3to26YB1Ckyv4uTcLDfjUoSJvhF3CZx4ENSXGR32BUNdRQ0O33zbaV0qSwb06ilWmS3L5OpTRqKZawAqVImLeD3QnvqqpintThvXITNTOMhzKqnoD5WALuiCOyX322YKD8QVjlCKFi1DTgTwzxmCqlDrQkO4hrpiZkY3v5YBgl', 1, '2023-12-02 14:48:28', '2023-12-04 16:19:53');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `ve_api_ip`
---
 
 CREATE TABLE `ve_api_ip` (
   `api_ip_id` int NOT NULL,
   `api_id` int NOT NULL,
   `ip` varchar(40) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `ve_api_session`
---
 
 CREATE TABLE `ve_api_session` (
   `api_session_id` int NOT NULL,
@@ -122,12 +65,6 @@ CREATE TABLE `ve_api_session` (
   `date_modified` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC;
 
--- --------------------------------------------------------
-
---
--- Table structure for table `ve_article`
---
-
 CREATE TABLE `ve_article` (
   `article_id` int NOT NULL,
   `topic_id` int NOT NULL,
@@ -137,11 +74,9 @@ CREATE TABLE `ve_article` (
   `date_modified` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC;
 
--- --------------------------------------------------------
-
---
--- Table structure for table `ve_article_comment`
---
+INSERT INTO `ve_article` (`article_id`, `topic_id`, `author`, `status`, `date_added`, `date_modified`) VALUES
+(1, 2, 'CaptaiNerd', 1, '2024-02-08 20:58:38', '2024-02-09 00:06:23'),
+(2, 3, 'CaptaiNerd', 1, '2024-02-08 21:13:23', '2024-02-08 23:24:36');
 
 CREATE TABLE `ve_article_comment` (
   `article_comment_id` int NOT NULL,
@@ -152,12 +87,6 @@ CREATE TABLE `ve_article_comment` (
   `status` tinyint(1) NOT NULL,
   `date_added` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `ve_article_description`
---
 
 CREATE TABLE `ve_article_description` (
   `article_id` int NOT NULL,
@@ -171,11 +100,9 @@ CREATE TABLE `ve_article_description` (
   `meta_keyword` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC;
 
--- --------------------------------------------------------
-
---
--- Table structure for table `ve_article_rating`
---
+INSERT INTO `ve_article_description` (`article_id`, `language_id`, `name`, `description`, `image`, `tag`, `meta_title`, `meta_description`, `meta_keyword`) VALUES
+(1, 1, 'This blender looks shocked, and here is why', '&lt;p&gt;&lt;span class=&quot;text-big&quot;&gt;Congratulations! You\'ve taken the plunge and decided to embark on the exciting journey of starting your own online store, &amp;nbsp;But the technicalities can feel overwhelming, leaving you wondering: what\'s next? Fear not, intrepid entrepreneur! This guide will equip you with the knowledge to transform your online shop from a blank canvas to a conversion-magnet.&lt;/span&gt;&lt;/p&gt;\r\n&lt;p&gt;&lt;span class=&quot;text-big&quot;&gt;&lt;strong&gt;First Impressions Matter: Theme Time!&lt;/strong&gt;&lt;/span&gt;&lt;/p&gt;\r\n&lt;p&gt;&lt;span class=&quot;text-big&quot;&gt;Think of your theme as your store\'s storefront. It\'s the first thing customers see, and it sets the tone for their entire shopping experience. Resist the urge to slap on a generic theme just because it\'s easy. Instead:&lt;/span&gt;&lt;/p&gt;\r\n&lt;ul&gt;\r\n&lt;li&gt;&lt;span class=&quot;text-big&quot;&gt;&lt;strong&gt;Invest in a conversion-optimized theme:&lt;/strong&gt; Prioritize user experience (UX) and visual appeal. Remember, you\'re not designing for yourself, but for your target audience. Consider hiring a professional designer if UI/UX isn\'t your forte.&lt;/span&gt;&lt;/li&gt;\r\n&lt;li&gt;&lt;span class=&quot;text-big&quot;&gt;&lt;strong&gt;Brand Identity Matters:&lt;/strong&gt; Align your theme with your overall brand, from logo and colors to the general vibe. Consistency builds trust and recognition.&lt;/span&gt;&lt;/li&gt;\r\n&lt;li&gt;&lt;span class=&quot;text-big&quot;&gt;&lt;strong&gt;Stand Out from the Crowd:&lt;/strong&gt; Avoid overused themes. Create a unique look that reflects your brand\'s personality.&lt;/span&gt;&lt;/li&gt;\r\n&lt;/ul&gt;\r\n&lt;p&gt;&lt;span class=&quot;text-big&quot;&gt;&lt;strong&gt;Product Powerhouse: From Zero to Hero&lt;/strong&gt;&lt;/span&gt;&lt;/p&gt;\r\n&lt;p&gt;&lt;span class=&quot;text-big&quot;&gt;Now, let\'s stock the shelves! But before you unleash your product avalanche, remember:&lt;/span&gt;&lt;/p&gt;\r\n&lt;ul&gt;\r\n&lt;li&gt;&lt;span class=&quot;text-big&quot;&gt;&lt;strong&gt;Ditch the Demo:&lt;/strong&gt; Clear out any placeholder products.&lt;/span&gt;&lt;/li&gt;\r\n&lt;li&gt;&lt;span class=&quot;text-big&quot;&gt;&lt;strong&gt;Picture Perfect:&lt;/strong&gt; Invest in high-resolution, professional product photos. Showcase your products from multiple angles, ideally on a clean white background.&lt;/span&gt;&lt;/li&gt;\r\n&lt;li&gt;&lt;span class=&quot;text-big&quot;&gt;&lt;strong&gt;Categorize Like a Pro:&lt;/strong&gt; Don\'t just dump everything into one category. Create a clear and intuitive hierarchy of categories and subcategories, making it easy for customers to find what they\'re looking for.&lt;/span&gt;&lt;/li&gt;\r\n&lt;li&gt;&lt;span class=&quot;text-big&quot;&gt;&lt;strong&gt;Description Delight:&lt;/strong&gt; Don\'t underestimate the power of words! Craft compelling product descriptions that highlight features, benefits, and address potential concerns.&lt;/span&gt;&lt;/li&gt;\r\n&lt;li&gt;&lt;span class=&quot;text-big&quot;&gt;&lt;strong&gt;Attribute Magic:&lt;/strong&gt; Go beyond descriptions with product attributes. These act as data points, confirming details and building trust. Plus, they enable powerful filtering for a seamless shopping experience.&lt;/span&gt;&lt;/li&gt;\r\n&lt;/ul&gt;\r\n&lt;p&gt;&lt;span class=&quot;text-big&quot;&gt;&lt;strong&gt;Building Trust: From Clicks to Customers&lt;/strong&gt;&lt;/span&gt;&lt;/p&gt;\r\n&lt;p&gt;&lt;span class=&quot;text-big&quot;&gt;Remember, the best price or product won\'t guarantee success. Trust is the true currency in e-commerce. Here\'s how to earn it:&lt;/span&gt;&lt;/p&gt;\r\n&lt;ul&gt;\r\n&lt;li&gt;&lt;span class=&quot;text-big&quot;&gt;&lt;strong&gt;Be Speedy and Supportive:&lt;/strong&gt; Respond promptly to customer inquiries and concerns. Use clear, friendly language, and prioritize resolving issues swiftly.&lt;/span&gt;&lt;/li&gt;\r\n&lt;li&gt;&lt;span class=&quot;text-big&quot;&gt;&lt;strong&gt;Shine Online:&lt;/strong&gt; Encourage positive reviews on Google and other platforms. Remember, word-of-mouth marketing is gold!&lt;/span&gt;&lt;/li&gt;\r\n&lt;li&gt;&lt;span class=&quot;text-big&quot;&gt;&lt;strong&gt;Invest in Your Success:&lt;/strong&gt; Don\'t be afraid to put your money where your mouth is. Paid advertising on major platforms and social media can be game-changers. But remember, organic growth is crucial too. Engage with your audience through regular social media posts, eye-catching visuals, and informative content.&lt;/span&gt;&lt;/li&gt;\r\n&lt;li&gt;&lt;span class=&quot;text-big&quot;&gt;&lt;strong&gt;Forget &quot;Passive Income&quot;:&lt;/strong&gt; This is a business, not a magic money machine. Be prepared to put in the work, both online and offline. It\'s all about dedication and consistent effort.&lt;/span&gt;&lt;/li&gt;\r\n&lt;/ul&gt;\r\n&lt;p&gt;&lt;span class=&quot;text-big&quot;&gt;&lt;strong&gt;The Takeaway:&lt;/strong&gt;&lt;/span&gt;&lt;/p&gt;\r\n&lt;p&gt;&lt;span class=&quot;text-big&quot;&gt;Launching an online store is an exciting yet challenging endeavor. By following these guidelines, you\'ll lay a solid foundation for your online empire. Remember, the journey is just as important as the destination. Embrace the learning curve, adapt to feedback, and most importantly, have fun along the way!&lt;/span&gt;&lt;/p&gt;\r\n&lt;p&gt;&lt;span class=&quot;text-big&quot;&gt;&lt;strong&gt;Bonus Tip:&lt;/strong&gt; This guide just scratches the surface. Marketing, promotions, and ongoing optimization are vast topics. Remember, the key is to continuously learn, experiment, and adapt to stay ahead of the curve.&lt;/span&gt;&lt;/p&gt;\r\n&lt;p&gt;&lt;span class=&quot;text-big&quot;&gt;Best of luck on your entrepreneurial adventure!&lt;/span&gt;&lt;/p&gt;\r\n&lt;p&gt;&amp;nbsp;&lt;/p&gt;', 'catalog/blog/article_img6.jpg', 'Blenders, Bananas', 'This blender looks shocked, and here is why', '', ''),
+(2, 1, 'Lorem ipsum dolor sit amet', '&lt;p&gt;&amp;nbsp;Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras consequat, justo a aliquam semper, elit nunc aliquam quam, dignissim lacinia metus enim et mi. Phasellus accumsan malesuada eros vehicula pulvinar. Nam et enim tempor, mattis dolor vitae, rutrum ex. Integer neque est, varius sit amet erat id, commodo ultricies metus. Vivamus varius libero eu ligula fermentum facilisis. Nullam vestibulum lorem eu turpis ultricies posuere. Pellentesque vel orci tempus mi iaculis varius. Aenean accumsan ultricies ex, ac mollis mi eleifend mollis. Ut varius vestibulum erat ut accumsan. Vestibulum id mattis purus, a mollis orci. Quisque consectetur turpis eu elit porttitor, ac suscipit mauris porttitor. Praesent turpis nunc, pharetra et risus at, dictum venenatis nisi. Quisque magna lorem, malesuada in porttitor sit amet, tristique ut est.&lt;/p&gt;\r\n&lt;p&gt;Sed interdum, mauris sit amet laoreet rhoncus, nulla lectus mollis risus, nec auctor purus massa viverra orci. Nunc hendrerit nibh risus, sed viverra eros commodo vel. Nam quam odio, tempus at sollicitudin consequat, vestibulum a dui. Nullam posuere felis ut dapibus ultrices. Phasellus ullamcorper diam vulputate euismod dignissim. Curabitur sed lacus sagittis, faucibus magna ut, lacinia quam. Pellentesque consectetur risus vitae ultricies luctus. Vestibulum ultricies, risus a luctus volutpat, lorem est lacinia felis, sit amet fermentum arcu massa a metus. Aenean vel placerat lacus. Nulla dignissim tincidunt diam non convallis. Suspendisse elementum tempor consequat. Etiam ac orci sit amet ipsum porttitor tincidunt sit amet quis ex. Cras tincidunt euismod neque vitae tristique. Praesent efficitur vestibulum magna sit amet molestie. Pellentesque gravida laoreet interdum.&lt;/p&gt;\r\n&lt;p&gt;&amp;nbsp;&lt;/p&gt;', 'catalog/blog/article_img8.jpg', '', 'Lorem ipsum dolor sit amet', '', '');
 
 CREATE TABLE `ve_article_rating` (
   `article_rating_id` int NOT NULL,
@@ -188,34 +115,24 @@ CREATE TABLE `ve_article_rating` (
   `date_added` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC;
 
--- --------------------------------------------------------
-
---
--- Table structure for table `ve_article_to_layout`
---
-
 CREATE TABLE `ve_article_to_layout` (
   `article_id` int NOT NULL,
   `store_id` int NOT NULL,
   `layout_id` int NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC;
 
--- --------------------------------------------------------
-
---
--- Table structure for table `ve_article_to_store`
---
+INSERT INTO `ve_article_to_layout` (`article_id`, `store_id`, `layout_id`) VALUES
+(1, 0, 14),
+(2, 0, 14);
 
 CREATE TABLE `ve_article_to_store` (
   `article_id` int NOT NULL,
   `store_id` int NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC;
 
--- --------------------------------------------------------
-
---
--- Table structure for table `ve_attribute`
---
+INSERT INTO `ve_article_to_store` (`article_id`, `store_id`) VALUES
+(1, 0),
+(2, 0);
 
 CREATE TABLE `ve_attribute` (
   `attribute_id` int NOT NULL,
@@ -223,11 +140,14 @@ CREATE TABLE `ve_attribute` (
   `sort_order` int NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC;
 
--- --------------------------------------------------------
-
---
--- Table structure for table `ve_attribute_description`
---
+INSERT INTO `ve_attribute` (`attribute_id`, `attribute_group_id`, `sort_order`) VALUES
+(1, 0, 0),
+(2, 0, 0),
+(4, 0, 0),
+(5, 0, 0),
+(6, 0, 0),
+(7, 0, 0),
+(8, 0, 0);
 
 CREATE TABLE `ve_attribute_description` (
   `attribute_id` int NOT NULL,
@@ -235,11 +155,14 @@ CREATE TABLE `ve_attribute_description` (
   `name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC;
 
--- --------------------------------------------------------
-
---
--- Table structure for table `ve_banner`
---
+INSERT INTO `ve_attribute_description` (`attribute_id`, `language_id`, `name`) VALUES
+(1, 1, 'Clothe'),
+(2, 1, 'Material'),
+(4, 1, 'Mobile Phone Type'),
+(5, 1, 'Main Specifications'),
+(6, 1, 'Processor &amp; Memory'),
+(7, 1, 'Screen'),
+(8, 1, 'Camera');
 
 CREATE TABLE `ve_banner` (
   `banner_id` int NOT NULL,
@@ -247,15 +170,8 @@ CREATE TABLE `ve_banner` (
   `status` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC;
 
-
 INSERT INTO `ve_banner` (`banner_id`, `name`, `status`) VALUES
 (1, 'Banner', 1);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `ve_banner_image`
---
 
 CREATE TABLE `ve_banner_image` (
   `banner_image_id` int NOT NULL,
@@ -267,20 +183,9 @@ CREATE TABLE `ve_banner_image` (
   `sort_order` int NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC;
 
-
-
- 
 INSERT INTO `ve_banner_image` (`banner_image_id`, `banner_id`, `language_id`, `title`, `link`, `image`, `sort_order`) VALUES
-(3, 1, 1, 'Vento Laptop', '', 'catalog/banner1.png', 0),
-(4, 1, 1, 'Vento leds', '', 'catalog/banner8.png', 0),
-(5, 1, 1, 'vento shoes', '', 'catalog/banner22.png', 0);
-
-
--- --------------------------------------------------------
-
---
--- Table structure for table `ve_cart`
---
+(5, 1, 1, 'Product', 'index.php?route=product/category&amp;language=en-gb&amp;path=20', 'catalog/banners/banner_img2.png', 0),
+(6, 1, 1, 'Shopping', 'index.php?route=product/category&amp;language=en-gb&amp;path=20', 'catalog/banners/banner_img3.png', 0);
 
 CREATE TABLE `ve_cart` (
   `cart_id` int NOT NULL,
@@ -296,12 +201,6 @@ CREATE TABLE `ve_cart` (
   `date_added` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC;
 
--- --------------------------------------------------------
-
---
--- Table structure for table `ve_category`
---
-
 CREATE TABLE `ve_category` (
   `category_id` int NOT NULL,
   `image` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
@@ -314,46 +213,79 @@ CREATE TABLE `ve_category` (
   `date_modified` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC;
 
---
--- Dumping data for table `ve_category`
---
-
 INSERT INTO `ve_category` (`category_id`, `image`, `parent_id`, `top`, `column`, `sort_order`, `status`, `date_added`, `date_modified`) VALUES
-(59, '', 0, 1, 1, 1, 1, '2023-12-22 03:21:56', '2023-12-22 03:34:00'),
-(60, '', 59, 0, 1, 0, 1, '2023-12-22 03:22:27', '2023-12-22 03:22:27'),
-(61, '', 60, 0, 1, 0, 1, '2023-12-22 03:22:51', '2023-12-22 03:22:51'),
-(62, '', 60, 0, 1, 0, 1, '2023-12-22 03:23:11', '2023-12-22 03:23:11'),
-(63, '', 60, 0, 1, 0, 1, '2023-12-22 03:23:34', '2023-12-22 03:23:34'),
-(64, '', 59, 0, 1, 0, 1, '2023-12-22 03:23:58', '2023-12-22 03:23:58'),
-(65, '', 64, 0, 1, 0, 1, '2023-12-22 03:29:25', '2023-12-22 03:29:25'),
-(66, '', 64, 0, 1, 0, 1, '2023-12-22 03:29:55', '2023-12-22 03:29:55'),
-(67, '', 0, 1, 1, 2, 1, '2023-12-22 03:30:24', '2023-12-22 03:34:17'),
-(68, '', 67, 0, 1, 0, 1, '2023-12-22 03:31:10', '2023-12-22 03:31:59'),
-(69, '', 67, 0, 1, 0, 1, '2023-12-22 03:32:14', '2023-12-22 03:32:14'),
-(70, '', 0, 1, 1, 3, 1, '2023-12-22 03:32:56', '2023-12-22 03:34:36'),
-(71, '', 0, 1, 1, 4, 1, '2023-12-22 03:33:28', '2023-12-22 03:34:52'),
-(72, '', 0, 1, 1, 5, 1, '2023-12-22 03:35:21', '2023-12-22 03:35:21'),
-(73, '', 0, 1, 1, 7, 1, '2023-12-22 03:35:48', '2023-12-22 03:35:55'),
-(74, '', 72, 0, 1, 0, 1, '2023-12-22 03:36:35', '2023-12-22 03:36:35'),
-(75, '', 72, 0, 1, 0, 1, '2023-12-22 03:36:49', '2023-12-22 03:36:49'),
-(76, '', 0, 1, 1, 8, 1, '2023-12-22 03:37:18', '2023-12-22 03:37:18'),
-(77, '', 0, 1, 1, 10, 1, '2023-12-22 03:37:57', '2023-12-22 03:37:57'),
-(78, '', 60, 0, 1, 0, 1, '2023-12-22 03:40:46', '2023-12-22 03:40:46'),
-(79, '', 0, 1, 1, 1, 1, '2023-12-22 06:49:56', '2023-12-22 06:49:56'),
-(81, '', 0, 1, 1, 3, 1, '2023-12-22 06:50:45', '2023-12-22 06:51:21'),
-(82, '', 0, 1, 1, 2, 1, '2023-12-22 06:51:13', '2023-12-22 06:52:01'),
-(83, '', 0, 1, 1, 6, 1, '2023-12-22 06:51:48', '2023-12-22 06:51:48'),
-(84, '', 0, 1, 1, 4, 1, '2023-12-22 06:52:27', '2023-12-22 06:52:27'),
-(85, '', 0, 1, 1, 7, 1, '2023-12-22 06:52:51', '2023-12-22 06:52:51'),
-(86, '', 79, 0, 1, 0, 1, '2023-12-22 06:53:26', '2023-12-22 06:53:26'),
-(87, '', 79, 0, 1, 5, 1, '2023-12-22 06:53:44', '2023-12-22 06:53:44'),
-(88, '', 0, 1, 1, 8, 1, '2023-12-22 06:56:11', '2023-12-22 06:56:11');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `ve_category_description`
---
+(1, 'catalog/categories/electronics.webp', 0, 1, 1, 11, 1, '2024-02-05 19:43:13', '2024-02-09 00:51:02'),
+(2, 'catalog/categories/electronics.jpeg', 1, 0, 1, 12, 1, '2024-02-05 19:43:56', '2024-02-09 00:51:13'),
+(3, 'catalog/categories/electronics.webp', 1, 0, 1, 13, 1, '2024-02-05 19:44:33', '2024-02-05 19:44:33'),
+(4, 'catalog/categories/image0_0.jpg', 1, 1, 1, 14, 1, '2024-02-05 19:45:15', '2024-02-05 19:45:15'),
+(5, 'catalog/categories/pexels-photo-3394663.jpeg', 1, 0, 1, 15, 1, '2024-02-05 19:46:55', '2024-02-05 19:46:55'),
+(6, 'catalog/categories/pexels-photo-3394663.jpeg', 5, 0, 1, 16, 1, '2024-02-05 19:47:11', '2024-02-05 19:47:11'),
+(7, 'catalog/categories/pexels-photo-3945667.jpeg', 6, 0, 1, 17, 1, '2024-02-05 19:48:20', '2024-02-05 19:48:20'),
+(8, 'catalog/categories/pexels-photo-8457653.webp', 6, 0, 1, 18, 1, '2024-02-05 19:49:24', '2024-02-05 19:49:24'),
+(9, 'catalog/categories/homeappliances.jpg', 0, 1, 1, 0, 1, '2024-02-05 19:58:31', '2024-02-09 04:29:19'),
+(10, 'catalog/categories/kitchenappliances.jpg', 9, 0, 1, 1, 1, '2024-02-05 19:59:19', '2024-02-05 19:59:19'),
+(11, 'catalog/categories/Coffee Makers.jpg', 10, 0, 1, 2, 1, '2024-02-05 20:00:34', '2024-02-05 20:00:34'),
+(12, 'catalog/categories/Blenders.jpg', 10, 0, 1, 3, 1, '2024-02-05 20:01:18', '2024-02-05 20:01:18'),
+(13, 'catalog/categories/kitchenappliances.jpg', 10, 0, 1, 4, 1, '2024-02-05 20:01:41', '2024-02-05 20:01:41'),
+(14, 'catalog/categories/homeappliances.jpg', 9, 0, 1, 5, 1, '2024-02-05 20:02:11', '2024-02-05 20:02:11'),
+(15, 'catalog/categories/homeappliances.jpg', 14, 0, 1, 6, 1, '2024-02-05 20:02:28', '2024-02-05 20:02:28'),
+(16, 'catalog/categories/homeappliances.jpg', 15, 0, 1, 7, 1, '2024-02-05 20:02:45', '2024-02-05 20:02:45'),
+(17, 'catalog/categories/Upright Vacuums.jpg', 15, 0, 1, 8, 1, '2024-02-05 20:03:54', '2024-02-05 20:03:54'),
+(18, 'catalog/categories/Steam Mops.jpg', 14, 0, 1, 9, 1, '2024-02-05 20:05:04', '2024-02-05 20:05:04'),
+(19, 'catalog/categories/image1_01.jpg', 9, 0, 1, 10, 1, '2024-02-05 20:05:40', '2024-02-06 01:30:41'),
+(20, 'catalog/categories/pexels-photo-13536936.jpeg', 0, 1, 1, 19, 1, '2024-02-05 20:12:42', '2024-02-08 23:49:52'),
+(21, 'catalog/categories/pexels-photo-375902.jpeg', 20, 0, 1, 20, 1, '2024-02-05 20:16:17', '2024-02-05 20:16:17'),
+(22, 'catalog/categories/pexels-photo-8532616.jpeg', 21, 0, 1, 21, 1, '2024-02-05 20:17:34', '2024-02-05 20:17:34'),
+(23, 'catalog/categories/pexels-photo-1082528.webp', 21, 0, 1, 22, 1, '2024-02-05 20:18:11', '2024-02-05 20:18:11'),
+(24, 'catalog/categories/Jackets.webp', 21, 0, 1, 23, 1, '2024-02-05 20:18:53', '2024-02-05 20:18:53'),
+(25, 'catalog/categories/image1_0.jpg', 24, 0, 1, 24, 1, '2024-02-05 20:20:15', '2024-02-05 20:20:15'),
+(26, 'catalog/categories/still-life-rendering-jackets-display_23-2149745038.jpg', 24, 0, 1, 25, 1, '2024-02-05 20:22:05', '2024-02-05 20:22:05'),
+(27, 'catalog/categories/womensclothing.jpg', 20, 1, 1, 26, 1, '2024-02-05 20:31:01', '2024-02-09 00:52:12'),
+(28, 'catalog/categories/Dresses.jpg', 27, 0, 1, 27, 1, '2024-02-05 20:32:36', '2024-02-05 20:32:36'),
+(29, 'catalog/categories/fashionw-tops.jpg', 27, 0, 1, 28, 1, '2024-02-05 20:35:06', '2024-02-05 20:35:06'),
+(30, 'catalog/categories/fashionw-tops.jpg', 27, 0, 1, 29, 1, '2024-02-05 20:35:38', '2024-02-05 20:35:38'),
+(31, 'catalog/categories/fashionw-tops.jpg', 30, 0, 1, 30, 1, '2024-02-05 20:35:56', '2024-02-05 20:35:56'),
+(32, 'catalog/categories/fashionw-tops.jpg', 30, 0, 1, 31, 1, '2024-02-05 20:36:09', '2024-02-05 20:36:09'),
+(33, 'catalog/categories/pexels-photo-1453008.webp', 0, 0, 1, 43, 1, '2024-02-05 20:37:22', '2024-02-05 20:37:22'),
+(34, 'catalog/categories/sunglasses.jpeg', 33, 0, 1, 44, 1, '2024-02-05 20:38:16', '2024-02-05 20:38:16'),
+(35, 'catalog/categories/pexels-photo-1453008.webp', 33, 0, 1, 47, 1, '2024-02-05 20:38:35', '2024-02-05 20:38:35'),
+(36, 'catalog/categories/pexels-photo-1453008.webp', 35, 0, 1, 48, 1, '2024-02-05 20:38:53', '2024-02-05 20:38:53'),
+(37, 'catalog/categories/pexels-photo-1453008.webp', 35, 0, 1, 49, 1, '2024-02-05 20:39:08', '2024-02-05 20:39:17'),
+(38, 'catalog/categories/pexels-photo-1453008.webp', 33, 0, 1, 50, 1, '2024-02-05 20:39:42', '2024-02-05 20:39:42'),
+(39, 'catalog/categories/pexels-photo-1453008.webp', 38, 0, 1, 51, 1, '2024-02-05 20:40:06', '2024-02-05 20:40:06'),
+(40, 'catalog/categories/pexels-photo-1453008.webp', 38, 0, 1, 52, 1, '2024-02-05 20:40:28', '2024-02-05 20:40:28'),
+(41, 'catalog/categories/pexels-photo-5632328.webp', 0, 0, 1, 38, 1, '2024-02-05 20:46:08', '2024-02-05 20:46:08'),
+(42, 'catalog/categories/pexels-photo-5632328.webp', 41, 0, 1, 39, 1, '2024-02-05 20:46:24', '2024-02-05 20:46:24'),
+(43, 'catalog/categories/pexels-photo-5632328.webp', 42, 0, 1, 40, 1, '2024-02-05 20:46:41', '2024-02-05 20:46:41'),
+(44, 'catalog/categories/pexels-photo-5632328.webp', 42, 0, 1, 41, 1, '2024-02-05 20:46:58', '2024-02-05 20:46:58'),
+(45, 'catalog/categories/pexels-photo-5632328.webp', 42, 0, 1, 42, 1, '2024-02-05 21:04:57', '2024-02-05 21:04:57'),
+(46, 'catalog/categories/child-toys-still-life_23-2148144864.jpg', 0, 1, 1, 53, 1, '2024-02-05 21:07:51', '2024-02-05 21:07:51'),
+(47, 'catalog/categories/child-toys-still-life_23-2148144864.jpg', 46, 0, 1, 54, 1, '2024-02-05 21:08:09', '2024-02-05 21:08:09'),
+(48, 'catalog/categories/child-toys-still-life_23-2148144864.jpg', 46, 0, 1, 55, 1, '2024-02-05 21:08:32', '2024-02-05 21:08:32'),
+(49, 'catalog/categories/child-toys-still-life_23-2148144864.jpg', 46, 0, 1, 56, 1, '2024-02-05 21:08:48', '2024-02-05 21:08:48'),
+(50, 'catalog/categories/child-toys-still-life_23-2148144864.jpg', 46, 0, 1, 57, 1, '2024-02-05 21:09:05', '2024-02-05 21:09:05'),
+(51, 'catalog/categories/yellow-tenis-ball_144627-21443.jpg', 0, 1, 1, 32, 1, '2024-02-05 21:10:15', '2024-02-06 01:31:54'),
+(52, 'catalog/categories/fitness.jpg', 51, 0, 1, 33, 1, '2024-02-05 21:11:15', '2024-02-05 21:11:15'),
+(53, 'catalog/categories/fitness.jpg', 51, 0, 1, 34, 1, '2024-02-05 21:11:36', '2024-02-05 21:11:36'),
+(54, 'catalog/categories/camping.jpg', 51, 0, 1, 35, 1, '2024-02-05 21:14:50', '2024-02-05 21:14:50'),
+(55, 'catalog/categories/camping.jpg', 54, 0, 1, 37, 1, '2024-02-05 21:15:26', '2024-02-05 21:15:26'),
+(56, 'catalog/categories/camping.jpg', 54, 0, 1, 36, 1, '2024-02-05 21:15:41', '2024-02-05 21:15:41'),
+(57, 'catalog/categories/car.jpg', 0, 1, 1, 58, 1, '2024-02-05 21:18:43', '2024-02-05 21:18:43'),
+(58, 'catalog/categories/car.jpg', 57, 0, 1, 59, 1, '2024-02-05 21:19:11', '2024-02-05 21:19:11'),
+(59, 'catalog/categories/car.jpg', 58, 0, 1, 60, 1, '2024-02-05 21:19:26', '2024-02-05 21:19:26'),
+(60, 'catalog/categories/car.jpg', 59, 0, 1, 61, 1, '2024-02-05 21:19:42', '2024-02-05 21:19:42'),
+(61, 'catalog/categories/car.jpg', 58, 0, 1, 62, 1, '2024-02-05 21:19:57', '2024-02-05 21:19:57'),
+(62, 'catalog/categories/car.jpg', 58, 0, 1, 63, 1, '2024-02-05 21:20:10', '2024-02-05 21:20:10'),
+(63, 'catalog/categories/car.jpg', 62, 0, 1, 64, 1, '2024-02-05 21:20:24', '2024-02-05 21:20:24'),
+(64, '', 62, 0, 1, 65, 1, '2024-02-05 21:20:39', '2024-02-05 21:20:39'),
+(65, 'catalog/categories/car.jpg', 58, 0, 1, 66, 1, '2024-02-05 21:20:52', '2024-02-05 21:20:52'),
+(66, 'catalog/categories/car.jpg', 65, 0, 1, 67, 1, '2024-02-05 21:21:06', '2024-02-05 21:21:06'),
+(67, 'catalog/categories/car.jpg', 65, 0, 1, 68, 1, '2024-02-05 21:21:23', '2024-02-05 21:21:23'),
+(69, 'catalog/categories/sunglasses.jpeg', 34, 0, 1, 45, 1, '2024-02-05 21:28:03', '2024-02-05 21:28:03'),
+(70, 'catalog/categories/sunglasses.jpeg', 34, 0, 1, 46, 1, '2024-02-05 21:28:28', '2024-02-05 21:28:28'),
+(71, '', 0, 0, 1, 69, 1, '2024-02-09 00:39:34', '2024-02-09 00:39:34'),
+(72, '', 71, 0, 1, 70, 1, '2024-02-09 00:40:08', '2024-02-09 00:40:08'),
+(73, '', 71, 0, 1, 71, 1, '2024-02-09 00:41:12', '2024-02-09 00:41:36');
 
 CREATE TABLE `ve_category_description` (
   `category_id` int NOT NULL,
@@ -365,57 +297,97 @@ CREATE TABLE `ve_category_description` (
   `meta_keyword` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC;
 
---
--- Dumping data for table `ve_category_description`
---
-
 INSERT INTO `ve_category_description` (`category_id`, `language_id`, `name`, `description`, `meta_title`, `meta_description`, `meta_keyword`) VALUES
-(59, 1, 'Clothing and Apparel', '', 'Clothing and Apparel', '', ''),
-(60, 1, 'Men\'s Clothing', '', 'Men\'s Clothing', '', ''),
-(61, 1, 'T-Shirts', '', 'T-Shirts', '', ''),
-(62, 1, 'Shirts', '', 'Shirts', '', ''),
-(63, 1, 'Pants', '', 'Pants', '', ''),
-(64, 1, 'Women\'s Clothing', '', 'Women\'s Clothing', '', ''),
-(65, 1, 'Dresses', '', 'Dresses', '', ''),
-(66, 1, 'Tops', '', 'Tops', '', ''),
-(67, 1, 'Shoes', '', 'Shoes', '', ''),
-(68, 1, 'Snikers', '', 'Snikers', '', ''),
-(69, 1, 'Boots', '', 'Boots', '', ''),
-(70, 1, 'Home &amp; Garden', '', 'Home &amp; Garden', '', ''),
-(71, 1, 'Kids and Toys', '', 'Kids and Toys', '', ''),
-(72, 1, 'Electronics', '', 'Electronics', '', ''),
-(73, 1, 'Sports and Outdoors', '', 'Sports and Outdoors', '', ''),
-(74, 1, 'Smartphones', '', 'Smartphones', '', ''),
-(75, 1, 'Gadgets', '', 'Gadgets', '', ''),
-(76, 1, 'Beauty &amp; Health', '', 'Beauty &amp; Health', '', ''),
-(77, 1, 'Accessories', '', 'Accessories', '', ''),
-(78, 1, 'Ties', '', 'Ties', '', ''),
-(79, 1, 'Clothing and Apparel', '', 'Clothing and Apparel', '', ''),
-(81, 1, 'Shoes', '', 'Shoes', '', ''),
-(82, 1, 'Sports and Outdoors', '', 'Sports and Outdoors', '', ''),
-(83, 1, 'Electronics', '', 'Electronics', '', ''),
-(84, 1, 'Accessories', '', 'Accessories', '', ''),
-(85, 1, 'Kids and Toys', '', 'Kids and Toys', '', ''),
-(86, 1, 'Men\'s Clothing', '', 'Men\'s Clothing', '', ''),
-(87, 1, 'Women\'s Clothing', '', 'Women\'s Clothing', '', ''),
-(88, 1, 'Home &amp; Garden', '', 'Home &amp; Garden', '', '');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `ve_category_filter`
---
+(1, 1, 'Electronics', '', 'Electronics', '', ''),
+(2, 1, 'Smartphones', '', 'Smartphones', '', ''),
+(3, 1, 'Laptops', '', 'Laptops', '', ''),
+(4, 1, 'Cameras', '', 'Cameras', '', ''),
+(5, 1, 'Audio Devices', '', 'Audio Devices', '', ''),
+(6, 1, 'Headphones', '', 'Headphones', '', ''),
+(7, 1, 'Over-Ear', '', 'Over-Ear', '', ''),
+(8, 1, 'In-Ear', '', 'In-Ear', '', ''),
+(9, 1, 'Home Appliances', '', 'Home Appliances', '', ''),
+(10, 1, 'Kitchen Appliances', '', 'Kitchen Appliances', '', ''),
+(11, 1, 'Coffee Makers', '', 'Coffee Makers', '', ''),
+(12, 1, 'Blenders', '', 'Blenders', '', ''),
+(13, 1, 'Toasters', '', 'Toasters', '', ''),
+(14, 1, 'Cleaning Appliances', '', 'Cleaning Appliances', '', ''),
+(15, 1, 'Vacuum Cleaners', '', 'Vacuum Cleaners', '', ''),
+(16, 1, 'Robotic Vacuums', '', 'Robotic Vacuums', '', ''),
+(17, 1, 'Upright Vacuums', '', 'Upright Vacuums', '', ''),
+(18, 1, 'Steam Mops', '', 'Steam Mops', '', ''),
+(19, 1, 'Air Purifiers', '', 'Air Purifiers', '', ''),
+(20, 1, 'Fashion', '&lt;p&gt;The filters to the right are directly related to the available options for a product, including their quantities and attributes, set by admin/categories/data&amp;nbsp;&lt;/p&gt;', 'Fashion', '', ''),
+(21, 1, 'Men\'s Clothing', '', 'Men\'s Clothing', '', ''),
+(22, 1, 'T-Shirts', '', 'T-Shirts', '', ''),
+(23, 1, 'Jeans', '', 'Jeans', '', ''),
+(24, 1, 'Jackets', '', 'Jackets', '', ''),
+(25, 1, 'Leather Jackets', '', 'Leather Jackets', '', ''),
+(26, 1, 'Bomber Jackets', '', 'Bomber Jackets', '', ''),
+(27, 1, 'Women\'s Clothing', '', 'Women\'s Clothing', '', ''),
+(28, 1, 'Dresses', '', 'Dresses', '', ''),
+(29, 1, 'Tops', '', 'Tops', '', ''),
+(30, 1, 'Sweaters', '', 'Sweaters', '', ''),
+(31, 1, 'Cardigans', '', 'Cardigans', '', ''),
+(32, 1, 'Pullovers', '', 'Pullovers', '', ''),
+(33, 1, 'Accessories', '', 'Accessories', '', ''),
+(34, 1, 'Sunglasses', '', 'Sunglasses', '', ''),
+(35, 1, 'Watches', '', 'Watches', '', ''),
+(36, 1, 'Analog Watches', '', 'Analog Watches', '', ''),
+(37, 1, 'Digital Watches', '', 'Digital Watches', '', ''),
+(38, 1, 'Handbags', '', 'Handbags', '', ''),
+(39, 1, 'Tote Bags', '', 'Tote Bags', '', ''),
+(40, 1, 'Clutches', '', 'Clutches', '', ''),
+(41, 1, 'Health and Beauty', '', 'Health and Beauty', '', ''),
+(42, 1, 'Skincare', '', 'Skincare', '', ''),
+(43, 1, 'Cleansers', '', 'Cleansers', '', ''),
+(44, 1, 'Moisturizers', '', 'Moisturizers', '', ''),
+(45, 1, 'Serums', '', 'Serums', '', ''),
+(46, 1, 'Toys and Games', '', 'Toys and Games', '', ''),
+(47, 1, 'Board Games', '', 'Board Games', '', ''),
+(48, 1, 'Outdoor Toys', '', 'Outdoor Toys', '', ''),
+(49, 1, 'Building Blocks', '', 'Building Blocks', '', ''),
+(50, 1, 'Dolls and Action Figures', '', 'Dolls and Action Figures', '', ''),
+(51, 1, 'Sports &amp; Outdoors', '', 'Sports &amp; Outdoors', '', ''),
+(52, 1, 'Fitness Equipment', '', 'Fitness Equipment', '', ''),
+(53, 1, 'Outdoor Gear', '', 'Outdoor Gear', '', ''),
+(54, 1, 'Camping Equipment', '', 'Camping Equipment', '', ''),
+(55, 1, 'Tents', '', 'Tents', '', ''),
+(56, 1, 'Sleeping Bags', '', 'Sleeping Bags', '', ''),
+(57, 1, 'Automotive', '', 'Automotive', '', ''),
+(58, 1, 'Car Accessories', '', 'Car Accessories', '', ''),
+(59, 1, 'Seat Covers', '', 'Seat Covers', '', ''),
+(60, 1, 'Leather Seat Covers', '', 'Leather Seat Covers', '', ''),
+(61, 1, 'Fabric Seat Covers', '', 'Fabric Seat Covers', '', ''),
+(62, 1, 'Floor Mats', '', 'Floor Mats', '', ''),
+(63, 1, 'Rubber Floor Mats', '', 'Rubber Floor Mats', '', ''),
+(64, 1, 'Carpet Floor Mats', '', 'Carpet Floor Mats', '', ''),
+(65, 1, 'Car Chargers', '', 'Car Chargers', '', ''),
+(66, 1, 'USB Car Chargers', '', 'USB Car Chargers', '', ''),
+(67, 1, 'Wireless Car Chargers', '', 'Wireless Car Chargers', '', ''),
+(69, 1, 'Polaroid', '', 'Polaroid', '', ''),
+(70, 1, 'Ray Ban', '', 'Ray Ban', '', ''),
+(71, 1, 'Blog', '', 'Blog', '', ''),
+(72, 1, 'General', '', '[link=index.php?route=cms/blog&amp;language=en-gb&amp;topic_id=2]', '', ''),
+(73, 1, 'Fashion', '', '[link=index.php?route=cms/blog&amp;language=en-gb&amp;topic_id=3]', '', '');
 
 CREATE TABLE `ve_category_filter` (
   `category_id` int NOT NULL,
-  `filter_id` int NOT NULL
+  `filter_id` int NOT NULL,
+  `type` varchar(60) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC;
 
--- --------------------------------------------------------
-
---
--- Table structure for table `ve_category_path`
---
+INSERT INTO `ve_category_filter` (`category_id`, `filter_id`, `type`) VALUES
+(20, 1, 'option'),
+(20, 4, 'option'),
+(20, 2, 'attribute'),
+(1, 11, 'manufacturer'),
+(1, 12, 'manufacturer'),
+(2, 12, 'manufacturer'),
+(2, 11, 'manufacturer'),
+(27, 1, 'option'),
+(27, 4, 'option'),
+(27, 2, 'attribute');
 
 CREATE TABLE `ve_category_path` (
   `category_id` int NOT NULL,
@@ -423,28 +395,195 @@ CREATE TABLE `ve_category_path` (
   `level` int NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC;
 
---
--- Dumping data for table `ve_category_path`
---
-
 INSERT INTO `ve_category_path` (`category_id`, `path_id`, `level`) VALUES
-(79, 79, 0),
-(81, 81, 0),
-(82, 82, 0),
-(83, 83, 0),
-(84, 84, 0),
-(85, 85, 0),
-(86, 79, 0),
-(86, 86, 1),
-(87, 79, 0),
-(87, 87, 1),
-(88, 88, 0);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `ve_category_to_layout`
---
+(1, 1, 0),
+(2, 1, 0),
+(2, 2, 1),
+(3, 1, 0),
+(3, 3, 1),
+(4, 1, 0),
+(4, 4, 1),
+(5, 1, 0),
+(5, 5, 1),
+(6, 1, 0),
+(6, 5, 1),
+(6, 6, 2),
+(7, 1, 0),
+(7, 5, 1),
+(7, 6, 2),
+(7, 7, 3),
+(8, 1, 0),
+(8, 5, 1),
+(8, 6, 2),
+(8, 8, 3),
+(9, 9, 0),
+(10, 9, 0),
+(10, 10, 1),
+(11, 9, 0),
+(11, 10, 1),
+(11, 11, 2),
+(12, 9, 0),
+(12, 10, 1),
+(12, 12, 2),
+(13, 9, 0),
+(13, 10, 1),
+(13, 13, 2),
+(14, 9, 0),
+(14, 14, 1),
+(15, 9, 0),
+(15, 14, 1),
+(15, 15, 2),
+(16, 9, 0),
+(16, 14, 1),
+(16, 15, 2),
+(16, 16, 3),
+(17, 9, 0),
+(17, 14, 1),
+(17, 15, 2),
+(17, 17, 3),
+(18, 9, 0),
+(18, 14, 1),
+(18, 18, 2),
+(19, 9, 0),
+(19, 19, 1),
+(20, 20, 0),
+(21, 20, 0),
+(21, 21, 1),
+(22, 20, 0),
+(22, 21, 1),
+(22, 22, 2),
+(23, 20, 0),
+(23, 21, 1),
+(23, 23, 2),
+(24, 20, 0),
+(24, 21, 1),
+(24, 24, 2),
+(25, 20, 0),
+(25, 21, 1),
+(25, 24, 2),
+(25, 25, 3),
+(26, 20, 0),
+(26, 21, 1),
+(26, 24, 2),
+(26, 26, 3),
+(27, 20, 0),
+(27, 27, 1),
+(28, 20, 0),
+(28, 27, 1),
+(28, 28, 2),
+(29, 20, 0),
+(29, 27, 1),
+(29, 29, 2),
+(30, 20, 0),
+(30, 27, 1),
+(30, 30, 2),
+(31, 20, 0),
+(31, 27, 1),
+(31, 30, 2),
+(31, 31, 3),
+(32, 20, 0),
+(32, 27, 1),
+(32, 30, 2),
+(32, 32, 3),
+(33, 33, 0),
+(34, 33, 0),
+(34, 34, 1),
+(35, 33, 0),
+(35, 35, 1),
+(36, 33, 0),
+(36, 35, 1),
+(36, 36, 2),
+(37, 33, 0),
+(37, 35, 1),
+(37, 37, 2),
+(38, 33, 0),
+(38, 38, 1),
+(39, 33, 0),
+(39, 38, 1),
+(39, 39, 2),
+(40, 33, 0),
+(40, 38, 1),
+(40, 40, 2),
+(41, 41, 0),
+(42, 41, 0),
+(42, 42, 1),
+(43, 41, 0),
+(43, 42, 1),
+(43, 43, 2),
+(44, 41, 0),
+(44, 42, 1),
+(44, 44, 2),
+(45, 41, 0),
+(45, 42, 1),
+(45, 45, 2),
+(46, 46, 0),
+(47, 46, 0),
+(47, 47, 1),
+(48, 46, 0),
+(48, 48, 1),
+(49, 46, 0),
+(49, 49, 1),
+(50, 46, 0),
+(50, 50, 1),
+(51, 51, 0),
+(52, 51, 0),
+(52, 52, 1),
+(53, 51, 0),
+(53, 53, 1),
+(54, 51, 0),
+(54, 54, 1),
+(55, 51, 0),
+(55, 54, 1),
+(55, 55, 2),
+(56, 51, 0),
+(56, 54, 1),
+(56, 56, 2),
+(57, 57, 0),
+(58, 57, 0),
+(58, 58, 1),
+(59, 57, 0),
+(59, 58, 1),
+(59, 59, 2),
+(60, 57, 0),
+(60, 58, 1),
+(60, 59, 2),
+(60, 60, 3),
+(61, 57, 0),
+(61, 58, 1),
+(61, 61, 2),
+(62, 57, 0),
+(62, 58, 1),
+(62, 62, 2),
+(63, 57, 0),
+(63, 58, 1),
+(63, 62, 2),
+(63, 63, 3),
+(64, 57, 0),
+(64, 58, 1),
+(64, 62, 2),
+(64, 64, 3),
+(65, 57, 0),
+(65, 58, 1),
+(65, 65, 2),
+(66, 57, 0),
+(66, 58, 1),
+(66, 65, 2),
+(66, 66, 3),
+(67, 57, 0),
+(67, 58, 1),
+(67, 65, 2),
+(67, 67, 3),
+(69, 33, 0),
+(69, 34, 1),
+(69, 69, 2),
+(70, 33, 0),
+(70, 34, 1),
+(70, 70, 2),
+(71, 71, 0),
+(72, 71, 0),
+(72, 72, 1),
+(73, 71, 0),
+(73, 73, 1);
 
 CREATE TABLE `ve_category_to_layout` (
   `category_id` int NOT NULL,
@@ -452,52 +591,158 @@ CREATE TABLE `ve_category_to_layout` (
   `layout_id` int NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC;
 
---
--- Dumping data for table `ve_category_to_layout`
---
-
 INSERT INTO `ve_category_to_layout` (`category_id`, `store_id`, `layout_id`) VALUES
-(79, 0, 3),
-(81, 0, 3),
-(82, 0, 3),
-(83, 0, 3),
-(84, 0, 3),
-(85, 0, 3),
-(86, 0, 3),
-(87, 0, 3),
-(88, 0, 3);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `ve_category_to_store`
---
+(1, 0, 3),
+(2, 0, 3),
+(3, 0, 3),
+(4, 0, 3),
+(5, 0, 3),
+(6, 0, 3),
+(7, 0, 3),
+(8, 0, 3),
+(9, 0, 3),
+(10, 0, 3),
+(11, 0, 3),
+(12, 0, 3),
+(13, 0, 3),
+(14, 0, 3),
+(15, 0, 3),
+(16, 0, 3),
+(17, 0, 3),
+(18, 0, 3),
+(19, 0, 3),
+(20, 0, 3),
+(21, 0, 3),
+(22, 0, 3),
+(23, 0, 3),
+(24, 0, 3),
+(25, 0, 3),
+(26, 0, 3),
+(27, 0, 3),
+(28, 0, 3),
+(29, 0, 3),
+(30, 0, 3),
+(31, 0, 3),
+(32, 0, 3),
+(33, 0, 3),
+(34, 0, 3),
+(35, 0, 3),
+(36, 0, 3),
+(37, 0, 3),
+(38, 0, 3),
+(39, 0, 3),
+(40, 0, 3),
+(41, 0, 3),
+(42, 0, 3),
+(43, 0, 3),
+(44, 0, 3),
+(45, 0, 3),
+(46, 0, 3),
+(47, 0, 3),
+(48, 0, 3),
+(49, 0, 3),
+(50, 0, 3),
+(51, 0, 3),
+(52, 0, 3),
+(53, 0, 3),
+(54, 0, 3),
+(55, 0, 3),
+(56, 0, 3),
+(57, 0, 3),
+(58, 0, 3),
+(59, 0, 3),
+(60, 0, 3),
+(61, 0, 3),
+(62, 0, 3),
+(63, 0, 3),
+(64, 0, 3),
+(65, 0, 3),
+(66, 0, 3),
+(67, 0, 3),
+(69, 0, 3),
+(70, 0, 3),
+(71, 0, 3),
+(72, 0, 3),
+(73, 0, 3);
 
 CREATE TABLE `ve_category_to_store` (
   `category_id` int NOT NULL,
   `store_id` int NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC;
 
---
--- Dumping data for table `ve_category_to_store`
---
-
 INSERT INTO `ve_category_to_store` (`category_id`, `store_id`) VALUES
-(79, 0),
-(81, 0),
-(82, 0),
-(83, 0),
-(84, 0),
-(85, 0),
-(86, 0),
-(87, 0),
-(88, 0);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `ve_country`
---
+(1, 0),
+(2, 0),
+(3, 0),
+(4, 0),
+(5, 0),
+(6, 0),
+(7, 0),
+(8, 0),
+(9, 0),
+(10, 0),
+(11, 0),
+(12, 0),
+(13, 0),
+(14, 0),
+(15, 0),
+(16, 0),
+(17, 0),
+(18, 0),
+(19, 0),
+(20, 0),
+(21, 0),
+(22, 0),
+(23, 0),
+(24, 0),
+(25, 0),
+(26, 0),
+(27, 0),
+(28, 0),
+(29, 0),
+(30, 0),
+(31, 0),
+(32, 0),
+(33, 0),
+(34, 0),
+(35, 0),
+(36, 0),
+(37, 0),
+(38, 0),
+(39, 0),
+(40, 0),
+(41, 0),
+(42, 0),
+(43, 0),
+(44, 0),
+(45, 0),
+(46, 0),
+(47, 0),
+(48, 0),
+(49, 0),
+(50, 0),
+(51, 0),
+(52, 0),
+(53, 0),
+(54, 0),
+(55, 0),
+(56, 0),
+(57, 0),
+(58, 0),
+(59, 0),
+(60, 0),
+(61, 0),
+(62, 0),
+(63, 0),
+(64, 0),
+(65, 0),
+(66, 0),
+(67, 0),
+(69, 0),
+(70, 0),
+(71, 0),
+(72, 0),
+(73, 0);
 
 CREATE TABLE `ve_country` (
   `country_id` int NOT NULL,
@@ -508,10 +753,6 @@ CREATE TABLE `ve_country` (
   `postcode_required` tinyint(1) NOT NULL,
   `status` tinyint(1) NOT NULL DEFAULT '1'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC;
-
---
--- Dumping data for table `ve_country`
---
 
 INSERT INTO `ve_country` (`country_id`, `name`, `iso_code_2`, `iso_code_3`, `address_format_id`, `postcode_required`, `status`) VALUES
 (1, 'Afghanistan', 'AF', 'AFG', 1, 0, 1),
@@ -768,12 +1009,6 @@ INSERT INTO `ve_country` (`country_id`, `name`, `iso_code_2`, `iso_code_3`, `add
 (256, 'Guernsey', 'GG', 'GGY', 1, 0, 1),
 (257, 'Jersey', 'JE', 'JEY', 1, 0, 1);
 
--- --------------------------------------------------------
-
---
--- Table structure for table `ve_coupon`
---
-
 CREATE TABLE `ve_coupon` (
   `coupon_id` int NOT NULL,
   `name` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
@@ -791,31 +1026,15 @@ CREATE TABLE `ve_coupon` (
   `date_added` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC;
 
---
--- Dumping data for table `ve_coupon`
---
-
 INSERT INTO `ve_coupon` (`coupon_id`, `name`, `code`, `type`, `discount`, `logged`, `shipping`, `total`, `date_start`, `date_end`, `uses_total`, `uses_customer`, `status`, `date_added`) VALUES
 (1, '-10% Discount', '2222', 'P', '10.0000', 0, 0, '0.0000', '2014-01-01', '2020-01-01', 10, 10, 0, '2009-01-27 13:55:03'),
 (2, 'Free Shipping', '3333', 'P', '0.0000', 0, 1, '100.0000', '2014-01-01', '2014-02-01', 10, 10, 0, '2009-03-14 21:13:53'),
 (3, '-10.00 Discount', '1111', 'F', '10.0000', 0, 0, '10.0000', '2014-01-01', '2020-01-01', 100000, 10000, 0, '2009-03-14 21:15:18');
 
--- --------------------------------------------------------
-
---
--- Table structure for table `ve_coupon_category`
---
-
 CREATE TABLE `ve_coupon_category` (
   `coupon_id` int NOT NULL,
   `category_id` int NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `ve_coupon_history`
---
 
 CREATE TABLE `ve_coupon_history` (
   `coupon_history_id` int NOT NULL,
@@ -826,23 +1045,11 @@ CREATE TABLE `ve_coupon_history` (
   `date_added` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC;
 
--- --------------------------------------------------------
-
---
--- Table structure for table `ve_coupon_product`
---
-
 CREATE TABLE `ve_coupon_product` (
   `coupon_product_id` int NOT NULL,
   `coupon_id` int NOT NULL,
   `product_id` int NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `ve_cron`
---
 
 CREATE TABLE `ve_cron` (
   `cron_id` int NOT NULL,
@@ -855,20 +1062,10 @@ CREATE TABLE `ve_cron` (
   `date_modified` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC;
 
---
--- Dumping data for table `ve_cron`
---
-
 INSERT INTO `ve_cron` (`cron_id`, `code`, `description`, `cycle`, `action`, `status`, `date_added`, `date_modified`) VALUES
 (1, 'currency', 'Updates currency conversion values.', 'day', 'cron/currency', 1, '2014-09-25 14:40:00', '2014-09-25 14:40:00'),
 (2, 'gdpr', 'Deletes and send emails to customers who have requested their GPDR data to be deleted.', 'day', 'cron/gdpr', 1, '2014-09-25 14:40:00', '2014-09-25 14:40:00'),
 (3, 'subscription', 'Processes subscriptions by creating new orders, charging customers and sending mails to customers telling them that their subscription has been processed.', 'day', 'cron/subscription', 0, '2014-09-25 14:40:00', '2014-09-25 14:40:00');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `ve_currency`
---
 
 CREATE TABLE `ve_currency` (
   `currency_id` int NOT NULL,
@@ -882,25 +1079,15 @@ CREATE TABLE `ve_currency` (
   `date_modified` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC;
 
---
--- Dumping data for table `ve_currency`
---
-
 INSERT INTO `ve_currency` (`currency_id`, `title`, `code`, `symbol_left`, `symbol_right`, `decimal_place`, `value`, `status`, `date_modified`) VALUES
-(1, 'Pound Sterling', 'GBP', '£', '', 2, 0.78647059, 1, '2024-01-02 14:18:22'),
-(2, 'US Dollar', 'USD', '$', '', 2, 1.00000000, 1, '2024-01-02 14:18:22'),
-(3, 'Euro', 'EUR', '', '€', 2, 0.90497738, 1, '2024-01-02 14:18:22'),
-(4, 'Hong Kong Dollar', 'HKD', 'HK$', '', 2, 7.81122172, 0, '2024-01-02 14:18:22'),
-(5, 'Indian Rupee', 'INR', '₹', '', 2, 83.17149321, 0, '2024-01-02 14:18:22'),
+(1, 'Pound Sterling', 'GBP', '£', '', 2, 0.79362335, 1, '2024-02-09 00:17:12'),
+(2, 'US Dollar', 'USD', '$', '', 2, 1.00000000, 1, '2024-02-09 00:17:12'),
+(3, 'Euro', 'EUR', '', '€', 2, 0.92954081, 1, '2024-02-09 00:17:11'),
+(4, 'Hong Kong Dollar', 'HKD', 'HK$', '', 2, 7.82106339, 0, '2024-02-09 00:17:11'),
+(5, 'Indian Rupee', 'INR', '₹', '', 2, 82.98614984, 0, '2024-02-09 00:17:11'),
 (6, 'Russian Ruble', 'RUB', '', '₽', 2, 56.40360000, 0, '2018-02-16 12:00:00'),
-(7, 'Chinese Yuan Renminbi', 'CNY', '¥', '', 2, 7.10488688, 0, '2024-01-02 14:18:22'),
-(8, 'Australian Dollar', 'AUD', '$', '', 2, 1.47176471, 0, '2024-01-02 14:18:22');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `ve_customer`
---
+(7, 'Chinese Yuan Renminbi', 'CNY', '¥', '', 2, 7.19650493, 0, '2024-02-09 00:17:11'),
+(8, 'Australian Dollar', 'AUD', '$', '', 2, 1.54015616, 0, '2024-02-09 00:17:11');
 
 CREATE TABLE `ve_customer` (
   `customer_id` int NOT NULL,
@@ -923,12 +1110,6 @@ CREATE TABLE `ve_customer` (
   `date_added` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC;
 
--- --------------------------------------------------------
-
---
--- Table structure for table `ve_customer_activity`
---
-
 CREATE TABLE `ve_customer_activity` (
   `customer_activity_id` int NOT NULL,
   `customer_id` int NOT NULL,
@@ -937,12 +1118,6 @@ CREATE TABLE `ve_customer_activity` (
   `ip` varchar(40) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `date_added` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `ve_customer_affiliate`
---
 
 CREATE TABLE `ve_customer_affiliate` (
   `customer_id` int NOT NULL,
@@ -965,12 +1140,6 @@ CREATE TABLE `ve_customer_affiliate` (
   `date_added` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC;
 
--- --------------------------------------------------------
-
---
--- Table structure for table `ve_customer_affiliate_report`
---
-
 CREATE TABLE `ve_customer_affiliate_report` (
   `customer_affiliate_report_id` int NOT NULL,
   `customer_id` int NOT NULL,
@@ -980,24 +1149,12 @@ CREATE TABLE `ve_customer_affiliate_report` (
   `date_added` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC;
 
--- --------------------------------------------------------
-
---
--- Table structure for table `ve_customer_approval`
---
-
 CREATE TABLE `ve_customer_approval` (
   `customer_approval_id` int NOT NULL,
   `customer_id` int NOT NULL,
   `type` varchar(9) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `date_added` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `ve_customer_authorize`
---
 
 CREATE TABLE `ve_customer_authorize` (
   `customer_authorize_id` int NOT NULL,
@@ -1010,30 +1167,14 @@ CREATE TABLE `ve_customer_authorize` (
   `date_added` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC;
 
--- --------------------------------------------------------
-
---
--- Table structure for table `ve_customer_group`
---
-
 CREATE TABLE `ve_customer_group` (
   `customer_group_id` int NOT NULL,
   `approval` int NOT NULL,
   `sort_order` int NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC;
 
---
--- Dumping data for table `ve_customer_group`
---
-
 INSERT INTO `ve_customer_group` (`customer_group_id`, `approval`, `sort_order`) VALUES
 (1, 0, 1);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `ve_customer_group_description`
---
 
 CREATE TABLE `ve_customer_group_description` (
   `customer_group_id` int NOT NULL,
@@ -1042,18 +1183,8 @@ CREATE TABLE `ve_customer_group_description` (
   `description` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC;
 
---
--- Dumping data for table `ve_customer_group_description`
---
-
 INSERT INTO `ve_customer_group_description` (`customer_group_id`, `language_id`, `name`, `description`) VALUES
 (1, 1, 'Default', 'Default customer group');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `ve_customer_history`
---
 
 CREATE TABLE `ve_customer_history` (
   `customer_history_id` int NOT NULL,
@@ -1061,12 +1192,6 @@ CREATE TABLE `ve_customer_history` (
   `comment` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `date_added` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `ve_customer_ip`
---
 
 CREATE TABLE `ve_customer_ip` (
   `customer_ip_id` int NOT NULL,
@@ -1077,12 +1202,6 @@ CREATE TABLE `ve_customer_ip` (
   `date_added` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC;
 
--- --------------------------------------------------------
-
---
--- Table structure for table `ve_customer_login`
---
-
 CREATE TABLE `ve_customer_login` (
   `customer_login_id` int NOT NULL,
   `email` varchar(96) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
@@ -1092,12 +1211,6 @@ CREATE TABLE `ve_customer_login` (
   `date_modified` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC;
 
--- --------------------------------------------------------
-
---
--- Table structure for table `ve_customer_online`
---
-
 CREATE TABLE `ve_customer_online` (
   `ip` varchar(40) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `customer_id` int NOT NULL,
@@ -1105,12 +1218,6 @@ CREATE TABLE `ve_customer_online` (
   `referer` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `date_added` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `ve_customer_reward`
---
 
 CREATE TABLE `ve_customer_reward` (
   `customer_reward_id` int NOT NULL,
@@ -1120,12 +1227,6 @@ CREATE TABLE `ve_customer_reward` (
   `points` int NOT NULL DEFAULT '0',
   `date_added` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `ve_customer_search`
---
 
 CREATE TABLE `ve_customer_search` (
   `customer_search_id` int NOT NULL,
@@ -1141,12 +1242,6 @@ CREATE TABLE `ve_customer_search` (
   `date_added` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC;
 
--- --------------------------------------------------------
-
---
--- Table structure for table `ve_customer_transaction`
---
-
 CREATE TABLE `ve_customer_transaction` (
   `customer_transaction_id` int NOT NULL,
   `customer_id` int NOT NULL,
@@ -1156,23 +1251,11 @@ CREATE TABLE `ve_customer_transaction` (
   `date_added` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC;
 
--- --------------------------------------------------------
-
---
--- Table structure for table `ve_customer_wishlist`
---
-
 CREATE TABLE `ve_customer_wishlist` (
   `customer_id` int NOT NULL,
   `product_id` int NOT NULL,
   `date_added` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `ve_custom_field`
---
 
 CREATE TABLE `ve_custom_field` (
   `custom_field_id` int NOT NULL,
@@ -1183,10 +1266,6 @@ CREATE TABLE `ve_custom_field` (
   `status` tinyint(1) NOT NULL,
   `sort_order` int NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC;
-
---
--- Dumping data for table `ve_custom_field`
---
 
 INSERT INTO `ve_custom_field` (`custom_field_id`, `type`, `value`, `validation`, `location`, `status`, `sort_order`) VALUES
 (1, 'select', '', '', 'account', 0, 1),
@@ -1217,21 +1296,11 @@ INSERT INTO `ve_custom_field` (`custom_field_id`, `type`, `value`, `validation`,
 (27, 'textarea', '', '', 'affiliate', 0, 5),
 (28, 'time', '', '', 'affiliate', 0, 8);
 
--- --------------------------------------------------------
-
---
--- Table structure for table `ve_custom_field_customer_group`
---
-
 CREATE TABLE `ve_custom_field_customer_group` (
   `custom_field_id` int NOT NULL,
   `customer_group_id` int NOT NULL,
   `required` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC;
-
---
--- Dumping data for table `ve_custom_field_customer_group`
---
 
 INSERT INTO `ve_custom_field_customer_group` (`custom_field_id`, `customer_group_id`, `required`) VALUES
 (1, 1, 1),
@@ -1262,21 +1331,11 @@ INSERT INTO `ve_custom_field_customer_group` (`custom_field_id`, `customer_group
 (27, 1, 1),
 (28, 1, 1);
 
--- --------------------------------------------------------
-
---
--- Table structure for table `ve_custom_field_description`
---
-
 CREATE TABLE `ve_custom_field_description` (
   `custom_field_id` int NOT NULL,
   `language_id` int NOT NULL,
   `name` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC;
-
---
--- Dumping data for table `ve_custom_field_description`
---
 
 INSERT INTO `ve_custom_field_description` (`custom_field_id`, `language_id`, `name`) VALUES
 (1, 1, 'Select'),
@@ -1307,21 +1366,11 @@ INSERT INTO `ve_custom_field_description` (`custom_field_id`, `language_id`, `na
 (27, 1, 'Textarea'),
 (28, 1, 'Time');
 
--- --------------------------------------------------------
-
---
--- Table structure for table `ve_custom_field_value`
---
-
 CREATE TABLE `ve_custom_field_value` (
   `custom_field_value_id` int NOT NULL,
   `custom_field_id` int NOT NULL,
   `sort_order` int NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC;
-
---
--- Dumping data for table `ve_custom_field_value`
---
 
 INSERT INTO `ve_custom_field_value` (`custom_field_value_id`, `custom_field_id`, `sort_order`) VALUES
 (1, 1, 1),
@@ -1352,22 +1401,12 @@ INSERT INTO `ve_custom_field_value` (`custom_field_value_id`, `custom_field_id`,
 (45, 25, 0),
 (46, 25, 0);
 
--- --------------------------------------------------------
-
---
--- Table structure for table `ve_custom_field_value_description`
---
-
 CREATE TABLE `ve_custom_field_value_description` (
   `custom_field_value_id` int NOT NULL,
   `language_id` int NOT NULL,
   `custom_field_id` int NOT NULL,
   `name` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC;
-
---
--- Dumping data for table `ve_custom_field_value_description`
---
 
 INSERT INTO `ve_custom_field_value_description` (`custom_field_value_id`, `language_id`, `custom_field_id`, `name`) VALUES
 (1, 1, 1, 'Test 1'),
@@ -1398,12 +1437,6 @@ INSERT INTO `ve_custom_field_value_description` (`custom_field_value_id`, `langu
 (45, 1, 25, 'Test 2'),
 (46, 1, 25, 'Test 3');
 
--- --------------------------------------------------------
-
---
--- Table structure for table `ve_download`
---
-
 CREATE TABLE `ve_download` (
   `download_id` int NOT NULL,
   `filename` varchar(160) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
@@ -1411,23 +1444,11 @@ CREATE TABLE `ve_download` (
   `date_added` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC;
 
--- --------------------------------------------------------
-
---
--- Table structure for table `ve_download_description`
---
-
 CREATE TABLE `ve_download_description` (
   `download_id` int NOT NULL,
   `language_id` int NOT NULL,
   `name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `ve_download_report`
---
 
 CREATE TABLE `ve_download_report` (
   `download_report_id` int NOT NULL,
@@ -1438,12 +1459,6 @@ CREATE TABLE `ve_download_report` (
   `date_added` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC;
 
--- --------------------------------------------------------
-
---
--- Table structure for table `ve_event`
---
-
 CREATE TABLE `ve_event` (
   `event_id` int NOT NULL,
   `code` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
@@ -1453,10 +1468,6 @@ CREATE TABLE `ve_event` (
   `status` tinyint(1) NOT NULL DEFAULT '0',
   `sort_order` int NOT NULL DEFAULT '1'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC;
-
---
--- Dumping data for table `ve_event`
---
 
 INSERT INTO `ve_event` (`event_id`, `code`, `description`, `trigger`, `action`, `status`, `sort_order`) VALUES
 (1, 'activity_customer_add', 'Adds new customer entry in the activity log.', 'catalog/model/account/customer/addCustomer/after', 'event/activity.addCustomer', 1, 1),
@@ -1504,22 +1515,12 @@ INSERT INTO `ve_event` (`event_id`, `code`, `description`, `trigger`, `action`, 
 (43, 'admin_mail_user_authorize', 'Sends mail login code to users email to authorize login from a new device.', 'admin/controller/common/authorize.send/after', 'mail/authorize', 1, 1),
 (44, 'admin_mail_user_authorize_reset', 'Sends reset link to user who`s account is locked out after 3 wrong authorize code login attempts.', 'admin/model/user/user/editCode/after', 'mail/authorize.reset', 1, 1);
 
--- --------------------------------------------------------
-
---
--- Table structure for table `ve_extension`
---
-
 CREATE TABLE `ve_extension` (
   `extension_id` int NOT NULL,
   `extension` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `type` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `code` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC;
-
---
--- Dumping data for table `ve_extension`
---
 
 INSERT INTO `ve_extension` (`extension_id`, `extension`, `type`, `code`) VALUES
 (1, 'opencart', 'currency', 'ecb'),
@@ -1529,7 +1530,6 @@ INSERT INTO `ve_extension` (`extension_id`, `extension`, `type`, `code`) VALUES
 (5, 'opencart', 'payment', 'free_checkout'),
 (6, 'opencart', 'module', 'category'),
 (7, 'opencart', 'module', 'account'),
-(8, 'opencart', 'module', 'topic'),
 (9, 'opencart', 'shipping', 'flat'),
 (10, 'opencart', 'theme', 'basic'),
 (11, 'opencart', 'total', 'credit'),
@@ -1569,14 +1569,13 @@ INSERT INTO `ve_extension` (`extension_id`, `extension`, `type`, `code`) VALUES
 (46, 'opencart', 'shipping', 'free'),
 (47, 'opencart', 'module', 'store'),
 (48, 'opencart', 'module', 'bestseller'),
-(49, 'opencart', 'module', 'mostviewed'),
-(52, 'opencart', 'module', 'latest');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `ve_extension_install`
---
+(54, 'ventocart', 'module', 'availability_filter'),
+(55, 'ventocart', 'module', 'attribute_filter'),
+(56, 'ventocart', 'module', 'option_filter'),
+(58, 'ventocart', 'module', 'topic'),
+(59, 'ventocart', 'module', 'mostviewed'),
+(62, 'ventocart', 'module', 'manufacturer_filter'),
+(63, 'ventocart', 'captcha', 'basic');
 
 CREATE TABLE `ve_extension_install` (
   `extension_install_id` int NOT NULL,
@@ -1592,10 +1591,6 @@ CREATE TABLE `ve_extension_install` (
   `date_added` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC;
 
---
--- Dumping data for table `ve_extension_install`
---
-
 INSERT INTO `ve_extension_install` (`extension_install_id`, `extension_id`, `extension_download_id`, `name`, `description`, `code`, `version`, `author`, `link`, `status`, `date_added`) VALUES
 (1, 1, 0, 'OpenCart Default Extensions', 'This extension contains all the default extensions for modules, currencies, payment methods, shipping methods, anti-fraud, themes, order totals and reports.', 'opencart', '1.0', 'OpenCart Ltd', 'http://www.opencart.com', 1, '2020-08-29 15:35:39'),
 (3, 1, 0, 'Stripe', '', 'stripe', '1.0.0', 'stripe', 'https://velecron.com/', 1, '2023-12-04 19:55:24'),
@@ -1603,23 +1598,14 @@ INSERT INTO `ve_extension_install` (`extension_install_id`, `extension_id`, `ext
 (13, 1, 0, 'OpenCart OCMOD Example', '', 'oc_ocmod_example', '1.0', 'OpenCart Ltd', 'https://www.opencart.com', 0, '2023-12-22 01:02:01'),
 (14, 1, 0, 'OpenCart Payment Example', 'This extension is only here for so developers can see how to create a payment extension for OpenCart.', 'oc_payment_example', '1.0', 'OpenCart Ltd', 'https://www.opencart.com', 0, '2023-12-22 01:02:01'),
 (15, 1, 0, 'OpenCart Theme Example', 'This extension is only here for so developers can see how to create a theme extension for OpenCart.', 'oc_theme_example', '1.0', 'OpenCart Ltd', 'https://www.opencart.com', 0, '2023-12-22 01:02:01'),
-(16, 1, 0, 'PayPal', '', 'paypal', '2.1.0', 'Dreamvention', 'https://dreamvention.com/', 1, '2023-12-22 01:02:01');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `ve_extension_path`
---
+(16, 1, 0, 'PayPal', '', 'paypal', '2.1.0', 'Dreamvention', 'https://dreamvention.com/', 1, '2023-12-22 01:02:01'),
+(20, 0, 0, 'VentoCart Default Extensions', 'This extension contains all the default extensions for modules, currencies, payment methods, shipping methods, anti-fraud, themes, order totals and reports.', 'ventocart', '1.0', 'VentoCart Ltd', 'https://www.VentoCart.com', 1, '2024-01-30 21:30:48');
 
 CREATE TABLE `ve_extension_path` (
   `extension_path_id` int NOT NULL,
   `extension_install_id` int NOT NULL,
   `path` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC;
-
---
--- Dumping data for table `ve_extension_path`
---
 
 INSERT INTO `ve_extension_path` (`extension_path_id`, `extension_install_id`, `path`) VALUES
 (1, 1, 'opencart'),
@@ -2286,25 +2272,299 @@ INSERT INTO `ve_extension_path` (`extension_path_id`, `extension_install_id`, `p
 (1731, 3, 'stripe/system/library/stripe/Util/Set.php'),
 (1732, 3, 'stripe/system/library/stripe/Util/Util.php'),
 (1733, 3, 'stripe/system/library/stripe/Webhook.php'),
-(1734, 3, 'stripe/system/library/stripe/WebhookSignature.php');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `ve_filter`
---
+(1734, 3, 'stripe/system/library/stripe/WebhookSignature.php'),
+(1779, 20, 'ventocart'),
+(1780, 20, 'ventocart/admin'),
+(1781, 20, 'ventocart/admin/controller'),
+(1782, 20, 'ventocart/admin/controller/captcha'),
+(1783, 20, 'ventocart/admin/controller/captcha/basic.php'),
+(1784, 20, 'ventocart/admin/controller/module'),
+(1785, 20, 'ventocart/admin/controller/module/attribute_filter.php'),
+(1786, 20, 'ventocart/admin/controller/module/availability_filter.php'),
+(1787, 20, 'ventocart/admin/controller/module/latest.php'),
+(1788, 20, 'ventocart/admin/controller/module/mostviewed.php'),
+(1789, 20, 'ventocart/admin/controller/module/option_filter.php'),
+(1790, 20, 'ventocart/admin/language'),
+(1791, 20, 'ventocart/admin/language/el-gr'),
+(1792, 20, 'ventocart/admin/language/el-gr/captcha'),
+(1793, 20, 'ventocart/admin/language/el-gr/captcha/basic.php'),
+(1794, 20, 'ventocart/admin/language/el-gr/currency'),
+(1795, 20, 'ventocart/admin/language/el-gr/currency/ecb.php'),
+(1796, 20, 'ventocart/admin/language/el-gr/currency/fixer.php'),
+(1797, 20, 'ventocart/admin/language/el-gr/dashboard'),
+(1798, 20, 'ventocart/admin/language/el-gr/dashboard/activity.php'),
+(1799, 20, 'ventocart/admin/language/el-gr/dashboard/chart.php'),
+(1800, 20, 'ventocart/admin/language/el-gr/dashboard/customer.php'),
+(1801, 20, 'ventocart/admin/language/el-gr/dashboard/map.php'),
+(1802, 20, 'ventocart/admin/language/el-gr/dashboard/online.php'),
+(1803, 20, 'ventocart/admin/language/el-gr/dashboard/order.php'),
+(1804, 20, 'ventocart/admin/language/el-gr/dashboard/recent.php'),
+(1805, 20, 'ventocart/admin/language/el-gr/dashboard/sale.php'),
+(1806, 20, 'ventocart/admin/language/el-gr/fraud'),
+(1807, 20, 'ventocart/admin/language/el-gr/fraud/ip.php'),
+(1808, 20, 'ventocart/admin/language/el-gr/module'),
+(1809, 20, 'ventocart/admin/language/el-gr/module/account.php'),
+(1810, 20, 'ventocart/admin/language/el-gr/module/attribute_filter.php'),
+(1811, 20, 'ventocart/admin/language/el-gr/module/availability_filter.php'),
+(1812, 20, 'ventocart/admin/language/el-gr/module/banner.php'),
+(1813, 20, 'ventocart/admin/language/el-gr/module/bestseller.php'),
+(1814, 20, 'ventocart/admin/language/el-gr/module/category.php'),
+(1815, 20, 'ventocart/admin/language/el-gr/module/featured.php'),
+(1816, 20, 'ventocart/admin/language/el-gr/module/filter.php'),
+(1817, 20, 'ventocart/admin/language/el-gr/module/html.php'),
+(1818, 20, 'ventocart/admin/language/el-gr/module/information.php'),
+(1819, 20, 'ventocart/admin/language/el-gr/module/latest.php'),
+(1820, 20, 'ventocart/admin/language/el-gr/module/mostviewed.php'),
+(1821, 20, 'ventocart/admin/language/el-gr/module/option_filter.php'),
+(1822, 20, 'ventocart/admin/language/el-gr/module/special.php'),
+(1823, 20, 'ventocart/admin/language/el-gr/module/store.php'),
+(1824, 20, 'ventocart/admin/language/el-gr/module/topic.php'),
+(1825, 20, 'ventocart/admin/language/el-gr/other'),
+(1826, 20, 'ventocart/admin/language/el-gr/other/cloud.php'),
+(1827, 20, 'ventocart/admin/language/el-gr/payment'),
+(1828, 20, 'ventocart/admin/language/el-gr/payment/bank_transfer.php'),
+(1829, 20, 'ventocart/admin/language/el-gr/payment/cheque.php'),
+(1830, 20, 'ventocart/admin/language/el-gr/payment/cod.php'),
+(1831, 20, 'ventocart/admin/language/el-gr/payment/free_checkout.php'),
+(1832, 20, 'ventocart/admin/language/el-gr/report'),
+(1833, 20, 'ventocart/admin/language/el-gr/report/customer.php'),
+(1834, 20, 'ventocart/admin/language/el-gr/report/customer_activity.php'),
+(1835, 20, 'ventocart/admin/language/el-gr/report/customer_order.php'),
+(1836, 20, 'ventocart/admin/language/el-gr/report/customer_reward.php'),
+(1837, 20, 'ventocart/admin/language/el-gr/report/customer_search.php'),
+(1838, 20, 'ventocart/admin/language/el-gr/report/customer_transaction.php'),
+(1839, 20, 'ventocart/admin/language/el-gr/report/marketing.php'),
+(1840, 20, 'ventocart/admin/language/el-gr/report/product_purchased.php'),
+(1841, 20, 'ventocart/admin/language/el-gr/report/product_viewed.php'),
+(1842, 20, 'ventocart/admin/language/el-gr/report/sale_coupon.php'),
+(1843, 20, 'ventocart/admin/language/el-gr/report/sale_order.php'),
+(1844, 20, 'ventocart/admin/language/el-gr/report/sale_return.php'),
+(1845, 20, 'ventocart/admin/language/el-gr/report/sale_shipping.php'),
+(1846, 20, 'ventocart/admin/language/el-gr/report/sale_tax.php'),
+(1847, 20, 'ventocart/admin/language/el-gr/report/subscription.php'),
+(1848, 20, 'ventocart/admin/language/el-gr/shipping'),
+(1849, 20, 'ventocart/admin/language/el-gr/shipping/flat.php'),
+(1850, 20, 'ventocart/admin/language/el-gr/shipping/free.php'),
+(1851, 20, 'ventocart/admin/language/el-gr/shipping/item.php'),
+(1852, 20, 'ventocart/admin/language/el-gr/shipping/pickup.php'),
+(1853, 20, 'ventocart/admin/language/el-gr/shipping/weight.php'),
+(1854, 20, 'ventocart/admin/language/el-gr/theme'),
+(1855, 20, 'ventocart/admin/language/el-gr/theme/basic.php'),
+(1856, 20, 'ventocart/admin/language/el-gr/total'),
+(1857, 20, 'ventocart/admin/language/el-gr/total/coupon.php'),
+(1858, 20, 'ventocart/admin/language/el-gr/total/credit.php'),
+(1859, 20, 'ventocart/admin/language/el-gr/total/handling.php'),
+(1860, 20, 'ventocart/admin/language/el-gr/total/low_order_fee.php'),
+(1861, 20, 'ventocart/admin/language/el-gr/total/reward.php'),
+(1862, 20, 'ventocart/admin/language/el-gr/total/shipping.php'),
+(1863, 20, 'ventocart/admin/language/el-gr/total/sub_total.php'),
+(1864, 20, 'ventocart/admin/language/el-gr/total/tax.php'),
+(1865, 20, 'ventocart/admin/language/el-gr/total/total.php'),
+(1866, 20, 'ventocart/admin/language/el-gr/total/voucher.php'),
+(1867, 20, 'ventocart/admin/language/en-gb'),
+(1868, 20, 'ventocart/admin/language/en-gb/module'),
+(1869, 20, 'ventocart/admin/language/en-gb/module/attribute_filter.php'),
+(1870, 20, 'ventocart/admin/language/en-gb/module/availability_filter.php'),
+(1871, 20, 'ventocart/admin/language/en-gb/module/latest.php'),
+(1872, 20, 'ventocart/admin/language/en-gb/module/mostviewed.php'),
+(1873, 20, 'ventocart/admin/language/en-gb/module/option_filter.php'),
+(1874, 20, 'ventocart/admin/model'),
+(1875, 20, 'ventocart/admin/model/module'),
+(1876, 20, 'ventocart/admin/model/module/bestseller.php'),
+(1877, 20, 'ventocart/admin/view'),
+(1878, 20, 'ventocart/admin/view/image'),
+(1879, 20, 'ventocart/admin/view/image/basic.png'),
+(1880, 20, 'ventocart/admin/view/template'),
+(1881, 20, 'ventocart/admin/view/template/captcha'),
+(1882, 20, 'ventocart/admin/view/template/captcha/basic.twig'),
+(1883, 20, 'ventocart/admin/view/template/currency'),
+(1884, 20, 'ventocart/admin/view/template/currency/ecb.twig'),
+(1885, 20, 'ventocart/admin/view/template/currency/fixer.twig'),
+(1886, 20, 'ventocart/admin/view/template/dashboard'),
+(1887, 20, 'ventocart/admin/view/template/dashboard/activity_form.twig'),
+(1888, 20, 'ventocart/admin/view/template/dashboard/activity_info.twig'),
+(1889, 20, 'ventocart/admin/view/template/dashboard/chart_form.twig'),
+(1890, 20, 'ventocart/admin/view/template/dashboard/chart_info.twig'),
+(1891, 20, 'ventocart/admin/view/template/dashboard/customer_form.twig'),
+(1892, 20, 'ventocart/admin/view/template/dashboard/customer_info.twig'),
+(1893, 20, 'ventocart/admin/view/template/dashboard/map_form.twig'),
+(1894, 20, 'ventocart/admin/view/template/dashboard/map_info.twig'),
+(1895, 20, 'ventocart/admin/view/template/dashboard/online_form.twig'),
+(1896, 20, 'ventocart/admin/view/template/dashboard/online_info.twig'),
+(1897, 20, 'ventocart/admin/view/template/dashboard/order_form.twig'),
+(1898, 20, 'ventocart/admin/view/template/dashboard/order_info.twig'),
+(1899, 20, 'ventocart/admin/view/template/dashboard/recent_form.twig'),
+(1900, 20, 'ventocart/admin/view/template/dashboard/recent_info.twig'),
+(1901, 20, 'ventocart/admin/view/template/dashboard/sale_form.twig'),
+(1902, 20, 'ventocart/admin/view/template/dashboard/sale_info.twig'),
+(1903, 20, 'ventocart/admin/view/template/fraud'),
+(1904, 20, 'ventocart/admin/view/template/fraud/ip.twig'),
+(1905, 20, 'ventocart/admin/view/template/fraud/ip_ip.twig'),
+(1906, 20, 'ventocart/admin/view/template/module'),
+(1907, 20, 'ventocart/admin/view/template/module/account.twig'),
+(1908, 20, 'ventocart/admin/view/template/module/attribute_filter.twig'),
+(1909, 20, 'ventocart/admin/view/template/module/availability_filter.twig'),
+(1910, 20, 'ventocart/admin/view/template/module/banner.twig'),
+(1911, 20, 'ventocart/admin/view/template/module/bestseller.twig'),
+(1912, 20, 'ventocart/admin/view/template/module/bestseller_report.twig'),
+(1913, 20, 'ventocart/admin/view/template/module/category.twig'),
+(1914, 20, 'ventocart/admin/view/template/module/featured.twig'),
+(1915, 20, 'ventocart/admin/view/template/module/filter.twig'),
+(1916, 20, 'ventocart/admin/view/template/module/html.twig'),
+(1917, 20, 'ventocart/admin/view/template/module/information.twig'),
+(1918, 20, 'ventocart/admin/view/template/module/latest.twig'),
+(1919, 20, 'ventocart/admin/view/template/module/mostviewed.twig'),
+(1920, 20, 'ventocart/admin/view/template/module/option_filter.twig'),
+(1921, 20, 'ventocart/admin/view/template/module/special.twig'),
+(1922, 20, 'ventocart/admin/view/template/module/store.twig'),
+(1923, 20, 'ventocart/admin/view/template/module/topic.twig'),
+(1924, 20, 'ventocart/admin/view/template/other'),
+(1925, 20, 'ventocart/admin/view/template/other/cloud.php'),
+(1926, 20, 'ventocart/admin/view/template/payment'),
+(1927, 20, 'ventocart/admin/view/template/payment/bank_transfer.twig'),
+(1928, 20, 'ventocart/admin/view/template/payment/cheque.twig'),
+(1929, 20, 'ventocart/admin/view/template/payment/cod.twig'),
+(1930, 20, 'ventocart/admin/view/template/payment/free_checkout.twig'),
+(1931, 20, 'ventocart/admin/view/template/report'),
+(1932, 20, 'ventocart/admin/view/template/report/customer.twig'),
+(1933, 20, 'ventocart/admin/view/template/report/customer_activity.twig'),
+(1934, 20, 'ventocart/admin/view/template/report/customer_activity_form.twig'),
+(1935, 20, 'ventocart/admin/view/template/report/customer_activity_list.twig'),
+(1936, 20, 'ventocart/admin/view/template/report/customer_form.twig'),
+(1937, 20, 'ventocart/admin/view/template/report/customer_list.twig'),
+(1938, 20, 'ventocart/admin/view/template/report/customer_order.twig'),
+(1939, 20, 'ventocart/admin/view/template/report/customer_order_form.twig'),
+(1940, 20, 'ventocart/admin/view/template/report/customer_order_list.twig'),
+(1941, 20, 'ventocart/admin/view/template/report/customer_reward.twig'),
+(1942, 20, 'ventocart/admin/view/template/report/customer_reward_form.twig'),
+(1943, 20, 'ventocart/admin/view/template/report/customer_reward_list.twig'),
+(1944, 20, 'ventocart/admin/view/template/report/customer_search.twig'),
+(1945, 20, 'ventocart/admin/view/template/report/customer_search_form.twig'),
+(1946, 20, 'ventocart/admin/view/template/report/customer_search_list.twig'),
+(1947, 20, 'ventocart/admin/view/template/report/customer_transaction.twig'),
+(1948, 20, 'ventocart/admin/view/template/report/customer_transaction_form.twig'),
+(1949, 20, 'ventocart/admin/view/template/report/customer_transaction_list.twig'),
+(1950, 20, 'ventocart/admin/view/template/report/marketing.twig'),
+(1951, 20, 'ventocart/admin/view/template/report/marketing_form.twig'),
+(1952, 20, 'ventocart/admin/view/template/report/marketing_list.twig'),
+(1953, 20, 'ventocart/admin/view/template/report/product_purchased.twig'),
+(1954, 20, 'ventocart/admin/view/template/report/product_purchased_form.twig'),
+(1955, 20, 'ventocart/admin/view/template/report/product_purchased_list.twig'),
+(1956, 20, 'ventocart/admin/view/template/report/product_viewed.twig'),
+(1957, 20, 'ventocart/admin/view/template/report/product_viewed_form.twig'),
+(1958, 20, 'ventocart/admin/view/template/report/product_viewed_list.twig'),
+(1959, 20, 'ventocart/admin/view/template/report/sale_coupon.twig'),
+(1960, 20, 'ventocart/admin/view/template/report/sale_coupon_form.twig'),
+(1961, 20, 'ventocart/admin/view/template/report/sale_coupon_list.twig'),
+(1962, 20, 'ventocart/admin/view/template/report/sale_order.twig'),
+(1963, 20, 'ventocart/admin/view/template/report/sale_order_form.twig'),
+(1964, 20, 'ventocart/admin/view/template/report/sale_order_list.twig'),
+(1965, 20, 'ventocart/admin/view/template/report/sale_return.twig'),
+(1966, 20, 'ventocart/admin/view/template/report/sale_return_form.twig'),
+(1967, 20, 'ventocart/admin/view/template/report/sale_return_list.twig'),
+(1968, 20, 'ventocart/admin/view/template/report/sale_shipping.twig'),
+(1969, 20, 'ventocart/admin/view/template/report/sale_shipping_form.twig'),
+(1970, 20, 'ventocart/admin/view/template/report/sale_shipping_list.twig'),
+(1971, 20, 'ventocart/admin/view/template/report/sale_tax.twig'),
+(1972, 20, 'ventocart/admin/view/template/report/sale_tax_form.twig'),
+(1973, 20, 'ventocart/admin/view/template/report/sale_tax_list.twig');
+INSERT INTO `ve_extension_path` (`extension_path_id`, `extension_install_id`, `path`) VALUES
+(1974, 20, 'ventocart/admin/view/template/report/subscription.twig'),
+(1975, 20, 'ventocart/admin/view/template/report/subscription_form.twig'),
+(1976, 20, 'ventocart/admin/view/template/report/subscription_list.twig'),
+(1977, 20, 'ventocart/admin/view/template/shipping'),
+(1978, 20, 'ventocart/admin/view/template/shipping/flat.twig'),
+(1979, 20, 'ventocart/admin/view/template/shipping/free.twig'),
+(1980, 20, 'ventocart/admin/view/template/shipping/item.twig'),
+(1981, 20, 'ventocart/admin/view/template/shipping/pickup.twig'),
+(1982, 20, 'ventocart/admin/view/template/shipping/weight.twig'),
+(1983, 20, 'ventocart/admin/view/template/theme'),
+(1984, 20, 'ventocart/admin/view/template/theme/basic.twig'),
+(1985, 20, 'ventocart/admin/view/template/total'),
+(1986, 20, 'ventocart/admin/view/template/total/coupon.twig'),
+(1987, 20, 'ventocart/admin/view/template/total/credit.twig'),
+(1988, 20, 'ventocart/admin/view/template/total/handling.twig'),
+(1989, 20, 'ventocart/admin/view/template/total/low_order_fee.twig'),
+(1990, 20, 'ventocart/admin/view/template/total/reward.twig'),
+(1991, 20, 'ventocart/admin/view/template/total/shipping.twig'),
+(1992, 20, 'ventocart/admin/view/template/total/sub_total.twig'),
+(1993, 20, 'ventocart/admin/view/template/total/tax.twig'),
+(1994, 20, 'ventocart/admin/view/template/total/total.twig'),
+(1995, 20, 'ventocart/admin/view/template/total/voucher.twig'),
+(1996, 20, 'ventocart/catalog'),
+(1997, 20, 'ventocart/catalog/controller'),
+(1998, 20, 'ventocart/catalog/controller/captcha'),
+(1999, 20, 'ventocart/catalog/controller/captcha/basic.php'),
+(2000, 20, 'ventocart/catalog/controller/module'),
+(2001, 20, 'ventocart/catalog/controller/module/attribute_filter.php'),
+(2002, 20, 'ventocart/catalog/controller/module/availability_filter.php'),
+(2003, 20, 'ventocart/catalog/controller/module/mostviewed.php'),
+(2004, 20, 'ventocart/catalog/controller/module/option_filter.php'),
+(2005, 20, 'ventocart/catalog/controller/module/topic.php'),
+(2006, 20, 'ventocart/catalog/language'),
+(2007, 20, 'ventocart/catalog/language/el-gr'),
+(2008, 20, 'ventocart/catalog/language/el-gr/captcha'),
+(2009, 20, 'ventocart/catalog/language/el-gr/captcha/basic.php'),
+(2010, 20, 'ventocart/catalog/language/el-gr/module'),
+(2011, 20, 'ventocart/catalog/language/el-gr/module/account.php'),
+(2012, 20, 'ventocart/catalog/language/el-gr/module/bestseller.php'),
+(2013, 20, 'ventocart/catalog/language/el-gr/module/category.php'),
+(2014, 20, 'ventocart/catalog/language/el-gr/module/featured.php'),
+(2015, 20, 'ventocart/catalog/language/el-gr/module/filter.php'),
+(2016, 20, 'ventocart/catalog/language/el-gr/module/information.php'),
+(2017, 20, 'ventocart/catalog/language/el-gr/module/latest.php'),
+(2018, 20, 'ventocart/catalog/language/el-gr/module/mostviewed.php'),
+(2019, 20, 'ventocart/catalog/language/el-gr/module/special.php'),
+(2020, 20, 'ventocart/catalog/language/el-gr/module/store.php'),
+(2021, 20, 'ventocart/catalog/language/el-gr/module/topic.php'),
+(2022, 20, 'ventocart/catalog/language/el-gr/payment'),
+(2023, 20, 'ventocart/catalog/language/el-gr/payment/bank_transfer.php'),
+(2024, 20, 'ventocart/catalog/language/el-gr/payment/cheque.php'),
+(2025, 20, 'ventocart/catalog/language/el-gr/payment/cod.php'),
+(2026, 20, 'ventocart/catalog/language/el-gr/payment/free_checkout.php'),
+(2027, 20, 'ventocart/catalog/language/el-gr/shipping'),
+(2028, 20, 'ventocart/catalog/language/el-gr/shipping/flat.php'),
+(2029, 20, 'ventocart/catalog/language/el-gr/shipping/free.php'),
+(2030, 20, 'ventocart/catalog/language/el-gr/shipping/item.php'),
+(2031, 20, 'ventocart/catalog/language/el-gr/shipping/pickup.php'),
+(2032, 20, 'ventocart/catalog/language/el-gr/shipping/weight.php'),
+(2033, 20, 'ventocart/catalog/language/el-gr/total'),
+(2034, 20, 'ventocart/catalog/language/el-gr/total/coupon.php'),
+(2035, 20, 'ventocart/catalog/language/el-gr/total/credit.php'),
+(2036, 20, 'ventocart/catalog/language/el-gr/total/handling.php'),
+(2037, 20, 'ventocart/catalog/language/el-gr/total/low_order_fee.php'),
+(2038, 20, 'ventocart/catalog/language/el-gr/total/reward.php'),
+(2039, 20, 'ventocart/catalog/language/el-gr/total/shipping.php'),
+(2040, 20, 'ventocart/catalog/language/el-gr/total/sub_total.php'),
+(2041, 20, 'ventocart/catalog/language/el-gr/total/total.php'),
+(2042, 20, 'ventocart/catalog/language/el-gr/total/voucher.php'),
+(2043, 20, 'ventocart/catalog/language/en-gb'),
+(2044, 20, 'ventocart/catalog/language/en-gb/captcha'),
+(2045, 20, 'ventocart/catalog/language/en-gb/captcha/basic.php'),
+(2046, 20, 'ventocart/catalog/language/en-gb/module'),
+(2047, 20, 'ventocart/catalog/language/en-gb/module/mostviewed.php'),
+(2048, 20, 'ventocart/catalog/language/en-gb/module/topic.php'),
+(2049, 20, 'ventocart/catalog/model'),
+(2050, 20, 'ventocart/catalog/model/module'),
+(2051, 20, 'ventocart/catalog/model/module/availability_filter.php'),
+(2052, 20, 'ventocart/catalog/model/module/latest.php'),
+(2053, 20, 'ventocart/catalog/view'),
+(2054, 20, 'ventocart/catalog/view/template'),
+(2055, 20, 'ventocart/catalog/view/template/captcha'),
+(2056, 20, 'ventocart/catalog/view/template/captcha/basic.twig'),
+(2057, 20, 'ventocart/catalog/view/template/module'),
+(2058, 20, 'ventocart/catalog/view/template/module/attribute_filter.php'),
+(2059, 20, 'ventocart/catalog/view/template/module/availability_filter.php'),
+(2060, 20, 'ventocart/catalog/view/template/module/mostviewed.php'),
+(2061, 20, 'ventocart/catalog/view/template/module/option_filter.php'),
+(2062, 20, 'ventocart/catalog/view/template/module/topic_preview.php'),
+(2063, 20, 'ventocart/install.json');
 
 CREATE TABLE `ve_filter` (
   `filter_id` int NOT NULL,
   `filter_group_id` int NOT NULL,
   `sort_order` int NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `ve_filter_description`
---
 
 CREATE TABLE `ve_filter_description` (
   `filter_id` int NOT NULL,
@@ -2313,34 +2573,16 @@ CREATE TABLE `ve_filter_description` (
   `name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC;
 
--- --------------------------------------------------------
-
---
--- Table structure for table `ve_filter_group`
---
-
 CREATE TABLE `ve_filter_group` (
   `filter_group_id` int NOT NULL,
   `sort_order` int NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `ve_filter_group_description`
---
 
 CREATE TABLE `ve_filter_group_description` (
   `filter_group_id` int NOT NULL,
   `language_id` int NOT NULL,
   `name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `ve_gdpr`
---
 
 CREATE TABLE `ve_gdpr` (
   `gdpr_id` int NOT NULL,
@@ -2353,31 +2595,15 @@ CREATE TABLE `ve_gdpr` (
   `date_added` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC;
 
--- --------------------------------------------------------
-
---
--- Table structure for table `ve_geo_zone`
---
-
 CREATE TABLE `ve_geo_zone` (
   `geo_zone_id` int NOT NULL,
   `name` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `description` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC;
 
---
--- Dumping data for table `ve_geo_zone`
---
-
 INSERT INTO `ve_geo_zone` (`geo_zone_id`, `name`, `description`) VALUES
 (3, 'UK VAT Zone', 'UK VAT'),
 (4, 'UK Shipping', 'UK Shipping Zones');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `ve_information`
---
 
 CREATE TABLE `ve_information` (
   `information_id` int NOT NULL,
@@ -2386,21 +2612,11 @@ CREATE TABLE `ve_information` (
   `status` tinyint(1) NOT NULL DEFAULT '1'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC;
 
---
--- Dumping data for table `ve_information`
---
-
 INSERT INTO `ve_information` (`information_id`, `bottom`, `sort_order`, `status`) VALUES
 (1, 1, 3, 1),
 (2, 1, 1, 1),
 (3, 1, 4, 1),
 (4, 1, 2, 1);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `ve_information_description`
---
 
 CREATE TABLE `ve_information_description` (
   `information_id` int NOT NULL,
@@ -2412,10 +2628,6 @@ CREATE TABLE `ve_information_description` (
   `meta_keyword` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC;
 
---
--- Dumping data for table `ve_information_description`
---
-
 INSERT INTO `ve_information_description` (`information_id`, `language_id`, `title`, `description`, `meta_title`, `meta_description`, `meta_keyword`) VALUES
 (1, 1, 'About Us', '&lt;p&gt;\r\n	About Us&lt;/p&gt;\r\n', 'About Us', '', ''),
 (1, 9, 'About Us', '&lt;p&gt;\r\n	About Us&lt;/p&gt;\r\n', 'About Us', '', ''),
@@ -2426,44 +2638,22 @@ INSERT INTO `ve_information_description` (`information_id`, `language_id`, `titl
 (4, 1, 'Delivery Information', '&lt;p&gt;\r\n	Delivery Information&lt;/p&gt;\r\n', 'Delivery Information', '', ''),
 (4, 9, 'Delivery Information', '&lt;p&gt;\r\n	Delivery Information&lt;/p&gt;\r\n', 'Delivery Information', '', '');
 
--- --------------------------------------------------------
-
---
--- Table structure for table `ve_information_to_layout`
---
-
 CREATE TABLE `ve_information_to_layout` (
   `information_id` int NOT NULL,
   `store_id` int NOT NULL,
   `layout_id` int NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC;
 
--- --------------------------------------------------------
-
---
--- Table structure for table `ve_information_to_store`
---
-
 CREATE TABLE `ve_information_to_store` (
   `information_id` int NOT NULL,
   `store_id` int NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC;
-
---
--- Dumping data for table `ve_information_to_store`
---
 
 INSERT INTO `ve_information_to_store` (`information_id`, `store_id`) VALUES
 (1, 0),
 (2, 0),
 (3, 0),
 (4, 0);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `ve_language`
---
 
 CREATE TABLE `ve_language` (
   `language_id` int NOT NULL,
@@ -2475,27 +2665,13 @@ CREATE TABLE `ve_language` (
   `status` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC;
 
---
--- Dumping data for table `ve_language`
---
-
 INSERT INTO `ve_language` (`language_id`, `name`, `code`, `locale`, `extension`, `sort_order`, `status`) VALUES
 (1, 'English', 'en-gb', 'en-gb,en', '', 1, 1);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `ve_layout`
---
 
 CREATE TABLE `ve_layout` (
   `layout_id` int NOT NULL,
   `name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC;
-
---
--- Dumping data for table `ve_layout`
---
 
 INSERT INTO `ve_layout` (`layout_id`, `name`) VALUES
 (1, 'Home'),
@@ -2513,12 +2689,6 @@ INSERT INTO `ve_layout` (`layout_id`, `name`) VALUES
 (13, 'Search'),
 (14, 'Blog');
 
--- --------------------------------------------------------
-
---
--- Table structure for table `ve_layout_module`
---
-
 CREATE TABLE `ve_layout_module` (
   `layout_module_id` int NOT NULL,
   `layout_id` int NOT NULL,
@@ -2527,27 +2697,20 @@ CREATE TABLE `ve_layout_module` (
   `sort_order` int NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC;
 
---
--- Dumping data for table `ve_layout_module`
---
-
 INSERT INTO `ve_layout_module` (`layout_module_id`, `layout_id`, `code`, `position`, `sort_order`) VALUES
 (1, 10, 'opencart.account', 'column_right', 1),
 (2, 6, 'opencart.account', 'column_right', 1),
-(8, 14, 'opencart.topic', 'column_left', 1),
-(9, 3, 'opencart.category', 'column_left', 0),
-(10, 3, 'opencart.banner.1', 'column_left', 1),
-(11, 3, 'opencart.filter', 'column_left', 2),
-(31, 1, 'opencart.banner.3', 'content_top', 0),
-(32, 1, 'opencart.latest.7', 'content_top', 1),
-(33, 1, 'opencart.mostviewed.6', 'content_top', 3),
-(34, 1, 'opencart.banner.4', 'content_bottom', 1);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `ve_layout_route`
---
+(52, 1, 'opencart.banner.3', 'content_top', 0),
+(53, 1, 'opencart.latest.7', 'content_top', 1),
+(54, 1, 'ventocart.mostviewed.12', 'content_top', 2),
+(55, 1, 'ventocart.topic.15', 'content_top', 3),
+(76, 3, 'ventocart.manufacturer_filter', 'column_left', 0),
+(77, 3, 'ventocart.option_filter', 'column_left', 1),
+(78, 3, 'ventocart.attribute_filter', 'column_left', 2),
+(79, 3, 'ventocart.availability_filter', 'column_left', 3),
+(80, 3, 'opencart.category', 'column_left', 4),
+(81, 3, 'opencart.filter', 'column_left', 5),
+(90, 14, 'ventocart.topic.16', 'column_left', 0);
 
 CREATE TABLE `ve_layout_route` (
   `layout_route_id` int NOT NULL,
@@ -2555,10 +2718,6 @@ CREATE TABLE `ve_layout_route` (
   `store_id` int NOT NULL,
   `route` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC;
-
---
--- Dumping data for table `ve_layout_route`
---
 
 INSERT INTO `ve_layout_route` (`layout_route_id`, `layout_id`, `store_id`, `route`) VALUES
 (1, 6, 0, 'account/%'),
@@ -2573,36 +2732,20 @@ INSERT INTO `ve_layout_route` (`layout_route_id`, `layout_id`, `store_id`, `rout
 (12, 5, 0, 'product/manufacturer'),
 (13, 12, 0, 'product/compare'),
 (14, 13, 0, 'product/search'),
-(15, 14, 0, 'cms/blog'),
-(16, 14, 0, 'cms/blog.info'),
-(17, 3, 0, 'product/category'),
-(22, 1, 0, 'common/home');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `ve_length_class`
---
+(28, 1, 0, 'common/home'),
+(33, 3, 0, 'product/category'),
+(56, 14, 0, 'cms/blog'),
+(57, 14, 0, 'cms/blog.info');
 
 CREATE TABLE `ve_length_class` (
   `length_class_id` int NOT NULL,
   `value` decimal(15,8) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC;
 
---
--- Dumping data for table `ve_length_class`
---
-
 INSERT INTO `ve_length_class` (`length_class_id`, `value`) VALUES
 (1, '1.00000000'),
 (2, '10.00000000'),
 (3, '0.39370000');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `ve_length_class_description`
---
 
 CREATE TABLE `ve_length_class_description` (
   `length_class_id` int NOT NULL,
@@ -2611,10 +2754,6 @@ CREATE TABLE `ve_length_class_description` (
   `unit` varchar(4) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC;
 
---
--- Dumping data for table `ve_length_class_description`
---
-
 INSERT INTO `ve_length_class_description` (`length_class_id`, `language_id`, `title`, `unit`) VALUES
 (1, 1, 'Centimeter', 'cm'),
 (1, 9, 'Centimeter', 'cm'),
@@ -2622,12 +2761,6 @@ INSERT INTO `ve_length_class_description` (`length_class_id`, `language_id`, `ti
 (2, 9, 'Millimeter', 'mm'),
 (3, 1, 'Inch', 'in'),
 (3, 9, 'Inch', 'in');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `ve_location`
---
 
 CREATE TABLE `ve_location` (
   `location_id` int NOT NULL,
@@ -2640,12 +2773,6 @@ CREATE TABLE `ve_location` (
   `comment` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC;
 
--- --------------------------------------------------------
-
---
--- Table structure for table `ve_manufacturer`
---
-
 CREATE TABLE `ve_manufacturer` (
   `manufacturer_id` int NOT NULL,
   `name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
@@ -2653,23 +2780,9 @@ CREATE TABLE `ve_manufacturer` (
   `sort_order` int NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC;
 
---
--- Dumping data for table `ve_manufacturer`
---
-
 INSERT INTO `ve_manufacturer` (`manufacturer_id`, `name`, `image`, `sort_order`) VALUES
-(5, 'HTC', 'catalog/demo/htc_logo.jpg', 0),
-(6, 'Palm', 'catalog/demo/palm_logo.jpg', 0),
-(7, 'Hewlett-Packard', 'catalog/demo/hp_logo.jpg', 0),
-(8, 'Apple', 'catalog/demo/apple_logo.jpg', 0),
-(9, 'Canon', 'catalog/demo/canon_logo.jpg', 0),
-(10, 'Sony', 'catalog/demo/sony_logo.jpg', 0);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `ve_manufacturer_to_layout`
---
+(11, 'Samsung', 'catalog/manufacturers/Samsung_Logo.svg.png', 0),
+(12, 'Apple', 'catalog/manufacturers/Apple-Logo.jpg', 0);
 
 CREATE TABLE `ve_manufacturer_to_layout` (
   `manufacturer_id` int NOT NULL,
@@ -2677,34 +2790,18 @@ CREATE TABLE `ve_manufacturer_to_layout` (
   `layout_id` int NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC;
 
--- --------------------------------------------------------
-
---
--- Table structure for table `ve_manufacturer_to_store`
---
+INSERT INTO `ve_manufacturer_to_layout` (`manufacturer_id`, `store_id`, `layout_id`) VALUES
+(11, 0, 0),
+(12, 0, 0);
 
 CREATE TABLE `ve_manufacturer_to_store` (
   `manufacturer_id` int NOT NULL,
   `store_id` int NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC;
 
---
--- Dumping data for table `ve_manufacturer_to_store`
---
-
 INSERT INTO `ve_manufacturer_to_store` (`manufacturer_id`, `store_id`) VALUES
-(5, 0),
-(6, 0),
-(7, 0),
-(8, 0),
-(9, 0),
-(10, 0);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `ve_marketing`
---
+(11, 0),
+(12, 0);
 
 CREATE TABLE `ve_marketing` (
   `marketing_id` int NOT NULL,
@@ -2715,12 +2812,6 @@ CREATE TABLE `ve_marketing` (
   `date_added` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC;
 
--- --------------------------------------------------------
-
---
--- Table structure for table `ve_marketing_report`
---
-
 CREATE TABLE `ve_marketing_report` (
   `marketing_report_id` int NOT NULL,
   `marketing_id` int NOT NULL,
@@ -2729,12 +2820,6 @@ CREATE TABLE `ve_marketing_report` (
   `country` varchar(2) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `date_added` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `ve_modification`
---
 
 CREATE TABLE `ve_modification` (
   `modification_id` int NOT NULL,
@@ -2750,12 +2835,6 @@ CREATE TABLE `ve_modification` (
   `date_added` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC;
 
--- --------------------------------------------------------
-
---
--- Table structure for table `ve_module`
---
-
 CREATE TABLE `ve_module` (
   `module_id` int NOT NULL,
   `name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
@@ -2763,22 +2842,19 @@ CREATE TABLE `ve_module` (
   `setting` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC;
 
---
--- Dumping data for table `ve_module`
---
-
 INSERT INTO `ve_module` (`module_id`, `name`, `code`, `setting`) VALUES
 (2, 'Featured', 'opencart.featured', '{\"name\":\"Featured\",\"product_name\":\"\",\"product\":[\"43\",\"40\",\"42\",\"30\"],\"axis\":\"horizontal\",\"limit\":\"4\",\"width\":\"200\",\"height\":\"200\",\"status\":\"1\"}'),
 (3, 'Homepage Slideshow', 'opencart.banner', '{\"name\":\"Homepage Slideshow\",\"banner_id\":\"1\",\"effect\":\"slide\",\"items\":\"1\",\"controls\":\"1\",\"indicators\":\"1\",\"interval\":\"5000\",\"width\":\"1140\",\"height\":\"380\",\"status\":\"1\",\"module_id\":\"3\"}'),
 (5, 'best', 'opencart.bestseller', '{\"name\":\"best\",\"axis\":\"horizontal\",\"limit\":\"5\",\"width\":\"200\",\"height\":\"200\",\"status\":\"1\",\"module_id\":\"0\"}'),
 (6, 'Most viewed', 'opencart.mostviewed', '{\"name\":\"Most viewed\",\"axis\":\"horizontal\",\"limit\":\"4\",\"timeframe\":\"month\",\"width\":\"200\",\"height\":\"200\",\"status\":\"1\",\"module_id\":\"6\"}'),
-(7, 'Latest', 'opencart.latest', '{\"name\":\"Latest\",\"axis\":\"horizontal\",\"limit\":\"5\",\"width\":\"200\",\"height\":\"200\",\"status\":\"1\",\"module_id\":\"0\"}');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `ve_notification`
---
+(7, 'Latest', 'opencart.latest', '{\"name\":\"Latest\",\"axis\":\"horizontal\",\"limit\":\"5\",\"width\":\"400\",\"height\":\"400\",\"status\":\"1\",\"module_id\":\"7\"}'),
+(8, 'Most popular this week', 'opencart.mostviewed', '{\"name\":\"Most popular this week\",\"axis\":\"horizontal\",\"limit\":\"5\",\"timeframe\":\"week\",\"width\":\"200\",\"height\":\"200\",\"status\":\"1\",\"module_id\":\"0\"}'),
+(9, 'Most viewed', 'opencart.mostviewed', '{\"name\":\"Most viewed\",\"axis\":\"horizontal\",\"limit\":\"5\",\"timeframe\":\"week\",\"width\":\"200\",\"height\":\"200\",\"status\":\"1\",\"module_id\":\"0\"}'),
+(10, 'Greek', 'opencart.mostviewed', '{\"name\":\"Greek\",\"axis\":\"horizontal\",\"limit\":\"5\",\"timeframe\":\"week\",\"width\":\"200\",\"height\":\"200\",\"status\":\"1\",\"module_id\":\"0\"}'),
+(11, 'Welcome to VentoCart', 'opencart.mostviewed', '{\"name\":\"Welcome to VentoCart\",\"axis\":\"horizontal\",\"limit\":\"5\",\"timeframe\":\"week\",\"width\":\"200\",\"height\":\"200\",\"status\":\"1\",\"module_id\":\"0\"}'),
+(12, 'Most  this week', 'ventocart.mostviewed', '{\"name\":\"Most  this week\",\"axis\":\"horizontal\",\"limit\":\"5\",\"timeframe\":\"week\",\"width\":\"400\",\"height\":\"400\",\"status\":\"1\",\"module_id\":\"12\"}'),
+(15, 'Topics Main', 'ventocart.topic', '{\"name\":\"Topics Main\",\"status\":\"1\",\"preview\":\"1\",\"hidedate\":\"0\",\"module_id\":\"15\",\"preview_word_count\":\"25\",\"limit_topics\":\"10\"}'),
+(16, 'Topics', 'ventocart.topic', '{\"name\":\"Topics\",\"status\":\"1\",\"preview\":\"0\",\"sortdate\":\"1\",\"hidedate\":\"0\",\"module_id\":\"16\",\"preview_word_count\":\"50\",\"limit_topics\":\"20\"}');
 
 CREATE TABLE `ve_notification` (
   `notification_id` int NOT NULL,
@@ -2788,65 +2864,29 @@ CREATE TABLE `ve_notification` (
   `date_added` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC;
 
--- --------------------------------------------------------
-
---
--- Table structure for table `ve_options`
---
-
 CREATE TABLE `ve_options` (
   `option_id` int NOT NULL,
   `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `type` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `group_id` int DEFAULT NULL,
   `language_id` int NOT NULL,
-  `option_n` int DEFAULT NULL
+  `option_n` int DEFAULT NULL,
+  `sort_order` int NOT NULL,
+  `image` varchar(250) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
---
--- Dumping data for table `ve_options`
---
-
-INSERT INTO `ve_options` (`option_id`, `name`, `type`, `group_id`, `language_id`, `option_n`) VALUES
-(31, 'Color', 'radio', 31, 1, -1),
-(32, 'A-black', 'radio', 31, 1, 0),
-(33, 'A-black fleece', 'radio', 31, 1, 1),
-(34, 'B-apricot', 'radio', 31, 1, 2),
-(35, 'B-black', 'radio', 31, 1, 3),
-(36, 'Shoe Size', 'radio', 36, 1, -1),
-(37, '35', 'radio', 36, 1, 0),
-(38, '36', 'radio', 36, 1, 1),
-(39, '37', 'radio', 36, 1, 2),
-(40, '38', 'radio', 36, 1, 3),
-(41, '39', 'radio', 36, 1, 4),
-(42, '40', 'radio', 36, 1, 5),
-(43, '41', 'radio', 36, 1, 6),
-(44, '42', 'radio', 36, 1, 7),
-(45, '43', 'radio', 36, 1, 8),
-(46, 'Emitting Color', 'radio', 46, 1, -1),
-(47, 'WHITE', 'radio', 46, 1, 0),
-(48, 'Warm White', 'radio', 46, 1, 1),
-(49, 'Length', 'radio', 49, 1, -1),
-(50, '2m', 'radio', 49, 1, 0),
-(51, '5m', 'radio', 49, 1, 1),
-(52, '10m', 'radio', 49, 1, 2),
-(53, '15m', 'radio', 49, 1, 3),
-(54, '20m', 'radio', 49, 1, 4),
-(69, 'Color', 'radio', 69, 1, -1),
-(70, 'Red', 'radio', 69, 1, 0),
-(71, 'White', 'radio', 69, 1, 1),
-(72, 'Green', 'radio', 69, 1, 2),
-(73, 'Black', 'radio', 69, 1, 3),
-(74, 'Yellow', 'radio', 69, 1, 4),
-(75, 'Color', 'radio', 75, 1, -1),
-(76, '10.5inch black', 'radio', 75, 1, 0),
-(77, '11inch black', 'radio', 75, 1, 1);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `ve_order`
---
+INSERT INTO `ve_options` (`option_id`, `name`, `type`, `group_id`, `language_id`, `option_n`, `sort_order`, `image`) VALUES
+(1, 'Color', 'radio', 1, 1, -1, -1, ''),
+(4, 'Size', 'radio', 4, 1, -1, -1, ''),
+(5, 'S', 'radio', 4, 1, 0, 1, ''),
+(6, 'M', 'radio', 4, 1, 1, 0, ''),
+(7, 'L', 'radio', 4, 1, 2, 2, ''),
+(19, 'Black', 'radio', 1, 1, 0, 0, 'catalog/categories/color_black.jpg'),
+(20, 'Blue', 'radio', 1, 1, 1, 0, 'catalog/categories/color_blue.jpg'),
+(22, 'Pink', 'radio', 1, 1, 2, 0, 'catalog/categories/color_pink.jpg'),
+(23, 'Red', 'radio', 1, 1, 3, 0, 'catalog/categories/color_red.jpg'),
+(24, 'Apricot', 'radio', 1, 1, 4, 0, 'catalog/categories/color_apricot.jpg'),
+(25, 'Green', 'radio', 1, 1, 5, 0, 'catalog/categories/color_green.jpg');
 
 CREATE TABLE `ve_order` (
   `order_id` int NOT NULL,
@@ -2914,12 +2954,6 @@ CREATE TABLE `ve_order` (
   `date_modified` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC;
 
--- --------------------------------------------------------
-
---
--- Table structure for table `ve_order_history`
---
-
 CREATE TABLE `ve_order_history` (
   `order_history_id` int NOT NULL,
   `order_id` int NOT NULL,
@@ -2928,12 +2962,6 @@ CREATE TABLE `ve_order_history` (
   `comment` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `date_added` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `ve_order_option`
---
 
 CREATE TABLE `ve_order_option` (
   `order_option_id` int NOT NULL,
@@ -2944,12 +2972,6 @@ CREATE TABLE `ve_order_option` (
   `value` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `type` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `ve_order_product`
---
 
 CREATE TABLE `ve_order_product` (
   `order_product_id` int NOT NULL,
@@ -2965,21 +2987,11 @@ CREATE TABLE `ve_order_product` (
   `reward` int NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC;
 
--- --------------------------------------------------------
-
---
--- Table structure for table `ve_order_status`
---
-
 CREATE TABLE `ve_order_status` (
   `order_status_id` int NOT NULL,
   `language_id` int NOT NULL,
   `name` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC;
-
---
--- Dumping data for table `ve_order_status`
---
 
 INSERT INTO `ve_order_status` (`order_status_id`, `language_id`, `name`) VALUES
 (1, 1, 'Pending'),
@@ -2996,12 +3008,6 @@ INSERT INTO `ve_order_status` (`order_status_id`, `language_id`, `name`) VALUES
 (14, 1, 'Expired'),
 (15, 1, 'Processed'),
 (16, 1, 'Voided');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `ve_order_subscription`
---
 
 CREATE TABLE `ve_order_subscription` (
   `order_subscription_id` int NOT NULL,
@@ -3023,12 +3029,6 @@ CREATE TABLE `ve_order_subscription` (
   `duration` smallint NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC;
 
--- --------------------------------------------------------
-
---
--- Table structure for table `ve_order_total`
---
-
 CREATE TABLE `ve_order_total` (
   `order_total_id` int NOT NULL,
   `order_id` int NOT NULL,
@@ -3038,12 +3038,6 @@ CREATE TABLE `ve_order_total` (
   `value` decimal(15,4) NOT NULL DEFAULT '0.0000',
   `sort_order` int NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `ve_order_voucher`
---
 
 CREATE TABLE `ve_order_voucher` (
   `order_voucher_id` int NOT NULL,
@@ -3059,12 +3053,6 @@ CREATE TABLE `ve_order_voucher` (
   `message` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `amount` decimal(15,4) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `ve_product`
---
 
 CREATE TABLE `ve_product` (
   `product_id` int NOT NULL,
@@ -3104,45 +3092,64 @@ CREATE TABLE `ve_product` (
   `date_modified` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC;
 
---
--- Dumping data for table `ve_product`
---
-
 INSERT INTO `ve_product` (`product_id`, `variation_id`, `model`, `sku`, `upc`, `ean`, `jan`, `isbn`, `mpn`, `location`, `variant`, `override`, `quantity`, `stock_status_id`, `image`, `manufacturer_id`, `shipping`, `price`, `supply_cost`, `points`, `tax_class_id`, `date_available`, `weight`, `weight_class_id`, `length`, `width`, `height`, `length_class_id`, `subtract`, `minimum`, `rating`, `sort_order`, `status`, `date_added`, `date_modified`) VALUES
-(1, 0, 'AL1005004747443389', 'AL1005004747443389', '', '', '', '', '', '', '', '', 0, 6, 'catalog/products/1/mi4ur_Retro-Plush-.webp', 0, 1, '29.0100', '0', 0, 0, '2024-01-02', '0.50000000', 2, '30.00000000', '20.00000000', '10.00000000', 1, 1, 1, 0, 0, 1, '2024-01-02 10:37:12', '2024-01-02 14:13:29'),
-(2, 0, 'AL1005005834080921', 'AL1005005834080921', '', '', '', '', '', '', '', '', 0, 6, 'catalog/products/2/mA9Dv_20M-40M-High.webp', 0, 1, '12.9100', '0', 0, 0, '2024-01-02', '0.40800000', 2, '18.00000000', '17.00000000', '7.00000000', 1, 1, 1, 0, 0, 1, '2024-01-02 10:42:52', '2024-01-02 13:13:29'),
-(3, 0, 'CJJJJTCF05893', 'CJJJJTCF05893', '', '', '', '', '', '', '', '', 39567, 6, 'catalog/products/3/17hWRO_507670592e5af3b4c5aa1a5d64536011.mp4', 0, 1, '11.6000', '0', 0, 0, '2024-01-02', '53.00000000', 2, '110.00000000', '53.00000000', '73.00000000', 1, 1, 1, 0, 0, 1, '2024-01-02 12:22:56', '2024-01-02 12:31:50'),
-(4, 0, 'CJBJ1314105', 'CJBJ1314105', '', '', '', '', '', '', '', '', 36956, 6, 'catalog/products/4/mJzi3_a9106b99-e17.jpg', 0, 1, '52.4400', '0', 0, 0, '2024-01-02', '900.00000000', 2, '300.00000000', '200.00000000', '50.00000000', 1, 1, 1, 0, 0, 1, '2024-01-02 12:38:06', '2024-01-02 13:24:42');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `ve_product_attribute`
---
+(1, 0, 'AL1005006103017434', 'AL1005006103017434', '', '', '', '', '', '', '', '', 52, 6, 'catalog/products/1/mXjmA_CUTENOVA-Aut.webp', 0, 1, '15.3500', '0', 0, 0, '2024-02-08', '0.15200000', 2, '24.00000000', '17.00000000', '4.00000000', 1, 1, 1, 0, 0, 1, '2024-02-08 08:32:26', '2024-02-09 04:33:30'),
+(2, 0, 'longsleeve211', 'longsleeve211', '', '', '', '', '', '', '', '', 10, 6, 'catalog/products/2/S3ba6f00eb39341559fb2bfcb5b2d2a96t.webp', 0, 1, '42.0000', '0', 0, 0, '2024-02-08', '0.00000000', 1, '0.00000000', '0.00000000', '0.00000000', 1, 1, 1, 0, 1, 1, '2024-02-08 12:15:26', '2024-02-08 21:58:13'),
+(3, 0, 's24ultra', 's24ultra', '', '', '', '', '', '', '', '', 100, 6, 'catalog/products/3/20240129172033_samsung_galaxy_s24_ultra_5g_dual_sim_12gb_1tb_titanium_yellow_proparagelia.jpeg', 11, 1, '1778.0000', '0', 0, 0, '2024-02-09', '232.00000000', 1, '162.30000000', '79.00000000', '8.60000000', 2, 1, 1, 0, 1, 1, '2024-02-09 00:16:10', '2024-02-09 00:48:59'),
+(4, 0, 'garlicsmasher', 'garlicsmasher', '', '', '', '', '', '', '', '', 100, 6, 'catalog/products/4/155tiX_9a033f255b1c6e9f8f21881c8322553d.mp4', 0, 1, '10.0000', '0', 0, 0, '2024-02-09', '0.00000000', 1, '0.00000000', '0.00000000', '0.00000000', 1, 1, 1, 0, 1, 1, '2024-02-09 00:43:49', '2024-02-09 02:08:34'),
+(5, 0, 'iphone15promax', 'iphone15promax', '', '', '', '', '', '', '', '', 100, 6, 'catalog/products/5/20230915160409_apple_iphone_15_pro_max_5g_8gb_1tb_black_titanium.jpeg', 12, 1, '1487.0000', '0', 0, 0, '2024-02-09', '0.00000000', 1, '0.00000000', '0.00000000', '0.00000000', 1, 1, 1, 0, 1, 1, '2024-02-09 01:51:21', '2024-02-09 04:31:50');
 
 CREATE TABLE `ve_product_attribute` (
+  `product_attribute_id` int NOT NULL,
   `product_id` int NOT NULL,
   `attribute_id` int NOT NULL,
   `language_id` int NOT NULL,
-  `text` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL
+  `attribute_n` int NOT NULL,
+  `text` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `value_text` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci,
+  `sort_order` int NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC;
 
--- --------------------------------------------------------
-
---
--- Table structure for table `ve_product_bestseller`
---
+INSERT INTO `ve_product_attribute` (`product_attribute_id`, `product_id`, `attribute_id`, `language_id`, `attribute_n`, `text`, `value_text`, `sort_order`) VALUES
+(1156, 2, 1, 1, 0, 'Fabric Type', 'Satin', 0),
+(1157, 2, 1, 1, 1, 'Fit', 'Fits true to size, take your normal size', 1),
+(1158, 2, 2, 1, 2, 'Satin', '', 2),
+(1242, 3, 5, 1, 0, 'Mobile Phone Type', 'SmartPhone', 0),
+(1243, 3, 5, 1, 1, 'Operating System', 'Android', 1),
+(1244, 3, 5, 1, 2, 'SIM', 'Dual', 2),
+(1245, 3, 5, 1, 3, 'Release Date', '2024', 3),
+(1246, 3, 5, 1, 4, 'Colour', 'Yellow', 4),
+(1247, 3, 5, 1, 5, 'Weight', 'Weight     232 gr', 5),
+(1248, 3, 5, 1, 6, 'Package Contents', 'Charging Cable', 6),
+(1249, 3, 6, 1, 7, 'Processor Model', 'Snapdragon 8 Gen 3', 7),
+(1250, 3, 6, 1, 8, 'Processor Power', '3.3 GHz', 8),
+(1251, 3, 6, 1, 9, 'Processor Cores', '1+3+2+2', 9),
+(1252, 3, 6, 1, 10, 'RAM', '12 GB', 10),
+(1253, 3, 6, 1, 11, 'Capacity', '1000 GB', 11),
+(1254, 3, 6, 1, 12, 'Card Slot', 'No', 12),
+(1255, 3, 7, 1, 13, 'Size', '6.8 &quot;', 13),
+(1256, 3, 7, 1, 14, 'Resolution', '3120 x 1440 pixels', 14),
+(1257, 3, 7, 1, 15, 'Refresh Rate', '120 Hz', 15),
+(1258, 3, 7, 1, 16, 'Type', 'Dynamic AMOLED 2X', 16),
+(1259, 3, 7, 1, 17, 'Handling', 'Touch screen', 17),
+(1260, 3, 7, 1, 18, 'Definition', 'QHD', 18),
+(1261, 3, 8, 1, 19, 'Rear Camera', 'Quad', 19),
+(1262, 3, 8, 1, 20, 'Rear Camera Lenses', 'Wide Angle 200MP, Telephoto 10MP 3x Optical Zoom, Telephoto 50MP 5x Optical Zoom, Ultra Wide Angle 12MP', 20),
+(1263, 3, 8, 1, 21, 'Rear Camera Video Resolution', '1080p 120fps Slow Motion, 1080p 240fps Slow Motion, 1080p 960fps Slow Motion, 4K 120fps, 4K 30fps, 4K 60fps, 8K 24fps, 8K 30fps', 21),
+(1264, 3, 8, 1, 22, 'Rear Camera Flash', 'Yes', 22),
+(1265, 3, 8, 1, 23, 'Selfie Camera Lenses', 'Wide Angle 12MP', 23),
+(1266, 3, 8, 1, 24, 'Features', 'HDR, Night Mode, OIS, Optical Zoom, Slow Motion', 24),
+(1267, 3, 8, 1, 25, '', '', 25),
+(1273, 1, 1, 1, 0, 'Fit', 'Fits true to size, take your normal size', 0),
+(1274, 1, 1, 1, 1, 'Sleeve Style', 'Regular', 1),
+(1275, 1, 1, 1, 2, 'Collar', 'Turtleneck', 2),
+(1276, 1, 1, 1, 3, 'Fabric Type', 'Blended', 3),
+(1277, 1, 2, 1, 4, 'Polyester - Spandex', '', 4);
 
 CREATE TABLE `ve_product_bestseller` (
   `product_id` int NOT NULL,
   `total` int NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb3;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `ve_product_description`
---
 
 CREATE TABLE `ve_product_description` (
   `product_id` int NOT NULL,
@@ -3155,21 +3162,12 @@ CREATE TABLE `ve_product_description` (
   `meta_keyword` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC;
 
---
--- Dumping data for table `ve_product_description`
---
-
 INSERT INTO `ve_product_description` (`product_id`, `language_id`, `name`, `description`, `tag`, `meta_title`, `meta_description`, `meta_keyword`) VALUES
-(1, 1, 'Retro Plush Warm Autumn Winter Women\'s Boot Vintage Block Heel Ankle Boots Zipper High Heels Women Shoes Big Sizes Botines Mujer', '&lt;p&gt;Retro Plush Warm Autumn Winter Women\'s Boot Vintage Block Heel Ankle Boots Zipper High Heels Women Shoes Big Sizes Botines Mujer&lt;/p&gt;\r\n\r\n&lt;p&gt;&lt;widget data-widget-type=&quot;customText&quot; id=&quot;1005000006760804&quot; type=&quot;relation&quot;&gt;&lt;/widget&gt;&lt;/p&gt;\r\n\r\n&lt;div&gt;\r\n&lt;div&gt;\r\n&lt;div&gt;&amp;nbsp;&lt;/div&gt;\r\n&lt;/div&gt;\r\n&lt;/div&gt;\r\n\r\n&lt;div&gt;\r\n&lt;div&gt;\r\n&lt;p align=&quot;left&quot;&gt;&lt;img slate-data-type=&quot;image&quot; src=&quot;/image/catalog/products/1/03Fhs_Scc20d49dbc9.webp&quot; /&gt;&lt;/p&gt;\r\n\r\n&lt;p align=&quot;left&quot;&gt;&lt;br /&gt;\r\n&lt;img slate-data-type=&quot;image&quot; src=&quot;/image/catalog/products/1/1Cnv3_S3d219769827.webp&quot; /&gt;&lt;img slate-data-type=&quot;image&quot; src=&quot;/image/catalog/products/1/24wy5_S21dbe760a14.webp&quot; /&gt;&lt;img slate-data-type=&quot;image&quot; src=&quot;/image/catalog/products/1/39wGn_Seec660469b7.webp&quot; /&gt;&lt;img slate-data-type=&quot;image&quot; src=&quot;/image/catalog/products/1/4kEIj_S9a3e7e41ead.webp&quot; /&gt;&lt;img slate-data-type=&quot;image&quot; src=&quot;/image/catalog/products/1/58r2u_Sf08b5c8e0aa.webp&quot; /&gt;&lt;img slate-data-type=&quot;image&quot; src=&quot;/image/catalog/products/1/6BFuC_S8f9c1a8689c.webp&quot; /&gt;&lt;img slate-data-type=&quot;image&quot; src=&quot;/image/catalog/products/1/74X98_Sa5afeac9dff.webp&quot; /&gt;&lt;img slate-data-type=&quot;image&quot; src=&quot;/image/catalog/products/1/8EhBG_Sbcd674ffa6d.webp&quot; /&gt;&lt;img slate-data-type=&quot;image&quot; src=&quot;/image/catalog/products/1/9m89f_S98e988a5927.webp&quot; /&gt;&lt;/p&gt;\r\n&lt;/div&gt;\r\n\r\n&lt;div&gt;Â&amp;nbsp;&lt;/div&gt;\r\n&lt;/div&gt;\r\n\r\n&lt;p&gt;&amp;nbsp;&lt;/p&gt;\r\n\r\n&lt;div&gt;&amp;nbsp;&lt;/div&gt;\r\n\r\n&lt;p&gt;&amp;nbsp;&lt;/p&gt;\r\n\r\n&lt;div&gt;&amp;nbsp;&lt;/div&gt;\r\n\r\n&lt;div&gt;&amp;nbsp;&lt;/div&gt;\r\n\r\n&lt;p&gt;&amp;nbsp;&lt;/p&gt;\r\n\r\n&lt;p&gt;&amp;nbsp;&lt;/p&gt;\r\n&lt;script&gt;\r\n            var attributes = [{&quot;attrValue&quot;:&quot;LEISURE&quot;,&quot;attrName&quot;:&quot;Style&quot;},{&quot;attrValue&quot;:&quot;Shallow&quot;,&quot;attrName&quot;:&quot;Fashion Element&quot;},{&quot;attrValue&quot;:&quot;Fits true to size, take your normal size&quot;,&quot;attrName&quot;:&quot;Fit&quot;},{&quot;attrValue&quot;:&quot;flock&quot;,&quot;attrName&quot;:&quot;Shaft Material&quot;},{&quot;attrValue&quot;:&quot;Short Plush&quot;,&quot;attrName&quot;:&quot;Lining Material&quot;},{&quot;attrValue&quot;:&quot;Yes&quot;,&quot;attrName&quot;:&quot;is_handmade&quot;},{&quot;attrValue&quot;:&quot;No&quot;,&quot;attrName&quot;:&quot;With Platforms&quot;},{&quot;attrValue&quot;:&quot;Rubber&quot;,&quot;attrName&quot;:&quot;Outsole Material&quot;},{&quot;attrValue&quot;:&quot;Solid&quot;,&quot;attrName&quot;:&quot;Pattern Type&quot;},{&quot;attrValue&quot;:&quot;PU&quot;,&quot;attrName&quot;:&quot;Insole Material&quot;},{&quot;attrValue&quot;:&quot;Winter&quot;,&quot;attrName&quot;:&quot;Season&quot;},{&quot;attrValue&quot;:&quot;women boot&quot;,&quot;attrName&quot;:&quot;Model Number&quot;},{&quot;attrValue&quot;:&quot;Square heel&quot;,&quot;attrName&quot;:&quot;Heel Type&quot;},{&quot;attrValue&quot;:&quot;High (5cm-8cm)&quot;,&quot;attrName&quot;:&quot;Heel Height&quot;},{&quot;attrValue&quot;:&quot;Pointed toe&quot;,&quot;attrName&quot;:&quot;Toe Shape&quot;},{&quot;attrValue&quot;:&quot;Basic&quot;,&quot;attrName&quot;:&quot;Boot Type&quot;},{&quot;attrValue&quot;:&quot;ZIP&quot;,&quot;attrName&quot;:&quot;Closure Type&quot;},{&quot;attrValue&quot;:&quot;ANKLE&quot;,&quot;attrName&quot;:&quot;Boot Height&quot;},{&quot;attrValue&quot;:&quot;flock&quot;,&quot;attrName&quot;:&quot;Upper Material&quot;},{&quot;attrValue&quot;:&quot;Adult&quot;,&quot;attrName&quot;:&quot;Department Name&quot;},{&quot;attrValue&quot;:&quot;NoEnName_Null&quot;,&quot;attrName&quot;:&quot;Brand Name&quot;},{&quot;attrValue&quot;:&quot;Mainland China&quot;,&quot;attrName&quot;:&quot;Origin&quot;},{&quot;attrValue&quot;:&quot;Boots&quot;,&quot;attrName&quot;:&quot;Item Type&quot;},{&quot;attrValue&quot;:&quot;Zhejiang&quot;,&quot;attrName&quot;:&quot;CN&quot;},{&quot;attrValue&quot;:&quot;chaussure femme&quot;,&quot;attrName&quot;:&quot;ankle boots&quot;},{&quot;attrValue&quot;:&quot;shoes for women 2022&quot;,&quot;attrName&quot;:&quot;sapatos femininos&quot;},{&quot;attrValue&quot;:&quot;boots female women shoes&quot;,&quot;attrName&quot;:&quot;botas mujer invierno 2022&quot;}];\r\n            $(document).ready(function () {\r\n                $(&quot;.nav-tabs li:first&quot;).after(\'&lt;li class=&quot;nav-item&quot; role=&quot;presentation&quot;&gt;&lt;a href=&quot;#tab-specification&quot; data-bs-toggle=&quot;tab&quot; class=&quot;nav-link&quot; aria-selected=&quot;true&quot; role=&quot;tab&quot;&gt;Specification&lt;/a&gt;&lt;/li&gt;\');\r\n                $(&quot;.tab-content&quot;).append(\'&lt;div id=&quot;tab-specification&quot; class=&quot;tab-pane fade mb-4&quot; role=&quot;tabpanel&quot;&gt;\' + generateTable(attributes) + \'&lt;/div&gt;\');\r\n\r\n                function generateTable(data) {\r\n                    let table = \'&lt;table class=&quot;table table-striped table-bordered table-hover&quot;&gt;\';\r\n                    table += \'&lt;tr&gt;&lt;th&gt;Attribute Name&lt;/th&gt;&lt;th&gt;Attribute Value&lt;/th&gt;&lt;/tr&gt;\';\r\n\r\n                    data.forEach(item =&gt; {\r\n                        table += `&lt;tr&gt;&lt;td&gt;${item.attrName}&lt;/td&gt;&lt;td&gt;${item.attrValue}&lt;/td&gt;&lt;/tr&gt;`;\r\n                    });\r\n\r\n                    table += \'&lt;/table&gt;\';\r\n                    return table;\r\n                }\r\n            });\r\n        &lt;/script&gt;\r\n\r\n&lt;p&gt;&amp;nbsp;&lt;/p&gt;', '', 'Retro Plush Warm Autumn Winter Women\'s Boot Vintage Block Heel Ankle Boots Zipper High Heels Women Shoes Big Sizes Botines Mujer', '', 'Retro, Plush, Warm, Autumn, Winter, Women\'s, Boot, Vintage, Block, Heel, Ankle, Boots, Zipper, High, Heels, Women, Shoes, Big, Sizes, Botines, Mujer'),
-(2, 1, '20M 40M High Bright COB LED Strip Light 288leds/M EU Plug 220V CRI RA90 Outdoor Garden FOB LED Tape For Bedroom Kitchen Lighting', '&lt;div class=&quot;detailmodule_text&quot;&gt;\r\n&lt;p class=&quot;detail-desc-decorate-title&quot;&gt;Bright COB LED Strip Light 288leds/M EU Plug 220V CRI RA90 Outdoor Garden FOB LED Tape For Bedroom Kitchen Lighting&lt;/p&gt;\r\n\r\n&lt;p class=&quot;detail-desc-decorate-title&quot;&gt;&amp;nbsp;&lt;/p&gt;\r\n\r\n&lt;p class=&quot;detail-desc-decorate-title&quot;&gt;Specification:&lt;/p&gt;\r\n\r\n&lt;div class=&quot;detailmodule_text&quot;&gt;\r\n&lt;p class=&quot;detail-desc-decorate-content&quot;&gt;Color Temperature: White(6000K-6500K) ; Warm White(2800K-3500K)&lt;br /&gt;\r\nLED Type: COB&lt;br /&gt;\r\nLED Quantity:288 LEDS/meter&lt;br /&gt;\r\nWaterproof Rate:IP67 Waterproof( Can be used outdoors )&lt;br /&gt;\r\nWorking Voltage:AC220Vï¼ˆWith EU Power plug).&lt;br /&gt;\r\nLifetime:50,000 hours&lt;br /&gt;\r\nWarranty:1 years&lt;/p&gt;\r\n&lt;/div&gt;\r\n\r\n&lt;div class=&quot;detailmodule_text&quot;&gt;\r\n&lt;p class=&quot;detail-desc-decorate-title&quot;&gt;Applications:&lt;/p&gt;\r\n\r\n&lt;p class=&quot;detail-desc-decorate-content&quot;&gt;1.Light up colorful home life ,DIY household lights for hallways, stairs, trails ,windows,kitchen&lt;br /&gt;\r\n2.Light up colorful life hotels decoration use,Theaters, clubs, shopping malls, festivals and performances&lt;br /&gt;\r\n3.Architectural decorative lighting,Archway, canopy and bridge edge lighting, Security lighting and Emergency&lt;br /&gt;\r\n4.Extensively applied in Backlighting for signage letters, concealed lighting and advertisement sign lighting&lt;br /&gt;\r\n5.Applicable for automobile &amp;amp; Airplane model decoration, contour lighting or border.&lt;/p&gt;\r\n&lt;/div&gt;\r\n\r\n&lt;div class=&quot;detailmodule_text-image&quot;&gt;&lt;img class=&quot;detail-desc-decorate-image&quot; slate-data-type=&quot;image&quot; src=&quot;/image/catalog/products/2/0FKmu_S5a706816457.webp&quot; /&gt;&lt;img class=&quot;detail-desc-decorate-image&quot; slate-data-type=&quot;image&quot; src=&quot;/image/catalog/products/2/131se_Scee41edc943.webp&quot; /&gt;&lt;img class=&quot;detail-desc-decorate-image&quot; slate-data-type=&quot;image&quot; src=&quot;/image/catalog/products/2/2NZ5T_Sf31201c663e.webp&quot; /&gt;&lt;img class=&quot;detail-desc-decorate-image&quot; slate-data-type=&quot;image&quot; src=&quot;/image/catalog/products/2/3m597_Scca98bec5c0.webp&quot; /&gt;&lt;img class=&quot;detail-desc-decorate-image&quot; slate-data-type=&quot;image&quot; src=&quot;/image/catalog/products/2/4Ts7R_S6a42cf0d87a.webp&quot; /&gt;&lt;img class=&quot;detail-desc-decorate-image&quot; slate-data-type=&quot;image&quot; src=&quot;/image/catalog/products/2/5zsDg_S5266bcc3cdb.webp&quot; /&gt;&lt;img class=&quot;detail-desc-decorate-image&quot; slate-data-type=&quot;image&quot; src=&quot;/image/catalog/products/2/6uWvP_S076f1f3db9a.webp&quot; /&gt;&lt;img class=&quot;detail-desc-decorate-image&quot; slate-data-type=&quot;image&quot; src=&quot;/image/catalog/products/2/7vyXK_S825b7390a58.webp&quot; /&gt;&lt;img class=&quot;detail-desc-decorate-image&quot; slate-data-type=&quot;image&quot; src=&quot;/image/catalog/products/2/8pqne_Sfaa01c071b0.webp&quot; /&gt;&lt;img class=&quot;detail-desc-decorate-image&quot; slate-data-type=&quot;image&quot; src=&quot;/image/catalog/products/2/9Ql95_Sb98f3a55f65.webp&quot; /&gt;&lt;/div&gt;\r\n\r\n&lt;p&gt;&amp;nbsp;&lt;/p&gt;\r\n&lt;/div&gt;\r\n&lt;script&gt;\r\n            var attributes = [{&quot;attrValue&quot;:&quot;no&quot;,&quot;attrName&quot;:&quot;Is Smart Device&quot;},{&quot;attrValue&quot;:&quot;SWITCH&quot;,&quot;attrName&quot;:&quot;Power Generation&quot;},{&quot;attrValue&quot;:&quot;220V COB LED Strip&quot;,&quot;attrName&quot;:&quot;Model Number&quot;},{&quot;attrValue&quot;:&quot;SMD2835&quot;,&quot;attrName&quot;:&quot;LED Chip Model&quot;},{&quot;attrValue&quot;:&quot;30000&quot;,&quot;attrName&quot;:&quot;Average Life (hrs)&quot;},{&quot;attrValue&quot;:&quot;ce,FCC,ROHS,UL&quot;,&quot;attrName&quot;:&quot;Certification&quot;},{&quot;attrValue&quot;:&quot;220V&quot;,&quot;attrName&quot;:&quot;Voltage&quot;},{&quot;attrValue&quot;:&quot;AC&quot;,&quot;attrName&quot;:&quot;Power Source&quot;},{&quot;attrValue&quot;:&quot;8.64W\\/m&quot;,&quot;attrName&quot;:&quot;Power Consumption (W\\/m)&quot;},{&quot;attrValue&quot;:&quot;Living Room&quot;,&quot;attrName&quot;:&quot;Occasion&quot;},{&quot;attrValue&quot;:&quot;288leds\\/m&quot;,&quot;attrName&quot;:&quot;LEDs Number\\/M&quot;},{&quot;attrValue&quot;:&quot;Epistar&quot;,&quot;attrName&quot;:&quot;LED Chip Brand&quot;},{&quot;attrValue&quot;:&quot;Yes&quot;,&quot;attrName&quot;:&quot;Waterproof&quot;},{&quot;attrValue&quot;:&quot;288&quot;,&quot;attrName&quot;:&quot;Specifications (light beads \\/ m)&quot;},{&quot;attrValue&quot;:&quot;COB&quot;,&quot;attrName&quot;:&quot;Strip type&quot;},{&quot;attrValue&quot;:&quot;CHNAITEKE&quot;,&quot;attrName&quot;:&quot;Brand Name&quot;},{&quot;attrValue&quot;:&quot;Mainland China&quot;,&quot;attrName&quot;:&quot;Origin&quot;},{&quot;attrValue&quot;:&quot;Strip&quot;,&quot;attrName&quot;:&quot;Item Type&quot;}];\r\n            $(document).ready(function () {\r\n                $(&quot;.nav-tabs li:first&quot;).after(\'&lt;li class=&quot;nav-item&quot; role=&quot;presentation&quot;&gt;&lt;a href=&quot;#tab-specification&quot; data-bs-toggle=&quot;tab&quot; class=&quot;nav-link&quot; aria-selected=&quot;true&quot; role=&quot;tab&quot;&gt;Specification&lt;/a&gt;&lt;/li&gt;\');\r\n                $(&quot;.tab-content&quot;).append(\'&lt;div id=&quot;tab-specification&quot; class=&quot;tab-pane fade mb-4&quot; role=&quot;tabpanel&quot;&gt;\' + generateTable(attributes) + \'&lt;/div&gt;\');\r\n\r\n                function generateTable(data) {\r\n                    let table = \'&lt;table class=&quot;table table-striped table-bordered table-hover&quot;&gt;\';\r\n                    table += \'&lt;tr&gt;&lt;th&gt;Attribute Name&lt;/th&gt;&lt;th&gt;Attribute Value&lt;/th&gt;&lt;/tr&gt;\';\r\n\r\n                    data.forEach(item =&gt; {\r\n                        table += `&lt;tr&gt;&lt;td&gt;${item.attrName}&lt;/td&gt;&lt;td&gt;${item.attrValue}&lt;/td&gt;&lt;/tr&gt;`;\r\n                    });\r\n\r\n                    table += \'&lt;/table&gt;\';\r\n                    return table;\r\n                }\r\n            });\r\n        &lt;/script&gt;', '', '20M 40M High Bright COB LED Strip Light 288leds/M EU Plug 220V CRI RA90 Outdoor Garden FOB LED Tape For Bedroom Kitchen Lighting', '', '20M, 40M, High, Bright, COB, LED, Strip, Light, 288leds/M, EU, Plug, 220V, CRI, RA90, Outdoor, Garden, FOB, LED, Tape, For, Bedroom, Kitchen, Lighting'),
-(3, 1, 'Stainless Steel Garlic Masher Garlic Press Household Manual Curve Fruit Vegetable Tools Kitchen Gadgets', '&lt;p&gt;&lt;b&gt;Overview:&lt;/b&gt;&lt;/p&gt;\r\n\r\n&lt;p&gt;SAVE LABOUR-Design in accord with human body engineering mechanics, When you use it more effort.&lt;br /&gt;\r\nstainless steel - A garlic press made of stainless steel, Light and strong, Have a non-slip handle Make it more comfortable to use.&lt;br /&gt;\r\nEASY TO CLEAN -It is easy to clean, Rinse under the tap, Garlic does not stay inside, It can be cleaned in the dishwasher.&lt;br /&gt;\r\nNEVER RUST-For it is stainless steel So will not rust You don\'t have to worry about it.&lt;/p&gt;\r\n\r\n&lt;p&gt;&amp;nbsp;&lt;/p&gt;\r\n\r\n&lt;p&gt;&lt;b&gt;Specifications:&lt;/b&gt;&lt;/p&gt;\r\n\r\n&lt;p&gt;Utensils type: garlic press&lt;br /&gt;\r\nMaterial: Stainless steel&lt;br /&gt;\r\nSpecification: 304 garlic press&lt;br /&gt;\r\nCustom processing: modern and simple&lt;br /&gt;\r\nScope of application: household, other&lt;/p&gt;\r\n\r\n&lt;p&gt;&amp;nbsp;&lt;/p&gt;\r\n\r\n&lt;p&gt;&lt;b&gt;Package Content:&lt;/b&gt;&lt;/p&gt;\r\n\r\n&lt;p&gt;1*&lt;span style=&quot;font-size: 1em;&quot;&gt;Garlic Masher&lt;/span&gt;&lt;/p&gt;\r\n\r\n&lt;p&gt;&lt;img height=&quot;759.99&quot; src=&quot;/image/catalog/products/3/0IxGK_f0cc79a4-026.jpg&quot; style=&quot;max-width: 100%;&quot; width=&quot;800&quot; /&gt;&lt;img src=&quot;/image/catalog/products/3/1xDH3_c2358eef-a9f.jpg&quot; /&gt;&lt;img src=&quot;/image/catalog/products/3/2dw21_3f54ac90-4f3.jpg&quot; style=&quot;max-width: 100%;&quot; /&gt;&lt;img src=&quot;/image/catalog/products/3/3Nqv2_d3e01368-d24.jpg&quot; style=&quot;max-width: 100%;&quot; /&gt;&lt;img src=&quot;/image/catalog/products/3/4cO1a_6e61575d-68b.jpg&quot; style=&quot;max-width: 100%;&quot; /&gt;&lt;img src=&quot;/image/catalog/products/3/5Veul_6c32847f-a8d.jpg&quot; style=&quot;font-size: 1em; max-width: 100%;&quot; /&gt;&lt;img src=&quot;/image/catalog/products/3/6WKrs_86f4224a-5d8.jpg&quot; style=&quot;font-size: 1em; max-width: 100%;&quot; /&gt;&lt;img src=&quot;/image/catalog/products/3/72uE3_f0dd3dd1-fd7.jpg&quot; style=&quot;font-size: 1em; max-width: 100%;&quot; /&gt;&lt;img height=&quot;801.5&quot; src=&quot;/image/catalog/products/3/8zH8k_99d7c587-1c3.jpg&quot; style=&quot;font-size: 1em; max-width: 100%;&quot; width=&quot;801.5&quot; /&gt;&lt;img height=&quot;800&quot; src=&quot;/image/catalog/products/3/9qV4z_016c3a9b-549.jpg&quot; style=&quot;font-size: 1em; max-width: 100%;&quot; width=&quot;800&quot; /&gt;&lt;img src=&quot;/image/catalog/products/3/10sHU3_3ba28205-d8d.jpg&quot; style=&quot;font-size: 1em; max-width: 100%;&quot; /&gt;&lt;img src=&quot;/image/catalog/products/3/11yWkF_1e2443cc-14c.jpg&quot; style=&quot;font-size: 1em; max-width: 100%;&quot; /&gt;&lt;img src=&quot;/image/catalog/products/3/126nWY_edba3e18-35f.jpg&quot; style=&quot;font-size: 1em; max-width: 100%;&quot; /&gt;&lt;/p&gt;\r\n&lt;script&gt;\r\n            var attributes = [{&quot;attrName&quot;:&quot;Product&quot;,&quot;attrValue&quot;:&quot;Garlic press&quot;},{&quot;attrName&quot;:&quot;Plastic&quot;,&quot;attrValue&quot;:&quot;Metal&quot;},{&quot;attrName&quot;:&quot;Metal&quot;,&quot;attrValue&quot;:&quot;Plastic&quot;},{&quot;attrName&quot;:&quot;Packing&quot;,&quot;attrValue&quot;:&quot;Plastic bags&quot;}];\r\n            $(document).ready(function () {\r\n                $(&quot;.nav-tabs li:first&quot;).after(\'&lt;li class=&quot;nav-item&quot; role=&quot;presentation&quot;&gt;&lt;a href=&quot;#tab-specification&quot; data-bs-toggle=&quot;tab&quot; class=&quot;nav-link&quot; aria-selected=&quot;true&quot; role=&quot;tab&quot;&gt;Specification&lt;/a&gt;&lt;/li&gt;\');\r\n                $(&quot;.tab-content&quot;).append(\'&lt;div id=&quot;tab-specification&quot; class=&quot;tab-pane fade mb-4&quot; role=&quot;tabpanel&quot;&gt;\' + generateTable(attributes) + \'&lt;/div&gt;\');\r\n\r\n                function generateTable(data) {\r\n                    let table = \'&lt;table class=&quot;table table-striped table-bordered table-hover&quot;&gt;\';\r\n                    table += \'&lt;tr&gt;&lt;th&gt;Attribute Name&lt;/th&gt;&lt;th&gt;Attribute Value&lt;/th&gt;&lt;/tr&gt;\';\r\n\r\n                    data.forEach(item =&gt; {\r\n                        table += `&lt;tr&gt;&lt;td&gt;${item.attrName}&lt;/td&gt;&lt;td&gt;${item.attrValue}&lt;/td&gt;&lt;/tr&gt;`;\r\n                    });\r\n\r\n                    table += \'&lt;/table&gt;\';\r\n                    return table;\r\n                }\r\n            });\r\n        &lt;/script&gt;', '', 'Stainless Steel Garlic Masher Garlic Press Household Manual Curve Fruit Vegetable Tools Kitchen Gadgets', '', 'Stainless, Steel, Garlic, Masher, Garlic, Press, Household, Manual, Curve, Fruit, Vegetable, Tools, Kitchen, Gadgets'),
-(4, 1, 'Compatible with Apple, Suitable For Ipad Bluetooth Keyboard Second Control Integrated', '&lt;p&gt;Compatible with Apple, Suitable For Ipad Bluetooth Keyboard Second Control Integrated&lt;/p&gt;\r\n\r\n&lt;p&gt;&amp;nbsp;&lt;/p&gt;\r\n\r\n&lt;p&gt;&lt;b&gt;Product information:&lt;/b&gt;&lt;/p&gt;\r\n\r\n&lt;p&gt;Applicable models: ipad&lt;br /&gt;\r\nInterface: Bluetooth&lt;br /&gt;\r\nLine length: 0 (meters)&lt;br /&gt;\r\nProduct size: 11 inches&lt;br /&gt;\r\nProduct weight: 0.9 (KG)&lt;br /&gt;\r\nProcessing method: OEM processing&lt;br /&gt;\r\nColor: 10.2&amp;amp;10.5 universal black, 10.9&amp;amp;11 inch universal black&lt;/p&gt;\r\n\r\n&lt;p&gt;&lt;br /&gt;\r\n&lt;b&gt;Packing list:&lt;/b&gt;&lt;/p&gt;\r\n\r\n&lt;p&gt;1*&lt;span style=&quot;font-size: 1em;&quot;&gt;Bluetooth keyboard&lt;/span&gt;&lt;/p&gt;\r\n\r\n&lt;p&gt;&lt;img src=&quot;/image/catalog/products/4/0gDhF_defa7951-212.jpg&quot; style=&quot;max-width:100%;&quot; /&gt;&lt;img src=&quot;/image/catalog/products/4/1wnM3_fc85a367-349.jpg&quot; style=&quot;max-width: 100%;&quot; /&gt;&lt;img src=&quot;/image/catalog/products/4/2qrvR_4e2e31de-f12.jpg&quot; style=&quot;max-width: 100%;&quot; /&gt;&lt;img src=&quot;/image/catalog/products/4/3NtcG_e93822fb-52e.jpg&quot; style=&quot;max-width: 100%;&quot; /&gt;&lt;img src=&quot;/image/catalog/products/4/4k13n_5c162a0c-52a.jpg&quot; style=&quot;max-width: 100%;&quot; /&gt;&lt;/p&gt;\r\n&lt;script&gt;\r\n            var attributes = [{&quot;attrName&quot;:&quot;Product&quot;,&quot;attrValue&quot;:&quot;Plastic wireless keyboard&quot;},{&quot;attrName&quot;:&quot;Material&quot;,&quot;attrValue&quot;:&quot;Plastic&quot;},{&quot;attrName&quot;:&quot;Material information&quot;,&quot;attrValue&quot;:&quot;Plastic&quot;},{&quot;attrName&quot;:&quot;Packing&quot;,&quot;attrValue&quot;:&quot;Plastic bags&quot;}];\r\n            $(document).ready(function () {\r\n                $(&quot;.nav-tabs li:first&quot;).after(\'&lt;li class=&quot;nav-item&quot; role=&quot;presentation&quot;&gt;&lt;a href=&quot;#tab-specification&quot; data-bs-toggle=&quot;tab&quot; class=&quot;nav-link&quot; aria-selected=&quot;true&quot; role=&quot;tab&quot;&gt;Specification&lt;/a&gt;&lt;/li&gt;\');\r\n                $(&quot;.tab-content&quot;).append(\'&lt;div id=&quot;tab-specification&quot; class=&quot;tab-pane fade mb-4&quot; role=&quot;tabpanel&quot;&gt;\' + generateTable(attributes) + \'&lt;/div&gt;\');\r\n\r\n                function generateTable(data) {\r\n                    let table = \'&lt;table class=&quot;table table-striped table-bordered table-hover&quot;&gt;\';\r\n                    table += \'&lt;tr&gt;&lt;th&gt;Attribute Name&lt;/th&gt;&lt;th&gt;Attribute Value&lt;/th&gt;&lt;/tr&gt;\';\r\n\r\n                    data.forEach(item =&gt; {\r\n                        table += `&lt;tr&gt;&lt;td&gt;${item.attrName}&lt;/td&gt;&lt;td&gt;${item.attrValue}&lt;/td&gt;&lt;/tr&gt;`;\r\n                    });\r\n\r\n                    table += \'&lt;/table&gt;\';\r\n                    return table;\r\n                }\r\n            });\r\n        &lt;/script&gt;', '', 'Compatible with Apple, Suitable For Ipad Bluetooth Keyboard Second Control Integrated', '', 'Compatible, with, Apple,, Suitable, For, Ipad, Bluetooth, Keyboard, Second, Control, Integrated');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `ve_product_discount`
---
+(1, 1, 'CUTENOVA Autumn And Winter Turtle Neck Solid Undershirt Blouse Metal Charms Decoration Bottom Top Women Casual Comfort Streetwea', '&lt;p&gt;CUTENOVA Autumn And Winter Turtle Neck Solid Undershirt Blouse Metal Charms Decoration Bottom Top Women Casual Comfort Streetwea&lt;/p&gt;\r\n&lt;p align=&quot;center&quot;&gt;&amp;nbsp;&lt;/p&gt;', '', 'CUTENOVA Autumn And Winter Turtle Neck Solid Undershirt Blouse Metal Charms Decoration Bottom Top Women Casual Comfort Streetwea', '', 'CUTENOVA, Autumn, And, Winter, Turtle, Neck, Solid, Undershirt, Blouse, Metal, Charms, Decoration, Bottom, Top, Women, Casual, Comfort, Streetwea'),
+(2, 1, 'Satin Shirt Women Long Sleeve', '&lt;h1 data-pl=&quot;product-title&quot; data-spm-anchor-id=&quot;a2g0o.detail.0.i23.8ca2g8Wzg8WzCT&quot;&gt;Satin Shirt Women Long Sleeve&lt;/h1&gt;\r\n&lt;p&gt;Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec dictum molestie congue. Aenean vitae interdum diam, eu pulvinar augue. Nunc ut nibh est. Integer mauris augue, interdum vitae laoreet eget, tristique ac nibh. Aliquam fringilla rhoncus arcu quis fringilla. Donec arcu nisi, laoreet nec leo sed, egestas pretium turpis. Phasellus vel condimentum nisl. Etiam vitae libero est. Quisque fermentum, tortor bibendum hendrerit posuere, metus ex pretium metus, sit amet porta velit neque vitae risus. Pellentesque luctus erat dui, non lacinia ligula malesuada at. Sed cursus, lorem molestie sagittis faucibus, magna lacus suscipit metus, non tincidunt nulla mi a urna. Aliquam lacus nisl, maximus sit amet ipsum vitae, vehicula venenatis augue. Vivamus et velit nec nisi lacinia varius. Nulla neque est, tempus vitae dapibus sit amet, ultricies ac metus. Nam dapibus mi est, eu porta libero consectetur a. Pellentesque placerat viverra nibh sit amet auctor.&amp;nbsp;&lt;/p&gt;', '', 'Satin Shirt Women Long Sleeve', '', ''),
+(3, 1, 'Samsung Galaxy S24 Ultra', '&lt;p&gt;From today until 30/01 you can pre-order only from the official resellers on Skroutz the 3 new Samsung Galaxy S24|S24+|S24 Ultra at a super advantageous price, acquiring models with higher capacity at the value of the lowest and with 100 euros trade-in benefit!&amp;nbsp;&lt;/p&gt;\r\n&lt;p&gt;&lt;iframe src=&quot;https://www.youtube.com/embed/3hPoEmlBQdY?t=4s&amp;amp;ab_channel=Samsung&quot; width=&quot;560&quot; height=&quot;314&quot; allowfullscreen=&quot;allowfullscreen&quot;&gt;&lt;/iframe&gt;&lt;/p&gt;', '', 'Samsung Galaxy S24 Ultra', '', ''),
+(4, 1, 'Stainless Steel Garlic Masher', '&lt;p&gt;&lt;strong&gt;Overview:&lt;/strong&gt;&lt;/p&gt;\r\n&lt;p&gt;SAVE LABOUR-Design in accord with human body engineering mechanics, When you use it more effort.&lt;br&gt;stainless steel - A garlic press made of stainless steel, Light and strong, Have a non-slip handle Make it more comfortable to use.&lt;br&gt;EASY TO CLEAN -It is easy to clean, Rinse under the tap, Garlic does not stay inside, It can be cleaned in the dishwasher.&lt;br&gt;NEVER RUST-For it is stainless steel So will not rust You don\'t have to worry about it.&lt;/p&gt;', '', 'Stainless Steel Garlic Masher', '', ''),
+(5, 1, 'Apple iPhone 15 Pro Max 5G (8GB/1TB) Black Titanium  Apple iPhone 15 Pro Max 5G (8GB/1TB) Black Titanium', '&lt;p&gt;Apple iPhone 15 Pro Max 5G (8GB/1TB) Black Titanium &amp;nbsp;Apple iPhone 15 Pro Max 5G (8GB/1TB) Black Titanium&lt;br&gt;&lt;br&gt;&lt;img id=&quot;Upl-13756869434655&quot; class=&quot;fade-in&quot; src=&quot;../image/catalog/products/5/pasted_4f2a089b97.jpeg&quot; alt=&quot;&quot; width=&quot;40%&quot; data-src=&quot;//b.scdn.gr/ds/rich_description_components_images/1944323/20231213144335_ios17_cntyeyuhlbki_large.jpeg&quot;&gt;&lt;/p&gt;', '', 'Apple iPhone 15 Pro Max 5G (8GB/1TB) Black Titanium  Apple iPhone 15 Pro Max 5G (8GB/1TB) Black Titanium', '', '');
 
 CREATE TABLE `ve_product_discount` (
   `product_discount_id` int NOT NULL,
@@ -3182,22 +3180,10 @@ CREATE TABLE `ve_product_discount` (
   `date_end` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC;
 
--- --------------------------------------------------------
-
---
--- Table structure for table `ve_product_filter`
---
-
 CREATE TABLE `ve_product_filter` (
   `product_id` int NOT NULL,
   `filter_id` int NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `ve_product_image`
---
 
 CREATE TABLE `ve_product_image` (
   `product_image_id` int NOT NULL,
@@ -3206,50 +3192,31 @@ CREATE TABLE `ve_product_image` (
   `sort_order` int NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC;
 
---
--- Dumping data for table `ve_product_image`
---
-
 INSERT INTO `ve_product_image` (`product_image_id`, `product_id`, `image`, `sort_order`) VALUES
-(110, 3, 'catalog/products/3/0UmJh_3e20ea9e-489.jpg', 0),
-(111, 3, 'catalog/products/3/1QAGy_101611442327.jpg', 1),
-(112, 3, 'catalog/products/3/2cE64_145737563318.jpg', 2),
-(113, 3, 'catalog/products/3/31Sdc_3fbfb3b1-bef.jpg', 3),
-(114, 3, 'catalog/products/3/4W8lc_09acf251-b81.jpg', 4),
-(115, 3, 'catalog/products/3/5TrKH_242351090605.jpg', 5),
-(116, 3, 'catalog/products/3/6C37F_d5272567-f24.jpg', 6),
-(117, 3, 'catalog/products/3/7C2x5_898627937252.jpg', 7),
-(118, 3, 'catalog/products/3/8wNgZ_4540daa1-484.jpg', 8),
-(119, 3, 'catalog/products/3/opt_2hOiT_2987b058-95b.jpg', 9),
-(120, 3, 'catalog/products/3/10VYu8_ba87f2bb-b94.jpg', 10),
-(121, 3, 'catalog/products/3/1135JX_102607715057.jpg', 11),
-(122, 3, 'catalog/products/3/13kf97_ea9167c000e2297315490aa1957a22a2.mp4', 13),
-(123, 3, 'catalog/products/3/14C1r3_d3c16a64b309fb1ce1fcef0b61f9dbe2.mp4', 14),
-(124, 3, 'catalog/products/3/155tiX_9a033f255b1c6e9f8f21881c8322553d.mp4', 15),
-(125, 3, 'catalog/products/3/16r1aT_70e7deeb065ee97538b8559577710446.mp4', 16),
-(126, 3, 'catalog/products/3/17hWRO_507670592e5af3b4c5aa1a5d64536011.mp4', 17),
-(159, 2, 'catalog/products/2/0y6wd_366674d7f17fc97235912b726fde8e7f.mp4', 0),
-(160, 2, 'catalog/products/2/1DwBt_20M-40M-High.webp', 1),
-(161, 2, 'catalog/products/2/2NH73_20M-40M-High.webp', 2),
-(162, 2, 'catalog/products/2/3UvNT_20M-40M-High.webp', 3),
-(163, 2, 'catalog/products/2/4xqm2_20M-40M-High.webp', 4),
-(164, 2, 'catalog/products/2/5fiFD_20M-40M-High.webp', 5),
-(165, 4, 'catalog/products/4/0H1dm_3928a428-809.jpg', 0),
-(166, 4, 'catalog/products/4/126nR_e0e58e36-ee7.jpg', 1),
-(167, 4, 'catalog/products/4/2hn7Z_09883df7-72d.jpg', 2),
-(168, 4, 'catalog/products/4/3GB2D_7eb0b7c2-1fd.jpg', 3),
-(175, 1, 'catalog/products/1/0Eb8u_4669c599bec1ddc210d6eaedb7089393.mp4', 0),
-(176, 1, 'catalog/products/1/15PNT_Retro-Plush-.webp', 1),
-(177, 1, 'catalog/products/1/2J9h7_Retro-Plush-.webp', 2),
-(178, 1, 'catalog/products/1/3376N_Retro-Plush-.webp', 3),
-(179, 1, 'catalog/products/1/4QlKg_Retro-Plush-.webp', 4),
-(180, 1, 'catalog/products/1/575KL_Retro-Plush-.webp', 5);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `ve_product_options`
---
+(181, 2, 'catalog/products/2/S416f03d5aac642d7b20596faef1f3c86D.webp', 1),
+(182, 2, 'catalog/products/2/S6d30648192614a9ebd66bb45cd9426b30.webp', 2),
+(183, 2, 'catalog/products/2/S86a340119415465a9d3c961148acc3a7h.webp', 3),
+(184, 2, '', 4),
+(230, 3, 'catalog/products/3/20240129172034_d48b0612.jpeg', 1),
+(231, 3, 'catalog/products/3/20240129172036_27667340.jpeg', 2),
+(232, 3, 'catalog/products/3/20240129172037_88de56bb.jpeg', 3),
+(233, 3, 'catalog/products/3/20240129172039_cbb23b98.jpeg', 4),
+(234, 3, 'catalog/products/3/20240129172040_647cf132.jpeg', 5),
+(235, 3, 'catalog/products/3/20240129172042_96af0a77.jpeg', 6),
+(236, 3, 'catalog/products/3/20240129172043_d79c3c0a.jpeg', 7),
+(255, 4, 'catalog/products/4/opt_0iI8K_d5272567-f24.jpg', 1),
+(256, 4, 'catalog/products/4/opt_1JA41_3fbfb3b1-bef.jpg', 2),
+(257, 4, 'catalog/products/4/opt_2hOiT_2987b058-95b.jpg', 3),
+(258, 4, 'catalog/products/4/opt_33UBr_ba87f2bb-b94.jpg', 4),
+(259, 5, 'catalog/products/5/20230915160410_11209f67.jpeg', 1),
+(260, 5, 'catalog/products/5/20230915160412_3af5202d.jpeg', 2),
+(261, 5, 'catalog/products/5/20230915160414_14ebcf61.jpeg', 3),
+(262, 1, 'catalog/products/1/13xUb_CUTENOVA-Aut.webp', 1),
+(263, 1, 'catalog/products/1/0q8Q1_c75cec1fd97c988a9c8e9dd08cfd941b.mp4', 2),
+(264, 1, 'catalog/products/1/2SUw8_CUTENOVA-Aut.webp', 3),
+(265, 1, 'catalog/products/1/3kUbW_CUTENOVA-Aut.webp', 4),
+(266, 1, 'catalog/products/1/4oM8R_CUTENOVA-Aut.webp', 5),
+(267, 1, 'catalog/products/1/5D574_CUTENOVA-Aut.webp', 6);
 
 CREATE TABLE `ve_product_options` (
   `poption_id` int NOT NULL,
@@ -3268,55 +3235,24 @@ CREATE TABLE `ve_product_options` (
   `required` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
---
--- Dumping data for table `ve_product_options`
---
-
 INSERT INTO `ve_product_options` (`poption_id`, `product_id`, `option_id`, `price`, `price_prefix`, `quantity`, `subtract`, `value`, `sort_order`, `weight`, `weight_prefix`, `points`, `points_prefix`, `required`) VALUES
-(1, 1, 33, '32.43000000', '+', 181, 1, 'catalog/products/1/opt_0YSWA_Retro-Plush-.webp', 2, '0.00000000', '+', 0, '+', 1),
-(2, 1, 33, '31.33000000', '+', 181, 1, 'catalog/products/1/opt_1GH8R_Retro-Plush-.webp', 3, '0.00000000', '+', 0, '+', 1),
-(3, 1, 34, '32.15000000', '+', 181, 1, 'catalog/products/1/opt_2UK2D_Retro-Plush-.webp', 4, '0.00000000', '+', 0, '+', 1),
-(4, 1, 35, '32.01000000', '+', 181, 1, 'catalog/products/1/opt_3ZmWp_Retro-Plush-.webp', 5, '0.00000000', '+', 0, '+', 1),
-(5, 1, 37, '29.01000000', '+', 200, 1, '', 7, '0.00000000', '+', 0, '+', 1),
-(6, 1, 38, '29.15000000', '+', 198, 1, '', 8, '0.00000000', '+', 0, '+', 1),
-(7, 1, 39, '29.29000000', '+', 199, 1, '', 9, '0.00000000', '+', 0, '+', 1),
-(8, 1, 40, '29.41000000', '+', 0, 1, '', 10, '0.00000000', '+', 0, '+', 1),
-(9, 1, 41, '29.56000000', '+', 0, 1, '', 11, '0.00000000', '+', 0, '+', 1),
-(10, 1, 42, '29.70000000', '+', 0, 1, '', 12, '0.00000000', '+', 0, '+', 1),
-(11, 1, 43, '29.83000000', '+', 0, 1, '', 13, '0.00000000', '+', 0, '+', 1),
-(12, 1, 44, '29.97000000', '+', 0, 1, '', 14, '0.00000000', '+', 0, '+', 1),
-(13, 1, 45, '30.11000000', '+', 0, 1, '', 15, '0.00000000', '+', 0, '+', 1),
-(14, 2, 47, '0.00000000', '+', 128, 1, 'catalog/products/2/opt_09d1t_20M-40M-High.webp', 0, '0.00000000', '+', 0, '+', 1),
-(15, 2, 48, '0.00000000', '+', 128, 1, 'catalog/products/2/opt_1y7Ot_20M-40M-High.webp', 1, '0.00000000', '+', 0, '+', 1),
-(16, 2, 50, '12.91000000', '+', 6, 1, '', 0, '0.00000000', '+', 0, '+', 1),
-(17, 2, 51, '22.78000000', '+', 67, 1, '', 1, '0.00000000', '+', 0, '+', 1),
-(18, 2, 52, '32.88000000', '+', 54, 1, '', 2, '0.00000000', '+', 0, '+', 1),
-(19, 2, 53, '44.11000000', '+', 28, 1, '', 3, '0.00000000', '+', 0, '+', 1),
-(20, 2, 54, '54.04000000', '+', 116, 1, '', 4, '0.00000000', '+', 0, '+', 1),
-(27, 3, 70, '11.60000000', '+', 39567, 1, 'catalog/products/3/opt_0iI8K_d5272567-f24.jpg', 0, '0.00000000', '+', 0, '+', 1),
-(28, 3, 71, '11.60000000', '+', 39567, 1, 'catalog/products/3/opt_1JA41_3fbfb3b1-bef.jpg', 1, '0.00000000', '+', 0, '+', 1),
-(29, 3, 72, '11.60000000', '+', 39567, 1, 'catalog/products/3/opt_2hOiT_2987b058-95b.jpg', 2, '0.00000000', '+', 0, '+', 1),
-(30, 3, 73, '11.60000000', '+', 39567, 1, 'catalog/products/3/opt_33UBr_ba87f2bb-b94.jpg', 3, '0.00000000', '+', 0, '+', 1),
-(31, 3, 74, '11.60000000', '+', 39567, 1, 'catalog/products/3/opt_4848J_102607715057.jpg', 4, '0.00000000', '+', 0, '+', 1),
-(32, 4, 76, '52.44000000', '+', 36956, 1, 'catalog/products/4/opt_0h787_e0e58e36-ee7.jpg', 0, '0.00000000', '+', 0, '+', 1),
-(33, 4, 77, '52.44000000', '+', 36956, 1, 'catalog/products/4/opt_1l7gx_e0e58e36-ee7.jpg', 1, '0.00000000', '+', 0, '+', 1);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `ve_product_related`
---
+(12, 2, 7, '0.00000000', '+', 0, 0, '', 9, '0.00000000', '+', 0, '+', 1),
+(13, 2, 6, '0.00000000', '+', 0, 0, '', 8, '0.00000000', '+', 0, '+', 1),
+(14, 2, 5, '0.00000000', '+', 0, 0, '', 7, '0.00000000', '+', 0, '+', 1),
+(23, 2, 23, '0.00000000', '+', 0, 0, 'catalog/products/2/S6d30648192614a9ebd66bb45cd9426b30.webp', 2, '0.00000000', '+', 0, '+', 1),
+(24, 2, 20, '0.00000000', '+', 0, 0, 'catalog/products/2/S3ba6f00eb39341559fb2bfcb5b2d2a96t.webp', 3, '0.00000000', '+', 0, '+', 1),
+(25, 2, 25, '0.00000000', '+', 0, 0, 'catalog/products/2/S86a340119415465a9d3c961148acc3a7h.webp', 4, '0.00000000', '+', 0, '+', 1),
+(26, 2, 22, '0.00000000', '+', 0, 0, 'catalog/products/2/S416f03d5aac642d7b20596faef1f3c86D.webp', 5, '0.00000000', '+', 0, '+', 1),
+(27, 1, 7, '0.00000000', '+', 0, 0, '', 7, '0.00000000', '+', 0, '+', 1),
+(28, 1, 6, '0.00000000', '+', 0, 0, '', 6, '0.00000000', '+', 0, '+', 1),
+(29, 1, 5, '0.00000000', '+', 0, 0, '', 5, '0.00000000', '+', 0, '+', 1),
+(30, 1, 24, '0.00000000', '+', 0, 0, 'catalog/products/1/13xUb_CUTENOVA-Aut.webp', 2, '0.00000000', '+', 0, '+', 1),
+(31, 1, 19, '0.00000000', '+', 0, 0, 'catalog/products/1/1B8sf_Se3bc1580a71.webp', 3, '0.00000000', '+', 0, '+', 1);
 
 CREATE TABLE `ve_product_related` (
   `product_id` int NOT NULL,
   `related_id` int NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `ve_product_report`
---
 
 CREATE TABLE `ve_product_report` (
   `product_report_id` int NOT NULL,
@@ -3327,24 +3263,12 @@ CREATE TABLE `ve_product_report` (
   `date_added` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC;
 
--- --------------------------------------------------------
-
---
--- Table structure for table `ve_product_reward`
---
-
 CREATE TABLE `ve_product_reward` (
   `product_reward_id` int NOT NULL,
   `product_id` int NOT NULL DEFAULT '0',
   `customer_group_id` int NOT NULL DEFAULT '0',
   `points` int NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `ve_product_special`
---
 
 CREATE TABLE `ve_product_special` (
   `product_special_id` int NOT NULL,
@@ -3358,12 +3282,6 @@ CREATE TABLE `ve_product_special` (
   `date_end` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC;
 
--- --------------------------------------------------------
-
---
--- Table structure for table `ve_product_subscription`
---
-
 CREATE TABLE `ve_product_subscription` (
   `product_id` int NOT NULL,
   `subscription_plan_id` int NOT NULL,
@@ -3372,43 +3290,27 @@ CREATE TABLE `ve_product_subscription` (
   `price` decimal(10,4) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC;
 
--- --------------------------------------------------------
-
---
--- Table structure for table `ve_product_to_category`
---
-
 CREATE TABLE `ve_product_to_category` (
   `product_id` int NOT NULL,
   `category_id` int NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC;
 
---
--- Dumping data for table `ve_product_to_category`
---
-
 INSERT INTO `ve_product_to_category` (`product_id`, `category_id`) VALUES
-(1, 81),
-(2, 83),
-(4, 83),
-(3, 88);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `ve_product_to_download`
---
+(3, 1),
+(5, 1),
+(3, 2),
+(5, 2),
+(4, 9),
+(4, 10),
+(1, 20),
+(2, 20),
+(1, 27),
+(2, 27);
 
 CREATE TABLE `ve_product_to_download` (
   `product_id` int NOT NULL,
   `download_id` int NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `ve_product_to_layout`
---
 
 CREATE TABLE `ve_product_to_layout` (
   `product_id` int NOT NULL,
@@ -3416,42 +3318,24 @@ CREATE TABLE `ve_product_to_layout` (
   `layout_id` int NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC;
 
---
--- Dumping data for table `ve_product_to_layout`
---
-
 INSERT INTO `ve_product_to_layout` (`product_id`, `store_id`, `layout_id`) VALUES
-(1, 0, 0),
+(1, 0, 2),
 (2, 0, 0),
 (3, 0, 0),
-(4, 0, 0);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `ve_product_to_store`
---
+(4, 0, 0),
+(5, 0, 2);
 
 CREATE TABLE `ve_product_to_store` (
   `product_id` int NOT NULL,
   `store_id` int NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC;
 
---
--- Dumping data for table `ve_product_to_store`
---
-
 INSERT INTO `ve_product_to_store` (`product_id`, `store_id`) VALUES
 (1, 0),
 (2, 0),
 (3, 0),
-(4, 0);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `ve_product_viewed`
---
+(4, 0),
+(5, 0);
 
 CREATE TABLE `ve_product_viewed` (
   `product_id` int NOT NULL,
@@ -3459,21 +3343,12 @@ CREATE TABLE `ve_product_viewed` (
   `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC;
 
---
--- Dumping data for table `ve_product_viewed`
---
-
 INSERT INTO `ve_product_viewed` (`product_id`, `viewed`, `date`) VALUES
-(1, 6, '2024-01-02 11:29:49'),
-(2, 6, '2024-01-02 13:13:46'),
-(3, 1, '2024-01-02 12:38:24'),
-(4, 3, '2024-01-02 13:07:09');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `ve_return`
---
+(1, 2, '2024-02-09 04:38:34'),
+(2, 1, '2024-02-09 02:20:25'),
+(3, 1, '2024-02-09 00:55:49'),
+(4, 1, '2024-02-09 00:55:57'),
+(5, 1, '2024-02-09 02:15:28');
 
 CREATE TABLE `ve_return` (
   `return_id` int NOT NULL,
@@ -3497,32 +3372,16 @@ CREATE TABLE `ve_return` (
   `date_modified` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC;
 
--- --------------------------------------------------------
-
---
--- Table structure for table `ve_return_action`
---
-
 CREATE TABLE `ve_return_action` (
   `return_action_id` int NOT NULL,
   `language_id` int NOT NULL DEFAULT '0',
   `name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC;
 
---
--- Dumping data for table `ve_return_action`
---
-
 INSERT INTO `ve_return_action` (`return_action_id`, `language_id`, `name`) VALUES
 (1, 1, 'Refunded'),
 (2, 1, 'Credit Issued'),
 (3, 1, 'Replacement Sent');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `ve_return_history`
---
 
 CREATE TABLE `ve_return_history` (
   `return_history_id` int NOT NULL,
@@ -3533,21 +3392,11 @@ CREATE TABLE `ve_return_history` (
   `date_added` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC;
 
--- --------------------------------------------------------
-
---
--- Table structure for table `ve_return_reason`
---
-
 CREATE TABLE `ve_return_reason` (
   `return_reason_id` int NOT NULL,
   `language_id` int NOT NULL DEFAULT '0',
   `name` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC;
-
---
--- Dumping data for table `ve_return_reason`
---
 
 INSERT INTO `ve_return_reason` (`return_reason_id`, `language_id`, `name`) VALUES
 (1, 1, 'Dead On Arrival'),
@@ -3556,32 +3405,16 @@ INSERT INTO `ve_return_reason` (`return_reason_id`, `language_id`, `name`) VALUE
 (4, 1, 'Faulty, please supply details'),
 (5, 1, 'Other, please supply details');
 
--- --------------------------------------------------------
-
---
--- Table structure for table `ve_return_status`
---
-
 CREATE TABLE `ve_return_status` (
   `return_status_id` int NOT NULL,
   `language_id` int NOT NULL DEFAULT '0',
   `name` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC;
 
---
--- Dumping data for table `ve_return_status`
---
-
 INSERT INTO `ve_return_status` (`return_status_id`, `language_id`, `name`) VALUES
 (1, 1, 'Pending'),
 (2, 1, 'Awaiting Products'),
 (3, 1, 'Complete');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `ve_review`
---
 
 CREATE TABLE `ve_review` (
   `review_id` int NOT NULL,
@@ -3595,12 +3428,6 @@ CREATE TABLE `ve_review` (
   `date_modified` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC;
 
--- --------------------------------------------------------
-
---
--- Table structure for table `ve_seo_url`
---
-
 CREATE TABLE `ve_seo_url` (
   `seo_url_id` int NOT NULL,
   `store_id` int NOT NULL,
@@ -3610,10 +3437,6 @@ CREATE TABLE `ve_seo_url` (
   `keyword` varchar(768) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `sort_order` int NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC;
-
---
--- Dumping data for table `ve_seo_url`
---
 
 INSERT INTO `ve_seo_url` (`seo_url_id`, `store_id`, `language_id`, `key`, `value`, `keyword`, `sort_order`) VALUES
 (66, 0, 1, 'information_id', '1', 'about-us', 0),
@@ -3626,26 +3449,89 @@ INSERT INTO `ve_seo_url` (`seo_url_id`, `store_id`, `language_id`, `key`, `value
 (73, 0, 1, 'route', 'product/product', 'product', -1),
 (74, 0, 1, 'route', 'product/category', 'catalog', -1),
 (75, 0, 1, 'route', 'product/manufacturer', 'brands', -1),
-(1016, 0, 1, 'path', '59_60_78', 'Clothing-and-Apparel/Mens-Clothing/Ties', 0),
-(1027, 0, 1, 'path', '79', 'Clothing-and-Apparel', 0),
-(1031, 0, 1, 'path', '81', 'Shoes', 0),
-(1032, 0, 1, 'path', '83', 'Electronics', 0),
-(1033, 0, 1, 'path', '82', 'Sports-and-Outdoors', 0),
-(1034, 0, 1, 'path', '84', 'Accessories', 0),
-(1035, 0, 1, 'path', '85', 'kids-n-toys', 0),
-(1036, 0, 1, 'path', '79_86', 'Clothing-and-Apparel/Mens-Clothing', 0),
-(1037, 0, 1, 'path', '79_87', 'Clothing-and-Apparel/Womens-Clothing', 0),
-(1043, 0, 1, 'path', '88', 'Home-n-Garden', 0),
-(1081, 0, 1, 'product_id', '3', 'stainless-steel-garlic-masher-garlic-press', 0),
-(1088, 0, 1, 'product_id', '2', '20m-40m-high-bright-cob-led-strip-light-288leds-m-eu-plug-220v', 0),
-(1089, 0, 1, 'product_id', '4', 'compatible-with-apple-suitable-for-ipad', 0),
-(1091, 0, 1, 'product_id', '1', 'retro-plush-warm-autumn-winter-women-s-boot-vintage-block-heel-ankle-boots', 0);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `ve_session`
---
+(1686, 0, 1, 'path', '1_3', 'electronics-laptops', 0),
+(1687, 0, 1, 'path', '1_4', 'electronics-cameras', 0),
+(1688, 0, 1, 'path', '1_5', 'electronics-audio-devices', 0),
+(1689, 0, 1, 'path', '1_5_6', 'electronics-audio-devices-headphones', 0),
+(1690, 0, 1, 'path', '1_5_6_7', 'electronics-audio-devices-headphones-over-ear', 0),
+(1691, 0, 1, 'path', '1_5_6_8', 'electronics-audio-devices-headphones-in-ear', 0),
+(1693, 0, 1, 'path', '9_10', 'home-appliances-kitchen-appliances', 0),
+(1694, 0, 1, 'path', '9_10_11', 'home-appliances-kitchen-appliances-coffee-makers', 0),
+(1695, 0, 1, 'path', '9_10_12', 'home-appliances-kitchen-appliances-blenders', 0),
+(1696, 0, 1, 'path', '9_10_13', 'home-appliances-kitchen-appliances-toasters', 0),
+(1697, 0, 1, 'path', '9_14', 'home-appliances-cleaning-appliances', 0),
+(1698, 0, 1, 'path', '9_14_15', 'home-appliances-cleaning-appliances-vacuum-cleaners', 0),
+(1699, 0, 1, 'path', '9_14_15_16', 'home-appliances-cleaning-appliances-vacuum-cleaners-robotic-vacuums', 0),
+(1700, 0, 1, 'path', '9_14_15_17', 'home-appliances-cleaning-appliances-vacuum-cleaners-upright-vacuums', 0),
+(1701, 0, 1, 'path', '9_14_18', 'home-appliances-cleaning-appliances-steam-mops', 0),
+(1705, 0, 1, 'path', '20_21', 'fashion-men-s-clothing', 0),
+(1706, 0, 1, 'path', '20_21_22', 'fashion-men-s-clothing-t-shirts', 0),
+(1707, 0, 1, 'path', '20_21_23', 'fashion-men-s-clothing-jeans', 0),
+(1708, 0, 1, 'path', '20_21_24', 'fashion-men-s-clothing-jackets', 0),
+(1709, 0, 1, 'path', '20_21_24_25', 'fashion-men-s-clothing-jackets-leather-jackets', 0),
+(1710, 0, 1, 'path', '20_21_24_26', 'fashion-men-s-clothing-jackets-bomber-jackets', 0),
+(1713, 0, 1, 'path', '20_27_28', 'fashion-fashion-women-s-clothing-dresses', 0),
+(1714, 0, 1, 'path', '20_27_29', 'fashion-fashion-women-s-clothing-tops', 0),
+(1715, 0, 1, 'path', '20_27_30', 'fashion-fashion-women-s-clothing-sweaters', 0),
+(1716, 0, 1, 'path', '20_27_30_31', 'fashion-fashion-women-s-clothing-sweaters-cardigans', 0),
+(1717, 0, 1, 'path', '20_27_30_32', 'fashion-fashion-women-s-clothing-sweaters-pullovers', 0),
+(1718, 0, 1, 'path', '33', 'accessories', 0),
+(1719, 0, 1, 'path', '33_34', 'accessories-sunglasses', 0),
+(1720, 0, 1, 'path', '33_35', 'accessories-watches', 0),
+(1721, 0, 1, 'path', '33_35_36', 'accessories-watches-analog-watches', 0),
+(1723, 0, 1, 'path', '33_35_37', 'accessories-watches-digital-watches', 0),
+(1724, 0, 1, 'path', '33_38', 'accessories-handbags', 0),
+(1725, 0, 1, 'path', '33_38_39', 'accessories-handbags-tote-bags', 0),
+(1726, 0, 1, 'path', '33_38_40', 'accessories-handbags-clutches', 0),
+(1727, 0, 1, 'path', '41', 'health-and-beauty', 0),
+(1728, 0, 1, 'path', '41_42', 'health-and-beauty-skincare', 0),
+(1729, 0, 1, 'path', '41_42_43', 'health-and-beauty-skincare-cleansers', 0),
+(1730, 0, 1, 'path', '41_42_44', 'health-and-beauty-skincare-moisturizers', 0),
+(1731, 0, 1, 'path', '41_42_45', 'health-and-beauty-skincare-serums', 0),
+(1732, 0, 1, 'path', '46', 'toys-and-games', 0),
+(1733, 0, 1, 'path', '46_47', 'toys-and-games-board-games', 0),
+(1734, 0, 1, 'path', '46_48', 'toys-and-games-outdoor-toys', 0),
+(1735, 0, 1, 'path', '46_49', 'toys-and-games-building-blocks', 0),
+(1736, 0, 1, 'path', '46_50', 'toys-and-games-dolls-and-action-figures', 0),
+(1738, 0, 1, 'path', '51_52', 'sports-and-outdoors-fitness-equipment', 0),
+(1739, 0, 1, 'path', '51_53', 'sports-and-outdoors-outdoor-gear', 0),
+(1740, 0, 1, 'path', '51_54', 'sports-and-outdoors-camping-equipment', 0),
+(1741, 0, 1, 'path', '51_54_55', 'sports-and-outdoors-camping-equipment-tents', 0),
+(1742, 0, 1, 'path', '51_54_56', 'sports-and-outdoors-camping-equipment-sleeping-bags', 0),
+(1743, 0, 1, 'path', '57', 'automotive', 0),
+(1744, 0, 1, 'path', '57_58', 'automotive-car-accessories', 0),
+(1745, 0, 1, 'path', '57_58_59', 'automotive-car-accessories-seat-covers', 0),
+(1746, 0, 1, 'path', '57_58_59_60', 'automotive-car-accessories-seat-covers-leather-seat-covers', 0),
+(1747, 0, 1, 'path', '57_58_61', 'automotive-car-accessories-fabric-seat-covers', 0),
+(1748, 0, 1, 'path', '57_58_62', 'automotive-car-accessories-floor-mats', 0),
+(1749, 0, 1, 'path', '57_58_62_63', 'automotive-car-accessories-floor-mats-rubber-floor-mats', 0),
+(1750, 0, 1, 'path', '57_58_62_64', 'automotive-car-accessories-floor-mats-carpet-floor-mats', 0),
+(1751, 0, 1, 'path', '57_58_65', 'automotive-car-accessories-car-chargers', 0),
+(1752, 0, 1, 'path', '57_58_65_66', 'automotive-car-accessories-car-chargers-usb-car-chargers', 0),
+(1753, 0, 1, 'path', '57_58_65_67', 'automotive-car-accessories-car-chargers-wireless-car-chargers', 0),
+(1761, 0, 1, 'path', '33_34_69', 'accessories-sunglasses-polaroid', 0),
+(1762, 0, 1, 'path', '33_34_70', 'accessories-sunglasses-ray-ban', 0),
+(1763, 0, 1, 'path', '9_19', 'home-appliances-home-appliances-air-purifiers', 0),
+(1764, 0, 1, 'path', '51', 'sports-and-outdoors', 0),
+(1915, 0, 1, 'topic_id', '2', 'topic_general', 0),
+(1916, 0, 1, 'topic_id', '3', 'topic_fashion', 0),
+(1922, 0, 1, 'product_id', '2', 'satin-shirt-women-long-sleeve', 0),
+(1937, 0, 1, 'article_id', '2', 'not-blender', 0),
+(1942, 0, 1, 'path', '20', 'fashion', 0),
+(1943, 0, 1, 'article_id', '1', 'this-is-a-test', 0),
+(1950, 0, 1, 'path', '71', 'blog', 0),
+(1951, 0, 1, 'path', '71_72', 'blog-general', 0),
+(1953, 0, 1, 'path', '71_73', 'blog-blog-fashion-posts', 0),
+(1956, 0, 1, 'manufacturer_id', '11', 'samsung', 0),
+(1957, 0, 1, 'product_id', '3', 'samsung-galaxy-s24-ultra', 0),
+(1959, 0, 1, 'manufacturer_id', '12', 'apple', 0),
+(1960, 0, 1, 'path', '1', 'electronics', 0),
+(1961, 0, 1, 'path', '1_2', 'electronics-electronics-smartphones', 0),
+(1963, 0, 1, 'path', '20_27', 'fashion-fashion-women-s-clothing', 0),
+(1971, 0, 1, 'product_id', '4', 'stainless-steel-garlic-masher', 0),
+(1972, 0, 1, 'path', '9', 'home-appliances', 0),
+(1973, 0, 1, 'product_id', '5', 'apple-iphone-15-pro-max-5g-8gb-1tb-black-titanium-apple-iphone-15-pro-max-5g-8gb-1tb-black-titanium', 0),
+(1974, 0, 1, 'product_id', '1', 'cutenova-autumn-and-winter-turtle-neck-solid-undershirt-blouse-metal-charms-decoration', 0);
 
 CREATE TABLE `ve_session` (
   `session_id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
@@ -3653,12 +3539,13 @@ CREATE TABLE `ve_session` (
   `expire` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC;
 
- 
--- --------------------------------------------------------
-
---
--- Table structure for table `ve_setting`
---
+INSERT INTO `ve_session` (`session_id`, `data`, `expire`) VALUES
+('14d245d6c333b281b8820c954a', '{\"login_token\":\"83ad30a7beb7d18b92dd789436a46bc8\"}', '2024-02-09 19:55:12'),
+('1d9d363c24875af039034a83e2', '{\"login_token\":\"c8d51dbf35cad49e6bec155f2e73bf04\"}', '2024-02-09 10:44:15'),
+('7dbe18d36ab8092e47c00a4cdb', '{\"currency\":\"USD\"}', '2024-02-10 00:35:33'),
+('84375c53e2171bdcf8e632f954', '{\"login_token\":\"e7451513f1afccd3c47bb5c51c012d26\"}', '2024-02-09 12:19:37'),
+('8f28bbdce51df8e819048cf03e', '{\"user_id\":\"1\",\"user_token\":\"476ee1bcccf1b6ac0c5d6c798a4cd23a\",\"currency\":\"USD\",\"review_token\":\"4ccd202c865a16f5784d77122ca7c92f\",\"captcha\":\"0DACC3\",\"feedback\":\"$2y$10$8kkkacmlqHXrwY4ZtrZa7Oi4hJi8YOrv0PqfVrNfA4ZP8yE8xQ1Nq\",\"feedback_name\":\"input_a4b2hIHSoV\",\"feedback_class\":\"input_q5MmXHBhjJ\"}', '2024-02-10 04:39:06'),
+('ad6dda93e6dca56d355c1d97cb', '{\"login_token\":\"95a055f46f7655e8002ddf87518f70b1\"}', '2024-02-10 01:01:15');
 
 CREATE TABLE `ve_setting` (
   `setting_id` int NOT NULL,
@@ -3668,10 +3555,6 @@ CREATE TABLE `ve_setting` (
   `value` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `serialized` tinyint(1) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC;
-
---
--- Dumping data for table `ve_setting`
---
 
 INSERT INTO `ve_setting` (`setting_id`, `store_id`, `code`, `key`, `value`, `serialized`) VALUES
 (130, 0, 'developer', 'developer_sass', '1', 0),
@@ -3784,149 +3667,157 @@ INSERT INTO `ve_setting` (`setting_id`, `store_id`, `code`, `key`, `value`, `ser
 (669, 0, 'payment_stripe', 'payment_stripe_status', '1', 0),
 (670, 0, 'payment_stripe', 'payment_stripe_debug', '0', 0),
 (671, 0, 'payment_stripe', 'payment_stripe_sort_order', '0', 0),
-(915, 0, 'config', 'config_meta_title', 'Your Store', 0),
-(916, 0, 'config', 'config_meta_description', 'My Store', 0),
-(917, 0, 'config', 'config_meta_keyword', '', 0),
-(918, 0, 'config', 'config_logo', 'catalog/text3158.png', 0),
-(919, 0, 'config', 'config_theme', 'basic', 0),
-(920, 0, 'config', 'config_layout_id', '4', 0),
-(921, 0, 'config', 'config_name', 'Your Store', 0),
-(922, 0, 'config', 'config_owner', 'Your Name', 0),
-(923, 0, 'config', 'config_address', 'Address 1', 0),
-(924, 0, 'config', 'config_geocode', '', 0),
-(925, 0, 'config', 'config_email', 'mystore@mydomain.net', 0),
-(926, 0, 'config', 'config_telephone', '123456789', 0),
-(927, 0, 'config', 'config_image', '', 0),
-(928, 0, 'config', 'config_open', '', 0),
-(929, 0, 'config', 'config_comment', '', 0),
-(930, 0, 'config', 'config_country_id', '222', 0),
-(931, 0, 'config', 'config_zone_id', '3563', 0),
-(932, 0, 'config', 'config_timezone', 'UTC', 0),
-(933, 0, 'config', 'config_language', 'en-gb', 0),
-(934, 0, 'config', 'config_language_admin', 'en-gb', 0),
-(935, 0, 'config', 'config_currency', 'USD', 0),
-(936, 0, 'config', 'config_currency_engine', 'ecb', 0),
-(937, 0, 'config', 'config_currency_auto', '1', 0),
-(938, 0, 'config', 'config_length_class_id', '1', 0),
-(939, 0, 'config', 'config_weight_class_id', '1', 0),
-(940, 0, 'config', 'config_product_description_length', '100', 0),
-(941, 0, 'config', 'config_pagination', '10', 0),
-(942, 0, 'config', 'config_product_count', '1', 0),
-(943, 0, 'config', 'config_pagination_admin', '10', 0),
-(944, 0, 'config', 'config_product_report_status', '0', 0),
-(945, 0, 'config', 'config_review_status', '1', 0),
-(946, 0, 'config', 'config_review_purchased', '0', 0),
-(947, 0, 'config', 'config_review_guest', '1', 0),
-(948, 0, 'config', 'config_article_description_length', '100', 0),
-(949, 0, 'config', 'config_comment_status', '0', 0),
-(950, 0, 'config', 'config_comment_guest', '0', 0),
-(951, 0, 'config', 'config_comment_approve', '0', 0),
-(952, 0, 'config', 'config_voucher_min', '1', 0),
-(953, 0, 'config', 'config_voucher_max', '1000', 0),
-(954, 0, 'config', 'config_cookie_id', '0', 0),
-(955, 0, 'config', 'config_gdpr_id', '0', 0),
-(956, 0, 'config', 'config_gdpr_limit', '180', 0),
-(957, 0, 'config', 'config_tax', '1', 0),
-(958, 0, 'config', 'config_tax_default', 'shipping', 0),
-(959, 0, 'config', 'config_tax_customer', 'shipping', 0),
-(960, 0, 'config', 'config_customer_online', '0', 0),
-(961, 0, 'config', 'config_customer_online_expire', '1', 0),
-(962, 0, 'config', 'config_customer_activity', '0', 0),
-(963, 0, 'config', 'config_customer_search', '0', 0),
-(964, 0, 'config', 'config_customer_group_id', '1', 0),
-(965, 0, 'config', 'config_customer_group_display', '[\"1\"]', 1),
-(966, 0, 'config', 'config_customer_price', '0', 0),
-(967, 0, 'config', 'config_telephone_display', '0', 0),
-(968, 0, 'config', 'config_telephone_required', '0', 0),
-(969, 0, 'config', 'config_customer_2fa', '0', 0),
-(970, 0, 'config', 'config_login_attempts', '5', 0),
-(971, 0, 'config', 'config_account_id', '3', 0),
-(972, 0, 'config', 'config_invoice_prefix', 'INV-2023-00', 0),
-(973, 0, 'config', 'config_cart_weight', '1', 0),
-(974, 0, 'config', 'config_checkout_guest', '1', 0),
-(975, 0, 'config', 'config_show_company_field', '0', 0),
-(976, 0, 'config', 'config_checkout_id', '0', 0),
-(977, 0, 'config', 'config_order_status_id', '1', 0),
-(978, 0, 'config', 'config_processing_status', '[\"2\"]', 1),
-(979, 0, 'config', 'config_complete_status', '[\"5\"]', 1),
-(980, 0, 'config', 'config_fraud_status_id', '8', 0),
-(981, 0, 'config', 'config_api_id', '1', 0),
-(982, 0, 'config', 'config_subscription_status_id', '1', 0),
-(983, 0, 'config', 'config_subscription_active_status_id', '2', 0),
-(984, 0, 'config', 'config_subscription_expired_status_id', '3', 0),
-(985, 0, 'config', 'config_subscription_suspended_status_id', '4', 0),
-(986, 0, 'config', 'config_subscription_canceled_status_id', '5', 0),
-(987, 0, 'config', 'config_subscription_failed_status_id', '6', 0),
-(988, 0, 'config', 'config_subscription_denied_status_id', '7', 0),
-(989, 0, 'config', 'config_stock_display', '0', 0),
-(990, 0, 'config', 'config_stock_warning', '0', 0),
-(991, 0, 'config', 'config_stock_checkout', '0', 0),
-(992, 0, 'config', 'config_affiliate_status', '1', 0),
-(993, 0, 'config', 'config_affiliate_group_id', '1', 0),
-(994, 0, 'config', 'config_affiliate_approval', '0', 0),
-(995, 0, 'config', 'config_affiliate_auto', '0', 0),
-(996, 0, 'config', 'config_affiliate_commission', '5', 0),
-(997, 0, 'config', 'config_affiliate_expire', '', 0),
-(998, 0, 'config', 'config_affiliate_id', '4', 0),
-(999, 0, 'config', 'config_return_status_id', '2', 0),
-(1000, 0, 'config', 'config_return_id', '0', 0),
-(1001, 0, 'config', 'config_captcha', '', 0),
-(1002, 0, 'config', 'config_captcha_page', '[\"review\",\"contact\"]', 1),
-(1003, 0, 'config', 'config_image_default_width', '300', 0),
-(1004, 0, 'config', 'config_image_default_height', '300', 0),
-(1005, 0, 'config', 'config_image_category_width', '300', 0),
-(1006, 0, 'config', 'config_image_category_height', '300', 0),
-(1007, 0, 'config', 'config_image_thumb_width', '500', 0),
-(1008, 0, 'config', 'config_image_thumb_height', '500', 0),
-(1009, 0, 'config', 'config_image_popup_width', '800', 0),
-(1010, 0, 'config', 'config_image_popup_height', '800', 0),
-(1011, 0, 'config', 'config_image_product_width', '250', 0),
-(1012, 0, 'config', 'config_image_product_height', '250', 0),
-(1013, 0, 'config', 'config_image_additional_width', '74', 0),
-(1014, 0, 'config', 'config_image_additional_height', '74', 0),
-(1015, 0, 'config', 'config_image_related_width', '250', 0),
-(1016, 0, 'config', 'config_image_related_height', '250', 0),
-(1017, 0, 'config', 'config_image_article_width', '1140', 0),
-(1018, 0, 'config', 'config_image_article_height', '380', 0),
-(1019, 0, 'config', 'config_image_topic_width', '1140', 0),
-(1020, 0, 'config', 'config_image_topic_height', '380', 0),
-(1021, 0, 'config', 'config_image_compare_width', '90', 0),
-(1022, 0, 'config', 'config_image_compare_height', '90', 0),
-(1023, 0, 'config', 'config_image_wishlist_width', '47', 0),
-(1024, 0, 'config', 'config_image_wishlist_height', '47', 0),
-(1025, 0, 'config', 'config_image_cart_width', '47', 0),
-(1026, 0, 'config', 'config_image_cart_height', '47', 0),
-(1027, 0, 'config', 'config_image_location_width', '268', 0),
-(1028, 0, 'config', 'config_image_location_height', '50', 0),
-(1029, 0, 'config', 'config_mail_engine', '', 0),
-(1030, 0, 'config', 'config_mail_parameter', '', 0),
-(1031, 0, 'config', 'config_mail_smtp_hostname', '', 0),
-(1032, 0, 'config', 'config_mail_smtp_username', '', 0),
-(1033, 0, 'config', 'config_mail_smtp_password', '', 0),
-(1034, 0, 'config', 'config_mail_smtp_port', '25', 0),
-(1035, 0, 'config', 'config_mail_smtp_timeout', '5', 0),
-(1036, 0, 'config', 'config_mail_alert', '[\"order\"]', 1),
-(1037, 0, 'config', 'config_mail_alert_email', '', 0),
-(1038, 0, 'config', 'config_maintenance', '0', 0),
-(1039, 0, 'config', 'config_session_expire', '86400', 0),
-(1040, 0, 'config', 'config_session_samesite', 'Strict', 0),
-(1041, 0, 'config', 'config_seo_url', '0', 0),
-(1042, 0, 'config', 'config_robots', 'abot\r\ndbot\r\nebot\r\nhbot\r\nkbot\r\nlbot\r\nmbot\r\nnbot\r\nobot\r\npbot\r\nrbot\r\nsbot\r\ntbot\r\nvbot\r\nybot\r\nzbot\r\nbot.\r\nbot/\r\n_bot\r\n.bot\r\n/bot\r\n-bot\r\n:bot\r\n(bot\r\ncrawl\r\nslurp\r\nspider\r\nseek\r\naccoona\r\nacoon\r\nadressendeutschland\r\nah-ha.com\r\nahoy\r\naltavista\r\nananzi\r\nanthill\r\nappie\r\narachnophilia\r\narale\r\naraneo\r\naranha\r\narchitext\r\naretha\r\narks\r\nasterias\r\natlocal\r\natn\r\natomz\r\naugurfind\r\nbackrub\r\nbannana_bot\r\nbaypup\r\nbdfetch\r\nbig brother\r\nbiglotron\r\nbjaaland\r\nblackwidow\r\nblaiz\r\nblog\r\nblo.\r\nbloodhound\r\nboitho\r\nbooch\r\nbradley\r\nbutterfly\r\ncalif\r\ncassandra\r\nccubee\r\ncfetch\r\ncharlotte\r\nchurl\r\ncienciaficcion\r\ncmc\r\ncollective\r\ncomagent\r\ncombine\r\ncomputingsite\r\ncsci\r\ncurl\r\ncusco\r\ndaumoa\r\ndeepindex\r\ndelorie\r\ndepspid\r\ndeweb\r\ndie blinde kuh\r\ndigger\r\nditto\r\ndmoz\r\ndocomo\r\ndownload express\r\ndtaagent\r\ndwcp\r\nebiness\r\nebingbong\r\ne-collector\r\nejupiter\r\nemacs-w3 search engine\r\nesther\r\nevliya celebi\r\nezresult\r\nfalcon\r\nfelix ide\r\nferret\r\nfetchrover\r\nfido\r\nfindlinks\r\nfireball\r\nfish search\r\nfouineur\r\nfunnelweb\r\ngazz\r\ngcreep\r\ngenieknows\r\ngetterroboplus\r\ngeturl\r\nglx\r\ngoforit\r\ngolem\r\ngrabber\r\ngrapnel\r\ngralon\r\ngriffon\r\ngromit\r\ngrub\r\ngulliver\r\nhamahakki\r\nharvest\r\nhavindex\r\nhelix\r\nheritrix\r\nhku www octopus\r\nhomerweb\r\nhtdig\r\nhtml index\r\nhtml_analyzer\r\nhtmlgobble\r\nhubater\r\nhyper-decontextualizer\r\nia_archiver\r\nibm_planetwide\r\nichiro\r\niconsurf\r\niltrovatore\r\nimage.kapsi.net\r\nimagelock\r\nincywincy\r\nindexer\r\ninfobee\r\ninformant\r\ningrid\r\ninktomisearch.com\r\ninspector web\r\nintelliagent\r\ninternet shinchakubin\r\nip3000\r\niron33\r\nisraeli-search\r\nivia\r\njack\r\njakarta\r\njavabee\r\njetbot\r\njumpstation\r\nkatipo\r\nkdd-explorer\r\nkilroy\r\nknowledge\r\nkototoi\r\nkretrieve\r\nlabelgrabber\r\nlachesis\r\nlarbin\r\nlegs\r\nlibwww\r\nlinkalarm\r\nlink validator\r\nlinkscan\r\nlockon\r\nlwp\r\nlycos\r\nmagpie\r\nmantraagent\r\nmapoftheinternet\r\nmarvin/\r\nmattie\r\nmediafox\r\nmediapartners\r\nmercator\r\nmerzscope\r\nmicrosoft url control\r\nminirank\r\nmiva\r\nmj12\r\nmnogosearch\r\nmoget\r\nmonster\r\nmoose\r\nmotor\r\nmultitext\r\nmuncher\r\nmuscatferret\r\nmwd.search\r\nmyweb\r\nnajdi\r\nnameprotect\r\nnationaldirectory\r\nnazilla\r\nncsa beta\r\nnec-meshexplorer\r\nnederland.zoek\r\nnetcarta webmap engine\r\nnetmechanic\r\nnetresearchserver\r\nnetscoop\r\nnewscan-online\r\nnhse\r\nnokia6682/\r\nnomad\r\nnoyona\r\nnutch\r\nnzexplorer\r\nobjectssearch\r\noccam\r\nomni\r\nopen text\r\nopenfind\r\nopenintelligencedata\r\norb search\r\nosis-project\r\npack rat\r\npageboy\r\npagebull\r\npage_verifier\r\npanscient\r\nparasite\r\npartnersite\r\npatric\r\npear.\r\npegasus\r\nperegrinator\r\npgp key agent\r\nphantom\r\nphpdig\r\npicosearch\r\npiltdownman\r\npimptrain\r\npinpoint\r\npioneer\r\npiranha\r\nplumtreewebaccessor\r\npogodak\r\npoirot\r\npompos\r\npoppelsdorf\r\npoppi\r\npopular iconoclast\r\npsycheclone\r\npublisher\r\npython\r\nrambler\r\nraven search\r\nroach\r\nroad runner\r\nroadhouse\r\nrobbie\r\nrobofox\r\nrobozilla\r\nrules\r\nsalty\r\nsbider\r\nscooter\r\nscoutjet\r\nscrubby\r\nsearch.\r\nsearchprocess\r\nsemanticdiscovery\r\nsenrigan\r\nsg-scout\r\nshai\'hulud\r\nshark\r\nshopwiki\r\nsidewinder\r\nsift\r\nsilk\r\nsimmany\r\nsite searcher\r\nsite valet\r\nsitetech-rover\r\nskymob.com\r\nsleek\r\nsmartwit\r\nsna-\r\nsnappy\r\nsnooper\r\nsohu\r\nspeedfind\r\nsphere\r\nsphider\r\nspinner\r\nspyder\r\nsteeler/\r\nsuke\r\nsuntek\r\nsupersnooper\r\nsurfnomore\r\nsven\r\nsygol\r\nszukacz\r\ntach black widow\r\ntarantula\r\ntempleton\r\n/teoma\r\nt-h-u-n-d-e-r-s-t-o-n-e\r\ntheophrastus\r\ntitan\r\ntitin\r\ntkwww\r\ntoutatis\r\nt-rex\r\ntutorgig\r\ntwiceler\r\ntwisted\r\nucsd\r\nudmsearch\r\nurl check\r\nupdated\r\nvagabondo\r\nvalkyrie\r\nverticrawl\r\nvictoria\r\nvision-search\r\nvolcano\r\nvoyager/\r\nvoyager-hc\r\nw3c_validator\r\nw3m2\r\nw3mir\r\nwalker\r\nwallpaper\r\nwanderer\r\nwauuu\r\nwavefire\r\nweb core\r\nweb hopper\r\nweb wombat\r\nwebbandit\r\nwebcatcher\r\nwebcopy\r\nwebfoot\r\nweblayers\r\nweblinker\r\nweblog monitor\r\nwebmirror\r\nwebmonkey\r\nwebquest\r\nwebreaper\r\nwebsitepulse\r\nwebsnarf\r\nwebstolperer\r\nwebvac\r\nwebwalk\r\nwebwatch\r\nwebwombat\r\nwebzinger\r\nwhizbang\r\nwhowhere\r\nwild ferret\r\nworldlight\r\nwwwc\r\nwwwster\r\nxenu\r\nxget\r\nxift\r\nxirq\r\nyandex\r\nyanga\r\nyeti\r\nyodao\r\nzao\r\nzippp\r\nzyborg', 0),
-(1043, 0, 'config', 'config_compression', '0', 0),
-(1044, 0, 'config', 'config_user_2fa', '0', 0),
-(1045, 0, 'config', 'config_shared', '0', 0),
-(1046, 0, 'config', 'config_file_max_size', '20', 0),
-(1047, 0, 'config', 'config_file_ext_allowed', 'zip\r\ntxt\r\npng\r\njpe\r\njpeg\r\nwebp\r\njpg\r\ngif\r\nbmp\r\nico\r\ntiff\r\ntif\r\nsvg\r\nsvgz\r\nzip\r\nrar\r\nmsi\r\ncab\r\nmp3\r\nmp4\r\nqt\r\nmov\r\npdf\r\npsd\r\nai\r\neps\r\nps\r\ndoc', 0),
-(1048, 0, 'config', 'config_file_mime_allowed', 'text/plain\r\nimage/png\r\nimage/webp\r\nimage/jpeg\r\nimage/gif\r\nimage/bmp\r\nimage/tiff\r\nimage/svg+xml\r\napplication/zip\r\napplication/x-zip\r\napplication/x-zip-compressed\r\napplication/rar\r\napplication/x-rar\r\napplication/x-rar-compressed\r\napplication/octet-stream\r\naudio/mpeg\r\nvideo/mp4\r\nvideo/quicktime\r\napplication/pdf', 0),
-(1049, 0, 'config', 'config_error_display', '1', 0),
-(1050, 0, 'config', 'config_error_log', '1', 0),
-(1051, 0, 'config', 'config_error_filename', 'error.log', 0);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `ve_startup`
---
+(1052, 0, 'module_attribute_filter', 'module_attribute_filter_status', '1', 0),
+(1053, 0, 'module_availability_filter', 'module_availability_filter_status', '1', 0),
+(1054, 0, 'module_option_filter', 'module_option_filter_status', '1', 0),
+(1056, 0, 'theme_vento_flatwide', 'theme_vento_flatwide_status', '1', 0),
+(1057, 0, 'theme_vento_flatwide', 'theme_vento_flatwide_headertext', '', 0),
+(1058, 0, 'theme_vento_flatwide', 'theme_vento_flatwide_display_after', 'banner', 0),
+(1059, 0, 'theme_vento_flatwide', 'theme_vento_flatwide_catslider_display_after', 'latest', 0),
+(1338, 0, 'module_manufacturer_filter', 'module_manufacturer_filter_status', '1', 0),
+(1339, 0, 'module_manufacturer_filter', 'module_manufacturer_filter_icon', '1', 0),
+(1614, 0, 'captcha_basic', 'captcha_basic_status', '1', 0),
+(2215, 0, 'analytics_google_analytics', 'analytics_google_analytics_status', '1', 0),
+(2216, 0, 'analytics_google_analytics', 'analytics_google_analytics_tag', 'okkkkkk', 0),
+(2227, 0, 'analytics_javascript_tags', 'analytics_javascript_tags_status', '0', 0),
+(2228, 0, 'analytics_javascript_tags', 'analytics_javascript_tags_tag', '', 0),
+(4561, 0, 'config', 'config_meta_title', 'Your Store', 0),
+(4562, 0, 'config', 'config_meta_description', 'My Store', 0),
+(4563, 0, 'config', 'config_meta_keyword', '', 0),
+(4564, 0, 'config', 'config_logo', 'catalog/logo.png', 0),
+(4565, 0, 'config', 'config_theme', 'basic', 0),
+(4566, 0, 'config', 'config_layout_id', '4', 0),
+(4567, 0, 'config', 'config_name', 'Your Store', 0),
+(4568, 0, 'config', 'config_owner', 'Your Name', 0),
+(4569, 0, 'config', 'config_address', 'Address 1', 0),
+(4570, 0, 'config', 'config_geocode', '', 0),
+(4571, 0, 'config', 'config_email', 'mystore@mydomain.net', 0),
+(4572, 0, 'config', 'config_telephone', '123456789', 0),
+(4573, 0, 'config', 'config_image', '', 0),
+(4574, 0, 'config', 'config_open', '', 0),
+(4575, 0, 'config', 'config_comment', '', 0),
+(4576, 0, 'config', 'config_country_id', '222', 0),
+(4577, 0, 'config', 'config_zone_id', '3563', 0),
+(4578, 0, 'config', 'config_timezone', 'UTC', 0),
+(4579, 0, 'config', 'config_language', 'en-gb', 0),
+(4580, 0, 'config', 'config_language_admin', 'en-gb', 0),
+(4581, 0, 'config', 'config_currency', 'USD', 0),
+(4582, 0, 'config', 'config_currency_engine', 'ecb', 0),
+(4583, 0, 'config', 'config_currency_auto', '1', 0),
+(4584, 0, 'config', 'config_length_class_id', '1', 0),
+(4585, 0, 'config', 'config_weight_class_id', '1', 0),
+(4586, 0, 'config', 'config_product_description_length', '100', 0),
+(4587, 0, 'config', 'config_pagination', '10', 0),
+(4588, 0, 'config', 'config_product_count', '1', 0),
+(4589, 0, 'config', 'config_pagination_admin', '10', 0),
+(4590, 0, 'config', 'config_product_report_status', '0', 0),
+(4591, 0, 'config', 'config_review_status', '1', 0),
+(4592, 0, 'config', 'config_review_purchased', '0', 0),
+(4593, 0, 'config', 'config_review_guest', '1', 0),
+(4594, 0, 'config', 'config_article_description_length', '100', 0),
+(4595, 0, 'config', 'config_comment_status', '0', 0),
+(4596, 0, 'config', 'config_comment_guest', '0', 0),
+(4597, 0, 'config', 'config_comment_approve', '0', 0),
+(4598, 0, 'config', 'config_voucher_min', '1', 0),
+(4599, 0, 'config', 'config_voucher_max', '1000', 0),
+(4600, 0, 'config', 'config_cookie_id', '0', 0),
+(4601, 0, 'config', 'config_gdpr_id', '0', 0),
+(4602, 0, 'config', 'config_gdpr_limit', '180', 0),
+(4603, 0, 'config', 'config_tax', '1', 0),
+(4604, 0, 'config', 'config_tax_default', 'shipping', 0),
+(4605, 0, 'config', 'config_tax_customer', 'shipping', 0),
+(4606, 0, 'config', 'config_customer_online', '0', 0),
+(4607, 0, 'config', 'config_customer_online_expire', '1', 0),
+(4608, 0, 'config', 'config_customer_activity', '0', 0),
+(4609, 0, 'config', 'config_customer_search', '0', 0),
+(4610, 0, 'config', 'config_customer_group_id', '1', 0),
+(4611, 0, 'config', 'config_customer_group_display', '[\"1\"]', 1),
+(4612, 0, 'config', 'config_customer_price', '0', 0),
+(4613, 0, 'config', 'config_telephone_display', '0', 0),
+(4614, 0, 'config', 'config_telephone_required', '0', 0),
+(4615, 0, 'config', 'config_customer_2fa', '0', 0),
+(4616, 0, 'config', 'config_login_attempts', '5', 0),
+(4617, 0, 'config', 'config_account_id', '3', 0),
+(4618, 0, 'config', 'config_invoice_prefix', 'INV-2023-00', 0),
+(4619, 0, 'config', 'config_cart_weight', '1', 0),
+(4620, 0, 'config', 'config_checkout_guest', '1', 0),
+(4621, 0, 'config', 'config_show_company_field', '0', 0),
+(4622, 0, 'config', 'config_checkout_id', '0', 0),
+(4623, 0, 'config', 'config_order_status_id', '1', 0),
+(4624, 0, 'config', 'config_processing_status', '[\"2\"]', 1),
+(4625, 0, 'config', 'config_complete_status', '[\"5\"]', 1),
+(4626, 0, 'config', 'config_fraud_status_id', '8', 0),
+(4627, 0, 'config', 'config_api_id', '1', 0),
+(4628, 0, 'config', 'config_subscription_status_id', '1', 0),
+(4629, 0, 'config', 'config_subscription_active_status_id', '2', 0),
+(4630, 0, 'config', 'config_subscription_expired_status_id', '3', 0),
+(4631, 0, 'config', 'config_subscription_suspended_status_id', '4', 0),
+(4632, 0, 'config', 'config_subscription_canceled_status_id', '5', 0),
+(4633, 0, 'config', 'config_subscription_failed_status_id', '6', 0),
+(4634, 0, 'config', 'config_subscription_denied_status_id', '7', 0),
+(4635, 0, 'config', 'config_stock_display', '0', 0),
+(4636, 0, 'config', 'config_stock_warning', '0', 0),
+(4637, 0, 'config', 'config_stock_checkout', '0', 0),
+(4638, 0, 'config', 'config_affiliate_status', '1', 0),
+(4639, 0, 'config', 'config_affiliate_group_id', '1', 0),
+(4640, 0, 'config', 'config_affiliate_approval', '0', 0),
+(4641, 0, 'config', 'config_affiliate_auto', '0', 0),
+(4642, 0, 'config', 'config_affiliate_commission', '5', 0),
+(4643, 0, 'config', 'config_affiliate_expire', '', 0),
+(4644, 0, 'config', 'config_affiliate_id', '4', 0),
+(4645, 0, 'config', 'config_return_status_id', '2', 0),
+(4646, 0, 'config', 'config_return_id', '0', 0),
+(4647, 0, 'config', 'config_captcha', 'basic', 0),
+(4648, 0, 'config', 'config_captcha_page', '[\"review\",\"contact\"]', 1),
+(4649, 0, 'config', 'config_image_default_width', '400', 0),
+(4650, 0, 'config', 'config_image_default_height', '400', 0),
+(4651, 0, 'config', 'config_image_category_width', '300', 0),
+(4652, 0, 'config', 'config_image_category_height', '300', 0),
+(4653, 0, 'config', 'config_image_thumb_width', '500', 0),
+(4654, 0, 'config', 'config_image_thumb_height', '500', 0),
+(4655, 0, 'config', 'config_image_popup_width', '800', 0),
+(4656, 0, 'config', 'config_image_popup_height', '800', 0),
+(4657, 0, 'config', 'config_image_product_width', '400', 0),
+(4658, 0, 'config', 'config_image_product_height', '400', 0),
+(4659, 0, 'config', 'config_image_additional_width', '74', 0),
+(4660, 0, 'config', 'config_image_additional_height', '74', 0),
+(4661, 0, 'config', 'config_image_related_width', '250', 0),
+(4662, 0, 'config', 'config_image_related_height', '250', 0),
+(4663, 0, 'config', 'config_image_article_width', '1100', 0),
+(4664, 0, 'config', 'config_image_article_height', '380', 0),
+(4665, 0, 'config', 'config_image_topic_width', '1100', 0),
+(4666, 0, 'config', 'config_image_topic_height', '380', 0),
+(4667, 0, 'config', 'config_image_compare_width', '90', 0),
+(4668, 0, 'config', 'config_image_compare_height', '90', 0),
+(4669, 0, 'config', 'config_image_wishlist_width', '47', 0),
+(4670, 0, 'config', 'config_image_wishlist_height', '47', 0),
+(4671, 0, 'config', 'config_image_cart_width', '47', 0),
+(4672, 0, 'config', 'config_image_cart_height', '47', 0),
+(4673, 0, 'config', 'config_image_location_width', '268', 0),
+(4674, 0, 'config', 'config_image_location_height', '50', 0),
+(4675, 0, 'config', 'config_mail_engine', '', 0),
+(4676, 0, 'config', 'config_mail_parameter', '', 0),
+(4677, 0, 'config', 'config_mail_smtp_hostname', '', 0),
+(4678, 0, 'config', 'config_mail_smtp_username', '', 0),
+(4679, 0, 'config', 'config_mail_smtp_password', '', 0),
+(4680, 0, 'config', 'config_mail_smtp_port', '25', 0),
+(4681, 0, 'config', 'config_mail_smtp_timeout', '5', 0),
+(4682, 0, 'config', 'config_mail_alert', '[\"order\"]', 1),
+(4683, 0, 'config', 'config_mail_alert_email', '', 0),
+(4684, 0, 'config', 'config_maintenance', '0', 0),
+(4685, 0, 'config', 'config_session_expire', '86400', 0),
+(4686, 0, 'config', 'config_session_samesite', 'Strict', 0),
+(4687, 0, 'config', 'config_seo_url', '0', 0),
+(4688, 0, 'config', 'config_robots', 'abot\r\ndbot\r\nebot\r\nhbot\r\nkbot\r\nlbot\r\nmbot\r\nnbot\r\nobot\r\npbot\r\nrbot\r\nsbot\r\ntbot\r\nvbot\r\nybot\r\nzbot\r\nbot.\r\nbot/\r\n_bot\r\n.bot\r\n/bot\r\n-bot\r\n:bot\r\n(bot\r\ncrawl\r\nslurp\r\nspider\r\nseek\r\naccoona\r\nacoon\r\nadressendeutschland\r\nah-ha.com\r\nahoy\r\naltavista\r\nananzi\r\nanthill\r\nappie\r\narachnophilia\r\narale\r\naraneo\r\naranha\r\narchitext\r\naretha\r\narks\r\nasterias\r\natlocal\r\natn\r\natomz\r\naugurfind\r\nbackrub\r\nbannana_bot\r\nbaypup\r\nbdfetch\r\nbig brother\r\nbiglotron\r\nbjaaland\r\nblackwidow\r\nblaiz\r\nblog\r\nblo.\r\nbloodhound\r\nboitho\r\nbooch\r\nbradley\r\nbutterfly\r\ncalif\r\ncassandra\r\nccubee\r\ncfetch\r\ncharlotte\r\nchurl\r\ncienciaficcion\r\ncmc\r\ncollective\r\ncomagent\r\ncombine\r\ncomputingsite\r\ncsci\r\ncurl\r\ncusco\r\ndaumoa\r\ndeepindex\r\ndelorie\r\ndepspid\r\ndeweb\r\ndie blinde kuh\r\ndigger\r\nditto\r\ndmoz\r\ndocomo\r\ndownload express\r\ndtaagent\r\ndwcp\r\nebiness\r\nebingbong\r\ne-collector\r\nejupiter\r\nemacs-w3 search engine\r\nesther\r\nevliya celebi\r\nezresult\r\nfalcon\r\nfelix ide\r\nferret\r\nfetchrover\r\nfido\r\nfindlinks\r\nfireball\r\nfish search\r\nfouineur\r\nfunnelweb\r\ngazz\r\ngcreep\r\ngenieknows\r\ngetterroboplus\r\ngeturl\r\nglx\r\ngoforit\r\ngolem\r\ngrabber\r\ngrapnel\r\ngralon\r\ngriffon\r\ngromit\r\ngrub\r\ngulliver\r\nhamahakki\r\nharvest\r\nhavindex\r\nhelix\r\nheritrix\r\nhku www octopus\r\nhomerweb\r\nhtdig\r\nhtml index\r\nhtml_analyzer\r\nhtmlgobble\r\nhubater\r\nhyper-decontextualizer\r\nia_archiver\r\nibm_planetwide\r\nichiro\r\niconsurf\r\niltrovatore\r\nimage.kapsi.net\r\nimagelock\r\nincywincy\r\nindexer\r\ninfobee\r\ninformant\r\ningrid\r\ninktomisearch.com\r\ninspector web\r\nintelliagent\r\ninternet shinchakubin\r\nip3000\r\niron33\r\nisraeli-search\r\nivia\r\njack\r\njakarta\r\njavabee\r\njetbot\r\njumpstation\r\nkatipo\r\nkdd-explorer\r\nkilroy\r\nknowledge\r\nkototoi\r\nkretrieve\r\nlabelgrabber\r\nlachesis\r\nlarbin\r\nlegs\r\nlibwww\r\nlinkalarm\r\nlink validator\r\nlinkscan\r\nlockon\r\nlwp\r\nlycos\r\nmagpie\r\nmantraagent\r\nmapoftheinternet\r\nmarvin/\r\nmattie\r\nmediafox\r\nmediapartners\r\nmercator\r\nmerzscope\r\nmicrosoft url control\r\nminirank\r\nmiva\r\nmj12\r\nmnogosearch\r\nmoget\r\nmonster\r\nmoose\r\nmotor\r\nmultitext\r\nmuncher\r\nmuscatferret\r\nmwd.search\r\nmyweb\r\nnajdi\r\nnameprotect\r\nnationaldirectory\r\nnazilla\r\nncsa beta\r\nnec-meshexplorer\r\nnederland.zoek\r\nnetcarta webmap engine\r\nnetmechanic\r\nnetresearchserver\r\nnetscoop\r\nnewscan-online\r\nnhse\r\nnokia6682/\r\nnomad\r\nnoyona\r\nnutch\r\nnzexplorer\r\nobjectssearch\r\noccam\r\nomni\r\nopen text\r\nopenfind\r\nopenintelligencedata\r\norb search\r\nosis-project\r\npack rat\r\npageboy\r\npagebull\r\npage_verifier\r\npanscient\r\nparasite\r\npartnersite\r\npatric\r\npear.\r\npegasus\r\nperegrinator\r\npgp key agent\r\nphantom\r\nphpdig\r\npicosearch\r\npiltdownman\r\npimptrain\r\npinpoint\r\npioneer\r\npiranha\r\nplumtreewebaccessor\r\npogodak\r\npoirot\r\npompos\r\npoppelsdorf\r\npoppi\r\npopular iconoclast\r\npsycheclone\r\npublisher\r\npython\r\nrambler\r\nraven search\r\nroach\r\nroad runner\r\nroadhouse\r\nrobbie\r\nrobofox\r\nrobozilla\r\nrules\r\nsalty\r\nsbider\r\nscooter\r\nscoutjet\r\nscrubby\r\nsearch.\r\nsearchprocess\r\nsemanticdiscovery\r\nsenrigan\r\nsg-scout\r\nshai\'hulud\r\nshark\r\nshopwiki\r\nsidewinder\r\nsift\r\nsilk\r\nsimmany\r\nsite searcher\r\nsite valet\r\nsitetech-rover\r\nskymob.com\r\nsleek\r\nsmartwit\r\nsna-\r\nsnappy\r\nsnooper\r\nsohu\r\nspeedfind\r\nsphere\r\nsphider\r\nspinner\r\nspyder\r\nsteeler/\r\nsuke\r\nsuntek\r\nsupersnooper\r\nsurfnomore\r\nsven\r\nsygol\r\nszukacz\r\ntach black widow\r\ntarantula\r\ntempleton\r\n/teoma\r\nt-h-u-n-d-e-r-s-t-o-n-e\r\ntheophrastus\r\ntitan\r\ntitin\r\ntkwww\r\ntoutatis\r\nt-rex\r\ntutorgig\r\ntwiceler\r\ntwisted\r\nucsd\r\nudmsearch\r\nurl check\r\nupdated\r\nvagabondo\r\nvalkyrie\r\nverticrawl\r\nvictoria\r\nvision-search\r\nvolcano\r\nvoyager/\r\nvoyager-hc\r\nw3c_validator\r\nw3m2\r\nw3mir\r\nwalker\r\nwallpaper\r\nwanderer\r\nwauuu\r\nwavefire\r\nweb core\r\nweb hopper\r\nweb wombat\r\nwebbandit\r\nwebcatcher\r\nwebcopy\r\nwebfoot\r\nweblayers\r\nweblinker\r\nweblog monitor\r\nwebmirror\r\nwebmonkey\r\nwebquest\r\nwebreaper\r\nwebsitepulse\r\nwebsnarf\r\nwebstolperer\r\nwebvac\r\nwebwalk\r\nwebwatch\r\nwebwombat\r\nwebzinger\r\nwhizbang\r\nwhowhere\r\nwild ferret\r\nworldlight\r\nwwwc\r\nwwwster\r\nxenu\r\nxget\r\nxift\r\nxirq\r\nyandex\r\nyanga\r\nyeti\r\nyodao\r\nzao\r\nzippp\r\nzyborg', 0),
+(4689, 0, 'config', 'config_compression', '0', 0),
+(4690, 0, 'config', 'config_user_2fa', '0', 0),
+(4691, 0, 'config', 'config_shared', '0', 0),
+(4692, 0, 'config', 'config_file_max_size', '20', 0),
+(4693, 0, 'config', 'config_file_ext_allowed', 'zip\r\ntxt\r\npng\r\njpe\r\njpeg\r\nwebp\r\njpg\r\ngif\r\nbmp\r\nico\r\ntiff\r\ntif\r\nsvg\r\nsvgz\r\nzip\r\nrar\r\nmsi\r\ncab\r\nmp3\r\nmp4\r\nqt\r\nmov\r\npdf\r\npsd\r\nai\r\neps\r\nps\r\ndoc', 0),
+(4694, 0, 'config', 'config_file_mime_allowed', 'text/plain\r\nimage/png\r\nimage/webp\r\nimage/jpeg\r\nimage/gif\r\nimage/bmp\r\nimage/tiff\r\nimage/svg+xml\r\napplication/zip\r\napplication/x-zip\r\napplication/x-zip-compressed\r\napplication/rar\r\napplication/x-rar\r\napplication/x-rar-compressed\r\napplication/octet-stream\r\naudio/mpeg\r\nvideo/mp4\r\nvideo/quicktime\r\napplication/pdf', 0),
+(4695, 0, 'config', 'config_error_display', '1', 0),
+(4696, 0, 'config', 'config_error_log', '1', 0),
+(4697, 0, 'config', 'config_error_filename', 'error.log', 0);
 
 CREATE TABLE `ve_startup` (
   `startup_id` int NOT NULL,
@@ -3937,21 +3828,11 @@ CREATE TABLE `ve_startup` (
   `sort_order` int NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC;
 
--- --------------------------------------------------------
-
---
--- Table structure for table `ve_statistics`
---
-
 CREATE TABLE `ve_statistics` (
   `statistics_id` int NOT NULL,
   `code` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `value` decimal(15,4) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC;
-
---
--- Dumping data for table `ve_statistics`
---
 
 INSERT INTO `ve_statistics` (`statistics_id`, `code`, `value`) VALUES
 (1, 'order_sale', '45155.4000'),
@@ -3962,21 +3843,11 @@ INSERT INTO `ve_statistics` (`statistics_id`, `code`, `value`) VALUES
 (6, 'product', '0.0000'),
 (7, 'review', '0.0000');
 
--- --------------------------------------------------------
-
---
--- Table structure for table `ve_stock_status`
---
-
 CREATE TABLE `ve_stock_status` (
   `stock_status_id` int NOT NULL,
   `language_id` int NOT NULL,
   `name` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC;
-
---
--- Dumping data for table `ve_stock_status`
---
 
 INSERT INTO `ve_stock_status` (`stock_status_id`, `language_id`, `name`) VALUES
 (5, 1, 'Out Of Stock'),
@@ -3984,30 +3855,14 @@ INSERT INTO `ve_stock_status` (`stock_status_id`, `language_id`, `name`) VALUES
 (7, 1, 'In Stock'),
 (8, 1, 'Pre-Order');
 
--- --------------------------------------------------------
-
---
--- Table structure for table `ve_store`
---
-
 CREATE TABLE `ve_store` (
   `store_id` int NOT NULL,
   `name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `url` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC;
 
---
--- Dumping data for table `ve_store`
---
-
 INSERT INTO `ve_store` (`store_id`, `name`, `url`) VALUES
-(0, '', '');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `ve_subscription`
---
+(0, 'Default', '');
 
 CREATE TABLE `ve_subscription` (
   `subscription_id` int NOT NULL,
@@ -4050,12 +3905,6 @@ CREATE TABLE `ve_subscription` (
   `date_modified` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC;
 
--- --------------------------------------------------------
-
---
--- Table structure for table `ve_subscription_history`
---
-
 CREATE TABLE `ve_subscription_history` (
   `subscription_history_id` int NOT NULL,
   `subscription_id` int NOT NULL,
@@ -4064,12 +3913,6 @@ CREATE TABLE `ve_subscription_history` (
   `comment` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `date_added` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `ve_subscription_plan`
---
 
 CREATE TABLE `ve_subscription_plan` (
   `subscription_plan_id` int NOT NULL,
@@ -4084,20 +3927,10 @@ CREATE TABLE `ve_subscription_plan` (
   `sort_order` int NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC;
 
---
--- Dumping data for table `ve_subscription_plan`
---
-
 INSERT INTO `ve_subscription_plan` (`subscription_plan_id`, `trial_frequency`, `trial_duration`, `trial_cycle`, `trial_status`, `frequency`, `duration`, `cycle`, `status`, `sort_order`) VALUES
 (1, 'day', 10, 1, 1, 'day', 0, 1, 1, 0),
 (2, 'week', 11, 2, 1, 'month', 10, 1, 1, 0),
 (3, 'day', 0, 1, 0, 'day', 0, 1, 1, 0);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `ve_subscription_plan_description`
---
 
 CREATE TABLE `ve_subscription_plan_description` (
   `subscription_plan_id` int NOT NULL,
@@ -4105,30 +3938,16 @@ CREATE TABLE `ve_subscription_plan_description` (
   `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC;
 
---
--- Dumping data for table `ve_subscription_plan_description`
---
-
 INSERT INTO `ve_subscription_plan_description` (`subscription_plan_id`, `language_id`, `name`) VALUES
 (1, 1, 'Subscription Plan 1'),
 (2, 1, 'Subscription Plan 2'),
 (3, 1, 'Subscription Plan 3');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `ve_subscription_status`
---
 
 CREATE TABLE `ve_subscription_status` (
   `subscription_status_id` int NOT NULL,
   `language_id` int NOT NULL,
   `name` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC;
-
---
--- Dumping data for table `ve_subscription_status`
---
 
 INSERT INTO `ve_subscription_status` (`subscription_status_id`, `language_id`, `name`) VALUES
 (1, 1, 'Pending'),
@@ -4139,31 +3958,15 @@ INSERT INTO `ve_subscription_status` (`subscription_status_id`, `language_id`, `
 (6, 1, 'Failed'),
 (7, 1, 'Denied');
 
--- --------------------------------------------------------
-
---
--- Table structure for table `ve_tax_class`
---
-
 CREATE TABLE `ve_tax_class` (
   `tax_class_id` int NOT NULL,
   `title` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `description` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC;
 
---
--- Dumping data for table `ve_tax_class`
---
-
 INSERT INTO `ve_tax_class` (`tax_class_id`, `title`, `description`) VALUES
 (9, 'Taxable Goods', 'Taxed goods'),
 (10, 'Downloadable Products', 'Downloadable');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `ve_tax_rate`
---
 
 CREATE TABLE `ve_tax_rate` (
   `tax_rate_id` int NOT NULL,
@@ -4173,38 +3976,18 @@ CREATE TABLE `ve_tax_rate` (
   `type` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC;
 
---
--- Dumping data for table `ve_tax_rate`
---
-
 INSERT INTO `ve_tax_rate` (`tax_rate_id`, `geo_zone_id`, `name`, `rate`, `type`) VALUES
 (86, 3, 'VAT (20%)', '20.0000', 'P'),
 (87, 3, 'Eco Tax (-2.00)', '2.0000', 'F');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `ve_tax_rate_to_customer_group`
---
 
 CREATE TABLE `ve_tax_rate_to_customer_group` (
   `tax_rate_id` int NOT NULL,
   `customer_group_id` int NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC;
 
---
--- Dumping data for table `ve_tax_rate_to_customer_group`
---
-
 INSERT INTO `ve_tax_rate_to_customer_group` (`tax_rate_id`, `customer_group_id`) VALUES
 (86, 1),
 (87, 1);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `ve_tax_rule`
---
 
 CREATE TABLE `ve_tax_rule` (
   `tax_rule_id` int NOT NULL,
@@ -4214,21 +3997,11 @@ CREATE TABLE `ve_tax_rule` (
   `priority` int NOT NULL DEFAULT '1'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC;
 
---
--- Dumping data for table `ve_tax_rule`
---
-
 INSERT INTO `ve_tax_rule` (`tax_rule_id`, `tax_class_id`, `tax_rate_id`, `based`, `priority`) VALUES
 (120, 10, 87, 'store', 0),
 (121, 10, 86, 'payment', 1),
 (130, 9, 86, 'shipping', 1),
 (131, 9, 87, 'shipping', 0);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `ve_theme`
---
 
 CREATE TABLE `ve_theme` (
   `theme_id` int NOT NULL,
@@ -4238,23 +4011,15 @@ CREATE TABLE `ve_theme` (
   `date_added` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC;
 
--- --------------------------------------------------------
-
---
--- Table structure for table `ve_topic`
---
-
 CREATE TABLE `ve_topic` (
   `topic_id` int NOT NULL,
   `sort_order` int NOT NULL DEFAULT '0',
   `status` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC;
 
--- --------------------------------------------------------
-
---
--- Table structure for table `ve_topic_description`
---
+INSERT INTO `ve_topic` (`topic_id`, `sort_order`, `status`) VALUES
+(2, 0, 1),
+(3, 0, 1);
 
 CREATE TABLE `ve_topic_description` (
   `topic_id` int NOT NULL,
@@ -4267,22 +4032,18 @@ CREATE TABLE `ve_topic_description` (
   `meta_keyword` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC;
 
--- --------------------------------------------------------
-
---
--- Table structure for table `ve_topic_to_store`
---
+INSERT INTO `ve_topic_description` (`topic_id`, `language_id`, `name`, `description`, `image`, `meta_title`, `meta_description`, `meta_keyword`) VALUES
+(2, 1, 'General', '', '', 'General', '', ''),
+(3, 1, 'Fashion', '', '', 'Fashion', '', '');
 
 CREATE TABLE `ve_topic_to_store` (
   `topic_id` int NOT NULL,
   `store_id` int NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC;
 
--- --------------------------------------------------------
-
---
--- Table structure for table `ve_translation`
---
+INSERT INTO `ve_topic_to_store` (`topic_id`, `store_id`) VALUES
+(2, 0),
+(3, 0);
 
 CREATE TABLE `ve_translation` (
   `translation_id` int NOT NULL,
@@ -4294,12 +4055,6 @@ CREATE TABLE `ve_translation` (
   `date_added` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC;
 
--- --------------------------------------------------------
-
---
--- Table structure for table `ve_upload`
---
-
 CREATE TABLE `ve_upload` (
   `upload_id` int NOT NULL,
   `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
@@ -4307,12 +4062,6 @@ CREATE TABLE `ve_upload` (
   `code` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `date_added` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `ve_user`
---
 
 CREATE TABLE `ve_user` (
   `user_id` int NOT NULL,
@@ -4329,13 +4078,6 @@ CREATE TABLE `ve_user` (
   `date_added` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC;
 
- 
--- --------------------------------------------------------
-
---
--- Table structure for table `ve_user_authorize`
---
-
 CREATE TABLE `ve_user_authorize` (
   `user_authorize_id` int NOT NULL,
   `user_id` int NOT NULL,
@@ -4347,31 +4089,15 @@ CREATE TABLE `ve_user_authorize` (
   `date_added` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC;
 
--- --------------------------------------------------------
-
---
--- Table structure for table `ve_user_group`
---
-
 CREATE TABLE `ve_user_group` (
   `user_group_id` int NOT NULL,
   `name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `permission` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC;
 
---
--- Dumping data for table `ve_user_group`
---
-
 INSERT INTO `ve_user_group` (`user_group_id`, `name`, `permission`) VALUES
-(1, 'Administrator', '{\"access\":[\"catalog\\/attribute\",\"catalog\\/category\",\"catalog\\/download\",\"catalog\\/filter\",\"catalog\\/information\",\"catalog\\/manufacturer\",\"catalog\\/option\",\"catalog\\/product\",\"catalog\\/review\",\"catalog\\/subscription_plan\",\"catalog\\/variations\",\"cms\\/antispam\",\"cms\\/article\",\"cms\\/comment\",\"cms\\/topic\",\"common\\/developer\",\"common\\/filemanager\",\"common\\/security\",\"customer\\/address\",\"customer\\/custom_field\",\"customer\\/customer\",\"customer\\/customer_approval\",\"customer\\/customer_group\",\"customer\\/gdpr\",\"design\\/banner\",\"design\\/layout\",\"design\\/seo_url\",\"design\\/theme\",\"design\\/translation\",\"error\\/exception\",\"event\\/modification\",\"extension\\/analytics\",\"extension\\/captcha\",\"extension\\/currency\",\"extension\\/dashboard\",\"extension\\/feed\",\"extension\\/fraud\",\"extension\\/language\",\"extension\\/marketplace\",\"extension\\/module\",\"extension\\/other\",\"extension\\/payment\",\"extension\\/report\",\"extension\\/shipping\",\"extension\\/theme\",\"extension\\/total\",\"localisation\\/address_format\",\"localisation\\/country\",\"localisation\\/currency\",\"localisation\\/geo_zone\",\"localisation\\/language\",\"localisation\\/length_class\",\"localisation\\/location\",\"localisation\\/order_status\",\"localisation\\/return_action\",\"localisation\\/return_reason\",\"localisation\\/return_status\",\"localisation\\/stock_status\",\"localisation\\/subscription_status\",\"localisation\\/tax_class\",\"localisation\\/tax_rate\",\"localisation\\/weight_class\",\"localisation\\/zone\",\"mail\\/affiliate\",\"mail\\/authorize\",\"mail\\/customer\",\"mail\\/forgotten\",\"mail\\/gdpr\",\"mail\\/returns\",\"mail\\/reward\",\"mail\\/subscription\",\"mail\\/transaction\",\"mail\\/voucher\",\"marketing\\/affiliate\",\"marketing\\/contact\",\"marketing\\/coupon\",\"marketing\\/marketing\",\"marketplace\\/api\",\"marketplace\\/cron\",\"marketplace\\/event\",\"marketplace\\/extension\",\"marketplace\\/installer\",\"marketplace\\/marketplace\",\"marketplace\\/modification\",\"marketplace\\/promotion\",\"marketplace\\/startup\",\"report\\/online\",\"report\\/report\",\"report\\/statistics\",\"sale\\/order\",\"sale\\/returns\",\"sale\\/subscription\",\"sale\\/voucher\",\"sale\\/voucher_theme\",\"setting\\/setting\",\"setting\\/store\",\"tool\\/backup\",\"tool\\/log\",\"tool\\/notification\",\"tool\\/upgrade\",\"tool\\/upload\",\"user\\/api\",\"user\\/profile\",\"user\\/user\",\"user\\/user_permission\",\"extension\\/opencart\\/captcha\\/basic\",\"extension\\/opencart\\/currency\\/ecb\",\"extension\\/opencart\\/currency\\/fixer\",\"extension\\/opencart\\/dashboard\\/activity\",\"extension\\/opencart\\/dashboard\\/chart\",\"extension\\/opencart\\/dashboard\\/customer\",\"extension\\/opencart\\/dashboard\\/map\",\"extension\\/opencart\\/dashboard\\/online\",\"extension\\/opencart\\/dashboard\\/order\",\"extension\\/opencart\\/dashboard\\/recent\",\"extension\\/opencart\\/dashboard\\/sale\",\"extension\\/opencart\\/fraud\\/ip\",\"extension\\/opencart\\/module\\/account\",\"extension\\/opencart\\/module\\/banner\",\"extension\\/opencart\\/module\\/bestseller\",\"extension\\/opencart\\/module\\/category\",\"extension\\/opencart\\/module\\/featured\",\"extension\\/opencart\\/module\\/filter\",\"extension\\/opencart\\/module\\/html\",\"extension\\/opencart\\/module\\/information\",\"extension\\/opencart\\/module\\/latest\",\"extension\\/opencart\\/module\\/mostviewed\",\"extension\\/opencart\\/module\\/special\",\"extension\\/opencart\\/module\\/store\",\"extension\\/opencart\\/module\\/topic\",\"extension\\/opencart\\/payment\\/bank_transfer\",\"extension\\/opencart\\/payment\\/cheque\",\"extension\\/opencart\\/payment\\/cod\",\"extension\\/opencart\\/payment\\/free_checkout\",\"extension\\/opencart\\/report\\/customer\",\"extension\\/opencart\\/report\\/customer_activity\",\"extension\\/opencart\\/report\\/customer_order\",\"extension\\/opencart\\/report\\/customer_reward\",\"extension\\/opencart\\/report\\/customer_search\",\"extension\\/opencart\\/report\\/customer_transaction\",\"extension\\/opencart\\/report\\/marketing\",\"extension\\/opencart\\/report\\/product_purchased\",\"extension\\/opencart\\/report\\/product_viewed\",\"extension\\/opencart\\/report\\/sale_coupon\",\"extension\\/opencart\\/report\\/sale_order\",\"extension\\/opencart\\/report\\/sale_return\",\"extension\\/opencart\\/report\\/sale_shipping\",\"extension\\/opencart\\/report\\/sale_tax\",\"extension\\/opencart\\/shipping\\/flat\",\"extension\\/opencart\\/shipping\\/free\",\"extension\\/opencart\\/shipping\\/item\",\"extension\\/opencart\\/shipping\\/pickup\",\"extension\\/opencart\\/shipping\\/weight\",\"extension\\/opencart\\/theme\\/basic\",\"extension\\/opencart\\/total\\/coupon\",\"extension\\/opencart\\/total\\/credit\",\"extension\\/opencart\\/total\\/handling\",\"extension\\/opencart\\/total\\/low_order_fee\",\"extension\\/opencart\\/total\\/reward\",\"extension\\/opencart\\/total\\/shipping\",\"extension\\/opencart\\/total\\/sub_total\",\"extension\\/opencart\\/total\\/tax\",\"extension\\/opencart\\/total\\/total\",\"extension\\/opencart\\/total\\/voucher\",\"extension\\/paypal\\/payment\\/paypal\",\"extension\\/stripe\\/payment\\/stripe\"],\"modify\":[\"catalog\\/attribute\",\"catalog\\/category\",\"catalog\\/download\",\"catalog\\/filter\",\"catalog\\/information\",\"catalog\\/manufacturer\",\"catalog\\/option\",\"catalog\\/product\",\"catalog\\/review\",\"catalog\\/subscription_plan\",\"catalog\\/variations\",\"cms\\/antispam\",\"cms\\/article\",\"cms\\/comment\",\"cms\\/topic\",\"common\\/developer\",\"common\\/filemanager\",\"common\\/security\",\"customer\\/address\",\"customer\\/custom_field\",\"customer\\/customer\",\"customer\\/customer_approval\",\"customer\\/customer_group\",\"customer\\/gdpr\",\"design\\/banner\",\"design\\/layout\",\"design\\/seo_url\",\"design\\/theme\",\"design\\/translation\",\"error\\/exception\",\"event\\/modification\",\"extension\\/analytics\",\"extension\\/captcha\",\"extension\\/currency\",\"extension\\/dashboard\",\"extension\\/feed\",\"extension\\/fraud\",\"extension\\/language\",\"extension\\/marketplace\",\"extension\\/module\",\"extension\\/other\",\"extension\\/payment\",\"extension\\/report\",\"extension\\/shipping\",\"extension\\/theme\",\"extension\\/total\",\"localisation\\/address_format\",\"localisation\\/country\",\"localisation\\/currency\",\"localisation\\/geo_zone\",\"localisation\\/language\",\"localisation\\/length_class\",\"localisation\\/location\",\"localisation\\/order_status\",\"localisation\\/return_action\",\"localisation\\/return_reason\",\"localisation\\/return_status\",\"localisation\\/stock_status\",\"localisation\\/subscription_status\",\"localisation\\/tax_class\",\"localisation\\/tax_rate\",\"localisation\\/weight_class\",\"localisation\\/zone\",\"mail\\/affiliate\",\"mail\\/authorize\",\"mail\\/customer\",\"mail\\/forgotten\",\"mail\\/gdpr\",\"mail\\/returns\",\"mail\\/reward\",\"mail\\/subscription\",\"mail\\/transaction\",\"mail\\/voucher\",\"marketing\\/affiliate\",\"marketing\\/contact\",\"marketing\\/coupon\",\"marketing\\/marketing\",\"marketplace\\/api\",\"marketplace\\/cron\",\"marketplace\\/event\",\"marketplace\\/extension\",\"marketplace\\/installer\",\"marketplace\\/marketplace\",\"marketplace\\/modification\",\"marketplace\\/promotion\",\"marketplace\\/startup\",\"report\\/online\",\"report\\/report\",\"report\\/statistics\",\"sale\\/order\",\"sale\\/returns\",\"sale\\/subscription\",\"sale\\/voucher\",\"sale\\/voucher_theme\",\"setting\\/setting\",\"setting\\/store\",\"tool\\/backup\",\"tool\\/log\",\"tool\\/notification\",\"tool\\/upgrade\",\"tool\\/upload\",\"user\\/api\",\"user\\/profile\",\"user\\/user\",\"user\\/user_permission\",\"extension\\/opencart\\/captcha\\/basic\",\"extension\\/opencart\\/currency\\/ecb\",\"extension\\/opencart\\/currency\\/fixer\",\"extension\\/opencart\\/dashboard\\/activity\",\"extension\\/opencart\\/dashboard\\/chart\",\"extension\\/opencart\\/dashboard\\/customer\",\"extension\\/opencart\\/dashboard\\/map\",\"extension\\/opencart\\/dashboard\\/online\",\"extension\\/opencart\\/dashboard\\/order\",\"extension\\/opencart\\/dashboard\\/recent\",\"extension\\/opencart\\/dashboard\\/sale\",\"extension\\/opencart\\/fraud\\/ip\",\"extension\\/opencart\\/module\\/account\",\"extension\\/opencart\\/module\\/banner\",\"extension\\/opencart\\/module\\/bestseller\",\"extension\\/opencart\\/module\\/category\",\"extension\\/opencart\\/module\\/featured\",\"extension\\/opencart\\/module\\/filter\",\"extension\\/opencart\\/module\\/html\",\"extension\\/opencart\\/module\\/information\",\"extension\\/opencart\\/module\\/latest\",\"extension\\/opencart\\/module\\/mostviewed\",\"extension\\/opencart\\/module\\/special\",\"extension\\/opencart\\/module\\/store\",\"extension\\/opencart\\/module\\/topic\",\"extension\\/opencart\\/payment\\/bank_transfer\",\"extension\\/opencart\\/payment\\/cheque\",\"extension\\/opencart\\/payment\\/cod\",\"extension\\/opencart\\/payment\\/free_checkout\",\"extension\\/opencart\\/report\\/customer\",\"extension\\/opencart\\/report\\/customer_activity\",\"extension\\/opencart\\/report\\/customer_order\",\"extension\\/opencart\\/report\\/customer_reward\",\"extension\\/opencart\\/report\\/customer_search\",\"extension\\/opencart\\/report\\/customer_transaction\",\"extension\\/opencart\\/report\\/marketing\",\"extension\\/opencart\\/report\\/product_purchased\",\"extension\\/opencart\\/report\\/product_viewed\",\"extension\\/opencart\\/report\\/sale_coupon\",\"extension\\/opencart\\/report\\/sale_order\",\"extension\\/opencart\\/report\\/sale_return\",\"extension\\/opencart\\/report\\/sale_shipping\",\"extension\\/opencart\\/report\\/sale_tax\",\"extension\\/opencart\\/shipping\\/flat\",\"extension\\/opencart\\/shipping\\/free\",\"extension\\/opencart\\/shipping\\/item\",\"extension\\/opencart\\/shipping\\/pickup\",\"extension\\/opencart\\/shipping\\/weight\",\"extension\\/opencart\\/theme\\/basic\",\"extension\\/opencart\\/total\\/coupon\",\"extension\\/opencart\\/total\\/credit\",\"extension\\/opencart\\/total\\/handling\",\"extension\\/opencart\\/total\\/low_order_fee\",\"extension\\/opencart\\/total\\/reward\",\"extension\\/opencart\\/total\\/shipping\",\"extension\\/opencart\\/total\\/sub_total\",\"extension\\/opencart\\/total\\/tax\",\"extension\\/opencart\\/total\\/total\",\"extension\\/opencart\\/total\\/voucher\",\"extension\\/paypal\\/payment\\/paypal\",\"extension\\/stripe\\/payment\\/stripe\"]}'),
+(1, 'Administrator', '{\"access\":[\"catalog\\/attribute\",\"catalog\\/category\",\"catalog\\/download\",\"catalog\\/filter\",\"catalog\\/information\",\"catalog\\/manufacturer\",\"catalog\\/option\",\"catalog\\/product\",\"catalog\\/review\",\"catalog\\/subscription_plan\",\"catalog\\/variations\",\"cms\\/antispam\",\"cms\\/article\",\"cms\\/comment\",\"cms\\/topic\",\"common\\/developer\",\"common\\/filemanager\",\"common\\/security\",\"customer\\/address\",\"customer\\/custom_field\",\"customer\\/customer\",\"customer\\/customer_approval\",\"customer\\/customer_group\",\"customer\\/gdpr\",\"design\\/banner\",\"design\\/layout\",\"design\\/seo_url\",\"design\\/theme\",\"design\\/translation\",\"error\\/exception\",\"event\\/modification\",\"extension\\/analytics\",\"extension\\/captcha\",\"extension\\/currency\",\"extension\\/dashboard\",\"extension\\/feed\",\"extension\\/fraud\",\"extension\\/language\",\"extension\\/marketplace\",\"extension\\/module\",\"extension\\/other\",\"extension\\/payment\",\"extension\\/report\",\"extension\\/shipping\",\"extension\\/theme\",\"extension\\/total\",\"localisation\\/address_format\",\"localisation\\/country\",\"localisation\\/currency\",\"localisation\\/geo_zone\",\"localisation\\/language\",\"localisation\\/length_class\",\"localisation\\/location\",\"localisation\\/order_status\",\"localisation\\/return_action\",\"localisation\\/return_reason\",\"localisation\\/return_status\",\"localisation\\/stock_status\",\"localisation\\/subscription_status\",\"localisation\\/tax_class\",\"localisation\\/tax_rate\",\"localisation\\/weight_class\",\"localisation\\/zone\",\"mail\\/affiliate\",\"mail\\/authorize\",\"mail\\/customer\",\"mail\\/forgotten\",\"mail\\/gdpr\",\"mail\\/returns\",\"mail\\/reward\",\"mail\\/subscription\",\"mail\\/transaction\",\"mail\\/voucher\",\"marketing\\/affiliate\",\"marketing\\/contact\",\"marketing\\/coupon\",\"marketing\\/marketing\",\"marketplace\\/api\",\"marketplace\\/cron\",\"marketplace\\/event\",\"marketplace\\/extension\",\"marketplace\\/installer\",\"marketplace\\/marketplace\",\"marketplace\\/modification\",\"marketplace\\/promotion\",\"marketplace\\/startup\",\"report\\/online\",\"report\\/report\",\"report\\/statistics\",\"sale\\/order\",\"sale\\/returns\",\"sale\\/subscription\",\"sale\\/voucher\",\"sale\\/voucher_theme\",\"setting\\/setting\",\"setting\\/store\",\"tool\\/backup\",\"tool\\/log\",\"tool\\/notification\",\"tool\\/upgrade\",\"tool\\/upload\",\"user\\/api\",\"user\\/profile\",\"user\\/user\",\"user\\/user_permission\",\"extension\\/opencart\\/currency\\/ecb\",\"extension\\/opencart\\/currency\\/fixer\",\"extension\\/opencart\\/dashboard\\/activity\",\"extension\\/opencart\\/dashboard\\/chart\",\"extension\\/opencart\\/dashboard\\/customer\",\"extension\\/opencart\\/dashboard\\/map\",\"extension\\/opencart\\/dashboard\\/online\",\"extension\\/opencart\\/dashboard\\/order\",\"extension\\/opencart\\/dashboard\\/recent\",\"extension\\/opencart\\/dashboard\\/sale\",\"extension\\/opencart\\/fraud\\/ip\",\"extension\\/opencart\\/module\\/account\",\"extension\\/opencart\\/module\\/banner\",\"extension\\/opencart\\/module\\/bestseller\",\"extension\\/opencart\\/module\\/category\",\"extension\\/opencart\\/module\\/featured\",\"extension\\/opencart\\/module\\/filter\",\"extension\\/opencart\\/module\\/html\",\"extension\\/opencart\\/module\\/information\",\"extension\\/opencart\\/module\\/latest\",\"extension\\/opencart\\/module\\/special\",\"extension\\/opencart\\/module\\/store\",\"extension\\/opencart\\/payment\\/bank_transfer\",\"extension\\/opencart\\/payment\\/cheque\",\"extension\\/opencart\\/payment\\/cod\",\"extension\\/opencart\\/payment\\/free_checkout\",\"extension\\/opencart\\/report\\/customer\",\"extension\\/opencart\\/report\\/customer_activity\",\"extension\\/opencart\\/report\\/customer_order\",\"extension\\/opencart\\/report\\/customer_reward\",\"extension\\/opencart\\/report\\/customer_search\",\"extension\\/opencart\\/report\\/customer_transaction\",\"extension\\/opencart\\/report\\/marketing\",\"extension\\/opencart\\/report\\/product_purchased\",\"extension\\/opencart\\/report\\/product_viewed\",\"extension\\/opencart\\/report\\/sale_coupon\",\"extension\\/opencart\\/report\\/sale_order\",\"extension\\/opencart\\/report\\/sale_return\",\"extension\\/opencart\\/report\\/sale_shipping\",\"extension\\/opencart\\/report\\/sale_tax\",\"extension\\/opencart\\/report\\/subscription\",\"extension\\/opencart\\/shipping\\/flat\",\"extension\\/opencart\\/shipping\\/free\",\"extension\\/opencart\\/shipping\\/item\",\"extension\\/opencart\\/shipping\\/pickup\",\"extension\\/opencart\\/shipping\\/weight\",\"extension\\/opencart\\/theme\\/basic\",\"extension\\/opencart\\/total\\/coupon\",\"extension\\/opencart\\/total\\/credit\",\"extension\\/opencart\\/total\\/handling\",\"extension\\/opencart\\/total\\/low_order_fee\",\"extension\\/opencart\\/total\\/reward\",\"extension\\/opencart\\/total\\/shipping\",\"extension\\/opencart\\/total\\/sub_total\",\"extension\\/opencart\\/total\\/tax\",\"extension\\/opencart\\/total\\/total\",\"extension\\/opencart\\/total\\/voucher\",\"extension\\/paypal\\/payment\\/paypal\",\"extension\\/stripe\\/payment\\/stripe\",\"extension\\/ventocart\\/analytics\\/google_analytics\",\"extension\\/ventocart\\/analytics\\/javascript_tags\",\"extension\\/ventocart\\/captcha\\/basic\",\"extension\\/ventocart\\/module\\/attribute_filter\",\"extension\\/ventocart\\/module\\/availability_filter\",\"extension\\/ventocart\\/module\\/latest\",\"extension\\/ventocart\\/module\\/manufacturer_filter\",\"extension\\/ventocart\\/module\\/mostviewed\",\"extension\\/ventocart\\/module\\/option_filter\",\"extension\\/ventocart\\/module\\/topic\"],\"modify\":[\"catalog\\/attribute\",\"catalog\\/category\",\"catalog\\/download\",\"catalog\\/filter\",\"catalog\\/information\",\"catalog\\/manufacturer\",\"catalog\\/option\",\"catalog\\/product\",\"catalog\\/review\",\"catalog\\/subscription_plan\",\"catalog\\/variations\",\"cms\\/antispam\",\"cms\\/article\",\"cms\\/comment\",\"cms\\/topic\",\"common\\/developer\",\"common\\/filemanager\",\"common\\/security\",\"customer\\/address\",\"customer\\/custom_field\",\"customer\\/customer\",\"customer\\/customer_approval\",\"customer\\/customer_group\",\"customer\\/gdpr\",\"design\\/banner\",\"design\\/layout\",\"design\\/seo_url\",\"design\\/theme\",\"design\\/translation\",\"error\\/exception\",\"event\\/modification\",\"extension\\/analytics\",\"extension\\/captcha\",\"extension\\/currency\",\"extension\\/dashboard\",\"extension\\/feed\",\"extension\\/fraud\",\"extension\\/language\",\"extension\\/marketplace\",\"extension\\/module\",\"extension\\/other\",\"extension\\/payment\",\"extension\\/report\",\"extension\\/shipping\",\"extension\\/theme\",\"extension\\/total\",\"localisation\\/address_format\",\"localisation\\/country\",\"localisation\\/currency\",\"localisation\\/geo_zone\",\"localisation\\/language\",\"localisation\\/length_class\",\"localisation\\/location\",\"localisation\\/order_status\",\"localisation\\/return_action\",\"localisation\\/return_reason\",\"localisation\\/return_status\",\"localisation\\/stock_status\",\"localisation\\/subscription_status\",\"localisation\\/tax_class\",\"localisation\\/tax_rate\",\"localisation\\/weight_class\",\"localisation\\/zone\",\"mail\\/affiliate\",\"mail\\/authorize\",\"mail\\/customer\",\"mail\\/forgotten\",\"mail\\/gdpr\",\"mail\\/returns\",\"mail\\/reward\",\"mail\\/subscription\",\"mail\\/transaction\",\"mail\\/voucher\",\"marketing\\/affiliate\",\"marketing\\/contact\",\"marketing\\/coupon\",\"marketing\\/marketing\",\"marketplace\\/api\",\"marketplace\\/cron\",\"marketplace\\/event\",\"marketplace\\/extension\",\"marketplace\\/installer\",\"marketplace\\/marketplace\",\"marketplace\\/modification\",\"marketplace\\/promotion\",\"marketplace\\/startup\",\"report\\/online\",\"report\\/report\",\"report\\/statistics\",\"sale\\/order\",\"sale\\/returns\",\"sale\\/subscription\",\"sale\\/voucher\",\"sale\\/voucher_theme\",\"setting\\/setting\",\"setting\\/store\",\"tool\\/backup\",\"tool\\/log\",\"tool\\/notification\",\"tool\\/upgrade\",\"tool\\/upload\",\"user\\/api\",\"user\\/profile\",\"user\\/user\",\"user\\/user_permission\",\"extension\\/opencart\\/currency\\/ecb\",\"extension\\/opencart\\/currency\\/fixer\",\"extension\\/opencart\\/dashboard\\/activity\",\"extension\\/opencart\\/dashboard\\/chart\",\"extension\\/opencart\\/dashboard\\/customer\",\"extension\\/opencart\\/dashboard\\/map\",\"extension\\/opencart\\/dashboard\\/online\",\"extension\\/opencart\\/dashboard\\/order\",\"extension\\/opencart\\/dashboard\\/recent\",\"extension\\/opencart\\/dashboard\\/sale\",\"extension\\/opencart\\/fraud\\/ip\",\"extension\\/opencart\\/module\\/account\",\"extension\\/opencart\\/module\\/banner\",\"extension\\/opencart\\/module\\/bestseller\",\"extension\\/opencart\\/module\\/category\",\"extension\\/opencart\\/module\\/featured\",\"extension\\/opencart\\/module\\/filter\",\"extension\\/opencart\\/module\\/html\",\"extension\\/opencart\\/module\\/information\",\"extension\\/opencart\\/module\\/latest\",\"extension\\/opencart\\/module\\/special\",\"extension\\/opencart\\/module\\/store\",\"extension\\/opencart\\/payment\\/bank_transfer\",\"extension\\/opencart\\/payment\\/cheque\",\"extension\\/opencart\\/payment\\/cod\",\"extension\\/opencart\\/payment\\/free_checkout\",\"extension\\/opencart\\/report\\/customer\",\"extension\\/opencart\\/report\\/customer_activity\",\"extension\\/opencart\\/report\\/customer_order\",\"extension\\/opencart\\/report\\/customer_reward\",\"extension\\/opencart\\/report\\/customer_search\",\"extension\\/opencart\\/report\\/customer_transaction\",\"extension\\/opencart\\/report\\/marketing\",\"extension\\/opencart\\/report\\/product_purchased\",\"extension\\/opencart\\/report\\/product_viewed\",\"extension\\/opencart\\/report\\/sale_coupon\",\"extension\\/opencart\\/report\\/sale_order\",\"extension\\/opencart\\/report\\/sale_return\",\"extension\\/opencart\\/report\\/sale_shipping\",\"extension\\/opencart\\/report\\/sale_tax\",\"extension\\/opencart\\/report\\/subscription\",\"extension\\/opencart\\/shipping\\/flat\",\"extension\\/opencart\\/shipping\\/free\",\"extension\\/opencart\\/shipping\\/item\",\"extension\\/opencart\\/shipping\\/pickup\",\"extension\\/opencart\\/shipping\\/weight\",\"extension\\/opencart\\/theme\\/basic\",\"extension\\/opencart\\/total\\/coupon\",\"extension\\/opencart\\/total\\/credit\",\"extension\\/opencart\\/total\\/handling\",\"extension\\/opencart\\/total\\/low_order_fee\",\"extension\\/opencart\\/total\\/reward\",\"extension\\/opencart\\/total\\/shipping\",\"extension\\/opencart\\/total\\/sub_total\",\"extension\\/opencart\\/total\\/tax\",\"extension\\/opencart\\/total\\/total\",\"extension\\/opencart\\/total\\/voucher\",\"extension\\/paypal\\/payment\\/paypal\",\"extension\\/stripe\\/payment\\/stripe\",\"extension\\/ventocart\\/analytics\\/google_analytics\",\"extension\\/ventocart\\/analytics\\/javascript_tags\",\"extension\\/ventocart\\/captcha\\/basic\",\"extension\\/ventocart\\/module\\/attribute_filter\",\"extension\\/ventocart\\/module\\/availability_filter\",\"extension\\/ventocart\\/module\\/latest\",\"extension\\/ventocart\\/module\\/manufacturer_filter\",\"extension\\/ventocart\\/module\\/mostviewed\",\"extension\\/ventocart\\/module\\/option_filter\",\"extension\\/ventocart\\/module\\/topic\"]}'),
 (2, 'Demonstration', '');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `ve_user_login`
---
 
 CREATE TABLE `ve_user_login` (
   `user_login_id` int NOT NULL,
@@ -4382,10 +4108,6 @@ CREATE TABLE `ve_user_login` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC;
 
  
---
--- Table structure for table `ve_variations`
---
-
 CREATE TABLE `ve_variations` (
   `variation_id` int NOT NULL,
   `product_id` int DEFAULT NULL,
@@ -4396,71 +4118,8 @@ CREATE TABLE `ve_variations` (
   `subtract` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
---
--- Dumping data for table `ve_variations`
---
-
 INSERT INTO `ve_variations` (`variation_id`, `product_id`, `sku`, `model`, `quantity`, `price`, `subtract`) VALUES
-(1, 1, '14:193#A-black;200000124:200000338', 'A-black, 43', 181, '30.19', 1),
-(2, 1, '14:173#A-black fleece;200000124:200000333', 'A-black fleece, 35', 0, '29.20', 1),
-(3, 1, '14:173#A-black fleece;200000124:200000334', 'A-black fleece, 36', 0, '29.32', 1),
-(4, 1, '14:173#A-black fleece;200000124:100010482', 'A-black fleece, 37', 0, '29.45', 1),
-(5, 1, '14:193#A-black;200000124:200000364', 'A-black, 39', 1, '29.69', 1),
-(6, 1, '14:193#A-black;200000124:100013888', 'A-black, 40', 183, '29.81', 1),
-(7, 1, '14:193#A-black;200000124:100010483', 'A-black, 41', 186, '29.94', 1),
-(8, 1, '14:193#A-black;200000124:200000337', 'A-black, 42', 187, '30.06', 1),
-(9, 1, '14:193#A-black;200000124:200000333', 'A-black, 35', 188, '29.20', 1),
-(10, 1, '14:193#A-black;200000124:200000334', 'A-black, 36', 184, '29.32', 1),
-(11, 1, '14:193#A-black;200000124:100010482', 'A-black, 37', 184, '29.45', 1),
-(12, 1, '14:193#A-black;200000124:200000898', 'A-black, 38', 179, '29.56', 1),
-(13, 1, '14:365458#B-black;200000124:100013888', 'B-black, 40', 199, '29.81', 1),
-(14, 1, '14:365458#B-black;200000124:100010483', 'B-black, 41', 195, '29.94', 1),
-(15, 1, '14:365458#B-black;200000124:200000337', 'B-black, 42', 199, '30.06', 1),
-(16, 1, '14:365458#B-black;200000124:200000338', 'B-black, 43', 198, '30.19', 1),
-(17, 1, '14:365458#B-black;200000124:200000334', 'B-black, 36', 200, '29.32', 1),
-(18, 1, '14:365458#B-black;200000124:100010482', 'B-black, 37', 196, '29.45', 1),
-(19, 1, '14:365458#B-black;200000124:200000898', 'B-black, 38', 199, '29.56', 1),
-(20, 1, '14:365458#B-black;200000124:200000364', 'B-black, 39', 196, '29.69', 1),
-(21, 1, '14:1254#B-apricot;200000124:100010483', 'B-apricot, 41', 198, '29.94', 1),
-(22, 1, '14:1254#B-apricot;200000124:200000337', 'B-apricot, 42', 199, '30.06', 1),
-(23, 1, '14:1254#B-apricot;200000124:200000338', 'B-apricot, 43', 199, '30.19', 1),
-(24, 1, '14:365458#B-black;200000124:200000333', 'B-black, 35', 199, '29.20', 1),
-(25, 1, '14:1254#B-apricot;200000124:100010482', 'B-apricot, 37', 199, '29.45', 1),
-(26, 1, '14:1254#B-apricot;200000124:200000898', 'B-apricot, 38', 199, '29.56', 1),
-(27, 1, '14:1254#B-apricot;200000124:200000364', 'B-apricot, 39', 197, '29.69', 1),
-(28, 1, '14:1254#B-apricot;200000124:100013888', 'B-apricot, 40', 200, '29.81', 1),
-(29, 1, '14:173#A-black fleece;200000124:200000337', 'A-black fleece, 42', 0, '30.06', 1),
-(30, 1, '14:173#A-black fleece;200000124:200000338', 'A-black fleece, 43', 0, '30.19', 1),
-(31, 1, '14:1254#B-apricot;200000124:200000333', 'B-apricot, 35', 200, '29.20', 1),
-(32, 1, '14:1254#B-apricot;200000124:200000334', 'B-apricot, 36', 198, '29.32', 1),
-(33, 1, '14:173#A-black fleece;200000124:200000898', 'A-black fleece, 38', 0, '29.56', 1),
-(34, 1, '14:173#A-black fleece;200000124:200000364', 'A-black fleece, 39', 0, '29.69', 1),
-(35, 1, '14:173#A-black fleece;200000124:100013888', 'A-black fleece, 40', 0, '29.81', 1),
-(36, 1, '14:173#A-black fleece;200000124:100010483', 'A-black fleece, 41', 0, '29.94', 1),
-(37, 2, '136:200003938;380:200746126#5m', '5m', 128, '23.21', 1),
-(39, 2, '136:200003938;380:200007624#10m', '10m', 88, '33.92', 1),
-(41, 2, '136:29;380:42061083#20m', '20m', 35, '53.20', 1),
-(43, 2, '136:200003938;380:201451169#2m', '2m', 187, '13.00', 1),
-(44, 2, '136:29;380:200007624#10m', '10m', 54, '33.65', 1),
-(45, 2, '136:29;380:201441007#15m', '15m', 28, '45.30', 1),
-(46, 2, '136:29;380:201451169#2m', '2m', 6, '12.98', 1),
-(47, 2, '136:29;380:200746126#5m', '5m', 67, '23.11', 1),
-(48, 2, '136:29;380:201301155', '', 0, '16574.40', 1),
-(51, 2, '136:200003938;380:201441007#15m', '15m', 28, '45.27', 1),
-(53, 2, '136:200003938;380:42061083#20m', '20m', 116, '55.52', 1),
-(61, 3, '11.6', 'Red', 39567, '11.60', 1),
-(62, 3, '11.6', 'White', 39567, '11.60', 1),
-(63, 3, '11.6', 'Green', 39567, '11.60', 1),
-(64, 3, '11.6', 'Black', 39567, '11.60', 1),
-(65, 3, '11.6', 'Yellow', 39567, '11.60', 1),
-(66, 4, '52.44', '10.5inch black', 36956, '52.44', 1),
-(67, 4, '52.44', '11inch black', 36956, '52.44', 1);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `ve_variation_options`
---
+(74, 1, 'blackSmall1', 'blackSmall1', 10, '18.00', 0);
 
 CREATE TABLE `ve_variation_options` (
   `var_opt_id` int NOT NULL,
@@ -4468,117 +4127,9 @@ CREATE TABLE `ve_variation_options` (
   `p_opt_value_id` int DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
---
--- Dumping data for table `ve_variation_options`
---
-
 INSERT INTO `ve_variation_options` (`var_opt_id`, `variation_id`, `p_opt_value_id`) VALUES
-(1, 1, 1),
-(2, 1, 13),
-(3, 2, 2),
-(4, 2, 5),
-(5, 3, 2),
-(6, 3, 6),
-(7, 4, 2),
-(8, 4, 7),
-(9, 5, 1),
-(10, 5, 9),
-(11, 6, 1),
-(12, 6, 10),
-(13, 7, 1),
-(14, 7, 11),
-(15, 8, 1),
-(16, 8, 12),
-(17, 9, 1),
-(18, 9, 5),
-(19, 10, 1),
-(20, 10, 6),
-(21, 11, 1),
-(22, 11, 7),
-(23, 12, 1),
-(24, 12, 8),
-(25, 13, 4),
-(26, 13, 10),
-(27, 14, 4),
-(28, 14, 11),
-(29, 15, 4),
-(30, 15, 12),
-(31, 16, 4),
-(32, 16, 13),
-(33, 17, 4),
-(34, 17, 6),
-(35, 18, 4),
-(36, 18, 7),
-(37, 19, 4),
-(38, 19, 8),
-(39, 20, 4),
-(40, 20, 9),
-(41, 21, 3),
-(42, 21, 11),
-(43, 22, 3),
-(44, 22, 12),
-(45, 23, 3),
-(46, 23, 13),
-(47, 24, 4),
-(48, 24, 5),
-(49, 25, 3),
-(50, 25, 7),
-(51, 26, 3),
-(52, 26, 8),
-(53, 27, 3),
-(54, 27, 9),
-(55, 28, 3),
-(56, 28, 10),
-(57, 29, 2),
-(58, 29, 12),
-(59, 30, 2),
-(60, 30, 13),
-(61, 31, 3),
-(62, 31, 5),
-(63, 32, 3),
-(64, 32, 6),
-(65, 33, 2),
-(66, 33, 8),
-(67, 34, 2),
-(68, 34, 9),
-(69, 35, 2),
-(70, 35, 10),
-(71, 36, 2),
-(72, 36, 11),
-(73, 37, 15),
-(74, 37, 17),
-(76, 39, 15),
-(77, 39, 18),
-(79, 41, 14),
-(80, 41, 20),
-(82, 43, 15),
-(83, 43, 16),
-(84, 44, 14),
-(85, 44, 18),
-(86, 45, 14),
-(87, 45, 19),
-(88, 46, 14),
-(89, 46, 16),
-(90, 47, 14),
-(91, 47, 17),
-(92, 48, 14),
-(95, 51, 15),
-(96, 51, 19),
-(98, 53, 15),
-(99, 53, 20),
-(107, 61, 27),
-(108, 62, 28),
-(109, 63, 29),
-(110, 64, 30),
-(111, 65, 31),
-(112, 66, 32),
-(113, 67, 33);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `ve_voucher`
---
+(131, 74, 29),
+(132, 74, 31);
 
 CREATE TABLE `ve_voucher` (
   `voucher_id` int NOT NULL,
@@ -4595,12 +4146,6 @@ CREATE TABLE `ve_voucher` (
   `date_added` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC;
 
--- --------------------------------------------------------
-
---
--- Table structure for table `ve_voucher_history`
---
-
 CREATE TABLE `ve_voucher_history` (
   `voucher_history_id` int NOT NULL,
   `voucher_id` int NOT NULL,
@@ -4609,31 +4154,15 @@ CREATE TABLE `ve_voucher_history` (
   `date_added` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC;
 
--- --------------------------------------------------------
-
---
--- Table structure for table `ve_voucher_theme`
---
-
 CREATE TABLE `ve_voucher_theme` (
   `voucher_theme_id` int NOT NULL,
   `image` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC;
 
---
--- Dumping data for table `ve_voucher_theme`
---
-
 INSERT INTO `ve_voucher_theme` (`voucher_theme_id`, `image`) VALUES
 (6, 'catalog/demo/apple_logo.jpg'),
 (7, 'catalog/demo/gift-voucher-birthday.jpg'),
 (8, 'catalog/demo/canon_eos_5d_2.jpg');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `ve_voucher_theme_description`
---
 
 CREATE TABLE `ve_voucher_theme_description` (
   `voucher_theme_id` int NOT NULL,
@@ -4641,41 +4170,21 @@ CREATE TABLE `ve_voucher_theme_description` (
   `name` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC;
 
---
--- Dumping data for table `ve_voucher_theme_description`
---
-
 INSERT INTO `ve_voucher_theme_description` (`voucher_theme_id`, `language_id`, `name`) VALUES
 (6, 1, 'Christmas'),
 (7, 1, 'Birthday'),
 (8, 1, 'General');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `ve_weight_class`
---
 
 CREATE TABLE `ve_weight_class` (
   `weight_class_id` int NOT NULL,
   `value` decimal(15,8) NOT NULL DEFAULT '0.00000000'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC;
 
---
--- Dumping data for table `ve_weight_class`
---
-
 INSERT INTO `ve_weight_class` (`weight_class_id`, `value`) VALUES
 (1, '1.00000000'),
 (2, '1000.00000000'),
 (5, '2.20460000'),
 (6, '35.27400000');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `ve_weight_class_description`
---
 
 CREATE TABLE `ve_weight_class_description` (
   `weight_class_id` int NOT NULL,
@@ -4684,21 +4193,11 @@ CREATE TABLE `ve_weight_class_description` (
   `unit` varchar(4) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC;
 
---
--- Dumping data for table `ve_weight_class_description`
---
-
 INSERT INTO `ve_weight_class_description` (`weight_class_id`, `language_id`, `title`, `unit`) VALUES
 (1, 1, 'Kilogram', 'kg'),
 (2, 1, 'Gram', 'g'),
 (5, 1, 'Pound ', 'lb'),
 (6, 1, 'Ounce', 'oz');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `ve_zone`
---
 
 CREATE TABLE `ve_zone` (
   `zone_id` int NOT NULL,
@@ -4707,10 +4206,6 @@ CREATE TABLE `ve_zone` (
   `code` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `status` tinyint(1) NOT NULL DEFAULT '1'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC;
-
---
--- Dumping data for table `ve_zone`
---
 
 INSERT INTO `ve_zone` (`zone_id`, `country_id`, `name`, `code`, `status`) VALUES
 (1, 1, 'Badakhshan', 'BDS', 1),
@@ -8849,22 +8344,12 @@ INSERT INTO `ve_zone` (`zone_id`, `country_id`, `name`, `code`, `status`) VALUES
 (4444, 109, 'Shymkent', 'SHY', 1),
 (4445, 109, 'Ulytau', 'ULY', 1);
 
--- --------------------------------------------------------
-
---
--- Table structure for table `ve_zone_to_geo_zone`
---
-
 CREATE TABLE `ve_zone_to_geo_zone` (
   `zone_to_geo_zone_id` int NOT NULL,
   `country_id` int NOT NULL,
   `zone_id` int NOT NULL DEFAULT '0',
   `geo_zone_id` int NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC;
-
---
--- Dumping data for table `ve_zone_to_geo_zone`
---
 
 INSERT INTO `ve_zone_to_geo_zone` (`zone_to_geo_zone_id`, `country_id`, `zone_id`, `geo_zone_id`) VALUES
 (1, 222, 0, 4),
@@ -8976,75 +8461,42 @@ INSERT INTO `ve_zone_to_geo_zone` (`zone_to_geo_zone_id`, `country_id`, `zone_id
 (107, 222, 3954, 3),
 (108, 222, 3955, 3);
 
---
--- Indexes for dumped tables
---
 
---
--- Indexes for table `ve_address`
---
 ALTER TABLE `ve_address`
   ADD PRIMARY KEY (`address_id`),
   ADD KEY `customer_id` (`customer_id`);
 
---
--- Indexes for table `ve_address_format`
---
 ALTER TABLE `ve_address_format`
   ADD PRIMARY KEY (`address_format_id`);
 
---
--- Indexes for table `ve_antispam`
---
 ALTER TABLE `ve_antispam`
   ADD PRIMARY KEY (`antispam_id`),
   ADD KEY `keyword` (`keyword`);
 
---
--- Indexes for table `ve_api`
---
 ALTER TABLE `ve_api`
   ADD PRIMARY KEY (`api_id`);
 
---
--- Indexes for table `ve_api_ip`
---
 ALTER TABLE `ve_api_ip`
   ADD PRIMARY KEY (`api_ip_id`),
   ADD KEY `fk_ve_api_ip_api_id` (`api_id`);
 
---
--- Indexes for table `ve_api_session`
---
 ALTER TABLE `ve_api_session`
   ADD PRIMARY KEY (`api_session_id`),
   ADD KEY `fk_ve_api_session_api_id` (`api_id`);
 
---
--- Indexes for table `ve_article`
---
 ALTER TABLE `ve_article`
   ADD PRIMARY KEY (`article_id`);
 
---
--- Indexes for table `ve_article_comment`
---
 ALTER TABLE `ve_article_comment`
   ADD PRIMARY KEY (`article_comment_id`),
   ADD KEY `article_id` (`article_id`),
   ADD KEY `fk_ve_article_comment_customer_id` (`customer_id`);
 
---
--- Indexes for table `ve_article_description`
---
 ALTER TABLE `ve_article_description`
   ADD PRIMARY KEY (`article_id`,`language_id`),
   ADD KEY `name` (`name`),
   ADD KEY `fk_ve_article_description_language_id` (`language_id`);
 
---
--- Indexes for table `ve_article_rating`
---
 ALTER TABLE `ve_article_rating`
   ADD PRIMARY KEY (`article_rating_id`),
   ADD KEY `article_id` (`article_id`),
@@ -9052,51 +8504,30 @@ ALTER TABLE `ve_article_rating`
   ADD KEY `customer_id` (`customer_id`),
   ADD KEY `store_id` (`store_id`);
 
---
--- Indexes for table `ve_article_to_layout`
---
 ALTER TABLE `ve_article_to_layout`
   ADD PRIMARY KEY (`article_id`,`store_id`),
   ADD KEY `fk_ve_article_to_layout_store_id` (`store_id`),
   ADD KEY `fk_ve_article_to_layout_layout_id` (`layout_id`);
 
---
--- Indexes for table `ve_article_to_store`
---
 ALTER TABLE `ve_article_to_store`
   ADD PRIMARY KEY (`article_id`,`store_id`),
   ADD KEY `fk_ve_article_to_store_store_id` (`store_id`);
 
---
--- Indexes for table `ve_attribute`
---
 ALTER TABLE `ve_attribute`
   ADD PRIMARY KEY (`attribute_id`);
 
---
--- Indexes for table `ve_attribute_description`
---
 ALTER TABLE `ve_attribute_description`
   ADD PRIMARY KEY (`attribute_id`,`language_id`),
   ADD KEY `fk_ve_attribute_description_language_id` (`language_id`);
 
---
--- Indexes for table `ve_banner`
---
 ALTER TABLE `ve_banner`
   ADD PRIMARY KEY (`banner_id`);
 
---
--- Indexes for table `ve_banner_image`
---
 ALTER TABLE `ve_banner_image`
   ADD PRIMARY KEY (`banner_image_id`),
   ADD KEY `fk_ve_banner_image_banner_id` (`banner_id`),
   ADD KEY `fk_ve_banner_image_language_id` (`language_id`);
 
---
--- Indexes for table `ve_cart`
---
 ALTER TABLE `ve_cart`
   ADD PRIMARY KEY (`cart_id`),
   ADD KEY `cart_id` (`api_id`,`customer_id`,`session_id`,`product_id`,`subscription_plan_id`),
@@ -9105,100 +8536,54 @@ ALTER TABLE `ve_cart`
   ADD KEY `fk_ve_cart_product_id` (`product_id`),
   ADD KEY `fk_ve_cart_subscription_plan_id` (`subscription_plan_id`);
 
---
--- Indexes for table `ve_category`
---
 ALTER TABLE `ve_category`
   ADD PRIMARY KEY (`category_id`),
   ADD KEY `parent_id` (`parent_id`);
 
---
--- Indexes for table `ve_category_description`
---
 ALTER TABLE `ve_category_description`
   ADD PRIMARY KEY (`category_id`,`language_id`),
   ADD KEY `name` (`name`),
   ADD KEY `fk_ve_category_description_language_id` (`language_id`);
 
---
--- Indexes for table `ve_category_filter`
---
-ALTER TABLE `ve_category_filter`
-  ADD PRIMARY KEY (`category_id`,`filter_id`),
-  ADD KEY `fk_ve_category_filter_filter_id` (`filter_id`);
-
---
--- Indexes for table `ve_category_path`
---
 ALTER TABLE `ve_category_path`
   ADD PRIMARY KEY (`category_id`,`path_id`);
 
---
--- Indexes for table `ve_category_to_layout`
---
 ALTER TABLE `ve_category_to_layout`
   ADD PRIMARY KEY (`category_id`,`store_id`),
-  ADD KEY `fk_ve_category_to_layout_layout_id` (`layout_id`),
-  ADD KEY `fk_ve_category_to_layout_store_id` (`store_id`);
+  ADD KEY `fk_ve_category_to_layout_store_id` (`store_id`) USING BTREE,
+  ADD KEY `fk_ve_category_to_layout_layout_id` (`layout_id`) USING BTREE;
 
---
--- Indexes for table `ve_category_to_store`
---
 ALTER TABLE `ve_category_to_store`
   ADD PRIMARY KEY (`category_id`,`store_id`),
   ADD KEY `fk_ve_category_to_store_store_id` (`store_id`);
 
---
--- Indexes for table `ve_country`
---
 ALTER TABLE `ve_country`
   ADD PRIMARY KEY (`country_id`);
 
---
--- Indexes for table `ve_coupon`
---
 ALTER TABLE `ve_coupon`
   ADD PRIMARY KEY (`coupon_id`);
 
---
--- Indexes for table `ve_coupon_category`
---
 ALTER TABLE `ve_coupon_category`
   ADD PRIMARY KEY (`coupon_id`,`category_id`),
   ADD KEY `fk_ve_coupon_category_category_id` (`category_id`);
 
---
--- Indexes for table `ve_coupon_history`
---
 ALTER TABLE `ve_coupon_history`
   ADD PRIMARY KEY (`coupon_history_id`),
   ADD KEY `fk_ve_coupon_history_coupon_id` (`coupon_id`),
   ADD KEY `fk_ve_coupon_history_order_id` (`order_id`),
   ADD KEY `fk_ve_coupon_history_customer_id` (`customer_id`);
 
---
--- Indexes for table `ve_coupon_product`
---
 ALTER TABLE `ve_coupon_product`
   ADD PRIMARY KEY (`coupon_product_id`),
   ADD KEY `fk_ve_coupon_product_coupon_id` (`coupon_id`),
   ADD KEY `fk_ve_coupon_product_product_id` (`product_id`);
 
---
--- Indexes for table `ve_cron`
---
 ALTER TABLE `ve_cron`
   ADD PRIMARY KEY (`cron_id`);
 
---
--- Indexes for table `ve_currency`
---
 ALTER TABLE `ve_currency`
   ADD PRIMARY KEY (`currency_id`);
 
---
--- Indexes for table `ve_customer`
---
 ALTER TABLE `ve_customer`
   ADD PRIMARY KEY (`customer_id`),
   ADD KEY `email` (`email`),
@@ -9206,91 +8591,52 @@ ALTER TABLE `ve_customer`
   ADD KEY `fk_ve_customer_store_id` (`store_id`),
   ADD KEY `fk_ve_customer_language_id` (`language_id`);
 
---
--- Indexes for table `ve_customer_activity`
---
 ALTER TABLE `ve_customer_activity`
   ADD PRIMARY KEY (`customer_activity_id`),
   ADD KEY `fk_ve_customer_activity_customer_id` (`customer_id`);
 
---
--- Indexes for table `ve_customer_affiliate`
---
 ALTER TABLE `ve_customer_affiliate`
   ADD PRIMARY KEY (`customer_id`);
 
---
--- Indexes for table `ve_customer_affiliate_report`
---
 ALTER TABLE `ve_customer_affiliate_report`
   ADD PRIMARY KEY (`customer_affiliate_report_id`),
   ADD KEY `fk_ve_customer_affiliate_report_customer_id` (`customer_id`),
   ADD KEY `fk_ve_customer_affiliate_report_store_id` (`store_id`);
 
---
--- Indexes for table `ve_customer_approval`
---
 ALTER TABLE `ve_customer_approval`
   ADD PRIMARY KEY (`customer_approval_id`),
   ADD KEY `fk_ve_customer_approval_customer_id` (`customer_id`);
 
---
--- Indexes for table `ve_customer_authorize`
---
 ALTER TABLE `ve_customer_authorize`
   ADD PRIMARY KEY (`customer_authorize_id`);
 
---
--- Indexes for table `ve_customer_group`
---
 ALTER TABLE `ve_customer_group`
   ADD PRIMARY KEY (`customer_group_id`);
 
---
--- Indexes for table `ve_customer_group_description`
---
 ALTER TABLE `ve_customer_group_description`
   ADD PRIMARY KEY (`customer_group_id`,`language_id`),
   ADD KEY `fk_ve_customer_group_description_language_id` (`language_id`);
 
---
--- Indexes for table `ve_customer_history`
---
 ALTER TABLE `ve_customer_history`
   ADD PRIMARY KEY (`customer_history_id`);
 
---
--- Indexes for table `ve_customer_ip`
---
 ALTER TABLE `ve_customer_ip`
   ADD PRIMARY KEY (`customer_ip_id`),
   ADD KEY `ip` (`ip`);
 
---
--- Indexes for table `ve_customer_login`
---
 ALTER TABLE `ve_customer_login`
   ADD PRIMARY KEY (`customer_login_id`),
   ADD KEY `email` (`email`),
   ADD KEY `ip` (`ip`);
 
---
--- Indexes for table `ve_customer_online`
---
 ALTER TABLE `ve_customer_online`
   ADD PRIMARY KEY (`ip`);
 
---
--- Indexes for table `ve_customer_reward`
---
 ALTER TABLE `ve_customer_reward`
   ADD PRIMARY KEY (`customer_reward_id`),
   ADD KEY `fk_ve_customer_reward_customer_id` (`customer_id`),
   ADD KEY `fk_ve_customer_reward_order_id` (`order_id`);
 
---
--- Indexes for table `ve_customer_search`
---
 ALTER TABLE `ve_customer_search`
   ADD PRIMARY KEY (`customer_search_id`),
   ADD KEY `fk_ve_customer_search_store_id` (`store_id`),
@@ -9298,287 +8644,161 @@ ALTER TABLE `ve_customer_search`
   ADD KEY `fk_ve_customer_search_customer_id` (`customer_id`),
   ADD KEY `fk_ve_customer_search_category_id` (`category_id`);
 
---
--- Indexes for table `ve_customer_transaction`
---
 ALTER TABLE `ve_customer_transaction`
   ADD PRIMARY KEY (`customer_transaction_id`),
   ADD KEY `fk_ve_customer_transaction_customer_id` (`customer_id`),
   ADD KEY `fk_ve_customer_transaction_order_id` (`order_id`);
 
---
--- Indexes for table `ve_customer_wishlist`
---
 ALTER TABLE `ve_customer_wishlist`
   ADD PRIMARY KEY (`customer_id`,`product_id`),
   ADD KEY `fk_ve_customer_wishlist_product_id` (`product_id`);
 
---
--- Indexes for table `ve_custom_field`
---
 ALTER TABLE `ve_custom_field`
   ADD PRIMARY KEY (`custom_field_id`);
 
---
--- Indexes for table `ve_custom_field_customer_group`
---
 ALTER TABLE `ve_custom_field_customer_group`
   ADD PRIMARY KEY (`custom_field_id`,`customer_group_id`),
   ADD KEY `fk_ve_custom_field_customer_group_customer_group_id` (`customer_group_id`);
 
---
--- Indexes for table `ve_custom_field_description`
---
 ALTER TABLE `ve_custom_field_description`
   ADD PRIMARY KEY (`custom_field_id`,`language_id`),
   ADD KEY `fk_ve_custom_field_description_language_id` (`language_id`);
 
---
--- Indexes for table `ve_custom_field_value`
---
 ALTER TABLE `ve_custom_field_value`
   ADD PRIMARY KEY (`custom_field_value_id`),
   ADD KEY `fk_ve_custom_field_value_custom_field_id` (`custom_field_id`);
 
---
--- Indexes for table `ve_custom_field_value_description`
---
 ALTER TABLE `ve_custom_field_value_description`
   ADD PRIMARY KEY (`custom_field_value_id`,`language_id`),
   ADD KEY `fk_ve_custom_field_value_description_language_id` (`language_id`),
   ADD KEY `fk_ve_custom_field_value_description_custom_field_id` (`custom_field_id`);
 
---
--- Indexes for table `ve_download`
---
 ALTER TABLE `ve_download`
   ADD PRIMARY KEY (`download_id`);
 
---
--- Indexes for table `ve_download_description`
---
 ALTER TABLE `ve_download_description`
   ADD PRIMARY KEY (`download_id`,`language_id`),
   ADD KEY `fk_ve_download_description_language_id` (`language_id`);
 
---
--- Indexes for table `ve_download_report`
---
 ALTER TABLE `ve_download_report`
   ADD PRIMARY KEY (`download_report_id`),
   ADD KEY `fk_ve_download_report_download_id` (`download_id`),
   ADD KEY `fk_ve_download_report_store_id` (`store_id`);
 
---
--- Indexes for table `ve_event`
---
 ALTER TABLE `ve_event`
   ADD PRIMARY KEY (`event_id`);
 
---
--- Indexes for table `ve_extension`
---
 ALTER TABLE `ve_extension`
   ADD PRIMARY KEY (`extension_id`);
 
---
--- Indexes for table `ve_extension_install`
---
 ALTER TABLE `ve_extension_install`
   ADD PRIMARY KEY (`extension_install_id`),
   ADD KEY `fk_ve_extension_install_extension_id` (`extension_id`);
 
---
--- Indexes for table `ve_extension_path`
---
 ALTER TABLE `ve_extension_path`
   ADD PRIMARY KEY (`extension_path_id`),
   ADD KEY `path` (`path`),
   ADD KEY `fk_ve_extension_path_extension_install_id` (`extension_install_id`);
 
---
--- Indexes for table `ve_filter`
---
 ALTER TABLE `ve_filter`
   ADD PRIMARY KEY (`filter_id`),
   ADD KEY `fk_ve_filter_filter_group_id` (`filter_group_id`);
 
---
--- Indexes for table `ve_filter_description`
---
 ALTER TABLE `ve_filter_description`
   ADD PRIMARY KEY (`filter_id`,`language_id`),
   ADD KEY `fk_ve_filter_description_language_id` (`language_id`),
   ADD KEY `fk_ve_filter_description_filter_group_id` (`filter_group_id`);
 
---
--- Indexes for table `ve_filter_group`
---
 ALTER TABLE `ve_filter_group`
   ADD PRIMARY KEY (`filter_group_id`);
 
---
--- Indexes for table `ve_filter_group_description`
---
 ALTER TABLE `ve_filter_group_description`
   ADD PRIMARY KEY (`filter_group_id`,`language_id`),
   ADD KEY `fk_ve_filter_group_description_language_id` (`language_id`);
 
---
--- Indexes for table `ve_gdpr`
---
 ALTER TABLE `ve_gdpr`
   ADD PRIMARY KEY (`gdpr_id`),
   ADD KEY `fk_ve_gdpr_store_id` (`store_id`),
   ADD KEY `fk_ve_gdpr_language_id` (`language_id`);
 
---
--- Indexes for table `ve_geo_zone`
---
 ALTER TABLE `ve_geo_zone`
   ADD PRIMARY KEY (`geo_zone_id`);
 
---
--- Indexes for table `ve_information`
---
 ALTER TABLE `ve_information`
   ADD PRIMARY KEY (`information_id`);
 
---
--- Indexes for table `ve_information_description`
---
 ALTER TABLE `ve_information_description`
   ADD PRIMARY KEY (`information_id`,`language_id`),
   ADD KEY `fk_ve_information_description_language_id` (`language_id`);
 
---
--- Indexes for table `ve_information_to_layout`
---
 ALTER TABLE `ve_information_to_layout`
   ADD PRIMARY KEY (`information_id`,`store_id`),
   ADD KEY `fk_ve_information_to_layout_store_id` (`store_id`),
   ADD KEY `fk_ve_information_to_layout_layout_id` (`layout_id`);
 
---
--- Indexes for table `ve_information_to_store`
---
 ALTER TABLE `ve_information_to_store`
   ADD PRIMARY KEY (`information_id`,`store_id`);
 
---
--- Indexes for table `ve_language`
---
 ALTER TABLE `ve_language`
   ADD PRIMARY KEY (`language_id`),
   ADD KEY `name` (`name`);
 
---
--- Indexes for table `ve_layout`
---
 ALTER TABLE `ve_layout`
   ADD PRIMARY KEY (`layout_id`);
 
---
--- Indexes for table `ve_layout_module`
---
 ALTER TABLE `ve_layout_module`
   ADD PRIMARY KEY (`layout_module_id`),
   ADD KEY `fk_ve_layout_module_layout_id` (`layout_id`);
 
---
--- Indexes for table `ve_layout_route`
---
 ALTER TABLE `ve_layout_route`
   ADD PRIMARY KEY (`layout_route_id`),
   ADD KEY `fk_ve_layout_route_layout_id` (`layout_id`);
 
---
--- Indexes for table `ve_length_class`
---
 ALTER TABLE `ve_length_class`
   ADD PRIMARY KEY (`length_class_id`);
 
---
--- Indexes for table `ve_length_class_description`
---
 ALTER TABLE `ve_length_class_description`
   ADD PRIMARY KEY (`length_class_id`,`language_id`),
   ADD KEY `fk_ve_length_class_description_language_id` (`language_id`);
 
---
--- Indexes for table `ve_location`
---
 ALTER TABLE `ve_location`
   ADD PRIMARY KEY (`location_id`),
   ADD KEY `name` (`name`);
 
---
--- Indexes for table `ve_manufacturer`
---
 ALTER TABLE `ve_manufacturer`
   ADD PRIMARY KEY (`manufacturer_id`);
 
---
--- Indexes for table `ve_manufacturer_to_layout`
---
 ALTER TABLE `ve_manufacturer_to_layout`
   ADD PRIMARY KEY (`manufacturer_id`,`store_id`),
   ADD KEY `fk_ve_manufacturer_to_layout_store_id` (`store_id`),
   ADD KEY `fk_ve_manufacturer_to_layout_layout_id` (`layout_id`);
 
---
--- Indexes for table `ve_manufacturer_to_store`
---
 ALTER TABLE `ve_manufacturer_to_store`
   ADD PRIMARY KEY (`manufacturer_id`,`store_id`);
 
---
--- Indexes for table `ve_marketing`
---
 ALTER TABLE `ve_marketing`
   ADD PRIMARY KEY (`marketing_id`);
 
---
--- Indexes for table `ve_marketing_report`
---
 ALTER TABLE `ve_marketing_report`
   ADD PRIMARY KEY (`marketing_report_id`),
   ADD KEY `fk_ve_marketing_report_marketing_id` (`marketing_id`),
   ADD KEY `fk_ve_marketing_report_store_id` (`store_id`);
 
---
--- Indexes for table `ve_modification`
---
 ALTER TABLE `ve_modification`
   ADD PRIMARY KEY (`modification_id`);
 
---
--- Indexes for table `ve_module`
---
 ALTER TABLE `ve_module`
   ADD PRIMARY KEY (`module_id`);
 
---
--- Indexes for table `ve_notification`
---
 ALTER TABLE `ve_notification`
   ADD PRIMARY KEY (`notification_id`);
 
---
--- Indexes for table `ve_options`
---
 ALTER TABLE `ve_options`
-  ADD PRIMARY KEY (`option_id`);
+  ADD PRIMARY KEY (`option_id`),
+  ADD KEY `idx_ve_options_language_id` (`language_id`),
+  ADD KEY `idx_ve_options_group_id` (`group_id`),
+  ADD KEY `idx_ve_options_group_option_language` (`group_id`,`option_n`,`language_id`);
 
-CREATE INDEX idx_ve_options_language_id ON ve_options (language_id);
-CREATE INDEX idx_ve_options_group_id ON ve_options (group_id);
-CREATE INDEX idx_ve_options_group_option_language ON ve_options (group_id, option_n, language_id);
-
-
-
---
--- Indexes for table `ve_order`
---
 ALTER TABLE `ve_order`
   ADD PRIMARY KEY (`order_id`),
   ADD KEY `email` (`email`),
@@ -9595,1144 +8815,592 @@ ALTER TABLE `ve_order`
   ADD KEY `fk_ve_order_language_id` (`language_id`),
   ADD KEY `fk_ve_order_currency_id` (`currency_id`);
 
---
--- Indexes for table `ve_order_history`
---
 ALTER TABLE `ve_order_history`
   ADD PRIMARY KEY (`order_history_id`),
   ADD KEY `fk_ve_order_history_order_id` (`order_id`),
   ADD KEY `fk_ve_order_history_order_status_id` (`order_status_id`);
 
---
--- Indexes for table `ve_order_option`
---
 ALTER TABLE `ve_order_option`
   ADD PRIMARY KEY (`order_option_id`),
   ADD KEY `fk_ve_order_option_order_id` (`order_id`),
   ADD KEY `fk_ve_order_option_order_product_id` (`order_product_id`),
   ADD KEY `fk_ve_order_option_poption_id` (`poption_id`);
 
---
--- Indexes for table `ve_order_product`
---
 ALTER TABLE `ve_order_product`
   ADD PRIMARY KEY (`order_product_id`),
   ADD KEY `order_id` (`order_id`),
   ADD KEY `fk_ve_order_product_product_id` (`product_id`);
 
---
--- Indexes for table `ve_order_status`
---
 ALTER TABLE `ve_order_status`
   ADD PRIMARY KEY (`order_status_id`,`language_id`);
 
---
--- Indexes for table `ve_order_subscription`
---
 ALTER TABLE `ve_order_subscription`
   ADD PRIMARY KEY (`order_subscription_id`),
   ADD KEY `order_id` (`order_id`);
 
---
--- Indexes for table `ve_order_total`
---
 ALTER TABLE `ve_order_total`
   ADD PRIMARY KEY (`order_total_id`),
   ADD KEY `order_id` (`order_id`);
 
---
--- Indexes for table `ve_order_voucher`
---
 ALTER TABLE `ve_order_voucher`
   ADD PRIMARY KEY (`order_voucher_id`);
 
---
--- Indexes for table `ve_product`
---
 ALTER TABLE `ve_product`
   ADD PRIMARY KEY (`product_id`);
 
---
--- Indexes for table `ve_product_attribute`
---
 ALTER TABLE `ve_product_attribute`
-  ADD PRIMARY KEY (`product_id`,`attribute_id`,`language_id`);
+  ADD PRIMARY KEY (`product_attribute_id`);
 
---
--- Indexes for table `ve_product_bestseller`
---
 ALTER TABLE `ve_product_bestseller`
   ADD PRIMARY KEY (`product_id`);
 
---
--- Indexes for table `ve_product_description`
---
 ALTER TABLE `ve_product_description`
   ADD PRIMARY KEY (`product_id`,`language_id`),
   ADD KEY `name` (`name`);
 
---
--- Indexes for table `ve_product_discount`
---
 ALTER TABLE `ve_product_discount`
   ADD PRIMARY KEY (`product_discount_id`),
   ADD KEY `product_id` (`product_id`);
 
---
--- Indexes for table `ve_product_filter`
---
 ALTER TABLE `ve_product_filter`
   ADD PRIMARY KEY (`product_id`,`filter_id`);
 
---
--- Indexes for table `ve_product_image`
---
 ALTER TABLE `ve_product_image`
   ADD PRIMARY KEY (`product_image_id`),
   ADD KEY `product_id` (`product_id`);
 
---
--- Indexes for table `ve_product_options`
---
 ALTER TABLE `ve_product_options`
   ADD PRIMARY KEY (`poption_id`),
   ADD KEY `ve_product_options_ibfk_1` (`product_id`),
   ADD KEY `fk_ve_product_options_option_id` (`option_id`);
 
---
--- Indexes for table `ve_product_related`
---
 ALTER TABLE `ve_product_related`
   ADD PRIMARY KEY (`product_id`,`related_id`);
 
---
--- Indexes for table `ve_product_report`
---
 ALTER TABLE `ve_product_report`
   ADD PRIMARY KEY (`product_report_id`);
 
---
--- Indexes for table `ve_product_reward`
---
 ALTER TABLE `ve_product_reward`
   ADD PRIMARY KEY (`product_reward_id`);
 
---
--- Indexes for table `ve_product_subscription`
---
 ALTER TABLE `ve_product_subscription`
   ADD PRIMARY KEY (`product_id`,`subscription_plan_id`,`customer_group_id`);
 
---
--- Indexes for table `ve_product_to_category`
---
 ALTER TABLE `ve_product_to_category`
   ADD PRIMARY KEY (`product_id`,`category_id`),
   ADD KEY `category_id` (`category_id`);
 
---
--- Indexes for table `ve_product_to_download`
---
 ALTER TABLE `ve_product_to_download`
   ADD PRIMARY KEY (`product_id`,`download_id`);
 
---
--- Indexes for table `ve_product_to_layout`
---
 ALTER TABLE `ve_product_to_layout`
   ADD PRIMARY KEY (`product_id`,`store_id`);
 
---
--- Indexes for table `ve_product_to_store`
---
 ALTER TABLE `ve_product_to_store`
   ADD PRIMARY KEY (`product_id`,`store_id`);
 
---
--- Indexes for table `ve_product_viewed`
---
 ALTER TABLE `ve_product_viewed`
   ADD PRIMARY KEY (`product_id`);
 
---
--- Indexes for table `ve_return`
---
 ALTER TABLE `ve_return`
   ADD PRIMARY KEY (`return_id`);
 
---
--- Indexes for table `ve_return_action`
---
 ALTER TABLE `ve_return_action`
   ADD PRIMARY KEY (`return_action_id`,`language_id`);
 
---
--- Indexes for table `ve_return_history`
---
 ALTER TABLE `ve_return_history`
   ADD PRIMARY KEY (`return_history_id`);
 
---
--- Indexes for table `ve_return_reason`
---
 ALTER TABLE `ve_return_reason`
   ADD PRIMARY KEY (`return_reason_id`,`language_id`);
 
---
--- Indexes for table `ve_return_status`
---
 ALTER TABLE `ve_return_status`
   ADD PRIMARY KEY (`return_status_id`,`language_id`);
 
---
--- Indexes for table `ve_review`
---
 ALTER TABLE `ve_review`
   ADD PRIMARY KEY (`review_id`),
   ADD KEY `product_id` (`product_id`);
 
---
--- Indexes for table `ve_seo_url`
---
 ALTER TABLE `ve_seo_url`
   ADD PRIMARY KEY (`seo_url_id`),
   ADD KEY `keyword` (`keyword`),
   ADD KEY `query` (`key`,`value`);
 
---
--- Indexes for table `ve_session`
---
 ALTER TABLE `ve_session`
   ADD PRIMARY KEY (`session_id`),
   ADD KEY `expire` (`expire`);
 
---
--- Indexes for table `ve_setting`
---
 ALTER TABLE `ve_setting`
   ADD PRIMARY KEY (`setting_id`);
 
---
--- Indexes for table `ve_startup`
---
 ALTER TABLE `ve_startup`
   ADD PRIMARY KEY (`startup_id`);
 
---
--- Indexes for table `ve_statistics`
---
 ALTER TABLE `ve_statistics`
   ADD PRIMARY KEY (`statistics_id`);
 
---
--- Indexes for table `ve_stock_status`
---
 ALTER TABLE `ve_stock_status`
   ADD PRIMARY KEY (`stock_status_id`,`language_id`);
 
---
--- Indexes for table `ve_store`
---
 ALTER TABLE `ve_store`
   ADD PRIMARY KEY (`store_id`);
 
---
--- Indexes for table `ve_subscription`
---
 ALTER TABLE `ve_subscription`
   ADD PRIMARY KEY (`subscription_id`),
   ADD KEY `order_id` (`order_id`);
 
---
--- Indexes for table `ve_subscription_history`
---
 ALTER TABLE `ve_subscription_history`
   ADD PRIMARY KEY (`subscription_history_id`);
 
---
--- Indexes for table `ve_subscription_plan`
---
 ALTER TABLE `ve_subscription_plan`
   ADD PRIMARY KEY (`subscription_plan_id`);
 
---
--- Indexes for table `ve_subscription_plan_description`
---
 ALTER TABLE `ve_subscription_plan_description`
   ADD PRIMARY KEY (`subscription_plan_id`,`language_id`);
 
---
--- Indexes for table `ve_subscription_status`
---
 ALTER TABLE `ve_subscription_status`
   ADD PRIMARY KEY (`subscription_status_id`,`language_id`);
 
---
--- Indexes for table `ve_tax_class`
---
 ALTER TABLE `ve_tax_class`
   ADD PRIMARY KEY (`tax_class_id`);
 
---
--- Indexes for table `ve_tax_rate`
---
 ALTER TABLE `ve_tax_rate`
   ADD PRIMARY KEY (`tax_rate_id`);
 
---
--- Indexes for table `ve_tax_rate_to_customer_group`
---
 ALTER TABLE `ve_tax_rate_to_customer_group`
   ADD PRIMARY KEY (`tax_rate_id`,`customer_group_id`);
 
---
--- Indexes for table `ve_tax_rule`
---
 ALTER TABLE `ve_tax_rule`
   ADD PRIMARY KEY (`tax_rule_id`);
 
---
--- Indexes for table `ve_theme`
---
 ALTER TABLE `ve_theme`
   ADD PRIMARY KEY (`theme_id`);
 
---
--- Indexes for table `ve_topic`
---
 ALTER TABLE `ve_topic`
   ADD PRIMARY KEY (`topic_id`);
 
---
--- Indexes for table `ve_topic_description`
---
 ALTER TABLE `ve_topic_description`
   ADD PRIMARY KEY (`topic_id`,`language_id`),
   ADD KEY `name` (`name`),
   ADD KEY `fk_ve_topic_description_language_id` (`language_id`);
 
---
--- Indexes for table `ve_topic_to_store`
---
 ALTER TABLE `ve_topic_to_store`
   ADD PRIMARY KEY (`topic_id`,`store_id`),
   ADD KEY `fk_ve_topic_to_store_store_id` (`store_id`);
 
---
--- Indexes for table `ve_translation`
---
 ALTER TABLE `ve_translation`
   ADD PRIMARY KEY (`translation_id`);
 
---
--- Indexes for table `ve_upload`
---
 ALTER TABLE `ve_upload`
   ADD PRIMARY KEY (`upload_id`);
 
---
--- Indexes for table `ve_user`
---
 ALTER TABLE `ve_user`
   ADD PRIMARY KEY (`user_id`);
 
---
--- Indexes for table `ve_user_authorize`
---
 ALTER TABLE `ve_user_authorize`
   ADD PRIMARY KEY (`user_authorize_id`);
 
---
--- Indexes for table `ve_user_group`
---
 ALTER TABLE `ve_user_group`
   ADD PRIMARY KEY (`user_group_id`);
 
---
--- Indexes for table `ve_user_login`
---
 ALTER TABLE `ve_user_login`
   ADD PRIMARY KEY (`user_login_id`);
 
---
--- Indexes for table `ve_variations`
---
 ALTER TABLE `ve_variations`
   ADD PRIMARY KEY (`variation_id`),
   ADD KEY `product_id` (`product_id`);
 
---
--- Indexes for table `ve_variation_options`
---
 ALTER TABLE `ve_variation_options`
   ADD PRIMARY KEY (`var_opt_id`),
   ADD KEY `variation_id` (`variation_id`),
   ADD KEY `fk_ve_variation_options_p_opt_value_id` (`p_opt_value_id`);
 
---
--- Indexes for table `ve_voucher`
---
 ALTER TABLE `ve_voucher`
   ADD PRIMARY KEY (`voucher_id`);
 
---
--- Indexes for table `ve_voucher_history`
---
 ALTER TABLE `ve_voucher_history`
   ADD PRIMARY KEY (`voucher_history_id`);
 
---
--- Indexes for table `ve_voucher_theme`
---
 ALTER TABLE `ve_voucher_theme`
   ADD PRIMARY KEY (`voucher_theme_id`);
 
---
--- Indexes for table `ve_voucher_theme_description`
---
 ALTER TABLE `ve_voucher_theme_description`
   ADD PRIMARY KEY (`voucher_theme_id`,`language_id`);
 
---
--- Indexes for table `ve_weight_class`
---
 ALTER TABLE `ve_weight_class`
   ADD PRIMARY KEY (`weight_class_id`);
 
---
--- Indexes for table `ve_weight_class_description`
---
 ALTER TABLE `ve_weight_class_description`
   ADD PRIMARY KEY (`weight_class_id`,`language_id`);
 
---
--- Indexes for table `ve_zone`
---
 ALTER TABLE `ve_zone`
   ADD PRIMARY KEY (`zone_id`);
 
---
--- Indexes for table `ve_zone_to_geo_zone`
---
 ALTER TABLE `ve_zone_to_geo_zone`
   ADD PRIMARY KEY (`zone_to_geo_zone_id`);
 
---
--- AUTO_INCREMENT for dumped tables
---
 
---
--- AUTO_INCREMENT for table `ve_address`
---
 ALTER TABLE `ve_address`
   MODIFY `address_id` int NOT NULL AUTO_INCREMENT;
 
---
--- AUTO_INCREMENT for table `ve_address_format`
---
 ALTER TABLE `ve_address_format`
   MODIFY `address_format_id` int NOT NULL AUTO_INCREMENT;
 
---
--- AUTO_INCREMENT for table `ve_antispam`
---
 ALTER TABLE `ve_antispam`
   MODIFY `antispam_id` int NOT NULL AUTO_INCREMENT;
 
---
--- AUTO_INCREMENT for table `ve_api`
---
 ALTER TABLE `ve_api`
   MODIFY `api_id` int NOT NULL AUTO_INCREMENT;
 
---
--- AUTO_INCREMENT for table `ve_api_ip`
---
 ALTER TABLE `ve_api_ip`
   MODIFY `api_ip_id` int NOT NULL AUTO_INCREMENT;
 
---
--- AUTO_INCREMENT for table `ve_api_session`
---
 ALTER TABLE `ve_api_session`
   MODIFY `api_session_id` int NOT NULL AUTO_INCREMENT;
 
---
--- AUTO_INCREMENT for table `ve_article`
---
 ALTER TABLE `ve_article`
   MODIFY `article_id` int NOT NULL AUTO_INCREMENT;
 
---
--- AUTO_INCREMENT for table `ve_article_comment`
---
 ALTER TABLE `ve_article_comment`
   MODIFY `article_comment_id` int NOT NULL AUTO_INCREMENT;
 
---
--- AUTO_INCREMENT for table `ve_attribute`
---
 ALTER TABLE `ve_attribute`
   MODIFY `attribute_id` int NOT NULL AUTO_INCREMENT;
 
---
--- AUTO_INCREMENT for table `ve_banner`
---
 ALTER TABLE `ve_banner`
   MODIFY `banner_id` int NOT NULL AUTO_INCREMENT;
 
---
--- AUTO_INCREMENT for table `ve_banner_image`
---
 ALTER TABLE `ve_banner_image`
   MODIFY `banner_image_id` int NOT NULL AUTO_INCREMENT;
 
---
--- AUTO_INCREMENT for table `ve_cart`
---
 ALTER TABLE `ve_cart`
   MODIFY `cart_id` int NOT NULL AUTO_INCREMENT;
 
---
--- AUTO_INCREMENT for table `ve_category`
---
 ALTER TABLE `ve_category`
   MODIFY `category_id` int NOT NULL AUTO_INCREMENT;
 
---
--- AUTO_INCREMENT for table `ve_country`
---
 ALTER TABLE `ve_country`
   MODIFY `country_id` int NOT NULL AUTO_INCREMENT;
 
---
--- AUTO_INCREMENT for table `ve_coupon`
---
 ALTER TABLE `ve_coupon`
   MODIFY `coupon_id` int NOT NULL AUTO_INCREMENT;
 
---
--- AUTO_INCREMENT for table `ve_coupon_history`
---
 ALTER TABLE `ve_coupon_history`
   MODIFY `coupon_history_id` int NOT NULL AUTO_INCREMENT;
 
---
--- AUTO_INCREMENT for table `ve_coupon_product`
---
 ALTER TABLE `ve_coupon_product`
   MODIFY `coupon_product_id` int NOT NULL AUTO_INCREMENT;
 
---
--- AUTO_INCREMENT for table `ve_cron`
---
 ALTER TABLE `ve_cron`
   MODIFY `cron_id` int NOT NULL AUTO_INCREMENT;
 
---
--- AUTO_INCREMENT for table `ve_currency`
---
 ALTER TABLE `ve_currency`
   MODIFY `currency_id` int NOT NULL AUTO_INCREMENT;
 
---
--- AUTO_INCREMENT for table `ve_customer`
---
 ALTER TABLE `ve_customer`
   MODIFY `customer_id` int NOT NULL AUTO_INCREMENT;
 
---
--- AUTO_INCREMENT for table `ve_customer_activity`
---
 ALTER TABLE `ve_customer_activity`
   MODIFY `customer_activity_id` int NOT NULL AUTO_INCREMENT;
 
---
--- AUTO_INCREMENT for table `ve_customer_affiliate_report`
---
 ALTER TABLE `ve_customer_affiliate_report`
   MODIFY `customer_affiliate_report_id` int NOT NULL AUTO_INCREMENT;
 
---
--- AUTO_INCREMENT for table `ve_customer_approval`
---
 ALTER TABLE `ve_customer_approval`
   MODIFY `customer_approval_id` int NOT NULL AUTO_INCREMENT;
 
---
--- AUTO_INCREMENT for table `ve_customer_authorize`
---
 ALTER TABLE `ve_customer_authorize`
   MODIFY `customer_authorize_id` int NOT NULL AUTO_INCREMENT;
 
---
--- AUTO_INCREMENT for table `ve_customer_group`
---
 ALTER TABLE `ve_customer_group`
   MODIFY `customer_group_id` int NOT NULL AUTO_INCREMENT;
 
---
--- AUTO_INCREMENT for table `ve_customer_history`
---
 ALTER TABLE `ve_customer_history`
   MODIFY `customer_history_id` int NOT NULL AUTO_INCREMENT;
 
---
--- AUTO_INCREMENT for table `ve_customer_ip`
---
 ALTER TABLE `ve_customer_ip`
   MODIFY `customer_ip_id` int NOT NULL AUTO_INCREMENT;
 
---
--- AUTO_INCREMENT for table `ve_customer_login`
---
 ALTER TABLE `ve_customer_login`
   MODIFY `customer_login_id` int NOT NULL AUTO_INCREMENT;
 
---
--- AUTO_INCREMENT for table `ve_customer_reward`
---
 ALTER TABLE `ve_customer_reward`
   MODIFY `customer_reward_id` int NOT NULL AUTO_INCREMENT;
 
---
--- AUTO_INCREMENT for table `ve_customer_search`
---
 ALTER TABLE `ve_customer_search`
   MODIFY `customer_search_id` int NOT NULL AUTO_INCREMENT;
 
---
--- AUTO_INCREMENT for table `ve_customer_transaction`
---
 ALTER TABLE `ve_customer_transaction`
   MODIFY `customer_transaction_id` int NOT NULL AUTO_INCREMENT;
 
---
--- AUTO_INCREMENT for table `ve_custom_field`
---
 ALTER TABLE `ve_custom_field`
   MODIFY `custom_field_id` int NOT NULL AUTO_INCREMENT;
 
---
--- AUTO_INCREMENT for table `ve_custom_field_value`
---
 ALTER TABLE `ve_custom_field_value`
   MODIFY `custom_field_value_id` int NOT NULL AUTO_INCREMENT;
 
---
--- AUTO_INCREMENT for table `ve_download`
---
 ALTER TABLE `ve_download`
   MODIFY `download_id` int NOT NULL AUTO_INCREMENT;
 
---
--- AUTO_INCREMENT for table `ve_download_report`
---
 ALTER TABLE `ve_download_report`
   MODIFY `download_report_id` int NOT NULL AUTO_INCREMENT;
 
---
--- AUTO_INCREMENT for table `ve_event`
---
 ALTER TABLE `ve_event`
   MODIFY `event_id` int NOT NULL AUTO_INCREMENT;
 
---
--- AUTO_INCREMENT for table `ve_extension`
---
 ALTER TABLE `ve_extension`
   MODIFY `extension_id` int NOT NULL AUTO_INCREMENT;
 
---
--- AUTO_INCREMENT for table `ve_extension_install`
---
 ALTER TABLE `ve_extension_install`
   MODIFY `extension_install_id` int NOT NULL AUTO_INCREMENT;
 
---
--- AUTO_INCREMENT for table `ve_extension_path`
---
 ALTER TABLE `ve_extension_path`
   MODIFY `extension_path_id` int NOT NULL AUTO_INCREMENT;
 
---
--- AUTO_INCREMENT for table `ve_filter`
---
 ALTER TABLE `ve_filter`
   MODIFY `filter_id` int NOT NULL AUTO_INCREMENT;
 
---
--- AUTO_INCREMENT for table `ve_filter_group`
---
 ALTER TABLE `ve_filter_group`
   MODIFY `filter_group_id` int NOT NULL AUTO_INCREMENT;
 
---
--- AUTO_INCREMENT for table `ve_gdpr`
---
 ALTER TABLE `ve_gdpr`
   MODIFY `gdpr_id` int NOT NULL AUTO_INCREMENT;
 
---
--- AUTO_INCREMENT for table `ve_geo_zone`
---
 ALTER TABLE `ve_geo_zone`
   MODIFY `geo_zone_id` int NOT NULL AUTO_INCREMENT;
 
---
--- AUTO_INCREMENT for table `ve_information`
---
 ALTER TABLE `ve_information`
   MODIFY `information_id` int NOT NULL AUTO_INCREMENT;
 
---
--- AUTO_INCREMENT for table `ve_language`
---
 ALTER TABLE `ve_language`
   MODIFY `language_id` int NOT NULL AUTO_INCREMENT;
 
---
--- AUTO_INCREMENT for table `ve_layout`
---
 ALTER TABLE `ve_layout`
   MODIFY `layout_id` int NOT NULL AUTO_INCREMENT;
 
---
--- AUTO_INCREMENT for table `ve_layout_module`
---
 ALTER TABLE `ve_layout_module`
   MODIFY `layout_module_id` int NOT NULL AUTO_INCREMENT;
 
---
--- AUTO_INCREMENT for table `ve_layout_route`
---
 ALTER TABLE `ve_layout_route`
   MODIFY `layout_route_id` int NOT NULL AUTO_INCREMENT;
 
---
--- AUTO_INCREMENT for table `ve_length_class`
---
 ALTER TABLE `ve_length_class`
   MODIFY `length_class_id` int NOT NULL AUTO_INCREMENT;
 
---
--- AUTO_INCREMENT for table `ve_location`
---
 ALTER TABLE `ve_location`
   MODIFY `location_id` int NOT NULL AUTO_INCREMENT;
 
---
--- AUTO_INCREMENT for table `ve_manufacturer`
---
 ALTER TABLE `ve_manufacturer`
   MODIFY `manufacturer_id` int NOT NULL AUTO_INCREMENT;
 
---
--- AUTO_INCREMENT for table `ve_marketing`
---
 ALTER TABLE `ve_marketing`
   MODIFY `marketing_id` int NOT NULL AUTO_INCREMENT;
 
---
--- AUTO_INCREMENT for table `ve_marketing_report`
---
 ALTER TABLE `ve_marketing_report`
   MODIFY `marketing_report_id` int NOT NULL AUTO_INCREMENT;
 
---
--- AUTO_INCREMENT for table `ve_modification`
---
 ALTER TABLE `ve_modification`
   MODIFY `modification_id` int NOT NULL AUTO_INCREMENT;
 
---
--- AUTO_INCREMENT for table `ve_module`
---
 ALTER TABLE `ve_module`
   MODIFY `module_id` int NOT NULL AUTO_INCREMENT;
 
---
--- AUTO_INCREMENT for table `ve_notification`
---
 ALTER TABLE `ve_notification`
   MODIFY `notification_id` int NOT NULL AUTO_INCREMENT;
 
---
--- AUTO_INCREMENT for table `ve_options`
---
 ALTER TABLE `ve_options`
   MODIFY `option_id` int NOT NULL AUTO_INCREMENT;
 
---
--- AUTO_INCREMENT for table `ve_order`
---
 ALTER TABLE `ve_order`
   MODIFY `order_id` int NOT NULL AUTO_INCREMENT;
 
---
--- AUTO_INCREMENT for table `ve_order_history`
---
 ALTER TABLE `ve_order_history`
   MODIFY `order_history_id` int NOT NULL AUTO_INCREMENT;
 
---
--- AUTO_INCREMENT for table `ve_order_option`
---
 ALTER TABLE `ve_order_option`
   MODIFY `order_option_id` int NOT NULL AUTO_INCREMENT;
 
---
--- AUTO_INCREMENT for table `ve_order_product`
---
 ALTER TABLE `ve_order_product`
   MODIFY `order_product_id` int NOT NULL AUTO_INCREMENT;
 
---
--- AUTO_INCREMENT for table `ve_order_status`
---
 ALTER TABLE `ve_order_status`
   MODIFY `order_status_id` int NOT NULL AUTO_INCREMENT;
 
---
--- AUTO_INCREMENT for table `ve_order_subscription`
---
 ALTER TABLE `ve_order_subscription`
   MODIFY `order_subscription_id` int NOT NULL AUTO_INCREMENT;
 
---
--- AUTO_INCREMENT for table `ve_order_total`
---
 ALTER TABLE `ve_order_total`
   MODIFY `order_total_id` int NOT NULL AUTO_INCREMENT;
 
---
--- AUTO_INCREMENT for table `ve_order_voucher`
---
 ALTER TABLE `ve_order_voucher`
   MODIFY `order_voucher_id` int NOT NULL AUTO_INCREMENT;
 
---
--- AUTO_INCREMENT for table `ve_product`
---
 ALTER TABLE `ve_product`
   MODIFY `product_id` int NOT NULL AUTO_INCREMENT;
 
---
--- AUTO_INCREMENT for table `ve_product_discount`
---
+ALTER TABLE `ve_product_attribute`
+  MODIFY `product_attribute_id` int NOT NULL AUTO_INCREMENT;
+
 ALTER TABLE `ve_product_discount`
   MODIFY `product_discount_id` int NOT NULL AUTO_INCREMENT;
 
---
--- AUTO_INCREMENT for table `ve_product_image`
---
 ALTER TABLE `ve_product_image`
   MODIFY `product_image_id` int NOT NULL AUTO_INCREMENT;
 
---
--- AUTO_INCREMENT for table `ve_product_options`
---
 ALTER TABLE `ve_product_options`
   MODIFY `poption_id` int NOT NULL AUTO_INCREMENT;
 
---
--- AUTO_INCREMENT for table `ve_product_report`
---
 ALTER TABLE `ve_product_report`
   MODIFY `product_report_id` int NOT NULL AUTO_INCREMENT;
 
---
--- AUTO_INCREMENT for table `ve_product_reward`
---
 ALTER TABLE `ve_product_reward`
   MODIFY `product_reward_id` int NOT NULL AUTO_INCREMENT;
 
---
--- AUTO_INCREMENT for table `ve_return`
---
 ALTER TABLE `ve_return`
   MODIFY `return_id` int NOT NULL AUTO_INCREMENT;
 
---
--- AUTO_INCREMENT for table `ve_return_action`
---
 ALTER TABLE `ve_return_action`
   MODIFY `return_action_id` int NOT NULL AUTO_INCREMENT;
 
---
--- AUTO_INCREMENT for table `ve_return_history`
---
 ALTER TABLE `ve_return_history`
   MODIFY `return_history_id` int NOT NULL AUTO_INCREMENT;
 
---
--- AUTO_INCREMENT for table `ve_return_reason`
---
 ALTER TABLE `ve_return_reason`
   MODIFY `return_reason_id` int NOT NULL AUTO_INCREMENT;
 
---
--- AUTO_INCREMENT for table `ve_return_status`
---
 ALTER TABLE `ve_return_status`
   MODIFY `return_status_id` int NOT NULL AUTO_INCREMENT;
 
---
--- AUTO_INCREMENT for table `ve_review`
---
 ALTER TABLE `ve_review`
   MODIFY `review_id` int NOT NULL AUTO_INCREMENT;
 
---
--- AUTO_INCREMENT for table `ve_seo_url`
---
 ALTER TABLE `ve_seo_url`
   MODIFY `seo_url_id` int NOT NULL AUTO_INCREMENT;
 
---
--- AUTO_INCREMENT for table `ve_setting`
---
 ALTER TABLE `ve_setting`
   MODIFY `setting_id` int NOT NULL AUTO_INCREMENT;
 
---
--- AUTO_INCREMENT for table `ve_startup`
---
 ALTER TABLE `ve_startup`
   MODIFY `startup_id` int NOT NULL AUTO_INCREMENT;
 
---
--- AUTO_INCREMENT for table `ve_statistics`
---
 ALTER TABLE `ve_statistics`
   MODIFY `statistics_id` int NOT NULL AUTO_INCREMENT;
 
---
--- AUTO_INCREMENT for table `ve_stock_status`
---
 ALTER TABLE `ve_stock_status`
   MODIFY `stock_status_id` int NOT NULL AUTO_INCREMENT;
 
---
--- AUTO_INCREMENT for table `ve_store`
---
 ALTER TABLE `ve_store`
   MODIFY `store_id` int NOT NULL AUTO_INCREMENT;
 
---
--- AUTO_INCREMENT for table `ve_subscription`
---
 ALTER TABLE `ve_subscription`
   MODIFY `subscription_id` int NOT NULL AUTO_INCREMENT;
 
---
--- AUTO_INCREMENT for table `ve_subscription_history`
---
 ALTER TABLE `ve_subscription_history`
   MODIFY `subscription_history_id` int NOT NULL AUTO_INCREMENT;
 
---
--- AUTO_INCREMENT for table `ve_subscription_plan`
---
 ALTER TABLE `ve_subscription_plan`
   MODIFY `subscription_plan_id` int NOT NULL AUTO_INCREMENT;
 
---
--- AUTO_INCREMENT for table `ve_subscription_status`
---
 ALTER TABLE `ve_subscription_status`
   MODIFY `subscription_status_id` int NOT NULL AUTO_INCREMENT;
 
---
--- AUTO_INCREMENT for table `ve_tax_class`
---
 ALTER TABLE `ve_tax_class`
   MODIFY `tax_class_id` int NOT NULL AUTO_INCREMENT;
 
---
--- AUTO_INCREMENT for table `ve_tax_rate`
---
 ALTER TABLE `ve_tax_rate`
   MODIFY `tax_rate_id` int NOT NULL AUTO_INCREMENT;
 
---
--- AUTO_INCREMENT for table `ve_tax_rule`
---
 ALTER TABLE `ve_tax_rule`
   MODIFY `tax_rule_id` int NOT NULL AUTO_INCREMENT;
 
---
--- AUTO_INCREMENT for table `ve_theme`
---
 ALTER TABLE `ve_theme`
   MODIFY `theme_id` int NOT NULL AUTO_INCREMENT;
 
---
--- AUTO_INCREMENT for table `ve_topic`
---
 ALTER TABLE `ve_topic`
   MODIFY `topic_id` int NOT NULL AUTO_INCREMENT;
 
---
--- AUTO_INCREMENT for table `ve_translation`
---
 ALTER TABLE `ve_translation`
   MODIFY `translation_id` int NOT NULL AUTO_INCREMENT;
 
---
--- AUTO_INCREMENT for table `ve_upload`
---
 ALTER TABLE `ve_upload`
   MODIFY `upload_id` int NOT NULL AUTO_INCREMENT;
 
---
--- AUTO_INCREMENT for table `ve_user`
---
 ALTER TABLE `ve_user`
   MODIFY `user_id` int NOT NULL AUTO_INCREMENT;
 
---
--- AUTO_INCREMENT for table `ve_user_authorize`
---
 ALTER TABLE `ve_user_authorize`
   MODIFY `user_authorize_id` int NOT NULL AUTO_INCREMENT;
 
---
--- AUTO_INCREMENT for table `ve_user_group`
---
 ALTER TABLE `ve_user_group`
   MODIFY `user_group_id` int NOT NULL AUTO_INCREMENT;
 
---
--- AUTO_INCREMENT for table `ve_user_login`
---
 ALTER TABLE `ve_user_login`
   MODIFY `user_login_id` int NOT NULL AUTO_INCREMENT;
 
---
--- AUTO_INCREMENT for table `ve_variations`
---
 ALTER TABLE `ve_variations`
   MODIFY `variation_id` int NOT NULL AUTO_INCREMENT;
 
---
--- AUTO_INCREMENT for table `ve_variation_options`
---
 ALTER TABLE `ve_variation_options`
   MODIFY `var_opt_id` int NOT NULL AUTO_INCREMENT;
 
---
--- AUTO_INCREMENT for table `ve_voucher`
---
 ALTER TABLE `ve_voucher`
   MODIFY `voucher_id` int NOT NULL AUTO_INCREMENT;
 
---
--- AUTO_INCREMENT for table `ve_voucher_history`
---
 ALTER TABLE `ve_voucher_history`
   MODIFY `voucher_history_id` int NOT NULL AUTO_INCREMENT;
 
---
--- AUTO_INCREMENT for table `ve_voucher_theme`
---
 ALTER TABLE `ve_voucher_theme`
   MODIFY `voucher_theme_id` int NOT NULL AUTO_INCREMENT;
 
---
--- AUTO_INCREMENT for table `ve_weight_class`
---
 ALTER TABLE `ve_weight_class`
   MODIFY `weight_class_id` int NOT NULL AUTO_INCREMENT;
 
---
--- AUTO_INCREMENT for table `ve_zone`
---
 ALTER TABLE `ve_zone`
   MODIFY `zone_id` int NOT NULL AUTO_INCREMENT;
 
---
--- AUTO_INCREMENT for table `ve_zone_to_geo_zone`
---
 ALTER TABLE `ve_zone_to_geo_zone`
   MODIFY `zone_to_geo_zone_id` int NOT NULL AUTO_INCREMENT;
 
---
--- Constraints for dumped tables
---
 
---
--- Constraints for table `ve_address`
---
 ALTER TABLE `ve_address`
   ADD CONSTRAINT `fk_ve_address_customer_id` FOREIGN KEY (`customer_id`) REFERENCES `ve_customer` (`customer_id`);
 
---
--- Constraints for table `ve_api_ip`
---
 ALTER TABLE `ve_api_ip`
   ADD CONSTRAINT `fk_ve_api_ip_api_id` FOREIGN KEY (`api_id`) REFERENCES `ve_api` (`api_id`);
 
---
--- Constraints for table `ve_api_session`
---
 ALTER TABLE `ve_api_session`
   ADD CONSTRAINT `fk_ve_api_session_api_id` FOREIGN KEY (`api_id`) REFERENCES `ve_api` (`api_id`);
 
---
--- Constraints for table `ve_article_comment`
---
 ALTER TABLE `ve_article_comment`
   ADD CONSTRAINT `fk_ve_article_comment_article_id` FOREIGN KEY (`article_id`) REFERENCES `ve_article` (`article_id`),
   ADD CONSTRAINT `fk_ve_article_comment_customer_id` FOREIGN KEY (`customer_id`) REFERENCES `ve_customer` (`customer_id`);
 
---
--- Constraints for table `ve_article_description`
---
 ALTER TABLE `ve_article_description`
   ADD CONSTRAINT `fk_ve_article_description_language_id` FOREIGN KEY (`language_id`) REFERENCES `ve_language` (`language_id`);
 
---
--- Constraints for table `ve_article_rating`
---
 ALTER TABLE `ve_article_rating`
   ADD CONSTRAINT `fk_ve_article_rating_article_comment_id` FOREIGN KEY (`article_comment_id`) REFERENCES `ve_article_comment` (`article_comment_id`),
   ADD CONSTRAINT `fk_ve_article_rating_article_id` FOREIGN KEY (`article_id`) REFERENCES `ve_article` (`article_id`),
   ADD CONSTRAINT `fk_ve_article_rating_customer_id` FOREIGN KEY (`customer_id`) REFERENCES `ve_customer` (`customer_id`),
   ADD CONSTRAINT `fk_ve_article_rating_store_id` FOREIGN KEY (`store_id`) REFERENCES `ve_store` (`store_id`);
 
---
--- Constraints for table `ve_article_to_layout`
---
 ALTER TABLE `ve_article_to_layout`
   ADD CONSTRAINT `fk_ve_article_to_layout_article_id` FOREIGN KEY (`article_id`) REFERENCES `ve_article` (`article_id`),
   ADD CONSTRAINT `fk_ve_article_to_layout_layout_id` FOREIGN KEY (`layout_id`) REFERENCES `ve_layout` (`layout_id`),
   ADD CONSTRAINT `fk_ve_article_to_layout_store_id` FOREIGN KEY (`store_id`) REFERENCES `ve_store` (`store_id`);
 
---
--- Constraints for table `ve_article_to_store`
---
 ALTER TABLE `ve_article_to_store`
   ADD CONSTRAINT `fk_ve_article_to_store_article_id` FOREIGN KEY (`article_id`) REFERENCES `ve_article` (`article_id`),
   ADD CONSTRAINT `fk_ve_article_to_store_store_id` FOREIGN KEY (`store_id`) REFERENCES `ve_store` (`store_id`);
 
---
--- Constraints for table `ve_attribute_description`
---
 ALTER TABLE `ve_attribute_description`
   ADD CONSTRAINT `fk_ve_attribute_description_attribute_id` FOREIGN KEY (`attribute_id`) REFERENCES `ve_attribute` (`attribute_id`),
   ADD CONSTRAINT `fk_ve_attribute_description_language_id` FOREIGN KEY (`language_id`) REFERENCES `ve_language` (`language_id`);
 
---
--- Constraints for table `ve_banner_image`
---
 ALTER TABLE `ve_banner_image`
   ADD CONSTRAINT `fk_ve_banner_image_banner_id` FOREIGN KEY (`banner_id`) REFERENCES `ve_banner` (`banner_id`),
   ADD CONSTRAINT `fk_ve_banner_image_language_id` FOREIGN KEY (`language_id`) REFERENCES `ve_language` (`language_id`);
 
---
--- Constraints for table `ve_cart`
---
 ALTER TABLE `ve_cart`
   ADD CONSTRAINT `fk_ve_cart_api_id` FOREIGN KEY (`api_id`) REFERENCES `ve_api` (`api_id`),
   ADD CONSTRAINT `fk_ve_cart_customer_id` FOREIGN KEY (`customer_id`) REFERENCES `ve_customer` (`customer_id`),
@@ -10740,28 +9408,12 @@ ALTER TABLE `ve_cart`
   ADD CONSTRAINT `fk_ve_cart_session_id` FOREIGN KEY (`session_id`) REFERENCES `ve_session` (`session_id`),
   ADD CONSTRAINT `fk_ve_cart_subscription_plan_id` FOREIGN KEY (`subscription_plan_id`) REFERENCES `ve_subscription_plan` (`subscription_plan_id`);
 
---
--- Constraints for table `ve_category_description`
---
 ALTER TABLE `ve_category_description`
   ADD CONSTRAINT `fk_ve_category_description_language_id` FOREIGN KEY (`language_id`) REFERENCES `ve_language` (`language_id`);
 
---
--- Constraints for table `ve_category_filter`
---
-ALTER TABLE `ve_category_filter`
-  ADD CONSTRAINT `fk_ve_category_filter_category_id` FOREIGN KEY (`category_id`) REFERENCES `ve_category` (`category_id`),
-  ADD CONSTRAINT `fk_ve_category_filter_filter_id` FOREIGN KEY (`filter_id`) REFERENCES `ve_filter` (`filter_id`);
-
---
--- Constraints for table `ve_category_path`
---
 ALTER TABLE `ve_category_path`
   ADD CONSTRAINT `fk_ve_category_path_category_id` FOREIGN KEY (`category_id`) REFERENCES `ve_category` (`category_id`) ON DELETE CASCADE;
 
---
--- Constraints for table `ve_category_to_layout`
---
 ALTER TABLE `ve_category_to_layout`
   ADD CONSTRAINT `fk_ve_category_to_layout_category_id` FOREIGN KEY (`category_id`) REFERENCES `ve_category` (`category_id`),
   ADD CONSTRAINT `fk_ve_category_to_layout_layout_id` FOREIGN KEY (`layout_id`) REFERENCES `ve_layout` (`layout_id`),

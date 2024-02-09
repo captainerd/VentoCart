@@ -32,10 +32,43 @@ class Attribute extends \Opencart\System\Engine\Model {
         $query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "attribute` a LEFT JOIN `" . DB_PREFIX . "attribute_description` ad ON (a.`attribute_id` = ad.`attribute_id`) WHERE a.`attribute_id` = '" . (int)$attribute_id . "' AND ad.`language_id` = '" . (int)$this->config->get('config_language_id') . "'");
         return $query->row;
     }
-
+    
+    public function getAttributesChilds($language_id, $text, $attribute_id, $attribute_type): array {
+        $sql = "SELECT * FROM `" . DB_PREFIX . "product_attribute` 
+                WHERE `attribute_id` = '" . (int)$attribute_id . "' AND `language_id` = '" . (int)$language_id . "'";
+    
+        if ($attribute_type == 'value_text') {
+            $sql .= " AND `value_text` LIKE '%" . $this->db->escape($text) . "%' AND `value_text`  <> ''";
+            $sql .= " GROUP BY   `value_text` ";  
+        } elseif ($attribute_type == 'text') {
+            
+            $sql .= " AND `text` LIKE '%" . $this->db->escape($text) . "%'  AND `text` <> ''";
+            $sql .= " GROUP BY   `text` ";  
+        }
+    
+   
+        $sql .= " LIMIT 10 ";
+    
+        $query = $this->db->query($sql);
+        return $query->rows;
+    }
+    
     public function getAttributes(array $data = []): array {
-        $sql = "SELECT * FROM `" . DB_PREFIX . "attribute` a LEFT JOIN `" . DB_PREFIX . "attribute_description` ad ON (a.`attribute_id` = ad.`attribute_id`) WHERE ad.`language_id` = '" . (int)$this->config->get('config_language_id') . "'";
-
+        if (!isset($data['exclude'])) {
+            $data['exclude'] = 0;
+        }
+        $sql = "
+        SELECT *
+        FROM `" . DB_PREFIX . "attribute` a
+        LEFT JOIN `" . DB_PREFIX . "attribute_description` ad ON (a.`attribute_id` = ad.`attribute_id`)
+        WHERE ad.`language_id` = '" . (int)$this->config->get('config_language_id') . "'
+            AND NOT EXISTS (
+                SELECT 1
+                FROM `" . DB_PREFIX . "product_attribute` pa
+                WHERE pa.`attribute_id` = a.`attribute_id`
+                    AND pa.`product_id` = '" . (int)$data['exclude'] . "'
+            )
+    ";
         if (!empty($data['filter_name'])) {
             $sql .= " AND ad.`name` LIKE '" . $this->db->escape((string)$data['filter_name'] . '%') . "'";
         }

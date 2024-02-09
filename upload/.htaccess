@@ -13,7 +13,9 @@
 # FLOC is a feature suggested by Google, if this header shall not be set, disable the line
 # having 'interest-cohort' by adding a # in front
 ##
-
+php_value upload_max_filesize 20M
+php_value post_max_size 20M
+php_value max_execution_time 300
 ## No directory listings
 <IfModule mod_autoindex.c>
   IndexIgnore *

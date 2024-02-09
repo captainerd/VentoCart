@@ -168,14 +168,25 @@ class Image {
 		if (!$this->width || !$this->height) {
 			return;
 		}
-
+	
+		// If one dimension is zero, calculate the other dimension based on aspect ratio
+		if ($width == 0 && $height != 0) {
+			$width = $this->width * ($height / $this->height);
+		} elseif ($height == 0 && $width != 0) {
+			$height = $this->height * ($width / $this->width);
+		} elseif ($width == 0 && $height == 0) {
+			// If both dimensions are zero, exit without resizing
+			return;
+		}
+	
+		// Rest of the resize logic remains the same...
 		$xpos = 0;
 		$ypos = 0;
 		$scale = 1;
-
+	
 		$scale_w = $width / $this->width;
 		$scale_h = $height / $this->height;
-
+	
 		if ($default == 'w') {
 			$scale = $scale_w;
 		} elseif ($default == 'h') {
@@ -183,45 +194,46 @@ class Image {
 		} else {
 			$scale = min($scale_w, $scale_h);
 		}
-
+	
 		if ($scale == 1 && $scale_h == $scale_w && ($this->mime != 'image/png' || $this->mime != 'image/webp')) {
 			return;
 		}
-
+	
 		$new_width = (int)($this->width * $scale);
 		$new_height = (int)($this->height * $scale);
 		$xpos = (int)(($width - $new_width) / 2);
 		$ypos = (int)(($height - $new_height) / 2);
-
+	
 		$image_old = $this->image;
 		$this->image = imagecreatetruecolor($width, $height);
-
+	
 		if ($this->mime == 'image/png') {
 			imagealphablending($this->image, false);
 			imagesavealpha($this->image, true);
-
+	
 			$background = imagecolorallocatealpha($this->image, 255, 255, 255, 127);
-
+	
 			imagecolortransparent($this->image, $background);
 		} elseif ($this->mime == 'image/webp') {
 			imagealphablending($this->image, false);
 			imagesavealpha($this->image, true);
-
+	
 			$background = imagecolorallocatealpha($this->image, 255, 255, 255, 127);
-
+	
 			imagecolortransparent($this->image, $background);
 		} else {
 			$background = imagecolorallocate($this->image, 255, 255, 255);
 		}
-
+	
 		imagefilledrectangle($this->image, 0, 0, $width, $height, $background);
-
+	
 		imagecopyresampled($this->image, $image_old, $xpos, $ypos, 0, 0, $new_width, $new_height, $this->width, $this->height);
 		imagedestroy($image_old);
-
+	
 		$this->width = $width;
 		$this->height = $height;
 	}
+	
 
 	/**
      * Watermark
@@ -288,16 +300,72 @@ class Image {
      *
      * @return void
      */
-	public function crop(int $top_x, int $top_y, int $bottom_x, int $bottom_y): void {
+	
+	 public function crop(int $width = 0, int $height = 0, string $default = ''): void {
+		if (!$this->width || !$this->height) {
+			return;
+		}
+	
+		// If one dimension is zero, calculate the other dimension based on aspect ratio
+		if ($width == 0 && $height != 0) {
+			$width = $this->width * ($height / $this->height);
+		} elseif ($height == 0 && $width != 0) {
+			$height = $this->height * ($width / $this->width);
+		} elseif ($width == 0 && $height == 0) {
+			// If both dimensions are zero, exit without resizing
+			return;
+		}
+	
+		// New aspect ratio
+		$newAspectRatio = $width / $height;
+	
+		// Original aspect ratio
+		$originalAspectRatio = $this->width / $this->height;
+	
+		// Determine which dimension to adjust to match the new aspect ratio
+		if ($newAspectRatio != $originalAspectRatio) {
+			// If new aspect ratio is different, crop the image to match
+			if ($newAspectRatio > $originalAspectRatio) {
+				$cropWidth = $this->height * $newAspectRatio;
+				$cropX = ($this->width - $cropWidth) / 2;
+				$this->image = imagecrop($this->image, ['x' => intval($cropX), 'y' => 0, 'width' => intval($cropWidth), 'height' => $this->height]);
+				$this->width = intval($cropWidth);
+			} else {
+				$cropHeight = $this->width / $newAspectRatio;
+				$cropY = ($this->height - $cropHeight) / 2;
+				$this->image = imagecrop($this->image, ['x' => 0, 'y' => intval($cropY), 'width' => $this->width, 'height' => intval($cropHeight)]);
+				$this->height = intval($cropHeight);
+			}
+		}
+	
+		// Rest of the resize logic remains the same...
+		$xpos = (int)(($width - $this->width) / 2);
+		$ypos = (int)(($height - $this->height) / 2);
 		$image_old = $this->image;
-		$this->image = imagecreatetruecolor($bottom_x - $top_x, $bottom_y - $top_y);
-
-		imagecopy($this->image, $image_old, 0, 0, $top_x, $top_y, $this->width, $this->height);
+		$this->image = imagecreatetruecolor($width, $height);
+	
+		// Fill background with transparency for PNG and WEBP
+		if ($this->mime == 'image/png' || $this->mime == 'image/webp') {
+			imagealphablending($this->image, false);
+			imagesavealpha($this->image, true);
+			$background = imagecolorallocatealpha($this->image, 255, 255, 255, 127);
+			imagecolortransparent($this->image, $background);
+		} else {
+			// Fill background with white for other formats
+			$background = imagecolorallocate($this->image, 255, 255, 255);
+		}
+	
+		imagefilledrectangle($this->image, 0, 0, $width, $height, $background);
+	
+		imagecopyresampled($this->image, $image_old, $xpos, $ypos, 0, 0, $this->width, $this->height, $this->width, $this->height);
 		imagedestroy($image_old);
-
-		$this->width = $bottom_x - $top_x;
-		$this->height = $bottom_y - $top_y;
+	
+		$this->width = $width;
+		$this->height = $height;
 	}
+	
+
+	
 
 	/**
      * Rotate

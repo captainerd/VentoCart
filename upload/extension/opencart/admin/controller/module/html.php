@@ -13,9 +13,8 @@ class HTML extends \Opencart\System\Engine\Controller {
 		$this->load->language('extension/opencart/module/html');
 
 		$this->document->setTitle($this->language->get('heading_title'));
-
-		$this->document->addScript('view/javascript/ckeditor/ckeditor.js');
-		$this->document->addScript('view/javascript/ckeditor/adapters/jquery.js');
+		
+		$this->document->addScript('view/javascript/tinymce/tinymce.min.js');;
 
 		$data['breadcrumbs'] = [];
 
