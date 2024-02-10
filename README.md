@@ -41,9 +41,10 @@ VentoCart not only offers a feature-rich e-commerce solution but also prioritize
   - **Crop And Rotate:** Access the crop and rotate tool at any time via a dedicated button.
   - **Further Auto-organize:** Automatically organize images in their respective directories (products, blog, banners, etc.) for better organization.
   - **Internal Model Enhancement:** Restructured the internal model responsible for filtering products for better readability and organization.
-  - **Database Scheme Changes:** Note that if you are upgrading, you will need to make adjustments:
+  - **Database Scheme Changes:** Note that if you are upgrading from the previous VentoCart version, you will need to make adjustments:
     - `category_filter` table: Added a new 'type' column.
     - `options` table: Added a new 'image' column.
+    - `product_attribute` table: Added 'value_text' and  'attribute_n' columns.
 
 - **Revamped Blog Module:**
   -  Preview now displays a thumbnail picture of the post and the date posted.
