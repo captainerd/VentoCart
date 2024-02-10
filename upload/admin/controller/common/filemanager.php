@@ -252,6 +252,13 @@ class FileManager extends \Opencart\System\Engine\Controller
 
 	 public function uploadFromURL(): void
 	 {   
+
+		if (!$this->user->hasPermission('modify', 'common/filemanager')) {
+			$json['error'] = $this->language->get('error_permission');
+			$this->response->setOutput(json_encode($json));
+			return;
+		}
+
 		 if (isset($this->request->post['imgUrl'], $this->request->post['directory'])) {
 			 // Sanitize user input
 			 $imageUrl = filter_var($this->request->post['imgUrl'], FILTER_SANITIZE_URL);
