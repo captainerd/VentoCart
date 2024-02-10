@@ -35,63 +35,98 @@ function initTinyMCE() {
         selector: 'textarea[data-oc-toggle="ckeditor"]',
         paste_data_images: true,
         toolbar: 'paste code  undo redo  removeformat  formatselect | blockquote  | bold italic underline strikethrough | hr | forecolor | backcolor  | alignleft aligncenter alignright alignjustify | uploadImage  media | bullist numlist | table   | link | view | emoticons',
-      
+
         paste_preprocess: function (plugin, args) {
-        
+
             let tempDiv = document.createElement('div');
             tempDiv.innerHTML = args.content;
-          
+
             // Get all img elements within tempDiv
             let imgElements = tempDiv.querySelectorAll('img');
             let warningShown = false;
             // Process each img element
-           
-            imgElements.forEach(function(imgElementA) {
+
+            imgElements.forEach(function (imgElementA) {
                 let srcValue = imgElementA.getAttribute('src');
-                if ( $("#input-product-id").val() == 0) {
+                if ($("#input-product-id").val() == 0) {
                     if (!warningShown) {
-                    alert('Pasting images onto unsaved products will not result in uploads; instead, they will be hotlinked');
-                    warningShown = true;
+                        alert('Pasting images onto unsaved products will not result in uploads; instead, they will be hotlinked');
+                        warningShown = true;
                     }
                     return;
                 }
                 if (!srcValue) { return; }
-                // Clear all other attributes
+
                 let attributes = imgElementA.attributes;
                 for (var i = attributes.length - 1; i >= 0; i--) {
                     if (attributes[i].name != 'src') {
-               imgElementA.removeAttribute(attributes[i].name);
+                        imgElementA.removeAttribute(attributes[i].name);
                     }
                 }
                 let imgid = "Upl-" + Math.floor(Math.random() * 100000000100069).toString();
-                imgElementA.setAttribute('id',imgid);
-              
-                // Define the upload directory based on the route
-     
-                    args.content =  tempDiv.innerHTML;
-                    uploadPastedImage(srcValue, function(response) {1
-                         tinymce.activeEditor.dom.setAttrib(imgid, 'src', response);
-                         tinymce.activeEditor.dom.setAttrib(imgid, 'width', '40%');
-                    });
+                imgElementA.setAttribute('id', imgid);
+                args.content = tempDiv.innerHTML;
+                if (srcValue.startsWith('blob:')) {
+
+                    fetch(srcValue)
+                        .then(response => response.blob())
+                        .then(blob => {
+                            console.log(blob);
+                            let extension = blob.name.split('.').pop();
+                
+                            let filename = "pasted_" + Math.floor(Math.random() * 100000000100069).toString() + '.' + extension;
+                            // Create form data
+                            var formData = new FormData();
+                            formData.append('file[]', blob, filename);
+
+                            $.ajax({
+                                url: 'index.php?route=common/filemanager.upload&user_token=' + getURLVar('user_token') + '&directory=' + getUploadDirectory(),
+                                type: 'post',
+                                data: formData,
+                                contentType: false,
+                                processData: false, // important
+                                dataType: 'json',
+                                success: function (response) {
+                                    tinymce.activeEditor.dom.setAttrib(imgid, 'src', '/image/catalog/' + getUploadDirectory() + filename);
+                                    tinymce.activeEditor.dom.setAttrib(imgid, 'width', '40%');
+                                },
+                                error: function (xhr, status, error) {
+                                    // Handle error
+                                    console.error('Error uploading image:', error);
+                                }
+                            });
+                        })
+                        .catch(error => {
+                            console.error('Error fetching blob:', error);
+                        });
+
+                    return;
+                }
+
+               
+                uploadPastedImage(srcValue, function (response) {
+
+                    tinymce.activeEditor.dom.setAttrib(imgid, 'src', response);
+                    tinymce.activeEditor.dom.setAttrib(imgid, 'width', '40%');
+                });
             });
-           
+
         },
 
         setup: function (editor) {
             window.editor = editor;
-            editor.on('paste', function(event) {
-         
+            editor.on('paste', function (event) {
+
                 var clipboardData = event.clipboardData || window.clipboardData;
                 var items = clipboardData.items;
                 for (var i = 0; i < items.length; i++) {
-                    console.log(items[i]);
-                    
+
                     if (items[i].type.indexOf('image') !== -1) {
                         event.preventDefault();
                         var blob = items[i].getAsFile();
                         var reader = new FileReader();
-                        reader.onload = (function(index) {
-                            return function(event) {
+                        reader.onload = (function (index) {
+                            return function (event) {
                                 // Do something with the image data
                                 var imageData = event.target.result;
                                 // Extract file extension from base64
@@ -99,12 +134,12 @@ function initTinyMCE() {
                                 // Create a new image element
                                 var img = new Image();
                                 img.src = imageData;
-                    
+
                                 let filename = "pasted_" + Math.floor(Math.random() * 100000000100069).toString() + '.' + fileType;
                                 // Create form data
                                 var formData = new FormData();
                                 formData.append('file[]', blob, filename);
-                             
+
                                 $.ajax({
                                     url: 'index.php?route=common/filemanager.upload&user_token=' + getURLVar('user_token') + '&directory=' + getUploadDirectory(),
                                     type: 'post',
@@ -112,12 +147,12 @@ function initTinyMCE() {
                                     contentType: false,
                                     processData: false, // important
                                     dataType: 'json',
-                                    success: function(response) {
-                                        img.setAttribute('width','40%');
+                                    success: function (response) {
+                                        img.setAttribute('width', '40%');
                                         img.src = '/image/catalog/' + getUploadDirectory() + filename;
                                         editor.selection.setContent(img.outerHTML);
                                     },
-                                    error: function(xhr, status, error) {
+                                    error: function (xhr, status, error) {
                                         // Handle error
                                         console.error('Error uploading image:', error);
                                     }
@@ -125,7 +160,7 @@ function initTinyMCE() {
                             };
                         })(i);
                         reader.readAsDataURL(blob);
-                    }      
+                    }
                 }
             });
             editor.ui.registry.addButton('uploadImage', {
@@ -159,9 +194,9 @@ function getUploadDirectory() {
             directory = 'banners/';
         } else if (urlParams.get('route') === 'catalog/manufacturer.form') {
             directory = 'manufacturers/';
-        }  else if (urlParams.get('route') === 'cms/topic.form' || urlParams.get('route') === 'cms/article.form') {
+        } else if (urlParams.get('route') === 'cms/topic.form' || urlParams.get('route') === 'cms/article.form') {
             directory = 'blog/';
-        }  else if (urlParams.get('route') === 'catalog/product.form') {
+        } else if (urlParams.get('route') === 'catalog/product.form') {
             directory = 'products/';
             if ($("#input-product-id")) {
                 directory += $("#input-product-id").val() + '/';
@@ -172,7 +207,7 @@ function getUploadDirectory() {
 
 }
 function uploadPastedImage(imgUrl, callback) {
- 
+
     $.ajax({
         url: 'index.php?route=common/filemanager.uploadFromURL&user_token=' + getURLVar('user_token'),
         data: { imgUrl: imgUrl, directory: getUploadDirectory() },
@@ -180,7 +215,7 @@ function uploadPastedImage(imgUrl, callback) {
         dataType: 'json',
         success: function (response) {
             // Invoke the callback function with the response
-            callback('/image/catalog/' + directory + response.filename);
+            callback('/image/catalog/' + getUploadDirectory() + response.filename);
         },
         error: function (xhr, status, error) {
             // Handle error
@@ -188,7 +223,7 @@ function uploadPastedImage(imgUrl, callback) {
         }
     });
 }
- 
+
 
 //Seo conversion jquery plugin
 (function ($) {
