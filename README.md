@@ -95,7 +95,7 @@ VentoCart not only offers a feature-rich e-commerce solution but also prioritize
 | PHP Version               | 8.1+             |
 | File Uploads              | On               |
 | Session Auto Start        | Off              |
-| Restrict Storage Dir Access | 1               |
+| Restrict Storage Dir Access | .htaccess or other block to /system/storage               |
 
 | PHP Extensions            | Required Setting |
 |---------------------------|------------------|
@@ -105,4 +105,4 @@ VentoCart not only offers a feature-rich e-commerce solution but also prioritize
 | OpenSSL                   | openssl          |
 | ZLIB                      | zlib             |
 | ZIP                       | zip              |
-| WebP Support              | WebP             |
+| WebP Support              | GD with WebP             |
