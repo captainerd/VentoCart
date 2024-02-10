@@ -43,18 +43,12 @@ function initTinyMCE() {
 
             // Get all img elements within tempDiv
             let imgElements = tempDiv.querySelectorAll('img');
-            let warningShown = false;
+           
             // Process each img element
 
             imgElements.forEach(function (imgElementA) {
                 let srcValue = imgElementA.getAttribute('src');
-                if ($("#input-product-id").val() == 0) {
-                    if (!warningShown) {
-                        alert('Pasting images onto unsaved products will not result in uploads; instead, they will be hotlinked');
-                        warningShown = true;
-                    }
-                    return;
-                }
+      
                 if (!srcValue) { return; }
 
                 let attributes = imgElementA.attributes;
@@ -199,7 +193,9 @@ function getUploadDirectory() {
         } else if (urlParams.get('route') === 'catalog/product.form') {
             directory = 'products/';
             if ($("#input-product-id")) {
+                if ($("#input-product-id") && $("#input-product-id").val() != 0) {
                 directory += $("#input-product-id").val() + '/';
+                }  
             }
         }
     }
