@@ -90,19 +90,19 @@ VentoCart not only offers a feature-rich e-commerce solution but also prioritize
 ## Requirements
 
 
-| PHP Settings               | Current Setting | Required Setting |
-|---------------------------|-----------------|------------------|
-| PHP Version               | On              | 8.1+             |
-| File Uploads              | On              | On               |
-| Session Auto Start        | Off             | Off              |
-| Restrict Storage Dir Access | On           | 1                |
+| PHP Settings               | Required Setting |
+|---------------------------|------------------|
+| PHP Version               | 8.1+             |
+| File Uploads              | On               |
+| Session Auto Start        | Off              |
+| Restrict Storage Dir Access | 1               |
 
-| PHP Extensions            | Current Setting | Required Setting |
-|---------------------------|-----------------|------------------|
-| Database                  | On              | mysqli           |
-| GD                        | On              | gd               |
-| cURL                      | On              | curl             |
-| OpenSSL                   | On              | openssl          |
-| ZLIB                      | On              | zlib             |
-| ZIP                       | On              | zip              |
-| WebP Support              | On              | WebP             |
+| PHP Extensions            | Required Setting |
+|---------------------------|------------------|
+| Database                  | mysqli           |
+| GD                        | gd               |
+| cURL                      | curl             |
+| OpenSSL                   | openssl          |
+| ZLIB                      | zlib             |
+| ZIP                       | zip              |
+| WebP Support              | WebP             |
