@@ -158,7 +158,7 @@ class Category extends \Opencart\System\Engine\Controller {
 				];
 
 				$data['categories'][] = [
-					'name' => $result['name'] . ($this->config->get('config_product_count') ? ' (' . $this->model_catalog_product->getTotalProducts($filter_data) . ')' : ''),
+					'name' => !empty($result['redirect_url']) ? $result['name']  : $result['name']  . ($this->config->get('config_product_count') ? ' (' . $this->model_catalog_product->getTotalProducts($filter_data) . ')' : ''),
 					'href' => !empty($result['redirect_url']) ? $result['redirect_url'] : $this->url->link('product/category', 'language=' . $this->config->get('config_language') . '&path=' . $this->request->get['path'] . '_' . $result['category_id'] . $url)
 				];
 			}
