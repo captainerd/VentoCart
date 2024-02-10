@@ -7,6 +7,13 @@ class Variations extends \Opencart\System\Engine\Controller
 	public function savevariations()
 	{
 		$this->load->language('catalog/product');
+		if (!$this->user->hasPermission('modify', 'catalog/product')) {
+			$json['error'] = $this->language->get('error_permission');
+			$this->response->setOutput(json_encode($json));
+			return;
+		}
+		
+		$this->load->language('catalog/product');
 		// Check if product_id is set in the request
 		$json = [];
 		if (isset($this->request->get['product_id'])) {
@@ -205,6 +212,13 @@ class Variations extends \Opencart\System\Engine\Controller
 
 	public function deleteVariation()
 	{
+
+		$this->load->language('catalog/product');
+		if (!$this->user->hasPermission('modify', 'catalog/product')) {
+			$json['error'] = $this->language->get('error_permission');
+			$this->response->setOutput(json_encode($json));
+			return;
+		}
 		$json = ['success' => false, 'message' => 'Variation deletion failed'];
 
 		if (isset($this->request->get['variation_id'])) {

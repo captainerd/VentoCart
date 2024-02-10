@@ -335,6 +335,14 @@ public function reloadOptions() {
 }
 
 	public function addOption(): void {
+
+		$this->load->language('catalog/product');
+		if (!$this->user->hasPermission('modify', 'catalog/product')) {
+			$json['error'] = $this->language->get('error_permission');
+			$this->response->setOutput(json_encode($json));
+			return;
+		}
+		
 		$this->load->model('catalog/option');
  
 $product_id = $this->request->get['product_id'];
