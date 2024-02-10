@@ -137,13 +137,15 @@ $(document).on('click', '#addMutli', function() {
   
         $('input[name="path[]"]:checked').each(function(index) {
             let imgSrc = $(this).data('imgsrc');
-             
-            if (window.activeEditor) {
+        
+            if (document.querySelector('.nav-tabs .nav-link.active').getAttribute('href') == "#tab-general") {
+        
                 if (getFileType(imgSrc)  === 'video') {
            
-                    window.editor.insertContent('<video style="width: 200px;" controls><source  src="'+imgSrc+'" type="video/mp4"//></video>');
+                    tinymce.activeEditor.insertContent('<video style="width: 200px;" controls><source  src="'+imgSrc+'" type="video/mp4"//></video>');
                 } else {
-            window.editor.insertContent('<img width="40%" src="'+imgSrc+'" alt="" />');
+                     
+                    tinymce.activeEditor.insertContent('<img width="40%" src="'+imgSrc+'" alt="" />');
                 }
             } else {
             
@@ -576,6 +578,7 @@ $(this).find('.form-check-input').trigger('change');
   });
   $('#modal-image').on('dblclick', 'a.thumbnail', function (e) {
 //handle single select
+if (multiselect == true) { return; }
 let val = '';
       let type = 'img';
       val = $(this).find('img').attr('src');
