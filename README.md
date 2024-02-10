@@ -78,3 +78,31 @@ VentoCart not only offers a feature-rich e-commerce solution but also prioritize
 ![image](https://github.com/captainerd/VentoCart/assets/58100748/e37c7923-4d03-496c-b40c-27587ada0645)
 
 
+## Installation
+
+1. Create a MySQL database on your host. Note the database name, database user, and password.
+
+2. Upload the contents of the `upload` directory into the `www/public` root folder of your host.
+
+3. Visit `(Your site URL)/install` in your web browser and fill out the installation forms.
+
+ 
+## Requirements
+
+
+| PHP Settings               | Current Setting | Required Setting |
+|---------------------------|-----------------|------------------|
+| PHP Version               | On              | 8.1+             |
+| File Uploads              | On              | On               |
+| Session Auto Start        | Off             | Off              |
+| Restrict Storage Dir Access | On           | 1                |
+
+| PHP Extensions            | Current Setting | Required Setting |
+|---------------------------|-----------------|------------------|
+| Database                  | On              | mysqli           |
+| GD                        | On              | gd               |
+| cURL                      | On              | curl             |
+| OpenSSL                   | On              | openssl          |
+| ZLIB                      | On              | zlib             |
+| ZIP                       | On              | zip              |
+| WebP Support              | On              | WebP             |
