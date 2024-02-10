@@ -32,26 +32,17 @@ function checkWebPSupport()
     return $info['WebP Support'];
 }
 function checkStorageAccess() {
+    $protocol = isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? 'https' : 'http';
     $this_site = $_SERVER['HTTP_HOST'];
 
-    $http_url = "http://$this_site/system/storage/download/";
-    $https_url = "https://$this_site/system/storage/download/";
+    $url = "$protocol://$this_site/system/storage/download/";
 
-    // Check HTTP URL
-    $http_headers = get_headers($http_url);
-    $http_status = isset($http_headers[0]) ? explode(" ", $http_headers[0])[1] : false;
+    // Check URL
+    $headers = get_headers($url);
+    $status = isset($headers[0]) ? explode(" ", $headers[0])[1] : false;
     
-    // Check HTTPS URL
-    $https_headers = get_headers($https_url);
-    if ($https_headers) {
-    $https_status = isset($https_headers[0]) ? explode(" ", $https_headers[0])[1] : false;
-    } else {
-        //https doesnt work at all
-        $https_status = "403";
-    }
-  
-    // Check if both URLs return a 403 forbidden status code
-    return $http_status === '403' && $https_status === '403';
+    // Check if the URL returns a 403 forbidden status code
+    return strpos($status, '403') !== false;
 }
  
 
