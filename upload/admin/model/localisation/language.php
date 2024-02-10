@@ -157,7 +157,14 @@ class Language extends \Opencart\System\Engine\Model {
 		$query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "product_attribute` WHERE `language_id` = '" . (int)$this->config->get('config_language_id') . "'");
 
 		foreach ($query->rows as $product_attribute) {
-			$this->db->query("INSERT INTO `" . DB_PREFIX . "product_attribute` SET `product_id` = '" . (int)$product_attribute['product_id'] . "', `attribute_id` = '" . (int)$product_attribute['attribute_id'] . "', `language_id` = '" . (int)$language_id . "', `text` = '" . $this->db->escape($product_attribute['text']) . "'");
+			$this->db->query("INSERT INTO `" . DB_PREFIX . "product_attribute` SET 
+			`product_id` = '" . (int)$product_attribute['product_id'] . "', 
+			`attribute_id` = '" . (int)$product_attribute['attribute_id'] . "', 
+			`language_id` = '" . (int)$language_id . "', 
+			`value_text` = '" . $this->db->escape($product_attribute['value_text']) . "', 
+			`attribute_n` = '" . $this->db->escape($product_attribute['attribute_n']) . "', 
+			`sort_order` = '" . $this->db->escape($product_attribute['sort_order']) . "', 
+			`text` = '" . $this->db->escape($product_attribute['text']) . "'");
 		}
 
 		// Return Action
