@@ -252,6 +252,7 @@ class FileManager extends \Opencart\System\Engine\Controller
 
 	 public function uploadFromURL(): void
 	 {   
+		$this->load->language('common/filemanager');
 
 		if (!$this->user->hasPermission('modify', 'common/filemanager')) {
 			$json['error'] = $this->language->get('error_permission');
