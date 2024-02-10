@@ -51,8 +51,8 @@ class Category extends \Opencart\System\Engine\Controller {
 
 					$children_data[] = [
 						'category_id' => $child['category_id'],
-						'name'        => $child['name'] . ($this->config->get('config_product_count') ? ' (' . $this->model_catalog_product->getTotalProducts($filter_data) . ')' : ''),
-						'href'        => $this->url->link('product/category', 'language=' . $this->config->get('config_language') . '&path=' . $category['category_id'] . '_' . $child['category_id'])
+						'name'        => !empty($child['redirect_url']) ? $child['name']  : $child['name'] . ($this->config->get('config_product_count') ? ' (' . $this->model_catalog_product->getTotalProducts($filter_data) . ')' : ''),
+						'href'        => !empty($child['redirect_url']) ? $child['redirect_url']  : $this->url->link('product/category', 'language=' . $this->config->get('config_language') . '&path=' . $category['category_id'] . '_' . $child['category_id'])
 					];
 				}
 			}
@@ -64,9 +64,9 @@ class Category extends \Opencart\System\Engine\Controller {
 
 			$data['categories'][] = [
 				'category_id' => $category['category_id'],
-				'name'        => $category['name'] . ($this->config->get('config_product_count') ? ' (' . $this->model_catalog_product->getTotalProducts($filter_data) . ')' : ''),
+				'name'        => empty($category['redirect_url']) ? $category['name']  : $category['name'] . ($this->config->get('config_product_count') ? ' (' . $this->model_catalog_product->getTotalProducts($filter_data) . ')' : ''),
 				'children'    => $children_data,
-				'href'        => $this->url->link('product/category', 'language=' . $this->config->get('config_language') . '&path=' . $category['category_id'])
+				'href'        => !empty($category['redirect_url']) ? $category['redirect_url']  : $this->url->link('product/category', 'language=' . $this->config->get('config_language') . '&path=' . $category['category_id'])
 			];
 		}
 
