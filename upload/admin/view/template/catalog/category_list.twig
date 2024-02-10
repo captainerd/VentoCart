@@ -186,7 +186,7 @@
 			data: { newSort: sortObject },
 			success: function (response) {
 				if (response.status == "ok") {
-					$('#alert').prepend('<div class="alert alert-success alert-dismissible"><i class="fa-solid fa-circle-check"></i> Sorting updated. <button type="button" class="btn-close" data-bs-dismiss="alert"></button></div>');
+					$('#alert').prepend('<div class="alert alert-success alert-dismissible"><i class="fa-solid fa-circle-check"></i> '+ response.text   +' <button type="button" class="btn-close" data-bs-dismiss="alert"></button></div>');
 					setTimeout(() => {
 						$(".alert").alert('close');
 					}, 5500);

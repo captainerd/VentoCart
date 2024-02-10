@@ -54,14 +54,19 @@ class Category extends \Opencart\System\Engine\Controller {
 		$this->response->setOutput($this->getList());
 	}
 
-	public function updateSortOrder(): void {
+	public function updateSortOrder(): void { 
 		$newsort = $this->request->post['newSort'];
+		$this->load->language('catalog/category');
+		if ($this->user->hasPermission('modify', 'catalog/category')) {
 		$this->load->model('catalog/category');
 		foreach( $newsort as $categoery_id => $updatesort) {
 			$this->model_catalog_category->updateSort($categoery_id, $updatesort);
 		}
-		$this->response->setOutput(json_encode(['status' => 'ok']));
-
+		$this->response->setOutput(json_encode(['status' => 'ok', 'text' => $this->language->get('sorting_updated')]));
+	} else {
+ 
+	$this->response->setOutput(json_encode(['status' => 'ok', 'text' => $this->language->get('error_permission')]));
+	}
 
 	}
 	protected function getList(): string {
