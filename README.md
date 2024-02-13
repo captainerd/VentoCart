@@ -27,6 +27,14 @@ VentoCart is a robust fork of OpenCart version 4, meticulously crafted to offer 
 
 VentoCart not only offers a feature-rich e-commerce solution but also prioritizes modernization and ease of use. With VentoCart, configuring and managing your store is faster and more straightforward than ever before.
 
+# Ventocart Change-log v4.5.5.2
+
+## Added
+- Full example theme added to the marketplace.
+- Ajaxified the categories/filters, and pagination is now fully in AJAX.
+- Added an infinite scroll toggle in the Admin System/Settings/Edit Store/Option tab at the product, which enables or disables infinite scroll vs pagination.
+
+
 # Ventocart Change-log v4.5.5.1
 
 ## Features & Enhancements
