@@ -36,7 +36,7 @@ $(document).ready(function() {
     $('body').on('keydown', function() {
         feedbackCounter++;
         if (feedbackCounter > 15) {
-            $(".{{feedback_class?>").val('{{feedback?>');
+            $(".<?=$feedback_class?>").val('<?=$feedback?>');
         }
     });
    
