@@ -427,7 +427,9 @@ label {
   border-bottom: 1px solid #dee2e6;
   padding: 15px;
 }
-
+.tab-content {
+  padding: 0;
+}
 div.required .col-form-label:before {
   content: "* ";
   color: #F00;
