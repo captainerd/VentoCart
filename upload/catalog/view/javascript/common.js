@@ -52,21 +52,32 @@ $(".autoplayHover").mouseout(function () {
       });
 
   //for quiting gallery
-  
+ 
+    
   $(document).on('keyup', function (event) {
     if (event.key === 'Escape') {
       $(".quick-view-overlay").fadeOut(500);
     }
   });
    //for quick view
-    $(".quick-view-button").on("click", function ( event) {
+
+   $(document).on("click", '.imageGallery a', function(event) {
+    event.preventDefault(); 
+    event.stopImmediatePropagation();
+  
+ 
+   });
+   $(document).on("click", ".quick-view-button", function(event) {
+    event.preventDefault(); 
+    event.stopImmediatePropagation();
+ 
         if (window.innerWidth < 400) {
   
             return;
         }
       event.preventDefault(); // Prevent the default form submission
       $(".product-full").html( '  <div class="d-flex align-items-center justify-content-center" style="height: 20vh;"><div class="spinner-border text-primary" role="status"> <span class="sr-only" >Loading...</span> </div></div>');
-      $(".product-full").load($(this).attr("targ"));
+       $(".product-full").load($(this).attr("targ"));
   $(".quick-view-overlay").show();
   
        
@@ -210,39 +221,27 @@ $(document).ready(function() {
         }
     });
 
-    // Product List
-    $('#button-list').on('click', function() {
-        var element = this;
-
-        $('#product-list').attr('class', 'row row-cols-1 product-list');
-
-        $('#button-grid').removeClass('active');
-        $('#button-list').addClass('active');
-
-        localStorage.setItem('display', 'list');
+   
+     $(".close-sidemenu").click(function() {
+     
+            $(".close-sidemenu").blur(); 
+            if (document.getElementById("column-left").style.width === "0px" || document.getElementById("column-left").style.width === "") {
+                document.getElementById("column-left").style.width = "350px";
+            } else {
+                document.getElementById("column-left").style.width = "0";
+            }
+            $(this).toggleClass('side-closed');
+            $(this).find("i").toggleClass("fa-bars fa-close");
+        });
+ 
+    
+    window.addEventListener("resize", function() {
+      if (document.getElementById("column-left") && !window.matchMedia("(max-width: 768px)").matches) {
+       
+        document.getElementById("column-left").style.removeProperty("width");
+      }
     });
 
-    // Product Grid
-    $('#button-grid').on('click', function() {
-        var element = this;
-
-        // What a shame bootstrap does not take into account dynamically loaded columns
-        $('#product-list').attr('class', 'row row-cols-1 row-cols-sm-2 row-cols-md-2 row-cols-lg-3');
-
-        $('#button-list').removeClass('active');
-        $('#button-grid').addClass('active');
-
-        localStorage.setItem('display', 'grid');
-    });
-
-    // Local Storage
-    if (localStorage.getItem('display') == 'list') {
-        $('#product-list').attr('class', 'row row-cols-1 product-list');
-        $('#button-list').addClass('active');
-    } else {
-        $('#product-list').attr('class', 'row row-cols-1 row-cols-sm-2 row-cols-md-2 row-cols-lg-3');
-        $('#button-grid').addClass('active');
-    }
 
     /* Agree to Terms */
     $('body').on('click', '.modal-link', function(e) {

@@ -169,6 +169,8 @@ class Category extends \Opencart\System\Engine\Controller {
 				$url .= '&path=' . $this->request->get['path'];
 			}
 
+
+
 			if (isset($this->request->get['filter'])) {
 				$url .= '&filter=' . $this->request->get['filter'];
 			}
@@ -394,7 +396,7 @@ class Category extends \Opencart\System\Engine\Controller {
 				];
 			}
 
-			$url = '';
+			 
 
 			if (isset($this->request->get['path'])) {
 				$url .= '&path=' . $this->request->get['path'];
@@ -424,7 +426,7 @@ class Category extends \Opencart\System\Engine\Controller {
 				'limit' => $limit,
 				'url'   => $this->url->link('product/category', 'language=' . $this->config->get('config_language') . '&path=' . $this->request->get['path'] . $url . '&page={page}')
 			]);
-
+			$data['infiniteScroll'] = $this->config->get('config_product_infinite_scroll');
 			$data['results'] = sprintf($this->language->get('text_pagination'), ($product_total) ? (($page - 1) * $limit) + 1 : 0, ((($page - 1) * $limit) > ($product_total - $limit)) ? $product_total : ((($page - 1) * $limit) + $limit), $product_total, ceil($product_total / $limit));
 
 			// http://googlewebmastercentral.blogspot.com/2011/09/pagination-with-relnext-and-relprev.html
@@ -440,6 +442,12 @@ class Category extends \Opencart\System\Engine\Controller {
 
 			if ($limit && ceil($product_total / $limit) > $page) {
 			    $this->document->addLink($this->url->link('product/category', 'language=' . $this->config->get('config_language') . '&path=' . $this->request->get['path'] . '&page='. ($page + 1)), 'next');
+			}
+
+			if (isset($this->request->get['ajax'])) {
+				$data['ajax'] = true;
+			} else {
+				$data['ajax'] = false;
 			}
 
 			$data['sort'] = $sort;

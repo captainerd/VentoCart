@@ -1,7 +1,7 @@
 <?php if (count($currencies) > 1): ?>
   <form action="<?= $this->e($action) ?>" method="post" enctype="multipart/form-data" id="form-currency">
     <div class="dropdown">
-      <a href="#" data-bs-toggle="dropdown">
+      <a href="#"  data-bs-toggle="dropdown">
         <?php foreach ($currencies as $currency): ?>
           <?php if ($currency['symbol_left'] && $currency['code'] == $code): ?>
             <strong><?= $this->e($currency['symbol_left']) ?></strong>
@@ -11,7 +11,7 @@
         <?php endforeach; ?>
         <span class="d-none d-md-inline"><?= $this->e($text_currency) ?></span>
         <i class="fa-solid fa-caret-down"></i>
-      </a>
+      </a> 
 
       <ul class="dropdown-menu">
         <?php foreach ($currencies as $currency): ?>

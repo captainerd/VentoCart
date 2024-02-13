@@ -51,7 +51,7 @@
   </div>
 </footer>
 <?=  $cookie  ?>
-<script src="<?=  $bootstrap   ?>" type="text/javascript"></script>
+<script src="<?=  $cssframework   ?>" type="text/javascript"></script>
 <?php foreach ($scripts as $script): ?>
   <script src="<?=  $script['href']  ?>" type="text/javascript"></script>
 <?php endforeach; ?>

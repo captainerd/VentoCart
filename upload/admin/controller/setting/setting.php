@@ -170,6 +170,8 @@ class Setting extends \Opencart\System\Engine\Controller {
 		$data['config_product_description_length'] = $this->config->get('config_product_description_length');
 		$data['config_pagination'] = $this->config->get('config_pagination');
 		$data['config_product_count'] = $this->config->get('config_product_count');
+
+		$data['config_product_infinite_scroll'] = $this->config->get('config_product_infinite_scroll');
 		$data['config_pagination_admin'] = $this->config->get('config_pagination_admin');
 		$data['config_product_report_status'] = $this->config->get('config_product_report_status');
 

@@ -28,7 +28,7 @@
 
         <?php if ($thumb || $images): ?>
           <div class="col-sm-5">
-            <div   class="image magnific-popup">
+            <div   class="image imageGallery">
               <div   class="img-zoom-container picview-container"  style="max-height: <?=$picont_width?>px;" id="mainpic"> 
  
           
@@ -169,12 +169,6 @@ $isVideo = in_array($popupExtension, $videoExtensions);
                 <?php endif; ?>
               </ul>
             <?php endif; ?>
-          
-         
-            
-         
-     
-        
      
           <div id="product">
             <form id="form-product">
@@ -603,12 +597,15 @@ document.getElementById("coundown").innerHTML =
  
 //--></script>
 <script type="text/javascript" src="catalog/view/javascript/product.js"></script>
+ 
 <script type="module">
+        
         import PhotoSwipeLightbox from '/catalog/view/javascript/photoswipe-lightbox.esm.js';
         import PhotoSwipeVideoPlugin from '/catalog/view/javascript/photoswipe-video-plugin.esm.min.js';
-
+      
+        
         const lightbox = new PhotoSwipeLightbox({
-            gallery: '.magnific-popup',
+            gallery: '.imageGallery',
             children: 'a',
             pswpModule: () => import('/catalog/view/javascript/photoswipe.esm.min.js'),
             wheelToZoom: true
@@ -616,10 +613,10 @@ document.getElementById("coundown").innerHTML =
         const videoPlugin = new PhotoSwipeVideoPlugin(lightbox, {
         // options
         });
-
+   
         lightbox.init();
+      
     </script>
-
  
 <?php if (!$quickview): ?>
 <?=  $footer   ?>

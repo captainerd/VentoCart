@@ -34,7 +34,7 @@ class Header extends \Opencart\System\Engine\Controller {
 		$data['keywords'] = $this->document->getKeywords();
 
 		// Hard coding css so they can be replaced via the event's system.
-		$data['bootstrap'] = 'catalog/view/stylesheet/bootstrap.css';
+		$data['cssframework'] = 'catalog/view/stylesheet/bootstrap.css';
 		$data['icons'] = 'catalog/view/stylesheet/fonts/fontawesome/css/all.min.css';
 		$data['stylesheet'] = 'catalog/view/stylesheet/stylesheet.css';
 

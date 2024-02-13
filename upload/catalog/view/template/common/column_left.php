@@ -12,19 +12,4 @@
 <?php endif; ?>
  
 
-<script>
-$(document).ready(function() {
-    $(".close-sidemenu").click(function() {
  
-        $(".close-sidemenu").blur(); 
-        if (document.getElementById("column-left").style.width === "0px" || document.getElementById("column-left").style.width === "") {
-            document.getElementById("column-left").style.width = "350px";
-        } else {
-            document.getElementById("column-left").style.width = "0";
-        }
-        $(this).toggleClass('side-closed');
-        $(this).find("i").toggleClass("fa-bars fa-close");
-    });
-});
-
-</script>

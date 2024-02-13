@@ -177,6 +177,7 @@ $_['entry_error_display']                 = 'Display Errors';
 $_['entry_error_log']                     = 'Log Errors';
 $_['entry_error_filename']                = 'Error Log Filename';
 $_['entry_status']                        = 'Status';
+$_['entry_infinite_scroll']    = 'Infinite Scroll';
 
 // Help
 $_['help_geocode']                        = 'Please enter your store location geocode manually.';
@@ -254,6 +255,7 @@ $_['help_file_ext_allowed']               = 'Add which file extensions are allow
 $_['help_file_mime_allowed']              = 'Add which file mime types are allowed to be uploaded. Use a new line for each value.';
 $_['help_maintenance']                    = 'Prevents customers from browsing your store. They will instead see a maintenance message. If logged in as admin, you will see the store as normal.';
 $_['help_compression']                    = 'GZIP for more efficient transfer to requesting clients. Compression level must be between 0 - 9.';
+$_['help_infinite_scroll']                = 'Disables pagination and loads additional products through scrolling';
 
 // Error
 $_['error_warning']                       = 'Warning: Please check the form carefully for errors!';
@@ -293,3 +295,6 @@ $_['error_log_required']                  = 'Error Log Filename required!';
 $_['error_log_invalid']                   = 'Error Log Filename invalid!';
 $_['error_log_extension']                 = 'Error Log Filename extension needs to be .log!';
 $_['error_encryption']                    = 'Encryption Key must be between 32 and 1024 characters!';
+
+ 
+ 

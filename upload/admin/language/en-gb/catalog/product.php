@@ -120,6 +120,7 @@ $_['entry_subscription']      = 'Subscription Plan';
 $_['entry_applies']           = 'Applies';
 $_['entry_type']              = 'Type';
 $_['option_product_price']    = "Product Price";
+ 
 $_['option_end_price']        = 'Total (Options and Variations)';
 $_['option_price']            = 'New price';
 $_['option_percentage']       = '% Off Percentage';
@@ -158,3 +159,4 @@ $_['error_keyword_character'] = 'Keyword can only use characters a-z, 0-9, - and
 $_['error_required']          = '%s required!';
 $_['error_sku_not_unique']    = 'Provided SKU is not unique - already in use';
 $_['error_single_option'] = "You can't have a variation with no Option, use the Option tab to add options instead.";
+ 

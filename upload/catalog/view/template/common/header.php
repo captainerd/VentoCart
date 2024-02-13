@@ -13,7 +13,7 @@
     <meta name="keywords" content="<?= $keywords  ?>"/>
   <?php endif; ?>
   <script src="<?= $jquery  ?>" type="text/javascript"></script>
-  <link href="<?= $bootstrap  ?>" type="text/css" rel="stylesheet" media="screen"/>
+  <link href="<?= $cssframework  ?>" type="text/css" rel="stylesheet" media="screen"/>
   <link href="<?= $icons  ?>" type="text/css" rel="stylesheet"/>
   <link href="<?= $stylesheet  ?>" type="text/css" rel="stylesheet"/>
   <script type="text/javascript" src="catalog/view/javascript/jquery/datetimepicker/moment.min.js"></script>
@@ -38,7 +38,7 @@
 <div id="alert" style="max-width: 500px" class="fixed-bottom text-center  p-3"></div>
 <nav id="top">
   <div class="container">
-    <div class="nav float-start">
+    <div class="nav float-start left-navitems">
       <ul class="list-inline">
         <li class="list-inline-item"><?=  $currency   ?></li>
         <li class="list-inline-item"><?=  $language   ?></li>
