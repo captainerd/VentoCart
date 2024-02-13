@@ -3,9 +3,9 @@
   
     
     <div style="max-width: 300px; margin-left: auto;" class="mb-3 required">
-      <legend>{{ text_captcha }}</legend>
-      <input class=" {{feedback_class}}" type="hidden" name="{{feedback_name}}" value="">
-      <label for="input-captcha" class="form-label">{{ entry_captcha }}</label>
+      <legend><?=$text_captcha ?></legend>
+      <input class="<?=$feedback_class?>" type="hidden" name="<?=$feedback_name?>" value="">
+      <label for="input-captcha" class="form-label"><?=$entry_captcha ?></label>
       <input type="text" name="captcha" value="" id="input-captcha" class="form-control mb-1"/>
 
       <!-- Reload Icon and Captcha Image -->
@@ -13,7 +13,7 @@
         <div id="captcha">
           <img src="index.php?route=extension/ventocart/captcha/basic.captcha" alt=""/>
         </div>
-        <i id="reload-icon" style="font-size: 20px; cursor: pointer" class="fas fa-sync-alt mx-2" style="cursor: pointer;"></i>
+       <a class="btn btn-secondary btn-sm" id="reload-icon" >  <i  style="font-size: 17px;" class="fas mt-1 fa-sync-alt" style="cursor: pointer;"></i></a>
       </div>
 
       <div id="error-captcha" class="invalid-feedback"></div>
@@ -36,7 +36,7 @@ $(document).ready(function() {
     $('body').on('keydown', function() {
         feedbackCounter++;
         if (feedbackCounter > 15) {
-            $(".{{feedback_class}}").val('{{feedback}}');
+            $(".{{feedback_class?>").val('{{feedback?>');
         }
     });
    
