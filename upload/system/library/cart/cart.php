@@ -125,6 +125,7 @@ class Cart {
 							o.*, 
 							o3.name AS group_name, 
 							ob.name AS name,
+							po.value AS option_image,
 							og.type AS type 
 						FROM 
 							`" . DB_PREFIX . "product_options` po
@@ -192,8 +193,11 @@ class Cart {
 										$option_price = 0;
 									}
 
-									 if (isset($option_query->row['image']) && $option_query->row['image'] != "") {
+									 if (!empty($option_query->row['image'])) {
 										 $image = $option_query->row['image'];
+									 }
+									 if (!empty($option_query->row['option_image']) && is_file(DIR_IMAGE .  $option_query->row['option_image'])) {
+										$image = $option_query->row['option_image']; //Override option image with product option image
 									 }
 									$option_data[] = [
 										'poption_id' => $value,
