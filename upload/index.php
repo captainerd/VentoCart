@@ -1,7 +1,7 @@
 <?php
 // Version
 ini_set('short_open_tag', 'On');
-define('VERSION', '4.5.5.1');
+define('VERSION', '4.5.5.2');
 
 // Configuration
 if (is_file('config.php')) {
