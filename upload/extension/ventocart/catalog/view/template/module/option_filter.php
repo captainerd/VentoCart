@@ -59,7 +59,12 @@ $(document).ready(function() {
         let combinedParams = new URLSearchParams(existingParams.toString() + '&' + formParams.toString());
    
         // Set the new URL with the updated parameters
-         window.location.href = window.location.pathname + '?' + decodeURIComponent(combinedParams.toString());
+         let url = window.location.pathname + '?' + decodeURIComponent(combinedParams.toString());
+         if (typeof window.handleUrl != 'function')  {
+         window.location.href = url;
+       } else {
+        window.handleUrl(url);
+       }
     });
 });
 </script>

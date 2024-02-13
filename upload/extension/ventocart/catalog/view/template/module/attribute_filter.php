@@ -57,7 +57,7 @@ $(document).ready(function() {
 
         // Get the serialized form data
         let formData = $(this).closest('form').serialize();
-        console.log(formData)
+      
         // Get the existing URL parameters
         let existingGet = window.location.search.substring(1); // Exclude the leading '?'
         
@@ -68,13 +68,17 @@ $(document).ready(function() {
         // Parse the form data
         let formParams = new URLSearchParams(formData);
  
-        console.log(formParams);
  
         // Combine existing and form parameters
         let combinedParams = new URLSearchParams(existingParams.toString() + '&' + formParams.toString());
    
         // Set the new URL with the updated parameters
-         window.location.href = window.location.pathname + '?' + decodeURIComponent(combinedParams.toString());
+        let url = window.location.pathname + '?' + decodeURIComponent(combinedParams.toString());
+       if (typeof window.handleUrl != 'function')  {
+         window.location.href = url;
+       } else {
+        window.handleUrl(url);
+       }
     });
 });
 </script>
