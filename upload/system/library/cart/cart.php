@@ -192,12 +192,9 @@ class Cart {
 										//That option is a part that makes up an applicable variant 
 										$option_price = 0;
 									}
-
-									 if (!empty($option_query->row['image'])) {
-										 $image = $option_query->row['image'];
-									 }
+ 
 									 if (!empty($option_query->row['option_image']) && is_file(DIR_IMAGE .  $option_query->row['option_image'])) {
-										$image = $option_query->row['option_image']; //Override option image with product option image
+										$image = $option_query->row['option_image'];  
 									 }
 									$option_data[] = [
 										'poption_id' => $value,
