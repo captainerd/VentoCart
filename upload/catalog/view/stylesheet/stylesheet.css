@@ -293,9 +293,7 @@ a {
 .quick-view-content img {
   max-width: 100%;
 }
-.left-navitems {
-margin-left: 55px;
-}
+ 
 .close-button {
   border: 0px;
   float: right;
@@ -411,7 +409,9 @@ label {
   font-size: 12px;
   font-weight: normal;
 }
-
+.tab-content {
+  padding: 0;
+}
 .list-unstyled a {
   text-decoration: none;
 }
@@ -427,9 +427,7 @@ label {
   border-bottom: 1px solid #dee2e6;
   padding: 15px;
 }
-.tab-content {
-  padding: 0;
-}
+
 div.required .col-form-label:before {
   content: "* ";
   color: #F00;
@@ -786,8 +784,10 @@ div.required .form-label:before {
 }
 
 @media (max-width: 768px) {
+  .left-navitems {
+    margin-left: 55px;
+    }
   #column-left {
-   
     width: 0;
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
     background-color: white;

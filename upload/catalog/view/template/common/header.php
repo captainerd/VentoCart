@@ -74,7 +74,7 @@
 <header>
   <div class="container">
     <div class="row">
-      <div class="col-md-3 col-lg-4">
+      <div class="col-md-4 col-lg-4">
         <div id="logo">
           <?php if ($logo): ?>
             <a href="<?= $home  ?>"><img src="<?= $this->e($logo ) ?>" title="<?= $this->e($name ) ?>" alt="<?= $this->e($name ) ?>" class="img-fluid"/></a>
