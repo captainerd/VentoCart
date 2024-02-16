@@ -108,9 +108,7 @@
               <span class="visually-hidden">Loading...</span>
             </div>
           </div>
-          <div id="no-more-results" style="display:none" class="alert alert-primary" role="alert">
-            <?= $text_finished ?>
-          </div>
+          
 
       
 
@@ -166,3 +164,10 @@
     </div>
   <?php endif ?>
 <?php endif ?>
+<?php if (count($products) == 0):?>
+  <div>
+  <div id="no-more-results"  class="alert alert-primary" role="alert">
+            <?= $text_finished ?>
+ </div>
+ </div>
+          <?php endif;?>

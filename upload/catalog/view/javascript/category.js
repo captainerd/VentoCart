@@ -5,7 +5,7 @@ $(document).ready(function () {
 
     let page = 1;
     let loading = false;
-    let burned = {};
+  //  let burned = {};
 
     function showLoader() {
         // Reduce opacity of #product-lista
@@ -38,28 +38,25 @@ $(document).ready(function () {
             currUrl = window.location.href;
         }
         const ajaxUrl = currUrl + (currUrl.includes('?') ? '&' : '?') + 'ajax=1&page=' + page;
-        if (burned[ajaxUrl]) {
+        if ($("#no-more-results").length > 0) {
             loading = false;
             hideLoader();
             return;
         }
-
-        $("#no-more-results").hide();
+      
+       
         showLoader();
         $.get(ajaxUrl + '&nocache=' + Date.now(), function (data) {
 
-            if (!$(data).html()) {
-                hideLoader()
-                loading = false;
-                $("#no-more-results").show();
-                burned[ajaxUrl] = true;
-
-                return;
-            }
+  
             if (!window.infiniteScroll) {
                 productList.html(data);
             } else {
+                if ($(data).find("#no-more-results").length > 0) {
+                    $('#product-lista').append($(data).html());
+                } else {
                 $('#product-list').append($(data).html());
+                }
             }
             page++;
             loading = false;
@@ -86,7 +83,7 @@ $(document).ready(function () {
     });
 
 
-    $(document).on('click', 'a', function (event) {
+    $(document).on('click', '.column-left a, .pagination a', function (event) {
         event.preventDefault();
         if ($(this).attr('href') == "#") { return; }
         loadAjaxURL($(this).attr('href'));
@@ -106,25 +103,27 @@ $(document).ready(function () {
         clickedUrl = clearParams(clickedUrl);
         const clickedParams = new URLSearchParams(clickedUrl.split('?')[1]);
         const currentParams = new URLSearchParams(window.location.search);
-        $("#no-more-results").hide();
-        delete burned;
+        $("#no-more-results").remove();
+     //   delete burned;
         if (clickedParams.get('route') === currentParams.get('route') && clickedParams.get('path') === currentParams.get('path')) {
             showLoader();
 
             clickedParams.set('ajax', '1');
 
             $.get(clickedUrl.split('?')[0] + '?' + clickedParams.toString(), function (data) {
-                if (data.indexOf('product-list') == -1) {
-
-                    $('#product-list').html('');
-                    $("#no-more-results").show();
-                }
+            
 
                 if (!window.infiniteScroll) {
                     productList.html(data);
                 } else {
-
-                    $('#product-list').html($(data).html());
+            
+                    if ($(data).find("#no-more-results").length > 0) {
+                    $('#product-lista').append($(data).html());
+                    $('#product-list').html('');
+                } else {
+                $('#product-list').html($(data).html());
+                }
+            
                 }
                 hideLoader();
 
