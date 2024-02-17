@@ -21,7 +21,7 @@ class Search extends \Opencart\System\Engine\Controller {
 		}
 
 		$data['language'] = $this->config->get('config_language');
-		$data['category_id'] = !empty($this->request->get['category_id']) ? $this->request->get['category_id'] : '0';
+		$data['category_id'] = !empty($this->request->get['path']) ? $this->request->get['path'] : '0';
 
 		return $this->load->view('common/search', $data);
 	}
