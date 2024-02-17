@@ -1308,5 +1308,74 @@ $optionsave['option_id'] = 0;
 	}
 
 
+	/**
+	 * Autocomplete
+	 *
+	 * @return void
+	 */
+	public function autocomplete(): void {
+		$json = [];
+
+		if (isset($this->request->get['filter_name'])) {
+			$filter_name = $this->request->get['filter_name'];
+		} else {
+			$filter_name = '';
+		}
+
+		if (isset($this->request->get['filter_model'])) {
+			$filter_model = $this->request->get['filter_model'];
+		} else {
+			$filter_model = '';
+		}
+
+		if (isset($this->request->get['limit'])) {
+			$limit = (int)$this->request->get['limit'];
+		} else {
+			$limit = 5;
+		}
+
+		$filter_data = [
+			'filter_name'  => $filter_name,
+			'filter_model' => $filter_model,
+			'start'        => 0,
+			'limit'        => $limit
+		];
+
+		$this->load->model('catalog/product');
+		$this->load->model('catalog/option');
+		$this->load->model('catalog/subscription_plan');
+
+		$results = $this->model_catalog_product->getProducts($filter_data);
+
+		foreach ($results as $result) {
+	 
+
+			$subscription_data = [];
+
+			$product_subscriptions = $this->model_catalog_product->getSubscriptions($result['product_id']);
+
+			foreach ($product_subscriptions as $product_subscription) {
+				$subscription_plan_info = $this->model_catalog_subscription_plan->getSubscriptionPlan($product_subscription['subscription_plan_id']);
+
+				if ($subscription_plan_info) {
+					$subscription_data[] = [
+						'subscription_plan_id' => $subscription_plan_info['subscription_plan_id'],
+						'name'                 => $subscription_plan_info['name']
+					];
+				}
+			}
+
+			$json[] = [
+				'product_id'   => $result['product_id'],
+				'name'         => strip_tags(html_entity_decode($result['name'], ENT_QUOTES, 'UTF-8')),
+				'model'        => $result['model'],
+				'subscription' => $subscription_data,
+				'price'        => $result['price']
+			];
+		}
+
+		$this->response->addHeader('Content-Type: application/json');
+		$this->response->setOutput(json_encode($json));
+	}
 
 }
