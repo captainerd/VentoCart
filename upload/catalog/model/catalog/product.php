@@ -188,7 +188,7 @@ class Product extends \Opencart\System\Engine\Model
 			$this->statement['review'] . "
 		FROM `" . DB_PREFIX . "product` `p`
 		INNER JOIN `" . DB_PREFIX . "product_to_store` `p2s` ON (`p`.`product_id` = `p2s`.`product_id` AND `p2s`.`store_id` = '" . (int) $this->config->get('config_store_id') . "')
-		LEFT JOIN `" . DB_PREFIX . "product_description` `pd` ON (`p`.`product_id` = `pd`.`product_id` AND `pd`.`language_id` = '" . (int) $this->config->get('config_language_id') . "')
+		JOIN `" . DB_PREFIX . "product_description` `pd` ON (`p`.`product_id` = `pd`.`product_id` AND `pd`.`language_id` = '" . (int) $this->config->get('config_language_id') . "')
 			AND `p`.`status` = '1' AND `p`.`date_available` <= NOW() ";
 
 		// Category  filter
@@ -307,7 +307,7 @@ class Product extends \Opencart\System\Engine\Model
 
 			$sql .= " LIMIT " . (int) $data['start'] . "," . (int) $data['limit'];
 		}
-
+ 
 		$product_data = $this->cache->get('product.' . md5($sql));
 
 		if (!$product_data) {
