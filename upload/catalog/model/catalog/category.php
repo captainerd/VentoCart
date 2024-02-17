@@ -98,22 +98,24 @@ class Category extends \Opencart\System\Engine\Model {
 		$query = $this->db->query("SELECT `filter_id` FROM `" . DB_PREFIX . "category_filter` WHERE `category_id` = '" . (int)$category_id . "' AND `type` = 'option'");
 		$filter_options = [];
 		foreach($query->rows as $row) {
-		$queryOpt = $this->db->query("
-    SELECT 
-        o.*, 
-        COUNT(po.product_id) AS product_count 
-    FROM 
-        `" . DB_PREFIX . "options` o 
-    LEFT JOIN 
-        `" . DB_PREFIX . "product_options` po ON (o.option_id = po.option_id OR o.group_id = po.option_id) 
-    WHERE 
-        o.group_id = '" . (int)$row['filter_id'] . "' 
-        AND (o.type='checkbox' OR o.type='radio' OR o.type='select') 
-        AND o.language_id = '" . (int)$this->config->get('config_language_id') . "' 
-    GROUP BY 
-        o.option_id 
-    ORDER BY 
-        o.option_n ASC");
+			$queryOpt = $this->db->query("
+			SELECT 
+				o.*, 
+				COALESCE(COUNT(CASE WHEN p.status = 1 THEN po.product_id ELSE NULL END), 0) AS product_count 
+			FROM 
+				`" . DB_PREFIX . "options` o 
+			LEFT JOIN 
+				`" . DB_PREFIX . "product_options` po ON (o.option_id = po.option_id OR o.group_id = po.option_id) 
+			LEFT JOIN
+				`" . DB_PREFIX . "product` p ON po.product_id = p.product_id
+			WHERE 
+				o.group_id = '" . (int)$row['filter_id'] . "' 
+				AND (o.type='checkbox' OR o.type='radio' OR o.type='select') 
+				AND o.language_id = '" . (int)$this->config->get('config_language_id') . "' 
+			GROUP BY 
+				o.option_id 
+			ORDER BY 
+				o.option_n ASC");
 		 $filter_options[] =  $queryOpt->rows;
 	 
 		}
@@ -128,7 +130,7 @@ class Category extends \Opencart\System\Engine\Model {
 		SELECT 
 			mf.*, 
 			cf.*, 
-			(SELECT COUNT(*) FROM `" . DB_PREFIX . "product` p WHERE p.manufacturer_id = mf.manufacturer_id) AS product_count 
+			(SELECT COUNT(*) FROM `" . DB_PREFIX . "product` p WHERE p.manufacturer_id = mf.manufacturer_id AND p.status=1) AS product_count 
 		FROM 
 			`" . DB_PREFIX . "category_filter` cf 
 		LEFT JOIN 
@@ -144,14 +146,26 @@ class Category extends \Opencart\System\Engine\Model {
 
 		
 		$query = $this->db->query("
-        SELECT ad.name, ad.attribute_id, pa.text, pa.value_text 
-        FROM `" . DB_PREFIX . "category_filter` cf
-        LEFT JOIN `" . DB_PREFIX . "attribute_description` ad ON cf.filter_id = ad.attribute_id
-        AND ad.language_id = '" . (int)$this->config->get('config_language_id') . "'
-        LEFT JOIN `" . DB_PREFIX . "product_attribute` pa ON ad.attribute_id = pa.attribute_id
-        AND pa.language_id = '" . (int)$this->config->get('config_language_id') . "'
-        WHERE cf.`category_id` = '" . (int)$category_id . "' AND cf.`type` = 'attribute'  
-    ");
+		SELECT 
+			ad.name, 
+			ad.attribute_id, 
+			pa.text, 
+			pa.value_text 
+		FROM 
+			`" . DB_PREFIX . "category_filter` cf
+		LEFT JOIN 
+			`" . DB_PREFIX . "attribute_description` ad ON cf.filter_id = ad.attribute_id
+			AND ad.language_id = '" . (int)$this->config->get('config_language_id') . "'
+		LEFT JOIN 
+			`" . DB_PREFIX . "product_attribute` pa ON ad.attribute_id = pa.attribute_id
+			AND pa.language_id = '" . (int)$this->config->get('config_language_id') . "'
+		LEFT JOIN
+			`" . DB_PREFIX . "product` p ON pa.product_id = p.product_id
+		WHERE 
+			cf.`category_id` = '" . (int)$category_id . "' 
+			AND cf.`type` = 'attribute'
+			AND p.status = 1 ORDER BY pa.sort_order ASC
+	");
 	
 		 
 		$attribute_values = [];

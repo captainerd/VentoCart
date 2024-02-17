@@ -15,7 +15,7 @@ class Availabilityfilter extends \Opencart\Catalog\Model\Catalog\Product {
     SELECT 
         ss.stock_status_id, 
         ss.name, 
-        (SELECT COUNT(*) FROM `" . DB_PREFIX . "product` p WHERE p.stock_status_id = ss.stock_status_id) AS product_count 
+        (SELECT COUNT(*) FROM `" . DB_PREFIX . "product` p WHERE p.stock_status_id = ss.stock_status_id AND p.status='1') AS product_count 
     FROM 
         `" . DB_PREFIX . "stock_status` ss 
     WHERE 
