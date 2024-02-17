@@ -98,8 +98,23 @@ class Category extends \Opencart\System\Engine\Model {
 		$query = $this->db->query("SELECT `filter_id` FROM `" . DB_PREFIX . "category_filter` WHERE `category_id` = '" . (int)$category_id . "' AND `type` = 'option'");
 		$filter_options = [];
 		foreach($query->rows as $row) {
-		 $queryOpt = $this->db->query("SELECT * FROM `" . DB_PREFIX . "options` WHERE `group_id` = '" . (int)$row['filter_id'] . "' AND (type='checkbox'  OR type='radio' OR type='select') AND `language_id` = '" . (int)$this->config->get('config_language_id') . "' ORDER BY option_n ASC");
-				$filter_options[] =  $queryOpt->rows;
+		$queryOpt = $this->db->query("
+    SELECT 
+        o.*, 
+        COUNT(po.product_id) AS product_count 
+    FROM 
+        `" . DB_PREFIX . "options` o 
+    LEFT JOIN 
+        `" . DB_PREFIX . "product_options` po ON (o.option_id = po.option_id OR o.group_id = po.option_id) 
+    WHERE 
+        o.group_id = '" . (int)$row['filter_id'] . "' 
+        AND (o.type='checkbox' OR o.type='radio' OR o.type='select') 
+        AND o.language_id = '" . (int)$this->config->get('config_language_id') . "' 
+    GROUP BY 
+        o.option_id 
+    ORDER BY 
+        o.option_n ASC");
+		 $filter_options[] =  $queryOpt->rows;
 	 
 		}
  
@@ -110,15 +125,24 @@ class Category extends \Opencart\System\Engine\Model {
 		 
  
 		$query = $this->db->query("
-    SELECT mf.*, cf.*
-    FROM `" . DB_PREFIX . "category_filter` cf
-    LEFT JOIN `" . DB_PREFIX . "manufacturer` mf ON cf.filter_id = mf.manufacturer_id
-    WHERE cf.`category_id` = '" . (int)$category_id . "' AND cf.`type` = 'manufacturer'
-");
+		SELECT 
+			mf.*, 
+			cf.*, 
+			(SELECT COUNT(*) FROM `" . DB_PREFIX . "product` p WHERE p.manufacturer_id = mf.manufacturer_id) AS product_count 
+		FROM 
+			`" . DB_PREFIX . "category_filter` cf 
+		LEFT JOIN 
+			`" . DB_PREFIX . "manufacturer` mf ON cf.filter_id = mf.manufacturer_id 
+		WHERE 
+			cf.`category_id` = '" . (int)$category_id . "' 
+			AND cf.`type` = 'manufacturer'");
+ 
 		 return $query->rows;
 	}
 
 	public function getAttributeFilters(int $category_id): array {
+
+		
 		$query = $this->db->query("
         SELECT ad.name, ad.attribute_id, pa.text, pa.value_text 
         FROM `" . DB_PREFIX . "category_filter` cf
@@ -132,37 +156,32 @@ class Category extends \Opencart\System\Engine\Model {
 		 
 		$attribute_values = [];
 	 
-		foreach ($query->rows as $row) {
-			// Check if the attribute has a name
-			if ($row['name']) {
-				$attribute_name = $row['name'];
-		 
-				$attribute_id = $row['attribute_id'];
-			 
-	
 				// Collect attribute values
 				foreach ($query->rows as $row2) {
-					if ($row2['attribute_id'] == $attribute_id && !empty($row2['text']) && empty($row2['value_text'])) {
-						$attribute_values[$row2['attribute_id']]['values'][] = $row2['text'];
-						 $attribute_values[$row2['attribute_id']]['values']  = array_unique($attribute_values[$row2['attribute_id']]['values']);
+					if (  !empty($row2['text']) && empty($row2['value_text'])) {
+						$attribute_values[$row2['attribute_id']]['values'][$row2['text']]['name'] = $row2['text'];
+ 
+						if (!isset($attribute_values[$row2['attribute_id']]['values'][$row2['text']]['product_count'])) {
+							$attribute_values[$row2['attribute_id']]['values'][$row2['text']]['product_count'] = 0;
+						}
+						$attribute_values[$row2['attribute_id']]['values'][$row2['text']]['product_count']++;
 						$attribute_values[$row2['attribute_id']]['attribute_id'] = $row2['attribute_id'];
-						$attribute_values[$row2['attribute_id']]['name'] =$attribute_name;
+						$attribute_values[$row2['attribute_id']]['name'] =$row2['name'];
 						$attribute_values[$row2['attribute_id']]['pos'] = 1;
 					 
 					}
-					if ($row2['attribute_id'] == $attribute_id && !empty($row2['text']) && !empty($row2['value_text'])) {
-						$attribute_values[$row2['attribute_id'].$row2['text']]['values'][] = $row2['value_text'];
-						 $attribute_values[$row2['attribute_id'].$row2['text']]['values'] = 	array_unique($attribute_values[$row2['attribute_id'].$row2['text']]['values']);
-						$attribute_values[$row2['attribute_id'].$row2['text']]['attribute_id'] = $row2['attribute_id'];
-						$attribute_values[$row2['attribute_id'].$row2['text']]['name'] = $attribute_name . " " .  $row2['text'];
+					if (  !empty($row2['text']) && !empty($row2['value_text'])) {
+						$attribute_values[$row2['attribute_id'].$row2['text']]['values'][$row2['value_text']]['name'] = $row2['value_text'];
+						if (!isset($attribute_values[$row2['attribute_id'].$row2['text']]['values'][$row2['value_text']]['product_count'] )) {
+							$attribute_values[$row2['attribute_id'].$row2['text']]['values'][$row2['value_text']]['product_count']  =0;
+						}
+						$attribute_values[$row2['attribute_id'].$row2['text']]['values'][$row2['value_text']]['product_count']++;
+					    $attribute_values[$row2['attribute_id'].$row2['text']]['attribute_id'] = $row2['attribute_id'];
+						$attribute_values[$row2['attribute_id'].$row2['text']]['name'] = $row2['name'] . " " .  $row2['text'];
 						$attribute_values[$row2['attribute_id'].$row2['text']]['pos'] = 2;
 					 
 					}
-				}
-	
 		 
-			 
-		}
 		}
 	 
 		return $attribute_values;

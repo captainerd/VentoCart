@@ -12,7 +12,7 @@
                 <div id="filter-availability-group-<?= $availabilityStatus['stock_status_id'] ?>">
                     <div class="form-check">
                         <input type="checkbox" name="filter_availability[]" value="<?= $availabilityStatus['stock_status_id'] ?>" id="input-availability-filter-<?= $availabilityStatus['stock_status_id'] ?>" class="form-check-input availability-checkbox" <?= (in_array($availabilityStatus['stock_status_id'], $selected_availabilities)) ? 'checked' : '' ?>/>
-                        <label for="input-availability-filter-<?= $availabilityStatus['stock_status_id'] ?>" class="form-check-label"><?= $availabilityStatus['name'] ?></label>
+                        <label for="input-availability-filter-<?= $availabilityStatus['stock_status_id'] ?>" class="form-check-label"><?= $availabilityStatus['name'] ?> (<?= $availabilityStatus['product_count'] ?>)</label>
                     </div>
                 </div>
             </div>

@@ -16,7 +16,7 @@
                     <?php endif;?>
                        
                        
-                        <label for="input-manufacturer-filter-<?= $manufacturer['manufacturer_id'] ?>" class="form-check-label"><?= $manufacturer['name'] ?></label>
+                        <label for="input-manufacturer-filter-<?= $manufacturer['manufacturer_id'] ?>" class="form-check-label"><?= $manufacturer['name'] ?> (<?= $manufacturer['product_count'] ?>)</label>
                     </div>
                 </div>
             </div>

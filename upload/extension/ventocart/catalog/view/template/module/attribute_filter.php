@@ -23,11 +23,11 @@
 <div class="list-group-item">
                         <div> 
                             <div class="form-check">
-                                <input type="checkbox" name="filter_attribute[<?= $attribute ?>][<?=$attributeSet['pos']?>][<?=$attributeSet['attribute_id']?>]" value="<?= $attribute ?>" 
+                                <input type="checkbox" name="filter_attribute[<?= $attribute ?>][<?=$attributeSet['pos']?>][<?=$attributeSet['attribute_id']?>]" value="<?= $attribute['name'] ?>" 
                                 id="input-attribute-filter-<?= $index ?>-<?=$formid?>" class="form-check-input  attribute-checkbox" 
-                                <?= (!empty($selected_attributes) && in_array($attributeSet['pos']."-".$attributeSet['attribute_id']."-".$attribute, $selected_attributes)) ? 'checked' : '' ?>/>
+                                <?= (!empty($selected_attributes) && in_array($attributeSet['pos']."-".$attributeSet['attribute_id']."-".$attribute['name'] , $selected_attributes)) ? 'checked' : '' ?>/>
                 
-                                <label for="input-attribute-filter-<?= $index ?>-<?=$formid?>" class="form-check-label"><?= $attribute ?></label>
+                                <label for="input-attribute-filter-<?= $index ?>-<?=$formid?>" class="form-check-label"><?= $attribute['name']  ?> (<?= $attribute['product_count']  ?>)</label>
                             </div>
                         </div>
                     </div>

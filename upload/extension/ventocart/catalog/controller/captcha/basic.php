@@ -13,6 +13,7 @@ class Basic extends \Opencart\System\Engine\Controller
 	 */
 	public function index(): string
 	{
+		 
 		$this->load->language('extension/ventocart/captcha/basic');
 
 		$data['route'] = (string) $this->request->get['route'];
@@ -55,7 +56,7 @@ class Basic extends \Opencart\System\Engine\Controller
 	/**
 	 * @return void
 	 */
-	public function captcha(): void
+	public function graphic(): void
 	{
 		$this->session->data['captcha']  = strtoupper(substr(oc_token(100), rand(0, 94), 6));
 		$captchaText    = 		$this->session->data['captcha'];

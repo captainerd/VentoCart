@@ -23,7 +23,7 @@
 
                     <?php endif;?>
 
-                  <?= $option['name'] ?></label>
+                  <?= $option['name'] ?> (<?= $option['product_count'] ?>)</label>
                 </div>
               </div>
             </div>

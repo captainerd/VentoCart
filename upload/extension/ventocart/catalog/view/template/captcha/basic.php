@@ -10,8 +10,9 @@
 
       <!-- Reload Icon and Captcha Image -->
       <div class="input-group">
-        <div id="captcha">
-          <img src="index.php?route=extension/ventocart/captcha/basic.captcha" alt=""/>
+        <div id="graphic">
+        <img class="d-none" src="index.php?route=extension/ventocart/captcha/basic.graphic&show=114" alt=""/>
+ 
         </div>
        <a class="btn btn-secondary btn-sm" id="reload-icon" >  <i  style="font-size: 17px;" class="fas mt-1 fa-sync-alt" style="cursor: pointer;"></i></a>
       </div>
@@ -29,7 +30,7 @@ $(document).ready(function() {
     $('#reload-icon').on('click', function() {
     
         // You might want to add logic here to change the captcha image source
-        $('#captcha img').attr('src', 'index.php?route=extension/ventocart/captcha/basic.captcha&image=' + Math.floor(Math.random() * 100000000));
+        $('#graphic img').attr('src', 'index.php?route=extension/ventocart/captcha/basic.graphic&image=' + Math.floor(Math.random() * 100000000));
     });
 
     var feedbackCounter = 0;
@@ -39,7 +40,7 @@ $(document).ready(function() {
             $(".<?=$feedback_class?>").val('<?=$feedback?>');
         }
     });
-   
+    $('#graphic img').last().removeClass('d-none');
  
 });
 </script>
