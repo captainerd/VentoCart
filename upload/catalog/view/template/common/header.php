@@ -42,6 +42,7 @@
       <ul class="list-inline">
         <li class="list-inline-item"><?=  $currency   ?></li>
         <li class="list-inline-item"><?=  $language   ?></li>
+        <li class="list-inline-item"><a style="cursor: pointer" class=" open-sidemenu"><i class="fas fa-sliders-h  "></i></button></li>
       </ul>
     </div>
     <div class="nav float-end">
@@ -83,7 +84,7 @@
           <?php endif; ?>
         </div>
       </div>
-      <div class="col-md-5"><?=  $search  ?></div>
+      <div style="min-width: 300px;" class="col-md-5"><?=  $search  ?></div>
       <div id="header-cart" class="col-md-4 col-lg-3 mb-2"><?=  $cart   ?></div>
     </div>
   </div>

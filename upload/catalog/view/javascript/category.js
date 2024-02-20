@@ -82,6 +82,11 @@ $(document).ready(function () {
         loadAjaxURL($(this).val());
     });
 
+    $('#input-limit').on('change', function () {
+        
+        loadAjaxURL($(this).val());
+    });
+
 
     $(document).on('click', '.column-left a, .pagination a', function (event) {
         event.preventDefault();

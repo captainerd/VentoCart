@@ -221,24 +221,35 @@ $(document).ready(function() {
         }
     });
 
+    function openSideColumn() {
+        if (!  document.getElementById("column-left")) { return; }
+        $(".close-sidemenu").blur()
+        if (document.getElementById("column-left").style.width === "0px" || document.getElementById("column-left").style.width === "") {
+            document.getElementById("column-left").style.width = "350px";
+        } else {
+            document.getElementById("column-left").style.width = "0";
+        }
    
+    }
+    $(".open-sidemenu").click(function() {
+       
+        openSideColumn()
+     
+
+    });
      $(".close-sidemenu").click(function() {
      
-            $(".close-sidemenu").blur(); 
-            if (document.getElementById("column-left").style.width === "0px" || document.getElementById("column-left").style.width === "") {
-                document.getElementById("column-left").style.width = "350px";
-            } else {
-                document.getElementById("column-left").style.width = "0";
-            }
-            $(this).toggleClass('side-closed');
-            $(this).find("i").toggleClass("fa-bars fa-close");
+        openSideColumn()
         });
  
     
     window.addEventListener("resize", function() {
-      if (document.getElementById("column-left") && !window.matchMedia("(max-width: 768px)").matches) {
-       
+      if (document.getElementById("column-left") && !window.matchMedia("(max-width: 993px)").matches) {
+    
         document.getElementById("column-left").style.removeProperty("width");
+        $(".open-sidemenu").hide();
+      } else {
+        $(".open-sidemenu").show();
       }
     });
 
@@ -633,4 +644,16 @@ $(document).ready(function() {
             });
         }
     }(jQuery);
+
+    if (document.getElementById("column-left")) {
+    
+            if (document.getElementById("column-left").offsetWidth == 0) {
+            $(".open-sidemenu").show();
+           
+          } else {
+            $(".open-sidemenu").hide();
+          }
+    } else {
+        $(".open-sidemenu").hide();
+    }
 });

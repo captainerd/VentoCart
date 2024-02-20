@@ -783,10 +783,8 @@ div.required .form-label:before {
   display: none;
 }
 
-@media (max-width: 768px) {
-  .left-navitems {
-    margin-left: 55px;
-    }
+@media (max-width: 993px) {
+ 
   #column-left {
     width: 0;
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
@@ -827,11 +825,7 @@ div.required .form-label:before {
   }
 }
 
-.side-closed {
-  position: fixed;
-  top: 5px;
-  left: 10px;
-}
+ 
 .overlay {
   position: fixed;
   top: 0;

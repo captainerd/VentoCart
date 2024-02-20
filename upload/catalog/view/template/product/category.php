@@ -79,17 +79,29 @@
                 <label for="input-sort" class="input-group-text">
                   <?= $text_sort ?>
                 </label> <select id="input-sort" class="form-select">
-                  <?php foreach ($sorts as $sorts): ?>
-                    <option value="<?= $sorts['href'] ?>" <?= ($sorts['value'] == sprintf('%s-%s', $sort, $order)) ? ' selected' : '' ?>>
-                      <?= $sorts['text'] ?>
+                  <?php foreach ($sorts as $sortItem): ?>
+                    <option value="<?= $sortItem['href'] ?>" <?= ($sortItem['value'] == sprintf('%s-%s', $sort, $order)) ? ' selected' : '' ?>>
+                      <?= $sortItem['text'] ?>
                     </option>
+                  <?php endforeach; ?>
 
-
+                </select>
+              </div>
+            </div>
+            <div class="col-md-3 col-6">
+              <div class="input-group mb-3">
+                <label for="input-limit" class="input-group-text">
+                  <?= $this->e($text_limit) ?>
+                </label>
+                <select id="input-limit" class="form-select"  >
+                  <?php foreach ($limits as $limititem): ?>
+                    <option value="<?= $limititem['href'] ?>" <?php if ($limititem['value'] == $limit): ?> selected<?php endif; ?>>
+                      <?= $this->e($limititem['text']) ?>
+                    </option>
                   <?php endforeach; ?>
                 </select>
               </div>
             </div>
-
           </div>
 
 
@@ -97,9 +109,9 @@
           <div style="padding:0px;margin:0px" id="product-lista">
 
 
-            <?php if ($infiniteScroll): ?> 
+            <?php if ($infiniteScroll): ?>
               <div id="product-list" class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4">
-             </div>
+              </div>
             <?php endif; ?>
 
           </div>
@@ -108,9 +120,9 @@
               <span class="visually-hidden">Loading...</span>
             </div>
           </div>
-          
 
-      
+
+
 
         <?php endif; ?>
         <?php if (empty($categories) && empty($products)): ?>
@@ -127,10 +139,10 @@
     </div>
   </div>
   <script>
-    window.infiniteScroll = <?=$infiniteScroll?>;
+    window.infiniteScroll = <?= $infiniteScroll ?>;
   </script>
 
-<script src="catalog/view/javascript/category.js"></script>
+  <script src="catalog/view/javascript/category.js"></script>
 
   <?= $footer ?>
 
@@ -141,7 +153,7 @@
       <div class="col-sm-6 text-start">
         <?= $pagination ?>
       </div>
-   
+
     </div>
   <?php endif ?>
   <?php if (count($products) > 0): ?>
@@ -164,10 +176,10 @@
     </div>
   <?php endif ?>
 <?php endif ?>
-<?php if (count($products) == 0):?>
+<?php if (count($products) == 0): ?>
   <div>
-  <div id="no-more-results"  class="alert alert-primary" role="alert">
-            <?= $text_finished ?>
- </div>
- </div>
-          <?php endif;?>
+    <div id="no-more-results" class="alert alert-primary" role="alert">
+      <?= $text_finished ?>
+    </div>
+  </div>
+<?php endif; ?>

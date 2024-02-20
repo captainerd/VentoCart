@@ -9,7 +9,7 @@
             <strong><?= $this->e($currency['symbol_right']) ?></strong>
           <?php endif; ?>
         <?php endforeach; ?>
-        <span class="d-none d-md-inline"><?= $this->e($text_currency) ?></span>
+        <span class="d-none d-xl-inline"><?= $this->e($text_currency) ?></span>
         <i class="fa-solid fa-caret-down"></i>
       </a> 
 

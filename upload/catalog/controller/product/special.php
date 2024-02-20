@@ -35,7 +35,11 @@ class Special extends \Opencart\System\Engine\Controller {
 		} else {
 			$limit = $this->config->get('config_pagination');
 		}
-
+		if (isset($this->request->get['ajax'])) {
+			$data['ajax'] = true;
+		} else {
+			$data['ajax'] = false;
+		}
 		$this->document->setTitle($this->language->get('heading_title'));
 
 		$datab['breadcrumbs'] = [];
@@ -54,7 +58,7 @@ class Special extends \Opencart\System\Engine\Controller {
 		if (isset($this->request->get['order'])) {
 			$url .= '&order=' . $this->request->get['order'];
 		}
-
+		$data['infiniteScroll'] = $this->config->get('config_product_infinite_scroll');
 		if (isset($this->request->get['page'])) {
 			$url .= '&page=' . $this->request->get['page'];
 		}
