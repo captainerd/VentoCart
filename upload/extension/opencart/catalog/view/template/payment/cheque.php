@@ -1,5 +1,5 @@
 <fieldset>
-    <legend><?= $text_instruction ?></legend>
+    <h3><?= $text_instruction ?></h3>
     <div class="border rounded p-3 mb-2">
         <p><b><?= $text_payable ?></b></p>
         <p><?= $payable ?></p>
@@ -13,7 +13,7 @@
     </div>
 </fieldset>
 
-<script type="text/javascript"><!--
+<script ><!--
 $('#button-confirm').on('click', function () {
     var element = this;
 

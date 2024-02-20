@@ -149,7 +149,7 @@
     <?= $column_right ?>
   </div>
 </div>
-<script type="text/javascript"><!--
+<script><!--
 $('#button-search').bind('click', function() {
     url = 'index.php?route=product/search&language=<?= $this->e($language) ?>';
 

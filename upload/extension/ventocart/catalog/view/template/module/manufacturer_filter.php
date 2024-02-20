@@ -4,7 +4,7 @@
         <strong><?=$heading_title?></strong>
     </div>
 
-    <form method="get" action="">
+    <form method="get" action="index.php">
         <?php foreach ($filter_manufacturers as $manufacturer): ?>
             <div class="list-group-flush">
                 <div class="list-group-item">

@@ -7,41 +7,8 @@
       <i class="fas spinner-checkout fa-spinner fa-pulse"></i>
     </div>
   </div>
-  <style>
-    .overlay {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      color: #080808;
-      font-size: 2rem;
-      height: 100%;
-      background-color: rgba(255, 255, 255, 0.914);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      z-index: 9999;
-    }
-
-    /* Spinner style */
-    .spinner-checkout {
-
-      color: #e94a4a;
-      font-size: 5rem;
-      border-radius: 10px;
-      padding: 20px;
-      text-align: center;
-    }
-
-    /* Centered spinner icon */
-    .spinner-checkout i {
-      font-size: 48px;
-    }
-    #button-confirm {
-      width: 100%;
-    }
-  </style>
-  <script src="catalog/view/javascript/checkout.js" type="text/javascript"></script>
+ 
+  <script src="catalog/view/javascript/checkout.js"></script>
 
   <div class="row"><?= $column_left ?>
     <div id="content" class="col"><?= $content_top ?>
@@ -94,7 +61,7 @@
 </div>
 <?= $footer ?>
 
-<script type="text/javascript">
+<script >
   $(document).ready(function () {
 $("#checkout-payment").html('');
 window.btntxt = "<?= $this->e($button_confirm) ?>";

@@ -18,7 +18,7 @@
 
           <h3><?= $text_refine ?></h3>
           <div class="input-group dropdown mb-3">
-              <input type="text" name="search" value="<?= $search ?>" placeholder="<?= $entry_search ?>" id="input-search" class="form-control"/>
+              <input type="text" name="search" value="<?= $search ?>" placeholder="<?= $entry_search ?>" id="input-search" class="form-control">
               <?php if ($topics): ?>
                   <select name="topic_id" id="input-topic" class="form-select">
                       <option value=""><?= $text_all ?></option>
@@ -63,7 +63,7 @@
       <?= $column_right ?>
   </div>
 </div>
-<script type="text/javascript"><!--
+<script ><!--
   $('#button-search').bind('click', function() {
       url = 'index.php?route=cms/blog&language=<?= $language ?>';
 

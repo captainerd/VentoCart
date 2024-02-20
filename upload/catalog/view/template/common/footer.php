@@ -1,3 +1,4 @@
+
 </main>
 <footer>
   <div class="container">
@@ -51,8 +52,8 @@
   </div>
 </footer>
 <?=  $cookie  ?>
-<script src="<?=  $cssframework   ?>" type="text/javascript"></script>
+<script src="<?=  $cssframework   ?>"></script>
 <?php foreach ($scripts as $script): ?>
-  <script src="<?=  $script['href']  ?>" type="text/javascript"></script>
+  <script src="<?=  $script['href']  ?>"></script>
 <?php endforeach; ?>
 </body></html>

@@ -4,7 +4,7 @@
   <?php if ($comment_guest): ?>
     <div class="mb-3 required">
       <label for="input-author" class="form-label"><?= $entry_author ?></label>
-      <input type="text" name="author" value="<?= $author ?>" id="input-author" class="form-control"/>
+      <input type="text" name="author" value="<?= $author ?>" id="input-author" class="form-control">
       <div id="error-author" class="invalid-feedback"></div>
     </div>
     <div class="mb-3 required">
@@ -26,7 +26,7 @@
   <?php endif; ?>
 </form>
 
-<script type="text/javascript"><!--
+<script ><!--
 $('#comment').on('click', '.pagination a', function(e) {
     e.preventDefault();
 

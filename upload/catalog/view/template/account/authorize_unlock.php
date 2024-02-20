@@ -18,7 +18,7 @@
     </div>
   </div>
 </div>
-<script type="text/javascript"><!--
+<script ><!--
 $('#button-reset').on('click', function (e) {
     e.preventDefault();
 

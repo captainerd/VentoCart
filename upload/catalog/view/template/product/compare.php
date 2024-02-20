@@ -27,7 +27,7 @@
             <tr>
               <td><?= $this->e($text_image ) ?></td>
               <?php foreach ($products as $product): ?>
-                <td class="text-center"><?php if ($product['thumb']): ?> <img src="<?=  $product['thumb']  ?>" alt="<?= $this->e($product['name']) ?>" title="<?= $this->e($product['name']) ?>" class="img-thumbnail"/> <?php endif; ?></td>
+                <td class="text-center"><?php if ($product['thumb']): ?> <img src="<?=  $product['thumb']  ?>" alt="<?= $this->e($product['name']) ?>" title="<?= $this->e($product['name']) ?>" class="img-thumbnail"> <?php endif; ?></td>
               <?php endforeach; ?>
             </tr>
             <tr>
@@ -70,7 +70,7 @@
                         <span class="fa-stack"><i class="fa-solid fa-star fa-stack-1x"></i><i class="fa-regular fa-star fa-stack-1x"></i></span>
                       <?php endif; ?>
                     <?php endforeach; ?>
-                    <br/>
+                    <br>
                     <?= $this->e($product['reviews']) ?>
                   </td>
                 <?php endforeach; ?>

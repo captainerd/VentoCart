@@ -24,21 +24,21 @@
           <div class="row mb-3 required">
             <label for="input-firstname" class="col-sm-2 col-form-label"><?= $this->e($entry_firstname ) ?></label>
             <div class="col-sm-10">
-              <input type="text" name="firstname" value="" placeholder="<?= $this->e($entry_firstname ) ?>" id="input-firstname" class="form-control"/>
+              <input type="text" name="firstname" value="" placeholder="<?= $this->e($entry_firstname ) ?>" id="input-firstname" class="form-control">
               <div id="error-firstname" class="invalid-feedback"></div>
             </div>
           </div>
           <div class="row mb-3 required">
             <label for="input-lastname" class="col-sm-2 col-form-label"><?= $this->e($entry_lastname ) ?></label>
             <div class="col-sm-10">
-              <input type="text" name="lastname" value="" placeholder="<?= $this->e($entry_lastname ) ?>" id="input-lastname" class="form-control"/>
+              <input type="text" name="lastname" value="" placeholder="<?= $this->e($entry_lastname ) ?>" id="input-lastname" class="form-control">
               <div id="error-lastname" class="invalid-feedback"></div>
             </div>
           </div>
           <div class="row mb-3 required">
             <label for="input-email" class="col-sm-2 col-form-label"><?= $this->e($entry_email ) ?></label>
             <div class="col-sm-10">
-              <input type="email" name="email" value="" placeholder="<?= $this->e($entry_email ) ?>" id="input-email" class="form-control"/>
+              <input type="email" name="email" value="" placeholder="<?= $this->e($entry_email ) ?>" id="input-email" class="form-control">
               <div id="error-email" class="invalid-feedback"></div>
             </div>
           </div>
@@ -47,7 +47,7 @@
             <div class="row mb-3<?php if ($config_telephone_required): ?> required<?php endif; ?>">
               <label for="input-telephone" class="col-sm-2 col-form-label"><?= $this->e($entry_telephone ) ?></label>
               <div class="col-sm-10">
-                <input type="tel" name="telephone" value="" placeholder="<?= $this->e($entry_telephone ) ?>" id="input-telephone" class="form-control"/>
+                <input type="tel" name="telephone" value="" placeholder="<?= $this->e($entry_telephone ) ?>" id="input-telephone" class="form-control">
                 <div id="error-telephone" class="invalid-feedback"></div>
               </div>
             </div>
@@ -77,7 +77,7 @@
                   <div id="input-custom-field-<?= $this->e($custom_field['custom_field_id']) ?>">
                   <?php foreach ($custom_field['custom_field_value'] as $custom_field_value): ?>
                       <div class="form-check">
-                        <input type="radio" name="custom_field[<?= $this->e($custom_field['custom_field_id']) ?>]" value="<?= $this->e($custom_field_value['custom_field_value_id']) ?>" id="input-custom-value-<?= $this->e($custom_field_value['custom_field_value_id']) ?>" class="form-check-input"/> <label for="input-custom-value-<?= $this->e($custom_field_value['custom_field_value_id']) ?>" class="form-check-label"><?= $this->e($custom_field_value['name']) ?></label>
+                        <input type="radio" name="custom_field[<?= $this->e($custom_field['custom_field_id']) ?>]" value="<?= $this->e($custom_field_value['custom_field_value_id']) ?>" id="input-custom-value-<?= $this->e($custom_field_value['custom_field_value_id']) ?>" class="form-check-input"> <label for="input-custom-value-<?= $this->e($custom_field_value['custom_field_value_id']) ?>" class="form-check-label"><?= $this->e($custom_field_value['name']) ?></label>
                       </div>
                     <?php endforeach; ?>
                   </div>
@@ -93,7 +93,7 @@
                   <div id="input-custom-field-<?= $this->e($custom_field['custom_field_id']) ?>">
                   <?php foreach ($custom_field['custom_field_value'] as $custom_field_value): ?>
                       <div class="form-check">
-                        <input type="checkbox" name="custom_field[<?= $this->e($custom_field['custom_field_id']) ?>][]" value="<?= $this->e($custom_field_value['custom_field_value_id']) ?>" id="input-custom-value-<?= $this->e($custom_field_value['custom_field_value_id']) ?>" class="form-check-input"/> <label for="input-custom-value-<?= $this->e($custom_field_value['custom_field_value_id']) ?>" class="form-check-label"><?= $this->e($custom_field_value['name']) ?></label>
+                        <input type="checkbox" name="custom_field[<?= $this->e($custom_field['custom_field_id']) ?>][]" value="<?= $this->e($custom_field_value['custom_field_value_id']) ?>" id="input-custom-value-<?= $this->e($custom_field_value['custom_field_value_id']) ?>" class="form-check-input"> <label for="input-custom-value-<?= $this->e($custom_field_value['custom_field_value_id']) ?>" class="form-check-label"><?= $this->e($custom_field_value['name']) ?></label>
                       </div>
                     <?php endforeach; ?>
                   </div>
@@ -106,7 +106,7 @@
               <div class="row mb-3 custom-field custom-field-<?= $this->e($custom_field['custom_field_id']) ?>">
                 <label for="input-custom-field-<?= $this->e($custom_field['custom_field_id']) ?>" class="col-sm-2 col-form-label"><?= $this->e($custom_field['name']) ?></label>
                 <div class="col-sm-10">
-                  <input type="text" name="custom_field[<?= $this->e($custom_field['custom_field_id']) ?>]" value="<?= $this->e($custom_field['value']) ?>" placeholder="<?= $this->e($custom_field['name']) ?>" id="input-custom-field-<?= $this->e($custom_field['custom_field_id']) ?>" class="form-control"/>
+                  <input type="text" name="custom_field[<?= $this->e($custom_field['custom_field_id']) ?>]" value="<?= $this->e($custom_field['value']) ?>" placeholder="<?= $this->e($custom_field['name']) ?>" id="input-custom-field-<?= $this->e($custom_field['custom_field_id']) ?>" class="form-control">
                   <div id="error-custom-field-<?= $this->e($custom_field['custom_field_id']) ?>" class="invalid-feedback"></div>
                 </div>
               </div>
@@ -182,7 +182,7 @@
           <div class="row mb-3 required">
             <label for="input-password" class="col-sm-2 col-form-label"><?= $this->e($entry_password ) ?></label>
             <div class="col-sm-10">
-              <input type="password" name="password" value="" placeholder="<?= $this->e($entry_password ) ?>" id="input-password" class="form-control"/>
+              <input type="password" name="password" value="" placeholder="<?= $this->e($entry_password ) ?>" id="input-password" class="form-control">
               <div id="error-password" class="invalid-feedback"></div>
             </div>
           </div>
@@ -194,7 +194,7 @@
             <label class="col-sm-2 col-form-label"><?= $this->e($entry_newsletter ) ?></label>
             <div class="col-sm-10">
               <div class="form-check form-switch form-switch-lg">
-                <input type="hidden" name="newsletter" value="0"/> <input type="checkbox" name="newsletter" value="1" id="input-newsletter" class="form-check-input"/>
+                <input type="hidden" name="newsletter" value="0"/> <input type="checkbox" name="newsletter" value="1" id="input-newsletter" class="form-check-input">
               </div>
             </div>
           </div>
@@ -203,7 +203,7 @@
         <div class="text-end">
           <?php if ($text_agree): ?>
             <div class="form-check form-switch form-switch-lg form-check-reverse form-check-inline">
-              <label class="form-check-label"><?=  $text_agree   ?></label> <input type="checkbox" name="agree" value="1" class="form-check-input"/>
+              <label class="form-check-label"><?=  $text_agree   ?></label> <input type="checkbox" name="agree" value="1" class="form-check-input">
             </div>
           <?php endif; ?>
           <button type="submit" class="btn btn-primary"><?= $this->e($button_continue ) ?></button>
@@ -214,7 +214,7 @@
     <?=  $column_right   ?>
   </div>
 </div>
-<script type="text/javascript"><!--
+<script ><!--
 $('#input-customer-group').on('change', function() {
     $.ajax({
         url: 'index.php?route=account/custom_field&customer_group_id=' + this.value + '&language=<?= $this->e($language ) ?>',

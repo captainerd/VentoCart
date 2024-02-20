@@ -11,7 +11,7 @@
           <div class="row mb-3 required">
             <label for="input-email" class="col-sm-2 col-form-label"><?= $this->e($entry_email ) ?></label>
             <div class="col-sm-10">
-              <input type="text" name="email" value="" placeholder="<?= $this->e($entry_email ) ?>" id="input-email" class="form-control"/>
+              <input type="text" name="email" value="" placeholder="<?= $this->e($entry_email ) ?>" id="input-email" class="form-control">
               <div id="error-email" class="invalid-feedback"></div>
             </div>
           </div>

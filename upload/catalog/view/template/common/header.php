@@ -1,34 +1,34 @@
 <!DOCTYPE html>
 <html dir="<?=  $direction   ?>" lang="<?=  $lang   ?>">
 <head>
-  <meta charset="UTF-8"/>
+  <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <title><?=  $title  ?></title>
-  <base href="<?= $base  ?>"/>
+  <base href="<?= $base  ?>">
   <?php if ($description): ?>
-    <meta name="description" content="<?=  $description ?>"/>
+    <meta name="description" content="<?=  $description ?>">
   <?php endif; ?>
   <?php if (isset($keyw) || isset($ds)): ?>
-    <meta name="keywords" content="<?= $keywords  ?>"/>
+    <meta name="keywords" content="<?= $keywords  ?>">
   <?php endif; ?>
-  <script src="<?= $jquery  ?>" type="text/javascript"></script>
-  <link href="<?= $cssframework  ?>" type="text/css" rel="stylesheet" media="screen"/>
-  <link href="<?= $icons  ?>" type="text/css" rel="stylesheet"/>
-  <link href="<?= $stylesheet  ?>" type="text/css" rel="stylesheet"/>
-  <script type="text/javascript" src="catalog/view/javascript/jquery/datetimepicker/moment.min.js"></script>
-  <script type="text/javascript" src="catalog/view/javascript/jquery/datetimepicker/moment-with-locales.min.js"></script>
-  <script type="text/javascript" src="catalog/view/javascript/jquery/datetimepicker/daterangepicker.js"></script>
-  <link href="catalog/view/javascript/jquery/datetimepicker/daterangepicker.css" rel="stylesheet" type="text/css"/>
-  <script src="catalog/view/javascript/common.js" type="text/javascript"></script>
+  <script src="<?= $jquery  ?>"></script>
+  <link href="<?= $cssframework  ?>" type="text/css" rel="stylesheet" media="screen">
+  <link href="<?= $icons  ?>" type="text/css" rel="stylesheet">
+  <link href="<?= $stylesheet  ?>" type="text/css" rel="stylesheet">
+  <script src="catalog/view/javascript/jquery/datetimepicker/moment.min.js"></script>
+  <script src="catalog/view/javascript/jquery/datetimepicker/moment-with-locales.min.js"></script>
+  <script src="catalog/view/javascript/jquery/datetimepicker/daterangepicker.js"></script>
+  <link href="catalog/view/javascript/jquery/datetimepicker/daterangepicker.css" rel="stylesheet" type="text/css">
+  <script src="catalog/view/javascript/common.js"></script>
   <?php foreach ($styles as $style): ?>
-    <link href="<?= $style['href']  ?>" type="text/css" rel="<?= $style['rel']  ?>" media="<?=  $style['media'] ?>"/>
+    <link href="<?= $style['href']  ?>" type="text/css" rel="<?= $style['rel']  ?>" media="<?=  $style['media'] ?>">
   <?php endforeach; ?>
   <?php foreach ($scripts as $script): ?>
-    <script src="<?=  $script['href']  ?>" type="text/javascript"></script>
+    <script src="<?=  $script['href']  ?>"></script>
   <?php endforeach; ?>
   <?php foreach ($links as $link): ?>
-    <link href="<?=  $link['href'] ?>" rel="<?=  $link['rel']  ?>"/>
+    <link href="<?=  $link['href'] ?>" rel="<?=  $link['rel']  ?>">
   <?php endforeach; ?>
   <?php foreach ($analytics as $analytic): ?>
     <?=  $analytic  ?>
@@ -77,7 +77,7 @@
       <div class="col-md-4 col-lg-4">
         <div id="logo">
           <?php if ($logo): ?>
-            <a href="<?= $home  ?>"><img src="<?= $this->e($logo ) ?>" title="<?= $this->e($name ) ?>" alt="<?= $this->e($name ) ?>" class="img-fluid"/></a>
+            <a href="<?= $home  ?>"><img src="<?= $this->e($logo ) ?>" title="<?= $this->e($name ) ?>" alt="<?= $this->e($name ) ?>" class="img-fluid"></a>
           <?php else: ?>
             <h1><a href="<?= $home  ?>"><?= $this->e($name ) ?></a></h1>
           <?php endif; ?>

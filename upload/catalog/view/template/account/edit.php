@@ -10,21 +10,21 @@
           <div class="row mb-3 required">
             <label for="input-firstname" class="col-sm-2 col-form-label"><?= $this->e($entry_firstname ) ?> </label>
             <div class="col-sm-10">
-              <input type="text" name="firstname" value="<?= $this->e($firstname ) ?>" placeholder="<?= $this->e($entry_firstname ) ?>" id="input-firstname" class="form-control"/>
+              <input type="text" name="firstname" value="<?= $this->e($firstname ) ?>" placeholder="<?= $this->e($entry_firstname ) ?>" id="input-firstname" class="form-control">
               <div id="error-firstname" class="invalid-feedback"></div>
             </div>
           </div>
           <div class="row mb-3 required">
             <label for="input-lastname" class="col-sm-2 col-form-label"><?= $this->e($entry_lastname ) ?></label>
             <div class="col-sm-10">
-              <input type="text" name="lastname" value="<?= $this->e($lastname ) ?>" placeholder="<?= $this->e($entry_lastname ) ?>" id="input-lastname" class="form-control"/>
+              <input type="text" name="lastname" value="<?= $this->e($lastname ) ?>" placeholder="<?= $this->e($entry_lastname ) ?>" id="input-lastname" class="form-control">
               <div id="error-lastname" class="invalid-feedback"></div>
             </div>
           </div>
           <div class="row mb-3 required">
             <label for="input-email" class="col-sm-2 col-form-label"><?= $this->e($entry_email ) ?></label>
             <div class="col-sm-10">
-              <input type="email" name="email" value="<?= $this->e($email ) ?>" placeholder="<?= $this->e($entry_email ) ?>" id="input-email" class="form-control"/>
+              <input type="email" name="email" value="<?= $this->e($email ) ?>" placeholder="<?= $this->e($entry_email ) ?>" id="input-email" class="form-control">
               <div id="error-email" class="invalid-feedback"></div>
             </div>
           </div>
@@ -33,7 +33,7 @@
             <div class="row mb-3<?php if ($config_telephone_required): ?> required<?php endif; ?>">
               <label for="input-telephone" class="col-sm-2 col-form-label"><?= $this->e($entry_telephone ) ?></label>
               <div class="col-sm-10">
-                <input type="tel" name="telephone" value="<?= $this->e($telephone ) ?>" placeholder="<?= $this->e($entry_telephone ) ?>" id="input-telephone" class="form-control"/>
+                <input type="tel" name="telephone" value="<?= $this->e($telephone ) ?>" placeholder="<?= $this->e($entry_telephone ) ?>" id="input-telephone" class="form-control">
                 <div id="error-telephone" class="invalid-feedback"></div>
               </div>
             </div>
@@ -104,7 +104,7 @@ if ($account_custom_field[$custom_field['custom_field_id']] && in_array($custom_
               <div class="row mb-3<?php if ($custom_field['required']): ?> required<?php endif; ?> custom-field">
                 <label for="input-custom-field-<?= $this->e($custom_field['custom_field_id']) ?>" class="col-sm-2 col-form-label"><?= $this->e($custom_field['name']) ?></label>
                 <div class="col-sm-10">
-                  <input type="text" name="custom_field[<?= $this->e($custom_field['custom_field_id']) ?>]" value="<?php if ($account_custom_field[custom_field.custom_field_id]): ?><?= $this->e($account_custom_field[custom_field.custom_field_id] ) ?><?php else: ?><?= $this->e($custom_field['value']) ?><?php endif; ?>" placeholder="<?= $this->e($custom_field['name']) ?>" id="input-custom-field-<?= $this->e($custom_field['custom_field_id']) ?>" class="form-control"/>
+                  <input type="text" name="custom_field[<?= $this->e($custom_field['custom_field_id']) ?>]" value="<?php if ($account_custom_field[custom_field.custom_field_id]): ?><?= $this->e($account_custom_field[custom_field.custom_field_id] ) ?><?php else: ?><?= $this->e($custom_field['value']) ?><?php endif; ?>" placeholder="<?= $this->e($custom_field['name']) ?>" id="input-custom-field-<?= $this->e($custom_field['custom_field_id']) ?>" class="form-control">
                   <div id="error-custom-field-<?= $this->e($custom_field['custom_field_id']) ?>" class="invalid-feedback"></div>
                 </div>
               </div>

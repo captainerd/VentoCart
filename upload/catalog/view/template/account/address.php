@@ -19,7 +19,7 @@
       <?=  $content_bottom  ?></div>
     <?=  $column_right  ?></div>
 </div>
-<script type="text/javascript"><!--
+<script ><!--
 $('#address').on('click', '.btn-danger', function (e) {
     e.preventDefault();
 

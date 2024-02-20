@@ -11,35 +11,35 @@
           <div class="row mb-3 required">
             <label for="input-firstname" class="col-sm-2 col-form-label"><?= $this->e($entry_firstname ) ?></label>
             <div class="col-sm-10">
-              <input type="text" name="firstname" value="<?= $this->e($firstname ) ?>" placeholder="<?= $this->e($entry_firstname ) ?>" id="input-firstname" class="form-control"/>
+              <input type="text" name="firstname" value="<?= $this->e($firstname ) ?>" placeholder="<?= $this->e($entry_firstname ) ?>" id="input-firstname" class="form-control">
               <div id="error-firstname" class="invalid-feedback"></div>
             </div>
           </div>
           <div class="row mb-3 required">
             <label for="input-lastname" class="col-sm-2 col-form-label"><?= $this->e($entry_lastname ) ?></label>
             <div class="col-sm-10">
-              <input type="text" name="lastname" value="<?= $this->e($lastname ) ?>" placeholder="<?= $this->e($entry_lastname ) ?>" id="input-lastname" class="form-control"/>
+              <input type="text" name="lastname" value="<?= $this->e($lastname ) ?>" placeholder="<?= $this->e($entry_lastname ) ?>" id="input-lastname" class="form-control">
               <div id="error-lastname" class="invalid-feedback"></div>
             </div>
           </div>
           <div class="row mb-3 required">
             <label for="input-email" class="col-sm-2 col-form-label"><?= $this->e($entry_email ) ?></label>
             <div class="col-sm-10">
-              <input type="text" name="email" value="<?= $this->e($email ) ?>" placeholder="<?= $this->e($entry_email ) ?>" id="input-email" class="form-control"/>
+              <input type="text" name="email" value="<?= $this->e($email ) ?>" placeholder="<?= $this->e($entry_email ) ?>" id="input-email" class="form-control">
               <div id="error-email" class="invalid-feedback"></div>
             </div>
           </div>
           <div class="row mb-3 required">
             <label for="input-telephone" class="col-sm-2 col-form-label"><?= $this->e($entry_telephone ) ?></label>
             <div class="col-sm-10">
-              <input type="text" name="telephone" value="<?= $this->e($telephone ) ?>" placeholder="<?= $this->e($entry_telephone ) ?>" id="input-telephone" class="form-control"/>
+              <input type="text" name="telephone" value="<?= $this->e($telephone ) ?>" placeholder="<?= $this->e($entry_telephone ) ?>" id="input-telephone" class="form-control">
               <div id="error-telephone" class="invalid-feedback"></div>
             </div>
           </div>
           <div class="row mb-3 required">
             <label for="input-order-id" class="col-sm-2 col-form-label"><?= $this->e($entry_order_id ) ?></label>
             <div class="col-sm-10">
-              <input type="text" name="order_id" value="<?= $this->e($order_id ) ?>" placeholder="<?= $this->e($entry_order_id ) ?>" id="input-order-id" class="form-control"/>
+              <input type="text" name="order_id" value="<?= $this->e($order_id ) ?>" placeholder="<?= $this->e($entry_order_id ) ?>" id="input-order-id" class="form-control">
               <div id="error-order-id" class="invalid-feedback"></div>
             </div>
           </div>
@@ -58,21 +58,21 @@
           <div class="row mb-3 required">
             <label for="input-product" class="col-sm-2 col-form-label"><?= $this->e($entry_product ) ?></label>
             <div class="col-sm-10">
-              <input type="text" name="product" value="<?= $this->e($product ) ?>" placeholder="<?= $this->e($entry_product ) ?>" id="input-product" class="form-control"/> <input type="hidden" name="product_id" value="<?= $this->e($product_id ) ?>"/>
+              <input type="text" name="product" value="<?= $this->e($product ) ?>" placeholder="<?= $this->e($entry_product ) ?>" id="input-product" class="form-control"> <input type="hidden" name="product_id" value="<?= $this->e($product_id ) ?>"/>
               <div id="error-product" class="invalid-feedback"></div>
             </div>
           </div>
           <div class="row mb-3 required">
             <label for="input-model" class="col-sm-2 col-form-label"><?= $this->e($entry_model ) ?></label>
             <div class="col-sm-10">
-              <input type="text" name="model" value="<?= $this->e($model ) ?>" placeholder="<?= $this->e($entry_model ) ?>" id="input-model" class="form-control"/>
+              <input type="text" name="model" value="<?= $this->e($model ) ?>" placeholder="<?= $this->e($entry_model ) ?>" id="input-model" class="form-control">
               <div id="error-model" class="invalid-feedback"></div>
             </div>
           </div>
           <div class="row mb-3">
             <label for="input-quantity" class="col-sm-2 col-form-label"><?= $this->e($entry_quantity ) ?></label>
             <div class="col-sm-10">
-              <input type="text" name="quantity" value="1" placeholder="<?= $this->e($entry_quantity ) ?>" id="input-quantity" class="form-control"/>
+              <input type="text" name="quantity" value="1" placeholder="<?= $this->e($entry_quantity ) ?>" id="input-quantity" class="form-control">
             </div>
           </div>
           <div class="row mb-3 required">
@@ -81,7 +81,7 @@
               <div id="input-reason">
                 <?php foreach ($return_reasons as $return_reason): ?>
                   <div class="form-check">
-                    <input type="radio" name="return_reason_id" value="<?= $this->e($return_reason['return_reason_id']) ?>" id="input-return-reason-<?= $this->e($return_reason['return_reason_id']) ?>" class="form-check-input"/> <label for="input-return-reason-<?= $this->e($return_reason['return_reason_id']) ?>" class="form-check-label"><?= $this->e($return_reason['name']) ?></label>
+                    <input type="radio" name="return_reason_id" value="<?= $this->e($return_reason['return_reason_id']) ?>" id="input-return-reason-<?= $this->e($return_reason['return_reason_id']) ?>" class="form-check-input"> <label for="input-return-reason-<?= $this->e($return_reason['return_reason_id']) ?>" class="form-check-label"><?= $this->e($return_reason['name']) ?></label>
                   </div>
                 <?php endforeach; ?>
               </div>
@@ -96,7 +96,7 @@
                 <label for="input-opened-yes" class="form-check-label"><?= $this->e($text_yes ) ?></label>
               </div>
               <div class="form-check form-check-inline">
-                <input type="radio" name="opened" value="0" id="input-opened-no" class="form-check-input"/>
+                <input type="radio" name="opened" value="0" id="input-opened-no" class="form-check-input">
                 <label for="input-opened-no" class="form-check-label"><?= $this->e($text_no ) ?></label>
               </div>
             </div>
@@ -116,7 +116,7 @@
               <div class="form-check form-switch form-switch-lg form-check-reverse form-check-inline">
                 <label class="form-check-label"><?= $this->e($text_agree ) ?></label>
                 <input type="hidden" name="agree" value="0"/>
-                <input type="checkbox" name="agree" value="1" id="input-agree" class="form-check-input"/>
+                <input type="checkbox" name="agree" value="1" id="input-agree" class="form-check-input">
               </div>
             <?php endif; ?>
             <button type="submit" class="btn btn-primary"><?= $this->e($button_submit ) ?></button>

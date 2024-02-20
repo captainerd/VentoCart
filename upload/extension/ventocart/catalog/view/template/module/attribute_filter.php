@@ -4,7 +4,7 @@
  
 <?php foreach ($filter_attributes as $attributeSet): ?>
     <?php $formid = uniqid();?>
-    <form method="get" action="" id="<?=$formid?>">
+    <form method="get" action="index.php" id="<?=$formid?>">
     <div class="card  mb-3">
         
         <div class="card-header">
@@ -24,10 +24,10 @@
                         <div> 
                             <div class="form-check">
                                 <input type="checkbox" name="filter_attribute[<?= $attribute ?>][<?=$attributeSet['pos']?>][<?=$attributeSet['attribute_id']?>]" value="<?= $attribute['name'] ?>" 
-                                id="input-attribute-filter-<?= $index ?>-<?=$formid?>" class="form-check-input  attribute-checkbox" 
+                                id="input-attribute-filter-<?= str_replace(' ','',$index) ?>-<?=str_replace(' ','',$formid)?>" class="form-check-input  attribute-checkbox" 
                                 <?= (!empty($selected_attributes) && in_array($attributeSet['pos']."-".$attributeSet['attribute_id']."-".$attribute['name'] , $selected_attributes)) ? 'checked' : '' ?>/>
                 
-                                <label for="input-attribute-filter-<?= $index ?>-<?=$formid?>" class="form-check-label"><?= $attribute['name']  ?> (<?= $attribute['product_count']  ?>)</label>
+                                <label for="input-attribute-filter-<?= str_replace(' ','',$index) ?>-<?=str_replace(' ','',$formid)?>" class="form-check-label"><?= $attribute['name']  ?> (<?= $attribute['product_count']  ?>)</label>
                             </div>
                         </div>
                     </div>

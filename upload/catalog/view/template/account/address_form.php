@@ -211,7 +211,7 @@
                   <input type="text" name="custom_field[<?= $this->e($custom_field['custom_field_id']) ?>]"
                     value="<?php if ($address_custom_field[$custom_field . $custom_field_id]): ?><?= $this->e($address_custom_field[$custom_field . $custom_field_id]) ?><?php else: ?><?= $this->e($custom_field['value']) ?><?php endif; ?>"
                     placeholder="<?= $this->e($custom_field['name']) ?>"
-                    id="input-custom-field-<?= $this->e($custom_field['custom_field_id']) ?>" class="form-control" />
+                    id="input-custom-field-<?= $this->e($custom_field['custom_field_id']) ?>" class="form-control">
                   <div id="error-custom-field-<?= $this->e($custom_field['custom_field_id']) ?>" class="invalid-feedback">
                   </div>
                 </div>
@@ -363,7 +363,7 @@
     <?= $column_right ?>
   </div>
 </div>
-<script type="text/javascript"><!--
+<script ><!--
 $('#input-country').on('change', function () {
     var element = this;
 

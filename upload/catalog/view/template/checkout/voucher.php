@@ -12,28 +12,28 @@
         <div class="row mb-3 required">
           <label for="input-to-name" class="col-sm-2 col-form-label"><?= $this->e($entry_to_name ) ?></label>
           <div class="col-sm-10">
-            <input type="text" name="to_name" value="<?= isset($to_name) ? $this->e($to_name ) : '' ?>" placeholder="<?= $this->e($entry_to_name ) ?>" id="input-to-name" class="form-control"/>
+            <input type="text" name="to_name" value="<?= isset($to_name) ? $this->e($to_name ) : '' ?>" placeholder="<?= $this->e($entry_to_name ) ?>" id="input-to-name" class="form-control">
             <div id="error-to-name" class="invalid-feedback"></div>
           </div>
         </div>
         <div class="row mb-3 required">
           <label for="input-to-email" class="col-sm-2 col-form-label"><?= $this->e($entry_to_email ) ?></label>
           <div class="col-sm-10">
-            <input type="text" name="to_email" value="<?= isset($to_email) ?   $this->e($to_email)  : ''   ?>" placeholder="<?= $this->e($entry_to_email ) ?>" id="input-to-email" class="form-control"/>
+            <input type="text" name="to_email" value="<?= isset($to_email) ?   $this->e($to_email)  : ''   ?>" placeholder="<?= $this->e($entry_to_email ) ?>" id="input-to-email" class="form-control">
             <div id="error-to-email" class="invalid-feedback"></div>
           </div>
         </div>
         <div class="row mb-3 required">
           <label for="input-from-name" class="col-sm-2 col-form-label"><?= $this->e($entry_from_name ) ?></label>
           <div class="col-sm-10">
-            <input type="text" name="from_name" value="<?= $this->e($from_name ) ?>" placeholder="<?= $this->e($entry_from_name ) ?>" id="input-from-name" class="form-control"/>
+            <input type="text" name="from_name" value="<?= $this->e($from_name ) ?>" placeholder="<?= $this->e($entry_from_name ) ?>" id="input-from-name" class="form-control">
             <div id="error-from-name" class="invalid-feedback"></div>
           </div>
         </div>
         <div class="row mb-3 required">
           <label for="input-from-email" class="col-sm-2 col-form-label"><?= $this->e($entry_from_email ) ?></label>
           <div class="col-sm-10">
-            <input type="text" name="from_email" value="<?= $this->e($from_email ) ?>" placeholder="<?= $this->e($entry_from_email ) ?>" id="input-from-email" class="form-control"/>
+            <input type="text" name="from_email" value="<?= $this->e($from_email ) ?>" placeholder="<?= $this->e($entry_from_email ) ?>" id="input-from-email" class="form-control">
             <div id="error-from-email" class="invalid-feedback"></div>
           </div>
         </div>
@@ -79,7 +79,7 @@ if (isset($voucher_theme['voucher_theme_id'], $voucher_theme['name'])):
         <div class="text-end">
     <div class="form-check form-switch form-switch-lg form-check-reverse form-check-inline">
         <input type="hidden" name="agree" value="0"/>
-        <input type="checkbox" name="agree" value="1" class="form-check-input"/>
+        <input type="checkbox" name="agree" value="1" class="form-check-input">
         <label class="form-check-label"><?= $this->e($text_agree) ?></label>
     </div>
     <button type="submit" class="btn btn-primary"><?= $this->e($button_continue) ?></button>

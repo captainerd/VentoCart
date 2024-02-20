@@ -1,8 +1,8 @@
 <form method="post" data-oc-toggle="ajax" data-oc-load="<?= $this->e($cart) ?>" data-oc-target="#header-cart">
     <div class="product-formxx mx-auto">
-        <a class="prodclick" href="<?= $href ?>">
+       
             <div class="product-thumb picview-container img-zoom-container">
- 
+            <a class="prodclick" href="<?= $href ?>">
                 <?php
                 $videoExtensions = ['mp4', 'avi', 'mkv'];
                 $popupExtension = pathinfo($thumb, PATHINFO_EXTENSION);
@@ -25,11 +25,11 @@
                     <img class="img-zoom" src="<?= $thumb ?>" alt="<?= $this->e($name) ?>" />
 
                 <?php endif; ?>
-
+                </a>
                 <div class="product-buttonsov">
                     <div class="product-buttons">
                         <button type="button" class="quick-view-button" data-bs-toggle="tooltip"
-                            targ="<?= $href ?>&quickview=1" title="Quick view"><i
+                            data-targ="<?= $href ?>&quickview=1" title="Quick view"><i
                                 class="fa-solid fa-search"></i></button>
                         <button type="submit" data-oc-where="cart" formaction="<?= $this->e($add_to_cart) ?>"
                             data-bs-toggle="tooltip" title="<?= $this->e($button_cart) ?>"><i
@@ -37,7 +37,7 @@
                     </div>
                 </div>
             </div>
-        </a>
+         
 
         <div class="product-contentxx">
             <div class="title-desc">

@@ -28,11 +28,15 @@
     display: flex;
     padding-left: 0rem;
     transition: transform 0.5s ease;
+    
 }
 
 .slider-container li {
     list-style-type: none;
     flex: 0 0 auto;
+    flex-direction: row;
+    display: flex;
+ 
 }
 .slider-container img, video {
     width: 100%;

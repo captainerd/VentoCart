@@ -152,7 +152,7 @@
       <?=  $content_bottom  ?></div>
     <?=  $column_right  ?></div>
 </div>
-<script type="text/javascript"><!--
+<script ><!--
 $('#history').on('click', '.pagination a', function(e) {
     e.preventDefault();
 

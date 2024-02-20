@@ -10,14 +10,14 @@
           <div class="row mb-3">
             <label for="input-password" class="col-sm-2 col-form-label"><?php $entry_password ?></label>
             <div class="col-sm-10">
-              <input type="password" name="password" value="" id="input-password" class="form-control"/>
+              <input type="password" name="password" value="" id="input-password" class="form-control">
               <div id="error-password" class="invalid-feedback"></div>
             </div>
           </div>
           <div class="row mb-3">
             <label for="input-confirm" class="col-sm-2 col-form-label"><?php $entry_confirm ?></label>
             <div class="col-sm-10">
-              <input type="password" name="confirm" value="" id="input-confirm" class="form-control"/>
+              <input type="password" name="confirm" value="" id="input-confirm" class="form-control">
               <div id="error-confirm" class="invalid-feedback"></div>
             </div>
           </div>

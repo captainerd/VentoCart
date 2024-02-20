@@ -832,3 +832,79 @@ div.required .form-label:before {
   top: 5px;
   left: 10px;
 }
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  color: #080808;
+  font-size: 2rem;
+  height: 100%;
+  background-color: rgba(255, 255, 255, 0.914);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+/* Spinner style */
+.spinner-checkout {
+
+  color: #e94a4a;
+  font-size: 5rem;
+  border-radius: 10px;
+  padding: 20px;
+  text-align: center;
+}
+
+/* Centered spinner icon */
+.spinner-checkout i {
+  font-size: 48px;
+}
+#button-confirm {
+  width: 100%;
+}
+  /* Custom CSS for the styled div */
+  .styled-item {
+    padding: 10px;
+    border-bottom: 1px solid #e1e1e1;
+    border-radius: 4px; /* Adding border-radius to soften the edges */
+    transition: background-color 0.2s ease; /* Adding a smooth transition effect */
+  }
+form {
+  display: contents;
+}
+  .styled-item:hover {
+    background-color: #f6f6f6;
+  }
+
+  .styled-item-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .table-responsivec {
+    border-radius: 9px;
+    padding: 3px;
+    border: 0px solid #ccc;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1); /* Adding box-shadow for 3D effect */
+    margin-bottom: 10px;
+    display: inline-block;
+    margin-top: 10px;
+ width: 100%;
+ font-size: 14px;
+ 
+  }
+
+  .styled-totals {
+    /* Add the following styles to move the totals outside the scrollable container */
+    padding: 10px; /* Add some padding for spacing */
+    border: 1px solid #e1e1e1;
+    border-radius: 4px;
+    margin-top: 10px;
+  }
+  .totalcontainer {
+    max-height: 190px;
+    overflow-y: auto;
+  }

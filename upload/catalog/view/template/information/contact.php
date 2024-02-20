@@ -101,14 +101,14 @@
           <div class="row mb-3 required">
             <label for="input-name" class="col-sm-2 col-form-label"><?= $this->e($entry_name ) ?></label>
             <div class="col-sm-10">
-              <input type="text" name="name" value="<?= $this->e($name ) ?>" id="input-name" class="form-control"/>
+              <input type="text" name="name" value="<?= $this->e($name ) ?>" id="input-name" class="form-control">
               <div id="error-name" class="invalid-feedback"></div>
             </div>
           </div>
           <div class="row mb-3 required">
             <label for="input-email" class="col-sm-2 col-form-label"><?= $this->e($entry_email ) ?></label>
             <div class="col-sm-10">
-              <input type="text" name="email" value="<?= $this->e($email ) ?>" id="input-email" class="form-control"/>
+              <input type="text" name="email" value="<?= $this->e($email ) ?>" id="input-email" class="form-control">
               <div id="error-email" class="invalid-feedback"></div>
             </div>
           </div>

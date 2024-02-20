@@ -31,7 +31,7 @@
       <?=  $content_bottom  ?></div>
     <?=  $column_right  ?></div>
 </div>
-<script type="text/javascript"><!--
+<script ><!--
 $('#input-generator').autocomplete({
     'source': function(request, response) {
         return $.ajax({

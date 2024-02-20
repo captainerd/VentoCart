@@ -89,7 +89,7 @@
     <?php $column_right ?></div>
 </div>
 </div>
-<script type="text/javascript"><!--
+<script ><!--
 $('#history').on('click', '.pagination a', function(e) {
     e.preventDefault();
 

@@ -5,7 +5,7 @@
 <div id="checkout-shipping-method" class="mb-3">
    
  
-    <legend><i class="fas fa-shipping-fast"></i> <?= $this->e($heading_title ) ?></legend>
+    <h3><i class="fas fa-shipping-fast"></i> <?= $this->e($heading_title ) ?></h3>
     <div class="shipping-methods">
         <!--<p><?= $this->e($text_shipping ) ?></p>-->
  
@@ -31,7 +31,7 @@
    
  
    
-    <legend id="paytitle"><i class="fas fa-credit-card"></i> <?= $this->e($text_payment_method  ) ?></legend>
+    <h3 id="paytitle"><i class="fas fa-credit-card"></i> <?= $this->e($text_payment_method  ) ?></h3>
       <!-- <p><?= $this->e($text_payment  ) ?></p>-->
     <div  >
     

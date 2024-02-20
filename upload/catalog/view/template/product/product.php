@@ -45,7 +45,7 @@ $isVideo = in_array($popupExtension, $videoExtensions);
  
                 <div id="videoContainer"    <?php if (!$isVideo): ?>style="display:none" <?php endif; ?>>
             <video   style="   <?php if (!$isVideo): ?> display:none; <?php endif; ?>" controls  autoplay muted >
-                    <source <?php if ($isVideo): ?>src="<?=$thumb?>" <?php endif; ?> >
+              <?php     if ($isVideo): ?>          <source  src="<?=$thumb?>"  > <?php endif; ?>
                     Your browser does not support the video tag.
                 </video>
             </div>
@@ -74,7 +74,7 @@ $isVideo = in_array($popupExtension, $videoExtensions);
                 
               <div class="btnslide-container"> 
                 <div class="slider-container ">
-                  <ul id="custom-slider "> 
+                  <ul id="custom-slider"> 
                   <?php foreach ($images as $image): ?>
     <li>
           <?php
@@ -97,10 +97,10 @@ $isVideo = in_array($popupExtension, $videoExtensions);
               <a data-pswp-width="800" data-pswp-height="800"  href="<?= $image['popup'] ?>" title="<?= $this->e($heading_title) ?>">
              
                 <!-- Image -->
-                <img   draggable="false" src="<?= $this->e($image['thumb']) ?>" title="<?= $this->e($heading_title) ?>" alt="<?= $this->e($heading_title) ?>" class="img-thumbnailz splider-image"/>
+                <img   draggable="false" src="<?= $this->e($image['thumb']) ?>" title="<?= $this->e($heading_title) ?>" alt="<?= $this->e($heading_title) ?>" class="img-thumbnailz splider-image">
             <?php endif; ?>
         </a>
-    </li> &nbsp;
+        &nbsp; </li>  
 <?php endforeach; ?>
                   </ul>
                 </div>
@@ -127,7 +127,7 @@ $isVideo = in_array($popupExtension, $videoExtensions);
               <button type="submit" formaction="<?= $this->e($add_to_wishlist ) ?>" data-bs-toggle="tooltip" class="btn btn-light" title="<?= $this->e($button_wishlist ) ?>"><i class="fa-solid fa-heart"></i></button>
               <button type="submit" formaction="<?= $this->e($add_to_compare ) ?>" data-bs-toggle="tooltip" class="btn btn-light" title="<?= $this->e($button_compare ) ?>"><i class="fa-solid fa-arrow-right-arrow-left"></i></button>
             </div>
-            <input type="hidden" name="product_id" value="<?= $this->e($product_id ) ?>" />
+            <input type="hidden" name="product_id" value="<?= $this->e($product_id ) ?>" >
           </form>
             <?php if ($price): ?>
               <ul class="list-unstyled">
@@ -219,7 +219,7 @@ $isVideo = in_array($popupExtension, $videoExtensions);
                           value="<?= $this->e($option_value['product_option_value_id']) ?>" 
                           id="input-option-value-<?= $this->e($option_value['product_option_value_id']) ?>" 
                           <?php if ($option_value['stock'] == 0): ?>disabled="disabled"<?php endif; ?>
-                          class="form-check-product-input"/>
+                          class="form-check-product-input">
                         
                           <?php if ($option_value['image']): ?>
                             <label for="input-option-value-<?= $this->e($option_value['product_option_value_id']) ?>" class="image-option"  data-text="<?= $this->e($option_value['name']) ?>">
@@ -259,7 +259,7 @@ $isVideo = in_array($popupExtension, $videoExtensions);
                             value="<?= $this->e($option_value['product_option_value_id']) ?>"
                             id="input-option-value-<?= $this->e($option_value['product_option_value_id']) ?>"
                             class="form-check-input form-check-input-product"
-                          />
+                          >
                           <label   for="input-option-value-<?= $this->e($option_value['product_option_value_id']) ?>" class="form-check-label">
                             <?php if (!empty($option_value['image'])): ?>
                               <img
@@ -284,7 +284,7 @@ $isVideo = in_array($popupExtension, $videoExtensions);
                   <?php if ($option['type'] == 'text'): ?>
                     <div class="mb-3<?php if ($option['required']): ?> required<?php endif; ?>">
                       <label for="input-option-<?= $this->e($option['product_option_id']) ?>" class="form-label"><?= $this->e($option['name']) ?>:</label>
-                      <input type="text" name="option[<?= $this->e($option['product_option_id']) ?>]" value="<?= $this->e($option['value']) ?>" placeholder="<?= $this->e($option['name']) ?>" id="input-option-<?= $this->e($option['product_option_id']) ?>" class="form-control"/>
+                      <input type="text" name="option[<?= $this->e($option['product_option_id']) ?>]" value="<?= $this->e($option['value']) ?>" placeholder="<?= $this->e($option['name']) ?>" id="input-option-<?= $this->e($option['product_option_id']) ?>" class="form-control">
                       <div id="error-option-<?= $this->e($option['product_option_id']) ?>" class="invalid-feedback"></div>
                     </div>
                   <?php endif; ?>
@@ -380,10 +380,10 @@ $isVideo = in_array($popupExtension, $videoExtensions);
     
                 <div class="mb-3">
                   <label for="input-quantity" class="form-label"><?= $this->e($entry_qty ) ?></label>
-                  <input type="number" style="width: 80px" name="quantity" value="<?= $this->e($minimum ) ?>" size="2" id="input-quantity" class="form-control"/>
+                  <input type="number" style="width: 80px" name="quantity" value="<?= $this->e($minimum ) ?>"   id="input-quantity" class="form-control"/>
                   <input type="hidden" name="product_id" value="<?= $this->e($product_id ) ?>" id="input-product-id"/>
                   <div id="error-quantity" class="form-text"></div>
-                  <br/>
+                  <br>
                   <button type="submit"   data-oc-where="cart" id="button-cart" class="btn btn-primary  "><?= $this->e($button_cart ) ?></button>
                 </div>
 
@@ -430,36 +430,37 @@ $isVideo = in_array($popupExtension, $videoExtensions);
             <div id="tab-specification" class="tab-pane fade">
             <div class="container  mt-4">
   <?php if ($attribute_groups): ?>
-    <dl class="row">
+    <div class="row">
       <?php foreach ($attribute_groups as $attribute_group_key => $attribute_group): ?>
       
-        <dt class="col-sm-3">
+        <div class="col-sm-3">
             <h3>  <?php echo isset($attribute_group['name']) && !empty($attribute_group['name']) ? $attribute_group['name'] : $attribute_general; ?></h3>
-      </dt>
+      </div>
          
 
-        <dl class="row">
+        <div class="row">
           <?php foreach ($attribute_group['values'] as $attribute): ?>
-            <dt class="col-sm-3"><?php echo $attribute['name']; ?></dt>
-            <dd class="col-sm-9"><?php echo $attribute['text_value']; ?></dd>
+            <div class="col-sm-3"><?php echo $attribute['name']; ?></div>
+            <div class="col-sm-9"><?php echo $attribute['text_value']; ?></div>
             <hr>
           <?php endforeach; ?>
-        </dl>
+        </div>
 
       <?php endforeach; ?>
-    </dl>
+    </div>
   <?php endif; ?>
 </div>
-            </div>
+</div>
+           
           <?php endif; ?>
-
+         
           <?php if ($review_status): ?>
             <div id="tab-review" class="tab-pane fade mb-4"><?=  $review   ?></div>
           <?php endif; ?>
 
         </div>
       </div>
-
+      </div>
       <?php if ($products): ?>
 
       <?php if (!$quickview): ?>
@@ -484,7 +485,7 @@ $isVideo = in_array($popupExtension, $videoExtensions);
       <?=  $content_bottom  ?></div>
     <?=  $column_right   ?></div>
  
-<script type="text/javascript"> 
+<script > 
   window.picontWidth = <?=$picont_width?>;
   window.picontHeight = <?=$picont_height?>;
 
@@ -596,7 +597,7 @@ document.getElementById("coundown").innerHTML =
 
  
 //--></script>
-<script type="text/javascript" src="catalog/view/javascript/product.js"></script>
+<script  src="catalog/view/javascript/product.js"></script>
  
 <script type="module">
         

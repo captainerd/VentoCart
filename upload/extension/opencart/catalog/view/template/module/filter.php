@@ -28,7 +28,7 @@
     <button type="button" id="button-filter" class="btn btn-primary"><i class="fa-solid fa-filter"></i> <?= $button_filter  ?></button>
   </div>
 </div>
-<script type="text/javascript"><!--
+<script ><!--
 $('#button-filter').on('click', function () {
     filter = [];
 

@@ -27,12 +27,12 @@
               <p><strong><?= $this->e($text_i_am_returning_customer ) ?></strong></p>
               <div class="mb-3">
                 <label for="input-email" class="col-form-label"><?= $this->e($entry_email ) ?></label>
-                <input type="text" name="email" value="<?=  isset($email) ? $email : '' ?>" placeholder="<?=  $entry_email   ?>" id="input-email" class="form-control"/>
+                <input type="text" name="email" value="<?=  isset($email) ? $email : '' ?>" placeholder="<?=  $entry_email   ?>" id="input-email" class="form-control">
               </div>
               <div class="mb-3">
                 <label for="input-password" class="col-form-label"><?= $this->e($entry_password ) ?></label>
 
-                <input type="password" name="password" value="<?= isset($password) ? $password : '' ?>" placeholder="<?= $this->e($entry_password ) ?>" id="input-password" class="form-control mb-1"/>
+                <input type="password" name="password" value="<?= isset($password) ? $password : '' ?>" placeholder="<?= $this->e($entry_password ) ?>" id="input-password" class="form-control mb-1">
                
                 <a href="<?= $forgotten   ?>"><?= $this->e($text_forgotten ) ?></a>
               </div>
@@ -40,7 +40,7 @@
                 <button type="submit" class="btn btn-primary"><?= $this->e($button_login ) ?></button>
               </div>
               <?php if ($redirect): ?>
-                <input type="hidden" name="redirect" value="<?=  $redirect  ?>"/>
+                <input type="hidden" name="redirect" value="<?=  $redirect  ?>">
               <?php endif; ?>
             </form>
           </div>

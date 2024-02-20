@@ -1,7 +1,7 @@
 <div class="text-end">
   <button type="button" id="button-confirm" class="btn btn-primary"><?=  $button_confirm   ?></button>
 </div>
-<script type="text/javascript"><!--
+<script ><!--
 $('#button-confirm').on('click', function () {
     var element = this;
 

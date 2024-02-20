@@ -23,7 +23,7 @@
         <?php endforeach; ?>
       </ul>
     </div>
-    <input type="hidden" name="code" value=""/>
-    <input type="hidden" name="redirect" value="<?= $redirect ?>"/>
+    <input type="hidden" name="code" value="">
+    <input type="hidden" name="redirect" value="<?= $redirect ?>">
   </form>
 <?php endif; ?>

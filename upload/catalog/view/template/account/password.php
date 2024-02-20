@@ -17,7 +17,7 @@
           <div class="row mb-3 required">
             <label for="input-confirm" class="col-md-3 col-form-label"><?= $this->e($entry_confirm ) ?></label>
             <div class="col-md-9">
-              <input type="password" name="confirm" value="<?=  isset($confirm) ? $confirm : '' ?>" placeholder="<?= $this->e($entry_confirm ) ?>" id="input-confirm" class="form-control"/>
+              <input type="password" name="confirm" value="<?=  isset($confirm) ? $confirm : '' ?>" placeholder="<?= $this->e($entry_confirm ) ?>" id="input-confirm" class="form-control">
               <div id="error-confirm" class="invalid-feedback"></div>
             </div>
           </div>

@@ -19,17 +19,17 @@ Basic example:
 
     <div class="test-gallery">
       <a href="https://dummyimage.com/1200x600/000/fff" data-pswp-width="1200" data-pswp-height="600">
-        <img src="https://dummyimage.com/120x60/000/fff" alt="" />
+        <img src="https://dummyimage.com/120x60/000/fff" alt="">
       </a>
       <a href="https://dummyimage.com/1200x1200/000/fff" data-pswp-width="1200" data-pswp-height="1200">
-        <img src="https://dummyimage.com/60x60/000/fff" alt="" />
+        <img src="https://dummyimage.com/60x60/000/fff" alt="">
       </a>
       <a href="https://dummyimage.com/600x1200/000/fff" data-pswp-width="600" data-pswp-height="1200">
-        <img src="https://dummyimage.com/30x60/000/fff" alt="" />
+        <img src="https://dummyimage.com/30x60/000/fff" alt="">
       </a>
     </div>
     
-    <script type="text/javascript">
+    <script >
       var lightbox = new PhotoSwipeLightbox({
         gallery: '.test-gallery',
         children: 'a',

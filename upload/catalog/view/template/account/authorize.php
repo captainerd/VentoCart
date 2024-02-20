@@ -20,7 +20,7 @@
                             <div class="mb-3">
                                 <label for="input-code" class="form-label"><?= $this->e($entry_code) ?></label>
                                 <div class="input-group">
-                                    <input type="text" name="code" value="" placeholder="<?= $this->e($entry_code) ?>" id="input-code" class="form-control"/>
+                                    <input type="text" name="code" value="" placeholder="<?= $this->e($entry_code) ?>" id="input-code" class="form-control">
                                     <button type="button" id="button-send" class="btn btn-danger"><i class="fa-solid fa-mail-bulk"></i> <?= $this->e($button_resend) ?></button>
                                 </div>
                                 <div id="error-code" class="invalid-feedback"></div>
@@ -29,7 +29,7 @@
                                 <button type="submit" class="btn btn-primary"><i class="fa-solid fa-key"></i> <?= $this->e($button_submit) ?></button>
                             </div>
                             <?php if ($redirect): ?>
-                                <input type="hidden" name="redirect" value="<?= $redirect  ?>"/>
+                                <input type="hidden" name="redirect" value="<?= $redirect  ?>">
                             <?php endif; ?>
                         </form>
                     </div>
@@ -39,7 +39,7 @@
     </div>
 </div>
 
-<script type="text/javascript"><!--
+<script ><!--
 $('#button-send').on('click', function (e) {
     e.preventDefault();
 

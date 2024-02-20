@@ -4,7 +4,7 @@
   <?php if ($review_guest): ?>
     <div class="mb-3 required">
       <label for="input-author" class="form-label"><?= $this->e($entry_author ) ?></label>
-      <input type="text" name="author" value="<?= $this->e($customer ) ?>" id="input-author" class="form-control"/>
+      <input type="text" name="author" value="<?= $this->e($customer ) ?>" id="input-author" class="form-control">
       <div id="error-author" class="invalid-feedback"></div>
     </div>
     <div class="mb-3 required">
@@ -17,15 +17,15 @@
       <label class="form-label"><?= $this->e($entry_rating ) ?></label>
       <div id="input-rating">
         <?= $this->e($entry_bad ) ?>&nbsp;
-        <input type="radio" name="rating" value="1" class="form-check-input"/>
+        <input type="radio" name="rating" value="1" class="form-check-input">
         &nbsp;
-        <input type="radio" name="rating" value="2" class="form-check-input"/>
+        <input type="radio" name="rating" value="2" class="form-check-input">
         &nbsp;
-        <input type="radio" name="rating" value="3" class="form-check-input"/>
+        <input type="radio" name="rating" value="3" class="form-check-input">
         &nbsp;
-        <input type="radio" name="rating" value="4" class="form-check-input"/>
+        <input type="radio" name="rating" value="4" class="form-check-input">
         &nbsp;
-        <input type="radio" name="rating" value="5" class="form-check-input"/>
+        <input type="radio" name="rating" value="5" class="form-check-input">
         &nbsp;<?= $this->e($entry_good ) ?>
       </div>
       <div id="error-rating" class="invalid-feedback"></div>
@@ -43,7 +43,7 @@
     <?= $this->e($text_login ) ?>
   <?php endif; ?>
 </form>
-<script type="text/javascript"><!--
+<script ><!--
 $('#review').on('click', '.pagination a', function(e) {
     e.preventDefault();
 

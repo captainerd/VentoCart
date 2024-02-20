@@ -11,7 +11,7 @@
         <?= $article['date']?>
  
         <h5 class="card-title"><?= $article['name'] ?></h5>
-        <p class="card-text"><?= $article['preview'] ?></p>
+        <p class="card-text"><?= strip_tags($article['preview']) ?></p>
    
         <a href="<?= $article['href'] ?>" class="btn btn-primary mt-auto"><?= $text_readmore ?></a>
       </div>

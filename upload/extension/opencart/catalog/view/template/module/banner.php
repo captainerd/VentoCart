@@ -18,9 +18,9 @@
           <?php foreach ($carousel as $banner): ?>
             <div class="col-<?= round(12 / $items) ?> text-center">
               <?php if ($banner['link']): ?>
-                <a href="<?=  $banner['link']  ?>"><img src="<?= $banner['image'] ?>" alt="<?= $banner['title'] ?>" class="img-fluid"/></a>
+                <a href="<?=  $banner['link']  ?>"><img src="<?= $banner['image'] ?>" alt="<?= $banner['title'] ?>" class="img-fluid"></a>
               <?php else: ?>
-                <img src="<?=  $banner['image']  ?>" alt="<?= $banner['title'] ?>" class="img-fluid"/>
+                <img src="<?=  $banner['image']  ?>" alt="<?= $banner['title'] ?>" class="img-fluid">
               <?php endif; ?>
             </div>
           <?php endforeach; ?>
@@ -34,7 +34,7 @@
     <button type="button" class="carousel-control-next" data-bs-target="#carousel-banner-<?= $module  ?>" data-bs-slide="next"><span class="fa-solid fa-chevron-right"></span></button>
   <?php endif; ?>
 </div></div>
-<script type="text/javascript"><!--
+<script ><!--
 $(document).ready(function () {
     new bootstrap.Carousel(document.querySelector('#carousel-banner-<?= $module  ?>'), {
         ride: 'carousel',

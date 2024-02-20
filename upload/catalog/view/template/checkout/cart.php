@@ -27,7 +27,7 @@
       <?=  $content_bottom  ?></div>
     <?=  $column_right  ?></div>
 </div>
-<script type="text/javascript"><!--
+<script ><!--
 $('#shopping-cart').on('submit', 'form', function (e) {
     e.preventDefault();
 

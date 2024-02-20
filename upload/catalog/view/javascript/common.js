@@ -77,7 +77,7 @@ $(".autoplayHover").mouseout(function () {
         }
       event.preventDefault(); // Prevent the default form submission
       $(".product-full").html( '  <div class="d-flex align-items-center justify-content-center" style="height: 20vh;"><div class="spinner-border text-primary" role="status"> <span class="sr-only" >Loading...</span> </div></div>');
-       $(".product-full").load($(this).attr("targ"));
+       $(".product-full").load($(this).attr("data-targ"));
   $(".quick-view-overlay").show();
   
        

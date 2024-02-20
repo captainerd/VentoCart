@@ -1,5 +1,5 @@
 <?php foreach ($filter_options as $optionSet): ?>
-  <form method="get" action=" " class="option_form">
+  <form method="get" action="index.php" class="option_form">
   <div class="card  mb-3">
    
       <?php foreach ($optionSet as $option): ?>

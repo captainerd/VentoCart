@@ -1,6 +1,7 @@
 <div class="card mb-3">
+<form method="get" action="index.php" class="availability_form">
     <div class="card-header">
-        <form method="get" action="index.php" class="availability_form">
+     
             <i class="fa-solid fa-circle"></i>
             <strong>Availability</strong>
     </div>

@@ -130,7 +130,7 @@
     window.infiniteScroll = <?=$infiniteScroll?>;
   </script>
 
-<script src="catalog/view/javascript/category.js" type="text/javascript"></script>
+<script src="catalog/view/javascript/category.js"></script>
 
   <?= $footer ?>
 

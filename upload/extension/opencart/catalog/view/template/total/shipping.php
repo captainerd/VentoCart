@@ -36,7 +36,8 @@
       </form>
     </div>
   </div>
-  <script type="text/javascript"><!--
+  </div>
+  <script ><!--
   $('#form-quote').on('submit', function (e) {
       e.preventDefault();
 
@@ -208,4 +209,4 @@
 
   $('#input-country').trigger('change');
   //--></script>
-</div>
+ 

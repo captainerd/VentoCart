@@ -1,8 +1,8 @@
  
 <form id="form-register">
   
-  <fieldset>
-    <legend><i class="fas fa-user"></i> <?= $this->e($heading_title ) ?></legend>
+ 
+    <h3><i class="fas fa-user"></i> <?= $this->e($heading_title ) ?></h3>
    
  
  <div class="col mb-3 <?= $this->e(count($customer_groups)) <= 1 ? 'd-none' : ''; ?>">
@@ -20,12 +20,12 @@
     <div class="row row-cols-1 row-cols-md-2">
       <div class="col mb-3 required">
         <label for="input-firstname" class="form-label"><?= $this->e($entry_firstname ) ?></label>
-        <input type="text" name="firstname" value="<?= $this->e($firstname ) ?>" placeholder="<?= $this->e($entry_firstname ) ?>" id="input-firstname" class="form-control"/>
+        <input type="text" name="firstname" value="<?= $this->e($firstname ) ?>" placeholder="<?= $this->e($entry_firstname ) ?>" id="input-firstname" class="form-control">
         <div id="error-firstname" class="invalid-feedback"></div>
       </div>
       <div class="col mb-3 required">
         <label for="input-lastname" class="form-label"><?= $this->e($entry_lastname ) ?></label>
-        <input type="text" name="lastname" value="<?= $this->e($lastname ) ?>" placeholder="<?= $this->e($entry_lastname ) ?>" id="input-lastname" class="form-control"/>
+        <input type="text" name="lastname" value="<?= $this->e($lastname ) ?>" placeholder="<?= $this->e($entry_lastname ) ?>" id="input-lastname" class="form-control">
         <div id="error-lastname" class="invalid-feedback"></div>
       </div>
  
@@ -82,7 +82,7 @@
           <?php if ($custom_field['type'] == 'text'): ?>
             <div class="col mb-3 custom-field custom-field-<?= $this->e($custom_field['custom_field_id']) ?>">
               <label for="input-custom-field-<?= $this->e($custom_field['custom_field_id']) ?>" class="form-label"><?= $this->e($custom_field['name']) ?></label>
-              <input type="text" name="custom_field[<?= $this->e($custom_field['location']) ?>][<?= $this->e($custom_field['custom_field_id']) ?>]" value="<?php if ($account_custom_field[custom_field.custom_field_id]): ?><?= $this->e($account_custom_field[custom_field.custom_field_id] ) ?><?php else: ?><?= $this->e($custom_field['value']) ?><?php endif; ?>" placeholder="<?= $this->e($custom_field['name']) ?>" id="input-custom-field-<?= $this->e($custom_field['custom_field_id']) ?>" class="form-control"/>
+              <input type="text" name="custom_field[<?= $this->e($custom_field['location']) ?>][<?= $this->e($custom_field['custom_field_id']) ?>]" value="<?php if ($account_custom_field[custom_field.custom_field_id]): ?><?= $this->e($account_custom_field[custom_field.custom_field_id] ) ?><?php else: ?><?= $this->e($custom_field['value']) ?><?php endif; ?>" placeholder="<?= $this->e($custom_field['name']) ?>" id="input-custom-field-<?= $this->e($custom_field['custom_field_id']) ?>" class="form-control">
               <div id="error-custom-field-<?= $this->e($custom_field['custom_field_id']) ?>" class="invalid-feedback"></div>
             </div>
           <?php endif; ?>
@@ -145,20 +145,20 @@
       <div class="row row-cols-1 row-cols-md-2 ">
         <?php if ($config_show_company_field): ?>
         <div id="company_field" class="col mb-3 ">
-          <label for="input-payment-company" class="form-label"><?= $this->e($entry_company ) ?></label> <input type="text" name="payment_company[0]" value="<?= $this->e($payment_company ) ?>" placeholder="<?= $this->e($entry_company ) ?>" id="input-payment-company" class="form-control"/>
+          <label for="input-payment-company" class="form-label"><?= $this->e($entry_company ) ?></label> <input type="text" name="payment_company[0]" value="<?= $this->e($payment_company ) ?>" placeholder="<?= $this->e($entry_company ) ?>" id="input-payment-company" class="form-control">
           <div id="error-payment-company" class="invalid-feedback"></div>
         </div>
         <?php endif;?>
         <div class="col mb-3 required">
-          <label for="input-payment-address-1" class="form-label"><?= $this->e($entry_address_1 ) ?></label> <input type="text" name="payment_address_1" value="<?= $this->e($payment_address_1 ) ?>" placeholder="<?= $this->e($entry_address_1 ) ?>" id="input-payment-address-1" class="form-control"/>
+          <label for="input-payment-address-1" class="form-label"><?= $this->e($entry_address_1 ) ?></label> <input type="text" name="payment_address_1" value="<?= $this->e($payment_address_1 ) ?>" placeholder="<?= $this->e($entry_address_1 ) ?>" id="input-payment-address-1" class="form-control">
           <div id="error-payment-address-1" class="invalid-feedback"></div>
         </div>
         <div class="col mb-3 required">
-          <label for="input-payment-city" class="form-label"><?= $this->e($entry_city ) ?></label> <input type="text" name="payment_city" value="<?= $this->e($payment_city ) ?>" placeholder="<?= $this->e($entry_city ) ?>" id="input-payment-city" class="form-control"/>
+          <label for="input-payment-city" class="form-label"><?= $this->e($entry_city ) ?></label> <input type="text" name="payment_city" value="<?= $this->e($payment_city ) ?>" placeholder="<?= $this->e($entry_city ) ?>" id="input-payment-city" class="form-control">
           <div id="error-payment-city" class="invalid-feedback"></div>
         </div>
         <div class="col mb-3 required">
-          <label for="input-payment-postcode" class="form-label"><?= $this->e($entry_postcode ) ?></label> <input type="text" name="payment_postcode" value="<?= $this->e($payment_postcode ) ?>" placeholder="<?= $this->e($entry_postcode ) ?>" id="input-payment-postcode" class="form-control"/>
+          <label for="input-payment-postcode" class="form-label"><?= $this->e($entry_postcode ) ?></label> <input type="text" name="payment_postcode" value="<?= $this->e($payment_postcode ) ?>" placeholder="<?= $this->e($entry_postcode ) ?>" id="input-payment-postcode" class="form-control">
           <div id="error-payment-postcode" class="invalid-feedback"></div>
         </div>
   
@@ -185,7 +185,7 @@
         </div>
         <div class="col mb-3 required">
           <label for="input-email" class="form-label"><?= $this->e($entry_email ) ?></label>
-          <input type="text" name="email" value="<?= $this->e($email ) ?>" placeholder="<?= $this->e($entry_email ) ?>" id="input-email" class="form-control"/>
+          <input type="text" name="email" value="<?= $this->e($email ) ?>" placeholder="<?= $this->e($entry_email ) ?>" id="input-email" class="form-control">
           <div id="error-email" class="invalid-feedback"></div>
         </div>
         <div class="col mb-3 required">
@@ -239,7 +239,7 @@
             <?php if ($custom_field['type'] == 'text'): ?>
               <div class="col mb-3<?php if ($custom_field['required']): ?> required<?php endif; ?> custom-field custom-field-<?= $this->e($custom_field['custom_field_id']) ?>">
                 <label for="input-payment-custom-field-<?= $this->e($custom_field['custom_field_id']) ?>" class="form-label"><?= $this->e($custom_field['name']) ?></label>
-                <input type="text" name="payment_custom_field[<?= $this->e($custom_field['location']) ?>][<?= $this->e($custom_field['custom_field_id']) ?>]" value="<?php if ($address_custom_field[custom_field.custom_field_id]): ?><?= $this->e($address_custom_field[custom_field.custom_field_id] ) ?><?php else: ?><?= $this->e($custom_field['value']) ?><?php endif; ?>" placeholder="<?= $this->e($custom_field['name']) ?>" id="input-payment-custom-field-<?= $this->e($custom_field['custom_field_id']) ?>" class="form-control"/>
+                <input type="text" name="payment_custom_field[<?= $this->e($custom_field['location']) ?>][<?= $this->e($custom_field['custom_field_id']) ?>]" value="<?php if ($address_custom_field[custom_field.custom_field_id]): ?><?= $this->e($address_custom_field[custom_field.custom_field_id] ) ?><?php else: ?><?= $this->e($custom_field['value']) ?><?php endif; ?>" placeholder="<?= $this->e($custom_field['name']) ?>" id="input-payment-custom-field-<?= $this->e($custom_field['custom_field_id']) ?>" class="form-control">
                 <div id="error-payment-custom-field-<?= $this->e($custom_field['custom_field_id']) ?>" class="invalid-feedback"></div>
               </div>
             <?php endif; ?>
@@ -299,40 +299,40 @@
       </div>
     
   <fieldset id="shipping-address" style="display:  none;">
-    <legend><?= $this->e($text_shipping_address ) ?></legend>
+    <h3><?= $this->e($text_shipping_address ) ?></h3>
     <div class="row row-cols-1 row-cols-md-2">
    
         <div class="col mb-3 required">
           <label for="input-shipping-firstname" class="form-label"><?= $this->e($entry_firstname ) ?></label>
-          <input type="text" name="shipping_firstname" value="<?= $this->e($shipping_firstname ) ?>" placeholder="<?= $this->e($entry_firstname ) ?>" id="input-shipping-firstname" class="form-control"/>
+          <input type="text" name="shipping_firstname" value="<?= $this->e($shipping_firstname ) ?>" placeholder="<?= $this->e($entry_firstname ) ?>" id="input-shipping-firstname" class="form-control">
           <div id="error-shipping-firstname" class="invalid-feedback"></div>
         </div>
         <div class="col mb-3 required">
           <label for="input-shipping-lastname" class="form-label"><?= $this->e($entry_lastname ) ?></label>
-          <input type="text" name="shipping_lastname" value="<?= $this->e($shipping_lastname ) ?>" placeholder="<?= $this->e($entry_lastname ) ?>" id="input-shipping-lastname" class="form-control"/>
+          <input type="text" name="shipping_lastname" value="<?= $this->e($shipping_lastname ) ?>" placeholder="<?= $this->e($entry_lastname ) ?>" id="input-shipping-lastname" class="form-control">
           <div id="error-shipping-lastname" class="invalid-feedback"></div>
         </div>
    
       <div class="col mb-3 d-none">
         <label for="input-shipping-company" class="form-label"><?= $this->e($entry_company ) ?></label>
-        <input type="text" name="shipping_company" value="<?= $this->e($shipping_company ) ?>" placeholder="<?= $this->e($entry_company ) ?>" id="input-shipping-company" class="form-control"/>
+        <input type="text" name="shipping_company" value="<?= $this->e($shipping_company ) ?>" placeholder="<?= $this->e($entry_company ) ?>" id="input-shipping-company" class="form-control">
       </div>
       <div class="col mb-3 required">
         <label for="input-shipping-address-1" class="form-label"><?= $this->e($entry_address_1 ) ?></label>
-        <input type="text" name="shipping_address_1" value="<?= $this->e($shipping_address_1 ) ?>" placeholder="<?= $this->e($entry_address_1 ) ?>" id="input-shipping-address-1" class="form-control"/>
+        <input type="text" name="shipping_address_1" value="<?= $this->e($shipping_address_1 ) ?>" placeholder="<?= $this->e($entry_address_1 ) ?>" id="input-shipping-address-1" class="form-control">
         <div id="error-shipping-address-1" class="invalid-feedback"></div>
       </div>
    
 
       <div class="col mb-3 required">
         <label for="input-shipping-city" class="form-label"><?= $this->e($entry_city ) ?></label>
-        <input type="text" name="shipping_city" value="<?= $this->e($shipping_city ) ?>" placeholder="<?= $this->e($entry_city ) ?>" id="input-shipping-city" class="form-control"/>
+        <input type="text" name="shipping_city" value="<?= $this->e($shipping_city ) ?>" placeholder="<?= $this->e($entry_city ) ?>" id="input-shipping-city" class="form-control">
         <div id="error-shipping-city" class="invalid-feedback"></div>
       </div>
 
       <div class="col mb-3 required">
         <label for="input-shipping-postcode" class="form-label"><?= $this->e($entry_postcode ) ?></label>
-        <input type="text" name="shipping_postcode" value="<?= $this->e($shipping_postcode ) ?>" placeholder="<?= $this->e($entry_postcode ) ?>" id="input-shipping-postcode" class="form-control"/>
+        <input type="text" name="shipping_postcode" value="<?= $this->e($shipping_postcode ) ?>" placeholder="<?= $this->e($entry_postcode ) ?>" id="input-shipping-postcode" class="form-control">
         <div id="error-shipping-postcode" class="invalid-feedback"></div>
       </div>
     
@@ -413,7 +413,7 @@
           <?php if ($custom_field['type'] == 'text'): ?>
             <div class="col mb-3<?php if ($custom_field['required']): ?> required<?php endif; ?> custom-field custom-field-<?= $this->e($custom_field['custom_field_id']) ?>">
               <label for="input-shipping-custom-field-<?= $this->e($custom_field['custom_field_id']) ?>" class="form-label"><?= $this->e($custom_field['name']) ?></label>
-              <input type="text" name="shipping_custom_field[<?= $this->e($custom_field['location']) ?>][<?= $this->e($custom_field['custom_field_id']) ?>]" value="<?php if ($shipping_custom_field[custom_field.custom_field_id]): ?><?= $this->e($shipping_custom_field[custom_field.custom_field_id] ) ?><?php else: ?><?= $this->e($custom_field['value']) ?><?php endif; ?>" placeholder="<?= $this->e($custom_field['name']) ?>" id="input-shipping-custom-field-<?= $this->e($custom_field['custom_field_id']) ?>" class="form-control"/>
+              <input type="text" name="shipping_custom_field[<?= $this->e($custom_field['location']) ?>][<?= $this->e($custom_field['custom_field_id']) ?>]" value="<?php if ($shipping_custom_field[custom_field.custom_field_id]): ?><?= $this->e($shipping_custom_field[custom_field.custom_field_id] ) ?><?php else: ?><?= $this->e($custom_field['value']) ?><?php endif; ?>" placeholder="<?= $this->e($custom_field['name']) ?>" id="input-shipping-custom-field-<?= $this->e($custom_field['custom_field_id']) ?>" class="form-control">
               <div id="error-shipping-custom-field-<?= $this->e($custom_field['custom_field_id']) ?>" class="invalid-feedback"></div>
             </div>
           <?php endif; ?>
@@ -475,13 +475,13 @@
     
   </fieldset>
 
-  <div id class="row row-cols-1 row-cols-md-2">
+  <div class="row row-cols-1 row-cols-md-2">
     <div id="password" class="col mb-3 required     <?php if ($config_checkout_guest): ?>d-none  <?php endif; ?>">
       <fieldset>
-        <legend><?= $this->e($text_your_password ) ?></legend>
+        <h3><?= $this->e($text_your_password ) ?></h3>
         <div class="row">
           <div class="col mb-3 required">
-            <label for="input-password" class="form-label"><?= $this->e($entry_password ) ?></label> <input type="password" name="password" value="" placeholder="<?= $this->e($entry_password ) ?>" id="input-password" class="form-control"/>
+            <label for="input-password" class="form-label"><?= $this->e($entry_password ) ?></label> <input type="password" name="password" value="" placeholder="<?= $this->e($entry_password ) ?>" id="input-password" class="form-control">
             <div id="error-password" class="invalid-feedback"></div>
           </div>
   
@@ -492,7 +492,7 @@
     <div class="col mb-3 required"><?=  $captcha  ?></div>
   </div>
 
-  <div id class="row">
+  <div class="row">
     <div class="col">
       <?php if ($config_checkout_guest): ?>
   
@@ -510,7 +510,7 @@
  
       <?php if ($shipping_required): ?>
  
-      <div class="form-check    ">
+      <div class="form-check">
         <input type="hidden" name="address_match" id="address-match-hd" value="1">
         <input type="checkbox" name="address_match_sw" value="1" id="input-address-match" class="form-check-input" /> <label for="input-address-match" class="form-check-label"><?= $this->e($entry_match ) ?></label>
       </div>
@@ -520,12 +520,12 @@
  
  
 
-      <div class="form-check  ">
+      <div class="form-check">
         <label for="input-newsletter" class="form-check-label"><?= $this->e($entry_newsletter ) ?></label>
-        <input type="checkbox" name="newsletter" value="1" checked id="input-newsletter" class="form-check-input"/>
+        <input type="checkbox" name="newsletter" value="1" checked id="input-newsletter" class="form-check-input">
       </div>
       <?php if ($text_agree): ?>
-        <div class="form-check  ">
+        <div class="form-check">
           <label class="form-check-label"><?=  $text_agree  ?></label>
           <input checked type="checkbox" name="agree" value="1" id="input-register-agree" class="form-check-input"<?php if (isset($agree)): ?> checked<?php endif; ?>/>
         </div>
@@ -536,7 +536,7 @@
 
 </form>
  
-<script type="text/javascript">
+<script >
      // Populate shipping methods and payment methods on page load
     $(document).ready(function() {
 
