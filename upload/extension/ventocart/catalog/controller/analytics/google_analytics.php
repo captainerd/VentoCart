@@ -37,7 +37,9 @@ class GoogleAnalytics extends \Opencart\System\Engine\Controller
                 script.src = 'https://www.googletagmanager.com/gtag/js?id=' + jtagdc('$encodedTag');
                 document.head.appendChild(script);
 
-                gtag('config', jtagdc('$encodedTag')); // Pass the decoded tag ID to gtag
+                script.onload = function () {
+                    gtag('config', jtagdc('$encodedTag')); // Pass the decoded tag ID to gtag
+                };
             </script>";
 	}
  
