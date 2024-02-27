@@ -14,23 +14,31 @@ class GoogleAnalytics extends \Opencart\System\Engine\Controller
 	public function index(): string {
 		$myTag = $this->model_setting_setting->getValue('analytics_google_analytics_tag', $this->config->get('config_store_id'));
 	
+        $fixer = md5(rand(1000000,1000000000));
 		// Encode the tag ID using Base64 in PHP
-		$encodedTag = base64_encode($myTag);
+		$encodedTag = base64_encode( $fixer . $myTag);
 	
 		// Escape the single quotes in the JavaScript string by doubling them
-		return "<!-- Google tag (gtag.js) -->
-				<script async src='https://www.googletagmanager.com/gtag/js?id=$encodedTag'></script>
-				<script>
-				
-					function jtagdc(encoded) {
-						return atob(encoded);
-					}
-	
-					window.dataLayer = window.dataLayer || [];
-					function gtag(){dataLayer.push(arguments);}
-					gtag('js', new Date());
-					gtag('config', jtagdc('$encodedTag')); // Decode the tag ID in JavaScript using custom function
-				</script>";
+	    return "<!-- Google tag (gtag.js) -->
+            <script>
+                // Custom function for decoding
+                function jtagdc(encoded) {
+                    return atob(encoded).replace('$fixer','');
+                }
+
+                window.dataLayer = window.dataLayer || [];
+                function gtag(){dataLayer.push(arguments);}
+                gtag('js', new Date());
+
+             
+
+                var script = document.createElement('script');
+                script.async = true;
+                script.src = 'https://www.googletagmanager.com/gtag/js?id=' + jtagdc('$encodedTag');
+                document.head.appendChild(script);
+
+                gtag('config', jtagdc('$encodedTag')); // Pass the decoded tag ID to gtag
+            </script>";
 	}
  
 
