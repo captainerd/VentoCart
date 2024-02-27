@@ -32,6 +32,8 @@ function initTinyMCE() {
         plugins: "code image media  link preview autolink table visualblocks emoticons",
         promotion: false,
         fontsize_formats: "8pt 10pt 12pt 14pt 18pt 24pt 36pt",
+        protect: [/<script>[\s\S]*?<\/script>/g],
+        extended_valid_elements: 'script[language|type|src]',
         selector: 'textarea[data-oc-toggle="ckeditor"]',
         paste_data_images: true,
         toolbar: 'paste code  undo redo  removeformat  formatselect | blockquote  | bold italic underline strikethrough | hr | forecolor | backcolor  | alignleft aligncenter alignright alignjustify | uploadImage  media | bullist numlist | table   | link | view | emoticons',
