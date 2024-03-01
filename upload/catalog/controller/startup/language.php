@@ -20,6 +20,18 @@ class Language extends \Opencart\System\Engine\Controller {
 		} else {
 			$code = $this->config->get('config_language');
 		}
+		
+
+		$option = [
+			'expires'  => time() + 60 * 60 * 24 * 30,
+			'path'     => '/',
+			'SameSite' => 'Lax'
+		];
+
+		// Deprecate language code in every single url param unless it is for a change
+		if (empty($_COOKIE['lang']) || $code != $_COOKIE['lang']) {
+		setcookie('lang', $code, $option);
+		}
 
 		$this->load->model('localisation/language');
 

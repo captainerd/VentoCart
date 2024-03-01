@@ -75,11 +75,16 @@ class Language {
      * Set language text string
      *
      * @param string $key
-     * @param string $value
+     * @param $value
      *
      * @return void
      */
-	public function set(string $key, string $value): void {
+	public function set(string $key, $value = ''): void {
+		 // Language failover when not set 
+		if ((!is_string($value) || empty($value)) && !empty($_COOKIE['lang'])) {
+			$value = $_COOKIE['lang'];
+		}
+	 
 		$this->data[$key] = $value;
 	}
 	
