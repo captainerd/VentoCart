@@ -94,9 +94,9 @@ class PaymentMethod extends \Opencart\System\Engine\Controller
 		foreach ($results as $result) {
 			if ($this->config->get('payment_' . $result['code'] . '_status')) {
 				$this->load->model('extension/' . $result['extension'] . '/payment/' . $result['code']);
-
-
-				if (method_exists($this->{'model_extension_' . $result['extension'] . '_payment_' . $result['code']}, 'getStored1')) {
+ 
+				// Do not, function_exists, method_exists, is_callable. none of these will work ever with absolute stability and concistency
+				try {
 					$payment_method_info = $this->{'model_extension_' . $result['extension'] . '_payment_' . $result['code']}->getStored();
 
 					if ($payment_method_info) {
@@ -108,8 +108,10 @@ class PaymentMethod extends \Opencart\System\Engine\Controller
 							'delete' => $this->url->link('account/payment_method.delete', 'language=' . $this->config->get('config_language') . '&customer_token=' . $this->session->data['customer_token'] . '&code=' . $payment_method_info['code'])
 						];
 					}
+				} catch (\Exception $e) {
+				 // Method not found, or an error occurred.
 				}
-			}
+			} 
 		}
 
 		return $this->load->view('account/payment_method_list', $data);
