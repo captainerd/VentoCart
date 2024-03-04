@@ -1,105 +1,205 @@
-<?php $header ?>
+<?= $header ?>
 <div id="account-subscription" class="container">
-<?php $breadcrumb?>
-  <div class="row"><?php $column_left ?>
-    <div id="content" class="col"><?php $content_top ?>
-      <h1><?php $heading_title ?></h1>
-      <div class="row row-cols-md-2">
-        <div class="col">
-          <table class="table table-bordered table-hover">
-            <tr>
-              <td><b><?php $text_subscription_id ?></b></td>
-              <td>#<?php $subscription_id ?></td>
-            </tr>
-            <tr>
-              <td><b><?php $text_status ?></b></td>
-              <td><?php $subscription_status ?></td>
-            </tr>
-            <tr>
-              <td><b><?php $text_order_id ?></b></td>
-              <td>#<?php $order_id ?></td>
-            </tr>
-          </table>
+    <?= $breadcrumb ?>
+    <div class="row">
+        <?= $column_left ?>
+        <div id="content" class="col">
+            <?= $content_top ?>
+            <h1>
+                <?= $heading_title ?>
+            </h1>
+            <div class="row row-cols-md-2">
+                <div class="col">
+                    <table class="table table-bordered table-hover">
+                        <?php if ($shipping_method): ?>
+                            <tr>
+                                <td><strong>
+                                        <?= $text_shipping_method ?>
+                                    </strong></td>
+                                <td>
+                                    <?= $shipping_method ?>
+                                </td>
+                            </tr>
+                        <?php endif; ?>
+                        <tr>
+                            <td><strong>
+                                    <?= $text_payment_method ?>
+                                </strong></td>
+                            <td>
+
+                                <div class="input-group">
+                                    <select class="form-select" id="payment-method-select" name="payment-method">
+                                        <?php foreach ($saved_methods as $key => $method): ?>
+                                            <option value="<?php echo $method['id']; ?>" <?php if ($method['id'] === $default_payment_method): ?>selected<?php endif; ?>>
+                                                <?php echo $method['name'] . " " . $method['description']; ?>
+                                            </option>
+                                        <?php endforeach; ?>
+                                    </select>
+                                    <button class="btn addpayment btn-outline-secondary" type="button">
+                                        <i class="fas fa-plus"></i>
+                                    </button>
+                                </div>
+
+
+
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><b>
+                                    <?= $text_date_added ?>
+                                </b></td>
+                            <td>
+                                <?= $date_added ?>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <?php if (isset($payment_address) || isset($shipping_address)): ?>
+                    <div class="col">
+                        <table class="table table-bordered table-hover">
+                            <thead>
+                                <tr>
+                                    <?php if ($payment_address): ?>
+                                        <th class="text-start align-top">
+                                            <?= $text_payment_address ?>
+                                        </th>
+                                    <?php endif; ?>
+
+                                    <?php if ($shipping_address): ?>
+                                        <th class="text-start align-top">
+                                            <?= $text_shipping_address ?>
+                                        </th>
+                                    <?php endif; ?>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <?php if ($payment_address): ?>
+                                        <td class="text-start align-top">
+                                            <?= $payment_address ?>
+                                        </td>
+                                    <?php endif; ?>
+
+                                    <?php if ($shipping_address): ?>
+                                        <td class="text-start align-top">
+                                            <?= $shipping_address ?>
+                                        </td>
+                                    <?php endif; ?>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                <?php endif; ?>
+            </div>
+            <table class="table table-bordered table-hover">
+                <thead>
+                    <tr>
+                        <th class="text-start w-50">
+                            <?= $text_description ?>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="text-start"><a href="<?= $product ?>">
+                                <?= $name ?>
+                            </a><br>
+                            <?= $description ?>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <?= $content_bottom ?>
+            <div class="text-end mt-3">
+                <button class="btn btn-success btn-apply"><i class="fas fa-save"></i>
+                    <?= $button_save ?>
+                </button>
+
+                <a href="<?= $continue ?>" class="btn btn-primary">
+                    <?= $button_continue ?>
+                </a>
+
+            </div>
         </div>
-        <div class="col">
-          <table class="table table-bordered table-hover">
-          <?php if ($shipping_method): ?>
-    <tr>
-        <td><strong><?= $this->e($text_shipping_method) ?></strong></td>
-        <td><?= $this->e($shipping_method) ?></td>
-    </tr>
-<?php endif; ?>
-<tr>
-    <td><strong><?= $this->e($text_payment_method) ?></strong></td>
-    <td><?= $this->e($payment_method) ?></td>
-</tr>
-<tr>
-    <td><b><?= $this->e($text_date_added) ?></b></td>
-    <td><?= $this->e($date_added) ?></td>
-</tr>
-</table>
+        <?= $column_right ?>
+    </div>
 </div>
-<?php if (isset($payment_address) || isset($shipping_address)): ?>
-    <table class="table table-bordered table-hover">
-        <thead>
-        <tr>
-            <?php if ($payment_address): ?>
-                <td class="text-start align-top"><?= $this->e($text_payment_address) ?></td>
-            <?php endif; ?>
+<script>
+ $(document).ready(function(){
+    $('#history').on('click', '.pagination a', function(e) {
+        e.preventDefault();
 
-            <?php if ($shipping_address): ?>
-                <td class="text-start align-top"><?= $this->e($text_shipping_address) ?></td>
-            <?php endif; ?>
-        </tr>
-        </thead>
-        <tbody>
-        <tr>
-            <?php if ($payment_address): ?>
-                <td class="text-start align-top"><?= $this->e($payment_address) ?></td>
-            <?php endif; ?>
+        $('#history').load(this.href);
+    });
 
-            <?php if ($shipping_address): ?>
-                <td class="text-start align-top"><?= $this->e($shipping_address) ?></td>
-            <?php endif; ?>
-        </tr>
-        </tbody>
-    </table>
-<?php endif; ?>
-      <table class="table table-bordered table-hover">
-        <thead>
-          <tr>
-            <td class="text-start w-50"><?php $text_description ?></td>
-            <td class="text-start w-50"><?php $text_quantity ?></td>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td class="text-start"><a href="<?php $product ?>"><?php $name ?></a>
-              <br/><?php $description ?></td>
-            <td class="text-start"><?php $product_quantity ?></td>
-          </tr>
-        </tbody>
-      </table>
-      <h2><?php $text_history ?></h2>
-      <div id="history"><?php $history ?></div>
-      <h2><?php $text_order ?></h2>
-      <div id="order"><?php $order ?></div>
-      <div class="text-end mt-3"><a href="<?php $continue ?>" class="btn btn-primary"><?php $button_continue ?></a></div>
-      <?php $content_bottom ?></div>
-    <?php $column_right ?></div>
-</div>
-</div>
-<script ><!--
-$('#history').on('click', '.pagination a', function(e) {
+    $('#order').on('click', '.pagination a', function(e) {
+        e.preventDefault();
+
+        $('#order').load(this.href);
+    });
+
+    $('.btn-apply').on('click', function(e) {
     e.preventDefault();
 
-    $('#history').load(this.href);
+ 
+    let selectedPaymentMethod = $('#payment-method-select').val();
+ 
+    $.ajax({
+        url: 'index.php?route=account/subscription.edit',
+        type: 'POST', 
+        dataType: 'json',
+        data: { 
+            paymentMethod: selectedPaymentMethod, 
+            method_code: '<?= $method_code ?>',
+    track_id: '<?= $track_id ?>',
+        },
+    success: function(json) {
+        if (json['error']) {
+            $('#alert').prepend('<div class="alert alert-danger alert-dismissible"><i class="fa-solid fa-circle-exclamation"></i> ' + json['error'] + ' <button type="button" class="btn-close" data-bs-dismiss="alert"></button></div>');
+        }
+
+        if (json['success']) {
+            $('#alert').prepend('<div class="alert alert-success alert-dismissible"><i class="fa-solid fa-circle-check"></i> ' + json['success'] + ' <button type="button" class="btn-close" data-bs-dismiss="alert"></button></div>');
+
+        }
+    },
+    error: function(xhr, status, error) {
+        // Handle error response here if needed
+        console.error(xhr.responseText);
+    }
+    });
+});
+   
+ 
+    $('.addpayment').on('click', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+ 
+        $.ajax({
+            url: 'index.php?route=checkout/cart.add&language=en-gb',
+            type: 'POST',
+            data: {
+                product_id: -1,
+                quantity: 1,
+                virual_product_name: 'Add New Payment Method',
+                virual_product_info: '0',
+                virtual_price: 0
+            },
+            dataType: 'json',
+            success: function(response) {
+                // On success
+                if(response.success) {
+                    // Redirect to checkout page
+                    window.location.href = 'index.php?route=checkout/checkout&language=en-gb';
+                }
+            },
+            error: function(xhr, status, error) {
+                // On error
+                console.error(xhr.responseText);
+            }
+        });
+    });
 });
 
-$('#order').on('click', '.pagination a', function(e) {
-    e.preventDefault();
-
-    $('#order').load(this.href);
-});
-//--></script>
-<?php $footer ?>
+</script>
+<?= $footer ?>

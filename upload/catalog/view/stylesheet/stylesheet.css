@@ -902,3 +902,32 @@ form {
     max-height: 190px;
     overflow-y: auto;
   }
+  .icon-cards span {
+    font-size: 11px;
+ 
+     border-radius: 3px;
+     padding: 2px;
+    
+    width: 100%;
+  }
+  .icon-cards i:hover {
+    color: #0064ff;
+  }
+  .icon-cards i {
+   
+    display: inline-block;
+    color: #009fff;
+  }
+  .icon-cards a:hover i {
+    color: #0064ff;
+  }
+  .icon-cards a:hover {
+    border: 1px solid #e1e1e1;
+  }
+  .icon-cards a {
+    width: 150px;
+   
+    height: 108px;
+    text-decoration: none;
+    color: #4f4f4f;
+  }

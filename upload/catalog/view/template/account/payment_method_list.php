@@ -3,27 +3,62 @@
     <table class="table table-bordered table-hover">
       <thead>
         <tr>
-          <th class="text-start"><?= $this->e($column_payment_method ) ?></th>
+          <th class="text-start">
+            <?= $this->e($column_payment_method) ?>
+          </th>
           <th></th>
-          <th class="text-start"><?= $this->e($column_type ) ?></th>
-          <th class="text-start"><?= $this->e($column_date_expire ) ?></th>
-          <th class="text-end"><?= $this->e($column_action ) ?></th>
+          <th class="text-start">
+            <?= $this->e($column_type) ?>
+          </th>
+          <th class="text-start">
+            <?= $this->e($column_date_expire) ?>
+          </th>
+          <th class="text-end">
+            <?= $this->e($column_action) ?>
+          </th>
         </tr>
       </thead>
       <tbody>
       <tbody>
         <?php foreach ($payment_methods as $payment_method): ?>
           <tr>
-            <td class="text-start"><?= $this->e($payment_method['name']) ?></td>
-            <td class="text-start"><?= $this->e($payment_method['image']) ?></td>
-            <td class="text-start"><?= $this->e($payment_method['type']) ?></td>
-            <td class="text-start"><?= $this->e($payment_method['date_expire']) ?></td>
-            <td class="text-end"><a href="<?=  $payment_method['delete']  ?>" class="btn btn-danger"><?= $this->e($button_delete ) ?></a></td>
+            <td class="text-start">
+              <?= $this->e($payment_method['name']) ?>
+            </td>
+            <td class="text-start">
+              <?= $this->e($payment_method['image']) ?>
+            </td>
+            <td class="text-start">
+              <?= $this->e($payment_method['type']) ?>
+            </td>
+            <td class="text-start">
+              <?= $this->e($payment_method['date_expire']) ?>
+            </td>
+            <td class="text-end">
+              <a href="<?= $payment_method['delete'] ?>"   class="btn deletepayBtn btn-danger">
+                <?= $this->e($button_delete) ?>
+              </a>
+            </td>
           </tr>
         <?php endforeach; ?>
       </tbody>
     </table>
   </div>
 <?php else: ?>
-  <p><?=  $text_no_results  ?></p>
+  <p>
+    <?= $text_no_results ?>
+  </p>
 <?php endif; ?>
+
+<script>
+$(".deletepayBtn").click(function(event) {
+    // Display the warning message
+    var confirmed = confirm("<?= $text_delete_warning ?>");
+
+    // If the user clicks Cancel, prevent the default action
+    if (!confirmed) {
+        event.stopPropagation();
+        event.preventDefault();
+    }
+});
+</script>

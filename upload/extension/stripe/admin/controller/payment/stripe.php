@@ -7,6 +7,11 @@ class  Stripe extends \Opencart\System\Engine\Controller
  
 	private $error = array();
 
+	public function subscription() {
+		 	//print_r(	$this->session->data['customer_subscription']);
+			//die();
+	//	return 	$this->session->data['customer_subscription'];
+	}
 	public function index() {
  
 		$this->load->language('extension/stripe/payment/stripe');
@@ -24,9 +29,10 @@ class  Stripe extends \Opencart\System\Engine\Controller
 		}
 
 		$this->load->model('localisation/order_status');
+		$this->load->model('localisation/subscription_status');
 
 		$data['order_statuses'] = $this->model_localisation_order_status->getOrderStatuses();
-
+		$data['subscription_statuses'] = $this->model_localisation_subscription_status->getSubscriptionStatuses();
 		$data['breadcrumbs'] = array();
 
 		$data['breadcrumbs'][] = array(
@@ -97,6 +103,22 @@ class  Stripe extends \Opencart\System\Engine\Controller
 			$data['payment_stripe_order_failed_status_id'] = $this->config->get('payment_stripe_order_failed_status_id');
 		} else {
 			$data['payment_stripe_order_failed_status_id'] = '';
+		}
+
+		if (isset($this->request->post['payment_stripe_subscription_success_status_id'])) {
+			$data['payment_stripe_subscription_success_status_id'] = $this->request->post['payment_stripe_subscription_success_status_id'];
+		} elseif ($this->config->has('payment_stripe_subscription_success_status_id')) {
+			$data['payment_stripe_subscription_success_status_id'] = $this->config->get('payment_stripe_subscription_success_status_id');
+		} else {
+			$data['payment_stripe_subscription_success_status_id'] = '';
+		}
+		
+		if (isset($this->request->post['payment_stripe_subscription_failed_status_id'])) {
+			$data['payment_stripe_subscription_failed_status_id'] = $this->request->post['payment_stripe_subscription_failed_status_id'];
+		} elseif ($this->config->has('payment_stripe_subscription_failed_status_id')) {
+			$data['payment_stripe_subscription_failed_status_id'] = $this->config->get('payment_stripe_subscription_failed_status_id');
+		} else {
+			$data['payment_stripe_subscription_failed_status_id'] = '';
 		}
 
 		if (isset($this->request->post['payment_stripe_status'])) {

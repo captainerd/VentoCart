@@ -62,6 +62,37 @@ class Cart {
 
 				$product_query = $this->db->query("SELECT * FROM `".DB_PREFIX."product_to_store` `p2s` LEFT JOIN `".DB_PREFIX."product` p ON (p2s.`product_id` = p.`product_id`) LEFT JOIN `".DB_PREFIX."product_description` pd ON (p.`product_id` = pd.`product_id`) WHERE p2s.`store_id` = '".(int)$this->config->get('config_store_id')."' AND p2s.`product_id` = '".(int)$cart['product_id']."' AND pd.`language_id` = '".(int)$this->config->get('config_language_id')."' AND p.`date_available` <= NOW() AND p.`status` = '1'");
 
+				if ($cart['product_id'] == -1 && !empty( $this->session->data['virtual_product'])) {
+					 //Virtual products for subscription renewals or add payment methods
+					$this->data[$cart['cart_id']] = [
+						'cart_id' => $cart['cart_id'],
+						'product_id' => -1,
+						'variation_id' => 0,
+						'name' => $this->session->data['virtual_product']['name'],
+						'model' => "",
+						'shipping' => 0,
+						'image' => '',
+						'option' => [],
+						'subscription' => [],
+						'download' => [],
+						'quantity' => 1,
+						'minimum' => 1,
+						'subtract' => 0,
+						'stock' => 1,
+						'price' => $this->session->data['virtual_product']['price'],
+						'total' =>  $this->session->data['virtual_product']['price'],
+						'reward' => 0,
+						'points' => 0,
+						'tax_class_id' => 0,
+						'weight' => 0,
+						'weight_class_id' => 0,
+						'length' => 0,
+						'width' => 0,
+						'height' => 0,
+						'length_class_id' => 0
+					];
+
+				}
 				if($product_query->num_rows && ($cart['quantity'] > 0)) {
 					$option_price = 0;
 					$option_points = 0;
@@ -480,9 +511,10 @@ class Cart {
 						'length_class_id' => $product_query->row['length_class_id']
 					];
 					$image = null;
-				} else {
-					$this->remove($cart['cart_id']);
+				} else if ($cart['product_id'] != -1) {
+					  $this->remove($cart['cart_id']);
 				}
+				
 			}
 		}
 
@@ -551,9 +583,9 @@ class Cart {
 	 */
 	public function remove(int $cart_id): void {
 
-		$this->db->query("DELETE FROM `".DB_PREFIX."cart` WHERE `cart_id` = '".(int)$cart_id."' AND `api_id` = '".(isset($this->session->data['api_id']) ? (int)$this->session->data['api_id'] : 0)."' AND `customer_id` = '".(int)$this->customer->getId()."' AND `session_id` = '".$this->db->escape($this->session->getId())."'");
+		 $this->db->query("DELETE FROM `".DB_PREFIX."cart` WHERE `cart_id` = '".(int)$cart_id."' AND `api_id` = '".(isset($this->session->data['api_id']) ? (int)$this->session->data['api_id'] : 0)."' AND `customer_id` = '".(int)$this->customer->getId()."' AND `session_id` = '".$this->db->escape($this->session->getId())."'");
 
-		unset($this->data[$cart_id]);
+		 unset($this->data[$cart_id]);
 	}
 
 	/**

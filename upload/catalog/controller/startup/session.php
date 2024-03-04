@@ -30,16 +30,7 @@ class Session extends \Opencart\System\Engine\Controller {
 
 			return;
 		}
-
-		/*
-		We are adding the session cookie outside of the session class as I believe
-		PHP messed up in a big way handling sessions. Why in the hell is it so hard to
-		have more than one concurrent session using cookies!
-
-		Is it not better to have multiple cookies when accessing parts of the system
-		that requires different cookie sessions for security reasons.
-		*/
-
+ 
 		// Update the session lifetime
 		if ($this->config->get('config_session_expire')) {
 			$this->config->set('session_expire', $this->config->get('config_session_expire'));

@@ -78,7 +78,7 @@
                           <div class="extension-description">
 
                           </div>
-                          <img src="{{ extension.image }}" alt="{{ extension.name }}" title="{{ extension.name }}" class="img-fluid"/></a>
+                          <img src="{{ extension.image }}" alt="{{ extension.name }}" title="{{ extension.name }}" class="img-fluid"></a>
                       </div>
                       <div class="extension-name">
                         <h4><a href="{{ extension.href }}">{{ extension.name }}</a></h4>
@@ -108,7 +108,7 @@
                     <section>
                       <div class="extension-preview text-center"><a href="{{ extension.href }}">
                           <div class="extension-description"></div>
-                          <img src="{{ extension.image }}" alt="{{ extension.name }}" title="{{ extension.name }}" class="img-fluid"/></a></div>
+                          <img src="{{ extension.image }}" alt="{{ extension.name }}" title="{{ extension.name }}" class="img-fluid"></a></div>
                       <div class="extension-name">
                         <h4><a href="{{ extension.href }}">{{ extension.name }}</a></h4>
                         {{ extension.price }}</div>
@@ -137,7 +137,7 @@
     </div>
   </div>
 </div>
-<script type="text/javascript"><!--
+<script ><!--
 $('#button-api').on('click', function (e) {
     $('#modal-api').remove();
 
@@ -161,7 +161,7 @@ $('#button-api').on('click', function (e) {
     });
 });
 //--></script>
-<script type="text/javascript"><!--
+<script ><!--
 $('#button-filter').on('click', function (e) {
     var url = 'index.php?route=marketplace/marketplace&user_token={{ user_token }}';
 

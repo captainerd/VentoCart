@@ -98,7 +98,7 @@ img {
 </style>
 
   <script src='https://cdnjs.cloudflare.com/ajax/libs/cropperjs/0.8.1/cropper.min.js'></script>
-  <script type="text/javascript"> 
+  <script > 
     $('#modal-image *').off();
     $('#modal-image *').unbind();
     // Initialize variables
@@ -145,7 +145,7 @@ $(document).on('click', '#addMutli', function() {
                     tinymce.activeEditor.insertContent('<video style="width: 200px;" controls><source  src="'+imgSrc+'" type="video/mp4"//></video>');
                 } else {
                      
-                    tinymce.activeEditor.insertContent('<img width="40%" src="'+imgSrc+'" alt="" />');
+                    tinymce.activeEditor.insertContent('<img width="40%" src="'+imgSrc+'" alt="">');
                 }
             } else {
             

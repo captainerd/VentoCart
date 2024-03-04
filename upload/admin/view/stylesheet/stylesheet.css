@@ -179,10 +179,11 @@ color: #595959;
 
 /* Menu Button */
 #button-menu {
-    font-size: 25px;
+  
     padding: 0px 16px;
     margin: 2px;
     cursor: pointer;
+    background-color:#35007a;
     color: #ffffff;
 }
 
@@ -234,7 +235,11 @@ color: #595959;
 #column-left.active + #content, #column-left.active + #content + #footer {
     left: 235px;
 }
-
+@media (min-width: 993px) {
+    #toggleButton {
+        display: none;
+    }
+}
 /* Desktop */
 @media (min-width: 992px) {
     #column-left {

@@ -4,7 +4,15 @@
   <div class="row"><?=  $column_left  ?>
     <div id="content" class="col"><?=  $content_top  ?>
       <h1><?= $this->e($heading_title ) ?></h1>
+
+      <div class="alert alert-info alert-dismissible fade show" role="alert">
+      <i class="fas fa-shield-alt fa-2x"></i>
+<?=$text_payment_storage?>
+  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+
       <div id="payment-method"><?=  $list   ?></div>
+      <a href="#" class="btn btn-primary addpayment"><i class="fas fa-plus-circle"></i> <?=$button_add?></a>
       <div class="text-end"><a href="<?=  $continue   ?>" class="btn btn-primary"><?= $this->e($button_continue ) ?></a></div>
       <?=  $content_bottom  ?></div>
     <?=  $column_right  ?></div>
@@ -43,4 +51,39 @@ $('#payment-method').on('click', '.btn-danger', function (e) {
     });
 });
 //--></script>
+
+
+<script>
+$(document).ready(function(){
+    $('.addpayment').on('click', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+ 
+        $.ajax({
+            url: 'index.php?route=checkout/cart.add&language=en-gb',
+            type: 'POST',
+            data: {
+                product_id: -1,
+                quantity: 1,
+                virual_product_name: 'Add New Payment Method',
+                virual_product_info: '0',
+                virtual_price: 0
+            },
+            dataType: 'json',
+            success: function(response) {
+                // On success
+                if(response.success) {
+                    // Redirect to checkout page
+                    window.location.href = 'index.php?route=checkout/checkout&language=en-gb';
+                }
+            },
+            error: function(xhr, status, error) {
+                // On error
+                console.error(xhr.responseText);
+            }
+        });
+    });
+});
+</script>
+
 <?=  $footer  ?>

@@ -16,11 +16,12 @@ $_['text_choose_existing_card'] = 'Choose existing card';
 $_['text_select_a_card'] 	= 'Select a card';
 $_['text_cards'] 				= 'Cards';
 $_['text_debug'] 				= '[ Test Mode ] Please use only valid test cards, visit: <a href="https://stripe.com/docs/testing" target="_blank">https://stripe.com/docs/testing</a>.';
-
+$_['text_payment_saved'] = "Payment method successfully saved to your account.";
 // Button
 $_['button_submit_payment']= 'Submit Payment';
 
 // Entry
+$_['button_purchase']			= 'Purchase';
 $_['entry_cc_type']			= 'Card Type';
 $_['entry_cc_number']		= 'Card Number';
 $_['entry_cc_expire_date']	= 'Card Expiry Date';
@@ -30,3 +31,5 @@ $_['entry_cc_issue']			= 'Card Issue Number';
 // Help
 $_['help_start_date']		= '(if available)';
 $_['help_issue']				= '(for Maestro and Solo cards only)';
+
+$_['error_subscription'] = "Error: You can't checkout a cart with more than one items combined with a Subscription, delete items from your cart and keep one subscription to checkout";

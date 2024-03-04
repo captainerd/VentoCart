@@ -41,7 +41,7 @@
 
 </style>
 
-<script type="text/javascript" src="view/javascript/Sortable.min.js"></script>
+<script  src="view/javascript/Sortable.min.js"></script>
 <script>
 	var categories = {{ categories| json_encode | raw }};
 	var sortedCategories = Object.values(categories).sort((a, b) => a.sort_order - b.sort_order);

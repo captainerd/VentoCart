@@ -16,12 +16,12 @@
   <link href="{{ bootstrap }}" rel="stylesheet" media="screen"/>
   <link href="{{ icons }}" rel="stylesheet" type="text/css"/>
   <link href="{{ stylesheet }}" rel="stylesheet" type="text/css"/>
-  <script src="{{ jquery }}" type="text/javascript"></script>
-  <script type="text/javascript" src="view/javascript/jquery/datetimepicker/moment.min.js"></script>
-  <script type="text/javascript" src="view/javascript/jquery/datetimepicker/moment-with-locales.min.js"></script>
-  <script type="text/javascript" src="view/javascript/jquery/datetimepicker/daterangepicker.js"></script>
+  <script src="{{ jquery }}" ></script>
+  <script  src="view/javascript/jquery/datetimepicker/moment.min.js"></script>
+  <script  src="view/javascript/jquery/datetimepicker/moment-with-locales.min.js"></script>
+  <script  src="view/javascript/jquery/datetimepicker/daterangepicker.js"></script>
   <link href="view/javascript/jquery/datetimepicker/daterangepicker.css" rel="stylesheet" type="text/css"/>
-  <script type="text/javascript" src="view/javascript/common.js"></script>
+  <script  src="view/javascript/common.js"></script>
   {% for style in styles %}
     <link type="text/css" href="{{ style.href }}" rel="{{ style.rel }}" media="{{ style.media }}"/>
   {% endfor %}
@@ -29,7 +29,7 @@
     <link href="{{ link.href }}" rel="{{ link.rel }}"/>
   {% endfor %}
   {% for script in scripts %}
-    <script type="text/javascript" src="{{ script.href }}"></script>
+    <script  src="{{ script.href }}"></script>
   {% endfor %}
 </head>
 <body>
@@ -39,14 +39,14 @@
     <div class="container-fluid">
       <a href="{{ home }}" class="navbar-brand d-none d-lg-block"><img src="view/image/logo.png" alt="{{ heading_title }}" title="{{ heading_title }}"/></a>
       {% if logged %}
-        <button type="button" id="button-menu" class="btn btn-link d-inline-block d-lg-none"><i class="fa-solid fa-bars"></i></button>
-
      
-       
+
+    
   
    
         <ul class="nav navbar-nav">
           
+          <button type="button" id="button-menu" class="btn btn-dark d-inline-block d-lg-none"><i class="fa-solid fa-bars"></i></button>
           <li id="nav-notification" class="nav-item dropdown">
          
             <a href="#" data-bs-toggle="dropdown" class="nav-link dropdown-toggle">
@@ -85,7 +85,7 @@
               <li><a href="http://docs.opencart.com" target="_blank" class="dropdown-item"><i class="fa-solid fa-file fa-fw"></i> {{ text_documentation }}</a></li>
               <li><a href="https://forum.ventocart.com" target="_blank" class="dropdown-item"><i class="fa-solid fa-comments fa-fw"></i> {{ text_support }}</a></li>
             </ul>
-          </li>
+          </li>        
           <li id="nav-logout" class="nav-item"><a href="{{ logout }}" class="nav-link"><i class="fa-solid fa-sign-out"></i> <span class="d-none d-md-inline">{{ text_logout }}</span></a></li>
         </ul>
       {% endif %}
@@ -100,5 +100,10 @@ $("#security_modal").on('click', function() {
 });
   });
  
+  $(document).ready(function() {
+    $('#toggleButton').click(function() {
+        $('#column-left').toggleClass('active');
+    });
+});
 
 </script>

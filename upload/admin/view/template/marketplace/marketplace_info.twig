@@ -28,7 +28,7 @@
 				<div class="row extension-info">
 					<div class="col-md-8 col-lg-9">
 						{% if banner %}
-							<div id="banner" class="text-center img-thumbnail mb-3"><img src="{{ banner }}" title="{{ name }}" alt="{{ name }}" class="img-fluid"/></div>
+							<div id="banner" class="text-center img-thumbnail mb-3"><img src="{{ banner }}" title="{{ name }}" alt="{{ name }}" class="img-fluid"></div>
 						{% endif %}
 						<div class="row thumbnails">
 							{% for image in images %}
@@ -143,7 +143,7 @@
 		</div>
 	</div>
 </div>
-<script type="text/javascript"><!--
+<script ><!--
 $('#button-api').on('click', function (e) {
     $('#modal-api').remove();
 
@@ -167,7 +167,7 @@ $('#button-api').on('click', function (e) {
     });
 });
 //--></script>
-<script type="text/javascript"><!--
+<script ><!--
 $('#button-buy').on('click', function (e) {
     e.preventDefault();
 

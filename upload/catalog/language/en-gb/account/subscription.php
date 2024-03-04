@@ -4,7 +4,7 @@ $_['heading_title']               = 'Subscriptions';
 
 // Text
 $_['text_account']                = 'Account';
-$_['text_subscription']           = 'Subscription #%s';
+$_['text_subscription']           = 'Subscription';
 $_['text_invoice_no']             = 'Invoice No.';
 $_['text_subscription_id']        = 'Subscription ID';
 $_['text_order_id']               = 'Order ID';
@@ -28,12 +28,14 @@ $_['text_order']                  = 'Order History';
 $_['text_no_results']             = 'No subscriptions found!';
 $_['text_error']                  = 'The recurring order you requested could not be found!';
 $_['text_cancelled']              = 'Recurring payment has been cancelled';
-
+$_['text_cancels_at']             = 'Cancels at';
+$_['text_success_restart']        = 'Your subscription has been successfully restarted.';
 // Column
 $_['column_subscription_id']      = 'Subscription ID';
 $_['column_product']              = 'Product';
 $_['column_order_id']             = 'Order ID';
 $_['column_status']               = 'Status';
+ 
 $_['column_total']                = 'Total';
 $_['column_comment']              = 'Comment';
 $_['column_date_added']           = 'Date Added';
@@ -41,3 +43,8 @@ $_['column_date_added']           = 'Date Added';
 // Error
 $_['error_not_cancelled']         = 'Error: %s';
 $_['error_not_found']             = 'Could not cancel subscription';
+ 
+$_['text_success_resume']          = 'Your subscription has been resumed';
+$_['text_warrning']         = 'By proceeding, you are choosing to cancel your subscription. Please note that any remaining duration of your subscription will remain valid until its expiration ';
+$_['button_resume']              = 'Resume subscription';
+$_['button_save'] = "Apply";

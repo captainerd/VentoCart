@@ -109,6 +109,7 @@ class Cart extends \Opencart\System\Engine\Controller {
 		$data['voucher_remove'] = $this->url->link('checkout/voucher.remove', 'language=' . $this->config->get('config_language'));
 
 		// Display prices
+	 
 		if ($this->customer->isLogged() || !$this->config->get('config_customer_price')) {
 			$price_status = true;
 		} else {
@@ -215,6 +216,21 @@ class Cart extends \Opencart\System\Engine\Controller {
 		} else {
 			$product_id = 0;
 		}
+		if (isset($this->request->post['virual_product_name'])) {
+			$virual_product_name = $this->request->post['virual_product_name'];
+		} else {
+			$virual_product_name = '';
+		}
+		if (isset($this->request->post['virual_product_info'])) {
+			$virual_product_info = $this->request->post['virual_product_info'];
+		} else {
+			$virual_product_info = '';
+		}
+		if (isset($this->request->post['virtual_price'])) {
+			$virtual_price = (int)$this->request->post['virtual_price'];
+		} else {
+			$virtual_price = 0;
+		}
 
 		if (isset($this->request->post['quantity'])) {
 			$quantity = (int)$this->request->post['quantity'];
@@ -235,9 +251,29 @@ class Cart extends \Opencart\System\Engine\Controller {
 		}
 
 		$this->load->model('catalog/product');
-
+		if (!empty($this->session->data['virtual_product'])) {
+			unset($this->session->data['virtual_product']);
+		}
 		$product_info = $this->model_catalog_product->getProduct($product_id);
- 
+		if ($product_id == '-1' && !empty($virual_product_name)) {
+		 
+			$this->session->data['virtual_product'] = [
+				'name' =>  $virual_product_name, 
+				'price' => $virtual_price, 
+				'info' => $virual_product_info
+			];
+		 
+			$product_info = [
+		 
+				'name' => $virual_product_name,
+				'price' => $virtual_price,
+				'variation_id' => 0,
+				'variant' => [],
+			 
+			
+			];
+		}
+		 
 		if ($product_info) {
 			// If variant get master product
 			if ($product_info['variation_id']) {

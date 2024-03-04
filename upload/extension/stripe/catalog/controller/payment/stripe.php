@@ -1,20 +1,24 @@
 <?php
 
 namespace Opencart\Catalog\Controller\Extension\Stripe\Payment;
-use Exception;  
-class Stripe extends \Opencart\System\Engine\Controller   {
 
-	public function index() {
+use Exception;
+
+class Stripe extends \Opencart\System\Engine\Controller
+{
+
+	public function index()
+	{
 
 		$this->load->language('extension/stripe/payment/stripe');
-
+		$this->load->model('extension/stripe/payment/stripe');
 		if ($this->request->server['HTTPS']) {
 			$data['store_url'] = HTTP_SERVER;
 		} else {
 			$data['store_url'] = HTTP_SERVER;
 		}
- 
-		if($this->config->get('payment_stripe_environment') == 'live') {
+
+		if ($this->config->get('payment_stripe_environment') == 'live') {
 			$data['payment_stripe_public_key'] = $this->config->get('payment_stripe_live_public_key');
 			$data['test_mode'] = false;
 		} else {
@@ -25,20 +29,42 @@ class Stripe extends \Opencart\System\Engine\Controller   {
 		// get order info
 		$this->load->model('checkout/order');
 		$order_info = $this->model_checkout_order->getOrder($this->session->data['order_id']);
-		
+		if (!empty($this->cart->getSubscriptions())) {
+
+			if (count($this->cart->getProducts()) > 1) {
+				return $this->load->view('extension/stripe/payment/error', $data);
+
+			}
+
+
+		}
+
+
+
+
 		// we will use this owner info to send Stripe from client side
 		$data['billing_details'] = array(
-										'name' => $order_info['payment_firstname'] . ' ' . $order_info['payment_lastname'],
-										'email' => $order_info['email'],
-										'address' => array(
-											'line1'	=> $order_info['payment_address_1'],
-											'line2'	=> $order_info['payment_phone'],
-											'city'	=> $order_info['payment_city'],
-											'state'	=> $order_info['payment_zone'],
-											'postal_code' => $order_info['payment_postcode'],
-											'country' => $order_info['payment_iso_code_2']
-										)
-									);
+			'name' => $order_info['payment_firstname'] . ' ' . $order_info['payment_lastname'],
+			'email' => $order_info['email'],
+			'address' => array(
+				'line1' => $order_info['payment_address_1'],
+				'line2' => $order_info['payment_phone'],
+				'city' => $order_info['payment_city'],
+				'state' => $order_info['payment_zone'],
+				'postal_code' => $order_info['payment_postcode'],
+				'country' => $order_info['payment_iso_code_2']
+			)
+		);
+
+		if ($this->customer->isLogged()) {
+			// Add Customer to stripe
+			$data['saved_methods'] = $this->model_extension_stripe_payment_stripe->getStored();
+		 
+
+
+		}
+
+
 
 		// get current language code for locale, this will let Stripe JS elements to know which languages to use for its own elements
 		$data['locale'] = $this->language->get('code');
@@ -49,35 +75,38 @@ class Stripe extends \Opencart\System\Engine\Controller   {
 		return $this->load->view('extension/stripe/payment/stripe', $data);
 	}
 
-	public function confirm(){
+	public function confirm()
+	{
 		if ($this->request->server['HTTPS']) {
 			$data['store_url'] = HTTP_SERVER;
 		} else {
 			$data['store_url'] = HTTP_SERVER;
 		}
-
+		$this->load->language('extension/stripe/payment/stripe');
 		$this->load->model('extension/stripe/payment/stripe');
 		$json = array('error' => 'Server did not get valid request to process');
 
-		try{
+		try {
 
-			if(!isset($this->session->data['order_id'])){
+			if (!isset($this->session->data['order_id'])) {
 				$this->model_extension_stripe_payment_stripe->log(__FILE__, __LINE__, "Session Data ", $this->session->data);
 				throw new Exception("Your order seems lost in session. We did not charge your payment. Please contact administrator for more information.");
 			}
-
+			$customer_id = null;
 			// retrieve json from POST body
 			$json_str = file_get_contents('php://input');
 			$json_obj = json_decode($json_str);
-			
+
 			// load stripe libraries
 			$this->initStripe();
 
 			// get order info
 			$this->load->model('checkout/order');
+			$this->load->model('checkout/subscription');
+
 			$order_info = $this->model_checkout_order->getOrder($this->session->data['order_id']);
 
-			if(empty($order_info)){
+			if (empty($order_info)) {
 				$this->model_extension_stripe_payment_stripe->log(__FILE__, __LINE__, "Order Data ", $this->order_info);
 				throw new Exception("Your order seems lost before payment. We did not charge your payment. Please contact administrator for more information.");
 			}
@@ -90,56 +119,172 @@ class Stripe extends \Opencart\System\Engine\Controller   {
 
 				// multiple by 100 to get value in cents
 				$amount = $amount * 100;
+				if (empty($this->cart->getSubscriptions())) {
 
-				// Create the PaymentIntent
-				$intent = \Stripe\PaymentIntent::create(array(
-					'payment_method' => $json_obj->payment_method_id,
-					'amount' => $amount,
-					'return_url' =>  rtrim($data['store_url'], '/') . "/?route=checkout/success",
-					'currency' => strtolower($order_info['currency_code']),
-					'confirmation_method' => 'manual',
-					'confirm' => true,
-					'description' => "Charge for Order #".$order_info['order_id'],
-					'shipping' => array(
-										'name' => $order_info['shipping_firstname'] . ' ' . $order_info['shipping_lastname'],
-										'address' => array(
-											'line1'	=> $order_info['shipping_address_1'],
-											'line2'	=> $order_info['payment_phone'],
-											'city'	=> $order_info['shipping_city'],
-											'state'	=> $order_info['shipping_zone'],
-											'postal_code' => $order_info['shipping_postcode'],
-											'country' => $order_info['shipping_iso_code_2'],
-										)
-									),
-					'metadata' => array(
-										'OrderId' => $order_info['order_id'],
-										'FirstName' => $order_info['payment_firstname'],
-										'LastName' => $order_info['payment_lastname'],
-										'Address' => $order_info['payment_address_1'] . ', ' . $order_info['payment_phone'],
-										'City' => $order_info['payment_city'],
-										'Province' => $order_info['payment_zone'],
-										'PostalCode' => $order_info['payment_postcode'],
-										'Country' => $order_info['payment_iso_code_2'],
-										'Email' => $order_info['email'],
-										'Phone' => $order_info['telephone'],
-									),
-				));
+
+					if ($this->customer->isLogged()) {
+						// Add Customer to stripe
+						$customer_id = $this->model_extension_stripe_payment_stripe->getCustomerID();
+						// Customer exists, attach new payment
+					
+						if (!empty($customer_id)) {
+							$this->model_extension_stripe_payment_stripe->attachPaymentMethod($customer_id, $json_obj->payment_method_id);
+						} else {
+							// Customer never purchased again, create customer and attach payment
+							$customer_id = $this->model_extension_stripe_payment_stripe->addCustomer($order_info, $json_obj->payment_method_id);
+
+						}
+
+ 
+					 
+						$this->model_extension_stripe_payment_stripe->attachPaymentMethod($customer_id, $json_obj->payment_method_id);
+					}
+
+				 
+
+
+					$intent = \Stripe\PaymentIntent::create(
+						array(
+							'payment_method' => $json_obj->payment_method_id,
+							'amount' => $amount,
+							'customer' => $customer_id,
+							'return_url' => rtrim($data['store_url'], '/') . "/?route=checkout/success",
+							'currency' => strtolower($order_info['currency_code']),
+							'confirmation_method' => 'manual',
+
+							'confirm' => true,
+							'description' => "Charge for Order #" . $order_info['order_id'],
+							'shipping' => array(
+								'name' => $order_info['shipping_firstname'] . ' ' . $order_info['shipping_lastname'],
+								'address' => array(
+									'line1' => $order_info['shipping_address_1'],
+									'line2' => $order_info['payment_phone'],
+									'city' => $order_info['shipping_city'],
+									'state' => $order_info['shipping_zone'],
+									'postal_code' => $order_info['shipping_postcode'],
+									'country' => $order_info['shipping_iso_code_2'],
+								)
+							),
+							'metadata' => array(
+								'OrderId' => $order_info['order_id'],
+								'FirstName' => $order_info['payment_firstname'],
+								'LastName' => $order_info['payment_lastname'],
+								'Address' => $order_info['payment_address_1'] . ', ' . $order_info['payment_phone'],
+								'City' => $order_info['payment_city'],
+								'Province' => $order_info['payment_zone'],
+								'PostalCode' => $order_info['payment_postcode'],
+								'Country' => $order_info['payment_iso_code_2'],
+								'Email' => $order_info['email'],
+								'Phone' => $order_info['telephone'],
+							),
+						)
+					);
+			 
+
+	 
+
+				}
+
+				if (!empty($this->cart->getSubscriptions())) {
+
+					$customer_id = $this->model_extension_stripe_payment_stripe->getCustomerID();
+				 
+					// Customer exists, attach new payment
+					if (!empty($customer_id)) {
+						$this->model_extension_stripe_payment_stripe->attachPaymentMethod($customer_id, $json_obj->payment_method_id);
+					} else {
+						// Customer never purchased again, create customer and attach payment
+					 
+						$customer_id = $this->model_extension_stripe_payment_stripe->addCustomer($order_info, $json_obj->payment_method_id);
+					}
+				 
+					$price_id = $this->model_extension_stripe_payment_stripe->createPlanOrFindPrice($this->cart->getSubscriptions()[0]);
+
+					$subscription = \Stripe\Subscription::create([
+						'customer' => $customer_id,
+						'currency' => strtolower($order_info['currency_code']),
+						'items' => [
+							[
+								'price' => $price_id,
+							]
+						],
+
+						'payment_behavior' => 'allow_incomplete',
+						'default_payment_method' => $json_obj->payment_method_id,
+						'payment_settings' => [
+							'payment_method_types' => ['card'],
+							'save_default_payment_method' => 'on_subscription',
+
+						],
+						'expand' => ['latest_invoice.payment_intent'],
+					]);
+					//print_r($subscription);
+
+
+
+					if ($subscription->pending_setup_intent !== NULL) {
+						$json = [
+							'type' => 'setup',
+							'clientSecret' => $subscription->pending_setup_intent->client_secret
+						];
+					} else {
+						$json = [
+							'type' => 'payment',
+							'clientSecret' => $subscription->latest_invoice->payment_intent->client_secret
+						];
+					}
+					if ($subscription->status == 'active') {
+						$message = 'Subscription ID: ' . $subscription->id . PHP_EOL . 'Status: ' . $subscription->status;
+						$json = array('success' => $this->url->link('checkout/success', '', true));
+						$this->model_checkout_order->addHistory($order_info['order_id'], $this->config->get('payment_stripe_order_success_status_id'), $message, false);
+
+						// Adding history expected to also create the subscription, so just update its tracking (payment id) and only one sub can be purchased at a time
+						$order_products = $this->model_checkout_order->getProducts($order_info['order_id']);
+
+						$product_id = $order_products[key($order_products)]['order_product_id'];
+						$subscription_data = $this->model_checkout_subscription->getSubscriptionByOrderProductId($this->session->data['order_id'], $product_id);
+						$subscription_data['tracking'] = $subscription->id;
+
+						//Add history to subscription
+						$this->model_checkout_subscription->addHistory(
+							$subscription_data['subscription_id'],
+							$this->config->get('payment_stripe_subscription_success_status_id'),
+							'',
+							true
+						);
+						// Update subscription tracking (sub id)
+						$this->model_checkout_subscription->editSubscription($subscription_data['subscription_id'], $subscription_data);
+
+
+					} else {
+						$this->model_checkout_order->addHistory($order_info['order_id'], $this->config->get('payment_stripe_subscription_failed_status_id'), $subscription->status, true);
+					}
+				}
+
+
+
+			
+
+
+
 			}
 
 			// else if payment intent id sent from client side (stripe UI)
 			// then retrieve the intent and charge it
 			else if (isset($json_obj->payment_intent_id)) {
 				$intent = \Stripe\PaymentIntent::retrieve(
-					 $json_obj->payment_intent_id
+					$json_obj->payment_intent_id
 				);
+
 				$intent->confirm();
 			}
-
-			if(!empty($intent)) {
+			if (!empty($intent)) {
 
 				// check if intent required any further action
-				if (($intent->status == 'requires_action' || $intent->status == 'requires_source_action') &&
-				$intent->next_action->type == 'use_stripe_sdk') {
+				if (
+					($intent->status == 'requires_action' || $intent->status == 'requires_source_action') &&
+					$intent->next_action->type == 'use_stripe_sdk'
+				) {
 					// Tell the client to handle the action
 					$json = array(
 						'requires_action' => true,
@@ -156,7 +301,7 @@ class Stripe extends \Opencart\System\Engine\Controller   {
 					$charge_result = $this->chargeAndUpdateOrder($intent, $order_info);
 
 					// set redirect to success or failure page as per payment charge status
-					if($charge_result) {
+					if ($charge_result) {
 						$json = array('success' => $this->url->link('checkout/success', '', true));
 					} else {
 						$json = array('error' => 'Payment could not be completed. Please try again.');
@@ -164,23 +309,32 @@ class Stripe extends \Opencart\System\Engine\Controller   {
 
 				} else {
 					// Unexpected Payment Intent Status
-					$json = array('error' => 'Invalid PaymentIntent Status ('.$intent->status.')');
+					$json = array('error' => 'Invalid PaymentIntent Status (' . $intent->status . ')');
 				}
 			}
 
 		} catch (\Stripe\Error\Base $e) {
 			// Display error on client
+		 
 			$json = array('error' => $e->getMessage());
-			
+
 			$this->model_extension_stripe_payment_stripe->log($e->getFile(), $e->getLine(), "Stripe Exception caught in confirm() method", $e->getMessage());
 
 		} catch (\Exception $e) {
-			$json = array('error' => $e->getMessage());
+		 
+			if (  (substr($e->getMessage(), -2) === "1." && $this->session->data['virtual_product']['info'] == '0')) {
+				$json = array('error' => $this->language->get("text_payment_saved"));
+			 
+			} else {
+
+		 	$json = array('error' =>   $e->getMessage());
+			}
+		 
 
 			$this->model_extension_stripe_payment_stripe->log($e->getFile(), $e->getLine(), "Exception caught in confirm() method", $e->getMessage());
 
 		}
-		
+
 		$this->response->addHeader('Content-Type: application/json');
 		$this->response->setOutput(json_encode($json));
 		return;
@@ -191,43 +345,45 @@ class Stripe extends \Opencart\System\Engine\Controller   {
 	 * this method charges the source and update order accordingly
 	 * @returns boolean
 	 */
-	private function chargeAndUpdateOrder($intent, $order_info){
+	private function chargeAndUpdateOrder($intent, $order_info)
+	{
 
-		if(isset($intent->id)) {
+		if (isset($intent->id)) {
 
 			// insert stripe order
-			$message = 'Payment Intent ID: '.$intent->id. PHP_EOL .'Status: '. $intent->status;
+			$message = 'Payment Intent ID: ' . $intent->id . PHP_EOL . 'Status: ' . $intent->status;
 
 			$this->load->model('checkout/order');
 
 			// update order statatus & addOrderHistory
 			// paid will be true if the charge succeeded, or was successfully authorized for later capture.
-			if($intent->status == "succeeded") {
+			if ($intent->status == "succeeded") {
 				//      $this->model_checkout_order->addHistory($order_id, $this->config->get('payment_simplifycommerce_order_status_id'), '', true);
-				$this->model_checkout_order->addHistory($order_info['order_id'], $this->config->get('payment_stripe_order_success_status_id'), $message, false);
+				$this->model_checkout_order->addHistory($order_info['order_id'], $this->config->get('payment_stripe_order_success_status_id'), $message, true);
 			} else {
-				$this->model_checkout_order->addHistory($order_info['order_id'], $this->config->get('payment_stripe_order_failed_status_id'), $message, false);
+				$this->model_checkout_order->addHistory($order_info['order_id'], $this->config->get('payment_stripe_order_failed_status_id'), $message, true);
 			}
-			
+
 			// charge completed successfully
 			return true;
-		
+
 		} else {
 			// charge could not be completed
 			return false;
 		}
 	}
 
-	private function initStripe() {
-		 
+	private function initStripe()
+	{
+
 		require_once(DIR_EXTENSION . 'stripe/system/vendor/autoload.php');
-		if($this->config->get('payment_stripe_environment') == 'live' || (isset($this->request->request['livemode']) && $this->request->request['livemode'] == "true")) {
+		if ($this->config->get('payment_stripe_environment') == 'live' || (isset($this->request->request['livemode']) && $this->request->request['livemode'] == "true")) {
 			$stripe_secret_key = $this->config->get('payment_stripe_live_secret_key');
 		} else {
 			$stripe_secret_key = $this->config->get('payment_stripe_test_secret_key');
 		}
 
-		if($stripe_secret_key != '' && $stripe_secret_key != null) {
+		if ($stripe_secret_key != '' && $stripe_secret_key != null) {
 			\Stripe\Stripe::setApiKey($stripe_secret_key);
 			return true;
 		}

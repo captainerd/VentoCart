@@ -95,18 +95,34 @@ class PaymentMethod extends \Opencart\System\Engine\Controller
 			if ($this->config->get('payment_' . $result['code'] . '_status')) {
 				$this->load->model('extension/' . $result['extension'] . '/payment/' . $result['code']);
  
-				// Do not, function_exists, method_exists, is_callable. none of these will work ever with absolute stability and concistency
+		 
 				try {
 					$payment_method_info = $this->{'model_extension_' . $result['extension'] . '_payment_' . $result['code']}->getStored();
 
 					if ($payment_method_info) {
-						$data['payment_methods'][] = [
-							'code' => $payment_method_info['code'],
-							'name' => $payment_method_info['name'],
-							'description' => $payment_method_info['description'],
-							'image' => $payment_method_info['image'],
-							'delete' => $this->url->link('account/payment_method.delete', 'language=' . $this->config->get('config_language') . '&customer_token=' . $this->session->data['customer_token'] . '&code=' . $payment_method_info['code'])
-						];
+						if (isset($payment_method_info['code'])) {
+							// Single payment method
+							$data['payment_methods'][] = [
+								'id' => $payment_method_info['id'],
+								'name' => $payment_method_info['name'],
+								'date_expire' => $payment_method_info['date_expire'],
+								'type' => $payment_method_info['description'],
+								'image' => $payment_method_info['image'],
+								'delete' => $this->url->link('account/payment_method.delete', 'language=' . $this->config->get('config_language') . '&customer_token=' . $this->session->data['customer_token'] . '&code=' . $result['code'] . '&id=' . $payment_method_info['id'])
+							];
+						} else {
+							// Multiple payment methods
+							foreach ($payment_method_info as $info) {
+								$data['payment_methods'][] = [
+									'id' => $info['id'],
+									'name' => $info['name'],
+									'date_expire' => $info['date_expire'],
+									'type' => $info['description'],
+									'image' => $info['image'],
+									'delete' => $this->url->link('account/payment_method.delete', 'language=' . $this->config->get('config_language') . '&customer_token=' . $this->session->data['customer_token'] . '&code=' . $result['code'] . '&id=' . $info['id'])
+								];
+							}
+						}
 					}
 				} catch (\Exception $e) {
 				 // Method not found, or an error occurred.
@@ -125,11 +141,16 @@ class PaymentMethod extends \Opencart\System\Engine\Controller
 		$this->load->language('account/payment_method');
 
 		$json = [];
-
+	 
 		if (isset($this->request->get['code'])) {
 			$code = (string) $this->request->get['code'];
 		} else {
 			$code = '';
+		}
+		if (isset($this->request->get['id'])) {
+			$id = (string) $this->request->get['id'];
+		} else {
+			$id = '';
 		}
 
 		if (!$this->customer->isLogged() || (!isset($this->request->get['customer_token']) || !isset($this->session->data['customer_token']) || ($this->request->get['customer_token'] != $this->session->data['customer_token']))) {
@@ -137,25 +158,30 @@ class PaymentMethod extends \Opencart\System\Engine\Controller
 
 			$json['redirect'] = $this->url->link('account/login', 'language=' . $this->config->get('config_language'), true);
 		}
-
+	 
 		if (!$json) {
-			$this->load->model('account/payment_method');
-
+		 
+	 
 			$payment_method_info = $this->model_setting_extension->getExtensionByCode('payment', $code);
-
+		 
 			if (!$payment_method_info) {
 				$json['error'] = $this->language->get('error_payment_method');
 			}
 		}
-
+	 
 		if (!$json) {
 			$this->load->model('extension/' . $payment_method_info['extension'] . '/payment/' . $payment_method_info['code']);
-
-			if (is_callable([$this->{'model_extension_' . $payment_method_info['extension'] . '_payment_' . $payment_method_info['code']}, 'delete'])) {
-				$this->{'model_extension_' . $payment_method_info['extension'] . '_payment_' . $payment_method_info['code']}->delete();
-			}
-
+			$deleted = false;
+			try {
+				$deleted =  $this->{'model_extension_' . $payment_method_info['extension'] . '_payment_' . $payment_method_info['code']}->delete($id);
+			} catch (\Exception $e) {
+				// Method not found, or an error occurred.
+			   }
+			   if ($deleted) {
 			$json['success'] = $this->language->get('text_success');
+			   } else {
+				$json['error'] = $this->language->get('text_error');
+			   }
 		}
 
 		$this->response->addHeader('Content-Type: application/json');

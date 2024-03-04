@@ -33,6 +33,13 @@ $_['entry_order_success_status_help'] = 'Order status that will set for Successf
 $_['entry_order_failed_status'] = 'Order Failed Status';
 $_['entry_order_failed_status_help'] = 'Order status that will set for Failed Payment';
 
+$_['entry_subscription_success_status'] = 'Subscription Success Status';
+$_['entry_subscription_success_status_help'] = 'Subscription status that will be set for Successful Payment';
+
+$_['entry_subscription_failed_status'] = 'Subscription Failed Status';
+$_['entry_subscription_failed_status_help'] = 'Subscription status that will be set for Failed Payment';
+
+
 $_['entry_stripe_currency'] = 'Currency';
 $_['entry_stripe_currency_help'] = 'Select Currency';
 

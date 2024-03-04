@@ -135,6 +135,45 @@
 							<small class="text-info">{{ entry_order_failed_status_help }}</small>
 						</div>
 					</div>
+
+					<div class="form-group required">
+						<label class="control-label col-sm-3" for="payment_stripe_subscription_success_status_id">
+							<span data-toggle="tooltip" title="{{ entry_subscription_success_status_help }}">{{ entry_subscription_success_status }}</span>
+						</label>
+						<div class="col-sm-9">
+							<select name="payment_stripe_subscription_success_status_id" id="payment_stripe_subscription_success_status_id" class="form-control">
+								{% for subscription_status in subscription_statuses %}
+									{% if subscription_status['subscription_status_id'] == payment_stripe_subscription_success_status_id %}
+										<option value="{{ subscription_status['subscription_status_id'] }}" selected="selected">{{ subscription_status['name'] }}</option>
+									{% else %}
+										<option value="{{ subscription_status['subscription_status_id'] }}">{{ subscription_status['name'] }}</option>
+									{% endif %}
+								{% endfor %}
+							</select>
+							<small class="text-info">{{ entry_subscription_success_status_help }}</small>
+						</div>
+					</div>
+					
+					<div class="form-group required">
+						<label class="control-label col-sm-3" for="payment_stripe_subscription_failed_status_id">
+							<span data-toggle="tooltip" title="{{ entry_subscription_failed_status_help }}">{{ entry_subscription_failed_status }}</span>
+						</label>
+						<div class="col-sm-9">
+							<select name="payment_stripe_subscription_failed_status_id" id="payment_stripe_subscription_failed_status_id" class="form-control">
+								{% for subscription_status in subscription_statuses %}
+									{% if subscription_status['subscription_status_id'] == payment_stripe_subscription_failed_status_id %}
+										<option value="{{ subscription_status['subscription_status_id'] }}" selected="selected">{{ subscription_status['name'] }}</option>
+									{% else %}
+										<option value="{{ subscription_status['subscription_status_id'] }}">{{ subscription_status['name'] }}</option>
+									{% endif %}
+								{% endfor %}
+							</select>
+							<small class="text-info">{{ entry_subscription_failed_status_help }}</small>
+						</div>
+					</div>
+
+					
+					
 					<div class="form-group required">
 						<label class="control-label col-sm-3" for="payment_stripe_status">
 							<span data-toggle="tooltip" title="{{ entry_status_help }}">{{ entry_status }}</span>

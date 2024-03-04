@@ -14,7 +14,7 @@ class Subscription extends \Opencart\System\Engine\Model {
 	public function getSubscription(int $subscription_id): array {
 		$subscription_data = [];
 
-		$query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "subscription` `s` WHERE `subscription_id` = '" . (int)$subscription_id . "' AND `customer_id` = '" . (int)$this->customer->getId() . "'");
+		$query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "subscription`   WHERE `subscription_id` = '" . (int)$subscription_id . "' AND `customer_id` = '" . (int)$this->customer->getId() . "'");
 
 		if ($query->num_rows) {
 			$subscription_data = $query->row;
@@ -65,7 +65,7 @@ class Subscription extends \Opencart\System\Engine\Model {
 		}
 
 		$query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "subscription` WHERE `customer_id` = '" . (int)$this->customer->getId() . "' AND `subscription_status_id` > '0' AND `store_id` = '" . (int)$this->config->get('config_store_id') . "' ORDER BY `subscription_id` DESC LIMIT " . (int)$start . "," . (int)$limit);
-
+	 
 		return $query->rows;
     }
 

@@ -67,7 +67,7 @@
                           <td class="text-start" style="width: 30%;"><input type="text" name="banner_image[{{ language.language_id }}][{{ image_row }}][link]" value="{{ banner_image.link }}" placeholder="{{ entry_link }}" id="input-image-{{ language.language_id }}-{{ image_row }}-link" class="form-control"/></td>
                           <td class="text-center">
                             <div class="border rounded d-block" style="max-width: 300px;">
-                              <img src="{{ banner_image.thumb }}" alt="" title="" id="thumb-image-{{ language.language_id }}-{{ image_row }}" data-oc-placeholder="{{ placeholder }}" class="img-fluid"/>
+                              <img src="{{ banner_image.thumb }}" alt="" title="" id="thumb-image-{{ language.language_id }}-{{ image_row }}" data-oc-placeholder="{{ placeholder }}" class="img-fluid">
                               <input type="hidden" name="banner_image[{{ language.language_id }}][{{ image_row }}][image]" value="{{ banner_image.image }}" id="input-image-{{ language.language_id }}-{{ image_row }}-image"/>
                               <div class="d-grid">
                                 <button type="button" data-oc-toggle="image" data-oc-target="#input-image-{{ language.language_id }}-{{ image_row }}-image" data-oc-thumb="#thumb-image-{{ language.language_id }}-{{ image_row }}" class="btn btn-primary rounded-0"><i class="fa-solid fa-pencil"></i> {{ button_edit }}</button>
@@ -98,7 +98,7 @@
     </div>
   </div>
 </div>
-<script type="text/javascript"><!--
+<script ><!--
 var image_row = {{ image_row }};
 
 $('button[id^=\'button-banner\']').on('click', function() {
@@ -112,7 +112,7 @@ $('button[id^=\'button-banner\']').on('click', function() {
     html += '  <td class="text-start"><input type="text" name="banner_image[' + $(element).attr('data-language') + '][' + image_row + '][link]" value="" placeholder="{{ entry_link|escape('js') }}" id="input-image-' + $(element).attr('data-language') + '-' + image_row + '-link" class="form-control"/></td>';
     html += '  <td class="text-center">';
     html += '    <div class="border rounded d-block" style="max-width: 300px;">';
-    html += '      <img src="{{ placeholder|escape('js') }}" alt="" title="" id="thumb-image-' + $(element).attr('data-language') + '-' + image_row + '" data-oc-placeholder="{{ placeholder|escape('js') }}" class="img-fluid"/>';
+    html += '      <img src="{{ placeholder|escape('js') }}" alt="" title="" id="thumb-image-' + $(element).attr('data-language') + '-' + image_row + '" data-oc-placeholder="{{ placeholder|escape('js') }}" class="img-fluid">';
     html += '      <input type="hidden" name="banner_image[' + $(element).attr('data-language') + '][' + image_row + '][image]" value="" id="input-image-' + $(element).attr('data-language') + '-' + image_row + '-image"/>';
     html += '      <div class="d-grid">';
     html += '        <button type="button" data-oc-toggle="image" data-oc-target="#input-image-' + $(element).attr('data-language') + '-' + image_row + '-image" data-oc-thumb="#thumb-image-' + $(element).attr('data-language') + '-' + image_row + '" class="btn btn-primary rounded-0"><i class="fa-solid fa-pencil"></i> {{ button_edit|escape('js') }}</button>';
