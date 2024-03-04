@@ -11,6 +11,10 @@ class Logout extends \Opencart\System\Engine\Controller {
 	 */
 	public function index(): void {
 		if ($this->customer->isLogged()) {
+			foreach ($_COOKIE as $cookie_name => $cookie_value) {
+				setcookie($cookie_name, '', time() - 3600, '/');
+			}
+			
 			$this->customer->logout();
 
 			unset($this->session->data['customer']);

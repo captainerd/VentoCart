@@ -14,13 +14,7 @@ class Startup extends \Opencart\System\Engine\Controller {
  
 	 
 	 
-		if (isset($this->request->get['theme'])) {
-			$this->session->data['theme'] = $this->request->get['theme'];
-		}
-
-		if (isset($this->session->data['theme'])) {
-			$this->config->set('config_theme', $this->session->data['theme']);
-			}
+ 
 
 		$this->load->model('setting/startup');
 
