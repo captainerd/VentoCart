@@ -18,9 +18,18 @@ class Stripe extends \Opencart\System\Engine\Model
 		return $stripe;
 	}
 
-	public function canCancel() {
-		//Confirmation it has a cancelSubscription() method in order to render a "cancel and resume" button
-		return  true;  
+	// Available actions (buttons) for a specific subscription
+	public function canCancel($full) {
+ 
+		return $full['status'] != 'past_due' && empty($full['canceled_at']) ? true : false;
+	}
+	public function canRestart($full) {
+	 
+		return  $full['status'] == 'past_due'  ? true : false;
+	}
+	public function canResume($full) {
+	 
+		return   $full['status'] != 'past_due' && !empty($full['canceled_at'])  ? true : false;
 	}
 
 	public function setupIntent() {
@@ -33,21 +42,45 @@ class Stripe extends \Opencart\System\Engine\Model
 		$t = $this->getStripe()->subscriptions->update($track_id, ['cancel_at_period_end' => true]);
 	 
 		if (!empty($t)) { 
+			$status_id = $this->stripeStatusToLocalId($t['status']);
+			$this->updateLocalSubscription($track_id, $status_id, $t['current_period_end'], $t);
 			return true;
 		} else {
-			return $t['status'];
+			return false;
 		}
  
 	}
+	public function updateLocalSubscription($track_id, $status, $date_next, $full = []) {
+	 
+		 
+		if (empty($full)) {
+			$this->db->query("UPDATE `" . DB_PREFIX . "subscription` 
+			SET `subscription_status_id` = '" . (int)$status . "', 
+				`date_next` = FROM_UNIXTIME(" . (int)$date_next . ") 
+			WHERE `tracking` = '" . $track_id . "'");
+		} else {
+		 
 
+			$this->db->query("UPDATE `" . DB_PREFIX . "subscription` 
+			SET `subscription_status_id` = '" . (int)$status . "', 
+			`payment_method` = '" . $this->db->escape(json_encode($full,true)) . "', 
+			`date_next` = FROM_UNIXTIME(" . (int)$date_next . ") 
+			WHERE `tracking` = '" . $track_id . "'");
+		 
+		}
+
+	}
 	public function updateMethodSubscription($track_id, $method_id) {
 
 		$t = $this->getStripe()->subscriptions->update($track_id, ['default_payment_method' => $method_id]);
 	 
 		if (!empty($t)) { 
+			$status_id = $this->stripeStatusToLocalId($t['status']);
+			$this->updateLocalSubscription($track_id, $status_id, $t['current_period_end'], $t);
 			return true;
 		} else {
-			return $t['status'];
+		 
+			return false;
 		}
 
 	}
@@ -59,9 +92,12 @@ class Stripe extends \Opencart\System\Engine\Model
 	 
 	 
 		if (!empty($t)) { 
+			$status_id = $this->stripeStatusToLocalId($t['status']);
+			$this->updateLocalSubscription($track_id, $status_id, $t['current_period_end'], $t);
 			return true;
 		} else {
-			return $t['status'];
+ 
+			return false;
 		}
 	}
 	public function resumeSubscription($track_id) {
@@ -69,28 +105,50 @@ class Stripe extends \Opencart\System\Engine\Model
 		$t = $this->getStripe()->subscriptions->update($track_id, ['cancel_at_period_end' => false]);
 	 
 		if (!empty($t)) { 
+			$status_id = $this->stripeStatusToLocalId($t['status']);
+			$this->updateLocalSubscription($track_id, $status_id, $t['current_period_end'], $t);
 			return true;
 		} else {
-			return $t['status'];
+		 
+			return false;
 		}
  
 	}
-	public function getSubscriptionStatus($id) {
-	 
-		$subscription = $this->getStripe()->subscriptions->retrieve($id);
-	 
+
+	private function stripeStatusToLocalId($status_string) {
 		$status_id = 0;
-		if ($subscription['status'] === 'active') {
+		if ($status_string === 'active') {
 			$status_id = $this->config->get('config_subscription_active_status_id');
-		} else if ($subscription['status'] === 'canceled') {
+		} else if ($status_string === 'canceled') {
 			$status_id = $this->config->get('config_subscription_canceled_status_id');
-		} else if ($subscription['status'] === 'past_due') {
+		} else if ($status_string === 'past_due') {
 			$status_id = $this->config->get('config_subscription_expired_status_id');
 		} else {
 			$status_id = $this->config->get('config_subscription_failed_status_id');
 		}
+		return $status_id;
+	}
+	public function getSubscriptionDetails($id) {
+
+		//$this->model_extension_stripe_payment_stripe->updateLocalSubscription($subscription->id,$subscription->status, $subscription->current_period_end);
+		$query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "subscription` WHERE `tracking` = '" . $this->db->escape($id) . "'");
 	 
-		return ['status' => $status_id, 'canceled_at' => 	$subscription['canceled_at'], 'full' => $subscription];
+		if (!empty($query->row)) {
+	 
+			if (strtotime($query->row['date_next']) > time()) {
+
+				$full = json_decode($query->row['payment_method'],true);
+				return ['status' => $query->row['subscription_status_id'], 'default_payment_method' => $full['default_payment_method'], 'canceled_at' => 	$full['canceled_at'], 'full' => $full];
+			}
+		}
+		$subscription = $this->getStripe()->subscriptions->retrieve($id);
+	 
+		$status_id = $this->stripeStatusToLocalId($subscription['status']);
+ 
+	 
+	  $this->updateLocalSubscription($id, $status_id, $subscription['current_period_end'], $subscription);
+ 
+		return ['status' => $status_id, 'canceled_at' => $subscription['canceled_at'], 'default_payment_method' => $subscription['default_payment_method'], 'full' => $subscription];
 	}
 	public function delete($la)
 	{
@@ -105,7 +163,7 @@ class Stripe extends \Opencart\System\Engine\Model
 
 	}
 
-	// Create the plan/package for that local id to mirror the payment proccessor or find it in proccessor if already exists
+	// Create the subscription plan/package for that local id to mirror the payment proccessor or find it in proccessor if already exists
 	public function createPlanOrFindPrice($subscription) {
 
 		//Search if it exists

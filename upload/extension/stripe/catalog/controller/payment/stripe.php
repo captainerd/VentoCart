@@ -197,10 +197,10 @@ class Stripe extends \Opencart\System\Engine\Controller
 					 
 						$customer_id = $this->model_extension_stripe_payment_stripe->addCustomer($order_info, $json_obj->payment_method_id);
 					}
+					$localPlan = $this->cart->getSubscriptions()[0];
+					$price_id = $this->model_extension_stripe_payment_stripe->createPlanOrFindPrice($localPlan);
 				 
-					$price_id = $this->model_extension_stripe_payment_stripe->createPlanOrFindPrice($this->cart->getSubscriptions()[0]);
-
-					$subscription = \Stripe\Subscription::create([
+					$remote_sub = [
 						'customer' => $customer_id,
 						'currency' => strtolower($order_info['currency_code']),
 						'items' => [
@@ -217,8 +217,13 @@ class Stripe extends \Opencart\System\Engine\Controller
 
 						],
 						'expand' => ['latest_invoice.payment_intent'],
-					]);
-					//print_r($subscription);
+					];
+				 
+					if ($localPlan['subscription']['trial_status']) {
+						$remote_sub['trial_end'] = strtotime("+{$localPlan['subscription']['trial_cycle']} {$localPlan['subscription']['trial_duration']}", time());
+					}
+					$subscription = \Stripe\Subscription::create($remote_sub);
+					 
 
 
 
@@ -234,6 +239,8 @@ class Stripe extends \Opencart\System\Engine\Controller
 						];
 					}
 					if ($subscription->status == 'active') {
+						 
+
 						$message = 'Subscription ID: ' . $subscription->id . PHP_EOL . 'Status: ' . $subscription->status;
 						$json = array('success' => $this->url->link('checkout/success', '', true));
 						$this->model_checkout_order->addHistory($order_info['order_id'], $this->config->get('payment_stripe_order_success_status_id'), $message, false);
@@ -244,7 +251,8 @@ class Stripe extends \Opencart\System\Engine\Controller
 						$product_id = $order_products[key($order_products)]['order_product_id'];
 						$subscription_data = $this->model_checkout_subscription->getSubscriptionByOrderProductId($this->session->data['order_id'], $product_id);
 						$subscription_data['tracking'] = $subscription->id;
-
+						$subscription_data['date_next'] = date("Y-m-d H:i:s", $subscription->current_period_end);
+						$subscription_data['payment_method'] =  $subscription;
 						//Add history to subscription
 						$this->model_checkout_subscription->addHistory(
 							$subscription_data['subscription_id'],
@@ -255,7 +263,7 @@ class Stripe extends \Opencart\System\Engine\Controller
 						// Update subscription tracking (sub id)
 						$this->model_checkout_subscription->editSubscription($subscription_data['subscription_id'], $subscription_data);
 
-
+				
 					} else {
 						$this->model_checkout_order->addHistory($order_info['order_id'], $this->config->get('payment_stripe_subscription_failed_status_id'), $subscription->status, true);
 					}

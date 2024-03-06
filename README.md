@@ -27,62 +27,7 @@ VentoCart is a robust fork of OpenCart version 4, meticulously crafted to offer 
 
 VentoCart not only offers a feature-rich e-commerce solution but also prioritizes modernization and ease of use. With VentoCart, configuring and managing your store is faster and more straightforward than ever before.
 
-# Ventocart Change-log v4.5.5.2
-
-## Added
-- Full example theme added to the marketplace.
-- Ajaxified the categories/filters, and pagination is now fully in AJAX.
-- Added an infinite scroll toggle in the Admin System/Settings/Edit Store/Option tab at the product, which enables or disables infinite scroll vs pagination.
-
-
-# Ventocart Change-log v4.5.5.1
-
-## Features & Enhancements
-
-- **Revamped Captcha:**
-  - Combined JavaScript checks with a more scrambled font and a refresh captcha button.
-  
-- **Revamped Attributes:**
-  - Attributes can now have one-to-one or one-to-many listings. One-to-one listings automatically fall under a "General" listing, Attributes are now sortable via drag-and-drop.
-
-- **Admin Enhancements:**
-  - **CKEditor Upgrade:** CKEditor 4 stopped receiving updates since its End of Life in June 2023. Due to this, we upgraded from CKEditor 4 to TinyMCE 6. Enhanced functionality includes automatic picture uploads to the server during paste or drag and drop into the editor.
-  - **Image Manager:** Improved to allow multiple image selections for products at once. Ordering is now done via drag and drop images to positions. Single click for multiselections, double click for single image select.
-  - **Crop And Rotate:** Access the crop and rotate tool at any time via a dedicated button.
-  - **Further Auto-organize:** Automatically organize images in their respective directories (products, blog, banners, etc.) for better organization.
-  - **Internal Model Enhancement:** Restructured the internal model responsible for filtering products for better readability and organization.
-  - **Database Scheme Changes:** Note that if you are upgrading from the previous VentoCart version, you will need to make adjustments:
-    - `category_filter` table: Added a new 'type' column.
-    - `options` table: Added a new 'image' column.
-    - `product_attribute` table: Added 'value_text' and  'attribute_n' columns.
-
-- **Revamped Blog Module:**
-  -  Preview now displays a thumbnail picture of the post and the date posted.
-
-- **New Modules:**
-  - Added Google Analytics tag module, general tag JS module for hosting necessary third-party tags, and category filters.
-
-- **Admin Categories Enhancement:**
-  - Admin categories now support filter module installation for specific categories in the "data" tab. Filters are available based on product options, attributes, manufacturers-brands, and availability.
-
-## Bug Fixes
-
-- Fixed numerous bugs found in both front-end and admin sections since the last version.
-
-## Versioning Changes
-
-- Versioning changed to start from 4.5.5.1. with an online check in the administration to notify you when there is a new version available.
-
-
-## Template Modifications
-
-- Added a side menu for the sidebar on mobile screens in the default template.
-
-- Removed unnecessary escapes.
-
-- Preload to memory product images for faster display on hover.
-
-
+ 
 ![image](https://github.com/captainerd/VentoCart/assets/58100748/e37c7923-4d03-496c-b40c-27587ada0645)
 
 

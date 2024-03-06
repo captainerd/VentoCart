@@ -119,11 +119,13 @@ class Subscription extends \Opencart\System\Engine\Controller {
 
 	public function list(): void {
 		$this->load->language('sale/subscription');
+		 
 
 		$this->response->setOutput($this->getList());
 	}
 
 	protected function getList(): string {
+	 
 		if (isset($this->request->get['filter_subscription_id'])) {
 			$filter_subscription_id = (int)$this->request->get['filter_subscription_id'];
 		} else {
@@ -342,7 +344,7 @@ class Subscription extends \Opencart\System\Engine\Controller {
 
 	public function info(): void {
 		$this->load->language('sale/subscription');
-
+ 
 		if (isset($this->request->get['subscription_id'])) {
 			$subscription_id = (int)$this->request->get['subscription_id'];
 		} else {
@@ -406,11 +408,13 @@ class Subscription extends \Opencart\System\Engine\Controller {
 		$data['back'] = $this->url->link('sale/subscription', 'user_token=' . $this->session->data['user_token'] . $url);
 
 		$data['subscription_id'] = $subscription_id;
+	 
 
 		$this->load->model('sale/subscription');
 
 		$subscription_info = $this->model_sale_subscription->getSubscription($data['subscription_id']);
-
+		$data['customer_id'] = $subscription_info['customer_id'];
+		
 		if (!empty($subscription_info)) {
 			$data['subscription_id'] = $subscription_info['subscription_id'];
 		} else {
@@ -618,7 +622,7 @@ class Subscription extends \Opencart\System\Engine\Controller {
 		} else {
 			$data['duration'] = 0;
 		}
-
+	 
 		if (!empty($subscription_info)) {
 			$data['remaining'] = $subscription_info['remaining'];
 		} else {
@@ -631,18 +635,19 @@ class Subscription extends \Opencart\System\Engine\Controller {
 		} else {
 			$data['date_next'] = '';
 		}
-
+ 
 
 
 		// Payment method
-		if (!empty($subscription_info)) {
+		if (!empty($subscription_info) && !empty($subscription_info['payment_method']['name'])) {
+		 
 			$data['payment_method'] = $subscription_info['payment_method']['name'];
 		} else {
 			$data['payment_method'] = '';
 		}
 
 
-
+	 
 
 
 		if (!empty($order_info)) {
@@ -654,8 +659,10 @@ class Subscription extends \Opencart\System\Engine\Controller {
 		// Product data
 		if (!empty($subscription_info)) {
 			$this->load->model('sale/order');
-
+	 
 			$product_info = $this->model_sale_order->getProductByOrderProductId($subscription_info['order_id'], $subscription_info['order_product_id']);
+
+		 
 		}
 
 		if (!empty($product_info['name'])) {
@@ -703,7 +710,7 @@ class Subscription extends \Opencart\System\Engine\Controller {
 			$data['quantity'] = '';
 		}
 
-
+ 
 
 		$this->load->model('localisation/subscription_status');
 
@@ -722,15 +729,17 @@ class Subscription extends \Opencart\System\Engine\Controller {
 		$data['tabs'] = [];
 
 		// Extension Order Tabs can are called here.
-		/*
+		 
 		$this->load->model('setting/extension');
-
+		 
 		if (!empty($order_info)) {
-			$extension_info = $this->model_setting_extension->getExtensionByCode('payment', $order_info['payment_method']['code']);
-
+			$this->session->data['customer_subscription'] = $subscription_info;
+			$extension_info = $this->model_setting_extension->getExtensionByCode('payment', explode(".",$order_info['payment_method']['code'])[0]);
+		 
 			if ($extension_info && $this->user->hasPermission('access', 'extension/' . $extension_info['extension'] . '/payment/' . $extension_info['code'])) {
-				$output = $this->load->controller('extension/payment/' . $order_info['payment_code'] . '.subscription');
-
+		 
+				$output = $this->load->controller('extension/' . $extension_info['code'] . '/payment/' . $extension_info['code'] . '.subscription');
+				 
 				if (!$output instanceof \Exception) {
 					$this->load->language('extension/' . $extension_info['extension'] . '/payment/' . $extension_info['code'], 'extension');
 
@@ -741,14 +750,15 @@ class Subscription extends \Opencart\System\Engine\Controller {
 					];
 				}
 			}
+			unset($this->session->data['customer_subscription']);
 		}
-		*/
+	 
 		$data['user_token'] = $this->session->data['user_token'];
 
 		$data['header'] = $this->load->controller('common/header');
 		$data['column_left'] = $this->load->controller('common/column_left');
 		$data['footer'] = $this->load->controller('common/footer');
-
+ 
 		$this->response->setOutput($this->load->view('sale/subscription_info', $data));
 	}
 
@@ -780,7 +790,7 @@ class Subscription extends \Opencart\System\Engine\Controller {
 		$this->load->model('sale/subscription');
 
 		$subscription_info = $this->model_sale_subscription->getSubscription($subscription_id);
-
+ ;
 		if (!$subscription_info) {
 			$this->load->model('customer/customer');
 

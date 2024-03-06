@@ -1,16 +1,67 @@
 <?php
 
 namespace Opencart\Admin\Controller\Extension\Stripe\Payment;
+require_once(DIR_EXTENSION . 'stripe/system/vendor/autoload.php');
 class  Stripe extends \Opencart\System\Engine\Controller
 {
 
+	public function install_webhooks(): void
+	{
+		$this->getStripe()->webhookEndpoints->create([
+			'enabled_events' => [
+				'customer.subscription.paused', 
+				'customer.subscription.deleted',
+				'customer.subscription.resumed',
+				'invoice.paid',
+
+			
+			],
+			'url' => 'https://example.com/my/webhook/endpoint',
+		  ]);
+
+	}
+	private function getStripe()
+	{
+
+		if ($this->config->get('payment_stripe_environment') == 'live' || (isset($this->request->request['livemode']) && $this->request->request['livemode'] == "true")) {
+			$stripe_secret_key = $this->config->get('payment_stripe_live_secret_key');
+		} else {
+			$stripe_secret_key = $this->config->get('payment_stripe_test_secret_key');
+		}
+		$stripe = new \Stripe\StripeClient($stripe_secret_key);
+		return $stripe;
+	}
  
 	private $error = array();
 
 	public function subscription() {
-		 	//print_r(	$this->session->data['customer_subscription']);
-			//die();
-	//	return 	$this->session->data['customer_subscription'];
+		$subscription_stripe = $this->session->data['customer_subscription']['tracking'];
+		$this->load->language('extension/stripe/payment/stripe');
+		$current_sub = $this->getStripe()->subscriptions->retrieve($subscription_stripe,[]);
+		
+		$current_sub['payment_method'] = $this->getStripe()->paymentMethods->retrieve($current_sub['default_payment_method']);
+		$current_sub['latest_invoice'] = $this->getStripe()->invoices->retrieve($current_sub['latest_invoice']);
+	
+		// Convert Unix timestamps to readable timestamps
+		$current_sub['current_period_end'] = date('Y-m-d H:i:s', $current_sub['current_period_end']);
+		$current_sub['current_period_start'] = date('Y-m-d H:i:s', $current_sub['current_period_start']);
+		$current_sub['latest_invoice']['created'] = date('Y-m-d H:i:s', $current_sub['latest_invoice']['created']);
+		$data['full'] = $current_sub;
+	
+		// Prepare data for the template
+		$data['status'] = $current_sub['status'];
+		$data['current_period_end'] = $current_sub['current_period_end'];
+		$data['current_period_start'] = $current_sub['current_period_start'];
+		$data['latest_invoice'] = $current_sub['latest_invoice'];
+		$data['payment_method'] = [
+			'card_type' => ucfirst($current_sub['payment_method']['card']['funding']),
+			'card_brand' => $current_sub['payment_method']['card']['display_brand'],
+			'card_name' => $current_sub['payment_method']['billing_details']['name'],
+			'last_four_digits' => substr($current_sub['payment_method']['card']['last4'], -4)
+		];
+	
+		// Load the view
+		return $this->load->view('extension/stripe/payment/subscription_details', $data);
 	}
 	public function index() {
  

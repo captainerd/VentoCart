@@ -136,22 +136,52 @@ class Subscription extends \Opencart\System\Engine\Controller {
 
 				$results_p = $this->model_setting_extension->getExtensionsByType('payment');
 				$payStatus =  '-';
+
+
+				// Methods supported by PayMent Proccessor either or not to render customer button controls for subscription
+
+				// in payment proccesor model these methods needed: 
+
+				// canCancel(param array subscription_data_by_payment_proccessor) returns boolean if that subscription can be canceled  
+	            // canResume(param array subscription_data_by_payment_proccessor) returns boolean // - // 
+			    // canRestart(param array subscription_data_by_payment_proccessor) returns boolean // - // 
+ 
+
+				// cancelSubscription(tracking id) returns boolean (pauses or cancels) 
+				// resumeSubscription(tracking id)  returns boolean  (resumes) 
+				// restartSubscription(tracking id, invoice id)  returns boolean (attempt to charge and start a new period)
+
 				$can_cancel = false;
+			    $can_resume = false;
+				$can_restart = false;
+
+				// getSubscriptionDetails() model must return array
+				// 'status' => Local id for sub, 'canceled_at' => unix time, 'default_payment_method' => id, 'full' => all payment proccessor data for sub
+				$payment_extension_code = '';
+
 				foreach ($results_p as $resultp) {
 					if ($this->config->get('payment_' . $resultp['code'] . '_status')) {
 						$this->load->model('extension/' . $resultp['extension'] . '/payment/' . $resultp['code']);
 
 						try {
-							$can_cancel = $this->{'model_extension_' . $resultp['extension'] . '_payment_' . $resultp['code']}->canCancel() ? $resultp['code'] : '';
-							$payStatus = $this->{'model_extension_' . $resultp['extension'] . '_payment_' . $resultp['code']}->getSubscriptionStatus($result['tracking']);
+ 
+							$payStatus = $this->{'model_extension_' . $resultp['extension'] . '_payment_' . $resultp['code']}->getSubscriptionDetails($result['tracking']);
+							
+							$can_resume = $this->{'model_extension_' . $resultp['extension'] . '_payment_' . $resultp['code']}->canResume($payStatus['full']);
+							$can_cancel = $this->{'model_extension_' . $resultp['extension'] . '_payment_' . $resultp['code']}->canCancel($payStatus['full']);
+							$can_restart = $this->{'model_extension_' . $resultp['extension'] . '_payment_' . $resultp['code']}->canRestart($payStatus['full']);
+							if (!empty($payStatus)) {
+								$payment_extension_code = $resultp['code'];
+							}
+					
 						} catch (\Exception $e) {
 							// Method not found, or an error occurred.
 						   }
 					}
 				}
-
 			 
-				if (is_numeric($payStatus['status'])) {
+				 
+				if (is_array($payStatus) && is_numeric($payStatus['status'])) {
 					$subscription_status_info = $this->model_localisation_subscription_status->getSubscriptionStatus($payStatus['status']);
 					 
  				}
@@ -166,9 +196,9 @@ class Subscription extends \Opencart\System\Engine\Controller {
  
 					'date_added'      => date($this->language->get('date_format_short'), strtotime($result['date_added'])),
 					'view'            => $this->url->link('account/subscription.info', 'language=' . $this->config->get('config_language') . '&customer_token=' . $this->session->data['customer_token'] . '&subscription_id=' . $result['subscription_id']),
-					 'cancel_subscription_link'  => $payStatus['full']['status'] != 'past_due' && empty($payStatus['canceled_at']) && $can_cancel ? $this->url->link('account/subscription.cancel', '&customer_token=' . $this->session->data['customer_token'] . '&track_id=' . $result['tracking'] . '&id=' . $result['subscription_id']) . '&code='.$can_cancel : '',
-					 'resume_subscription_link'  =>  $payStatus['full']['status'] != 'past_due' && !empty($payStatus['canceled_at']) == $subscription_status_info['subscription_status_id'] && $can_cancel ? $this->url->link('account/subscription.cancel', '&customer_token=' . $this->session->data['customer_token'] . '&track_id=' . $result['tracking'] . '&id=' . $result['subscription_id']) . '&resume=1&code='.$can_cancel : '',
-					 'restart_unpaid_subscription'  =>  $payStatus['full']['status'] == 'past_due'  && $can_cancel ? $this->url->link('account/subscription.cancel', '&customer_token=' . $this->session->data['customer_token'] . '&track_id=' . $result['tracking'] . '&id=' . $result['subscription_id']) . '&restart=1&code='.$can_cancel . '&invoice=' .  $payStatus['full']['latest_invoice'] : '', 
+					 'cancel_subscription_link'  => $can_cancel ? $this->url->link('account/subscription.cancel', '&customer_token=' . $this->session->data['customer_token'] . '&track_id=' . $result['tracking'] . '&id=' . $result['subscription_id']) . '&code='.$payment_extension_code : '',
+					 'resume_subscription_link'  =>  $can_resume  ? $this->url->link('account/subscription.cancel', '&customer_token=' . $this->session->data['customer_token'] . '&track_id=' . $result['tracking'] . '&id=' . $result['subscription_id']) . '&resume=1&code='.$payment_extension_code : '',
+					 'restart_unpaid_subscription'  =>  $can_restart ? $this->url->link('account/subscription.cancel', '&customer_token=' . $this->session->data['customer_token'] . '&track_id=' . $result['tracking'] . '&id=' . $result['subscription_id']) . '&restart=1&code='.$payment_extension_code . '&invoice=' .  $payStatus['full']['latest_invoice'] : '', 
 					];
 			}
 		}
@@ -380,11 +410,7 @@ class Subscription extends \Opencart\System\Engine\Controller {
 				$data['shipping_method'] = '';
 			}
 
-			if ($subscription_info['payment_method']) {
-				$data['payment_method'] = $subscription_info['payment_method']['name'];
-			} else {
-				$data['payment_method'] = '';
-			}
+		 
 
 			$this->load->model('catalog/product');
 
@@ -463,15 +489,18 @@ class Subscription extends \Opencart\System\Engine\Controller {
 
 					try {
  
-						$payStatus = $this->{'model_extension_' . $resultp['extension'] . '_payment_' . $resultp['code']}->getSubscriptionStatus($subscription_info['tracking']);
+						$payStatus = $this->{'model_extension_' . $resultp['extension'] . '_payment_' . $resultp['code']}->getSubscriptionDetails($subscription_info['tracking']);
+					 
 					
-					
-						if (is_numeric($payStatus['status'])) {
+						if (is_array($payStatus) && is_numeric($payStatus['status'])) {
 							// Override status with real (payment gateway) status
 							$data['subscription_status']  = $this->model_localisation_subscription_status->getSubscriptionStatus($payStatus['status']);
 							// Since the particular subscription has valid status, payment methods belong to the same payment proccessor
 							$data['saved_methods'] = $this->{'model_extension_' . $resultp['extension'] . '_payment_' . $resultp['code']}->getStored();
+							$data['default_payment_method'] = $payStatus['default_payment_method'];  
+						 
 							$data['method_code'] = $resultp['code'];
+							$data['track_id'] = $subscription_info['tracking'];
 						}
 					
 					} catch (\Exception $e) {
@@ -483,9 +512,7 @@ class Subscription extends \Opencart\System\Engine\Controller {
 		  
 		 
 		 
-			
-			$data['default_payment_method'] = $payStatus['full']['default_payment_method'];
-			$data['track_id'] =  $payStatus['full']['id'];
+		 
 		 
 			// Orders
 			$data['history'] = $this->getHistory();

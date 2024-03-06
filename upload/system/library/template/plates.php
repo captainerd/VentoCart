@@ -71,6 +71,7 @@ class Plates
 	 */
 	public function render(string $filename, array $data = [], string $code = ''): string
 	{
+	 
 		$file = $this->directory . $filename;
 		$namespace = '';
 
@@ -92,7 +93,8 @@ class Plates
 		$file = substr($file, strlen($this->root) + 1);
 
 		//If Plates Template file doesn't exists call fail over to twig
-		if (!file_exists($file . '.php') && $this->convert == false) {
+		if (!file_exists(DIR_OPENCART . '/'. $file . '.php') && $this->convert == false) {
+		 
 			if ($code) {
 				// render from modified template code
 				$loader = new \Twig\Loader\ArrayLoader([$file => $code]);

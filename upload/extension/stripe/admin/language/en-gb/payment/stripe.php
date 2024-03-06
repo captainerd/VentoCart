@@ -67,3 +67,14 @@ $_['error_test_public_key'] = 'Test Public Key Required!';
 $_['error_test_secret_key'] = 'Test Secret Key Required!';
 $_['error_live_public_key'] = 'Live Public Key Required!';
 $_['error_live_secret_key'] = 'Live Secret Key Required!';
+
+$_['text_status_subscription'] = 'Status of Subscription';
+$_['text_current_period'] = 'Current Period';
+$_['text_latest_invoice'] = 'Latest Invoice';
+$_['text_payment_method'] = 'Payment Method';
+$_['text_start'] = 'Start';
+$_['text_end'] = 'End';
+$_['text_amount_due'] = 'Amount due';
+$_['text_amount_paid'] = 'Amount paid';
+$_['text_collection_method'] = 'Collection method';
+$_['text_cardholder'] = 'Cardholder';

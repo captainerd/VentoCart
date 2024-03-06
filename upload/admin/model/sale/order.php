@@ -454,6 +454,17 @@ class Order extends \Opencart\System\Engine\Model {
 		return (int)$query->row['total'];
 	}
 
+
+
+	public function getProductByOrderProductId(int $order_id, $product_id) {
+		// Execute the SQL query to fetch rows from the order_product table based on order_id and product_id
+		$order_product_query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "order_product` WHERE `order_id` = '" . (int)$order_id . "' AND `product_id` = '" . (int)$product_id . "'");
+	
+		// Return the total number of rows returned by the query
+		return $order_product_query->rows;
+	}
+
+
 	/**
 	 * @param int $order_status_id
 	 *
