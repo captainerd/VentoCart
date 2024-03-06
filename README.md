@@ -22,6 +22,7 @@ VentoCart is a robust fork of OpenCart version 4, meticulously crafted to offer 
 ![screen2](https://github.com/captainerd/VentoCart/assets/58100748/c2f19fde-eef2-42ac-aa33-aa359de6c86f)
 
 
+# [For Change Log click here](https://github.com/captainerd/VentoCart/blob/main/changelog.md)
 
 ## Why Choose VentoCart?
 
