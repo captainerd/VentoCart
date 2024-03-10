@@ -81,3 +81,20 @@ Features & Enhancements
 
    - Fixed bugs related to customer payment methods and subscription functionality.
    - Corrected plates template engine path so it can be used with admin section too.
+
+
+# Ventocart Change-log v4.5.5.4
+
+## Template enhancements
+
+- Stripped tables in customer account sections orders, downloads, payment methods, subscriptions for a mobile-first approach
+
+## Bug Fixes
+
+- Fixed bug in Stripe extension for 3DS card confirmation
+
+## Admin Panel Enhancements
+
+- Added stripe tab information and refund option into admin individual orders
+- Added cron job for stripe subscriptions to synch subscription status and run methods based on status changes
+- Added stripe tab for subscriptions in admin

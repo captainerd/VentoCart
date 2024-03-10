@@ -5,125 +5,75 @@
         <?= $column_left ?>
         <div id="content" class="col">
             <?= $content_top ?>
-            <h1>
-                <?= $heading_title ?>
-            </h1>
+            <h1><?= $heading_title ?></h1>
             <div class="row row-cols-md-2">
-                <div class="col">
-                    <table class="table table-bordered table-hover">
-                        <?php if ($shipping_method): ?>
-                            <tr>
-                                <td><strong>
-                                        <?= $text_shipping_method ?>
-                                    </strong></td>
-                                <td>
-                                    <?= $shipping_method ?>
-                                </td>
-                            </tr>
-                        <?php endif; ?>
-                        <tr>
-                            <td><strong>
-                                    <?= $text_payment_method ?>
-                                </strong></td>
-                            <td>
-
-                                <div class="input-group">
-                                    <select class="form-select" id="payment-method-select" name="payment-method">
-                                        <?php foreach ($saved_methods as $key => $method): ?>
-                                            <option value="<?php echo $method['id']; ?>" <?php if ($method['id'] === $default_payment_method): ?>selected<?php endif; ?>>
-                                                <?php echo $method['name'] . " " . $method['description']; ?>
-                                            </option>
-                                        <?php endforeach; ?>
-                                    </select>
-                                    <button class="btn addpayment btn-outline-secondary" type="button">
-                                        <i class="fas fa-plus"></i>
-                                    </button>
-                                </div>
-
-
-
-                            </td>
-                        </tr>
-                        <tr>
-                            <td><b>
-                                    <?= $text_date_added ?>
-                                </b></td>
-                            <td>
-                                <?= $date_added ?>
-                            </td>
-                        </tr>
-                    </table>
-                </div>
-                <?php if (isset($payment_address) || isset($shipping_address)): ?>
-                    <div class="col">
-                        <table class="table table-bordered table-hover">
-                            <thead>
-                                <tr>
-                                    <?php if ($payment_address): ?>
-                                        <th class="text-start align-top">
-                                            <?= $text_payment_address ?>
-                                        </th>
-                                    <?php endif; ?>
-
-                                    <?php if ($shipping_address): ?>
-                                        <th class="text-start align-top">
-                                            <?= $text_shipping_address ?>
-                                        </th>
-                                    <?php endif; ?>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <?php if ($payment_address): ?>
-                                        <td class="text-start align-top">
-                                            <?= $payment_address ?>
-                                        </td>
-                                    <?php endif; ?>
-
-                                    <?php if ($shipping_address): ?>
-                                        <td class="text-start align-top">
-                                            <?= $shipping_address ?>
-                                        </td>
-                                    <?php endif; ?>
-                                </tr>
-                            </tbody>
-                        </table>
+                <?php if (!empty( $shipping_method)):?>
+                <div class="col mb-3">
+                    <div class="card h-100">
+                        <div class="card-header"><strong><?= $text_shipping_method ?></strong></div>
+                        <div class="card-body">
+                            <?= $shipping_method ?>
+                        </div>
                     </div>
+                </div>
+                <?php endif?>
+                <?php if (!empty($payment_address) || !empty($shipping_address)): ?>
+                    <?php if (!empty($payment_address)): ?>
+                    <div class="col-12 col-md-6 mb-3">
+                        <div class="card h-100">
+                            <div class="card-header"><strong><?= $text_payment_address ?></strong></div>
+                            <div class="card-body">
+                                <?= $payment_address ?>
+                            </div>
+                        </div>
+                    </div>
+                    <?php endif; ?>
+                    <?php if (!empty($shipping_address)): ?>
+                    <div class="col-12 col-md-6 mb-3">
+                        <div class="card h-100">
+                            <div class="card-header"><strong><?= $text_shipping_address ?></strong></div>
+                            <div class="card-body">
+                                <?= $shipping_address ?>
+                            </div>
+                        </div>
+                    </div>
+                    <?php endif; ?>
                 <?php endif; ?>
             </div>
-            <table class="table table-bordered table-hover">
-                <thead>
-                    <tr>
-                        <th class="text-start w-50">
-                            <?= $text_description ?>
-                        </th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td class="text-start"><a href="<?= $product ?>">
-                                <?= $name ?>
-                            </a><br>
-                            <?= $description ?>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+            <div class="card mb-3">
+                <div class="card-header"><strong><?= $text_payment_method ?></strong></div>
+                <div class="card-body">
+                    <div class="input-group">
+                        <select class="form-select" id="payment-method-select" name="payment-method">
+                            <?php foreach ($saved_methods as $key => $method): ?>
+                                <option value="<?= $method['id']; ?>" <?php if ($method['id'] === $default_payment_method): ?>selected<?php endif; ?>>
+                                    <?= $method['name'] . " - " . $method['description'] . " ***" . $method['last_four']; ?>
+                                </option>
+                            <?php endforeach; ?>
+                        </select>
+                        <button class="btn addpayment btn-outline-secondary" type="button">
+                            <i class="fas fa-plus"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="card mb-3">
+                <div class="card-header"><strong><?= $text_description ?></strong></div>
+                <div class="card-body">
+                    <a href="<?= $product ?>"><?= $name ?></a><br>
+                    <?= $description ?>
+                </div>
+            </div>
             <?= $content_bottom ?>
             <div class="text-end mt-3">
-                <button class="btn btn-success btn-apply"><i class="fas fa-save"></i>
-                    <?= $button_save ?>
-                </button>
-
-                <a href="<?= $continue ?>" class="btn btn-primary">
-                    <?= $button_continue ?>
-                </a>
-
+                <button class="btn btn-success btn-apply"><i class="fas fa-save"></i> <?= $button_save ?></button>
+                <a href="<?= $continue ?>" class="btn btn-primary"><?= $button_continue ?></a>
             </div>
         </div>
         <?= $column_right ?>
     </div>
 </div>
+
 <script>
  $(document).ready(function(){
     $('#history').on('click', '.pagination a', function(e) {

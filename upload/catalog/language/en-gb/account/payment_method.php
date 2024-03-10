@@ -13,6 +13,7 @@ $_['text_delete_warning'] = 'Warning: Deleting payment methods may affect your s
 
 // Column
 $_['column_payment_method'] = 'Payment Method';
+$_['column_card_holder'] = 'Card holder';
 $_['column_type']           = 'Type';
 $_['column_date_expire']    = 'Date Expires';
 $_['column_action']         = 'Action';

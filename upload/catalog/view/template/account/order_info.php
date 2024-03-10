@@ -4,159 +4,127 @@
   <div class="row"><?=  $column_left  ?>
     <div id="content" class="col"><?=  $content_top  ?>
       <h1><?= $this->e($heading_title ) ?></h1>
-      <div class="row row-cols-md-2">
-        <div class="col">
-          <table class="table table-bordered table-hover">
-            <?php if ($invoice_no): ?>
-              <tr>
-                <td><strong><?= $this->e($text_invoice_no ) ?></strong></td>
-                <td><?= $this->e($invoice_no ) ?></td>
-              </tr>
-            <?php endif; ?>
-            <tr>
-              <td><strong><?= $this->e($text_order_id ) ?></strong></td>
-              <td>#<?= $this->e($order_id ) ?></td>
-            </tr>
-            <tr>
-              <td><strong><?= $this->e($text_order_status ) ?></strong></td>
-              <td><?= $this->e($order_status ) ?></td>
-            </tr>
-          </table>
+      <div class="row row-cols-sm-1 row-cols-md-2">
+    <div class="col col-12 col-md-6  mb-3">
+        <div class="card h-100">
+            <div class="card-body">
+                <?php if ($invoice_no): ?>
+                    <div class="row">
+                        <div class="col-sm-6 border-bottom"><strong><?= $this->e($text_invoice_no ) ?></strong></div>
+                        <div class="col-sm-6  border-bottom"><?= $this->e($invoice_no ) ?></div>
+                    </div>
+                <?php endif; ?>
+                <div class="row">
+                    <div class="col-sm-6  border-bottom"><strong><?= $this->e($text_order_id ) ?></strong></div>
+                    <div class="col-sm-6  border-bottom">#<?= $this->e($order_id ) ?></div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6  border-bottom"><strong><?= $this->e($text_order_status ) ?></strong></div>
+                    <div class="col-sm-6  border-bottom"><?= $this->e($order_status ) ?></div>
+                </div>
+            </div>
         </div>
-        <div class="col">
-          <table class="table table-bordered table-hover">
-            <?php if ($shipping_method): ?>
-              <tr>
-                <td><strong><?= $this->e($text_shipping_method ) ?></strong></td>
-                <td><?= $this->e($shipping_method ) ?></td>
-              </tr>
-            <?php endif; ?>
-            <tr>
-              <td><strong><?= $this->e($text_payment_method ) ?></strong></td>
-              <td><?= $this->e($payment_method ) ?></td>
-            </tr>
-            <tr>
-              <td><strong><?= $this->e($text_date_added ) ?></strong></td>
-              <td><?= $this->e($date_added ) ?></td>
-            </tr>
-          </table>
+    </div>
+    <div class="col col-12 col-md-6 mb-3">
+        <div class="card">
+            <div class="card-body">
+                <?php if ($shipping_method): ?>
+                    <div class="row">
+                        <div class="col-sm-6  border-bottom"><strong><?= $this->e($text_shipping_method ) ?></strong></div>
+                        <div class="col-sm-6 border-bottom"><?= $this->e($shipping_method ) ?></div>
+                    </div>
+                <?php endif; ?>
+                <div class="row">
+                    <div class="col-sm-6 border-bottom"><strong><?= $this->e($text_payment_method ) ?></strong></div>
+                    <div class="col-sm-6 border-bottom"><?= $this->e($payment_method ) ?></div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6 border-bottom"><strong><?= $this->e($text_date_added ) ?></strong></div>
+                    <div class="col-sm-6 border-bottom"><?= $this->e($date_added ) ?></div>
+                </div>
+            </div>
         </div>
-      </div>
-      <?php if (isset($payment_address) || isset($shipping_address)): ?>
-        <table class="table table-bordered table-hover">
-          <thead>
-            <tr>
-              <?php if (isset($payment_address)): ?>
-                <td class="text-start align-top"><strong><?=  $text_payment_address   ?></strong></td>
-              <?php endif; ?>
-              <?php if (isset($shipping_address)): ?>
-                <td class="text-start align-top"><strong><?=  $text_shipping_address   ?></strong></td>
-              <?php endif; ?>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-            <?php if (isset($payment_address)): ?>
-                <td class="text-start align-top"><?=  $payment_address   ?></td>
-              <?php endif; ?>
-              <?php if (isset($shipping_address)): ?>
-                <td class="text-start align-top"><?=  $shipping_address   ?></td>
-              <?php endif; ?></tr>
-          </tbody>
-        </table>
-      <?php endif; ?>
-      <div class="table-responsive">
-        <table class="table table-bordered table-hover">
-          <thead>
-            <tr>
-              <td class="text-start"><strong><?= $this->e($column_name ) ?></strong></td>
-              <td class="text-start"><strong><?= $this->e($column_model ) ?></strong></td>
-              <td class="text-end"><strong><?= $this->e($column_quantity ) ?></strong></td>
-              <td class="text-end"><strong><?= $this->e($column_price ) ?></strong></td>
-              <td class="text-end"><strong><?= $this->e($column_total ) ?></strong></td>
-              <?php if ($products): ?>
-                <td class="text-end"><strong><?= $this->e($column_action ) ?></strong></td>
-              <?php endif; ?>
-            </tr>
-          </thead>
-          <tbody>
-            <?php foreach ($products as $product): ?>
-              <tr>
-                <td class="text-start"><a href="<?= $product['href'] ?>"><?= $this->e($product['name']) ?></a>
-                  <?php foreach ($product['option'] as $option): ?>
-                    <br/>
-                    <small> - <?= $this->e($option['name']) ?>: <?= $this->e($option['value']) ?></small>
-                  <?php endforeach; ?>
-                  <?php if (isset($product['reward'])): ?>
-                    <br/>
-                    <small> - <?= $this->e($text_points ) ?>: <?= $this->e($product['reward']) ?></small>
-                  <?php endif; ?>
-                  <?php if ($product['subscription']): ?>
-                    <br/>
-                    <small> - <?= $this->e($text_subscription ) ?>: <a href="<?= $product['subscription'] ?>" target="_blank"><?= $this->e($product['subscription_description']) ?></a></small>
-                  <?php endif; ?>
-                </td>
-                <td class="text-start"><?= $this->e($product['model']) ?></td>
-                <td class="text-end"><?= $this->e($product['quantity']) ?></td>
-                <td class="text-end"><?= $this->e($product['price']) ?></td>
-                <td class="text-end"><?= $this->e($product['total']) ?></td>
-                <td class="text-end text-nowrap"><?php if (isset($product['reorder'])): ?><a href="<?= $product['reorder'] ?>" data-bs-toggle="tooltip" title="<?= $this->e($button_reorder ) ?>" class="btn btn-primary"><i class="fa-solid fa-cart-shopping"></i></a><?php endif; ?>
-                  <a href="<?= $product['return'] ?>" data-bs-toggle="tooltip" title="<?= $this->e($button_return ) ?>" class="btn btn-danger"><i class="fa-solid fa-reply"></i></a></td>
-              </tr>
-            <?php endforeach; ?>
+    </div>
+</div>
 
-            <?php foreach ($vouchers as $voucher): ?>
-              <tr>
-                <td class="text-start"><?= $this->e($voucher['description']) ?></td>
-                <td class="text-start"></td>
-                <td class="text-end">1</td>
-                <td class="text-end"><?= $this->e($voucher['amount']) ?></td>
-                <td class="text-end"><?= $this->e($voucher['amount']) ?></td>
-                <?php if ($products): ?>
-                  <td></td>
-                <?php endif; ?>
-              </tr>
-            <?php endforeach; ?>
-          </tbody>
-          <tfoot>
-            <?php foreach ($totals as $total): ?>
-              <tr>
-                <td colspan="3"></td>
-                <td class="text-end"><b><?= $this->e($total['title']) ?></b></td>
-                <td class="text-end"><?= $this->e($total['text']) ?></td>
-                <?php if ($products): ?>
-                  <td></td>
-                <?php endif; ?>
-              </tr>
-            <?php endforeach; ?>
-          </tfoot>
-        </table>
-      </div>
+      <?php if (isset($payment_address) || isset($shipping_address)): ?>
+        <div class="card mb-3 ">
+          <div class="card-body">
+            <div class="row">
+              <?php if (isset($payment_address)): ?>
+                <div class="col-sm-6  border-bottom"><strong><?=  $text_payment_address   ?></strong></div>
+                <div class="col-sm-6  border-bottom"><?=  $payment_address   ?></div>
+              <?php endif; ?>
+              <?php if (isset($shipping_address)): ?>
+                <div class="col-sm-6  border-bottom"><strong><?=  $text_shipping_address   ?></strong></div>
+                <div class="col-sm-6  border-bottom"><?=  $shipping_address   ?></div>
+              <?php endif; ?>
+            </div>
+          </div>
+        </div>
+      <?php endif; ?>
+      <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3">
+    <?php foreach ($products as $product): ?>
+        <div class="col mb-4">
+            <div class="card  h-100">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="row">
+                                <div class="col-sm-6 border-bottom"><b><?= $this->e($column_name) ?></b></div>
+                                <div class="col-sm-6 border-bottom"><?= $this->e($product['name']) ?></div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-6 border-bottom"><b><?= $this->e($column_model ) ?></b></div>
+                                <div class="col-sm-6 border-bottom"><?= $this->e($product['model']) ?></div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-6 border-bottom"><b><?= $this->e($column_quantity ) ?></b></div>
+                                <div class="col-sm-6 border-bottom"><?= $this->e($product['quantity']) ?></div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-6 border-bottom"><b><?= $this->e($column_price ) ?></b></div>
+                                <div class="col-sm-6 border-bottom"><?= $this->e($product['price']) ?></div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-6 border-bottom"><b><?= $this->e($column_total ) ?></b></div>
+                                <div class="col-sm-6 border-bottom"><?= $this->e($product['total']) ?></div>
+                            </div>
+                        </div>
+                        <div class="col-12 mt-3 h-100 d-flex align-items-start justify-content-start">
+                            <?php if (isset($product['reorder'])): ?>
+                                <a href="<?= $product['reorder'] ?>" data-bs-toggle="tooltip" title="<?= $this->e($button_reorder ) ?>" class="btn mx-2 btn-primary"><i class="fas fa-cart-shopping"></i></a>
+                            <?php endif; ?>
+                            <a href="<?= $product['return'] ?>" data-bs-toggle="tooltip" title="<?= $this->e($button_return ) ?>" class="btn mx-2 btn-danger"><i class="fas fa-reply"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    <?php endforeach; ?>
+</div>
+
       <?php if ($comment): ?>
-        <table class="table table-bordered table-hover">
-          <thead>
-            <tr>
-              <td class="text-start"><strong><?= $this->e($text_comment ) ?></strong></td>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td class="text-start"><?= $this->e($comment ) ?></td>
-            </tr>
-          </tbody>
-        </table>
+        <div class="card mb-3">
+          <div class="card-body">
+            <div class="row">
+              <div class="col-12"><strong><?= $text_comment ?></strong></div>
+              <div class="col-12"><?= $comment ?></div>
+            </div>
+          </div>
+        </div>
       <?php endif; ?>
       <h2><?= $this->e($text_history ) ?></h2>
-      <div id="history"><?=  $history  ?></div>
-      <div class="text-end mt-3"><a href="<?= $continue  ?>" class="btn btn-primary"><?= $this->e($button_continue ) ?></a></div>
-      <?=  $content_bottom  ?></div>
-    <?=  $column_right  ?></div>
+      <div id="history"><?= $history ?></div>
+      <div class="text-end mt-3"><a href="<?= $continue ?>" class="btn btn-primary"><?= $this->e($button_continue ) ?></a></div>
+      <?= $content_bottom ?></div>
+    <?= $column_right ?></div>
 </div>
-<script ><!--
+<script><!--
 $('#history').on('click', '.pagination a', function(e) {
     e.preventDefault();
 
     $('#history').load(this.href);
 });
-//--></script>
-<?=  $footer  ?>
+--></script>
+<?= $footer ?>

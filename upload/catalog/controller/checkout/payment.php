@@ -14,21 +14,23 @@ class Payment extends \Opencart\System\Engine\Controller {
 		($this->model_checkout_cart->getTotals)($totals, $taxes, $total);
 
 		$status = ($this->customer->isLogged() || !$this->config->get('config_customer_price'));
-
+ 
 		// Validate customer data is set
 		if (!isset($this->session->data['customer'])) {
 			$status = false;
+			
 		}
 
 		// Validate cart has products and has stock.
 		if ((!$this->cart->hasProducts() && empty($this->session->data['vouchers'])) || (!$this->cart->hasStock() && !$this->config->get('config_stock_checkout'))) {
 			$status = false;
 			
+			
 		}
-
+ 
 		// Validate minimum quantity requirements.
 		$products = $this->model_checkout_cart->getProducts();
-
+	 
 		foreach ($products as $product) {
 			if (!$product['minimum']) {
 				$status = false;
@@ -43,10 +45,10 @@ class Payment extends \Opencart\System\Engine\Controller {
 		 
 	 
 			// Validate shipping address
-			if (!isset($this->session->data['shipping_address']['address_id'])) {
-				$status = false;
-	 
-			 
+			if (!isset($this->session->data['shipping_address']['address_id']) && !empty( $this->session->data['payment_address'])) {
+				 
+				$this->session->data['shipping_address'] = $this->session->data['payment_address'];
+ 
 				 
 			 
 			}
@@ -68,7 +70,7 @@ class Payment extends \Opencart\System\Engine\Controller {
 
 		// Validate payment methods
 		if (!isset($this->session->data['payment_method'])) {
-		 
+	 
 			$status = false;
 		 
 		}
@@ -76,7 +78,7 @@ class Payment extends \Opencart\System\Engine\Controller {
 		// Validate checkout terms 
  
 		if ($this->config->get('config_checkout_id') && empty($this->session->data['customer']['agree'])) {
-	 
+		 
 		 	$status = false;
 		}
 
@@ -378,20 +380,18 @@ class Payment extends \Opencart\System\Engine\Controller {
 		}
 
 		$extension_info = $this->model_setting_extension->getExtensionByCode('payment', $code);
-		 
+	 
 		if ($status && $extension_info) {
 			$data['payment'] = $this->load->controller('extension/' . $extension_info['extension'] . '/payment/' . $extension_info['code']);
-		} else {
-		//	$data['payment'] = "Error: Please come in contact with us about that Error";
-			//$data['payment'] = serialize($extension_info);
-		 //	$data['payment'] = $code  . 'Error:no payment code';
-		}
+		}  
+ 
  
 		// Validate if payment method has been set.
 		return $this->load->view('checkout/payment', $data);
 	}
 
 	public function confirm(): void {
+	 
 		$this->response->setOutput($this->index());
 	}
 }

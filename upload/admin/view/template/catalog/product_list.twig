@@ -3,66 +3,68 @@
     {% if products %}
       {% for product in products %}
         <div class="col">
-          <div class="card" onclick="toggleCheckbox(this)">
+    
+          <div class="card shadow" onclick="toggleCheckbox(this)">
+            <h5 class="card-header ">    
+              <a title="{{ product.name }}" style="max-width: 200px; display: inline-block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" href="{{ product.edit }}" {% if sort == 'pd.name' %} class="{{ order|lower }}"{% endif %} style="max-width: 300px; display: inline-block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+                <i class="fas fa-check d-none"></i>      {{ product.name }}
+              </a>
+            
+          </h5>
             <div class="card-body">
-              <h5 class="card-title"><a href="{{ product.edit }}" {% if sort == 'pd.name' %} class="{{ order|lower }}"{% endif %} style="max-width: 100%; display: inline-block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">{{ product.name }}</a>
-              </h5>
-              <div style="max-width: 50px;"> 
-              {% if product.image ends with '.avi' or product.image ends with '.mp4' or product.image ends with '.mkv' %}
-                <video class="img-thumbnail" style="max-width: 100%; display: block;" controls>
-                  <source src="{{ product.image }}" type="video/{{ product.image|split('.')|last }}">
-                  Your browser does not support the video tag.
-                </video>
-              {% else %}
-                <img src="{{ product.image }}" alt="{{ product.name }}" class="img-thumbnail" style="max-width: 100%; display: block;">
-              {% endif %}
-            </div> 
-
-
-              <div class="card-text">
-                <div>
-                  
-                  {% if product.status %}
-                    <span class="text-success">{{ text_enabled }}</span>
-                  {% else %}
-                    <span class="text-danger">{{ text_disabled }}</span>
-                  {% endif %}
-                </div>
-                <div>{{ product.model }}</div>
-                <div>
-                  {% if product.special %}
-                    <span style="text-decoration: line-through;">{{ product.price }}</span>
-                    <div class="text-danger">{{ product.special }}</div>
-                  {% else %}
-                    {{ product.price }}
-                  {% endif %}
-                </div>
-                <div>
-                  {% if product.quantity <= 0 %}
-                    <span class="badge bg-warning">{{ product.quantity }}</span>
-                  {% elseif product.quantity <= 5 %}
-                    <span class="badge bg-danger">{{ product.quantity }}</span>
-                  {% else %}
-                    <span class="badge bg-success">{{ product.quantity }}</span>
-                  {% endif %}
-                </div>
-                <div class="d-flex justify-content-between align-items-center mt-1">
-           
-           
-                  <div class="form-check form-check-lg form-check-inline" style="display: none;">
-                    
-                    <input type="checkbox" name="selected[]" value="{{ product.product_id }}" class="form-check-input">
-                  </div>
-                  <div>
-                    <a href="{{ product.edit }}" data-bs-toggle="tooltip" title="{{ button_edit }}" class="btn btn-primary">
-                      <i class="fa check-edit fa-check d-none"></i> 
-                      
-                      <i class="fa-solid check-edit fa-pencil"></i> </a>
-                  </div>
-                </div>
-              </div>
+        
+              <div style="max-width: 50px" class="d-flex justify-content-center align-items-center">
+                {% if product.image ends with '.avi' or product.image ends with '.mp4' or product.image ends with '.mkv' %}
+                    <video class="img-thumbnail" style="max-width: 100%; display: block;" >
+                        <source src="{{ product.image }}" type="video/{{ product.image|split('.')|last }}">
+                        Your browser does not support the video tag.
+                    </video>
+                {% else %}
+                    <img src="{{ product.image }}" alt="{{ product.name }}" class="img-thumbnail" style="max-width: 100%; display: block;">
+                {% endif %}
             </div>
-          </div>
+                <div class="card-text">
+                    <div>
+                        {% if product.status %}
+                            <span class="text-success">{{ text_enabled }}</span>
+                        {% else %}
+                            <span class="text-danger">{{ text_disabled }}</span>
+                        {% endif %}
+                    </div>
+                    <div>{{ product.model }}</div>
+                    <div class="border-bottom  mb-2">
+                        {% if product.special %}
+                            <span style="text-decoration: line-through;">{{ product.price }}</span>
+                            <div class="text-danger">{{ product.special }}</div>
+                        {% else %}
+                            {{ product.price }}
+                        {% endif %}
+                    </div>
+                    <div >
+                        {% if product.quantity <= 0 %}
+                            <span class="badge bg-warning">{{ product.quantity }}</span>
+                        {% elseif product.quantity <= 5 %}
+                            <span class="badge bg-danger">{{ product.quantity }}</span>
+                        {% else %}
+                            <span class="badge bg-success">{{ product.quantity }}</span>
+                        {% endif %}
+                    </div>
+                    <div class="d-flex justify-content-between align-items-center mt-1">
+                        <div class=" d-none">
+                            <input type="checkbox" name="selected[]" value="{{ product.product_id }}" class="form-check-input">
+                        </div>
+                        <div>
+                            <a href="{{ product.edit }}" data-bs-toggle="tooltip" title="{{ button_edit }}" class="btn btn-primary">
+                                <i class="fas fa-pencil-alt"></i> {{ button_edit }}
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+
+
         </div>
       {% endfor %}
     {% else %}
@@ -79,7 +81,7 @@
   function toggleCheckbox(card) {
     var checkbox = card.querySelector('input[type="checkbox"]');
     checkbox.checked = !checkbox.checked;
-    $(card).find('.check-edit').toggleClass('d-none');
+    $(card).find('.fa-check').toggleClass('d-none');
     if (checkbox.checked) {
     
       card.classList.add('selected');

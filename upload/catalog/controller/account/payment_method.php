@@ -117,7 +117,7 @@ class PaymentMethod extends \Opencart\System\Engine\Controller
 									'id' => $info['id'],
 									'name' => $info['name'],
 									'date_expire' => $info['date_expire'],
-									'type' => $info['description'],
+									'type' => $info['description'] . ' ****' .  $info['last_four'],
 									'image' => $info['image'],
 									'delete' => $this->url->link('account/payment_method.delete', 'language=' . $this->config->get('config_language') . '&customer_token=' . $this->session->data['customer_token'] . '&code=' . $result['code'] . '&id=' . $info['id'])
 								];

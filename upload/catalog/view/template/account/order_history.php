@@ -25,6 +25,6 @@
   </table>
 </div>
 <div class="row">
-  <div class="col-sm-6 text-start"><?= $this->e($pagination ) ?></div>
-  <div class="col-sm-6 text-end"><?= $this->e($results ) ?></div>
+  <div class="col-sm-6 text-start"><?= $pagination  ?></div>
+  <div class="col-sm-6 text-end"><?=  $results   ?></div>
 </div>

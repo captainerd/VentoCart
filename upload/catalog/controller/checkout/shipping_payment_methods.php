@@ -50,7 +50,7 @@ class ShippingPaymentMethods extends \Opencart\System\Engine\Controller
         } else {
             $data['shipping_method'] = true;
         }
-
+     
 
         return $this->load->view('checkout/shipping_payment_methods', $data);
     }

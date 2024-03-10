@@ -1,6 +1,6 @@
 <?php
 // Version
-define('VERSION', '4.5.5.3');
+define('VERSION', '4.5.5.4');
 // Configuration
 if (is_file('config.php')) {
 	require_once('config.php');

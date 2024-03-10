@@ -25,52 +25,78 @@
 			</div>
 		</div>
 		<form role="form" id="payment-form" method="POST">
-			<?php if (!empty($saved_methods)): ?>
-				<select class="form-select" id="payment-method-select" name="payment-method">
-					<option value="new">Add New</option>
-						<?php foreach ($saved_methods as $key => $method): ?>
-							<option value="<?php echo $method['id']; ?>" <?php if ($key === 0): ?>selected<?php endif; ?>>
-								<?php echo $method['name'] . " " . $method['description']; ?>
-							</option>
-						<?php endforeach; ?>
-					</select>
 
-				</select>
-			<?php endif; ?>
-			<div class="collapse" id="collapseExample">
-  <div  >
-			<div class="row">
-				<div class="col-xs-12">
-					<div class="form-group">
-						<label for="cardNumber">CARD NUMBER</label>
-						<div class="input-group">
-							<div id="card-number" class="form-control"></div>
-							<span class="input-group-addon"><i class="fa fa-credit-card"></i></span>
+
+
+			<div class="<?php if ($payment_code != 'stripe'): ?> d-none<?php endif ?>">
+				<div class="row">
+					<div class="col-xs-12">
+						<div class="form-group">
+							<label for="cardNumber">CARD NUMBER</label>
+							<div class="input-group">
+								<div id="card-number" class="form-control"></div>
+								<span class="input-group-addon"><i class="fa fa-credit-card"></i></span>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-xs-7 col-md-7">
+						<div class="form-group">
+							<label for="cardExpiry"> <span class="visible-xs-inline">EXPIRY </span> DATE</label>
+							<div id="card-expiry" class="form-control"></div>
+						</div>
+					</div>
+					<div class="col-xs-5 col-md-5 pull-right">
+						<div class="form-group">
+							<label for="cardCVC">CV CODE</label>
+							<div id="card-cvc" class="form-control"></div>
 						</div>
 					</div>
 				</div>
 			</div>
-			<div class="row">
-				<div class="col-xs-7 col-md-7">
-					<div class="form-group">
-						<label for="cardExpiry"> <span class="visible-xs-inline">EXPIRY </span> DATE</label>
-						<div id="card-expiry" class="form-control"></div>
-					</div>
-				</div>
-				<div class="col-xs-5 col-md-5 pull-right">
-					<div class="form-group">
-						<label for="cardCVC">CV CODE</label>
-						<div id="card-cvc" class="form-control"></div>
-					</div>
-				</div>
-			</div>
-			</div>
-</div>
+
+			<?php if ($payment_code != 'stripe'): 
+
+$generatedColors = array(
+    "#1d4555", // card colors
+    "#5b1d55",  
+    "#3f1f77",  
+    "#1d5542",
+	"#2f2d73",
+	"#0865b7",
+	"#393939",
+	"#005559",
+);
+
+// Choose a color randomly from the array
+$randomColor = $generatedColors[array_rand($generatedColors)];
+?>
+ 
+
+				<div  class="d-flex justify-content-center container text-white">
+        <div style="max-width: 300px; background-color:<?=$randomColor?>;" class="card p-2 px-3 py-3">
+            <div class="d-flex justify-content-between align-items-center"><img src="https://i.imgur.com/8ANWXql.png" width="20" height="20"><?=$payment_name['description']?></div>
+            <div class="mt-3"><span class="mx-1">****</span><span class="mx-1">****</span><span class="mx-1">****</span><span class="mx-1"> <?=$payment_name['last_four']?></span></div>
+            <div class="d-flex justify-content-between card-details mt-3 mb-3">
+                <div class="d-flex flex-column"><span class="light">Card Holder</span><span><?=$payment_name['fullname']?></span></div>
+                <div class="d-flex flex-row">
+                    <div class="d-flex flex-column mx-2"><span class="light">Expires </span> <?=$payment_name['date_expire']?>  </div>
+                    <div class="d-flex flex-column mx-2"><span class="light ">CVV</span>  *** </div>
+                </div>
+            </div>
+        </div>
+    </div>
+ 
+
+			<?php endif; ?>
+
 
 			<div class="row">
 				<div class="col-xs-12">
-					<button class="subscribe btn btn-success btn-lg btn-block" id="stripeSubmit"
-						type="button">  <?=$button_purchase?></button>
+					<button class="subscribe btn btn-success btn-lg btn-block"   id="button-confirm"  type="button">
+						<?= $button_purchase ?>
+					</button>
 				</div>
 			</div>
 
@@ -81,44 +107,16 @@
 
 <!-- Include the Stripe.js library script here -->
 <script src="https://js.stripe.com/v3/"></script>
-<!-- Include the jQuery payment library script here -->
 
 
 
 <script>
 
+	var cardButton = document.getElementById('button-confirm');
+	if ('<?= $payment_code ?>' == 'stripe') {
+		cardButton.disabled = true;
+	}
 
-$(document).ready(function() {
-    // Initially check if the select has anything selected other than "new"
-    checkSelect();
-    
-    // Enable/disable stripeSubmit when select changes
-	if ($('#payment-method-select').length) {
-    $('#payment-method-select').change(function() {
-        checkSelect();
-    });
-} else {
-	$('#collapseExample').collapse('show');
-
-}
-});
-
-function checkSelect() {
-    var selectedValue = $('#payment-method-select').val();
-    if (selectedValue !== 'new') {
-		$('#collapseExample').collapse('hide');
-        document.getElementById('stripeSubmit').disabled = false;
- 
-    } else {
-		$('#collapseExample').collapse('show');
-        document.getElementById('stripeSubmit').disabled = true;
-    }
-}
-
-
-	$('#button-confirm').hide();
-	var cardButton = document.getElementById('stripeSubmit');
-	cardButton.disabled = true;
 	var completed = {
 		cardNumber: false,
 		cardExpiry: false,
@@ -150,7 +148,9 @@ function checkSelect() {
 
 		if (window.Stripe) {
 
+
 			var stripe = Stripe('<?= $payment_stripe_public_key; ?>');
+
 			var elements = stripe.elements({ <?php if ($locale): ?>"locale": "<?= $locale; ?>"<?php endif; ?> });
 
 
@@ -185,26 +185,27 @@ function checkSelect() {
 
 
 			cardButton.addEventListener('click', function (ev) {
-				$("#stripeSubmit").html('Processing <i class="fa fa-spinner fa-pulse"></i>');
-				if ($('#payment-method-select').length && $('#payment-method-select').val() != "new") {
-				 
+				$("#button-confirm").html('Processing <i class="fa fa-spinner fa-pulse"></i>');
+				$("#card-errors").text('');
+				if ('<?= $payment_code ?>' != 'stripe') {
+
 					$.ajax({
-							url: '<?= $action ?>',
-							method: 'POST',
-							data: JSON.stringify({ payment_method_id: $('#payment-method-select').val() }),
-							success: function (response) {
-								handleServerResponse(response);
-							},
-							error: function (jqXHR, textStatus, errorThrown) {
-								console.error(jqXHR.responseText);
-								console.error(textStatus, errorThrown);
-							}
-						});
+						url: '<?= $action ?>',
+						method: 'POST',
+						data: JSON.stringify({ payment_method_id: '<?= $payment_code ?>' }),
+						success: function (response) {
+							handleServerResponse(response);
+						},
+						error: function (jqXHR, textStatus, errorThrown) {
+							console.error(jqXHR.responseText);
+							console.error(textStatus, errorThrown);
+						}
+					});
 
 					return;
 				}
 
-			 
+				 
 				stripe.createPaymentMethod({
 					type: 'card',
 					card: cardNumber,
@@ -212,12 +213,9 @@ function checkSelect() {
 				}).then(function (result) {
 					if (result.error) {
 						// Show error in payment form
-						$("#stripeSubmit").html('  <?=$button_purchase?>');
+						$("#button-confirm").html('  <?= $button_purchase ?>');
 						showErrorMessage(result.error.message);
 					} else {
-
-					 
-
 						// Send paymentMethod.id to your server (see Step 2)
 						$.ajax({
 							url: '<?= $action ?>',
@@ -225,14 +223,14 @@ function checkSelect() {
 							data: JSON.stringify({ payment_method_id: result.paymentMethod.id }),
 							success: function (response) {
 								handleServerResponse(response);
-								$("#stripeSubmit").html('  <?=$button_purchase?>');
+								$("#button-confirm").html('  <?= $button_purchase ?>');
 							},
 							error: function (jqXHR, textStatus, errorThrown) {
 								console.warn("Stripe App have encountered with some error.");
 								console.warn("Please see below the response your server sent.");
 								console.error(jqXHR.responseText);
 								console.error(textStatus, errorThrown);
-								$("#stripeSubmit").html('  <?=$button_purchase?>');
+								$("#button-confirm").html('<?= $button_purchase ?>');
 							}
 						});
 					}
@@ -256,7 +254,11 @@ function checkSelect() {
 					showErrorMessage(response.error);
 				} else if (response.requires_action) {
 					// Use Stripe.js to handle the required card action
-					stripe.handleCardAction(response.payment_intent_client_secret).then(function (result) {
+				   setTimeout(() => {
+					$("#button-confirm").html('<?=$reguires_confirmation?> <i class="fa fa-spinner fa-pulse"></i>');
+				   }, 500);
+				 
+					stripe.confirmCardPayment(response.payment_intent_client_secret).then(function (result) {
 						if (result.error) {
 							// Show error from Stripe.js in payment form
 							showErrorMessage(result.error.message);
@@ -272,10 +274,8 @@ function checkSelect() {
 									handleServerResponse(response);
 								},
 								error: function (jqXHR, textStatus, errorThrown) {
-									console.warn("Stripe App have encountered with some error.");
-									console.warn("Please see below the response your server sent.");
-									console.error(jqXHR.responseText);
-									console.error(textStatus, errorThrown);
+									console.log(errorThrown)
+									showErrorMessage(errorThrown);
 								}
 							});
 						}
@@ -284,7 +284,24 @@ function checkSelect() {
 					});
 				} else {
 					// Show success message
-					window.location = response.success;
+
+					if (response.success) {
+						window.location = response.success;
+					}
+					if (response.clientSecret) {
+						stripe.confirmSetupIntent(response.clientSecret, {
+								payment_method: response.id,
+							})
+							.then(function (result) {
+							 
+								if (result.setupIntent && result.setupIntent.status == 'succeeded') {
+									alert('<?=$text_payment_saved?>');
+									window.location = 'index.php?route=account/payment_method';
+								} else {
+									showErrorMessage(JSON.stringify(result));
+								}
+							});
+					}
 				}
 			}
 
@@ -294,11 +311,12 @@ function checkSelect() {
 			}
 
 			var logServerError = function (error) {
-				console.warn("Stripe App have encountered with some error.");
+				console.log(error);
+				$("#card-errors").text(error);
 
 			}
 		} else {
-			setTimeout(function () { initStripe(); }, 50);
+			setTimeout(function () { initStripe(); }, 150);
 		}
 	}
 

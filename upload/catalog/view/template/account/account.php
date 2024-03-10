@@ -13,7 +13,7 @@
       
      
   <div class="row">
-    <div class="col-md-12 m-2">
+    <div class="col-md-12 mb-2">
       <div class="card">
         <div class="card-header">
           <strong class="card-title"><?= $this->e($text_my_account) ?></strong>
@@ -58,7 +58,7 @@
 
  
   <div class="row">
-    <div class="col-md-12  m-2">
+    <div class="col-md-12  mb-2">
       <div class="card">
         <div class="card-header">
           <strong class="card-title"><?= $this->e($text_my_orders) ?></strong>
@@ -67,7 +67,7 @@
     
               <a href="<?= $order ?>" class="btn btn-link" data-toggle="tooltip" data-placement="bottom" title="<?= $this->e($text_order) ?>">
                 <i class="fas fa-shopping-basket fa-2x"></i>
-                <span class="d-block"><?= $this->e($text_order) ?></span>
+                <span class="d-block"><?= $this->e($text_my_orders) ?></span>
               </a>
 
               <a href="<?= $subscription ?>" class="btn btn-link" data-toggle="tooltip" data-placement="bottom" title="<?= $this->e($text_subscription) ?>">
@@ -110,7 +110,7 @@
  
   <div class="row">
     <?php if ($affiliate): ?>
-    <div class="col-md-12  m-2">
+    <div class="col-md-12  mb-2">
       <div class="card">
         <div class="card-header">
           <strong class="card-title"><?= $this->e($text_my_affiliate) ?></strong>
@@ -148,7 +148,7 @@
 
  
   <div class="row">
-    <div class="col-md-12  m-2">
+    <div class="col-md-12  mb-2">
       <div class="card">
         <div class="card-header">
           <strong class="card-title"><?= $this->e($text_my_newsletter) ?></strong>

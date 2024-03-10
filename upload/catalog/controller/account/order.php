@@ -450,7 +450,7 @@ class Order extends \Opencart\System\Engine\Controller {
 		}
 
 		$history_total = $this->model_account_order->getTotalHistories($order_id);
-
+		 
 		$data['pagination'] = $this->load->controller('common/pagination', [
 			'total' => $history_total,
 			'page'  => $page,

@@ -416,9 +416,13 @@ function populateMethods(containerId, methods, name) {
         // radioInput.checked = true; //uncomment this and comment the bellow
 
       }
+     
+      if (selectedByUser(option, containerId)) {
+        radioInput.checked = true;
+      }
       //Or you can decide by setting Admin/Extension, Order: 0) and the rest Order: 1,2,3  
       //The 'Order 0' will be checked
-      if (mindex === 0 && index === 0) {
+      if (mindex === 0 && index === 0 && localStorage.getItem(containerId) == null) {
         radioInput.checked = true;
       }
 
@@ -436,7 +440,13 @@ function populateMethods(containerId, methods, name) {
     });
   });
 }
-
+function selectedByUser(code, containerId) {
+  // Check if the code is stored in localStorage
+ 
+  return localStorage.getItem(containerId) === code;
+    
+  
+}
 //Save the selected Payment/Shipping Settings
 $(document).ready(function () {
   
@@ -469,6 +479,9 @@ $(document).ready(function () {
     }
 
     $("#form-register").trigger('change', [true]);
+    
+    localStorage.setItem('payment-methods-container', $('input[name="payment_method"]:checked').val());
+    localStorage.setItem('shipping-methods-container', $('input[name="shipping_method"]:checked').val());
 
     $.ajax({
       url: 'index.php?route=checkout/shipping_payment_methods.save&language=' + window.lang,

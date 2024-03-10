@@ -238,11 +238,14 @@ class Address extends \Opencart\System\Engine\Controller {
 	public function address(): void {
 		$this->load->language('checkout/register');
 		if (!isset( $this->request->get['address_type'])) {
+	 
 			return;
 		}
 		$address_type = $this->request->get['address_type'];
 		if ( ($address_type != "payment" && $address_type != "shipping")) {
+		 
 			return;
+			
 		}
 
 		
@@ -253,6 +256,7 @@ class Address extends \Opencart\System\Engine\Controller {
 
 		if (isset($this->request->get['address_id'])) {
 			$address_id = (int)$this->request->get['address_id'];
+ 
 		} else {
 			$address_id = 0;
 		}
@@ -288,8 +292,8 @@ class Address extends \Opencart\System\Engine\Controller {
 			$this->load->model('account/address');
 
 			$address_info = $this->model_account_address->getAddress($this->customer->getId(), $address_id);
-
-			if (!$address_info) {
+	 
+			if (!$address_info) {	
 				$json['error'] = $this->language->get('error_address');
 
 				unset($this->session->data['payment_address']);
@@ -299,9 +303,10 @@ class Address extends \Opencart\System\Engine\Controller {
 				unset($this->session->data['payment_methods']);
 			}
 		}
-
+		 
 		if (!$json) {
 			$this->session->data[$address_type ."_address"] = $address_info;
+			 
 
 			$json['success'] = $this->language->get('text_success');
 

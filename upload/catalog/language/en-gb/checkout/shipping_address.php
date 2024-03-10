@@ -23,7 +23,7 @@ $_['error_phone']      = 'Digits only. Include the country code (e.g., +33 for F
 $_['error_address']         = 'Shipping address could not be found!';
 $_['error_firstname']       = 'First Name must be between 1 and 32 characters!';
 $_['error_lastname']        = 'Last Name must be between 1 and 32 characters!';
-$_['']      = 'Digits only include the country code (e.g., +33 for France)';
+
 $_['error_address_1']       = 'Address must be between 3 and 128 characters!';
 $_['error_city']            = 'City must be between 2 and 128 characters!';
 $_['error_postcode']        = 'Postcode must be between 2 and 10 characters!';

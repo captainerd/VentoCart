@@ -27,9 +27,10 @@ $_['entry_cc_number']		= 'Card Number';
 $_['entry_cc_expire_date']	= 'Card Expiry Date';
 $_['entry_cc_cvv2']			= 'CV Code';
 $_['entry_cc_issue']			= 'Card Issue Number';
-
+$_['reguires_confirmation']     = 'Please confirm your payment with your bank';
 // Help
 $_['help_start_date']		= '(if available)';
 $_['help_issue']				= '(for Maestro and Solo cards only)';
 
-$_['error_subscription'] = "Error: You can't checkout a cart with more than one items combined with a Subscription, delete items from your cart and keep one subscription to checkout";
+$_['error_subscription'] = "You can't checkout a cart with more than one items combined with a Subscription, delete items from your cart and keep one subscription to checkout";
+$_['error_need_account']  = 'You need to register an account for either downloads or subscriptions';

@@ -42,20 +42,21 @@
       </div>
     </div>
     <div id="checkout-payment">
+    <div style="display: flex;">
 
+    
+    </div>
       <?= $payment ?>
     </div>
 
     <?= $content_bottom ?>
     <div id="checkout-confirm" class="mb-3">
+    <button type="button" style="flex-grow: 1;" id="button-confirm" class="btn btn-danger ">
+        <?=$error_payment_address?>
+        </button>
       <?= $confirm ?>
     </div>
-    <div style="display: flex;">
-
-      <button type="button" style="flex-grow: 1;" id="button-confirm" class="btn btn-success ">
-        <?= $button_text ?>
-      </button>
-    </div>
+ 
   </div>
   <?= $column_right ?>
 </div>

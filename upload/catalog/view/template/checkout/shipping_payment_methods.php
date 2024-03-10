@@ -2,11 +2,11 @@
 <form id="payment-shipping-method-form"> 
  
  
-<div id="checkout-shipping-method" class="mb-3">
+<div id="checkout-shipping-method" class="mb-3  <?php if (!$shipping_method):?> d-none <?php endif?>">
    
  
     <h3><i class="fas fa-shipping-fast"></i> <?= $this->e($heading_title ) ?></h3>
-    <div class="shipping-methods">
+    <div class="shipping-methods"  >
         <!--<p><?= $this->e($text_shipping ) ?></p>-->
  
       <div id="shipping-methods-container" class="form-check   form-switch form-switch-lg  ">

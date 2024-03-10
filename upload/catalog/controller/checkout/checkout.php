@@ -17,8 +17,9 @@ class Checkout extends \Opencart\System\Engine\Controller {
 				break;
 			}
 		}
-
+        $this->load->language('checkout/payment_method');
 		$this->load->language('checkout/checkout');
+   
 
 		$this->document->setTitle($this->language->get('heading_title'));
       
