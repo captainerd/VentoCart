@@ -107,7 +107,7 @@
               <textarea name="comment" rows="5" placeholder="<?= $this->e($entry_fault_detail ) ?>" id="input-comment" class="form-control"></textarea>
             </div>
           </div>
-          <?= $this->e($captcha ) ?>
+          <?= $captcha  ?>
         </fieldset>
         <div class="row">
           <div class="col-3"><a href="<?= $back  ?>" class="btn btn-light"><?= $this->e($button_back ) ?></a></div>

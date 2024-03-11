@@ -4,14 +4,14 @@
   <div class="row">
     <?=  $column_left   ?>
     <div id="content" class="col"><?=  $content_top ?>
-      <h1><?= $this->e($heading_title ) ?></h1>
+      <h1><?=  $heading_title  ?></h1>
       <p><?= $text_account_already  ?></p>
       <form id="form-register" action="<?= $register  ?>" method="post" data-oc-toggle="ajax">
         <fieldset id="account">
-          <legend><?= $this->e($text_your_details ) ?></legend>
+          <legend><?=  $text_your_details  ?></legend>
           <?php if (count($customer_groups) > 1): ?>
             <div class="row mb-3 required">
-              <label class="col-sm-2 col-form-label"><?= $this->e($entry_customer_group ) ?></label>
+              <label class="col-sm-2 col-form-label"><?= $entry_customer_group  ?></label>
               <div class="col-sm-10">
                 <select name="customer_group_id" id="input-customer-group" class="form-select">
                   <?php foreach ($customer_groups as $customer_group): ?>
@@ -178,20 +178,20 @@
         </fieldset>
 
         <fieldset>
-          <legend><?= $this->e($text_your_password ) ?></legend>
+          <legend><?=  $text_your_password  ?></legend>
           <div class="row mb-3 required">
-            <label for="input-password" class="col-sm-2 col-form-label"><?= $this->e($entry_password ) ?></label>
+            <label for="input-password" class="col-sm-2 col-form-label"><?=  $entry_password   ?></label>
             <div class="col-sm-10">
-              <input type="password" name="password" value="" placeholder="<?= $this->e($entry_password ) ?>" id="input-password" class="form-control">
+              <input type="password" name="password" value="" placeholder="<?= $entry_password  ?>" id="input-password" class="form-control">
               <div id="error-password" class="invalid-feedback"></div>
             </div>
           </div>
         </fieldset>
 
         <fieldset>
-          <legend><?= $this->e($text_newsletter ) ?></legend>
+          <legend><?=  $text_newsletter ?></legend>
           <div class="row mb-3">
-            <label class="col-sm-2 col-form-label"><?= $this->e($entry_newsletter ) ?></label>
+            <label class="col-sm-2 col-form-label"><?=  $entry_newsletter  ?></label>
             <div class="col-sm-10">
               <div class="form-check form-switch form-switch-lg">
                 <input type="hidden" name="newsletter" value="0"/> <input type="checkbox" name="newsletter" value="1" id="input-newsletter" class="form-check-input">
@@ -199,14 +199,14 @@
             </div>
           </div>
         </fieldset>
-        <?= $this->e($captcha ) ?>
+        <?=  $captcha ?>
         <div class="text-end">
           <?php if ($text_agree): ?>
             <div class="form-check form-switch form-switch-lg form-check-reverse form-check-inline">
               <label class="form-check-label"><?=  $text_agree   ?></label> <input type="checkbox" name="agree" value="1" class="form-check-input">
             </div>
           <?php endif; ?>
-          <button type="submit" class="btn btn-primary"><?= $this->e($button_continue ) ?></button>
+          <button type="submit" class="btn btn-primary"><?=  $button_continue  ?></button>
         </div>
       </form>
       <?=  $content_bottom   ?>
