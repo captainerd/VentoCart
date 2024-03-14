@@ -46,7 +46,7 @@
 </div>
 
         <div class="row mb-3">
-          <div class="col-sm-6 text-start"><?= $this->e($pagination ) ?></div>
+          <div class="col-sm-6 text-start"><?=  $pagination   ?></div>
           <div class="col-sm-6 text-end"><?= $this->e($results ) ?></div>
         </div>
       <?php else: ?>
