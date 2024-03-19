@@ -81,8 +81,8 @@ class Language {
      */
 	public function set(string $key, $value = ''): void {
 		 // Language failover when not set 
-		if ((!is_string($value) || empty($value)) && !empty($_COOKIE['lang'])) {
-			$value = $_COOKIE['lang'];
+		if ((!is_string($value) || empty($value))) {
+			$value = 'en-gb';
 		}
 	 
 		$this->data[$key] = $value;

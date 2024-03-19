@@ -16,26 +16,18 @@ class Language extends \Opencart\System\Engine\Controller {
 	 */
 	public function index(): void {
 	
-	   if (isset($this->request->get['language'])) {
+		if (isset($this->request->get['language'])) {
 			$code = (string)$this->request->get['language'];
-		} elseif (!empty($_COOKIE['lang'])) {
-			$code = $_COOKIE['lang'];
+			$this->session->data['language'] = $code;
+		} elseif (!empty($this->session->data['language'])) {
+			$code = $this->session->data['language'];
 		} else {
 			$code = $this->config->get('config_language');
 		}
 		
-
-		$option = [
-			'expires'  => time() + 60 * 60 * 24 * 30,
-			'path'     => '/',
-			'SameSite' => 'Lax'
-		];
-
-		// Deprecate language code in every single url param unless it is for a change
-		if (empty($_COOKIE['lang']) || $code != $_COOKIE['lang']) {
-		setcookie('lang', $code, $option);
-		}
-
+		$this->request->get['language'] = $code; // Ensure 'language' parameter is always set in the GET request
+		
+ 
 		$this->load->model('localisation/language');
 
 		self::$languages = $this->model_localisation_language->getLanguages();
