@@ -53,12 +53,30 @@ class DB {
      * @return bool
      */
 	public function write(string $session_id, array $data): bool {
-		if ($session_id) {
-			$this->db->query("REPLACE INTO `" . DB_PREFIX . "session` SET `session_id` = '" . $this->db->escape($session_id) . "', `data` = '" . $this->db->escape($data ? json_encode($data) : '') . "', `expire` = '" . $this->db->escape(gmdate('Y-m-d H:i:s', time() + $this->config->get('session_expire'))) . "'");
-		}
+    if ($session_id) {
+        // Print the data for debugging purposes
+      
+ 
+        // Encode the data array to JSON
+        $encoded_data = $this->db->escape(json_encode($data, true));
 
-		return true;
-	}
+        // Calculate the new expiration time
+        $expire_time = gmdate('Y-m-d H:i:s', time() + $this->config->get('session_expire'));
+
+        // Update/or insert the session record in the database
+		$result = $this->db->query("
+		INSERT INTO `" . DB_PREFIX . "session` (`session_id`, `data`, `expire`)
+		VALUES ('" . $this->db->escape($session_id) . "', '" . $encoded_data . "', '" . $this->db->escape($expire_time) . "')
+		ON DUPLICATE KEY UPDATE
+		`data` = VALUES(`data`),
+		`expire` = VALUES(`expire`)
+	");
+
+ 
+    }
+
+    return  $result;
+}
 
 	/**
      * Destroy

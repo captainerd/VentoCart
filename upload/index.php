@@ -1,7 +1,7 @@
 <?php
 // Version
 ini_set('short_open_tag', 'On');
-define('VERSION', '4.5.5.4');
+define('VERSION', '4.5.5.5');
 
 // Configuration
 if (is_file('config.php')) {
@@ -9,7 +9,7 @@ if (is_file('config.php')) {
 }
 
 // Install
-if (!defined('DIR_APPLICATION')) {
+if (is_dir('./install')) {
 	header('Location: install/index.php');
 	exit();
 }

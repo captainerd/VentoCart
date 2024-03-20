@@ -3,12 +3,13 @@ namespace Opencart\Catalog\Controller\Checkout;
 class Payment extends \Opencart\System\Engine\Controller {
 	public function index(): string {
 		$this->load->language('checkout/confirm');
-
+ 
 		// Order Totals
+	 
 		$totals = [];
 		$taxes = $this->cart->getTaxes();
 		$total = 0;
-
+	 
 		$this->load->model('checkout/cart');
 
 		($this->model_checkout_cart->getTotals)($totals, $taxes, $total);
@@ -18,7 +19,7 @@ class Payment extends \Opencart\System\Engine\Controller {
 		// Validate customer data is set
 		if (!isset($this->session->data['customer'])) {
 			$status = false;
-			
+			 
 		}
 
 		// Validate cart has products and has stock.
@@ -38,7 +39,7 @@ class Payment extends \Opencart\System\Engine\Controller {
 				break;
 			}
 		}
-
+	 
 
 		// Shipping
 		if ($this->cart->hasShipping()) {
@@ -58,7 +59,7 @@ class Payment extends \Opencart\System\Engine\Controller {
 				$status = false;
 			}
 		} else {
- 
+		 
 			unset($this->session->data['shipping_method']);
 			unset($this->session->data['shipping_methods']);
 		}
@@ -72,6 +73,7 @@ class Payment extends \Opencart\System\Engine\Controller {
 		if (!isset($this->session->data['payment_method'])) {
 	 
 			$status = false;
+	 
 		 
 		}
 
@@ -164,7 +166,7 @@ class Payment extends \Opencart\System\Engine\Controller {
 			];
 		 
 			$order_data = array_merge($order_data, $total_data);
-
+		 
 			$order_data['affiliate_id'] = 0;
 			$order_data['commission'] = 0;
 			$order_data['marketing_id'] = 0;
@@ -384,6 +386,7 @@ class Payment extends \Opencart\System\Engine\Controller {
 		if ($status && $extension_info) {
 			$data['payment'] = $this->load->controller('extension/' . $extension_info['extension'] . '/payment/' . $extension_info['code']);
 		}  
+	 
  
  
 		// Validate if payment method has been set.

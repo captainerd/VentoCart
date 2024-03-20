@@ -12,10 +12,10 @@ class Customer extends \Opencart\System\Engine\Controller {
 	public function index(): void {
 		$this->registry->set('customer', new \Opencart\System\Library\Cart\Customer($this->registry));
 	
-		if (!empty($this->session->data['customer_token'])) {
+		if (!empty($this->request->get['customer_token'])) {
+			$this->session->data['customer_token'] =$this->request->get['customer_token'];
+		} elseif (!empty($this->session->data['customer_token'])) {
 			$this->request->get['customer_token'] = $this->session->data['customer_token'];
-		} elseif (!empty($this->request->get['customer_token'])) {
-			$this->session->data['customer_token'] = $this->request->get['customer_token'];
 		}
 	
 		// Customer Group
