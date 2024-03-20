@@ -295,7 +295,7 @@ class ShippingPaymentMethods extends \Opencart\System\Engine\Controller
             }
 
             $json['success'] = $this->language->get('text_success');
-          //  print_r($this->session->data);
+   
             // Clear payment methods
             unset($this->session->data['payment_methods']);
         }

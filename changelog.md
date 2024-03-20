@@ -98,3 +98,8 @@ Features & Enhancements
 - Added stripe tab information and refund option into admin individual orders
 - Added cron job for stripe subscriptions to synch subscription status and run methods based on status changes
 - Added stripe tab for subscriptions in admin
+
+# Ventocart Change-log v4.5.5.5
+
+- Various bug fixes and refinements
+
