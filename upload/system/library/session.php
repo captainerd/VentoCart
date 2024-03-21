@@ -66,11 +66,15 @@ class Session {
      * @return string Returns the current session ID.
      */
 	public function start(string $session_id = ''): string {
-		if (!$session_id) {
+		if (empty($session_id)) {
 			if (function_exists('random_bytes')) {
 				$session_id = substr(bin2hex(random_bytes(26)), 0, 26);
 			} else {
 				$session_id = substr(bin2hex(openssl_random_pseudo_bytes(26)), 0, 26);
+			}
+			// Your chances are low, but never zero.
+			if (!empty($this->adaptor->read($session_id))) {
+				$this->start();
 			}
 		}
 

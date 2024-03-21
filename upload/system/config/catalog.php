@@ -15,8 +15,10 @@ $_['db_port']            = DB_PORT;
 //$_['db_ssl_ca']          = DB_SSL_CA;
 
 // Session
+
+ 
 $_['session_autostart']  = false;
-$_['session_engine']     = 'db'; // db or file
+$_['session_engine']     = 'PhpSession'; // db, file, redis, or PhpSession
 
 // Actions
 $_['action_pre_action']  = [

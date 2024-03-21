@@ -33,13 +33,22 @@ $_['mail_smtp_timeout']    = 5;
 $_['mail_verp']            = false;
 $_['mail_parameter']       = '';
 
+
+// For Redis if used:
+define('CACHE_HOSTNAME', '127.0.0.1'); 
+define('CACHE_PORT', '6379');  
+define('CACHE_PREFIX', DB_PREFIX);  
+
+    
 // Cache
 $_['cache_engine']         = 'file'; // apc, file, mem, memcached or redis
 $_['cache_expire']         = 3600;
 
 // Session
+
+ 
 $_['session_autostart']    = false;
-$_['session_engine']       = 'file'; // db or file
+$_['session_engine']       = 'file';  // db, file, redis, or PhpSession
 $_['session_name']         = 'OCSESSID';
 $_['session_domain']       = '';
 $_['session_path']         = !empty($_SERVER['PHP_SELF']) ? rtrim(dirname($_SERVER['PHP_SELF']), '/') . '/' : '/';
