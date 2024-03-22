@@ -32,9 +32,12 @@ class Shipping extends \Opencart\System\Engine\Model {
 					} else {
 						$taxes[$tax_rate['tax_rate_id']] += $tax_rate['amount'];
 					}
+					if ($this->config->get('config_tax')) {
 						$totals[count($totals) -1]['value'] = $totals[count($totals) -1]['value']  + $taxes[$tax_rate['tax_rate_id']];
+					}
 				}
 			}
+		 
 		 
 			$total += $this->session->data['shipping_method']['cost'];
 		}
