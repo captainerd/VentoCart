@@ -74,7 +74,7 @@ class Session {
 			}
 			// Your chances are low, but never zero.
 			if (!empty($this->adaptor->read($session_id))) {
-				$this->start();
+				return $this->start();
 			}
 		}
 

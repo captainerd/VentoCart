@@ -35,7 +35,7 @@
                     <div class="border-bottom  mb-2">
                         {% if product.special %}
                             <span style="text-decoration: line-through;">{{ product.price }}</span>
-                            <div class="text-danger">{{ product.special }}</div>
+                            <span class="text-danger">{{ product.special }}</span>
                         {% else %}
                             {{ product.price }}
                         {% endif %}
