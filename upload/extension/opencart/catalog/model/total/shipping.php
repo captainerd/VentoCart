@@ -25,16 +25,18 @@ class Shipping extends \Opencart\System\Engine\Model {
 
 			if (isset($this->session->data['shipping_method']['tax_class_id'])) {
 				$tax_rates = $this->tax->getRates($this->session->data['shipping_method']['cost'], $this->session->data['shipping_method']['tax_class_id']);
-
+		 
 				foreach ($tax_rates as $tax_rate) {
 					if (!isset($taxes[$tax_rate['tax_rate_id']])) {
 						$taxes[$tax_rate['tax_rate_id']] = $tax_rate['amount'];
 					} else {
 						$taxes[$tax_rate['tax_rate_id']] += $tax_rate['amount'];
 					}
+					$tax = $taxes[$tax_rate['tax_rate_id']];
 				}
 			}
-
+			// include tax
+			$totals[count($totals) -1]['value'] = $totals[count($totals) -1]['value']  + $tax;
 			$total += $this->session->data['shipping_method']['cost'];
 		}
 	}
