@@ -1,67 +1,64 @@
  
 
-<h3><?= $this->e($column_summary ) ?></h3>
-<div class="table-responsivec">
+<h3 class="mt-3"><?= $this->e($column_summary ) ?></h3>
+<div class="table-responsivec  p-3">
   <div class="totalcontainer"> 
   <div class="styled-items">
-    <?php foreach ($products as $product): ?>
-      <div class="styled-item">
-        <div class="styled-item-content">
-          <div>
-            <?= $this->e($product['quantity']) ?> x <a href="<?= $product['href'] ?>"><?= $this->e($product['name']) ?></a>
-            <?php foreach ($product['option'] as $option): ?>
-              <br/>
-              <small> - <?= $this->e($option['name']) ?>: <?= $this->e($option['value']) ?></small>
-            <?php endforeach; ?>
-            <?php if ($product['reward']): ?>
-              <br/>
-              <small> - <?= $this->e($text_points ) ?>: <?= $this->e($product['reward']) ?></small>
-            <?php endif; ?>
-            <?php if ($product['subscription']): ?>
-              <br/>
-              <small> - <?= $this->e($text_subscription ) ?> <?= $this->e($product['subscription']) ?></small>
-            <?php endif; ?>
-          </div>
-          <div class="text-end"><?= $this->e($product['total']) ?></div>
+  <?php foreach ($products as $product): ?>
+  <div class="styled-item mt-1">
+    <div class="styled-item-content">
+      <div class="row border-bottom">
+        <div class="col-8">
+          <?= $this->e($product['quantity']) ?> x <a href="<?= $product['href'] ?>"><?= $this->e($product['name']) ?></a>
+          <?php foreach ($product['option'] as $option): ?>
+            <br/>
+            <small> - <?= $this->e($option['name']) ?>: <?= $this->e($option['value']) ?></small>
+          <?php endforeach; ?>
+          <?php if ($product['reward']): ?>
+            <br/>
+            <small> - <?= $this->e($text_points ) ?>: <?= $this->e($product['reward']) ?></small>
+          <?php endif; ?>
+          <?php if ($product['subscription']): ?>
+            <br/>
+            <small> - <?= $this->e($text_subscription ) ?> <?= $this->e($product['subscription']) ?></small>
+          <?php endif; ?>
+        </div>
+        <div class="col-4 text-end">
+          <span><?= $this->e($product['total']) ?></span>
         </div>
       </div>
-    <?php endforeach; ?>
+    </div>
+  </div>
+<?php endforeach; ?>
 
-   
-      <?php foreach ($totals as $total): ?>
-    <?php if (($total['text'] > 0 || $total['text'] < 0) && $total['code'] !== 'total'): ?>
-
-       
-          <div class="styled-item">
-            <div class="styled-item-content">
-              <div class="text-end"><?= $this->e($total['title']) ?></div>
-              <div class="text-end">
-           
-                   <?= $this->e($total['text']) ?> 
-        
-               
-              </div>
-            </div>
-          </div>
  
-        <?php endif; ?>
-      <?php endforeach; ?>
  
   </div>
 
   </div>
- 
-<?php foreach ($totals as $total): ?>
-<?php if ($total['text'] > 0 and $total['code'] == 'total'): ?>
+  <?php foreach ($totals as $index => $total): ?>
   <div class="styled-item">
     <div class="styled-item-content">
-      <div class="text-end"><?= $this->e($total['title']) ?></div>
-      <div class="text-end">
-        <b><?= $this->e($total['text']) ?></b>
+      <div class="row">
+        <div class="col-8">
+          <?php if ($index == count($totals) - 1): ?>
+            <b><?= $this->e($total['title']) ?>:</b>
+          <?php else: ?>
+            <?= $this->e($total['title']) ?>:
+          <?php endif; ?>
+        </div>
+        <div class="col-4 text-end">
+          <?php if ($index == count($totals) - 1): ?>
+            <b><?= $this->e($total['text']) ?></b>
+          <?php else: ?> 
+            <?= $this->e($total['text']) ?>
+          <?php endif; ?>
+        </div>
       </div>
     </div>
-    </div>
- 
-<?php endif; ?>
+  </div>
 <?php endforeach; ?>
+
+
+
 </div>
