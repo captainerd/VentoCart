@@ -36,7 +36,9 @@ class Shipping extends \Opencart\System\Engine\Model {
 				}
 			}
 			// include tax
-			$totals[count($totals) -1]['value'] = $totals[count($totals) -1]['value']  + $tax;
+			if (!empty($tax)) {
+				$totals[count($totals) -1]['value'] = $totals[count($totals) -1]['value']  + $tax;
+			}
 			$total += $this->session->data['shipping_method']['cost'];
 		}
 	}
