@@ -137,7 +137,8 @@ class ZoneShipping extends \Opencart\System\Engine\Model
     {
 
         $weight = new Weight($this->registry);
-        $length = new Length($this->registry);
+        $lengthCl = new Length($this->registry);
+     
 
         $totalWeight = 0;
         foreach ($products as $product) {
@@ -152,10 +153,10 @@ class ZoneShipping extends \Opencart\System\Engine\Model
                     $length_class_id = 3;
                 }
                 $product['weight'] = $weight->convert($product['weight'], $product['weight_class_id'], $row['weight_class_id']);
-
-                $width = $length->convert($product['width'], $product['length_class_id'], $length_class_id);
-                $height = $length->convert($product['height'], $product['length_class_id'], $length_class_id);
-                $length = $length->convert($product['length'], $product['length_class_id'], $length_class_id);
+              
+                $width = $lengthCl->convert($product['width'], $product['length_class_id'], $length_class_id);
+                $height = $lengthCl->convert($product['height'], $product['length_class_id'], $length_class_id);
+                $length = $lengthCl->convert($product['length'], $product['length_class_id'], $length_class_id);
                 $VolWeight = round($length * $width * $height / $row['volumetric']);
 
                 // Volume exceeds weight
@@ -167,7 +168,7 @@ class ZoneShipping extends \Opencart\System\Engine\Model
             }
 
         }
-
+    
         return $totalWeight;
 
     }
