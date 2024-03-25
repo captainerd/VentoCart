@@ -37,6 +37,7 @@ $_['text_information']         = 'Information';
 $_['text_installer']           = 'Installer';
 $_['text_language']            = 'Languages';
 $_['text_language_editor']     = 'Language Editor';
+$_['text_extension_settings']  = 'Extension Settings';
 $_['text_layout']              = 'Layouts';
 $_['text_length_class']        = 'Length Classes';
 $_['text_localisation']        = 'Localisation';

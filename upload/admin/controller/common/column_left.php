@@ -175,9 +175,34 @@ class ColumnLeft extends \Opencart\System\Engine\Controller {
 				];
 			}
 
-			// Extension
-			$marketplace = [];
 
+			$files = glob(DIR_APPLICATION . 'controller/extension/*.php');
+			$extChild = [];
+			foreach ($files as $file) {
+				$extension = basename($file, '.php');
+	
+				$this->load->language('extension/' . $extension, $extension);
+	
+				if ($this->user->hasPermission('access', 'extension/' . $extension)) {
+					$extChild[] = [
+						'code' => $extension,
+						'name' => $this->language->get($extension . '_heading_title') . ' (' . count(glob(DIR_EXTENSION . '*/admin/controller/' . $extension . '/*.php')) . ')',
+						'href' => $this->url->link('marketplace/extension&' . 'user_token=' . $this->session->data['user_token'] . '&type=' . $extension),
+					];
+				}
+			}
+
+			if ($this->user->hasPermission('access', 'marketplace/extension')) {
+				$data['menus'][] = [
+					'name'	   => $this->language->get('text_extension'),
+					'icon'	   => 'fa fa-cubes',
+					'children' => $extChild
+				];
+			}
+
+			// Extension Settings
+			$marketplace = [];
+/*
 			if ($this->user->hasPermission('access', 'marketplace/marketplace')) {
 				$marketplace[] = [
 					'name'	   => $this->language->get('text_marketplace'),
@@ -186,6 +211,8 @@ class ColumnLeft extends \Opencart\System\Engine\Controller {
 				];
 			}
 
+	 */
+
 			if ($this->user->hasPermission('access', 'marketplace/installer')) {
 				$marketplace[] = [
 					'name'	   => $this->language->get('text_installer'),
@@ -193,15 +220,7 @@ class ColumnLeft extends \Opencart\System\Engine\Controller {
 					'children' => []
 				];
 			}
-
-			if ($this->user->hasPermission('access', 'marketplace/extension')) {
-				$marketplace[] = [
-					'name'	   => $this->language->get('text_extension'),
-					'href'     => $this->url->link('marketplace/extension', 'user_token=' . $this->session->data['user_token']),
-					'children' => []
-				];
-			}
-
+	 
 			if ($this->user->hasPermission('access', 'marketplace/modification')) {
 				$marketplace[] = [
 					'name'	   => $this->language->get('text_modification'),
@@ -234,11 +253,29 @@ class ColumnLeft extends \Opencart\System\Engine\Controller {
 				];
 			}
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+			
 			if ($marketplace) {
 				$data['menus'][] = [
 					'id'       => 'menu-extension',
-					'icon'	   => 'fas fa-puzzle-piece',
-					'name'	   => $this->language->get('text_extension'),
+					'icon'	   => 'fa  fa-wrench',
+					'name'	   => $this->language->get('text_extension_settings'),
 					'href'     => '',
 					'children' => $marketplace
 				];
