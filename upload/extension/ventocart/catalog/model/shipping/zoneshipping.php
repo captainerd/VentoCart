@@ -5,7 +5,7 @@ use Opencart\System\Library\Cart\Weight;
 use Opencart\System\Library\Cart\Length;
 
 /**
- * Class PostalCode
+ * Class ZoneShipping
  *
  * @package Opencart\Catalog\Model\Extension\VentoCart\Shipping
  */
@@ -129,7 +129,7 @@ class ZoneShipping extends \Opencart\System\Engine\Model
                 }
             }
         }
-        $this->log->write(print_r($pricelist,true));
+      
         return $data;
     }
  

@@ -159,6 +159,7 @@
                                                     <div class="col ">
 
                                                         <select name="weight" id="input-weight" class="form-select">
+                                                     <option value="s">   <?= $entry_select ?> <?= $entry_weight ?></option>
                                                             <?php for ($i = 0.5; $i <= 150; $i += ($i === 0.5 ? 0.5 : 1)): ?>
                                                                 <option value="<?= $i ?>"><?= $i ?></option>
                                                             <?php endfor; ?>
@@ -342,7 +343,7 @@
                     $('select[name="geo_zone_id"]').val(selectedEntry.geo_zone_id);
                     $('input[name="price"]').val(selectedEntry.price);
                     $('input[name="default_price"]').val(selectedEntry.default_price);
-                    $('#input-weight').val(parseFloat(selectedEntry.weight));
+                
          
                     $('input[name="volumetric"]').val(selectedEntry.volumetric);
                     $('select[name="weight_class_id"]').val(selectedEntry.weight_class_id);
@@ -374,7 +375,7 @@
                     $('select[name="geo_zone_id"]').val('');
                     $('input[name="price"]').val('');
                     $('input[name="price_list"]').val('');
-                    $('input[name="weight"]').val('');
+                  
          
                     $('input[name="volumetric"]').val('5000');
                     $('select[name="weight_class_id"]').val(<?= $default_weigth ?>);
@@ -503,7 +504,7 @@
             };
             $('#input-default_price').val('');
             $('#input-price').val('');
-            $('#input-weight').val('');
+            $('#input-weight').val('s');
             // Search if the new weight already exists
             var existingIndex = priceList.findIndex(function(price) {
                 return price.weight === newPrice.weight;
