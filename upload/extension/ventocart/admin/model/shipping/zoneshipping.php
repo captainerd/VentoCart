@@ -34,7 +34,6 @@ class ZoneShipping extends \Opencart\System\Engine\Model
     
             // Insert new postal codes
             foreach ($cleanPostalCodes as $postalCode) {
-                   // Filter non AlphaNumberic
                    
                 $this->db->query("INSERT INTO " . DB_PREFIX . "shipping_pcodes SET shipping_entry_id = '" . (int) $shippingEntryId . "', post_code = '" . $this->db->escape($postalCode) . "'");
             }
