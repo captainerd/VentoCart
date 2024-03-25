@@ -325,9 +325,7 @@ class Theme extends \Opencart\System\Engine\Controller {
 			$json['error'] = $this->language->get('error_permission');
 		}
 
-		if (substr($path, -5) != '.twig') {
-			$json['error'] = $this->language->get('error_twig');
-		}
+ 
 
 		if (!$json) {
 			$this->load->model('design/theme');
