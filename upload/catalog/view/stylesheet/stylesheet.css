@@ -872,11 +872,7 @@ form {
     background-color: #f6f6f6;
   }
 
-  .styled-item-content {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
+  
 
   .table-responsivec {
     border-radius: 9px;
@@ -894,13 +890,14 @@ form {
   .styled-totals {
     /* Add the following styles to move the totals outside the scrollable container */
     padding: 10px; /* Add some padding for spacing */
-    border: 1px solid #e1e1e1;
+ 
     border-radius: 4px;
     margin-top: 10px;
   }
   .totalcontainer {
     max-height: 190px;
     overflow-y: auto;
+    overflow-x: hidden;
   }
   .icon-cards span {
     font-size: 11px;
