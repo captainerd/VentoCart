@@ -10,7 +10,7 @@ class ZoneShipping extends \Opencart\System\Engine\Model
         // Validate and sanitize postal codes
         $cleanPostalCodes = array_map(function($code) {
             // Remove non-alphanumeric characters 
-            $code = preg_replace('/[^a-zA-Z0-9]/', '', $code);
+            $code =  strtoupper( preg_replace('/[^a-zA-Z0-9]/', '', $code));
             return $code;
         }, array_map('trim', preg_split('/[\r\n,;]+/', $postalCodes)));
     
@@ -34,6 +34,8 @@ class ZoneShipping extends \Opencart\System\Engine\Model
     
             // Insert new postal codes
             foreach ($cleanPostalCodes as $postalCode) {
+                   // Filter non AlphaNumberic
+                   
                 $this->db->query("INSERT INTO " . DB_PREFIX . "shipping_pcodes SET shipping_entry_id = '" . (int) $shippingEntryId . "', post_code = '" . $this->db->escape($postalCode) . "'");
             }
         } else {

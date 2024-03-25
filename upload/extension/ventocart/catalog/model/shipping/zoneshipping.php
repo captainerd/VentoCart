@@ -25,10 +25,9 @@ class ZoneShipping extends \Opencart\System\Engine\Model
         $this->load->language('extension/ventocart/shipping/zoneshipping');
 
         $query = $this->getZoneValues($address);
-        
-        // Filter non AlphaNumberic
-        $address['postcode'] =  preg_replace("/[^a-zA-Z0-9]/", "",  $address['postcode'] );
- 
+
+       
+       
         if (!$this->config->get('shipping_zoneshipping_status')) {
             $status = true;
         } elseif (!empty ($query)) {
@@ -72,6 +71,9 @@ class ZoneShipping extends \Opencart\System\Engine\Model
     private function getZoneValues($address)
     {
 
+          // Filter non AlphaNumberic
+          $address['postcode'] =  strtoupper( preg_replace("/[^a-zA-Z0-9]/", "",  $address['postcode'] ));
+          
         // Try with a postal code and zone
         $query = $this->db->query("
         SELECT  
