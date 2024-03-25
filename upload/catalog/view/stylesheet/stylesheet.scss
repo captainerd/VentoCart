@@ -732,7 +732,6 @@ div.required {
 }
 .styled-item {
 	padding: 10px;
-	border-bottom: 1px solid #e1e1e1;
 	border-radius: 4px;
 	transition: background-color 0.2s ease;
 	&:hover {
@@ -741,17 +740,6 @@ div.required {
 }
 form {
 	display: contents;
-}
-.table-responsivec {
-	border-radius: 9px;
-	padding: 3px;
-	border: 0px solid #ccc;
-	box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-	margin-bottom: 10px;
-	display: inline-block;
-	margin-top: 10px;
-	width: 100%;
-	font-size: 14px;
 }
 .styled-totals {
 	padding: 10px;
