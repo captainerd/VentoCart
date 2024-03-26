@@ -16,10 +16,27 @@ class PhpSession {
      *
      * @return array
      */
+	private object $config;
 
-     public function __construct()	{
-     session_start();
-     }
+	/**
+     * Constructor
+     *
+     * @param object $registry
+     */
+	public function __construct(\Opencart\System\Engine\Registry $registry) {
+	 
+		$this->config = $registry->get('config');
+ 
+        session_set_cookie_params(
+            time() + $this->config->get('session_expire'), // Lifetime in seconds
+            $this->config->get('session_path'),   // Path
+            $this->config->get('session_domain'), // Domain
+            $this->config->get('session_samesite'),// SameSite
+        );
+        session_start();
+
+	}
+ 
 
     public function read(string $session_id): array {
         // Check if session exists
