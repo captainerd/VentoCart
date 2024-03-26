@@ -33,3 +33,9 @@ define('DB_SSL_CA', '');
 define('DB_DATABASE', 'testa');
 define('DB_PORT', '3306');
 define('DB_PREFIX', 've_');
+
+// For Redis if used:
+ 
+define('CACHE_HOSTNAME', '127.0.0.1'); 
+define('CACHE_PORT', '6379');  
+define('CACHE_PREFIX', DB_PREFIX); 

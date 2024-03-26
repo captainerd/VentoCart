@@ -37,3 +37,8 @@ define('DB_PREFIX', 've_');
 
 // OpenCart API
 define('OPENCART_SERVER', 'https://www.ventocart.com/');
+
+// For redis if used
+define('CACHE_HOSTNAME', '127.0.0.1'); 
+define('CACHE_PORT', '6379');  
+define('CACHE_PREFIX', DB_PREFIX); 

@@ -78,33 +78,37 @@ class ZoneShipping extends \Opencart\System\Engine\Model
         $query = $this->db->query("
         SELECT  
             spz.*,
-            CASE 
+            MAX(CASE 
                 WHEN spc.post_code = '" . $this->db->escape($address['postcode']) . "' THEN '1' 
                 ELSE '0' 
-            END AS foundpostal
+            END) AS foundpostal,
+            spn.displayName
         FROM `" . DB_PREFIX . "zone_to_geo_zone` zgz
-        INNER JOIN `" . DB_PREFIX . "shipping_pzones` spz ON zgz.geo_zone_id = spz.geo_zone_id
+        INNER JOIN `" . DB_PREFIX . "shipping_pzones` spz ON zgz.geo_zone_id = spz.geo_zone_id OR spz.geo_zone_id = '0' 
         LEFT JOIN " . DB_PREFIX . "shipping_pcodes spc ON spz.shipping_entry_id = spc.shipping_entry_id
+        LEFT JOIN " . DB_PREFIX . "shipping_pnames spn ON spz.shipping_entry_id = spn.shipping_entry_id AND spn.language_id = '" . (int)$this->config->get('config_language_id') . "'
         WHERE zgz.`country_id` = '" . (int) $address['country_id'] . "' 
-        AND (zgz.`zone_id` = '" . (int) $address['zone_id'] . "' OR zgz.`zone_id` = '0')
-    
+        AND (zgz.`zone_id` = '" . (int) $address['zone_id'] . "' OR zgz.`zone_id` = '0' )
+        GROUP BY spz.shipping_entry_id  ORDER BY spz.sort_order ASC
     ");
-
+ 
         // Zones not found, Try with 'rest zones' entry id: -1
 
         if ($query->num_rows == 0) {
-
+          
+           
             $query = $this->db->query("
             SELECT 
                 spz.*,
                 CASE 
-                WHEN spc.post_code = '" . $this->db->escape($address['postcode']) . "' THEN '1' 
-                ELSE '0' 
-            END AS foundpostal
+                    WHEN spc.post_code = '" . $this->db->escape($address['postcode']) . "' THEN '1' 
+                    ELSE '0' 
+                END AS foundpostal,
+                spn.displayName
             FROM `" . DB_PREFIX . "shipping_pzones` spz 
             LEFT JOIN " . DB_PREFIX . "shipping_pcodes spc ON spz.shipping_entry_id = spc.shipping_entry_id
-            WHERE spz.geo_zone_id = " . (int) -1 . "
-         
+            LEFT JOIN " . DB_PREFIX . "shipping_pnames spn ON spz.shipping_entry_id = spn.shipping_entry_id AND spn.language_id = '" . (int)$this->config->get('config_language_id') . "'
+            WHERE spz.geo_zone_id = " . (int) -1 . "  ORDER BY spz.sort_order ASC
         ");
         }
 
@@ -116,10 +120,6 @@ class ZoneShipping extends \Opencart\System\Engine\Model
             $weightedProducts = $this->weightProducts($products, $row);
           
             $pricelist = json_decode(htmlspecialchars_decode($row['pricelist']), true);
-
-            if ($row['foundpostal'] == 1 && !empty( $data[$row['displayName']])) {
-                unset($data[$row['displayName']]); // Unset to allow rewrite 
-            }
 
             foreach ($pricelist as $price) {
          

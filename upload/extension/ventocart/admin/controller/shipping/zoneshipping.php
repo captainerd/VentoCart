@@ -37,12 +37,15 @@ class ZoneShipping extends \Opencart\System\Engine\Controller
 
 
         $data['geoZones'] = $this->model_localisation_geo_zone->getGeoZones();
-
+        $data['user_lang_id'] = $this->config->get('config_language_id');
 
         $this->load->model('extension/ventocart/shipping/zoneshipping');
 
         $data['filters'] = $this->model_extension_ventocart_shipping_zoneshipping->getAllShippingZonesCompanies();
 
+        $this->load->model('localisation/language');
+
+        $data['languages'] = $this->model_localisation_language->getLanguages();
 
         $data['entries'] = $this->model_extension_ventocart_shipping_zoneshipping->getAllShippingZones();
 
@@ -98,22 +101,29 @@ class ZoneShipping extends \Opencart\System\Engine\Controller
         if (!$json) {
             // Validate and sanitize posted data
             $name = isset ($this->request->post['name']) ? trim($this->request->post['name']) : '';
-            $displayName = isset ($this->request->post['name']) ? trim($this->request->post['displayName']) : '';
+            $displayName = isset ($this->request->post['displayName']) ? $this->request->post['displayName'] : [];
             $countryId = isset ($this->request->post['geo_zone_id']) ? (int) $this->request->post['geo_zone_id'] : 0;
+  
             $pricelist = isset ($this->request->post['price_list']) ? $this->request->post['price_list'] : [];
 
             $volumetric = isset ($this->request->post['volumetric']) ? (float) $this->request->post['volumetric'] : 0;
 
             $weightClassId = isset ($this->request->post['weight_class_id']) ? (int) $this->request->post['weight_class_id'] : 0;
+            $entry_sort_order = isset ($this->request->post['geo_zone_id']) ? (int) $this->request->post['entry_sort_order'] : 0;
 
             $postalCodes = isset ($this->request->post['postal_codes']) ? $this->request->post['postal_codes'] : '';
             $shippingEntryId = isset ($this->request->post['shipping_entry_id']) ? (int) $this->request->post['shipping_entry_id'] : 0;
             // Validate other required fields as needed
 
 
+            $displayName = array_map('trim', $displayName);
 
+            // Check if any names are empty
+            if (in_array('', $displayName)) {
+                $json['error'] = $this->language->get('text_error_fill_form');
+            }
             // Check if any required field is empty
-            if (empty ($name) || empty ($countryId)) {
+            if (empty ($name) || !is_numeric($countryId)) {
                 $json['error'] = $this->language->get('text_error_fill_form');
             } else {
                 // Check if weight or length/width/height is provided
@@ -125,7 +135,7 @@ class ZoneShipping extends \Opencart\System\Engine\Controller
             if (!$json) {
                 $this->load->model('extension/ventocart/shipping/zoneshipping');
                 // Call model function to save or edit the data
-                $shippingEntryId = $this->model_extension_ventocart_shipping_zoneshipping->saveOrUpdateEntry($shippingEntryId, $name, $displayName, $volumetric, $countryId, $pricelist, $weightClassId, $postalCodes);
+                $shippingEntryId = $this->model_extension_ventocart_shipping_zoneshipping->saveOrUpdateEntry($shippingEntryId, $name, $displayName, $volumetric, $countryId, $pricelist, $weightClassId, $entry_sort_order, $postalCodes);
 
                 if ($shippingEntryId !== false) {
                     $json['success'] = $this->language->get('text_success');
@@ -200,7 +210,7 @@ class ZoneShipping extends \Opencart\System\Engine\Controller
                 if ($success) {
                     $json['postalCodes'] = $success;
                 } else {
-                    $json['error'] = 'Failed to delete entry';
+                    $json['postalCodes'] = '';
                 }
             }
         }
@@ -255,9 +265,9 @@ class ZoneShipping extends \Opencart\System\Engine\Controller
         geo_zone_id INT(11),
         pricelist TEXT,
         name VARCHAR(100),
-        displayName VARCHAR(100),
         weight_class_id INT(11),
         volumetric INT(11),
+        sort_order INT(11) DEFAULT 0,
         PRIMARY KEY (shipping_entry_id)
     )");
 
@@ -269,6 +279,25 @@ class ZoneShipping extends \Opencart\System\Engine\Controller
         PRIMARY KEY (shipping_code_id)
     )");
 
+        $this->db->query("
+    CREATE TABLE IF NOT EXISTS " . DB_PREFIX . "shipping_pnames (
+        shipping_entry_id INT(11),
+        language_id INT(11),
+        displayName VARCHAR(100)
+    )");
+
+        // Add some examples for user reference 
+
+        $this->db->query(" INSERT INTO `ve_shipping_pzones` (`shipping_entry_id`, `geo_zone_id`, `pricelist`, `name`, `weight_class_id`, `volumetric`) VALUES
+(1, 4, '[{&quot;default_price&quot;:&quot;0&quot;,&quot;price&quot;:&quot;0&quot;,&quot;weight&quot;:&quot;3&quot;}]', 'Up to 3 Kilos, U.K.', 1, 5000),
+(2, -2, '[{&quot;default_price&quot;:&quot;10&quot;,&quot;price&quot;:&quot;10&quot;,&quot;weight&quot;:&quot;1000000&quot;}]', 'For All Zones and all kilos 10$', 1, 5000),
+(3, -2, '[{&quot;default_price&quot;:&quot;0&quot;,&quot;price&quot;:&quot;0&quot;,&quot;weight&quot;:&quot;1000000&quot;}]', 'All kilos is free of charge', 1, 5000);
+");
+        $this->db->query("INSERT INTO `ve_shipping_pnames` (`shipping_entry_id`, `language_id`, `displayName`) VALUES
+(1, 1, 'Free Shipping'),
+(3, 1, 'Pickup From Store'),
+(2, 1, 'Flat Rate');");
+
 
     }
 
@@ -277,5 +306,6 @@ class ZoneShipping extends \Opencart\System\Engine\Controller
 
         $this->db->query("DROP TABLE IF EXISTS `" . DB_PREFIX . "shipping_pzones`");
         $this->db->query("DROP TABLE IF EXISTS `" . DB_PREFIX . "shipping_pcodes`");
+        $this->db->query("DROP TABLE IF EXISTS `" . DB_PREFIX . "shipping_pnames`");
     }
 }

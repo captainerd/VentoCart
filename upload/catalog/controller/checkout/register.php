@@ -26,9 +26,6 @@ class Register extends \Opencart\System\Engine\Controller {
 
 
 
-
-
-
 	public function index(): string {
 		
 		$this->load->language('checkout/register');
@@ -227,8 +224,11 @@ class Register extends \Opencart\System\Engine\Controller {
 	public function save(): void {
 		$this->load->language('checkout/register');
 		$oldAddress = null;
-		if (isset($this->session->data['shipping_address'])) $oldAddress = $this->session->data['shipping_address'];
-
+		if (isset($this->session->data['shipping_address']) && $this->cart->hasShipping() ) {
+		 
+			 $oldAddress = $this->session->data['shipping_address'];
+		}
+ 
 		$json = [];
 
 		$keys = [
@@ -393,7 +393,7 @@ class Register extends \Opencart\System\Engine\Controller {
 				}
 			 
 
-			if ($this->cart->hasShipping() && !$this->request->post['address_match']) {
+			if ($this->cart->hasShipping() && (int)$this->request->post['address_match'] == 0) {
 				// If payment address not required we need to use the firstname and lastname from the account.
 			 
 					if ((oc_strlen($this->request->post['shipping_firstname']) < 1) || (oc_strlen($this->request->post['shipping_firstname']) > 32)) {
@@ -477,7 +477,7 @@ class Register extends \Opencart\System\Engine\Controller {
 				}
 			}
 		}
-
+	 
 		if (!$json) {
 			// Add customer details into session
 			$customer_data = [
@@ -573,7 +573,7 @@ class Register extends \Opencart\System\Engine\Controller {
 					$this->session->data['payment_address'] = $payment_address_data;
 				}
 			 
-
+		 
 			// Shipping Address
 			if ($this->cart->hasShipping()) {
 				if (!$this->request->post['address_match']) {
@@ -603,7 +603,7 @@ class Register extends \Opencart\System\Engine\Controller {
 					$this->load->model('localisation/zone');
 					$zone_info = null;
 
-				//	$zone_info = $this->model_localisation_zone->getZone($this->request->post['shipping_zone_id']);
+				    $zone_info = $this->model_localisation_zone->getZone($this->request->post['shipping_zone_id']);
 
 					if ($zone_info) {
 						$zone = $zone_info['name'];

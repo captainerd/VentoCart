@@ -71,27 +71,38 @@
                             <label for="select_postalentry" class="col-sm-2 col-form-label"><?= $entry_shipping_zones ?>
                             </label>
                             <div class="col-sm-10">
-                                <select id="select_postalentry" name="shipping_entry_id" class="form-select">
-                                    <option value="-">---
-                                        <?= $entry_select ?>
-                                        ---
-                                    </option>
-                                    <option value="0">*
-                                        <?= $entry_addnew ?></option>
-                                    <option disabled>-------------------------------------------------------------------------------------------------</option>
-                                    <?php foreach ($entries as $entry): ?>
-
-                                        <option value="<?= $entry['shipping_entry_id'] ?>"><?= $entry['displayName'] ?>
-                                            (<?= $entry['name'] ?>)</option>
-                                    <?php endforeach; ?>
+                                <select size="10" id="select_postalentry" name="shipping_entry_id" class="form-select">
+                       
+    <optgroup label="<?=$select_enabled?>">
+        <?php foreach ($entries as $entry): ?>
+            <?php if ($entry['geo_zone_id'] != -2): ?>
+                <option value="<?= $entry['shipping_entry_id'] ?>">
+                    <?= $entry['displayName'][$user_lang_id] ?> (<?= $entry['name'] ?>)
+                </option>
+            <?php endif; ?>
+        <?php endforeach; ?>
+    </optgroup>
+    
+    <optgroup label="<?=$select_disabled?>">
+        <?php foreach ($entries as $entry): ?>
+            <?php if ($entry['geo_zone_id'] == -2): ?>
+                <option value="<?= $entry['shipping_entry_id'] ?>"  >
+                    <?= $entry['displayName'][$user_lang_id] ?> (<?= $entry['name'] ?>)
+                </option>
+            <?php endif; ?>
+        <?php endforeach; ?>
+    </optgroup>
+ 
                                 </select>
 
-                                <div class="spinner-border text-primary" style="display:none" id="loading-postalcode" role="status">
-                                    <span class="sr-only">Loading...</span>
-                                </div>
+                                <button id="add-new-entry-f" type="button" class="btn mt-3 btn-primary"><?=$entry_addnew?></button>
+                             
                             </div>
 
                         </div>
+
+                    
+                      
 
 
                         <div class="mb-3 row">
@@ -106,14 +117,21 @@
                                     <div class="card-body">
 
 
+            
+
+
                                         <div class="mb-3 row">
                                             <label for="input-display-name" class="col-sm-2 col-form-label">
                                                 <span class="text-danger">*</span>
                                                 <?= $entry_display_name ?>
                                             </label>
                                             <div class="col-sm-10">
-                                                <input list="allnames" type="text" name="displayName" id="input-display-name" class="form-control"/>
-
+                                                <?php foreach($languages as $language):?>
+                                            <div class="input-group">
+                                            <div class="input-group-text"><img src="<?=$language['image']?>" title="<?=$language['name']?>"/></div>
+                                                <input list="allnames" type="text" name="displayName[<?=$language['language_id']?>]" id="input-display-name" class="form-control"/>
+                                                </div>
+                                                <?php endforeach;?>
                                             </div>
                                         </div>
 
@@ -140,6 +158,9 @@
                                             </label>
                                             <div class="col-sm-10">
                                                 <select name="geo_zone_id" id="input-country" class="form-select">
+                                          
+                                                <option value="-2"><?= $select_disable ?></option>
+                                                <option value="0"><?= $select_all_zones ?></option>
                                                     <option value="-1"><?= $select_no_geozone ?></option>
                                                     <?php foreach ($geoZones as $geoZone): ?>
 
@@ -156,21 +177,22 @@
                                             <label for="input-price" class="col-sm-2 col-form-label"><?= $entry_add_to_pricelist ?>:</label>
                                             <div class="col-sm-10">
                                                 <div class="row">
-                                                    <div class="col ">
+                                                    <div class="col  p-0 ">
 
                                                         <select name="weight" id="input-weight" class="form-select">
                                                      <option value="s">   <?= $entry_select ?> <?= $entry_weight ?></option>
                                                             <?php for ($i = 0.5; $i <= 150; $i += ($i === 0.5 ? 0.5 : 1)): ?>
                                                                 <option value="<?= $i ?>"><?= $i ?></option>
                                                             <?php endfor; ?>
+                                                            <option value="1000000">1000000</option>
                                                         </select>
                                                         <div class="form-text"><?= $entry_weight ?></div>
                                                     </div>
-                                                    <div class="col">
+                                                    <div class="col  p-0 ">
                                                         <input type="text" name="default_price" id="input-default_price" class="form-control" placeholder="<?= $entry_default_price ?>"/>
                                                         <div class="form-text"><?= $help_default_price ?></div>
                                                     </div>
-                                                    <div class="col">
+                                                    <div class="col  p-0 ">
                                                         <div class="input-group">
                                                             <input type="text" name="price" id="input-price" class="form-control" placeholder="<?= $entry_price ?>"/>
                                                             <button type="button" id="btn-add-pricelist" class="btn btn-primary">
@@ -229,11 +251,21 @@
 
                                         <div class="mb-3 row">
                                             <label for="input-postal-codes" class="col-sm-2 col-form-label"><?= $entry_postal_codes ?></label>
+                                            <div class="spinner-border text-primary" style="display:none" id="loading-postalcode" role="status">
+                                    <span class="sr-only">Loading...</span>
+                                </div>
                                             <div class="col-sm-10">
                                                 <textarea name="postal_codes" id="input-postal-codes" class="form-control" rows="5"></textarea>
                                                 <div class="form-text"><?= $help_postal_codes ?></div>
                                             </div>
                                         </div>
+                                        <div class="row mb-3">
+                        <label for="input-sort-order" class="col-sm-2 col-form-label"><?= $entry_sort_order ?></label>
+                        <div class="col-sm-10">
+                            <input type="text" name="entry_sort_order" value="<?= $shipping_zoneshipping_sort_order ?>" placeholder="<?= $entry_sort_order ?>" id="input-entry-sort-order" class="form-control"/>
+                        </div>
+                    </div>
+
 
                                         <div class="mb-3 row">
                                             <div class="col-sm-2"></div>
@@ -262,62 +294,63 @@
 <script>
     $(document).ready(function() {
         
-            $('#filter-company').on('change', function() {
-            var displayName = $(this).val();
-            if (displayName == '-new-') {
-                return;
-            }
+        var entries = <?= json_encode($entries) ?>;
+    
+    // Populate the select element with options from the entries variable
+    function populateSelect(displayName) {
+     
+        $('#select_postalentry').empty(); // Clear the select element
         
-            if ($(this).val() == '0') {
-                $('#select_postalentry').empty();
-                $('#select_postalentry').append('<option value="-">--- <?= $entry_select ?> ---</option>');
-                $('#select_postalentry').append('<option  value="0">* <?= $entry_addnew ?></option>');
-                $('#select_postalentry').append(' <option disabled>-------------------------------------------------------------------------------------------------</option>'); 
-                <?php foreach ($entries as $entry): ?>
-                        $('#select_postalentry').append($('<option>', {
-                            value: <?= $entry['shipping_entry_id'] ?>,
-                            text: '<?= addslashes($entry['displayName']) ?> (<?= addslashes($entry['name']) ?>)'
-                        }));
-            <?php endforeach; ?>
+        // Create optgroups for enabled and disabled zones
+        var $optgroupEnabled = $('<optgroup>', { label: '<?=$select_enabled?>' });
+        var $optgroupDisabled = $('<optgroup>', { label: '<?=$select_disabled?>' });
         
-                return;
-            }
-            $("#loading-postalcode").show();
-            // Make AJAX request
-            $.ajax({
-                url: 'index.php?route=extension/ventocart/shipping/zoneshipping.getZones&user_token=<?= $user_token ?>',
-                type: 'POST',
-                dataType: 'json', // Expect JSON response
-                data: { displayName: displayName }, // Send displayName as data
-                success: function(response) {
-                    $("#loading-postalcode").hide();
-                    // Handle success response
-                    if (response.zones) {
-                        // Clear existing options
-                        $('#select_postalentry').empty();
-                        $('#select_postalentry').append('<option  value="-">--- <?= $entry_select ?>  ---</option>');
-                        $('#select_postalentry').append('<option data-name="' + displayName   + '"   value="0">* <?= $entry_addnew ?></option>');
-                        $('#select_postalentry').append(' <option disabled>-------------------------------------------------------------------------------------------------</option>'); 
-               
-        
-                        // Loop through the zones and append them to the select element
-                        $.each(response.zones, function(index, zone) {
-                            $('#select_postalentry').append($('<option>', {
-                                value: zone.shipping_entry_id,
-                                text: zone.displayName + ' ('+zone.name+')'
-                            }));
-                        });
-                    } else {
-                        // Handle case where no zones are returned
-                        console.log('No zones found');
-                    }
-                },
-                error: function(xhr, status, error) {
-                    $("#loading-postalcode").hide();
-                    console.error(error);
-                }
+        // Loop through the entries and append options to the corresponding optgroup
+        if (displayName == 0) {
+        $.each(entries, function(index, entry) {
+            var $option = $('<option>', {
+                value: entry.shipping_entry_id,
+                text: entry.displayName[<?=$user_lang_id?>] + ' (' + entry.name + ')'
             });
+
+            if (entry.geo_zone_id != -2) {
+                $optgroupEnabled.append($option); // Append to enabled optgroup
+            } else {
+                $optgroupDisabled.append($option); // Append to disabled optgroup
+            }
         });
+    } else {
+        $.each(entries, function(index, entry) {
+            if (entry.displayName['<?=$user_lang_id?>'] == displayName) {
+          
+            var $option = $('<option>', {
+                value: entry.shipping_entry_id,
+                text: entry.displayName[<?=$user_lang_id?>] + ' (' + entry.name + ')'
+            });
+
+            if (entry.geo_zone_id != -2) {
+                $optgroupEnabled.append($option); // Append to enabled optgroup
+            } else {
+                $optgroupDisabled.append($option); // Append to disabled optgroup
+            }
+        }
+        });
+    }
+
+        // Append optgroups to the select element
+        $('#select_postalentry').append($optgroupEnabled, $optgroupDisabled);
+    }
+
+    // Event handler for filter company change
+    $('#filter-company').on('change', function() {
+        var displayName = $(this).val();
+        if (displayName == '-new-') {
+            return;
+        }
+       
+        // Populate select based on display name
+        populateSelect(displayName);
+    });
         
         function decodeHtmlEntities(html) {
             return new DOMParser().parseFromString(html, 'text/html').body.textContent;
@@ -325,8 +358,7 @@
             $('#select_postalentry').on('change', function() {
                 var entryId = $(this).val();
                 if (entryId == "-") {
-                    $('input[name="displayName"]').prop('readonly', false);
-                    $('input[name="displayName"]').removeAttr('style');
+                    
            
                     $("#entry_form").hide();
                 }
@@ -334,16 +366,19 @@
                     $("#entry_form").show();
                 }
                 if (entryId != "-" && entryId != "0") {
-                    $('input[name="displayName"]').prop('readonly', true);
-                    $('input[name="displayName"]').css('background-color', '#eaeaea');
+ 
                     var selectedEntry = <?= json_encode($entries) ?>.find(entry => entry.shipping_entry_id == entryId);
                     $('input[name="name"]').val(selectedEntry.name);
-                    $('input[name="displayName"]').val(selectedEntry.displayName);
+                
+                  
                     $('textarea[name="postal_codes"]').val('');
                     $('select[name="geo_zone_id"]').val(selectedEntry.geo_zone_id);
                     $('input[name="price"]').val(selectedEntry.price);
+                    $('input[name="entry_sort_order"]').val(selectedEntry.sort_order);
                     $('input[name="default_price"]').val(selectedEntry.default_price);
-                
+                    $.each(selectedEntry.displayName, function(languageId, displayName) {
+                    $('input[name="displayName[' + languageId + ']"]').val(displayName);
+                    });
          
                     $('input[name="volumetric"]').val(selectedEntry.volumetric);
                     $('select[name="weight_class_id"]').val(selectedEntry.weight_class_id);
@@ -356,32 +391,7 @@
                
                    populatePriceList(priceList);
                     $("#entry_form").show();
-                } else {
-                  
-                 
-                    // Clear all form fields when "Add New" is selected
-                    $('input[name="name"]').val('');
-                    if ($(this).find(":selected").data('name')) {
-                     $('input[name="displayName"]').prop('readonly', true);
-                     $('input[name="displayName"]').css('background-color', '#eaeaea');
-                    $('input[name="displayName"]').val($(this).find(":selected").data('name'));
-                    } else {
-                        $('input[name="displayName"]').prop('readonly', false);
-                        $('input[name="displayName"]').removeAttr('style');
-                        $('input[name="displayName"]').val('');
-                    }
-                    $('input[name="price_list"]').val('');
-                    populatePriceList([]);
-                    $('select[name="geo_zone_id"]').val('');
-                    $('input[name="price"]').val('');
-                    $('input[name="price_list"]').val('');
-                  
-         
-                    $('input[name="volumetric"]').val('5000');
-                    $('select[name="weight_class_id"]').val(<?= $default_weigth ?>);
-                    $('textarea[name="postal_codes"]').val('');
-                
-                }
+                }  
             });
         
             function loadPostalCodes(shippingEntryId) {
@@ -563,8 +573,26 @@
                 container.append(display);
             });
         }
-        
-        
+        $('#add-new-entry-f').click(function() {
+            // Clear all form fields when "Add New" is selected
+            $('input[name="name"]').val('');
+                    $('input[name^="displayName"]').val('');
+                  
+                    $('input[name="price_list"]').val('');
+                    populatePriceList([]);
+                    $('select[name="geo_zone_id"]').val('');
+                    $('input[name="price"]').val('');
+                    $('input[name="price_list"]').val('');
+                  
+         
+                    $('input[name="volumetric"]').val('5000');
+                    $('select[name="weight_class_id"]').val(<?= $default_weigth ?>);
+                    $('textarea[name="postal_codes"]').val('');
+
+
+                    $("#entry_form").show();
+
+                });
         });
         </script>
         

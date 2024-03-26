@@ -181,139 +181,86 @@ class ShippingPaymentMethods extends \Opencart\System\Engine\Controller
 
     public function save($int_ship = null): void
     {
-
         $this->load->language('checkout/shipping_method');
         $this->load->language('checkout/payment_method');
         $this->load->model('checkout/shipping_method');
-     
- 
-     
-        if (
-            // Check if shipping address is set and is a default address
-            (
-                isset($this->session->data['shipping_address']) &&
-                $this->session->data['shipping_address']['country_id'] == '0' &&
-                $this->session->data['shipping_address']['postcode'] == '0000' &&
-                isset($this->session->data['payment_address'])
-            )
-            ||
-            // Check if shipping address is not set but shipping is required and payment address is set
-            (
-                !isset($this->session->data['shipping_address']) &&
-                $this->cart->hasShipping() &&
-                isset($this->session->data['payment_address'])
-            )
-        ) {
-            // Copy payment address to shipping address
+        $this->load->model('checkout/payment_method');
+    
+        $json = [];
+    
+        // Check if shipping address needs to be copied from payment address
+        if ((!isset($this->session->data['shipping_address']) && $this->cart->hasShipping() && isset($this->session->data['payment_address'])) ||
+            (isset($this->session->data['shipping_address']) && $this->session->data['shipping_address']['country_id'] == '0' &&
+            $this->session->data['shipping_address']['postcode'] == '0000' && isset($this->session->data['payment_address']))) {
             $this->session->data['shipping_address'] = $this->session->data['payment_address'];
         }
     
-
-        if (isset($this->session->data['shipping_address']))
+        // Set shipping methods if shipping address is set
+        if (isset($this->session->data['shipping_address'])) {
             $this->session->data['shipping_methods'] = $this->model_checkout_shipping_method->getMethods($this->session->data['shipping_address']);
-        $json = [];
-
-        if (!isset($this->request->post['payment_method'])) {
-            $this->request->post['payment_method'] = $this->request->post['payment_method_pre'];
         }
-
     
-        // Validate cart has products and has stock.
-        if ((!$this->cart->hasProducts() && empty($this->session->data['vouchers'])) || (!$this->cart->hasStock() && !$this->config->get('config_stock_checkout'))) {
+        // Validate cart
+        if ((!$this->cart->hasProducts() && empty($this->session->data['vouchers'])) || 
+            (!$this->cart->hasStock() && !$this->config->get('config_stock_checkout'))) {
             $json['redirect'] = $this->url->link('checkout/cart', 'language=' . $this->config->get('config_language'), true);
-        }
-
-        // Validate minimum quantity requirements.
-        $products = $this->cart->getProducts();
-
-        foreach ($products as $product) {
-            if (!$product['minimum']) {
-                $json['redirect'] = $this->url->link('checkout/cart', 'language=' . $this->config->get('config_language'), true);
-                break;
+        } else {
+            // Validate minimum quantity requirements
+            $products = $this->cart->getProducts();
+            foreach ($products as $product) {
+                if ($product['quantity'] < $product['minimum']) {
+                    $json['redirect'] = $this->url->link('checkout/cart', 'language=' . $this->config->get('config_language'), true);
+                    break;
+                }
             }
         }
-
-        if (!$json) {
-
- 
-            if (!isset($this->session->data['payment_address'])) {
-                $json['error'] = $this->language->get('error_payment_address');
-            } 
-
-
-            // Payment method
-            if (!isset($json['error']) && isset($this->request->post['payment_method'])) {
-                $payment = explode('.', $this->request->post['payment_method']);
-                $this->load->model('checkout/payment_method');
-
-      
-                $payment_methods = $this->model_checkout_payment_method->getMethods($this->session->data['payment_address']);
-                if (isset($this->session->data['shipping_address'])) {
-                $this->session->data['shipping_methods'] = $this->model_checkout_shipping_method->getMethods($this->session->data['shipping_address']);
-                }
-
-                if ($payment_methods) {
-                    $this->session->data['payment_methods'] = $payment_methods;
-                }
-
-                if (!isset($payment[0]) || !isset($payment[1]) && !$payment_methods) {
-                    $json['error'] = $this->language->get('error_payment_method');
-                }
-            } else {
+    
+        // Validate payment address
+        if (!isset($this->session->data['payment_address'])) {
+            $json['error'] = $this->language->get('error_payment_address');
+        }
+    
+        // Validate payment method
+        if (empty($json['error']) && !isset($this->request->post['payment_method'])) {
+            $json['error'] = $this->language->get('error_payment_method');
+        } else {
+            $payment = explode('.', $this->request->post['payment_method']);
+            if (!isset($this->session->data['payment_methods'][$payment[0]]['option'][$payment[1]])) {
                 $json['error'] = $this->language->get('error_payment_method');
             }
+        }
+    
+        // Validate shipping method
+        if (empty($json['error']) && !isset($this->request->post['shipping_method']) &&  $this->cart->hasShipping()) {
 
-            // Shipping method
-            if (isset($this->request->post['shipping_method'])) {
-                $shipping = explode('.', $this->request->post['shipping_method']);
+            $json['error'] = $this->language->get('error_shipping_method');
 
+        } elseif ($this->cart->hasShipping() && !empty($this->request->post['shipping_method'])) {
 
-                if (!(isset($shipping[0]) || !isset($shipping[1])) && !isset($this->session->data['shipping_methods'][$shipping[0]]['quote'][$shipping[1]])) {
-                    $json['error'] = $this->language->get('error_shipping_method');
-                }
-            } else {
-                if ($this->cart->hasShipping())
-                    $json['error'] = $this->language->get('error_shipping_method');
+            $shipping = explode('.', $this->request->post['shipping_method']);
+            
+            if (!isset($this->session->data['shipping_methods'][$shipping[0]]['quote'][$shipping[1]])) {
+                $json['error'] = $this->language->get('error_shipping_method');
             }
         }
-     
-        if (!$json) {
-            // Handle payment method data
-         
-            if (isset($this->request->post['payment_method'])) {
-                $payment = explode('.', $this->request->post['payment_method']);
-                $this->session->data['payment_method'] = $this->session->data['payment_methods'][$payment[0]]['option'][$payment[1]];
-             
-            }
-
-            // Handle shipping method data
-            if (isset($this->request->post['shipping_method']) && isset($this->session->data['shipping_methods'])) {
-                $shipping = explode('.', $this->request->post['shipping_method']);
-
-                $this->session->data['shipping_method'] = $this->session->data['shipping_methods'][$shipping[0]]['quote'][$shipping[1]];
-
-            }
+    
+        if (empty($json['error'])) {
+            // Set selected payment method
+            $this->session->data['payment_method'] = $this->session->data['payment_methods'][$payment[0]]['option'][$payment[1]];
+            if ($this->cart->hasShipping()) {
+            // Set selected shipping method
+            $this->session->data['shipping_method'] = $this->session->data['shipping_methods'][$shipping[0]]['quote'][$shipping[1]];
+        } else {
+            unset($this->session->data['shipping_address']);
+        }
 
             $json['success'] = $this->language->get('text_success');
-   
-            // Clear payment methods
-            unset($this->session->data['payment_methods']);
         }
-      
-  
-       
-        $this->session->close();
-     
+    
         $this->response->addHeader('Content-Type: application/json');
         $this->response->setOutput(json_encode($json));
     }
-
-
-
-
-
-
-
+    
 
 
     public function comment(): void
