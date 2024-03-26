@@ -295,7 +295,7 @@
     $(document).ready(function() {
         
         var entries = <?= json_encode($entries) ?>;
-    
+        var mainForm = false;
     // Populate the select element with options from the entries variable
     function populateSelect(displayName) {
      
@@ -357,6 +357,7 @@
         }
             $('#select_postalentry').on('change', function() {
                 var entryId = $(this).val();
+                mainForm = true;
                 if (entryId == "-") {
                     
            
@@ -367,7 +368,7 @@
                 }
                 if (entryId != "-" && entryId != "0") {
  
-                    var selectedEntry = <?= json_encode($entries) ?>.find(entry => entry.shipping_entry_id == entryId);
+                    var selectedEntry = entries.find(entry => entry.shipping_entry_id == entryId);
                     $('input[name="name"]').val(selectedEntry.name);
                 
                   
@@ -425,7 +426,7 @@
                 // Serialize the form data
                 var formData =  $('#form-shipping').serialize();
                 var urlaction ='index.php?route=extension/ventocart/shipping/zoneshipping.saveentries&user_token=<?= $user_token ?>';
-            if ($("#select_postalentry").val() == "-") {
+            if (!mainForm) {
             urlaction  ='index.php?route=extension/ventocart/shipping/zoneshipping.save&user_token=<?= $user_token ?>';
             }  
             $("#loading-postalcode").show();
@@ -575,6 +576,7 @@
         }
         $('#add-new-entry-f').click(function() {
             // Clear all form fields when "Add New" is selected
+            mainForm = true;
             $('input[name="name"]').val('');
                     $('input[name^="displayName"]').val('');
                   

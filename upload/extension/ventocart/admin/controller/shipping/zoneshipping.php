@@ -288,12 +288,12 @@ class ZoneShipping extends \Opencart\System\Engine\Controller
 
         // Add some examples for user reference 
 
-        $this->db->query(" INSERT INTO `" . DB_PREFIX . "shipping_pzones` (`shipping_entry_id`, `geo_zone_id`, `pricelist`, `name`, `weight_class_id`, `volumetric`) VALUES
+        $this->db->query(" INSERT INTO `ve_shipping_pzones` (`shipping_entry_id`, `geo_zone_id`, `pricelist`, `name`, `weight_class_id`, `volumetric`) VALUES
 (1, 4, '[{&quot;default_price&quot;:&quot;0&quot;,&quot;price&quot;:&quot;0&quot;,&quot;weight&quot;:&quot;3&quot;}]', 'Up to 3 Kilos, U.K.', 1, 5000),
 (2, -2, '[{&quot;default_price&quot;:&quot;10&quot;,&quot;price&quot;:&quot;10&quot;,&quot;weight&quot;:&quot;1000000&quot;}]', 'For All Zones and all kilos 10$', 1, 5000),
 (3, -2, '[{&quot;default_price&quot;:&quot;0&quot;,&quot;price&quot;:&quot;0&quot;,&quot;weight&quot;:&quot;1000000&quot;}]', 'All kilos is free of charge', 1, 5000);
 ");
-        $this->db->query("INSERT INTO `" . DB_PREFIX . "shipping_pnames` (`shipping_entry_id`, `language_id`, `displayName`) VALUES
+        $this->db->query("INSERT INTO `ve_shipping_pnames` (`shipping_entry_id`, `language_id`, `displayName`) VALUES
 (1, 1, 'Free Shipping'),
 (3, 1, 'Pickup From Store'),
 (2, 1, 'Flat Rate');");
