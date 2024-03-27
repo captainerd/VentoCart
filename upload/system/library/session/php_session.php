@@ -27,7 +27,7 @@ class PhpSession {
 	 
 		$this->config = $registry->get('config');
  
-        session_set_cookie_params( time() + $this->config->get('session_expire'), '/', $this->config->get('session_domain'));
+        session_set_cookie_params(  $this->config->get('session_expire'), '/', $this->config->get('session_domain'));
         session_start();
 
 	}
