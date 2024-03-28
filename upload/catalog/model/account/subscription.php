@@ -13,17 +13,23 @@ class Subscription extends \Opencart\System\Engine\Model {
 	 */
 	public function getSubscription(int $subscription_id): array {
 		$subscription_data = [];
-
-		$query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "subscription`   WHERE `subscription_id` = '" . (int)$subscription_id . "' AND `customer_id` = '" . (int)$this->customer->getId() . "'");
-
+	
+		$query = $this->db->query("
+			SELECT s.*, spd.*
+			FROM `" . DB_PREFIX . "subscription` s
+			LEFT JOIN `" . DB_PREFIX . "subscription_plan_description` spd ON (s.subscription_plan_id = spd.subscription_plan_id)
+			WHERE s.`subscription_id` = '" . (int)$subscription_id . "'
+			AND s.`customer_id` = '" . (int)$this->customer->getId() . "'
+		");
+	
 		if ($query->num_rows) {
 			$subscription_data = $query->row;
-
+	
 			$subscription_data['option'] = ($query->row['option'] ? json_decode($query->row['option'], true) : '');
 			$subscription_data['payment_method'] = ($query->row['payment_method'] ? json_decode($query->row['payment_method'], true) : '');
 			$subscription_data['shipping_method'] = ($query->row['shipping_method'] ? json_decode($query->row['shipping_method'], true) : '');
 		}
-
+	
 		return $subscription_data;
 	}
 
@@ -64,8 +70,16 @@ class Subscription extends \Opencart\System\Engine\Model {
 			$limit = 1;
 		}
 
-		$query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "subscription` WHERE `customer_id` = '" . (int)$this->customer->getId() . "' AND `subscription_status_id` > '0' AND `store_id` = '" . (int)$this->config->get('config_store_id') . "' ORDER BY `subscription_id` DESC LIMIT " . (int)$start . "," . (int)$limit);
-	 
+		$query = $this->db->query("
+		SELECT s.*, spd.*
+		FROM `" . DB_PREFIX . "subscription` s
+		LEFT JOIN `" . DB_PREFIX . "subscription_plan_description` spd ON (s.subscription_plan_id = spd.subscription_plan_id)
+		WHERE s.`customer_id` = '" . (int)$this->customer->getId() . "'
+		AND s.`subscription_status_id` > '0'
+		AND s.`store_id` = '" . (int)$this->config->get('config_store_id') . "'
+		ORDER BY s.`subscription_id` DESC
+		LIMIT " . (int)$start . "," . (int)$limit
+	);
 		return $query->rows;
     }
 
