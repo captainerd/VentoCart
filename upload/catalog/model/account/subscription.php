@@ -15,12 +15,13 @@ class Subscription extends \Opencart\System\Engine\Model {
 		$subscription_data = [];
 	
 		$query = $this->db->query("
-			SELECT s.*, spd.*
-			FROM `" . DB_PREFIX . "subscription` s
-			LEFT JOIN `" . DB_PREFIX . "subscription_plan_description` spd ON (s.subscription_plan_id = spd.subscription_plan_id)
-			WHERE s.`subscription_id` = '" . (int)$subscription_id . "'
-			AND s.`customer_id` = '" . (int)$this->customer->getId() . "'
-		");
+		SELECT s.*, spd.*
+		FROM `" . DB_PREFIX . "subscription` s
+		LEFT JOIN `" . DB_PREFIX . "subscription_plan_description` spd ON (s.subscription_plan_id = spd.subscription_plan_id AND spd.language_id = '" . (int)$this->config->get('config_language_id') . "')
+		WHERE s.`subscription_id` = '" . (int)$subscription_id . "'
+		AND s.`customer_id` = '" . (int)$this->customer->getId() . "'
+	");
+	
 	
 		if ($query->num_rows) {
 			$subscription_data = $query->row;
@@ -73,7 +74,7 @@ class Subscription extends \Opencart\System\Engine\Model {
 		$query = $this->db->query("
 		SELECT s.*, spd.*
 		FROM `" . DB_PREFIX . "subscription` s
-		LEFT JOIN `" . DB_PREFIX . "subscription_plan_description` spd ON (s.subscription_plan_id = spd.subscription_plan_id)
+		LEFT JOIN `" . DB_PREFIX . "subscription_plan_description` spd ON (s.subscription_plan_id = spd.subscription_plan_id AND spd.language_id = '" . (int)$this->config->get('config_language_id') . "')
 		WHERE s.`customer_id` = '" . (int)$this->customer->getId() . "'
 		AND s.`subscription_status_id` > '0'
 		AND s.`store_id` = '" . (int)$this->config->get('config_store_id') . "'
