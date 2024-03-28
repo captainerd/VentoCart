@@ -111,7 +111,7 @@ class ZoneShipping extends \Opencart\System\Engine\Model
             WHERE spz.geo_zone_id = " . (int) -1 . "  ORDER BY spz.sort_order ASC
         ");
         }
-        $this->log->write(print_r($query->rows,true));
+        
         $data = [];
 
         $products = $this->cart->getProducts();
