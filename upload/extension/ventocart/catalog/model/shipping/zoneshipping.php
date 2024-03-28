@@ -84,11 +84,11 @@ class ZoneShipping extends \Opencart\System\Engine\Model
             END) AS foundpostal,
             spn.displayName
         FROM `" . DB_PREFIX . "zone_to_geo_zone` zgz
-        INNER JOIN `" . DB_PREFIX . "shipping_pzones` spz ON zgz.geo_zone_id = spz.geo_zone_id OR spz.geo_zone_id = '0' 
+        INNER JOIN `" . DB_PREFIX . "shipping_pzones` spz ON zgz.geo_zone_id = spz.geo_zone_id or spz.geo_zone_id = '0' 
         LEFT JOIN " . DB_PREFIX . "shipping_pcodes spc ON spz.shipping_entry_id = spc.shipping_entry_id
         LEFT JOIN " . DB_PREFIX . "shipping_pnames spn ON spz.shipping_entry_id = spn.shipping_entry_id AND spn.language_id = '" . (int)$this->config->get('config_language_id') . "'
-        WHERE zgz.`country_id` = '" . (int) $address['country_id'] . "' 
-        AND (zgz.`zone_id` = '" . (int) $address['zone_id'] . "' OR zgz.`zone_id` = '0' )
+        WHERE (zgz.`country_id` = '" . (int) $address['country_id'] . "' 
+        AND (zgz.`zone_id` = '" . (int) $address['zone_id'] . "' OR zgz.`zone_id` = '0' )) or spz.geo_zone_id = '0' 
         GROUP BY spz.shipping_entry_id  ORDER BY spz.sort_order ASC
     ");
  
@@ -111,7 +111,7 @@ class ZoneShipping extends \Opencart\System\Engine\Model
             WHERE spz.geo_zone_id = " . (int) -1 . "  ORDER BY spz.sort_order ASC
         ");
         }
-
+        $this->log->write(print_r($query->rows,true));
         $data = [];
 
         $products = $this->cart->getProducts();

@@ -236,7 +236,7 @@ class ZoneShipping extends \Opencart\System\Engine\Controller
 
             // Check if shipping_entry_id is provided
             if ($displayName == 0) {
-                $json['error'] = 'Shipping Company is required ';
+                $json['error'] = 'Error';
             } else {
                 $this->load->model('extension/ventocart/shipping/zoneshipping');
                 // Call model function to delete the entry
@@ -246,7 +246,7 @@ class ZoneShipping extends \Opencart\System\Engine\Controller
                 if ($success) {
                     $json['zones'] = $success;
                 } else {
-                    $json['error'] = 'Failed to delete entry';
+                    $json['error'] = 'Error';
                 }
             }
         }
