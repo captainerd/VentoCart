@@ -1,6 +1,6 @@
 <?php
-namespace Opencart\Admin\Controller\Sale;
-class Returns extends \Opencart\System\Engine\Controller {
+namespace Ventocart\Admin\Controller\Sale;
+class Returns extends \Ventocart\System\Engine\Controller {
 	public function index(): void {
 		$this->load->language('sale/returns');
 

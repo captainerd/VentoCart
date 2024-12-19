@@ -1,11 +1,11 @@
 <?php
-namespace Opencart\Catalog\Model\Design;
+namespace Ventocart\Catalog\Model\Design;
 /**
  * Class Layout
  *
- * @package Opencart\Catalog\Model\Design
+ * @package Ventocart\Catalog\Model\Design
  */
-class Layout extends \Opencart\System\Engine\Model {
+class Layout extends \Ventocart\System\Engine\Model {
 	/**
 	 * @param string $route
 	 *

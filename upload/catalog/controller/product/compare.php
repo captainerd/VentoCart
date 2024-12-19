@@ -1,15 +1,17 @@
 <?php
-namespace Opencart\Catalog\Controller\Product;
+namespace Ventocart\Catalog\Controller\Product;
 /**
  * Class Compare
  *
- * @package Opencart\Catalog\Controller\Product
+ * @package Ventocart\Catalog\Controller\Product
  */
-class Compare extends \Opencart\System\Engine\Controller {
+class Compare extends \Ventocart\System\Engine\Controller
+{
 	/**
 	 * @return void
 	 */
-	public function index(): void {
+	public function index(): void
+	{
 		$this->load->language('product/compare');
 
 		if (!isset($this->session->data['compare'])) {
@@ -84,7 +86,7 @@ class Compare extends \Opencart\System\Engine\Controller {
 					$price = false;
 				}
 
-				if ((float)$product_info['special']) {
+				if ((float) $product_info['special']) {
 					$special = $this->currency->format($this->tax->calculate($product_info['special'], $product_info['tax_class_id'], $this->config->get('config_tax')), $this->session->data['currency']);
 				} else {
 					$special = false;
@@ -123,25 +125,26 @@ class Compare extends \Opencart\System\Engine\Controller {
 				}
 
 				$data['products'][$product_id] = [
-					'product_id'   => $product_info['product_id'],
-					'name'         => $product_info['name'],
-					'description'  => $description,
-					'thumb'        => $image,
-					'price'        => $price,
-					'special'      => $special,
-					'model'        => $product_info['model'],
+					'product_id' => $product_info['product_id'],
+					'name' => $product_info['name'],
+					'description' => $description,
+					'thumb' => $image,
+					'price' => $price,
+					'special' => $special,
+					'model' => $product_info['model'],
+					'sku' => $product_info['sku'],
 					'manufacturer' => $manufacturer,
 					'availability' => $availability,
-					'minimum'      => $product_info['minimum'] > 0 ? $product_info['minimum'] : 1,
-					'rating'       => (int)$product_info['rating'],
-					'reviews'      => sprintf($this->language->get('text_reviews'), (int)$product_info['reviews']),
-					'weight'       => $this->weight->format($product_info['weight'], $product_info['weight_class_id'], $this->language->get('decimal_point'), $this->language->get('thousand_point')),
-					'length'       => $this->length->format($product_info['length'], $product_info['length_class_id'], $this->language->get('decimal_point'), $this->language->get('thousand_point')),
-					'width'        => $this->length->format($product_info['width'], $product_info['length_class_id'], $this->language->get('decimal_point'), $this->language->get('thousand_point')),
-					'height'       => $this->length->format($product_info['height'], $product_info['length_class_id'], $this->language->get('decimal_point'), $this->language->get('thousand_point')),
-					'attribute'    => $attribute_data,
-					'href'         => $this->url->link('product/product', 'language=' . $this->config->get('config_language') . '&product_id=' . $product_id),
-					'remove'       => $this->url->link('product/compare', 'language=' . $this->config->get('config_language') . '&remove=' . $product_id)
+					'minimum' => $product_info['minimum'] > 0 ? $product_info['minimum'] : 1,
+					'rating' => (int) $product_info['rating'],
+					'reviews' => sprintf($this->language->get('text_reviews'), (int) $product_info['reviews']),
+					'weight' => $this->weight->format($product_info['weight'], $product_info['weight_class_id'], $this->language->get('decimal_point'), $this->language->get('thousand_point')),
+					'length' => $this->length->format($product_info['length'], $product_info['length_class_id'], $this->language->get('decimal_point'), $this->language->get('thousand_point')),
+					'width' => $this->length->format($product_info['width'], $product_info['length_class_id'], $this->language->get('decimal_point'), $this->language->get('thousand_point')),
+					'height' => $this->length->format($product_info['height'], $product_info['length_class_id'], $this->language->get('decimal_point'), $this->language->get('thousand_point')),
+					'attribute' => $attribute_data,
+					'href' => $this->url->link('product/product', 'language=' . $this->config->get('config_language') . '&product_id=' . $product_id),
+					'remove' => $this->url->link('product/compare', 'language=' . $this->config->get('config_language') . '&remove=' . $product_id)
 				];
 
 				foreach ($attribute_groups as $attribute_group) {
@@ -171,7 +174,8 @@ class Compare extends \Opencart\System\Engine\Controller {
 	/**
 	 * @return void
 	 */
-	public function add(): void {
+	public function add(): void
+	{
 		$this->load->language('product/compare');
 
 		$json = [];
@@ -181,7 +185,7 @@ class Compare extends \Opencart\System\Engine\Controller {
 		}
 
 		if (isset($this->request->post['product_id'])) {
-			$product_id = (int)$this->request->post['product_id'];
+			$product_id = (int) $this->request->post['product_id'];
 		} else {
 			$product_id = 0;
 		}

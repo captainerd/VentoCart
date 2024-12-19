@@ -1,11 +1,12 @@
 <?php
-namespace Opencart\Catalog\Controller\Event;
+namespace Ventocart\Catalog\Controller\Event;
 /**
  * Class Theme
  *
- * @package Opencart\Catalog\Controller\Event
+ * @package Ventocart\Catalog\Controller\Event
  */
-class Theme extends \Opencart\System\Engine\Controller {
+class Theme extends \Ventocart\System\Engine\Controller
+{
 	/**
 	 * @param string $route
 	 * @param array  $args
@@ -13,7 +14,8 @@ class Theme extends \Opencart\System\Engine\Controller {
 	 *
 	 * @return void
 	 */
-	public function index(string &$route, array &$args, string &$code): void {
+	public function index(string &$route, array &$args, string &$code): void
+	{
 		// If there is a theme override we should get it
 		$this->load->model('design/theme');
 
@@ -22,5 +24,6 @@ class Theme extends \Opencart\System\Engine\Controller {
 		if ($theme_info) {
 			$code = html_entity_decode($theme_info['code'], ENT_QUOTES, 'UTF-8');
 		}
+
 	}
 }

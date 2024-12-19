@@ -1,11 +1,11 @@
 <?php
-namespace Opencart\Admin\Controller\Event;
+namespace Ventocart\Admin\Controller\Event;
 /**
  * Class Statistics
  *
- * @package Opencart\Admin\Controller\Event
+ * @package Ventocart\Admin\Controller\Event
  */
-class Statistics extends \Opencart\System\Engine\Controller {
+class Statistics extends \Ventocart\System\Engine\Controller {
 	// admin/model/catalog/review/addReview/after
 	/**
 	 * @param string $route

@@ -2,9 +2,9 @@
 # READ THIS COMPLETELY IF YOU CHOOSE TO USE THIS FILE!
 #
 # 1.To use URL Alias you need to be running apache with mod_rewrite enabled.
-# 2. In your opencart directory rename .htaccess.txt (this file) to .htaccess
+# 2. In your ventocart directory rename .htaccess.txt (this file) to .htaccess
 #
-# For any support issues please visit: https://www.opencart.com
+# For any support issues please visit: https://www.ventocart.com
 #
 # The line 'Options +FollowSymLinks' may cause problems with some server configurations.
 # It is required for the use of Apache mod_rewrite, but it may have already been set by
@@ -51,7 +51,7 @@ Options -Indexes
 
 ## SEO URL Settings
 RewriteEngine On
-## If your opencart installation does not run on the main web folder make sure you folder it does run in ie. / becomes /shop/
+## If your ventocart installation does not run on the main web folder make sure you folder it does run in ie. / becomes /shop/
 RewriteBase /
 ## Rewrite Rules
 RewriteRule ^system/storage/(.*) index.php?route=error/not_found [L]

@@ -1,11 +1,11 @@
 <?php
-namespace Opencart\Admin\Model\Cms;
+namespace Ventocart\Admin\Model\Cms;
 /**
  * Class Country
  *
- * @package Opencart\Admin\Model\Cms
+ * @package Ventocart\Admin\Model\Cms
  */
-class Antispam extends \Opencart\System\Engine\Model {
+class Antispam extends \Ventocart\System\Engine\Model {
 	/**
 	 * @param array $data
 	 *

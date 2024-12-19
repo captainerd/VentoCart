@@ -1,11 +1,11 @@
 <?php
-namespace Opencart\Admin\Controller\Event;
+namespace Ventocart\Admin\Controller\Event;
 /**
  * Class Debug
  *
- * @package Opencart\Admin\Controller\Event
+ * @package Ventocart\Admin\Controller\Event
  */
-class Debug extends \Opencart\System\Engine\Controller {
+class Debug extends \Ventocart\System\Engine\Controller {
 	/**
 	 * @param string $route
 	 * @param array  $args

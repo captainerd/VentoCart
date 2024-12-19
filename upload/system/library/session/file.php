@@ -1,9 +1,9 @@
 <?php
-namespace Opencart\System\Library\Session;
+namespace Ventocart\System\Library\Session;
 /**
  * Class File
  *
- * @package Opencart\System\Library\Session
+ * @package Ventocart\System\Library\Session
  */
 class File {
 	private object $config;
@@ -12,7 +12,7 @@ class File {
      *
      * @param object $registry
      */
-	public function __construct(\Opencart\System\Engine\Registry $registry) {
+	public function __construct(\Ventocart\System\Engine\Registry $registry) {
 		$this->config = $registry->get('config');
 	}
 

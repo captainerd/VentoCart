@@ -1,11 +1,11 @@
 <?php
-namespace Opencart\Admin\Controller\Report;
+namespace Ventocart\Admin\Controller\Report;
 /**
  * Class Report
  *
- * @package Opencart\Admin\Controller\Report
+ * @package Ventocart\Admin\Controller\Report
  */
-class Report extends \Opencart\System\Engine\Controller {
+class Report extends \Ventocart\System\Engine\Controller {
 	/**
 	 * @return void
 	 */

@@ -1,13 +1,19 @@
 <?php
-namespace Opencart\Catalog\Controller\Checkout;
-class Success extends \Opencart\System\Engine\Controller {
-	public function index(): void {
+namespace Ventocart\Catalog\Controller\Checkout;
+class Success extends \Ventocart\System\Engine\Controller
+{
+	public function index(): void
+	{
 		$this->load->language('checkout/success');
 
 		if (isset($this->session->data['order_id'])) {
 			$this->cart->clear();
 
 			unset($this->session->data['order_id']);
+
+			//	unset($this->session->data['payment_address']);
+			unset($this->session->data['shipping_address']);
+
 			unset($this->session->data['payment_method']);
 			unset($this->session->data['payment_methods']);
 			unset($this->session->data['shipping_method']);
@@ -16,12 +22,11 @@ class Success extends \Opencart\System\Engine\Controller {
 			unset($this->session->data['agree']);
 			unset($this->session->data['coupon']);
 			unset($this->session->data['reward']);
-			unset($this->session->data['voucher']);
-			unset($this->session->data['vouchers']);
+
 		}
 
 		$this->document->setTitle($this->language->get('heading_title'));
-
+		$data['title'] = $this->language->get('heading_title');
 		$datab['breadcrumbs'] = [];
 
 		$datab['breadcrumbs'][] = [
@@ -45,20 +50,30 @@ class Success extends \Opencart\System\Engine\Controller {
 		];
 		$data['breadcrumb'] = $this->load->view('common/breadcrumb', $datab);
 		if ($this->customer->isLogged()) {
-			$data['text_message'] = sprintf($this->language->get('text_customer'), $this->url->link('account/account', 'language=' . $this->config->get('config_language') .  '&customer_token=' . $this->session->data['customer_token']), $this->url->link('account/order', 'language=' . $this->config->get('config_language') .  '&customer_token=' . $this->session->data['customer_token']), $this->url->link('account/download', 'language=' . $this->config->get('config_language') .  '&customer_token=' . $this->session->data['customer_token']), $this->url->link('information/contact', 'language=' . $this->config->get('config_language')));
+			$data['text_message'] = sprintf($this->language->get('text_customer'), $this->url->link('account/account', 'language=' . $this->config->get('config_language') . '&customer_token=' . $this->session->data['customer_token']), $this->url->link('account/order', 'language=' . $this->config->get('config_language') . '&customer_token=' . $this->session->data['customer_token']), $this->url->link('account/download', 'language=' . $this->config->get('config_language') . '&customer_token=' . $this->session->data['customer_token']), $this->url->link('information/contact', 'language=' . $this->config->get('config_language')));
 		} else {
 			$data['text_message'] = sprintf($this->language->get('text_guest'), $this->url->link('information/contact', 'language=' . $this->config->get('config_language')));
 		}
 
-		$data['continue'] = $this->url->link('common/home', 'language=' . $this->config->get('config_language'));
+		$api_output = $this->customer->isApiClient();
 
-		$data['column_left'] = $this->load->controller('common/column_left');
-		$data['column_right'] = $this->load->controller('common/column_right');
-		$data['content_top'] = $this->load->controller('common/content_top');
-		$data['content_bottom'] = $this->load->controller('common/content_bottom');
-		$data['footer'] = $this->load->controller('common/footer');
-		$data['header'] = $this->load->controller('common/header');
+		if ($api_output) {
+			unset($data['breadcrumb']);
+			$this->response->addHeader('Content-Type: application/json');
+			$this->response->setOutput(json_encode($data));
 
-		$this->response->setOutput($this->load->view('common/success', $data));
+		} else {
+
+			$data['continue'] = $this->url->link('common/home', 'language=' . $this->config->get('config_language'));
+
+			$data['column_left'] = $this->load->controller('common/column_left');
+			$data['column_right'] = $this->load->controller('common/column_right');
+			$data['content_top'] = $this->load->controller('common/content_top');
+			$data['content_bottom'] = $this->load->controller('common/content_bottom');
+			$data['footer'] = $this->load->controller('common/footer');
+			$data['header'] = $this->load->controller('common/header');
+
+			$this->response->setOutput($this->load->view('common/success', $data));
+		}
 	}
 }

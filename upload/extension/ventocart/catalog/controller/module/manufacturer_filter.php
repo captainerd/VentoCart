@@ -1,27 +1,27 @@
 <?php
-namespace Opencart\Catalog\Controller\Extension\Ventocart\Module;
+namespace Ventocart\Catalog\Controller\Extension\Ventocart\Module;
 
 /**
  * Class Filter
  * 
- * @package Opencart\Catalog\Controller\Extension\VentoCart\Module
+ * @package Ventocart\Catalog\Controller\Extension\VentoCart\Module
  */
-class manufacturerFilter extends \Opencart\System\Engine\Controller
+class manufacturerFilter extends \Ventocart\System\Engine\Controller
 {
 	/**
-	 * @return string
+	 * @return mixed
 	 */
 	public function index()
 	{
- 
+		$api_output = $this->customer->isApiClient();
 		if (isset($this->request->get['path'])) {
-			$parts = explode('_', (string)$this->request->get['path']);
+			$parts = explode('_', (string) $this->request->get['path']);
 		} else {
 			$this->request->get['path'] = '';
 			$parts = [];
 		}
 
- 
+
 
 		$category_id = end($parts);
 
@@ -34,15 +34,21 @@ class manufacturerFilter extends \Opencart\System\Engine\Controller
 		if (isset($this->request->get['manufacturer_id'])) {
 			$data['selected_manufacturers'] = $this->request->get['manufacturer_id'];
 		}
-		if ( $category_info) {
+		if ($category_info) {
 			$this->load->language('extension/ventocart/module/manufacturer_filter');
 
-			$data['filter_manufacturers'] =   $this->model_catalog_category->getManufacturerFilters($category_id);
-		 
-			if (empty($data['filter_manufacturers'] )) {
-				return;
+			$data['filter_manufacturers'] = $this->model_catalog_category->getManufacturerFilters($category_id);
+
+			if (empty($data['filter_manufacturers'])) {
+				return '';
 			}
-			return $this->load->view('extension/ventocart/module/manufacturer_filter', $data);
+			if (!$api_output) {
+				return $this->load->view('extension/ventocart/module/manufacturer_filter', $data);
+			} else {
+				$data['module'] = "manufacturer_filter";
+				$data['lang_values'] = $this->language->loadForAPI('extension/ventocart/module/manufacturer_filter');
+				return $data;
+			}
 
 		}
 

@@ -1,15 +1,17 @@
 <?php
-namespace Opencart\Admin\Controller\Setting;
+namespace Ventocart\Admin\Controller\Setting;
 /**
  * Class Setting
  *
- * @package Opencart\Admin\Controller\Setting
+ * @package Ventocart\Admin\Controller\Setting
  */
-class Setting extends \Opencart\System\Engine\Controller {
+class Setting extends \Ventocart\System\Engine\Controller
+{
 	/**
 	 * @return void
 	 */
-	public function index(): void {
+	public function index(): void
+	{
 		$this->load->language('setting/setting');
 
 		$this->document->setTitle($this->language->get('heading_title'));
@@ -51,7 +53,7 @@ class Setting extends \Opencart\System\Engine\Controller {
 			$this->load->language('extension/' . $extension['extension'] . '/theme/' . $extension['code'], 'extension');
 
 			$data['themes'][] = [
-				'text'  => $this->language->get('extension_heading_title'),
+				'text' => $this->language->get('extension_heading_title'),
 				'value' => $extension['code']
 			];
 		}
@@ -72,7 +74,7 @@ class Setting extends \Opencart\System\Engine\Controller {
 		$data['config_email'] = $this->config->get('config_email');
 		$data['config_telephone'] = $this->config->get('config_telephone');
 		$data['config_image'] = $this->config->get('config_image');
-	 
+
 
 		$this->load->model('tool/image');
 
@@ -91,7 +93,7 @@ class Setting extends \Opencart\System\Engine\Controller {
 
 		$data['locations'] = $this->model_localisation_location->getLocations();
 
-		$data['config_location'] = (array)$this->config->get('config_location');
+		$data['config_location'] = (array) $this->config->get('config_location');
 
 		// Localisation
 		$this->load->model('localisation/country');
@@ -114,7 +116,7 @@ class Setting extends \Opencart\System\Engine\Controller {
 			$hour = ' (' . date_format($timestamp, 'P') . ')';
 
 			$data['timezones'][] = [
-				'text'  => $timezone . $hour,
+				'text' => $timezone . $hour,
 				'value' => $timezone
 			];
 		}
@@ -145,7 +147,7 @@ class Setting extends \Opencart\System\Engine\Controller {
 				$this->load->language('extension/' . $extension['extension'] . '/currency/' . $extension['code'], 'extension');
 
 				$data['currency_engines'][] = [
-					'text'  => $this->language->get('extension_heading_title'),
+					'text' => $this->language->get('extension_heading_title'),
 					'value' => $extension['code']
 				];
 			}
@@ -186,9 +188,7 @@ class Setting extends \Opencart\System\Engine\Controller {
 		$data['config_comment_guest'] = $this->config->get('config_comment_guest');
 		$data['config_comment_approve'] = $this->config->get('config_comment_approve');
 
-		// Voucher
-		$data['config_voucher_min'] = $this->config->get('config_voucher_min');
-		$data['config_voucher_max'] = $this->config->get('config_voucher_max');
+
 
 		$data['config_cookie_id'] = $this->config->get('config_cookie_id');
 
@@ -211,7 +211,7 @@ class Setting extends \Opencart\System\Engine\Controller {
 		$data['customer_groups'] = $this->model_customer_customer_group->getCustomerGroups();
 
 		$data['config_customer_group_id'] = $this->config->get('config_customer_group_id');
-		$data['config_customer_group_display'] = (array)$this->config->get('config_customer_group_display');
+		$data['config_customer_group_display'] = (array) $this->config->get('config_customer_group_display');
 
 		$data['config_customer_price'] = $this->config->get('config_customer_price');
 		$data['config_telephone_display'] = $this->config->get('config_telephone_display');
@@ -229,7 +229,7 @@ class Setting extends \Opencart\System\Engine\Controller {
 		$data['config_cart_weight'] = $this->config->get('config_cart_weight');
 		$data['config_checkout_guest'] = $this->config->get('config_checkout_guest');
 		$data['config_show_company_field'] = $this->config->get('config_show_company_field');
- 
+
 		$data['config_checkout_id'] = $this->config->get('config_checkout_id');
 
 		if ($this->config->get('config_invoice_prefix')) {
@@ -243,8 +243,8 @@ class Setting extends \Opencart\System\Engine\Controller {
 		$data['order_statuses'] = $this->model_localisation_order_status->getOrderStatuses();
 
 		$data['config_order_status_id'] = $this->config->get('config_order_status_id');
-		$data['config_processing_status'] = (array)$this->config->get('config_processing_status');
-		$data['config_complete_status'] = (array)$this->config->get('config_complete_status');
+		$data['config_processing_status'] = (array) $this->config->get('config_processing_status');
+		$data['config_complete_status'] = (array) $this->config->get('config_complete_status');
 		$data['config_fraud_status_id'] = $this->config->get('config_fraud_status_id');
 
 		// Subscription
@@ -276,8 +276,8 @@ class Setting extends \Opencart\System\Engine\Controller {
 		$data['config_affiliate_status'] = $this->config->get('config_affiliate_status');
 		$data['config_affiliate_group_id'] = $this->config->get('config_affiliate_group_id');
 		$data['config_affiliate_approval'] = $this->config->get('config_affiliate_approval');
-		$data['config_affiliate_auto'] = (bool)$this->config->get('config_affiliate_auto');
-		$data['config_affiliate_commission'] = (float)$this->config->get('config_affiliate_commission');
+		$data['config_affiliate_auto'] = (bool) $this->config->get('config_affiliate_auto');
+		$data['config_affiliate_commission'] = (float) $this->config->get('config_affiliate_commission');
 		$data['config_affiliate_expire'] = $this->config->get('config_affiliate_expire');
 
 		// Affiliate terms
@@ -308,43 +308,43 @@ class Setting extends \Opencart\System\Engine\Controller {
 
 			if ($this->config->get('captcha_' . $extension['code'] . '_status')) {
 				$data['captchas'][] = [
-					'text'  => $this->language->get('extension_heading_title'),
+					'text' => $this->language->get('extension_heading_title'),
 					'value' => $extension['code']
 				];
 			}
 		}
 
-		$data['config_captcha_page'] = (array)$this->config->get('config_captcha_page');
+		$data['config_captcha_page'] = (array) $this->config->get('config_captcha_page');
 
 		$data['captcha_pages'] = [];
 
 		$data['captcha_pages'][] = [
-			'text'  => $this->language->get('text_register'),
+			'text' => $this->language->get('text_register'),
 			'value' => 'register'
 		];
 
 		$data['captcha_pages'][] = [
-			'text'  => $this->language->get('text_guest'),
+			'text' => $this->language->get('text_guest'),
 			'value' => 'guest'
 		];
 
 		$data['captcha_pages'][] = [
-			'text'  => $this->language->get('text_review'),
+			'text' => $this->language->get('text_review'),
 			'value' => 'review'
 		];
 
 		$data['captcha_pages'][] = [
-			'text'  => $this->language->get('text_comment'),
+			'text' => $this->language->get('text_comment'),
 			'value' => 'comment'
 		];
 
 		$data['captcha_pages'][] = [
-			'text'  => $this->language->get('text_return'),
+			'text' => $this->language->get('text_return'),
 			'value' => 'returns'
 		];
 
 		$data['captcha_pages'][] = [
-			'text'  => $this->language->get('text_contact'),
+			'text' => $this->language->get('text_contact'),
 			'value' => 'contact'
 		];
 
@@ -385,7 +385,7 @@ class Setting extends \Opencart\System\Engine\Controller {
 		$data['config_image_wishlist_width'] = $this->config->get('config_image_wishlist_width');
 		$data['config_image_wishlist_height'] = $this->config->get('config_image_wishlist_height');
 		$data['config_image_cart_width'] = $this->config->get('config_image_cart_width');
-		$data['config_image_cart_height'] =$this->config->get('config_image_cart_height');
+		$data['config_image_cart_height'] = $this->config->get('config_image_cart_height');
 		$data['config_image_location_width'] = $this->config->get('config_image_location_width');
 		$data['config_image_location_height'] = $this->config->get('config_image_location_height');
 
@@ -397,27 +397,27 @@ class Setting extends \Opencart\System\Engine\Controller {
 		$data['config_mail_smtp_password'] = $this->config->get('config_mail_smtp_password');
 		$data['config_mail_smtp_port'] = $this->config->get('config_mail_smtp_port');
 		$data['config_mail_smtp_timeout'] = $this->config->get('config_mail_smtp_timeout');
-		$data['config_mail_alert'] = (array)$this->config->get('config_mail_alert');
+		$data['config_mail_alert'] = (array) $this->config->get('config_mail_alert');
 
 		$data['mail_alerts'] = [];
 
 		$data['mail_alerts'][] = [
-			'text'  => $this->language->get('text_mail_account'),
+			'text' => $this->language->get('text_mail_account'),
 			'value' => 'account'
 		];
 
 		$data['mail_alerts'][] = [
-			'text'  => $this->language->get('text_mail_affiliate'),
+			'text' => $this->language->get('text_mail_affiliate'),
 			'value' => 'affiliate'
 		];
 
 		$data['mail_alerts'][] = [
-			'text'  => $this->language->get('text_mail_order'),
+			'text' => $this->language->get('text_mail_order'),
 			'value' => 'order'
 		];
 
 		$data['mail_alerts'][] = [
-			'text'  => $this->language->get('text_mail_review'),
+			'text' => $this->language->get('text_mail_review'),
 			'value' => 'review'
 		];
 
@@ -457,7 +457,8 @@ class Setting extends \Opencart\System\Engine\Controller {
 	/**
 	 * @return void
 	 */
-	public function save(): void {
+	public function save(): void
+	{
 		$this->load->language('setting/setting');
 
 		$json = [];
@@ -514,13 +515,7 @@ class Setting extends \Opencart\System\Engine\Controller {
 			$json['error']['customer_online_expire'] = $this->language->get('error_customer_online_expire');
 		}
 
-		if (!$this->request->post['config_voucher_min']) {
-			$json['error']['voucher_min'] = $this->language->get('error_voucher_min');
-		}
 
-		if (!$this->request->post['config_voucher_max']) {
-			$json['error']['voucher_max'] = $this->language->get('error_voucher_max');
-		}
 
 		if (!isset($this->request->post['config_processing_status'])) {
 			$json['error']['processing_status'] = $this->language->get('error_processing_status');
@@ -649,7 +644,8 @@ class Setting extends \Opencart\System\Engine\Controller {
 	/**
 	 * @return void
 	 */
-	public function theme(): void {
+	public function theme(): void
+	{
 		if (isset($this->request->get['theme'])) {
 			$theme = basename($this->request->get['theme']);
 		} else {

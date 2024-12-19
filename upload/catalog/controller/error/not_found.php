@@ -1,11 +1,11 @@
 <?php
-namespace Opencart\Catalog\Controller\Error;
+namespace Ventocart\Catalog\Controller\Error;
 /**
  * Class Not Found
  *
- * @package Opencart\Catalog\Controller\Error
+ * @package Ventocart\Catalog\Controller\Error
  */
-class NotFound extends \Opencart\System\Engine\Controller {
+class NotFound extends \Ventocart\System\Engine\Controller {
 	/**
 	 * @return void
 	 */

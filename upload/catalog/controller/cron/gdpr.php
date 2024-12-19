@@ -1,11 +1,11 @@
 <?php
-namespace Opencart\Catalog\Controller\Cron;
+namespace Ventocart\Catalog\Controller\Cron;
 /**
  * Class Gdpr
  *
- * @package Opencart\Catalog\Controller\Cron
+ * @package Ventocart\Catalog\Controller\Cron
  */
-class Gdpr extends \Opencart\System\Engine\Controller {
+class Gdpr extends \Ventocart\System\Engine\Controller {
 	/**
 	 * @param int    $cron_id
 	 * @param string $code

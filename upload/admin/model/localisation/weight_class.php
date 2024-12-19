@@ -1,11 +1,11 @@
 <?php
-namespace Opencart\Admin\Model\Localisation;
+namespace Ventocart\Admin\Model\Localisation;
 /**
  * Class WeightClass
  *
- * @package Opencart\Admin\Model\Localisation
+ * @package Ventocart\Admin\Model\Localisation
  */
-class WeightClass extends \Opencart\System\Engine\Model {
+class WeightClass extends \Ventocart\System\Engine\Model {
 	/**
 	 * @param array $data
 	 *

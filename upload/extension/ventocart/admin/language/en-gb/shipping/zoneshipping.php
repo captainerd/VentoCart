@@ -6,8 +6,9 @@ $_['text_edit'] = 'Edit Advanced Shipping';
 $_['entry_status'] = 'Status';
 $_['text_success'] = "Success";
 $_['text_failed'] = 'Error: Failed to save';
+$_['text_edit_price'] = 'Edit Price';
 $_['heading_title'] = 'Advanced Shipping';
- 
+
 $_['entry_shipping_zones'] = "Shipping Zones";
 $_['entry_status'] = 'Status';
 $_['entry_geozone'] = 'Geo Zone';
@@ -21,7 +22,7 @@ $_['entry_postal_codes'] = 'Postal Codes';
 $_['entry_filter_shipping_company'] = 'Filter Shipping Package';
 $_['entry_name'] = 'Shipping Zone Name';
 $_['entry_addnew'] = 'Add New';
-$_['entry_add_to_pricelist']  = 'Add To Price List';
+$_['entry_add_to_pricelist'] = 'Add To Price List';
 $_['entry_select'] = "Select";
 $_['entry_sort_order'] = 'Sort Order';
 $_['entry_default_price'] = "Default Price";

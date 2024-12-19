@@ -1,16 +1,16 @@
 <?php
 /**
- * @package        OpenCart
+ * @package        VentoCart
  * @author         Daniel Kerr
- * @copyright      Copyright (c) 2005 - 2022, OpenCart, Ltd. (https://www.opencart.com/)
+ * @copyright      Copyright (c) 2005 - 2022, VentoCart, Ltd. (https://www.ventocart.com/)
  * @license        https://opensource.org/licenses/GPL-3.0
- * @link           https://www.opencart.com
+ * @link           https://www.ventocart.com
  */
-namespace Opencart\System\Library;
+namespace Ventocart\System\Library;
 /**
  * Class DB Adapter
  *
- * @package Opencart\System\Library
+ * @package Ventocart\System\Library
  */
 class DB {
 	/**
@@ -32,7 +32,7 @@ class DB {
 	 * @param string $ssl_ca
 	 */
 	public function __construct(string $adaptor, string $hostname, string $username, string $password, string $database, string $port = '', string $ssl_key = '', string $ssl_cert = '', string $ssl_ca = '') {
-		$class = 'Opencart\System\Library\DB\\' . $adaptor;
+		$class = 'Ventocart\System\Library\DB\\' . $adaptor;
 
 		if (class_exists($class)) {
 			$this->adaptor = new $class($hostname, $username, $password, $database, $port, $ssl_key, $ssl_cert, $ssl_ca);

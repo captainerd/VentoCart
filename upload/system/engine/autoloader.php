@@ -1,16 +1,17 @@
 <?php
 /**
- * @package     OpenCart
+ * @package     VentoCart
  * @author      Daniel Kerr
- * @copyright   Copyright (c) 2005 - 2017, OpenCart, Ltd. (https://www.opencart.com/)
+ * @copyright   Copyright (c) 2005 - 2017, VentoCart, Ltd. (https://www.ventocart.com/)
  * @license     https://opensource.org/licenses/GPL-3.0
- * @link        https://www.opencart.com
+ * @link        https://www.ventocart.com
  */
-namespace Opencart\System\Engine;
+namespace Ventocart\System\Engine;
 /**
  * Class Autoloader
  */
-class Autoloader {
+class Autoloader
+{
 	/**
 	 * @var array
 	 */
@@ -19,7 +20,8 @@ class Autoloader {
 	/**
 	 * Constructor
 	 */
-	public function __construct() {
+	public function __construct()
+	{
 		spl_autoload_register([$this, 'load']);
 		spl_autoload_extensions('.php');
 	}
@@ -34,14 +36,15 @@ class Autoloader {
 	 * @return void
 	 *
 	 * @psr-4 filename standard is stupid composer has lower case file structure than its packages have camelcase file names!
-	 */	
-	public function register(string $namespace, string $directory, $psr4 = false): void {
+	 */
+	public function register(string $namespace, string $directory, $psr4 = false): void
+	{
 		$this->path[$namespace] = [
 			'directory' => $directory,
-			'psr4'      => $psr4
+			'psr4' => $psr4
 		];
 	}
-	
+
 	/**
 	 * Load
 	 *
@@ -49,7 +52,8 @@ class Autoloader {
 	 *
 	 * @return bool
 	 */
-	public function load(string $class): bool {
+	public function load(string $class): bool
+	{
 		$namespace = '';
 
 		$parts = explode('\\', $class);
@@ -68,8 +72,8 @@ class Autoloader {
 					$file = $this->path[$namespace]['directory'] . trim(str_replace('\\', '/', substr($class, strlen($namespace))), '/') . '.php';
 				}
 			}
-		}	
- 
+		}
+
 		if (isset($file) && is_file($file)) {
 			include_once($file);
 

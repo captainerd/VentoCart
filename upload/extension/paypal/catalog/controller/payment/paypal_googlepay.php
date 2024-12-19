@@ -1,6 +1,6 @@
 <?php
-namespace Opencart\Catalog\Controller\Extension\PayPal\Payment;
-class PayPalGooglePay extends \Opencart\System\Engine\Controller {
+namespace Ventocart\Catalog\Controller\Extension\PayPal\Payment;
+class PayPalGooglePay extends \Ventocart\System\Engine\Controller {
 	private $error = [];
 	private $separator = '';
 	
@@ -23,7 +23,7 @@ class PayPalGooglePay extends \Opencart\System\Engine\Controller {
 			$this->load->language('extension/paypal/payment/paypal');
 			
 			// Setting
-			$_config = new \Opencart\System\Engine\Config();
+			$_config = new \Ventocart\System\Engine\Config();
 			$_config->addPath(DIR_EXTENSION . 'paypal/system/config/');
 			$_config->load('paypal');
 			
@@ -54,7 +54,7 @@ class PayPalGooglePay extends \Opencart\System\Engine\Controller {
 				'partner_attribution_id' => $data['partner_attribution_id']
 			];
 		
-			$paypal = new \Opencart\System\Library\PayPal($paypal_info);
+			$paypal = new \Ventocart\System\Library\PayPal($paypal_info);
 		
 			$token_info = [
 				'grant_type' => 'client_credentials'
@@ -106,7 +106,7 @@ class PayPalGooglePay extends \Opencart\System\Engine\Controller {
 		$this->load->language('extension/paypal/payment/paypal');
 			
 		// Setting
-		$_config = new \Opencart\System\Engine\Config();
+		$_config = new \Ventocart\System\Engine\Config();
 		$_config->addPath(DIR_EXTENSION . 'paypal/system/config/');
 		$_config->load('paypal');
 			
@@ -136,7 +136,7 @@ class PayPalGooglePay extends \Opencart\System\Engine\Controller {
 			'partner_attribution_id' => $data['partner_attribution_id']
 		];
 		
-		$paypal = new \Opencart\System\Library\PayPal($paypal_info);
+		$paypal = new \Ventocart\System\Library\PayPal($paypal_info);
 		
 		$token_info = [
 			'grant_type' => 'client_credentials'

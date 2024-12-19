@@ -122,7 +122,7 @@ Prepending is different when it comes to streams. The content must be copied bef
 The following example will explain the behaviour of streams.
 
 ```php
-// assuming our response is initially empty
+//  our response is initially empty
 $body = $repsonse->getBody();
 // writing the string "abcd"
 $body->write('abcd');
@@ -136,7 +136,7 @@ $body->write('ef'); // at this point the stream contains "efcd"
 #### Prepending by rewriting separately
 
 ```php
-// assuming our response body stream only contains: "abcd"
+//  our response body stream only contains: "abcd"
 $body = $response->getBody();
 $body->rewind();
 $contents = $body->getContents(); // abcd

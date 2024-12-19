@@ -1,11 +1,11 @@
 <?php
-namespace Opencart\Catalog\Controller\Startup;
+namespace Ventocart\Catalog\Controller\Startup;
 /**
  * Class Sass
  *
- * @package Opencart\Catalog\Controller\Startup
+ * @package Ventocart\Catalog\Controller\Startup
  */
-class Sass extends \Opencart\System\Engine\Controller {
+class Sass extends \Ventocart\System\Engine\Controller {
 	/**
 	 * @return void
 	 * @throws \ScssPhp\ScssPhp\Exception\SassException

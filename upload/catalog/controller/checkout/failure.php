@@ -1,6 +1,6 @@
 <?php
-namespace Opencart\Catalog\Controller\Checkout;
-class Failure extends \Opencart\System\Engine\Controller {
+namespace Ventocart\Catalog\Controller\Checkout;
+class Failure extends \Ventocart\System\Engine\Controller {
 	public function index(): void {
 		$this->load->language('checkout/failure');
 

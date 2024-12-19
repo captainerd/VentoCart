@@ -1,11 +1,11 @@
 <?php
-namespace Opencart\Catalog\Controller\Common;
+namespace Ventocart\Catalog\Controller\Common;
 /**
  * Class Language
  *
- * @package Opencart\Catalog\Controller\Common
+ * @package Ventocart\Catalog\Controller\Common
  */
-class Language extends \Opencart\System\Engine\Controller {
+class Language extends \Ventocart\System\Engine\Controller {
 	/**
 	 * @return string
 	 */

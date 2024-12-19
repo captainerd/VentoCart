@@ -1,11 +1,11 @@
 <?php
-namespace Opencart\Catalog\Controller\Cron;
+namespace Ventocart\Catalog\Controller\Cron;
 /**
  * Class Currency
  *
- * @package Opencart\Catalog\Controller\Cron
+ * @package Ventocart\Catalog\Controller\Cron
  */
-class Currency extends \Opencart\System\Engine\Controller {
+class Currency extends \Ventocart\System\Engine\Controller {
 	/**
 	 * @param int    $cron_id
 	 * @param string $code

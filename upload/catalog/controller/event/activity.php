@@ -1,11 +1,11 @@
 <?php
-namespace Opencart\Catalog\Controller\Event;
+namespace Ventocart\Catalog\Controller\Event;
 /**
  * Class Activity
  *
- * @package Opencart\Catalog\Controller\Event
+ * @package Ventocart\Catalog\Controller\Event
  */
-class Activity extends \Opencart\System\Engine\Controller {
+class Activity extends \Ventocart\System\Engine\Controller {
 	// catalog/model/account/customer/addCustomer/after
 	/**
 	 * @param string $route

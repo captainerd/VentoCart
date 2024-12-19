@@ -1,15 +1,15 @@
 <?php
-namespace Opencart\Catalog\Model\Extension\VentoCart\Shipping;
+namespace Ventocart\Catalog\Model\Extension\VentoCart\Shipping;
 
-use Opencart\System\Library\Cart\Weight;
-use Opencart\System\Library\Cart\Length;
+use Ventocart\System\Library\Cart\Weight;
+use Ventocart\System\Library\Cart\Length;
 
 /**
  * Class ZoneShipping
  *
- * @package Opencart\Catalog\Model\Extension\VentoCart\Shipping
+ * @package Ventocart\Catalog\Model\Extension\VentoCart\Shipping
  */
-class ZoneShipping extends \Opencart\System\Engine\Model
+class ZoneShipping extends \Ventocart\System\Engine\Model
 {
     /**
      * @param array $address

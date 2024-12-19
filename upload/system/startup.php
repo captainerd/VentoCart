@@ -52,7 +52,7 @@ if (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
 	$_SERVER['REMOTE_ADDR'] = $_SERVER['HTTP_CLIENT_IP'];
 }
 
-// OpenCart Autoloader
+// VentoCart Autoloader
 require_once(DIR_SYSTEM . 'engine/autoloader.php');
 
 // Need config to store application values

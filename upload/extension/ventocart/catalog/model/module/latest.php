@@ -1,11 +1,11 @@
 <?php
-namespace Opencart\Catalog\Model\Extension\VentoCart\Module;
+namespace Ventocart\Catalog\Model\Extension\VentoCart\Module;
 /**
  * Class Latest
  *
- * @package Opencart\Catalog\Model\Extension\VentoCart\Module
+ * @package Ventocart\Catalog\Model\Extension\VentoCart\Module
  */
-class Latest extends \Opencart\Catalog\Model\Catalog\Product {
+class Latest extends \Ventocart\Catalog\Model\Catalog\Product {
 	/**
 	 * @param int $limit
 	 *

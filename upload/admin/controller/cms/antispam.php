@@ -1,11 +1,11 @@
 <?php
-namespace Opencart\Admin\Controller\Cms;
+namespace Ventocart\Admin\Controller\Cms;
 /**
  * Class Anti-Spam
  *
- * @package Opencart\Admin\Controller\Cms
+ * @package Ventocart\Admin\Controller\Cms
  */
-class Antispam extends \Opencart\System\Engine\Controller {
+class Antispam extends \Ventocart\System\Engine\Controller {
 	/**
 	 * @return void
 	 */

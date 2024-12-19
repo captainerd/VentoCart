@@ -1,12 +1,12 @@
 <?php
-namespace Opencart\Catalog\Model\Catalog;
+namespace Ventocart\Catalog\Model\Catalog;
 
 /**
  * Class Product
  *
- * @package Opencart\Catalog\Model\Catalog
+ * @package Ventocart\Catalog\Model\Catalog
  */
-class Product extends \Opencart\System\Engine\Model
+class Product extends \Ventocart\System\Engine\Model
 {
 	/**
 	 * @var array
@@ -14,9 +14,9 @@ class Product extends \Opencart\System\Engine\Model
 	protected array $statement = [];
 
 	/**
-	 * @param \Opencart\System\Engine\Registry $registry
+	 * @param \Ventocart\System\Engine\Registry $registry
 	 */
-	public function __construct(\Opencart\System\Engine\Registry $registry)
+	public function __construct(\Ventocart\System\Engine\Registry $registry)
 	{
 		$this->registry = $registry;
 
@@ -201,16 +201,16 @@ class Product extends \Opencart\System\Engine\Model
 		}
 
 		// Manufacturer filter
-	 
+
 		if (!empty($data['filter_manufacturer_id'])) {
 
-			 if (is_array($data['filter_manufacturer_id'])) {
-				$data['filter_manufacturer_id'] = implode(',',$data['filter_manufacturer_id']);
-			 }
-			 
+			if (is_array($data['filter_manufacturer_id'])) {
+				$data['filter_manufacturer_id'] = implode(',', $data['filter_manufacturer_id']);
+			}
+
 			$sql .= " INNER JOIN `" . DB_PREFIX . "manufacturer` `m` ON (`p`.`manufacturer_id` = `m`.`manufacturer_id` AND `m`.`manufacturer_id` IN (" . $data['filter_manufacturer_id'] . "))";
 		}
-		
+
 
 
 		// Availability filter
@@ -287,7 +287,7 @@ class Product extends \Opencart\System\Engine\Model
 			$sql .= " DESC, LCASE(`pd`.`name`) DESC";
 
 		} else {
-			
+
 			$sql .= " ASC, LCASE(`pd`.`name`) ASC";
 		}
 
@@ -307,7 +307,7 @@ class Product extends \Opencart\System\Engine\Model
 
 			$sql .= " LIMIT " . (int) $data['start'] . "," . (int) $data['limit'];
 		}
- 
+
 		$product_data = $this->cache->get('product.' . md5($sql));
 
 		if (!$product_data) {
@@ -360,7 +360,7 @@ class Product extends \Opencart\System\Engine\Model
 	 */
 	public function buildSearchFilterSQL($data)
 	{
-	
+
 		$sql = "";
 		$sql .= " AND (";
 
@@ -413,7 +413,7 @@ class Product extends \Opencart\System\Engine\Model
 		$sql .= ")";
 		return $sql;
 	}
- 
+
 	/**
 	 * @param array $data
 	 *
@@ -459,50 +459,50 @@ class Product extends \Opencart\System\Engine\Model
 	 * @return string
 	 */
 	public function buildAttributesFilterSQL($data)
-{
-    $sql = "";
-    $attributeSets = [];
+	{
+		$sql = "";
+		$attributeSets = [];
 
-    // Extract attribute values and organize them in $attributeSets
-    foreach ($data['filter_attribute'] as $index => $values) {
-        $id = array_keys($values);
-        $pos = $id[0];
-        $id = array_keys($values[$pos]);
+		// Extract attribute values and organize them in $attributeSets
+		foreach ($data['filter_attribute'] as $index => $values) {
+			$id = array_keys($values);
+			$pos = $id[0];
+			$id = array_keys($values[$pos]);
 
-        $escapedValue = $this->db->escape(strval($values[$pos][$id[0]]));
+			$escapedValue = $this->db->escape(strval($values[$pos][$id[0]]));
 
-        // Organize values based on position
-        if ($pos == 1) {
-            $attributeSets[$id[0]]['text'][] = "'{$escapedValue}'";
-        }
-        if ($pos == 2) {
-            $attributeSets[$id[0]]['value_text'][] = "'{$escapedValue}'";
-        }
-    }
+			// Organize values based on position
+			if ($pos == 1) {
+				$attributeSets[$id[0]]['text'][] = "'{$escapedValue}'";
+			}
+			if ($pos == 2) {
+				$attributeSets[$id[0]]['value_text'][] = "'{$escapedValue}'";
+			}
+		}
 
-    // Build SQL query based on organized attribute values
-    foreach ($attributeSets as $id => $value) {
-        $sql .= " INNER JOIN (
+		// Build SQL query based on organized attribute values
+		foreach ($attributeSets as $id => $value) {
+			$sql .= " INNER JOIN (
             SELECT 
                 `product_id`, 
                 GROUP_CONCAT(`text`, `value_text` SEPARATOR ',') AS `attribute_values`
             FROM `" . DB_PREFIX . "product_attribute`
             WHERE `attribute_id` = '" . $id . "' ";
- 
-        if (!empty($value['text'])) {
-            $sql .= " AND   `text` IN (" . implode(',', $value['text']) . ")";
-        }
- 
-        if (!empty($value['value_text'])) {
-            $sql .= " AND   `value_text` IN (" . implode(',', $value['value_text']) . ")";
-        }
 
-        $sql .= "  GROUP BY `product_id`
+			if (!empty($value['text'])) {
+				$sql .= " AND   `text` IN (" . implode(',', $value['text']) . ")";
+			}
+
+			if (!empty($value['value_text'])) {
+				$sql .= " AND   `value_text` IN (" . implode(',', $value['value_text']) . ")";
+			}
+
+			$sql .= "  GROUP BY `product_id`
         ) `pa{$id}` ON (`pa{$id}`.`product_id` = `p`.`product_id`) ";
-    }
+		}
 
-    return $sql;
-}
+		return $sql;
+	}
 
 
 
@@ -524,20 +524,20 @@ class Product extends \Opencart\System\Engine\Model
 		GROUP BY a.attribute_id, pa.text, pa.value_text
 		ORDER BY pa.sort_order, ad.name 
 	");
-	
-	$results = array();
-	foreach ($product_attribute_group_query->rows as $row) {
- 
-		if (!empty($row['value_text']) && !empty($row['text'])) {
-			$results[$row['attribute_id']]['name'] =  $row['name'];	 
-		$results[$row['attribute_id']]['values'][] = ['name' => $row['text'], 'text_value' =>  $row['value_text'] ];
-		} else {
-			if (!empty($row['text'])) {
-				$results['general']['values'][] = ['name' => $row['name'], 'text_value' =>  $row['text']  ];
+
+		$results = array();
+		foreach ($product_attribute_group_query->rows as $row) {
+
+			if (!empty($row['value_text']) && !empty($row['text'])) {
+				$results[$row['attribute_id']]['name'] = $row['name'];
+				$results[$row['attribute_id']]['values'][] = ['name' => $row['text'], 'text_value' => $row['value_text']];
+			} else {
+				if (!empty($row['text'])) {
+					$results['general']['values'][] = ['name' => $row['name'], 'text_value' => $row['text']];
+				}
 			}
 		}
-	}
-	
+
 		return $results;
 
 	}
@@ -549,39 +549,42 @@ class Product extends \Opencart\System\Engine\Model
 	 */
 	public function getOptions(int $product_id): array
 	{
+
 		$product_option_data = [];
-
-
 
 		//Retrieve options
 
 		$product_option_query = $this->db->query("
 		SELECT 
-     			   po.*, 
-     			   o.*, 
-     			   o3.name AS group_name, 
-     			   og.type AS group_type,
-     			   o2.name AS o2_name,
-     			   o2.*  -- Include other columns from o2 as needed
- 	    FROM 
-		 	    	`" . DB_PREFIX . "product_options` po
-	    LEFT JOIN 
-    			    `" . DB_PREFIX . "options` o ON po.option_id = o.option_id
-	    LEFT JOIN 
-    			    `" . DB_PREFIX . "options` og ON o.group_id = og.option_id
-  	    LEFT JOIN 
-			        `" . DB_PREFIX . "options` o2 ON 
-    		        o2.option_n = o.option_n
-        AND 		o2.group_id = o.group_id
-        AND		    o2.language_id = '" . (int) $this->config->get('config_language_id') . "'
-  	  
+			po.*, 
+			o.*, 
+			o3.name AS group_name, 
+			og.type AS group_type,
+			o2.name AS o2_name,
+			o2.*  -- Include other columns from o2 as needed
+		FROM 
+			`" . DB_PREFIX . "product_options` po
 		LEFT JOIN 
-        			`" . DB_PREFIX . "options` o3 ON 
-          			  o3.option_n = '-1'
-    			      AND o3.group_id = o.group_id AND o3.language_id = '" . (int) $this->config->get('config_language_id') . "'
-  	  
-		WHERE          po.product_id = '" . (int) $product_id . "'
-        ORDER BY       po.sort_order");
+			`" . DB_PREFIX . "options` o ON po.option_id = o.option_id
+		LEFT JOIN 
+			`" . DB_PREFIX . "options` og ON o.group_id = og.option_id
+		LEFT JOIN 
+			`" . DB_PREFIX . "options` o2 ON 
+				o2.option_n = o.option_n
+			AND o2.group_id = o.group_id
+			AND o2.language_id = '" . (int) $this->config->get('config_language_id') . "'
+		LEFT JOIN 
+			`" . DB_PREFIX . "options` o3 ON 
+				o3.option_n = '-1'
+			AND o3.group_id = o.group_id 
+			AND o3.language_id = '" . (int) $this->config->get('config_language_id') . "'
+		WHERE 
+			po.product_id = '" . (int) $product_id . "'
+		GROUP BY 
+			po.option_id
+		ORDER BY 
+			po.sort_order
+	");
 
 
 		foreach ($product_option_query->rows as $product_option) {
@@ -595,9 +598,9 @@ class Product extends \Opencart\System\Engine\Model
 			}
 
 
-			$product_option_value_data[$product_option['group_id']][] = [
-				'product_option_value_id' => $product_option['poption_id'],
-				'option_value_id' => $product_option['poption_id'],
+			$product_option_value_data[$product_option['group_id']][$product_option['product_option_id']] = [
+				'product_option_value_id' => $product_option['product_option_id'],
+				'option_value_id' => $product_option['product_option_id'],
 				'name' => $product_option['o2_name'],
 				'image' => isset($product_option['image']) ? $product_option['image'] : "",
 				'quantity' => $product_option['quantity'],
@@ -610,7 +613,7 @@ class Product extends \Opencart\System\Engine\Model
 
 
 			$product_option_data[$product_option['group_id']] = [
-				'product_option_id' => $product_option['poption_id'],
+				'product_option_id' => $product_option['product_option_id'],
 				'product_option_value' => $product_option_value_data[$product_option['group_id']],
 				'option_id' => $product_option['option_id'],
 				'name' => $product_option['group_name'],
@@ -619,6 +622,7 @@ class Product extends \Opencart\System\Engine\Model
 				'required' => $product_option['required']
 			];
 		}
+
 		return $product_option_data;
 	}
 
@@ -709,8 +713,8 @@ class Product extends \Opencart\System\Engine\Model
 		return (array) $product_data;
 	}
 
- 
- 
+
+
 	/**
 	 * @param array $data
 	 *
@@ -830,10 +834,10 @@ class Product extends \Opencart\System\Engine\Model
 			}
 
 			// Add option details to the variation entry
-			if ($row['var_opt_id'] !== null) {
+			if ($row['variation_option_id'] !== null) {
 				$variations[$variationId]['options'][] = [
-					'var_opt_id' => $row['var_opt_id'],
-					'p_opt_value_id' => $row['p_opt_value_id'],
+					'variation_option_id' => $row['variation_option_id'],
+					'product_option_id' => $row['product_option_id'],
 				];
 			}
 		}

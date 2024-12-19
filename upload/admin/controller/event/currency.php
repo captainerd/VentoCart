@@ -1,11 +1,11 @@
 <?php
-namespace Opencart\Admin\Controller\Event;
+namespace Ventocart\Admin\Controller\Event;
 /**
  * Class Currency
  *
- * @package Opencart\Admin\Controller\Event
+ * @package Ventocart\Admin\Controller\Event
  */
-class Currency extends \Opencart\System\Engine\Controller {
+class Currency extends \Ventocart\System\Engine\Controller {
 	/**
 	 * Auto update currencies
 	 *

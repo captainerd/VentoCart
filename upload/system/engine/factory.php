@@ -1,23 +1,25 @@
 <?php
 
-namespace Opencart\System\Engine;
+namespace Ventocart\System\Engine;
 
 /**
  * Class Factory
- * @package Opencart\System\Engine
+ * @package Ventocart\System\Engine
  */
-class Factory {
+class Factory
+{
 
     /**
-     * @var \Opencart\System\Engine\Registry
+     * @var \Ventocart\System\Engine\Registry
      */
     protected $registry;
 
     /**
      * Factory constructor.
-     * @param \Opencart\System\Engine\Registry $registry
+     * @param \Ventocart\System\Engine\Registry $registry
      */
-    public function __construct(\Opencart\System\Engine\Registry $registry) {
+    public function __construct(\Ventocart\System\Engine\Registry $registry)
+    {
         $this->registry = $registry;
     }
 
@@ -27,7 +29,8 @@ class Factory {
      * @param string $route Controller route
      * @return object
      */
-    public function Controller(string $route): object {
+    public function Controller(string $route): object
+    {
         $class = $this->buildClassPath($this->registry->get('config')->get('application'), 'Controller', $route);
 
         if (class_exists($class)) {
@@ -44,7 +47,8 @@ class Factory {
      * @return object
      * @throws \Exception
      */
-    public function Model(string $route): object {
+    public function Model(string $route): object
+    {
         $class = $this->buildClassPath($this->registry->get('config')->get('application'), 'Model', $route);
 
         if (class_exists($class)) {
@@ -62,7 +66,8 @@ class Factory {
      * @return object
      * @throws \Exception
      */
-    public function Library(string $route, array $args): object {
+    public function Library(string $route, array $args): object
+    {
         $class = $this->buildClassPath('System', 'Library', $route);
 
         if (class_exists($class)) {
@@ -72,7 +77,7 @@ class Factory {
         }
     }
 
-    /**
+    /** 
      * Build the full class path
      *
      * @param string $root Root namespace
@@ -80,10 +85,11 @@ class Factory {
      * @param string $path Class path
      * @return string
      */
-    private function buildClassPath(string $root, string $namespace, string $path): string {
+    public function buildClassPath(string $root, string $namespace, string $path): string
+    {
         $sanitizedPath = preg_replace('/[^a-zA-Z0-9_\/]/', '', $path);
 
-        return 'Opencart\\' . $root . '\\' . $namespace . '\\' . str_replace(['_', '/'], ['', '\\'], ucwords($sanitizedPath, '_/'));
+        return 'Ventocart\\' . $root . '\\' . $namespace . '\\' . str_replace(['_', '/'], ['', '\\'], ucwords($sanitizedPath, '_/'));
 
     }
 }

@@ -1,12 +1,12 @@
 <?php
 /**
- * @package        OpenCart
+ * @package        VentoCart
  * @author         Daniel Kerr
- * @copyright      Copyright (c) 2005 - 2022, OpenCart, Ltd. (https://www.opencart.com/)
+ * @copyright      Copyright (c) 2005 - 2022, VentoCart, Ltd. (https://www.ventocart.com/)
  * @license        https://opensource.org/licenses/GPL-3.0
- * @link           https://www.opencart.com
+ * @link           https://www.ventocart.com
  */
-namespace Opencart\System\Library;
+namespace Ventocart\System\Library;
 /**
  * Class Cache
  */
@@ -24,7 +24,7 @@ class Cache {
      *     
      */
 	public function __construct(string $adaptor, int $expire = 3600) {
-		$class = 'Opencart\System\Library\Cache\\' . $adaptor;
+		$class = 'Ventocart\System\Library\Cache\\' . $adaptor;
 
 		if (class_exists($class)) {
 			$this->adaptor = new $class($expire);

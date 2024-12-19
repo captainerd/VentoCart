@@ -1,10 +1,10 @@
 <?php
 
-namespace Opencart\Catalog\Controller\Extension\Stripe\Payment;
+namespace Ventocart\Catalog\Controller\Extension\Stripe\Payment;
 
 use Exception;
 
-class Stripe extends \Opencart\System\Engine\Controller
+class Stripe extends \Ventocart\System\Engine\Controller
 {
 
 	public function index()

@@ -1,11 +1,11 @@
 <?php
-namespace Opencart\Admin\Model\User;
+namespace Ventocart\Admin\Model\User;
 /**
  * Class Api
  *
- * @package Opencart\Admin\Model\User
+ * @package Ventocart\Admin\Model\User
  */
-class Api extends \Opencart\System\Engine\Model {
+class Api extends \Ventocart\System\Engine\Model {
 	/**
 	 * @param array $data
 	 *

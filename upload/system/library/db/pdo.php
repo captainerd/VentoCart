@@ -1,9 +1,9 @@
 <?php
-namespace Opencart\System\Library\DB;
+namespace Ventocart\System\Library\DB;
 /**
  * Class PDO
  *
- * @package Opencart\System\Library\DB
+ * @package Ventocart\System\Library\DB
  */
 class PDO {
 	/**

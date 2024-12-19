@@ -1,13 +1,15 @@
-$(document).ready(function () {
+
+function productInit() {
     /* CaptaiNerd: Keep intact the original Id's  when customizing your template */
 
     // Enable/disabled variation options to override regular options
-    if (Object.keys(productVariation).length > 0) {
+
+    if (typeof productVariation !== 'undefined' && Object.keys(productVariation).length > 0) {
         let la = {};
 
         for (variation in productVariation) {
             for (option in productVariation[variation].options) {
-                let poptionId = productVariation[variation].options[option].p_opt_value_id;
+                let poptionId = productVariation[variation].options[option].product_option_id;
                 if (productVariation[variation].quantity == 0) {
 
                     if (typeof la[poptionId] == 'undefined') {
@@ -23,6 +25,7 @@ $(document).ready(function () {
             }
         }
     }
+
 
     var container = $(".slider-container");
     $(function () {
@@ -351,12 +354,13 @@ $(document).ready(function () {
 
             let prefix = $(this).data('priceprefix');
             let price = $(this).data('price');
+
             let name = null;
 
             //Check if it is a part of a variation and cancel setting option price
             Object.entries(productVariation).forEach(([key, value]) => {
                 Object.keys(value.options).forEach((opt) => {
-                    if ($(this).val() == value.options[opt].p_opt_value_id) price = 0;
+                    //  if ($(this).val() == value.options[opt].product_option_id) price = 0;
                 });
             });
 
@@ -379,8 +383,10 @@ $(document).ready(function () {
             }
             delete window.productTotal[name];
             window.productTotal[name] = [];
+
             if (price == "") price = 0;
             window.productTotal[name][prefix] = price;
+
             if (!$(this).prop('checked') && !$(this).is('select')) delete window.productTotal[name];
 
             //Enable and disable out of stock variation options
@@ -391,6 +397,7 @@ $(document).ready(function () {
             resultVariation = checkVariations();
 
             //Recalcuate the sum of the price
+
             reCalcPrice(resultVariation);
 
         });
@@ -400,6 +407,7 @@ $(document).ready(function () {
             let resultVariation = null; // Store the variation that satisfies the condition
             if (typeof productVariation == 'undefined') return;
             $.each(productVariation, function (index, variation) {
+
                 if (variationSatisfies(variation)) {
                     resultVariation = variation;
                     return false; // exit the loop early
@@ -427,7 +435,7 @@ $(document).ready(function () {
             for (variation in productVariation) {
                 let varSet = new Set();
                 for (option in productVariation[variation].options) {
-                    varSet.add(productVariation[variation].options[option].p_opt_value_id);
+                    varSet.add(productVariation[variation].options[option].product_option_id);
 
                 }
 
@@ -442,7 +450,7 @@ $(document).ready(function () {
                 let varSet = new Set();
                 let level = 0;
                 for (option in filteredVariation[variation].options) {
-                    let varOpt = filteredVariation[variation].options[option].p_opt_value_id;
+                    let varOpt = filteredVariation[variation].options[option].product_option_id;
                     if (parseInt(filteredVariation[variation].quantity) == 0) {
 
                         if (!previeouslyEnabled[varOpt] && level > 0) $("#input-option-value-" + varOpt).prop("disabled", true);
@@ -473,9 +481,9 @@ $(document).ready(function () {
             var satisfied = true;
             var uniqueValues = new Set();
 
-            // Populate the set with all unique p_opt_value_id values
+            // Populate the set with all unique product_option_id values
             $.each(variation.options, function (index, option) {
-                uniqueValues.add(option.p_opt_value_id);
+                uniqueValues.add(option.product_option_id);
             });
 
             $.each(variation.options, function (index, option) {
@@ -566,6 +574,7 @@ $(document).ready(function () {
                     let optionValues = window.productTotal[optionName];
 
                     if (optionValues['+']) {
+
                         let optionValue = parseFloat(optionValues['+'].replace(/[^\d.-]/g, ''));
                         if (optionValue == 0) return;
 
@@ -573,6 +582,7 @@ $(document).ready(function () {
                     }
 
                     if (optionValues['-']) {
+
                         let optionValue = parseFloat(optionValues['-'].replace(/[^\d.-]/g, ''));
                         if (optionValue == 0) return;
                         currentPrice = currentPrice - calculateTax(optionValue, false);
@@ -647,6 +657,6 @@ $(document).ready(function () {
         return totalPrice;
     }
 
-});
+};
 
 

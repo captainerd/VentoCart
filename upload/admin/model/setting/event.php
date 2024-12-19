@@ -1,11 +1,11 @@
 <?php
-namespace Opencart\Admin\Model\Setting;
+namespace Ventocart\Admin\Model\Setting;
 /**
  * Class Event
  *
- * @package Opencart\Admin\Model\Setting
+ * @package Ventocart\Admin\Model\Setting
  */
-class Event extends \Opencart\System\Engine\Model {
+class Event extends \Ventocart\System\Engine\Model {
 	/**
 	 * @param array $data
 	 *

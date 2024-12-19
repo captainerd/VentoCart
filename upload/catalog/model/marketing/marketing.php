@@ -1,11 +1,11 @@
 <?php
-namespace Opencart\Catalog\Model\Marketing;
+namespace Ventocart\Catalog\Model\Marketing;
 /**
  * Class Marketing
  *
- * @package Opencart\Catalog\Model\Marketing
+ * @package Ventocart\Catalog\Model\Marketing
  */
-class Marketing extends \Opencart\System\Engine\Model {
+class Marketing extends \Ventocart\System\Engine\Model {
 	/**
 	 * @param string $code
 	 *

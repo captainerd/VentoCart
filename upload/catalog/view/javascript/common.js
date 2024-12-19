@@ -22,81 +22,48 @@ function getURLVar(key) {
     }
 }
 
-$(document).ready(function() {
- 
-  
+$(document).ready(function () {
+
+    // initialize one quickview modal
+    var quickViewModal = new bootstrap.Modal(document.getElementById('quickViewModal'));
 
 
-//for image pan effect
+    $(".autoplayHover").mouseover(function () {
 
-$(".autoplayHover").mouseover(function () {
-    // Assuming 'this' refers to the video element
-    $(this).siblings('.play-overlay').hide();
-    this.play();
-});
+        // $(this).siblings('.play-overlay').hide();
+        this.play();
+    });
 
-$(".autoplayHover").mouseout(function () {
-    // Assuming 'this' refers to the video element
-    $(this).siblings('.play-overlay').show();
-    this.pause();
-});
-    $(".img-zoom-container").mousemove(function (e) {
-        var offsetX = e.pageX - $(this).offset().left;
-        var offsetY = e.pageY - $(this).offset().top;
-        var percentX = offsetX / $(this).width();
-        var percentY = offsetY / $(this).height();
-       
-        $(".img-zoom").css({
-          "transform-origin": percentX * 100 + "% " + percentY * 100 + "%",
-        });
-      });
+    $(".autoplayHover").mouseout(function () {
 
-  //for quiting gallery
- 
-    
-  $(document).on('keyup', function (event) {
-    if (event.key === 'Escape') {
-      $(".quick-view-overlay").fadeOut(500);
-    }
-  });
-   //for quick view
+        // $(this).siblings('.play-overlay').show();
+        this.pause();
+    });
 
-   $(document).on("click", '.imageGallery a', function(event) {
-    event.preventDefault(); 
-    event.stopImmediatePropagation();
-  
- 
-   });
-   $(document).on("click", ".quick-view-button", function(event) {
-    event.preventDefault(); 
-    event.stopImmediatePropagation();
- 
+
+    $(document).on("click", ".quick-view-button", function (event) {
+        event.preventDefault();
+        event.stopImmediatePropagation();
+
         if (window.innerWidth < 400) {
-  
             return;
         }
-      event.preventDefault(); // Prevent the default form submission
-      $(".product-full").html( '  <div class="d-flex align-items-center justify-content-center" style="height: 20vh;"><div class="spinner-border text-primary" role="status"> <span class="sr-only" >Loading...</span> </div></div>');
-       $(".product-full").load($(this).attr("data-targ"));
-  $(".quick-view-overlay").show();
-  
-       
+
+        var quickViewModal = new bootstrap.Modal(document.getElementById('quickViewModal'));
+        // Show a loading spinner inside the modal content
+        $(".modal-content").html('<div class="d-flex align-items-center justify-content-center" style="height: 20vh;"><div class="spinner-border text-primary" role="status"> <span class="sr-only">Loading...</span> </div></div>');
+
+        // Load the content from the data-targ attribute into the modal body
+        $(".modal-content").load($(this).attr("data-targ"), function () {
+            // After content is loaded, show the modal
+            quickViewModal.show();
+        });
     });
-  
-    $(".close-button, .quick-view-overlay").on("click", function (event) {
-      // Hide the overlay when the close button is clicked
-    
-      if (event.target.className !== "quick-view-overlay" && !$(event.target).hasClass("fake-class-close")) return;
-    
-      $(".quick-view-overlay").fadeOut(500);
-      setTimeout(function() {
-        $(".product-full").empty(); // or $(".quick-view-overlay").html('');
-      }, 500); // Adjust the time interval as needed
-    });
- 
-    
+
+
+
     // Tooltip
-    var oc_tooltip = function() {
+    var oc_tooltip = function () {
         // Get tooltip instance
         tooltip = bootstrap.Tooltip.getInstance(this);
         if (!tooltip) {
@@ -108,12 +75,12 @@ $(".autoplayHover").mouseout(function () {
 
     $(document).on('mouseenter', '[data-bs-toggle=\'tooltip\']', oc_tooltip);
 
-    $(document).on('click', 'button', function() {
+    $(document).on('click', 'button', function () {
         $('.tooltip').remove();
     });
 
     // Date
-    var oc_datetimepicker = function() {
+    var oc_datetimepicker = function () {
         $(this).daterangepicker({
             singleDatePicker: true,
             autoApply: true,
@@ -121,7 +88,7 @@ $(".autoplayHover").mouseout(function () {
             locale: {
                 format: 'YYYY-MM-DD'
             }
-        }, function(start, end) {
+        }, function (start, end) {
             $(this.element).val(start.format('YYYY-MM-DD'));
         });
     }
@@ -129,7 +96,7 @@ $(".autoplayHover").mouseout(function () {
     $(document).on('focus', '.date', oc_datetimepicker);
 
     // Time
-    var oc_datetimepicker = function() {
+    var oc_datetimepicker = function () {
         $(this).daterangepicker({
             singleDatePicker: true,
             datePicker: false,
@@ -140,9 +107,9 @@ $(".autoplayHover").mouseout(function () {
             locale: {
                 format: 'HH:mm'
             }
-        }, function(start, end) {
+        }, function (start, end) {
             $(this.element).val(start.format('HH:mm'));
-        }).on('show.daterangepicker', function(ev, picker) {
+        }).on('show.daterangepicker', function (ev, picker) {
             picker.container.find('.calendar-table').hide();
         });
     }
@@ -150,7 +117,7 @@ $(".autoplayHover").mouseout(function () {
     $(document).on('focus', '.time', oc_datetimepicker);
 
     // Date Time
-    var oc_datetimepicker = function() {
+    var oc_datetimepicker = function () {
         $('.datetime').daterangepicker({
             singleDatePicker: true,
             autoApply: true,
@@ -160,7 +127,7 @@ $(".autoplayHover").mouseout(function () {
             locale: {
                 format: 'YYYY-MM-DD HH:mm'
             }
-        }, function(start, end) {
+        }, function (start, end) {
             $(this.element).val(start.format('YYYY-MM-DD HH:mm'));
         });
     }
@@ -168,9 +135,9 @@ $(".autoplayHover").mouseout(function () {
     $(document).on('focus', '.datetime', oc_datetimepicker);
 
     // Alert Fade
-    var oc_alert = function() {
-        window.setTimeout(function() {
-            $('.alert-dismissible').fadeTo(1000, 0, function() {
+    var oc_alert = function () {
+        window.setTimeout(function () {
+            $('.alert-dismissible').fadeTo(1000, 0, function () {
                 $(this).remove();
             });
         }, 3000);
@@ -180,9 +147,9 @@ $(".autoplayHover").mouseout(function () {
     $(document).on('click', 'change', oc_alert);
 });
 
-$(document).ready(function() {
+$(document).ready(function () {
     // Currency
-    $('#form-currency .dropdown-item').on('click', function(e) {
+    $('#form-currency .dropdown-item').on('click', function (e) {
         e.preventDefault();
 
         $('#form-currency input[name=\'code\']').val($(this).attr('href'));
@@ -191,7 +158,7 @@ $(document).ready(function() {
     });
 
     // Search
-    $('#search input[name=\'search\']').parent().find('button').on('click', function() {
+    $('#search input[name=\'search\']').parent().find('button').on('click', function () {
         var url = $('base').attr('href') + 'index.php?route=product/search&language=' + $(this).attr('data-lang');
 
         var value = $('header #search input[name=\'search\']').val();
@@ -203,14 +170,14 @@ $(document).ready(function() {
         location = url;
     });
 
-    $('#search input[name=\'search\']').on('keydown', function(e) {
+    $('#search input[name=\'search\']').on('keydown', function (e) {
         if (e.keyCode == 13) {
             $('header #search input[name=\'search\']').parent().find('button').trigger('click');
         }
     });
 
     // Menu
-    $('#menu .dropdown-menu').each(function() {
+    $('#menu .dropdown-menu').each(function () {
         var menu = $('#menu').offset();
         var dropdown = $(this).parent().offset();
 
@@ -222,40 +189,40 @@ $(document).ready(function() {
     });
 
     function openSideColumn() {
-        if (!  document.getElementById("column-left")) { return; }
+        if (!document.getElementById("column-left")) { return; }
         $(".close-sidemenu").blur()
         if (document.getElementById("column-left").style.width === "0px" || document.getElementById("column-left").style.width === "") {
             document.getElementById("column-left").style.width = "350px";
         } else {
             document.getElementById("column-left").style.width = "0";
         }
-   
+
     }
-    $(".open-sidemenu").click(function() {
-       
+    $(".open-sidemenu").click(function () {
+
         openSideColumn()
-     
+
 
     });
-     $(".close-sidemenu").click(function() {
-     
+    $(".close-sidemenu").click(function () {
+
         openSideColumn()
-        });
- 
-    
-    window.addEventListener("resize", function() {
-      if (document.getElementById("column-left") && !window.matchMedia("(max-width: 993px)").matches) {
-    
-        document.getElementById("column-left").style.removeProperty("width");
-        $(".open-sidemenu").hide();
-      } else {
-        $(".open-sidemenu").show();
-      }
+    });
+
+
+    window.addEventListener("resize", function () {
+        if (document.getElementById("column-left") && !window.matchMedia("(max-width: 993px)").matches) {
+
+            document.getElementById("column-left").style.removeProperty("width");
+            $(".open-sidemenu").hide();
+        } else {
+            $(".open-sidemenu").show();
+        }
     });
 
 
     /* Agree to Terms */
-    $('body').on('click', '.modal-link', function(e) {
+    $('body').on('click', '.modal-link', function (e) {
         e.preventDefault();
 
         var element = this;
@@ -265,7 +232,7 @@ $(document).ready(function() {
         $.ajax({
             url: $(element).attr('href'),
             dataType: 'html',
-            success: function(html) {
+            success: function (html) {
                 $('body').append(html);
 
                 $('#modal-information').modal('show');
@@ -274,27 +241,27 @@ $(document).ready(function() {
     });
 
     // Cookie Policy
-    $('#cookie button').on('click', function() {
+    $('#cookie button').on('click', function () {
         var element = this;
 
         $.ajax({
             url: $(this).val(),
             type: 'get',
             dataType: 'json',
-            beforeSend: function() {
+            beforeSend: function () {
                 $(element).button('loading');
             },
-            complete: function() {
+            complete: function () {
                 $(element).button('reset');
             },
-            success: function(json) {
+            success: function (json) {
                 if (json['success']) {
-                    $('#cookie').fadeOut(400, function() {
+                    $('#cookie').fadeOut(400, function () {
                         $('#cookie').remove();
                     });
                 }
             },
-            error: function(xhr, ajaxOptions, thrownError) {
+            error: function (xhr, ajaxOptions, thrownError) {
                 //x console.log(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
             }
         });
@@ -302,8 +269,11 @@ $(document).ready(function() {
 });
 
 // Forms
-$(document).on('submit', 'form[data-oc-toggle=\'ajax\']', function(e) {
+$(document).on('submit', 'form[data-oc-toggle=\'ajax\']', function (e) {
     e.preventDefault();
+    setTimeout(() => {
+        $(".tooltip").hide();
+    }, 600);
 
     var element = this;
 
@@ -338,7 +308,7 @@ $(document).on('submit', 'form[data-oc-toggle=\'ajax\']', function(e) {
     var html = $(button).html();
     var width = $(button).width();
 
-    // https://github.com/opencart/opencart/issues/9690
+    // https://github.com/ventocart/ventocart/issues/9690
     if (typeof CKEDITOR != 'undefined') {
         for (instance in CKEDITOR.instances) {
             CKEDITOR.instances[instance].updateElement();
@@ -361,18 +331,29 @@ $(document).on('submit', 'form[data-oc-toggle=\'ajax\']', function(e) {
         cache: false,
         contentType: enctype,
         processData: false,
-        beforeSend: function() {
+        beforeSend: function () {
             $(button).button('loading');
         },
-        complete: function() {
+        complete: function () {
             $(button).button('reset');
         },
-        success: function(json) {
+        success: function (json) {
             $('.alert-dismissible').remove();
             $(form).find('.is-invalid').removeClass('is-invalid');
             $(form).find('.invalid-feedback').removeClass('d-block');
 
-          
+            if (json['options_needed'] && window.innerWidth > 400) {
+                var quickViewModal = new bootstrap.Modal(document.getElementById('quickViewModal'));
+                // Show a loading spinner inside the modal content
+                $(".modal-content").html('<div class="d-flex align-items-center justify-content-center" style="height: 20vh;"><div class="spinner-border text-primary" role="status"> <span class="sr-only">Loading...</span> </div></div>');
+                // Load the content from the data-targ attribute into the modal body
+                $(".modal-content").load('?route=product/product&quickview=1&product_id=' + json['options_needed'], function () {
+                    // After content is loaded, show the modal
+
+                    quickViewModal.show();
+                });
+                return;
+            }
 
             if (json['redirect']) {
                 location = json['redirect'].replaceAll('&amp;', '&');
@@ -398,13 +379,13 @@ $(document).on('submit', 'form[data-oc-toggle=\'ajax\']', function(e) {
                     $('#alert').prepend('<div class="alert alert-success alert-dismissible"><i class="fa-solid fa-circle-exclamation"></i> ' + json['success'] + ' <button type="button" class="btn-close" data-bs-dismiss="alert"></button></div>');
 
                 }, 1300);
-               
+
                 // Refresh
                 var url = $(form).attr('data-oc-load');
                 var target = $(form).attr('data-oc-target');
                 if ($(form).attr('data-oc-where') === "thumb") {
                     //fly to the cart effect should take place here.
-                  
+
                 }
 
                 if (url !== undefined && target !== undefined) {
@@ -417,18 +398,18 @@ $(document).on('submit', 'form[data-oc-toggle=\'ajax\']', function(e) {
                 $(form).find('[name=\'' + key + '\']').val(json[key]);
             }
         },
-        error: function(xhr, ajaxOptions, thrownError) {
+        error: function (xhr, ajaxOptions, thrownError) {
             //x console.log(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
         }
     });
 });
- 
- 
-  
-  
-  
-  
-$(document).on('click', 'button[data-oc-toggle=\'upload\']', function() {
+
+
+
+
+
+
+$(document).on('click', 'button[data-oc-toggle=\'upload\']', function () {
     var element = this;
 
     if (!$(element).prop('disabled')) {
@@ -438,7 +419,7 @@ $(document).on('click', 'button[data-oc-toggle=\'upload\']', function() {
 
         $('#form-upload input[name=\'file\']').trigger('click');
 
-        $('#form-upload input[name=\'file\']').on('change', function(e) {
+        $('#form-upload input[name=\'file\']').on('change', function (e) {
             if ((this.files[0].size / 1024) > $(element).attr('data-oc-size-max')) {
                 alert($(element).attr('data-oc-size-error'));
 
@@ -450,7 +431,7 @@ $(document).on('click', 'button[data-oc-toggle=\'upload\']', function() {
             clearInterval(timer);
         }
 
-        var timer = setInterval(function() {
+        var timer = setInterval(function () {
             if ($('#form-upload input[name=\'file\']').val() != '') {
                 clearInterval(timer);
 
@@ -462,13 +443,13 @@ $(document).on('click', 'button[data-oc-toggle=\'upload\']', function() {
                     cache: false,
                     contentType: false,
                     processData: false,
-                    beforeSend: function() {
+                    beforeSend: function () {
                         $(element).button('loading');
                     },
-                    complete: function() {
+                    complete: function () {
                         $(element).button('reset');
                     },
-                    success: function(json) {
+                    success: function (json) {
                         //x console.log(json);
 
                         if (json['error']) {
@@ -483,7 +464,7 @@ $(document).on('click', 'button[data-oc-toggle=\'upload\']', function() {
                             $($(element).attr('data-oc-target')).attr('value', json['code']);
                         }
                     },
-                    error: function(xhr, ajaxOptions, thrownError) {
+                    error: function (xhr, ajaxOptions, thrownError) {
                         //x console.log(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
                     }
                 });
@@ -515,7 +496,7 @@ class Chain {
 
             var jqxhr = call();
 
-            jqxhr.done(function() {
+            jqxhr.done(function () {
                 chain.execute();
             });
         } else {
@@ -527,9 +508,9 @@ class Chain {
 var chain = new Chain();
 
 // Autocomplete
-+function($) {
-    $.fn.autocomplete = function(option) {
-        return this.each(function() {
++function ($) {
+    $.fn.autocomplete = function (option) {
+        return this.each(function () {
             var element = this;
             var $dropdown = $('#' + $(element).attr('data-oc-target'));
 
@@ -539,24 +520,24 @@ var chain = new Chain();
             $.extend(this, option);
 
             // Focus in
-            $(element).on('focusin', function() {
+            $(element).on('focusin', function () {
                 element.request();
             });
 
             // Focus out
-            $(element).on('focusout', function(e) {
+            $(element).on('focusout', function (e) {
                 if (!e.relatedTarget || !$(e.relatedTarget).hasClass('dropdown-item')) {
                     $dropdown.removeClass('show');
                 }
             });
 
             // Input
-            $(element).on('input', function(e) {
+            $(element).on('input', function (e) {
                 element.request();
             });
 
             // Click
-            $dropdown.on('click', 'a', function(e) {
+            $dropdown.on('click', 'a', function (e) {
                 e.preventDefault();
 
                 var value = $(this).attr('href');
@@ -569,7 +550,7 @@ var chain = new Chain();
             });
 
             // Request
-            this.request = function() {
+            this.request = function () {
                 clearTimeout(this.timer);
 
                 $('#autocomplete-loading').remove();
@@ -577,13 +558,13 @@ var chain = new Chain();
                 $dropdown.prepend('<li id="autocomplete-loading"><span class="dropdown-item text-center disabled"><i class="fa-solid fa-circle-notch fa-spin"></i></span></li>');
                 $dropdown.addClass('show');
 
-                this.timer = setTimeout(function(object) {
+                this.timer = setTimeout(function (object) {
                     object.source($(object).val(), $.proxy(object.response, object));
                 }, 50, this);
             }
 
             // Response
-            this.response = function(json) {
+            this.response = function (json) {
                 var html = '';
                 var category = {};
                 var name;
@@ -625,10 +606,10 @@ var chain = new Chain();
 }(jQuery);
 
 // Button
-$(document).ready(function() {
-    +function($) {
-        $.fn.button = function(state) {
-            return this.each(function() {
+$(document).ready(function () {
+    +function ($) {
+        $.fn.button = function (state) {
+            return this.each(function () {
                 var element = this;
 
                 if (state == 'loading') {
@@ -646,13 +627,13 @@ $(document).ready(function() {
     }(jQuery);
 
     if (document.getElementById("column-left")) {
-    
-            if (document.getElementById("column-left").offsetWidth == 0) {
+
+        if (document.getElementById("column-left").offsetWidth == 0) {
             $(".open-sidemenu").show();
-           
-          } else {
+
+        } else {
             $(".open-sidemenu").hide();
-          }
+        }
     } else {
         $(".open-sidemenu").hide();
     }

@@ -1,20 +1,52 @@
 <?php
-namespace Opencart\Catalog\Controller\Account;
+namespace Ventocart\Catalog\Controller\Account;
 /**
  * Class Logout
  *
- * @package Opencart\Catalog\Controller\Account
+ * @package Ventocart\Catalog\Controller\Account
  */
-class Logout extends \Opencart\System\Engine\Controller {
+class Logout extends \Ventocart\System\Engine\Controller
+{
 	/**
 	 * @return void
 	 */
-	public function index(): void {
+	public function index(): void
+	{
+		$api_output = $this->customer->isApiClient();
+		$this->load->language('account/logout');
+
+
+		if ($api_output) {
+			$json['success'] = $this->language->get('text_logout');
+			$json['text_message'] = $this->language->get('text_message');
+			$json['heading_title'] = $this->language->get('heading_title');
+			$this->response->setOutput(json_encode($json));
+
+			unset($this->session->data['customer']);
+			unset($this->session->data['shipping_address']);
+			unset($this->session->data['shipping_method']);
+			unset($this->session->data['shipping_methods']);
+			unset($this->session->data['payment_address']);
+			unset($this->session->data['payment_method']);
+			unset($this->session->data['payment_methods']);
+			unset($this->session->data['comment']);
+			unset($this->session->data['order_id']);
+			unset($this->session->data['coupon']);
+			unset($this->session->data['reward']);
+
+			unset($this->session->data['customer_token']);
+			$this->customer->logout();
+			return;
+		}
+
+
+
+
 		if ($this->customer->isLogged()) {
 			foreach ($_COOKIE as $cookie_name => $cookie_value) {
 				setcookie($cookie_name, '', time() - 3600, '/');
 			}
-			
+
 			$this->customer->logout();
 
 			unset($this->session->data['customer']);
@@ -28,14 +60,13 @@ class Logout extends \Opencart\System\Engine\Controller {
 			unset($this->session->data['order_id']);
 			unset($this->session->data['coupon']);
 			unset($this->session->data['reward']);
-			unset($this->session->data['voucher']);
-			unset($this->session->data['vouchers']);
+
 			unset($this->session->data['customer_token']);
 
 			$this->response->redirect($this->url->link('account/logout', 'language=' . $this->config->get('config_language')));
 		}
 
-		$this->load->language('account/logout');
+
 
 		$this->document->setTitle($this->language->get('heading_title'));
 
@@ -66,6 +97,9 @@ class Logout extends \Opencart\System\Engine\Controller {
 		$data['footer'] = $this->load->controller('common/footer');
 		$data['header'] = $this->load->controller('common/header');
 
+
 		$this->response->setOutput($this->load->view('common/success', $data));
+
+
 	}
 }

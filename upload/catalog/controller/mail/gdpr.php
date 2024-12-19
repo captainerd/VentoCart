@@ -1,11 +1,11 @@
 <?php
-namespace Opencart\Catalog\Controller\Mail;
+namespace Ventocart\Catalog\Controller\Mail;
 /**
  * Class Gdpr
  *
- * @package Opencart\Catalog\Controller\Mail
+ * @package Ventocart\Catalog\Controller\Mail
  */
-class Gdpr extends \Opencart\System\Engine\Controller {
+class Gdpr extends \Ventocart\System\Engine\Controller {
 	// catalog/model/account/gdpr/addGdpr
 	/**
 	 * @param string $route
@@ -69,7 +69,7 @@ class Gdpr extends \Opencart\System\Engine\Controller {
 				'smtp_timeout'  => $this->config->get('config_mail_smtp_timeout')
 			];
 
-			$mail = new \Opencart\System\Library\Mail($this->config->get('config_mail_engine'), $mail_option);
+			$mail = new \Ventocart\System\Library\Mail($this->config->get('config_mail_engine'), $mail_option);
 			$mail->setTo($email);
 			$mail->setFrom($this->config->get('config_email'));
 			$mail->setSender($store_name);
@@ -179,7 +179,7 @@ class Gdpr extends \Opencart\System\Engine\Controller {
 					'smtp_timeout'  => $this->config->get('config_mail_smtp_timeout')
 				];
 
-				$mail = new \Opencart\System\Library\Mail($this->config->get('config_mail_engine'), $mail_option);
+				$mail = new \Ventocart\System\Library\Mail($this->config->get('config_mail_engine'), $mail_option);
 				$mail->setTo($gdpr_info['email']);
 				$mail->setFrom($this->config->get('config_email'));
 				$mail->setSender($store_name);

@@ -1,6 +1,6 @@
 <?php
-namespace Opencart\Admin\Model\Catalog;
-class Filter extends \Opencart\System\Engine\Model {
+namespace Ventocart\Admin\Model\Catalog;
+class Filter extends \Ventocart\System\Engine\Model {
 	public function addFilter(array $data): int {
 		$this->db->query("INSERT INTO `" . DB_PREFIX . "filter_group` SET `sort_order` = '" . (int)$data['sort_order'] . "'");
 

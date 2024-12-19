@@ -1,11 +1,11 @@
 <?php
-namespace Opencart\Admin\Model\Localisation;
+namespace Ventocart\Admin\Model\Localisation;
 /**
  * Class TaxClass
  *
- * @package Opencart\Admin\Model\Localisation
+ * @package Ventocart\Admin\Model\Localisation
  */
-class TaxClass extends \Opencart\System\Engine\Model {
+class TaxClass extends \Ventocart\System\Engine\Model {
 	/**
 	 * @param array $data
 	 *

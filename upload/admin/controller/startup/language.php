@@ -1,11 +1,11 @@
 <?php
-namespace Opencart\Admin\Controller\Startup;
+namespace Ventocart\Admin\Controller\Startup;
 /**
  * Class Language
  *
- * @package Opencart\Admin\Controller\Startup
+ * @package Ventocart\Admin\Controller\Startup
  */
-class Language extends \Opencart\System\Engine\Controller {
+class Language extends \Ventocart\System\Engine\Controller {
 	/**
 	 * @var array
 	 */

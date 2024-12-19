@@ -1,19 +1,21 @@
 <?php
-namespace Opencart\Catalog\Controller\Product;
+namespace Ventocart\Catalog\Controller\Product;
 /**
  * Class Review
  *
- * @package Opencart\Catalog\Controller\Product
+ * @package Ventocart\Catalog\Controller\Product
  */
-class Review extends \Opencart\System\Engine\Controller {
+class Review extends \Ventocart\System\Engine\Controller
+{
 	/**
-	 * @return string
+	 * @return mixed
 	 */
-	public function index(): string {
+	public function index(): mixed
+	{
 		$this->load->language('product/review');
-
+		$api_output = $this->customer->isApiClient();
 		if (isset($this->request->get['product_id'])) {
-			$product_id = (int)$this->request->get['product_id'];
+			$product_id = (int) $this->request->get['product_id'];
 		} else {
 			$product_id = 0;
 		}
@@ -46,27 +48,31 @@ class Review extends \Opencart\System\Engine\Controller {
 
 		$extension_info = $this->model_setting_extension->getExtensionByCode('captcha', $this->config->get('config_captcha'));
 
-		if ($extension_info && $this->config->get('captcha_' . $this->config->get('config_captcha') . '_status') && in_array('review', (array)$this->config->get('config_captcha_page'))) {
-			$data['captcha'] = $this->load->controller('extension/'  . $extension_info['extension'] . '/captcha/' . $extension_info['code']);
+		if ($extension_info && $this->config->get('captcha_' . $this->config->get('config_captcha') . '_status') && in_array('review', (array) $this->config->get('config_captcha_page'))) {
+			$data['captcha'] = $this->load->controller('extension/' . $extension_info['extension'] . '/captcha/' . $extension_info['code']);
 		} else {
 			$data['captcha'] = '';
 		}
 
 		$data['language'] = $this->config->get('config_language');
-
-		return $this->load->view('product/review', $data);
+		if (!$api_output) {
+			return $this->load->view('product/review', $data);
+		} else {
+			return $data;
+		}
 	}
 
 	/**
 	 * @return void
 	 */
-	public function write(): void {
+	public function write(): void
+	{
 		$this->load->language('product/review');
 
 		$json = [];
 
 		if (isset($this->request->get['product_id'])) {
-			$product_id = (int)$this->request->get['product_id'];
+			$product_id = (int) $this->request->get['product_id'];
 		} else {
 			$product_id = 0;
 		}
@@ -108,18 +114,18 @@ class Review extends \Opencart\System\Engine\Controller {
 		}
 
 		if ($this->request->post['rating'] < 1 || $this->request->post['rating'] > 5) {
-			$json['error']['rating']  = $this->language->get('error_rating');
+			$json['error']['rating'] = $this->language->get('error_rating');
 		}
 
 		if (!$this->customer->isLogged() && !$this->config->get('config_review_guest')) {
-			$json['error']['warning']  = $this->language->get('error_guest');
+			$json['error']['warning'] = $this->language->get('error_guest');
 		}
 
 		if ($this->customer->isLogged() && $this->config->get('config_review_purchased')) {
 			$this->load->model('account/order');
 
 			if (!$this->model_account_order->getTotalOrdersByProductId($product_id)) {
-				$json['error']['purchased']  = $this->language->get('error_purchased');
+				$json['error']['purchased'] = $this->language->get('error_purchased');
 			}
 		}
 
@@ -128,8 +134,8 @@ class Review extends \Opencart\System\Engine\Controller {
 
 		$extension_info = $this->model_setting_extension->getExtensionByCode('captcha', $this->config->get('config_captcha'));
 
-		if ($extension_info && $this->config->get('captcha_' . $this->config->get('config_captcha') . '_status') && in_array('review', (array)$this->config->get('config_captcha_page'))) {
-			$captcha = $this->load->controller('extension/'  . $extension_info['extension'] . '/captcha/' . $extension_info['code'] . '.validate');
+		if ($extension_info && $this->config->get('captcha_' . $this->config->get('config_captcha') . '_status') && in_array('review', (array) $this->config->get('config_captcha_page'))) {
+			$captcha = $this->load->controller('extension/' . $extension_info['extension'] . '/captcha/' . $extension_info['code'] . '.validate');
 
 			if ($captcha) {
 				$json['error']['captcha'] = $captcha;
@@ -151,7 +157,8 @@ class Review extends \Opencart\System\Engine\Controller {
 	/**
 	 * @return void
 	 */
-	public function list(): void {
+	public function list(): void
+	{
 		$this->load->language('product/review');
 
 		$this->response->setOutput($this->getList());
@@ -160,15 +167,16 @@ class Review extends \Opencart\System\Engine\Controller {
 	/**
 	 * @return string
 	 */
-	public function getList(): string {
+	public function getList(): string
+	{
 		if (isset($this->request->get['product_id'])) {
-			$product_id = (int)$this->request->get['product_id'];
+			$product_id = (int) $this->request->get['product_id'];
 		} else {
 			$product_id = 0;
 		}
 
 		if (isset($this->request->get['page'])) {
-			$page = (int)$this->request->get['page'];
+			$page = (int) $this->request->get['page'];
 		} else {
 			$page = 1;
 		}
@@ -181,9 +189,9 @@ class Review extends \Opencart\System\Engine\Controller {
 
 		foreach ($results as $result) {
 			$data['reviews'][] = [
-				'author'     => $result['author'],
-				'text'       => nl2br($result['text']),
-				'rating'     => (int)$result['rating'],
+				'author' => $result['author'],
+				'text' => nl2br($result['text']),
+				'rating' => (int) $result['rating'],
 				'date_added' => date($this->language->get('date_format_short'), strtotime($result['date_added']))
 			];
 		}
@@ -192,9 +200,9 @@ class Review extends \Opencart\System\Engine\Controller {
 
 		$data['pagination'] = $this->load->controller('common/pagination', [
 			'total' => $review_total,
-			'page'  => $page,
+			'page' => $page,
 			'limit' => 5,
-			'url'   => $this->url->link('product/review.list', 'language=' . $this->config->get('config_language') . '&product_id=' . $product_id . '&page={page}')
+			'url' => $this->url->link('product/review.list', 'language=' . $this->config->get('config_language') . '&product_id=' . $product_id . '&page={page}')
 		]);
 
 		$data['results'] = sprintf($this->language->get('text_pagination'), ($review_total) ? (($page - 1) * 5) + 1 : 0, ((($page - 1) * 5) > ($review_total - 5)) ? $review_total : ((($page - 1) * 5) + 5), $review_total, ceil($review_total / 5));

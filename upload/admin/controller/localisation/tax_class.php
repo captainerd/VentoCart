@@ -1,11 +1,11 @@
 <?php
-namespace Opencart\Admin\Controller\Localisation;
+namespace Ventocart\Admin\Controller\Localisation;
 /**
  * Class Tax Class
  *
- * @package Opencart\Admin\Controller\Localisation
+ * @package Ventocart\Admin\Controller\Localisation
  */
-class TaxClass extends \Opencart\System\Engine\Controller {
+class TaxClass extends \Ventocart\System\Engine\Controller {
 	/**
 	 * @return void
 	 */

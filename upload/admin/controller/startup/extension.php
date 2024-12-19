@@ -1,11 +1,11 @@
 <?php
-namespace Opencart\Admin\Controller\Startup;
+namespace Ventocart\Admin\Controller\Startup;
 /**
  * Class Extension
  *
- * @package Opencart\Admin\Controller\Startup
+ * @package Ventocart\Admin\Controller\Startup
  */
-class Extension extends \Opencart\System\Engine\Controller {
+class Extension extends \Ventocart\System\Engine\Controller {
 	/**
 	 * @return void
 	 */
@@ -19,9 +19,9 @@ class Extension extends \Opencart\System\Engine\Controller {
 			$extension = str_replace(['_', '/'], ['', '\\'], ucwords($result['code'], '_/'));
 
 			// Register controllers, models and system extension folders
-			$this->autoloader->register('Opencart\Admin\Controller\Extension\\' . $extension, DIR_EXTENSION . $result['code'] . '/admin/controller/');
-			$this->autoloader->register('Opencart\Admin\Model\Extension\\' . $extension, DIR_EXTENSION . $result['code'] . '/admin/model/');
-			$this->autoloader->register('Opencart\System\Library\Extension\\' . $extension, DIR_EXTENSION . $result['code'] . '/system/library/');
+			$this->autoloader->register('Ventocart\Admin\Controller\Extension\\' . $extension, DIR_EXTENSION . $result['code'] . '/admin/controller/');
+			$this->autoloader->register('Ventocart\Admin\Model\Extension\\' . $extension, DIR_EXTENSION . $result['code'] . '/admin/model/');
+			$this->autoloader->register('Ventocart\System\Library\Extension\\' . $extension, DIR_EXTENSION . $result['code'] . '/system/library/');
 
 			// Template directory
 			$this->template->addPath('extension/' . $result['code'], DIR_EXTENSION . $result['code'] . '/admin/view/template/');
@@ -34,9 +34,9 @@ class Extension extends \Opencart\System\Engine\Controller {
 		}
 
 		// Register OCMOD
-		$this->autoloader->register('Opencart\Admin\Controller\Extension\Ocmod', DIR_EXTENSION . 'ocmod/admin/controller/');
-		$this->autoloader->register('Opencart\Admin\Model\Extension\Ocmod', DIR_EXTENSION . 'ocmod/admin/model/');
-		$this->autoloader->register('Opencart\System\Library\Extension\Ocmod', DIR_EXTENSION . 'ocmod/system/library/');
+		$this->autoloader->register('Ventocart\Admin\Controller\Extension\Ocmod', DIR_EXTENSION . 'ocmod/admin/controller/');
+		$this->autoloader->register('Ventocart\Admin\Model\Extension\Ocmod', DIR_EXTENSION . 'ocmod/admin/model/');
+		$this->autoloader->register('Ventocart\System\Library\Extension\Ocmod', DIR_EXTENSION . 'ocmod/system/library/');
 		$this->template->addPath('extension/ocmod', DIR_EXTENSION . 'ocmod/admin/view/template/');
 		$this->language->addPath('extension/ocmod', DIR_EXTENSION . 'ocmod/admin/language/');
 		$this->config->addPath('extension/ocmod', DIR_EXTENSION . 'ocmod/system/config/');

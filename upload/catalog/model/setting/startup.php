@@ -1,11 +1,11 @@
 <?php
-namespace Opencart\Catalog\Model\Setting;
+namespace Ventocart\Catalog\Model\Setting;
 /**
  * Class Startup
  *
- * @package Opencart\Catalog\Model\Setting
+ * @package Ventocart\Catalog\Model\Setting
  */
-class Startup extends \Opencart\System\Engine\Model {
+class Startup extends \Ventocart\System\Engine\Model {
 	/**
 	 * @return mixed
 	 */

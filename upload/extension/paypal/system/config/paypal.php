@@ -5,12 +5,12 @@ $_['paypal_setting'] = [
 		'production' => [
 			'partner_id' => 'TY2Q25KP2PX9L',
 			'client_id' => 'AbjxI4a9fMnew8UOMoDFVwSh7h1aeOBaXpd2wcccAnuqecijKIylRnNguGRWDrEPrTYraBQApf_-O3_4',
-			'partner_attribution_id' => 'OPENCARTLIMITED_Cart_OpenCartPCP'
+			'partner_attribution_id' => 'VENTOCARTLIMITED_Cart_VentoCartPCP'
 		],
 		'sandbox' => [
 			'partner_id' => 'EJNHWRJJNB38L',
 			'client_id' => 'AfeIgIr-fIcEucsVXvdq21Ufu0wAALWhgJdVF4ItUK1IZFA9I4JIRdfyJ9vWrd9oi0B6mBGtJYDrlYsG',
-			'partner_attribution_id' => 'OPENCARTLIMITED_Cart_OpenCartPCP'
+			'partner_attribution_id' => 'VENTOCARTLIMITED_Cart_VentoCartPCP'
 		]
 	],
 	'general' => [
@@ -204,7 +204,7 @@ $_['paypal_setting'] = [
 	],
 	'contact' => [
 		'oid' => '00D300000000LaY',
-		'retURL' => 'https://www.opencart.com/',
+		'retURL' => 'https://www.ventocart.com/',
 		'Vendor_Partner_ID_VPID_MAM__c' => '0018000000LjXtY',
 		'Campaign_ID__c' => '7012E000001XNG7',
 		'lead_source' => 'Partner',

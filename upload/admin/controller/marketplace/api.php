@@ -1,11 +1,11 @@
 <?php
-namespace Opencart\Admin\Controller\Marketplace;
+namespace Ventocart\Admin\Controller\Marketplace;
 /**
  * Class API
  *
- * @package Opencart\Admin\Controller\Marketplace
+ * @package Ventocart\Admin\Controller\Marketplace
  */
-class Api extends \Opencart\System\Engine\Controller {
+class Api extends \Ventocart\System\Engine\Controller {
 	/**
 	 * @return void
 	 */
@@ -29,18 +29,18 @@ class Api extends \Opencart\System\Engine\Controller {
 			$json['error']['warning'] = $this->language->get('error_permission');
 		}
 
-		if (!$this->request->post['opencart_username']) {
+		if (!$this->request->post['ventocart_username']) {
 			$json['error']['username'] = $this->language->get('error_username');
 		}
 
-		if (!$this->request->post['opencart_secret']) {
+		if (!$this->request->post['ventocart_secret']) {
 			$json['error']['secret'] = $this->language->get('error_secret');
 		}		
 
 		if (!$json) {
 			$this->load->model('setting/setting');
 			
-			$this->model_setting_setting->editSetting('opencart', $this->request->post);
+			$this->model_setting_setting->editSetting('ventocart', $this->request->post);
 			
 			$json['success'] = $this->language->get('text_success');
 		}

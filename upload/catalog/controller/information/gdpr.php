@@ -1,13 +1,13 @@
 <?php
-namespace Opencart\Catalog\Controller\Information;
+namespace Ventocart\Catalog\Controller\Information;
 /**
  * Class Gdpr
  *
- * @package Opencart\Catalog\Controller\Information
+ * @package Ventocart\Catalog\Controller\Information
  */
-class Gdpr extends \Opencart\System\Engine\Controller {
+class Gdpr extends \Ventocart\System\Engine\Controller {
 	/**
-	 * @return object|\Opencart\System\Engine\Action|null
+	 * @return object|\Ventocart\System\Engine\Action|null
 	 */
 	public function index(): ?object {
 		$this->load->model('catalog/information');
@@ -54,7 +54,7 @@ class Gdpr extends \Opencart\System\Engine\Controller {
 
 			return null;
 		} else {
-			return new \Opencart\System\Engine\Action('error/not_found');
+			return new \Ventocart\System\Engine\Action('error/not_found');
 		}
 	}
 
@@ -144,7 +144,7 @@ class Gdpr extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * @return object|\Opencart\System\Engine\Action|null
+	 * @return object|\Ventocart\System\Engine\Action|null
 	 */
 	public function success(): ?object {
 		if (isset($this->request->get['code'])) {
@@ -200,7 +200,7 @@ class Gdpr extends \Opencart\System\Engine\Controller {
 
 			return null;
 		} else {
-			return new \Opencart\System\Engine\Action('error/not_found');
+			return new \Ventocart\System\Engine\Action('error/not_found');
 		}
 	}
 }

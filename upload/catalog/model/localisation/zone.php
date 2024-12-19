@@ -1,11 +1,11 @@
 <?php
-namespace Opencart\Catalog\Model\Localisation;
+namespace Ventocart\Catalog\Model\Localisation;
 /**
  * Class Zone
  *
- * @package Opencart\Catalog\Model\Localisation
+ * @package Ventocart\Catalog\Model\Localisation
  */
-class Zone extends \Opencart\System\Engine\Model {
+class Zone extends \Ventocart\System\Engine\Model {
 	/**
 	 * @param int $zone_id
 	 *

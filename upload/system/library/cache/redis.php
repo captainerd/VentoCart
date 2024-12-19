@@ -1,9 +1,9 @@
 <?php
-namespace Opencart\System\Library\Cache;
+namespace Ventocart\System\Library\Cache;
 /**
  * Class Redis
  *
- * @package Opencart\System\Library\Cache
+ * @package Ventocart\System\Library\Cache
  */
 class Redis {
 	/**

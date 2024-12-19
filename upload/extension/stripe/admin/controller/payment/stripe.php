@@ -1,9 +1,9 @@
 <?php
 
-namespace Opencart\Admin\Controller\Extension\Stripe\Payment;
+namespace Ventocart\Admin\Controller\Extension\Stripe\Payment;
 
 require_once(DIR_EXTENSION . 'stripe/system/vendor/autoload.php');
-class Stripe extends \Opencart\System\Engine\Controller
+class Stripe extends \Ventocart\System\Engine\Controller
 {
 	public function refund() {
        $charge_id = $this->request->post['charge_id'];

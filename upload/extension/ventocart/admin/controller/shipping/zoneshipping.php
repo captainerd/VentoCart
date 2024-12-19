@@ -1,7 +1,7 @@
 <?php
-namespace Opencart\Admin\Controller\Extension\VentoCart\Shipping;
+namespace Ventocart\Admin\Controller\Extension\VentoCart\Shipping;
 
-class ZoneShipping extends \Opencart\System\Engine\Controller
+class ZoneShipping extends \Ventocart\System\Engine\Controller
 {
 
     public function index(): void

@@ -1,13 +1,13 @@
 <?php
-namespace Opencart\Catalog\Controller\Startup;
+namespace Ventocart\Catalog\Controller\Startup;
 /**
  * Class Api
  *
- * @package Opencart\Catalog\Controller\Startup
+ * @package Ventocart\Catalog\Controller\Startup
  */
-class Api extends \Opencart\System\Engine\Controller {
+class Api extends \Ventocart\System\Engine\Controller {
 	/**
-	 * @return object|\Opencart\System\Engine\Action|null
+	 * @return object|\Ventocart\System\Engine\Action|null
 	 */
 	public function index(): ?object {
 		if (isset($this->request->get['route'])) {
@@ -17,7 +17,7 @@ class Api extends \Opencart\System\Engine\Controller {
 		}
 
 		if (substr($route, 0, 4) == 'api/' && $route !== 'api/account/login' && !isset($this->session->data['api_id'])) {
-			return new \Opencart\System\Engine\Action('error/permission');
+			return new \Ventocart\System\Engine\Action('error/permission');
 		}
 
 		return null;

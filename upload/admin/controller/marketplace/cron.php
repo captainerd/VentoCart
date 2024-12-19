@@ -1,15 +1,17 @@
 <?php
-namespace Opencart\Admin\Controller\Marketplace;
+namespace Ventocart\Admin\Controller\Marketplace;
 /**
  * Class Cron
  *
- * @package Opencart\Admin\Controller\Marketplace
+ * @package Ventocart\Admin\Controller\Marketplace
  */
-class Cron extends \Opencart\System\Engine\Controller {
+class Cron extends \Ventocart\System\Engine\Controller
+{
 	/**
 	 * @return void
 	 */
-	public function index(): void {
+	public function index(): void
+	{
 		$this->load->language('marketplace/cron');
 
 		$this->document->setTitle($this->language->get('heading_title'));
@@ -59,7 +61,8 @@ class Cron extends \Opencart\System\Engine\Controller {
 	/**
 	 * @return void
 	 */
-	public function list(): void {
+	public function list(): void
+	{
 		$this->load->language('marketplace/cron');
 
 		$this->response->setOutput($this->getList());
@@ -68,21 +71,22 @@ class Cron extends \Opencart\System\Engine\Controller {
 	/**
 	 * @return string
 	 */
-	public function getList(): string {
+	public function getList(): string
+	{
 		if (isset($this->request->get['sort'])) {
-			$sort = (string)$this->request->get['sort'];
+			$sort = (string) $this->request->get['sort'];
 		} else {
 			$sort = 'code';
 		}
 
 		if (isset($this->request->get['order'])) {
-			$order = (string)$this->request->get['order'];
+			$order = (string) $this->request->get['order'];
 		} else {
 			$order = 'ASC';
 		}
 
 		if (isset($this->request->get['page'])) {
-			$page = (int)$this->request->get['page'];
+			$page = (int) $this->request->get['page'];
 		} else {
 			$page = 1;
 		}
@@ -106,7 +110,7 @@ class Cron extends \Opencart\System\Engine\Controller {
 		$data['crons'] = [];
 
 		$filter_data = [
-			'sort'  => $sort,
+			'sort' => $sort,
 			'order' => $order,
 			'start' => ($page - 1) * $this->config->get('config_pagination_admin'),
 			'limit' => $this->config->get('config_pagination_admin')
@@ -118,17 +122,17 @@ class Cron extends \Opencart\System\Engine\Controller {
 
 		foreach ($results as $result) {
 			$data['crons'][] = [
-				'cron_id'       => $result['cron_id'],
-				'code'          => $result['code'],
-				'description'   => $result['description'],
-				'cycle'         => $this->language->get('text_' . $result['cycle']),
-				'action'        => $result['action'],
-				'status'        => $result['status'],
-				'date_added'    => date($this->language->get('datetime_format'), strtotime($result['date_added'])),
+				'cron_id' => $result['cron_id'],
+				'code' => $result['code'],
+				'description' => $result['description'],
+				'cycle' => $this->language->get('text_' . $result['cycle']),
+				'action' => $result['action'],
+				'status' => $result['status'],
+				'date_added' => date($this->language->get('datetime_format'), strtotime($result['date_added'])),
 				'date_modified' => date($this->language->get('datetime_format'), strtotime($result['date_modified'])),
-				'run'           => $this->url->link('marketplace/cron.run', 'user_token=' . $this->session->data['user_token'] . '&cron_id=' . $result['cron_id']),
-				'enable'        => $this->url->link('marketplace/cron.enable', 'user_token=' . $this->session->data['user_token'] . '&cron_id=' . $result['cron_id']),
-				'disable'       => $this->url->link('marketplace/cron.disable', 'user_token=' . $this->session->data['user_token'] . '&cron_id=' . $result['cron_id'])
+				'run' => $this->url->link('marketplace/cron.run', 'user_token=' . $this->session->data['user_token'] . '&cron_id=' . $result['cron_id']),
+				'enable' => $this->url->link('marketplace/cron.enable', 'user_token=' . $this->session->data['user_token'] . '&cron_id=' . $result['cron_id']),
+				'disable' => $this->url->link('marketplace/cron.disable', 'user_token=' . $this->session->data['user_token'] . '&cron_id=' . $result['cron_id'])
 			];
 		}
 
@@ -160,9 +164,9 @@ class Cron extends \Opencart\System\Engine\Controller {
 
 		$data['pagination'] = $this->load->controller('common/pagination', [
 			'total' => $cron_total,
-			'page'  => $page,
+			'page' => $page,
 			'limit' => $this->config->get('config_pagination_admin'),
-			'url'   => $this->url->link('marketplace/cron.list', 'user_token=' . $this->session->data['user_token'] . $url . '&page={page}')
+			'url' => $this->url->link('marketplace/cron.list', 'user_token=' . $this->session->data['user_token'] . $url . '&page={page}')
 		]);
 
 		$data['results'] = sprintf($this->language->get('text_pagination'), ($cron_total) ? (($page - 1) * $this->config->get('config_pagination_admin')) + 1 : 0, ((($page - 1) * $this->config->get('config_pagination_admin')) > ($cron_total - $this->config->get('config_pagination_admin'))) ? $cron_total : ((($page - 1) * $this->config->get('config_pagination_admin')) + $this->config->get('config_pagination_admin')), $cron_total, ceil($cron_total / $this->config->get('config_pagination_admin')));
@@ -176,13 +180,14 @@ class Cron extends \Opencart\System\Engine\Controller {
 	/**
 	 * @return void
 	 */
-	public function run(): void {
+	public function run(): void
+	{
 		$this->load->language('marketplace/cron');
 
 		$json = [];
 
 		if (isset($this->request->get['cron_id'])) {
-			$cron_id = (int)$this->request->get['cron_id'];
+			$cron_id = (int) $this->request->get['cron_id'];
 		} else {
 			$cron_id = 0;
 		}
@@ -197,14 +202,9 @@ class Cron extends \Opencart\System\Engine\Controller {
 			$cron_info = $this->model_setting_cron->getCron($cron_id);
 
 			if ($cron_info) {
-				// Create a store instance using loader class to call controllers, models, views, libraries
-				$this->load->model('setting/store');
 
-				$store = $this->model_setting_store->createStoreInstance(0, $this->config->get('config_language'));
-
-				$store->load->controller($cron_info['action'], $cron_id, $cron_info['code'], $cron_info['cycle'], $cron_info['date_added'], $cron_info['date_modified']);
-
-				$store->session->destroy($store->session->getId());
+				$this->load->bridge('Catalog'); // Bridge back to catalog
+				$this->load->controller($cron_info['action'], $cron_id, $cron_info['code'], $cron_info['cycle'], $cron_info['date_added'], $cron_info['date_modified']);
 
 				$this->model_setting_cron->editCron($cron_info['cron_id']);
 			}
@@ -216,16 +216,19 @@ class Cron extends \Opencart\System\Engine\Controller {
 		$this->response->setOutput(json_encode($json));
 	}
 
+
+
 	/**
 	 * @return void
 	 */
-	public function enable(): void {
+	public function enable(): void
+	{
 		$this->load->language('marketplace/cron');
 
 		$json = [];
 
 		if (isset($this->request->get['cron_id'])) {
-			$cron_id = (int)$this->request->get['cron_id'];
+			$cron_id = (int) $this->request->get['cron_id'];
 		} else {
 			$cron_id = 0;
 		}
@@ -249,13 +252,14 @@ class Cron extends \Opencart\System\Engine\Controller {
 	/**
 	 * @return void
 	 */
-	public function disable(): void {
+	public function disable(): void
+	{
 		$this->load->language('marketplace/cron');
 
 		$json = [];
 
 		if (isset($this->request->get['cron_id'])) {
-			$cron_id = (int)$this->request->get['cron_id'];
+			$cron_id = (int) $this->request->get['cron_id'];
 		} else {
 			$cron_id = 0;
 		}
@@ -279,13 +283,14 @@ class Cron extends \Opencart\System\Engine\Controller {
 	/**
 	 * @return void
 	 */
-	public function delete(): void {
+	public function delete(): void
+	{
 		$this->load->language('marketplace/cron');
 
 		$json = [];
 
 		if (isset($this->request->post['selected'])) {
-			$selected = (array)$this->request->post['selected'];
+			$selected = (array) $this->request->post['selected'];
 		} else {
 			$selected = [];
 		}

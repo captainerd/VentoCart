@@ -1,11 +1,11 @@
 <?php
-namespace Opencart\Admin\Controller\User;
+namespace Ventocart\Admin\Controller\User;
 /**
  * Class Profile
  *
- * @package Opencart\Admin\Controller\User
+ * @package Ventocart\Admin\Controller\User
  */
-class Profile extends \Opencart\System\Engine\Controller {
+class Profile extends \Ventocart\System\Engine\Controller {
 	/**
 	 * @return void
 	 */

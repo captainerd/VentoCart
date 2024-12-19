@@ -1,11 +1,11 @@
 <?php
-namespace Opencart\Admin\Controller\User;
+namespace Ventocart\Admin\Controller\User;
 /**
  * Class Api
  *
- * @package Opencart\Admin\Controller\User
+ * @package Ventocart\Admin\Controller\User
  */
-class Api extends \Opencart\System\Engine\Controller {
+class Api extends \Ventocart\System\Engine\Controller {
 	/**
 	 * @return void
 	 */
@@ -241,12 +241,7 @@ class Api extends \Opencart\System\Engine\Controller {
 			$data['status'] = 0;
 		}
 
-		// IP
-		if (!empty($api_info)) {
-			$data['api_ips'] = $this->model_user_api->getIps($this->request->get['api_id']);
-		} else {
-			$data['api_ips'] = [];
-		}
+ 
 
 		// Session
 		$data['api_sessions'] = [];
@@ -294,9 +289,7 @@ class Api extends \Opencart\System\Engine\Controller {
 			$json['error']['key'] = $this->language->get('error_key');
 		}
 
-		if (!isset($json['error']['warning']) && !isset($this->request->post['api_ip'])) {
-			$json['error']['warning'] = $this->language->get('error_ip');
-		}
+		 
 
 		if (!$json) {
 			$this->load->model('user/api');

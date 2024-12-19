@@ -1,11 +1,11 @@
 <?php
-namespace Opencart\Admin\Controller\Extension\VentoCart\Analytics;
+namespace Ventocart\Admin\Controller\Extension\VentoCart\Analytics;
 /**
  * Class googleanalytics
  *
- * @package Opencart\Admin\Controller\Extension\VentoCart\analytics
+ * @package Ventocart\Admin\Controller\Extension\VentoCart\analytics
  */
-class JavaScriptTags extends \Opencart\System\Engine\Controller {
+class JavaScriptTags extends \Ventocart\System\Engine\Controller {
 	/**
 	 * @return void
 	 */

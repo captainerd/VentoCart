@@ -1,6 +1,6 @@
 <?php
-namespace Opencart\Admin\Controller\Catalog;
-class Filter extends \Opencart\System\Engine\Controller {
+namespace Ventocart\Admin\Controller\Catalog;
+class Filter extends \Ventocart\System\Engine\Controller {
 	public function index(): void {
  
 		$this->load->language('catalog/filter');

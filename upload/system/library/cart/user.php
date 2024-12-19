@@ -1,9 +1,9 @@
 <?php
-namespace Opencart\System\Library\Cart;
+namespace Ventocart\System\Library\Cart;
 /**
  * Class User
  *
- * @package Opencart\System\Library\Cart
+ * @package Ventocart\System\Library\Cart
  */
 class User {
 	/**
@@ -52,7 +52,7 @@ class User {
      *
      * @param object $registry
      */
-	public function __construct(\Opencart\System\Engine\Registry $registry) {
+	public function __construct(\Ventocart\System\Engine\Registry $registry) {
 		$this->db = $registry->get('db');
 		$this->request = $registry->get('request');
 		$this->session = $registry->get('session');

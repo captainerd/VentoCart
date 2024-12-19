@@ -1,6 +1,6 @@
 <?php
-namespace Opencart\Admin\Controller\Sale;
-class Subscription extends \Opencart\System\Engine\Controller {
+namespace Ventocart\Admin\Controller\Sale;
+class Subscription extends \Ventocart\System\Engine\Controller {
 	public function index(): void {
 		$this->load->language('sale/subscription');
 

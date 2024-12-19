@@ -1,11 +1,11 @@
 <?php
-namespace Opencart\Catalog\Model\Cms;
+namespace Ventocart\Catalog\Model\Cms;
 /**
  * Class Topic
  *
- * @package Opencart\Catalog\Model\Cms
+ * @package Ventocart\Catalog\Model\Cms
  */
-class Topic extends \Opencart\System\Engine\Model {
+class Topic extends \Ventocart\System\Engine\Model {
 	/**
 	 * @param int $topic_id
 	 *

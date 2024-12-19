@@ -1,11 +1,11 @@
 <?php
-namespace Opencart\Catalog\Model\Setting;
+namespace Ventocart\Catalog\Model\Setting;
 /**
  * Class Setting
  *
- * @package Opencart\Catalog\Model\Setting
+ * @package Ventocart\Catalog\Model\Setting
  */
-class Setting extends \Opencart\System\Engine\Model {
+class Setting extends \Ventocart\System\Engine\Model {
 	/**
 	 * @param int $store_id
 	 *

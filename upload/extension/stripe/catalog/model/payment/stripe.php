@@ -1,9 +1,9 @@
 <?php
 
-namespace Opencart\Catalog\Model\Extension\Stripe\Payment;
+namespace Ventocart\Catalog\Model\Extension\Stripe\Payment;
 
 require_once(DIR_EXTENSION . 'stripe/system/vendor/autoload.php');
-class Stripe extends \Opencart\System\Engine\Model
+class Stripe extends \Ventocart\System\Engine\Model
 {
 
   public function updatePaymentData($order_id, $data) {

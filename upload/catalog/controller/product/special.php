@@ -1,11 +1,11 @@
 <?php
-namespace Opencart\Catalog\Controller\Product;
+namespace Ventocart\Catalog\Controller\Product;
 /**
  * Class Special
  *
- * @package Opencart\Catalog\Controller\Product
+ * @package Ventocart\Catalog\Controller\Product
  */
-class Special extends \Opencart\System\Engine\Controller {
+class Special extends \Ventocart\System\Engine\Controller {
 	/**
 	 * @return void
 	 */

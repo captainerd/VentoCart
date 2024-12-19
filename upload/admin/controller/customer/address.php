@@ -1,11 +1,11 @@
 <?php
-namespace Opencart\Admin\Controller\Customer;
+namespace Ventocart\Admin\Controller\Customer;
 /**
  * Class Address
  *
- * @package Opencart\Admin\Controller\Customer
+ * @package Ventocart\Admin\Controller\Customer
  */
-class Address extends \Opencart\System\Engine\Controller {
+class Address extends \Ventocart\System\Engine\Controller {
 	/**
 	 * @return void
 	 */

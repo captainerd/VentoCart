@@ -1,6 +1,6 @@
 <?php
-namespace Opencart\Admin\Model\Catalog;
-class SubscriptionPlan extends \Opencart\System\Engine\Model {
+namespace Ventocart\Admin\Model\Catalog;
+class SubscriptionPlan extends \Ventocart\System\Engine\Model {
 	public function addSubscriptionPlan(array $data): int {
 		$this->db->query("INSERT INTO `" . DB_PREFIX . "subscription_plan` SET `trial_frequency` = '" . $this->db->escape((string)$data['trial_frequency']) . "', `trial_duration` = '" . (int)$data['trial_duration'] . "', `trial_cycle` = '" . (int)$data['trial_cycle'] . "', `trial_status` = '" . (int)$data['trial_status'] . "', `frequency` = '" . $this->db->escape((string)$data['frequency']) . "', `duration` = '" . (int)$data['duration'] . "', `cycle` = '" . (int)$data['cycle'] . "', `status` = '" . (bool)(isset($data['status']) ? $data['status'] : 0) . "', `sort_order` = '" . (int)$data['sort_order'] . "'");
 

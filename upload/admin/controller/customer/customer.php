@@ -1,6 +1,6 @@
 <?php
-namespace Opencart\Admin\Controller\Customer;
-class Customer extends \Opencart\System\Engine\Controller {
+namespace Ventocart\Admin\Controller\Customer;
+class Customer extends \Ventocart\System\Engine\Controller {
 	public function index(): void {
 		$this->load->language('customer/customer');
 
@@ -844,7 +844,7 @@ class Customer extends \Opencart\System\Engine\Controller {
 
 			return null;
 		} else {
-			return new \Opencart\System\Engine\Action('error/not_found');
+			return new \Ventocart\System\Engine\Action('error/not_found');
 		}
 	}
 

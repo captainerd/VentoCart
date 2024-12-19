@@ -1,14 +1,14 @@
 <?php if (!$ajax): ?>
   <?= $header ?>
-  <div id="product-category" class="container">
+  <div id="product-category" class="container shadow ">
     <?= $breadcrumb ?>
-    <div class="row">
+    <div class="row bg-white">
       <?= $column_left ?>
       <div id="content" class="col">
         <?= $content_top ?>
-        <h1>
+        <h5>
           <?= $heading_title ?>
-        </h1>
+        </h5>
         <?php if (isset($image) || isset($description)): ?>
           <div class="row">
             <?php if ($image): ?>
@@ -24,18 +24,20 @@
           <hr />
         <?php endif; ?>
         <?php if (isset($categories)): ?>
-          <h3>
+          <h5>
             <?= $text_refine ?>
-          </h3>
+          </h5>
           <?php if (count($categories) <= 5): ?>
             <div class="row">
-              <div class="col-sm-3">
-                <ul>
-                  <?php foreach ($categories as $category): ?>
-                    <li><a href="<?= $category['href'] ?>">
-                        <?= $category['name'] ?>
-                      </a></li>
-                  <?php endforeach; ?>
+              <div class="col m-2">
+              <ul style="list-style-type: none; padding: 0; margin: 0;">
+              <?php foreach ($categories as $category): ?>
+                  <li style="display: inline-block; margin-right: 15px;">
+                  <a href="<?= $category['href'] ?>">
+                  <?= $category['name'] ?>
+                   </a>
+                  </li>
+                   <?php endforeach; ?>
                 </ul>
               </div>
             </div>
@@ -59,8 +61,14 @@
         <?php if (!empty($products)): ?>
           <div id="display-control" class="row">
             <div class="col-lg-3">
+            <div class="mb-3">
+            <button class="btn    floating-button button-columnt-left" type="button" data-bs-toggle="offcanvas"
+data-bs-target="#offcanvasLeft" aria-controls="offcanvasLeft">
+<i class="fas fa-cog"></i>  
+</button>
+</div>
               <div class="mb-3">
-                <a href="<?= $compare ?>" id="compare-total" class="btn btn-primary d-block"><i
+                <a href="<?= $compare ?>" id="compare-total" class="btn btn-primary  "><i
                     class="fa-solid fa-arrow-right-arrow-left"></i> <span class="d-none d-xl-inline">
                     <?= $text_compare ?>
                   </span></a>
@@ -95,7 +103,7 @@
                 </label>
                 <select id="input-limit" class="form-select"  >
                   <?php foreach ($limits as $limititem): ?>
-                    <option value="<?= $limititem['href'] ?>" <?php if ($limititem['value'] == $limit): ?> selected<?php endif; ?>>
+                    <option value="<?= $limititem['href'] ?>" <?php if ($limititem['value'] == $limit): ?> selected <?php endif; ?>>
                       <?= $this->e($limititem['text']) ?>
                     </option>
                   <?php endforeach; ?>

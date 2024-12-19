@@ -1,11 +1,11 @@
 <?php
-namespace Opencart\Admin\Controller\Extension\VentoCart\Captcha;
+namespace Ventocart\Admin\Controller\Extension\VentoCart\Captcha;
 /**
  * Class Basic
  *
- * @package Opencart\Admin\Controller\Extension\VentoCart\Captcha
+ * @package Ventocart\Admin\Controller\Extension\VentoCart\Captcha
  */
-class Basic extends \Opencart\System\Engine\Controller {
+class Basic extends \Ventocart\System\Engine\Controller {
 	/**
 	 * @return void
 	 */

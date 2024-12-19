@@ -7,11 +7,11 @@ CREATE TABLE IF NOT EXISTS `session` (
   PRIMARY KEY (`session_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 */
-namespace Opencart\System\Library\Session;
+namespace Ventocart\System\Library\Session;
 /**
  * Class DB
  *
- * @package Opencart\System\Library\Session
+ * @package Ventocart\System\Library\Session
  */
 class DB {
 	private object $db;
@@ -22,7 +22,7 @@ class DB {
      *
      * @param object $registry
      */
-	public function __construct(\Opencart\System\Engine\Registry $registry) {
+	public function __construct(\Ventocart\System\Engine\Registry $registry) {
 		$this->db = $registry->get('db');
 		$this->config = $registry->get('config');
 	}

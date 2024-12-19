@@ -7,12 +7,12 @@
       <i class="fas spinner-checkout fa-spinner fa-pulse"></i>
     </div>
   </div>
- 
+
   <script src="catalog/view/javascript/checkout.js"></script>
 
   <div class="row"><?= $column_left ?>
-    <div id="content" class="col"><?= $content_top ?>
-      <h1><?= $this->e($heading_title) ?></h1>
+    <div id="content" class="col  border bg-white mb-3 rounded shadow-sm p-4 "><?= $content_top ?>
+
 
       <div class="row">
 
@@ -41,38 +41,37 @@
         </div>
       </div>
     </div>
-    <div id="checkout-payment">
-    <div style="display: flex;">
 
-    
+
+
+    <div id="checkout-confirm" class="mb-3  border bg-white  rounded shadow-sm p-4 ">
+      <button type="button" style="flex-grow: 1;" id="button-confirm" class="btn btn-danger ">
+        <?= $error_payment_address ?>
+      </button>
+      <?= $confirm ?>
     </div>
-      <?= $payment ?>
+    <div class=" border bg-white  d-flex justify-content-center align-items-center rounded shadow-sm p-4 mb-3"
+      id="checkout-payment">
+
+
     </div>
 
     <?= $content_bottom ?>
-    <div id="checkout-confirm" class="mb-3">
-    <button type="button" style="flex-grow: 1;" id="button-confirm" class="btn btn-danger ">
-        <?=$error_payment_address?>
-        </button>
-      <?= $confirm ?>
-    </div>
- 
   </div>
   <?= $column_right ?>
 </div>
 <?= $footer ?>
 
-<script >
+<script>
   $(document).ready(function () {
-$("#checkout-payment").html('');
-window.btntxt = "<?= $this->e($button_confirm) ?>";
-});
+    $("#checkout-payment").html('');
+    window.btntxt = "<?= $this->e($button_confirm) ?>";
+  });
 
-window.onload = function () {
-var spinner = document.getElementById('overlay_loaderv');
-if (spinner) {
-spinner.style.display = 'none';
-}
-}
+  window.onload = function () {
+    var spinner = document.getElementById('overlay_loaderv');
+    if (spinner) {
+      spinner.style.display = 'none';
+    }
+  }
 </script>
-

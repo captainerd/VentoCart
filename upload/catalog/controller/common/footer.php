@@ -1,15 +1,17 @@
 <?php
-namespace Opencart\Catalog\Controller\Common;
+namespace Ventocart\Catalog\Controller\Common;
 /**
  * Class Footer
  *
- * @package Opencart\Catalog\Controller\Common
+ * @package Ventocart\Catalog\Controller\Common
  */
-class Footer extends \Opencart\System\Engine\Controller {
+class Footer extends \Ventocart\System\Engine\Controller
+{
 	/**
 	 * @return string
 	 */
-	public function index(): string {
+	public function index(): string
+	{
 		$this->load->language('common/footer');
 
 		$this->load->model('cms/article');
@@ -17,7 +19,7 @@ class Footer extends \Opencart\System\Engine\Controller {
 		$article_total = $this->model_cms_article->getTotalArticles();
 
 		if ($article_total) {
-			$data['blog'] = $this->url->link('cms/blog', 'language=' . $this->config->get('config_language'));
+			$data['blog'] = $this->url->link('cms/blog');
 		} else {
 			$data['blog'] = '';
 		}
@@ -32,35 +34,43 @@ class Footer extends \Opencart\System\Engine\Controller {
 			if ($result['bottom']) {
 				$data['informations'][] = [
 					'title' => $result['title'],
-					'href'  => $this->url->link('information/information', 'language=' . $this->config->get('config_language') . '&information_id=' . $result['information_id'])
+					'href' => $this->url->link('information/information' . '&information_id=' . $result['information_id'])
 				];
 			}
 		}
 
-		$data['contact'] = $this->url->link('information/contact', 'language=' . $this->config->get('config_language'));
-		$data['return'] = $this->url->link('account/returns.add', 'language=' . $this->config->get('config_language'));
+		$data['contact'] = $this->url->link('information/contact');
+		$data['return'] = $this->url->link('account/returns.add');
 
 		if ($this->config->get('config_gdpr_id')) {
-			$data['gdpr'] = $this->url->link('information/gdpr', 'language=' . $this->config->get('config_language'));
+			$data['gdpr'] = $this->url->link('information/gdpr');
 		} else {
 			$data['gdpr'] = '';
 		}
 
-		$data['sitemap'] = $this->url->link('information/sitemap', 'language=' . $this->config->get('config_language'));
-		$data['manufacturer'] = $this->url->link('product/manufacturer', 'language=' . $this->config->get('config_language'));
-		$data['voucher'] = $this->url->link('checkout/voucher', 'language=' . $this->config->get('config_language'));
+		$data['sitemap'] = $this->url->link('information/sitemap');
+		$data['manufacturer'] = $this->url->link('product/manufacturer');
+
 
 		if ($this->config->get('config_affiliate_status')) {
-			$data['affiliate'] = $this->url->link('account/affiliate', 'language=' . $this->config->get('config_language') . (isset($this->session->data['customer_token']) ? '&customer_token=' . $this->session->data['customer_token'] : ''));
+			$data['affiliate'] = $this->url->link('account/affiliate');
 		} else {
 			$data['affiliate'] = '';
 		}
+		if ($this->config->get('config_checkout_guest')) {
 
-		$data['special'] = $this->url->link('product/special', 'language=' . $this->config->get('config_language') . (isset($this->session->data['customer_token']) ? '&customer_token=' . $this->session->data['customer_token'] : ''));
-		$data['account'] = $this->url->link('account/account', 'language=' . $this->config->get('config_language') . (isset($this->session->data['customer_token']) ? '&customer_token=' . $this->session->data['customer_token'] : ''));
-		$data['order'] = $this->url->link('account/order', 'language=' . $this->config->get('config_language') . (isset($this->session->data['customer_token']) ? '&customer_token=' . $this->session->data['customer_token'] : ''));
-		$data['wishlist'] = $this->url->link('account/wishlist', 'language=' . $this->config->get('config_language') . (isset($this->session->data['customer_token']) ? '&customer_token=' . $this->session->data['customer_token'] : ''));
-		$data['newsletter'] = $this->url->link('account/newsletter', 'language=' . $this->config->get('config_language') . (isset($this->session->data['customer_token']) ? '&customer_token=' . $this->session->data['customer_token'] : ''));
+			$data['guestorder'] = $this->url->link('guest/order');
+
+		} else {
+
+			$data['guestorder'] = false;
+		}
+		$data['special'] = $this->url->link('product/special');
+		$data['account'] = $this->url->link('account/account');
+		$data['order'] = $this->url->link('account/order');
+		$data['wishlist'] = $this->url->link('account/wishlist');
+		$data['newsletter'] = $this->url->link('guest/newsletter');
+		$data['giftcards'] = $this->url->link('giftcards/giftcard');
 
 		$data['powered'] = sprintf($this->language->get('text_powered'), $this->config->get('config_name'), date('Y', time()));
 

@@ -1,11 +1,11 @@
 <?php
-namespace Opencart\Admin\Model\Report;
+namespace Ventocart\Admin\Model\Report;
 /**
  * Class Online
  *
- * @package Opencart\Admin\Model\Report
+ * @package Ventocart\Admin\Model\Report
  */
-class Online extends \Opencart\System\Engine\Model {
+class Online extends \Ventocart\System\Engine\Model {
 	/**
 	 * @param array $data
 	 *

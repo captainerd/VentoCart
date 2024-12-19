@@ -1,32 +1,39 @@
 <?php
-namespace Opencart\Catalog\Controller\Extension\VentoCart\Module;
+namespace Ventocart\Catalog\Controller\Extension\VentoCart\Module;
 /**
  * Class Filter
  *
- * @package Opencart\Catalog\Controller\Extension\VentoCart\Module
+ * @package Ventocart\Catalog\Controller\Extension\VentoCart\Module
  */
-class Availabilityfilter extends \Opencart\System\Engine\Controller {
+class Availabilityfilter extends \Ventocart\System\Engine\Controller
+{
 	/**
-	 * @return string
+	 * @return mixed
 	 */
-	public function index(): string {
+	public function index(): mixed
+	{
+		$api_output = $this->customer->isApiClient();
 
+		$this->load->language('extension/ventocart/module/availability_filter');
+		$data['language'] = $this->config->get('config_language');
 
-			$this->load->language('extension/ventocart/module/option_filter');
-        	$data['language'] = $this->config->get('config_language');
-  
-			$data['selected_availabilities'] = [];
+		$data['selected_availabilities'] = [];
 
-			if (isset($this->request->get['filter_availability'])) {
-				$data['selected_availabilities'] = $this->request->get['filter_availability'];
-			}
-			$this->load->model('catalog/product');
+		if (isset($this->request->get['filter_availability'])) {
+			$data['selected_availabilities'] = $this->request->get['filter_availability'];
+		}
+		$this->load->model('catalog/product');
 
-			$this->load->model('extension/ventocart/module/availability_filter');
-			$data['statuses'] = $this->model_extension_ventocart_module_availability_filter->getStatuses();
-			 
+		$this->load->model('extension/ventocart/module/availability_filter');
+		$data['statuses'] = $this->model_extension_ventocart_module_availability_filter->getStatuses();
 
-				return $this->load->view('extension/ventocart/module/availability_filter', $data);
-		 
+		if (!$api_output) {
+			return $this->load->view('extension/ventocart/module/availability_filter', $data);
+		} else {
+			$data['module'] = "availability_filter";
+			$data['lang_values'] = $this->language->loadForAPI('extension/ventocart/module/availability_filter');
+			return $data;
+		}
+
 	}
 }

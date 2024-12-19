@@ -1,6 +1,6 @@
 <?php
-namespace Opencart\Admin\Controller\Catalog;
-class Category extends \Opencart\System\Engine\Controller {
+namespace Ventocart\Admin\Controller\Catalog;
+class Category extends \Ventocart\System\Engine\Controller {
 	public function index(): void {
 		$this->load->language('catalog/category');
 

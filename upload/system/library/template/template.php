@@ -1,9 +1,9 @@
 <?php
-namespace Opencart\System\Library\Template;
+namespace Ventocart\System\Library\Template;
 /**
  * Class Template
  *
- * @package Opencart\System\Library\Template
+ * @package Ventocart\System\Library\Template
  */
 class Template {
 	protected string $directory = '';

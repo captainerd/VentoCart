@@ -1,11 +1,11 @@
 <?php
-namespace Opencart\Catalog\Model\Catalog;
+namespace Ventocart\Catalog\Model\Catalog;
 /**
  * Class Subscription Plan
  *
- * @package Opencart\Catalog\Model\Catalog
+ * @package Ventocart\Catalog\Model\Catalog
  */
-class SubscriptionPlan extends \Opencart\System\Engine\Model {
+class SubscriptionPlan extends \Ventocart\System\Engine\Model {
 	/**
 	 * @param int $subscription_plan_id
 	 *

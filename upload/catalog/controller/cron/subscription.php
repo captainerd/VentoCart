@@ -1,11 +1,12 @@
 <?php
-namespace Opencart\Catalog\Controller\Cron;
+namespace Ventocart\Catalog\Controller\Cron;
 /**
  * Class Subscription
  *
- * @package Opencart\Catalog\Controller\Cron
+ * @package Ventocart\Catalog\Controller\Cron
  */
-class Subscription extends \Opencart\System\Engine\Controller {
+class Subscription extends \Ventocart\System\Engine\Controller
+{
 	/**
 	 * Index
 	 *
@@ -17,22 +18,24 @@ class Subscription extends \Opencart\System\Engine\Controller {
 	 *
 	 * @return void
 	 */
-	public function index(int $cron_id, string $code, string $cycle, string $date_added, string $date_modified): void {
+	public function index(int $cron_id, string $code, string $cycle, string $date_added, string $date_modified): void
+	{
 		$this->load->language('cron/subscription');
 
 		// Check the there is an order and the order status is complete and subscription status is active
 		$filter_data = [
-			'filter_date_next'              => date('Y-m-d H:i:s'),
+			'filter_date_next' => date('Y-m-d H:i:s'),
 			'filter_subscription_status_id' => $this->config->get('config_subscription_active_status_id'),
-			'start'                         => 0,
-			'limit'                         => 10
+			'start' => 0,
+			'limit' => 10
 		];
 
 		// Get all
 		$this->load->model('checkout/subscription');
 		$this->load->model('checkout/order');
 
-		$results = $this->model_checkout_subscription->getSubscriptions($filter_data);
+
+		$results = $this->model_checkout_order->getSubscriptions($filter_data);
 
 		foreach ($results as $result) {
 			$order_info = $this->model_checkout_order->getOrder($result['order_id']);
@@ -60,9 +63,6 @@ class Subscription extends \Opencart\System\Engine\Controller {
 
 				// 3. Create new instance of a store
 				if (!$error) {
-					$this->load->model('setting/store');
-
-					$store = $this->model_setting_store->createStoreInstance($result['store_id'], $language_info['code']);
 
 					// Login
 					$this->load->model('account/customer');
@@ -71,7 +71,7 @@ class Subscription extends \Opencart\System\Engine\Controller {
 
 					if ($customer_info && $this->customer->login($customer_info['email'], '', true)) {
 						// Add customer details into session
-						$store->session->data['customer'] = $customer_info;
+						$this->session->data['customer'] = $customer_info;
 					} else {
 						$error = $this->language->get('error_customer');
 					}
@@ -90,20 +90,20 @@ class Subscription extends \Opencart\System\Engine\Controller {
 							$price = $result['trial_price'];
 						}
 
-						$store->cart->add($result['product_id'], $result['quantity'], $result['option'], true, $price);
+						$this->cart->add($result['product_id'], $result['quantity'], $result['option'], true, $price);
 					} else {
 						$error = $this->language->get('error_product');
 					}
 				}
 
 				// 5. Add Shipping Address
-				if (!$error && $store->cart->hasShipping()) {
+				if (!$error && $this->cart->hasShipping()) {
 					$this->load->model('account/address');
 
 					$shipping_address_info = $this->model_account_address->getAddress($result['customer_id'], $result['shipping_address_id']);
 
 					if ($shipping_address_info) {
-						$store->session->data['shipping_address'] = $shipping_address_info;
+						$this->session->data['shipping_address'] = $shipping_address_info;
 					} else {
 						$error = $this->language->get('error_shipping_address');
 					}
@@ -119,7 +119,7 @@ class Subscription extends \Opencart\System\Engine\Controller {
 							$shipping = explode('.', $order_info['shipping_method']['code']);
 
 							if (isset($shipping[0]) && isset($shipping[1]) && isset($shipping_methods[$shipping[0]]['quote'][$shipping[1]])) {
-								$store->session->data['shipping_method'] = $shipping_methods[$shipping[0]]['quote'][$shipping[1]];
+								$this->session->data['shipping_method'] = $shipping_methods[$shipping[0]]['quote'][$shipping[1]];
 							} else {
 								$error = $this->language->get('error_shipping_method');
 							}
@@ -137,7 +137,7 @@ class Subscription extends \Opencart\System\Engine\Controller {
 						$payment_address_info = $this->model_account_address->getAddress($order_info['customer_id'], $result['payment_address_id']);
 
 						if ($payment_address_info) {
-							$store->session->data['payment_address'] = $payment_address_info;
+							$this->session->data['payment_address'] = $payment_address_info;
 						} else {
 							$error = $this->language->get('error_payment_address');
 						}
@@ -150,14 +150,14 @@ class Subscription extends \Opencart\System\Engine\Controller {
 				if (!$error) {
 					$this->load->model('checkout/payment_method');
 
-					$payment_methods = $this->model_checkout_payment_method->getMethods($store->session->data['payment_address']);
+					$payment_methods = $this->model_checkout_payment_method->getMethods($this->session->data['payment_address']);
 
 					// Validate payment methods
 					if (isset($order_info['payment_method']['code']) && $payment_methods) {
 						$payment = explode('.', $order_info['payment_method']['code']);
 
 						if (isset($payment[0]) && isset($payment[1]) && isset($payment_methods[$payment[0]]['option'][$payment[1]])) {
-							$store->session->data['payment_method'] = $payment_methods[$payment[0]]['option'][$payment[1]];
+							$this->session->data['payment_method'] = $payment_methods[$payment[0]]['option'][$payment[1]];
 						} else {
 							$error = $this->language->get('error_payment_method');
 						}
@@ -218,10 +218,10 @@ class Subscription extends \Opencart\System\Engine\Controller {
 						$order_data['payment_custom_field'] = [];
 					}
 
-					$order_data['payment_method'] = $store->session->data['payment_method'];
+					$order_data['payment_method'] = $this->session->data['payment_method'];
 
 					// Shipping Details
-					if ($store->cart->hasShipping()) {
+					if ($this->cart->hasShipping()) {
 						$order_data['shipping_address_id'] = $shipping_address_info['address_id'];
 						$order_data['shipping_firstname'] = $shipping_address_info['firstname'];
 						$order_data['shipping_lastname'] = $shipping_address_info['lastname'];
@@ -237,7 +237,7 @@ class Subscription extends \Opencart\System\Engine\Controller {
 						$order_data['shipping_address_format'] = $shipping_address_info['address_format'];
 						$order_data['shipping_custom_field'] = $shipping_address_info['custom_field'];
 
-						$order_data['shipping_method'] = $store->session->data['shipping_method'];
+						$order_data['shipping_method'] = $this->session->data['shipping_method'];
 					} else {
 						$order_data['shipping_address_id'] = 0;
 						$order_data['shipping_firstname'] = '';
@@ -260,42 +260,41 @@ class Subscription extends \Opencart\System\Engine\Controller {
 					// Products
 					$order_data['products'] = [];
 
-					$products = $store->model_checkout_cart->getProducts();
+					$products = $this->model_checkout_cart->getProducts();
 
 					foreach ($products as $product) {
 						$order_data['products'][] = [
-							'product_id'   => $product['product_id'],
-							'variation_id'    => $product['variation_id'],
-							'name'         => $product['name'],
-							'model'        => $product['model'],
-							'option'       => $product['option'],
+							'product_id' => $product['product_id'],
+							'variation_id' => $product['variation_id'],
+							'name' => $product['name'],
+							'model' => $product['model'],
+							'option' => $product['option'],
 							'subscription' => [],
-							'download'     => $product['download'],
-							'quantity'     => $product['quantity'],
-							'subtract'     => $product['subtract'],
-							'price'        => $product['price'],
-							'total'        => $product['total'],
-							'tax'          => $this->tax->getTax($price, $product['tax_class_id']),
-							'reward'       => $product['reward']
+							'download' => $product['download'],
+							'quantity' => $product['quantity'],
+							'subtract' => $product['subtract'],
+							'price' => $product['price'],
+							'total' => $product['total'],
+							'tax' => $this->tax->getTax($price, $product['tax_class_id']),
+							'reward' => $product['reward']
 						];
 					}
 
-					// Vouchers can not be in subscriptions
-					$order_data['vouchers'] = [];
+
 
 					// Order Totals
 					$totals = [];
-					$taxes = $store->cart->getTaxes();
+					$taxes = $this->cart->getTaxes();
 					$total = 0;
 
-					$store->load->model('checkout/cart');
+					$this->load->model('checkout/cart');
 
-					($store->model_checkout_cart->getTotals)($totals, $taxes, $total);
+					[$totals, $taxes, $total] = $this->model_checkout_cart->getTotals($totals, $taxes, $total);
 
 					$total_data = [
 						'totals' => $totals,
-						'taxes'  => $taxes,
-						'total'  => $total
+						'taxes' => $taxes,
+						'total' => $total
 					];
 
 					$order_data = array_merge($order_data, $total_data);
@@ -346,7 +345,7 @@ class Subscription extends \Opencart\System\Engine\Controller {
 
 					$this->load->model('checkout/order');
 
-					$store->session->data['order_id'] = $this->model_checkout_order->addOrder($order_data);
+					$this->session->data['order_id'] = $this->model_checkout_order->addOrder($order_data);
 
 					// Validate if payment extension installed
 					$this->load->model('setting/extension');
@@ -374,11 +373,11 @@ class Subscription extends \Opencart\System\Engine\Controller {
 							$message = '';
 						}
 
-						$this->model_checkout_order->addHistory($store->session->data['order_id'], $order_status_id, $message, false);
-						$this->model_checkout_order->addHistory($store->session->data['order_id'], $order_status_id);
+						$this->model_checkout_order->addHistory($this->session->data['order_id'], $order_status_id, $message, false);
+						$this->model_checkout_order->addHistory($this->session->data['order_id'], $order_status_id);
 
 						// If payment order status is active or processing
-						if (!in_array($order_status_id, (array)$this->config->get('config_processing_status') + (array)$this->config->get('config_complete_status'))) {
+						if (!in_array($order_status_id, (array) $this->config->get('config_processing_status') + (array) $this->config->get('config_complete_status'))) {
 							$remaining = 0;
 							$date_next = '';
 
@@ -416,6 +415,8 @@ class Subscription extends \Opencart\System\Engine\Controller {
 					$this->model_checkout_subscription->addHistory($result['subscription_id'], $this->config->get('config_subscription_failed_status_id'), $error, true);
 				}
 			}
+
 		}
+
 	}
 }

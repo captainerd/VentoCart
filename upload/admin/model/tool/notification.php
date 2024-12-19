@@ -1,11 +1,11 @@
 <?php
-namespace Opencart\Admin\Model\Tool;
+namespace Ventocart\Admin\Model\Tool;
 /**
  * Class Notification
  *
- * @package Opencart\Admin\Model\Tool
+ * @package Ventocart\Admin\Model\Tool
  */
-class Notification extends \Opencart\System\Engine\Model {
+class Notification extends \Ventocart\System\Engine\Model {
 	/**
 	 * @param array $data
 	 *

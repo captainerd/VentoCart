@@ -1,11 +1,11 @@
 <?php
-namespace Opencart\Catalog\Controller\Cms;
+namespace Ventocart\Catalog\Controller\Cms;
 /**
  * Class Blog
  *
- * @package Opencart\Catalog\Controller\Cms
+ * @package Ventocart\Catalog\Controller\Cms
  */
-class Blog extends \Opencart\System\Engine\Controller {
+class Blog extends \Ventocart\System\Engine\Controller {
 	/**
 	 * @return void
 	 */
@@ -249,7 +249,7 @@ class Blog extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-     * @return object|\Opencart\System\Engine\Action|null
+     * @return object|\Ventocart\System\Engine\Action|null
      */
 	public function info(): ?object {
 		$this->load->language('cms/blog');
@@ -370,7 +370,7 @@ class Blog extends \Opencart\System\Engine\Controller {
 
 			$this->response->setOutput($this->load->view('cms/blog_info', $data));
 		} else {
-			return new \Opencart\System\Engine\Action('error/not_found');
+			return new \Ventocart\System\Engine\Action('error/not_found');
 		}
 
 		return null;

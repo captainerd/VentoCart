@@ -1,11 +1,11 @@
 <?php
-namespace Opencart\Admin\Controller\Common;
+namespace Ventocart\Admin\Controller\Common;
 /**
  * Class Footer
  *
- * @package Opencart\Admin\Controller\Common
+ * @package Ventocart\Admin\Controller\Common
  */
-class Footer extends \Opencart\System\Engine\Controller {
+class Footer extends \Ventocart\System\Engine\Controller {
 	/**
 	 * @return string
 	 */

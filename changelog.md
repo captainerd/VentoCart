@@ -1,3 +1,75 @@
+---
+
+## What's New in VentoCart v5.0.0.1
+
+### 1. **API Overhaul**
+- **Dropped "Pseudo-API":** Replaced with:
+  - **Bridge Class:** For internal instances.
+  - **Real Web API:**
+    - Admin API: Connect third-party ERPs or CRMs to retrieve client and order data with ease.
+    - Headless Customer API: Supports building modern frontends and mobile apps.
+- **New App Template:** A Vite project written in ReactJS with TailwindCSS, Shadcn/UI, Redux, and cookie-less sessions. This template is:
+  - Ideal for Flutter, Cordova, or other mobile apps.
+  - Secure: Utilizes nonce-based validation and signed tokens with public-key verification.
+  - [Access the project here](#).
+
+**Outcome:** Enable modern e-commerce apps with less effort.
+
+### 2. **Bug Fixes and Core Improvements**
+- Fixed numerous lingering bugs from v4.
+- Enhanced reliability across all critical features.
+
+### 3. **Marketing Enhancements**
+- **Abandoned Carts:**
+  - Built-in feature with detailed analytics.
+  - Access customer carts for review.
+  - Notify abandoned carts to increase customer retention.
+- **Gift Cards:**
+  - Sell gift cards that customers can redeem to top up their accounts.
+- **Guest Order Status:**
+  - Guests receive a secret code via email to track order status.
+- **Guest Newsletter Subscriptions:**
+  - Allow guests to subscribe/unsubscribe without placing an order.
+- **Email Enhancements:**
+  - Revamped templates with modern, sleek designs.
+  - Mandatory unsubscribe links included in all marketing emails to ensure compliance with laws.
+  - Option to download all email addresses.
+
+### 4. **Spam Bot Defense**
+- Introduced advanced anti-spam techniques:
+  - **Zero-Named Inputs:** Dynamically named form fields.
+  - Honeypots and session tokens for added protection.
+
+### 5. **Premium Default Template**
+- Redesigned with a real-world use case in mind.
+- Features:
+  - User-friendly menus supporting 3-level categories.
+  - Mobile-first design using Bootstrap classes.
+  - A solid foundation for building custom themes.
+
+### 6. **Installer Upgrade**
+- Optimized database installation process:
+  - Loads in memory in smaller chunks.
+  - Progress bar updates dynamically.
+  - Uses binary serialization with indexed data for faster processing.
+
+### 7. **Additional Updates and Fixes**
+- **Sale/Admin Area:**
+  - Fixed all critical bugs.
+- **Tax Calculation and Checkout:**
+  - Resolved incorrect tax and cart issues.
+- **Shipping Module:**
+  - Updated price lists in the advanced shipping module.
+- **Newsletter Module:**
+  - Synced with the new guest newsletter system.
+- **Hero Banners:**
+  - Added description fields.
+- **Filter System:**
+  - Fixed bugs in option and attribute filters.
+- **Frontend Framework:**
+  - Updated to Bootstrap 5.3.
+
+
 # Ventocart Change-log v4.5.5.1
 
 ## Features & Enhancements

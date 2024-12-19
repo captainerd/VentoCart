@@ -1,11 +1,11 @@
 <?php
-namespace Opencart\Admin\Controller\Startup;
+namespace Ventocart\Admin\Controller\Startup;
 /**
  * Class Permission
  *
- * @package Opencart\Admin\Controller\Startup
+ * @package Ventocart\Admin\Controller\Startup
  */
-class Permission extends \Opencart\System\Engine\Controller {
+class Permission extends \Ventocart\System\Engine\Controller {
 	/**
 	 * @return object
 	 */
@@ -31,8 +31,8 @@ class Permission extends \Opencart\System\Engine\Controller {
 				'error/permission'
 			];
 
-			if (!in_array($route, $ignore) && !$this->user->hasPermission('access', $route)) {
-				return new \Opencart\System\Engine\Action('error/permission');
+			if (substr($route, 0, 4) !== 'api/' && !in_array($route, $ignore) && !$this->user->hasPermission('access', $route)) {
+				return new \Ventocart\System\Engine\Action('error/permission');
 			}
 		}
 

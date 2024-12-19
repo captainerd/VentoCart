@@ -1,11 +1,11 @@
 <?php
-namespace Opencart\Admin\Controller\Marketplace;
+namespace Ventocart\Admin\Controller\Marketplace;
 /**
  * Class Installer
  *
- * @package Opencart\Admin\Controller\Marketplace
+ * @package Ventocart\Admin\Controller\Marketplace
  */
-class Installer extends \Opencart\System\Engine\Controller {
+class Installer extends \Ventocart\System\Engine\Controller {
 	/**
 	 * @return void
 	 */
@@ -731,7 +731,7 @@ class Installer extends \Opencart\System\Engine\Controller {
 		$extension_install_info = $this->model_setting_extension->getInstall($extension_install_id);
 
 		if ($extension_install_info) {
-			if ($extension_install_info['code'] == 'opencart') {
+			if ($extension_install_info['code'] == 'ventocart') {
 				$json['error'] = $this->language->get('error_default');
 			}
 
@@ -860,7 +860,7 @@ class Installer extends \Opencart\System\Engine\Controller {
 
 		$extension_install_info = $this->model_setting_extension->getInstall($extension_install_id);
 
-		if ($extension_install_info && $extension_install_info['code'] == 'opencart') {
+		if ($extension_install_info && $extension_install_info['code'] == 'ventocart') {
 			$json['error'] = $this->language->get('error_default');
 		}
 

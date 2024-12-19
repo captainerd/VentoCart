@@ -1,11 +1,11 @@
 <?php
-namespace Opencart\Catalog\Model\Tool;
+namespace Ventocart\Catalog\Model\Tool;
 /**
  * Class Online
  *
- * @package Opencart\Catalog\Model\Tool
+ * @package Ventocart\Catalog\Model\Tool
  */
-class Online extends \Opencart\System\Engine\Model {
+class Online extends \Ventocart\System\Engine\Model {
 	/**
 	 * @param string $ip
 	 * @param int    $customer_id

@@ -1,11 +1,11 @@
 <?php
-namespace Opencart\Admin\Controller\Startup;
+namespace Ventocart\Admin\Controller\Startup;
 /**
  * Class Setting
  *
- * @package Opencart\Admin\Controller\Startup
+ * @package Ventocart\Admin\Controller\Startup
  */
-class Setting extends \Opencart\System\Engine\Controller {
+class Setting extends \Ventocart\System\Engine\Controller {
 	/**
 	 * @return void
 	 */

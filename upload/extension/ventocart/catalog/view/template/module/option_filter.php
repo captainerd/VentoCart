@@ -1,70 +1,73 @@
 <?php foreach ($filter_options as $optionSet): ?>
   <form method="get" action="index.php" class="option_form">
-  <div class="card  mb-3">
-   
+    <div class="card  mb-3">
+
       <?php foreach ($optionSet as $option): ?>
         <?php if ($option['option_n'] == -1): ?>
-          <div class="card-header">
+          <div class="card-header  p-3">
             <i class="fa-solid fa-list-alt"></i>
             <strong>
               <?= $option['name'] ?>
             </strong>
           </div>
-      <?php else: ?>
+        <?php else: ?>
           <div class="  list-group-flush">
 
-            <div class="list-group-item">
+            <div class="list-group-item p-3">
               <div id="filter-option-group-<?= $option['option_id'] ?>">
                 <div class="form-check">
-                  <input type="checkbox" name="filter_option[]" value="<?= $option['option_id'] ?>" id="input-option-filter-<?= $option['option_id'] ?>" class="form-check-input option-checkbox" <?= (in_array($option['option_id'], $selected_options)) ? 'checked' : '' ?>/>
+                  <input type="checkbox" name="filter_option[]" value="<?= $option['option_id'] ?>"
+                    id="input-option-filter-<?= $option['option_id'] ?>" class="form-check-input option-checkbox"
+                    <?= (in_array($option['option_id'], $selected_options)) ? 'checked' : '' ?> />
                   <label for="input-option-filter-<?= $option['option_id'] ?>" class="form-check-label">
-                  <?php if (  !empty($option['image'])):?> 
-                    <img src="/index.php?route=product/product.getImage&image=<?= $option['image']; ?>&width=20&height=20" alt="Option Image" class="img-fluid  " style="width: 20px; height: 20px;">
+                    <?php if (!empty($option['image'])): ?>
+                      <img src="/index.php?route=product/product.getImage&image=<?= $option['image']; ?>&width=20&height=20"
+                        alt="Option Image" class="img-fluid  " style="width: 20px; height: 20px;">
 
-                    <?php endif;?>
+                    <?php endif; ?>
 
-                  <?= $option['name'] ?> (<?= $option['product_count'] ?>)</label>
+                    <?= $option['name'] ?> (<?= $option['product_count'] ?>)</label>
                 </div>
               </div>
             </div>
           </div>
         <?php endif; ?>
       <?php endforeach; ?>
-    
-  </div>
+
+    </div>
   </form>
 <?php endforeach; ?>
 
 <script>
-$(document).ready(function() {
+  $(document).ready(function () {
     // Catch the form submission
-    $(".option-checkbox").on('change',  function(event) {
-        // Prevent the default form submission
-        event.preventDefault();
+    $(".option-checkbox").on('change', function (event) {
+      // Prevent the default form submission
+      event.preventDefault();
 
-        // Get the serialized form data
-        let formData = $(".option_form").serialize();
-  
-        // Get the existing URL parameters
-        let existingGet = window.location.search.substring(1); // Exclude the leading '?'
-        
-        // Parse the existing parameters
-        let existingParams = new URLSearchParams(existingGet);
-        existingParams.delete('filter_option[]');
-        // Parse the form data
-        let formParams = new URLSearchParams(formData);
- 
+      // Get the serialized form data
+      let formData = $(".option_form").serialize();
 
-        // Combine existing and form parameters
-        let combinedParams = new URLSearchParams(existingParams.toString() + '&' + formParams.toString());
-   
-        // Set the new URL with the updated parameters
-         let url = window.location.pathname + '?' + decodeURIComponent(combinedParams.toString());
-         if (typeof window.handleUrl != 'function')  {
-         window.location.href = url;
-       } else {
+      // Get the existing URL parameters
+      let existingGet = window.location.search.substring(1); // Exclude the leading '?'
+
+      // Parse the existing parameters
+      let existingParams = new URLSearchParams(existingGet);
+      existingParams.delete('filter_option[]');
+      // Parse the form data
+      let formParams = new URLSearchParams(formData);
+
+
+      // Combine existing and form parameters
+      let combinedParams = new URLSearchParams(existingParams.toString() + '&' + formParams.toString());
+
+      // Set the new URL with the updated parameters
+      let url = window.location.pathname + '?' + decodeURIComponent(combinedParams.toString());
+      if (typeof window.handleUrl != 'function') {
+        window.location.href = url;
+      } else {
         window.handleUrl(url);
-       }
+      }
     });
-});
+  });
 </script>

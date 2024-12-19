@@ -1,11 +1,11 @@
 <?php
-namespace Opencart\Catalog\Controller\Account;
+namespace Ventocart\Catalog\Controller\Account;
 /**
  * Class Success
  *
- * @package Opencart\Catalog\Controller\Account
+ * @package Ventocart\Catalog\Controller\Account
  */
-class Success extends \Opencart\System\Engine\Controller {
+class Success extends \Ventocart\System\Engine\Controller {
 	/**
 	 * @return void
 	 */

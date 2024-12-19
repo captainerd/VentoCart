@@ -1,11 +1,11 @@
 <?php
-namespace Opencart\Admin\Controller\Common;
+namespace Ventocart\Admin\Controller\Common;
 /**
  * Class Login
  *
- * @package Opencart\Admin\Controller\Common
+ * @package Ventocart\Admin\Controller\Common
  */
-class Login extends \Opencart\System\Engine\Controller {
+class Login extends \Ventocart\System\Engine\Controller {
 	/**
 	 * @return void
 	 */

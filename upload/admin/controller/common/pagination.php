@@ -1,11 +1,11 @@
 <?php
-namespace Opencart\Admin\Controller\Common;
+namespace Ventocart\Admin\Controller\Common;
 /**
  * Class Pagination
  *
- * @package Opencart\Admin\Controller\Common
+ * @package Ventocart\Admin\Controller\Common
  */
-class Pagination extends \Opencart\System\Engine\Controller {
+class Pagination extends \Ventocart\System\Engine\Controller {
 	/**
 	 * @param array $setting
 	 *

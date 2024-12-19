@@ -1,11 +1,11 @@
 <?php
-namespace Opencart\Admin\Model\Sale;
+namespace Ventocart\Admin\Model\Sale;
 /**
  * Class Subscription
  *
- * @package Opencart\Admin\Model\Sale
+ * @package Ventocart\Admin\Model\Sale
  */
-class Subscription extends \Opencart\System\Engine\Model {
+class Subscription extends \Ventocart\System\Engine\Model {
 	/**
 	 * @param int   $subscription_id
 	 * @param array $data

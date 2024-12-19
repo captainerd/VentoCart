@@ -1,15 +1,18 @@
 <?php
-namespace Opencart\Catalog\Controller\Account;
+namespace Ventocart\Catalog\Controller\Account;
 /**
  * Class Register
  *
- * @package Opencart\Catalog\Controller\Account
+ * @package Ventocart\Catalog\Controller\Account
  */
-class Register extends \Opencart\System\Engine\Controller {
+class Register extends \Ventocart\System\Engine\Controller
+{
 	/**
 	 * @return void
 	 */
-	public function index(): void {
+	public function index(): void
+	{
+
 		if ($this->customer->isLogged()) {
 			$this->response->redirect($this->url->link('account/account', 'language=' . $this->config->get('config_language') . '&customer_token=' . $this->session->data['customer_token']));
 		}
@@ -39,13 +42,12 @@ class Register extends \Opencart\System\Engine\Controller {
 
 		$data['error_upload_size'] = sprintf($this->language->get('error_upload_size'), $this->config->get('config_file_max_size'));
 
-		$data['config_file_max_size'] = ((int)$this->config->get('config_file_max_size') * 1024 * 1024);
+		$data['config_file_max_size'] = ((int) $this->config->get('config_file_max_size') * 1024 * 1024);
 		$data['config_telephone_display'] = $this->config->get('config_telephone_display');
 		$data['config_telephone_required'] = $this->config->get('config_telephone_required');
 
-		$this->session->data['register_token'] = substr(bin2hex(openssl_random_pseudo_bytes(26)), 0, 26);
 
-		$data['register'] = $this->url->link('account/register.register', 'language=' . $this->config->get('config_language') . '&register_token=' . $this->session->data['register_token']);
+		$data['register'] = $this->url->link('account/register.register', 'language=' . $this->config->get('config_language'));
 		$data['upload'] = $this->url->link('tool/upload', 'language=' . $this->config->get('config_language'));
 
 		$data['customer_groups'] = [];
@@ -82,8 +84,8 @@ class Register extends \Opencart\System\Engine\Controller {
 
 		$extension_info = $this->model_setting_extension->getExtensionByCode('captcha', $this->config->get('config_captcha'));
 
-		if ($extension_info && $this->config->get('captcha_' . $this->config->get('config_captcha') . '_status') && in_array('register', (array)$this->config->get('config_captcha_page'))) {
-			$data['captcha'] = $this->load->controller('extension/'  . $extension_info['extension'] . '/captcha/' . $extension_info['code']);
+		if ($extension_info && $this->config->get('captcha_' . $this->config->get('config_captcha') . '_status') && in_array('register', (array) $this->config->get('config_captcha_page'))) {
+			$data['captcha'] = $this->load->controller('extension/' . $extension_info['extension'] . '/captcha/' . $extension_info['code']);
 		} else {
 			$data['captcha'] = '';
 		}
@@ -98,6 +100,26 @@ class Register extends \Opencart\System\Engine\Controller {
 			$data['text_agree'] = '';
 		}
 
+		// Register and logins are done with "Zero-Field Name Nonce" approach, where a nonce  
+		// comes in unknown dynamically named input fields which have to be submited with the form and validated.
+
+		$this->session->data['register_token'] = substr(bin2hex(openssl_random_pseudo_bytes(26)), 0, 26);
+
+		// We also generate a random field name for the token 
+		$this->session->data['register_token_field'] = substr(bin2hex(openssl_random_pseudo_bytes(26)), 0, 5 + rand(1, 10));
+
+		// We also generate a random id and/or name for the form  
+		$data['form_name'] = substr(bin2hex(openssl_random_pseudo_bytes(26)), 0, 5 + rand(1, 10));
+
+		// email field is a honeypot, name also randomly generated.
+		$data['email_field'] = substr(bin2hex(openssl_random_pseudo_bytes(26)), 0, 5 + rand(1, 10));
+		$this->session->data['email_field'] = $data['email_field'];
+
+
+		$data['register_token_field'] = $this->session->data['register_token_field'];
+		$data['register_token'] = $this->session->data['register_token'];
+
+
 		$data['language'] = $this->config->get('config_language');
 
 		$data['column_left'] = $this->load->controller('common/column_left');
@@ -111,9 +133,10 @@ class Register extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * @return void
+	 * @return mixed
 	 */
-	public function register(): void {
+	public function register(): void
+	{
 		$this->load->language('account/register');
 
 		$json = [];
@@ -130,29 +153,34 @@ class Register extends \Opencart\System\Engine\Controller {
 			'agree'
 		];
 
+		if (!empty($this->request->post['email'])) { //email field is honeypot
+			$json['redirect'] = $this->url->link('account/register', 'language=' . $this->config->get('config_language'), true);
+		} else {
+			$this->request->post['email'] = $this->request->post[$this->session->data['email_field']];
+		}
 		foreach ($keys as $key) {
 			if (!isset($this->request->post[$key])) {
 				$this->request->post[$key] = '';
 			}
 		}
 
-		if (!isset($this->request->get['register_token']) || !isset($this->session->data['register_token']) || ($this->session->data['register_token'] != $this->request->get['register_token'])) {
+		if (!isset($this->request->post[$this->session->data['register_token_field']]) || !isset($this->session->data['register_token']) || ($this->session->data['register_token'] != $this->request->post[$this->session->data['register_token_field']])) {
 			$json['redirect'] = $this->url->link('account/register', 'language=' . $this->config->get('config_language'), true);
 		}
 
 		if (!$json) {
 			// Customer Group
 			if ($this->request->post['customer_group_id']) {
-				$customer_group_id = (int)$this->request->post['customer_group_id'];
+				$customer_group_id = (int) $this->request->post['customer_group_id'];
 			} else {
-				$customer_group_id = (int)$this->config->get('config_customer_group_id');
+				$customer_group_id = (int) $this->config->get('config_customer_group_id');
 			}
 
 			$this->load->model('account/customer_group');
 
 			$customer_group_info = $this->model_account_customer_group->getCustomerGroup($customer_group_id);
 
-			if (!$customer_group_info || !in_array($customer_group_id, (array)$this->config->get('config_customer_group_display'))) {
+			if (!$customer_group_info || !in_array($customer_group_id, (array) $this->config->get('config_customer_group_display'))) {
 				$json['error']['warning'] = $this->language->get('error_customer_group');
 			}
 
@@ -202,7 +230,7 @@ class Register extends \Opencart\System\Engine\Controller {
 
 			$extension_info = $this->model_setting_extension->getExtensionByCode('captcha', $this->config->get('config_captcha'));
 
-			if ($extension_info && $this->config->get('captcha_' . $this->config->get('config_captcha') . '_status') && in_array('register', (array)$this->config->get('config_captcha_page'))) {
+			if ($extension_info && $this->config->get('captcha_' . $this->config->get('config_captcha') . '_status') && in_array('register', (array) $this->config->get('config_captcha_page'))) {
 				$captcha = $this->load->controller('extension/' . $extension_info['extension'] . '/captcha/' . $extension_info['code'] . '.validate');
 
 				if ($captcha) {
@@ -221,7 +249,12 @@ class Register extends \Opencart\System\Engine\Controller {
 		}
 
 		if (!$json) {
+			// Make sure it is unsubscribed from guest news letter
+			$this->load->model('guest/newsletter');
+			$this->model_guest_newsletter->unsubscribe($this->request->post['telephone']);
+
 			$customer_id = $this->model_account_customer->addCustomer($this->request->post);
+
 
 			// Login if requires approval
 			if (!$customer_group_info['approval']) {
@@ -229,13 +262,13 @@ class Register extends \Opencart\System\Engine\Controller {
 
 				// Add customer details into session
 				$this->session->data['customer'] = [
-					'customer_id'       => $customer_id,
+					'customer_id' => $customer_id,
 					'customer_group_id' => $customer_group_id,
-					'firstname'         => $this->request->post['firstname'],
-					'lastname'          => $this->request->post['lastname'],
-					'email'             => $this->request->post['email'],
-					'telephone'         => $this->request->post['telephone'],
-					'custom_field'      => $this->request->post['custom_field']
+					'firstname' => $this->request->post['firstname'],
+					'lastname' => $this->request->post['lastname'],
+					'email' => $this->request->post['email'],
+					'telephone' => $this->request->post['telephone'],
+					'custom_field' => $this->request->post['custom_field']
 				];
 
 				// Log the IP info
@@ -257,8 +290,14 @@ class Register extends \Opencart\System\Engine\Controller {
 
 			$json['redirect'] = $this->url->link('account/success', 'language=' . $this->config->get('config_language') . (isset($this->session->data['customer_token']) ? '&customer_token=' . $this->session->data['customer_token'] : ''), true);
 		}
+		$api_output = $this->customer->isApiSigned() ? true : false;
+		if ($api_output) {
+			$json['loggedIn'] = $this->customer->isLogged();
+			$this->response->setOutput(json_encode($json));
+		}
 
 		$this->response->addHeader('Content-Type: application/json');
 		$this->response->setOutput(json_encode($json));
+
 	}
 }

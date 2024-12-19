@@ -1,11 +1,11 @@
 <?php
-namespace Opencart\Catalog\Model\Setting;
+namespace Ventocart\Catalog\Model\Setting;
 /**
  * Class Extension
  *
- * @package Opencart\Catalog\Model\Setting
+ * @package Ventocart\Catalog\Model\Setting
  */
-class Extension extends \Opencart\System\Engine\Model {
+class Extension extends \Ventocart\System\Engine\Model {
 	/**
 	 * @return array
 	 */

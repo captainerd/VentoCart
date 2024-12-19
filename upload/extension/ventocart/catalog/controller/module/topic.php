@@ -1,20 +1,23 @@
 <?php
-namespace Opencart\Catalog\Controller\Extension\VentoCart\Module;
+namespace Ventocart\Catalog\Controller\Extension\VentoCart\Module;
 
 /**
  * Class Topic
  *
- * @package Opencart\Catalog\Controller\Extension\Opencart\Module
+ * @package Ventocart\Catalog\Controller\Extension\Ventocart\Module
  */
-class Topic extends \Opencart\System\Engine\Controller
+class Topic extends \Ventocart\System\Engine\Controller
 {
 	/**
-	 * @return string
+	 * @return mixed
 	 */
 
 
-	public function index(array $setting = []): string
+	public function index(array $setting = []): mixed
 	{
+
+		$api_output = $this->customer->isApiClient();
+
 		if (empty($setting))
 			return '';
 		$this->load->language('extension/ventocart/module/topic');
@@ -24,7 +27,7 @@ class Topic extends \Opencart\System\Engine\Controller
 		} else {
 			$data['article_id'] = 0;
 		}
- 
+
 		if (isset($this->request->get['topic_id'])) {
 			$data['topic_id'] = (int) $this->request->get['topic_id'];
 		} else {
@@ -38,10 +41,10 @@ class Topic extends \Opencart\System\Engine\Controller
 		$this->load->model('localisation/language');
 
 		$topics = $this->model_cms_topic->getTopics();
-	 
+
 
 		$articles = $this->model_cms_article->getArticles(['limit' => $setting['limit_topics'], 'start' => 0]);
-	 
+
 		$data['hide_date'] = $setting['hidedate'];
 		foreach ($articles as $article) {
 			$topicDescription = html_entity_decode($article['description']);
@@ -61,15 +64,15 @@ class Topic extends \Opencart\System\Engine\Controller
 				$topicDescription = $truncatedText;
 			}
 			$dateString = $article['date_added'];
-			
-			 
+
+
 			$formatter = new \IntlDateFormatter($this->config->get('config_language'), \IntlDateFormatter::LONG, \IntlDateFormatter::NONE, 'UTC');
 			$dateTime = new \DateTime($dateString);
 			$formattedDate = $formatter->format($dateTime);
 			if ($setting['hidedate']) {
 				$formattedDate = '';
 			}
- 
+
 			$data['articles'][] = [
 				'article_id' => $article['article_id'],
 				'image' => $article['image'],
@@ -77,13 +80,13 @@ class Topic extends \Opencart\System\Engine\Controller
 				'date_added' => $article['date_added'],
 				'name' => $article['name'],
 				'preview' => $topicDescription,
-				'href' => $this->url->link('cms/blog.info', 'language=' . $this->config->get('config_language') . '&article_id=' . $article['article_id']. '&topic_id=' . $article['topic_id'])
+				'href' => $this->url->link('cms/blog.info', 'language=' . $this->config->get('config_language') . '&article_id=' . $article['article_id'] . '&topic_id=' . $article['topic_id'])
 			];
 		}
- 
+
 		foreach ($topics as $topic) {
-	 
- 
+
+
 			$data['topics'][] = [
 				'topic_id' => $topic['topic_id'],
 				'image' => $topic['image'],
@@ -94,10 +97,18 @@ class Topic extends \Opencart\System\Engine\Controller
 		}
 
 
-		if ($setting['preview']) {
-			return $this->load->view('extension/ventocart/module/topic_preview', $data);
+		if ($api_output) {
+
+			$data['module'] = "topic";
+			$data['lang_values'] = $this->language->loadForAPI('extension/ventocart/module/topic');
+			return $data;
 		} else {
-			return $this->load->view('extension/ventocart/module/topic', $data);
+			if ($setting['preview']) {
+				return $this->load->view('extension/ventocart/module/topic_preview', $data);
+			} else {
+				return $this->load->view('extension/ventocart/module/topic', $data);
+			}
 		}
+
 	}
 }

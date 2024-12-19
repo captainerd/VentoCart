@@ -1,9 +1,9 @@
 <?php
-namespace Opencart\System\Library\Template;
+namespace Ventocart\System\Library\Template;
 /**
  * Class Twig
  *
- * @package Opencart\System\Library\Template
+ * @package Ventocart\System\Library\Template
  */
 class Twig {
 	/**
@@ -31,7 +31,7 @@ class Twig {
 	 */
 	public function __construct() {
 		// Unfortunately, we have to set the web root directory as the base since Twig confuses which template cache to use.
-		$this->root = substr(DIR_OPENCART, 0, -1);
+		$this->root = substr(DIR_VENTOCART, 0, -1);
 
 		// We have to add the C directory as the base directory because twig can only accept the first namespace/,
 		// rather than a multiple namespace system, which took me less than a minute to write. If symphony is like

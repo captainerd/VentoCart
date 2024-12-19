@@ -73,6 +73,6 @@ $_['button_forgot_pin']  = 'Forgot PIN?';
 
 // Error
 $_['error_permission']   = 'Warning: You do not have permission to modify extensions!';
-$_['error_api']          = 'Warning: You must enter your OpenCart API information by clicking the <i class="fa-solid fa-triangle-exclamation"></i> before you can download extensions or make any purchases!';
+$_['error_api']          = 'Warning: You must enter your VentoCart API information by clicking the <i class="fa-solid fa-triangle-exclamation"></i> before you can download extensions or make any purchases!';
 $_['error_purchase']     = 'The extension could not be purchased!';
 $_['error_download']     = 'The extension could not be downloaded!';

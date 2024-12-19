@@ -1,11 +1,12 @@
 <?php
-namespace Opencart\Catalog\Controller\Startup;
+namespace Ventocart\Catalog\Controller\Startup;
 /**
  * Class Language
  *
- * @package Opencart\Catalog\Controller\Startup
+ * @package Ventocart\Catalog\Controller\Startup
  */
-class Language extends \Opencart\System\Engine\Controller {
+class Language extends \Ventocart\System\Engine\Controller
+{
 	/**
 	 * @var array
 	 */
@@ -14,20 +15,21 @@ class Language extends \Opencart\System\Engine\Controller {
 	/**
 	 * @return void
 	 */
-	public function index(): void {
-	
+	public function index(): void
+	{
+
 		if (isset($this->request->get['language'])) {
-			$code = (string)$this->request->get['language'];
-			$this->session->data['language'] = $code;
+			$code = (string) $this->request->get['language'];
 		} elseif (!empty($this->session->data['language'])) {
 			$code = $this->session->data['language'];
 		} else {
 			$code = $this->config->get('config_language');
+
 		}
-		
-		$this->request->get['language'] = $code; // Ensure 'language' parameter is always set in the GET request
-		
- 
+		$this->session->data['language'] = $code;
+
+
+
 		$this->load->model('localisation/language');
 
 		self::$languages = $this->model_localisation_language->getLanguages();
@@ -47,7 +49,7 @@ class Language extends \Opencart\System\Engine\Controller {
 			$this->load->language('default');
 		}
 	}
-	
+
 	// Override the language default values
 
 	/**
@@ -58,7 +60,8 @@ class Language extends \Opencart\System\Engine\Controller {
 	 *
 	 * @return void
 	 */
-	public function after(&$route, &$prefix, &$code, &$output): void {
+	public function after(&$route, &$prefix, &$code, &$output): void
+	{
 		if (!$code) {
 			$code = $this->config->get('config_language');
 		}

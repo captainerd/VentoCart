@@ -1,9 +1,9 @@
 <?php
-namespace Opencart\System\Library\Cart;
+namespace Ventocart\System\Library\Cart;
 /**
  * Class Length
  *
- * @package Opencart\System\Library\Cart
+ * @package Ventocart\System\Library\Cart
  */
 class Length {
 	/**
@@ -24,7 +24,7 @@ class Length {
      *
      * @param object $registry
      */
-	public function __construct(\Opencart\System\Engine\Registry $registry) {
+	public function __construct(\Ventocart\System\Engine\Registry $registry) {
 		$this->db = $registry->get('db');
 		$this->config = $registry->get('config');
 

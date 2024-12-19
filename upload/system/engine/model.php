@@ -1,24 +1,25 @@
 <?php
 /**
- * @package		OpenCart
+ * @package		VentoCart
  * @author		Daniel Kerr
- * @copyright	Copyright (c) 2005 - 2022, OpenCart, Ltd. (https://www.opencart.com/)
+ * @copyright	Copyright (c) 2005 - 2022, VentoCart, Ltd. (https://www.ventocart.com/)
  * @license		https://opensource.org/licenses/GPL-3.0
- * @link		https://www.opencart.com
-*/
+ * @link		https://www.ventocart.com
+ */
 
 /**
-* Model class
-*/
-namespace Opencart\System\Engine;
+ * Model class
+ */
+namespace Ventocart\System\Engine;
 /**
  * Class Model
  *
- * @mixin \Opencart\System\Engine\Registry
+ * @mixin \Ventocart\System\Engine\Registry
  */
-class Model {
+class Model
+{
 	/**
-	 * @var object|\Opencart\System\Engine\Registry
+	 * @var object|\Ventocart\System\Engine\Registry
 	 */
 	protected $registry;
 
@@ -27,18 +28,20 @@ class Model {
 	 *
 	 * @param object $registry
 	 */
-	public function __construct(\Opencart\System\Engine\Registry $registry) {
+	public function __construct(\Ventocart\System\Engine\Registry $registry)
+	{
 		$this->registry = $registry;
 	}
 
 	/**
-     * __get
-     *
-     * @param string $key
-     *
-     * @return object
-     */
-	public function __get(string $key): object {
+	 * __get
+	 *
+	 * @param string $key
+	 *
+	 * @return object
+	 */
+	public function __get(string $key): object
+	{
 		if ($this->registry->has($key)) {
 			return $this->registry->get($key);
 		} else {
@@ -47,27 +50,29 @@ class Model {
 	}
 
 	/**
-     * __set
-     *
-     * @param string $key
-     * @param string $value
-     *
-     * @return void
-     */
-	public function __set(string $key, object $value): void {
+	 * __set
+	 *
+	 * @param string $key
+	 * @param string $value
+	 *
+	 * @return void
+	 */
+	public function __set(string $key, object $value): void
+	{
 		$this->registry->set($key, $value);
 	}
 
 	/**
-     * __isset
-     *
-     * https://www.php.net/manual/en/language.oop5.overloading.php#object.set
-     *
-     * @param string $key
-     *
-     * @return bool
-     */
-	public function __isset(string $key): bool {
+	 * __isset
+	 *
+	 * https://www.php.net/manual/en/language.oop5.overloading.php#object.set
+	 *
+	 * @param string $key
+	 *
+	 * @return bool
+	 */
+	public function __isset(string $key): bool
+	{
 		return $this->registry->has($key);
 	}
 }

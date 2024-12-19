@@ -1,11 +1,11 @@
 <?php
-namespace Opencart\Admin\Controller\Common;
+namespace Ventocart\Admin\Controller\Common;
 /**
  * Class Forgotten
  *
- * @package Opencart\Admin\Controller\Common
+ * @package Ventocart\Admin\Controller\Common
  */
-class Forgotten extends \Opencart\System\Engine\Controller {
+class Forgotten extends \Ventocart\System\Engine\Controller {
 	/**
 	 * @return void
 	 */

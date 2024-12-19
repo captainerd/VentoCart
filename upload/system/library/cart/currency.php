@@ -1,9 +1,9 @@
 <?php
-namespace Opencart\System\Library\Cart;
+namespace Ventocart\System\Library\Cart;
 /**
  * Class Currency
  *
- * @package Opencart\System\Library\Cart
+ * @package Ventocart\System\Library\Cart
  */
 class Currency {
 	/**
@@ -24,7 +24,7 @@ class Currency {
      *
      * @param object $registry
      */
-	public function __construct(\Opencart\System\Engine\Registry $registry) {
+	public function __construct(\Ventocart\System\Engine\Registry $registry) {
 		$this->db = $registry->get('db');
 		$this->language = $registry->get('language');
 

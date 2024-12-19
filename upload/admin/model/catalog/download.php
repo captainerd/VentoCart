@@ -1,6 +1,6 @@
 <?php
-namespace Opencart\Admin\Model\Catalog;
-class Download extends \Opencart\System\Engine\Model {
+namespace Ventocart\Admin\Model\Catalog;
+class Download extends \Ventocart\System\Engine\Model {
 	public function addDownload(array $data): int {
 		$this->db->query("INSERT INTO `" . DB_PREFIX . "download` SET `filename` = '" . $this->db->escape((string)$data['filename']) . "', `mask` = '" . $this->db->escape((string)$data['mask']) . "', `date_added` = NOW()");
 

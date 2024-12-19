@@ -1,11 +1,11 @@
 <?php
-namespace Opencart\Catalog\Model\Account;
+namespace Ventocart\Catalog\Model\Account;
 /**
  * Class Download
  *
- * @package Opencart\Catalog\Model\Account
+ * @package Ventocart\Catalog\Model\Account
  */
-class Download extends \Opencart\System\Engine\Model {
+class Download extends \Ventocart\System\Engine\Model {
 	/**
 	 * @param int $download_id
 	 *

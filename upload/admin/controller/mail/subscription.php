@@ -1,11 +1,11 @@
 <?php
-namespace Opencart\Admin\Controller\Mail;
+namespace Ventocart\Admin\Controller\Mail;
 /**
  * Class Subscription
  *
- * @package Opencart\Admin\Controller\Mail
+ * @package Ventocart\Admin\Controller\Mail
  */
-class Subscription extends \Opencart\System\Engine\Controller {
+class Subscription extends \Ventocart\System\Engine\Controller {
     // admin/controller/sale/subscription/addHistory/after
 	/**
 	 * @param string $route
@@ -133,7 +133,7 @@ class Subscription extends \Opencart\System\Engine\Controller {
                                     $data['text_subscription_status'] = $this->language->get('mail_text_subscription_status');
 
                                     if ($this->config->get('config_mail_engine')) {
-                                        $mail = new \Opencart\System\Library\Mail($this->config->get('config_mail_engine'));
+                                        $mail = new \Ventocart\System\Library\Mail($this->config->get('config_mail_engine'));
                                         $mail->parameter = $this->config->get('config_mail_parameter');
                                         $mail->smtp_hostname = $this->config->get('config_mail_smtp_hostname');
                                         $mail->smtp_username = $this->config->get('config_mail_smtp_username');
@@ -259,7 +259,7 @@ class Subscription extends \Opencart\System\Engine\Controller {
                                 $data['date_added'] = date($this->language->get('date_format_short'), $subscription['date_added']);
 
                                 if ($this->config->get('config_mail_engine')) {
-                                    $mail = new \Opencart\System\Library\Mail($this->config->get('config_mail_engine'));
+                                    $mail = new \Ventocart\System\Library\Mail($this->config->get('config_mail_engine'));
                                     $mail->parameter = $this->config->get('config_mail_parameter');
                                     $mail->smtp_hostname = $this->config->get('config_mail_smtp_hostname');
                                     $mail->smtp_username = $this->config->get('config_mail_smtp_username');

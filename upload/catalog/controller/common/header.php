@@ -1,15 +1,17 @@
 <?php
-namespace Opencart\Catalog\Controller\Common;
+namespace Ventocart\Catalog\Controller\Common;
 /**
  * Class Header
  *
- * @package Opencart\Catalog\Controller\Common
+ * @package Ventocart\Catalog\Controller\Common
  */
-class Header extends \Opencart\System\Engine\Controller {
+class Header extends \Ventocart\System\Engine\Controller
+{
 	/**
-	 * @return string
+	 * @return mixed
 	 */
-	public function index(): string {
+	public function index(): mixed
+	{
 		// Analytics
 		$data['analytics'] = [];
 
@@ -64,32 +66,43 @@ class Header extends \Opencart\System\Engine\Controller {
 			$data['text_wishlist'] = sprintf($this->language->get('text_wishlist'), (isset($this->session->data['wishlist']) ? count($this->session->data['wishlist']) : 0));
 		}
 
-		$data['home'] = $this->url->link('common/home', 'language=' . $this->config->get('config_language'));
-		$data['wishlist'] = $this->url->link('account/wishlist', 'language=' . $this->config->get('config_language') . (isset($this->session->data['customer_token']) ? '&customer_token=' . $this->session->data['customer_token'] : ''));
+		$data['home'] = $this->url->link('common/home');
+		$data['wishlist'] = $this->url->link('account/wishlist' . (isset($this->session->data['customer_token']) ? '&customer_token=' . $this->session->data['customer_token'] : ''));
 		$data['logged'] = $this->customer->isLogged();
 
 		if (!$this->customer->isLogged()) {
-			$data['register'] = $this->url->link('account/register', 'language=' . $this->config->get('config_language'));
-			$data['login'] = $this->url->link('account/login', 'language=' . $this->config->get('config_language'));
+			$data['register'] = $this->url->link('account/register');
+			$data['login'] = $this->url->link('account/login');
+			$data['guest_order'] = $this->url->link('guest/order');
 		} else {
-			$data['account'] = $this->url->link('account/account', 'language=' . $this->config->get('config_language') . '&customer_token=' . $this->session->data['customer_token']);
-			$data['order'] = $this->url->link('account/order', 'language=' . $this->config->get('config_language') . '&customer_token=' . $this->session->data['customer_token']);
-			$data['transaction'] = $this->url->link('account/transaction', 'language=' . $this->config->get('config_language') . '&customer_token=' . $this->session->data['customer_token']);
-			$data['download'] = $this->url->link('account/download', 'language=' . $this->config->get('config_language') . '&customer_token=' . $this->session->data['customer_token']);
-			$data['logout'] = $this->url->link('account/logout', 'language=' . $this->config->get('config_language'));
+			$data['account'] = $this->url->link('account/account');
+			$data['order'] = $this->url->link('account/order');
+			$data['transaction'] = $this->url->link('account/transaction');
+			$data['download'] = $this->url->link('account/download');
+			$data['logout'] = $this->url->link('account/logout');
 		}
 
-		$data['shopping_cart'] = $this->url->link('checkout/cart', 'language=' . $this->config->get('config_language'));
-		$data['checkout'] = $this->url->link('checkout/checkout', 'language=' . $this->config->get('config_language'));
-		$data['contact'] = $this->url->link('information/contact', 'language=' . $this->config->get('config_language'));
+		$data['shopping_cart'] = $this->url->link('checkout/cart');
+		$data['checkout'] = $this->url->link('checkout/checkout');
+		$data['contact'] = $this->url->link('information/contact');
 		$data['telephone'] = $this->config->get('config_telephone');
-
 		$data['language'] = $this->load->controller('common/language');
 		$data['currency'] = $this->load->controller('common/currency');
 		$data['search'] = $this->load->controller('common/search');
 		$data['cart'] = $this->load->controller('common/cart');
 		$data['menu'] = $this->load->controller('common/menu');
+		$data['menu_mobile'] = $this->load->controller('common/menu.mobile');
 
-		return $this->load->view('common/header', $data);
+
+
+
+		$api_output = $this->customer->isApiClient();
+
+		if (!$api_output) {
+			return $this->load->view('common/header', $data);
+		} else {
+			return $data;
+		}
+
 	}
 }

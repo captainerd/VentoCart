@@ -1,7 +1,7 @@
 <?php
-namespace Opencart\Admin\Controller\Catalog;
+namespace Ventocart\Admin\Controller\Catalog;
 
-class Variations extends \Opencart\System\Engine\Controller
+class Variations extends \Ventocart\System\Engine\Controller
 {
 
 	public function savevariations()
@@ -12,7 +12,7 @@ class Variations extends \Opencart\System\Engine\Controller
 			$this->response->setOutput(json_encode($json));
 			return;
 		}
-		
+
 		$this->load->language('catalog/product');
 		// Check if product_id is set in the request
 		$json = [];
@@ -48,13 +48,13 @@ class Variations extends \Opencart\System\Engine\Controller
 				if ($variation_edit === 0) {
 					// Add new variation
 					$result = $this->model_catalog_variations->addVariation($product_id, $variation_quantity, $variation_price, $variation_sku, $option_values, $subtract, $model);
-	
+
 					$json['success'] = true;
 					$json['message'] = 'Variation added successfully';
 				} else {
 					// Update existing variation
 					$result = $this->model_catalog_variations->updateVariation($variation_edit, $variation_quantity, $variation_price, $variation_sku, $option_values, $subtract, $model);
-	
+
 					$json['success'] = true;
 					$json['message'] = 'Variation updated successfully';
 				}
@@ -67,7 +67,7 @@ class Variations extends \Opencart\System\Engine\Controller
 	}
 	public function index()
 	{
-		 
+
 		$this->load->language('catalog/product');
 		if (isset($this->request->get['product_id'])) {
 			$product_id = (int) $this->request->get['product_id'];
@@ -76,85 +76,55 @@ class Variations extends \Opencart\System\Engine\Controller
 		}
 		$this->load->model('catalog/variations');
 		$this->load->model('catalog/product');
- 
-		$option_data = [];
 
-		//Non updated options, use Old OpenCart Format (getOptionsLegacy) 
+
+
+		//Non updated options, use Old VentoCart Format (getOptionsLegacy) 
 		//Consider updating it, will reduce nested loops into one.
-		$product_options = $this->model_catalog_product->getOptionsLegacy($product_id);  
-	  
-		foreach ($product_options as $product_option) {
-		 
-	
-			if ($product_option) {
-				if ( $product_option['type'] != "checkbox" &&  $product_option['type'] != "radio" &&  $product_option['type'] != "select") continue;
-				$product_option_value_data = [];
+		$option_data = $this->model_catalog_product->getOptionsLegacy($product_id);
 
-				foreach ($product_option['product_option_value'] as $product_option_value) {
-				 
-						$product_option_value_data[] = [
-							'product_option_value_id' => $product_option_value['product_option_value_id'],
-							'option_value_id' => $product_option_value['option_value_id'],
-							'name' => $product_option_value['name'],
-							'price' => (float) $product_option_value['price'] ? $this->currency->format($product_option_value['price'], $this->config->get('config_currency')) : false,
-							'price_prefix' => $product_option_value['price_prefix']
-						];
-				 
-				}
-
-				$option_data[] = [
-					'product_option_id' => $product_option['product_option_id'],
-					'product_option_value' => $product_option_value_data,
-					'option_id' => $product_option['option_id'],
-					'name' => $product_option['name'],
-					'type' => $product_option['type'],
-					'value' => $product_option['value'],
-					'required' => $product_option['required']
-				];
-			}
-		}
 
 		/* Non getOptionsLegacy() For original 
 
-		*** OpenCart: getOptions(), getOption(), getValue(), 
-		*** Load models: catalog/option, catalog/product
+			  *** VentoCart: getOptions(), getOption(), getValue(), 
+			  *** Load models: catalog/option, catalog/product
 
-			$product_options = $this->model_catalog_product->getOptions($product_id);
+				  $product_options = $this->model_catalog_product->getOptions($product_id);
 
-		foreach ($product_options as $product_option) {
-			$option_info = $this->model_catalog_option->getOption($product_option['option_id']);
+			  foreach ($product_options as $product_option) {
+				  $option_info = $this->model_catalog_option->getOption($product_option['option_id']);
 
-			if ($option_info) {
-				if ( $option_info['type'] != "checkbox" &&  $option_info['type'] != "radio" &&  $option_info['type'] != "select") continue;
-				$product_option_value_data = [];
+				  if ($option_info) {
+					  if ( $option_info['type'] != "checkbox" &&  $option_info['type'] != "radio" &&  $option_info['type'] != "select") continue;
+					  $product_option_value_data = [];
 
-				foreach ($product_option['product_option_value'] as $product_option_value) {
-				 
-					$option_value_info = $this->model_catalog_option->getValue($product_option_value['option_value_id']);
-			 
-					if ($option_value_info) {
-						$product_option_value_data[] = [
-							'product_option_value_id' => $product_option_value['product_option_value_id'],
-							'option_value_id' => $product_option_value['option_value_id'],
-							'name' => $option_value_info['name'],
-							'price' => (float) $product_option_value['price'] ? $this->currency->format($product_option_value['price'], $this->config->get('config_currency')) : false,
-							'price_prefix' => $product_option_value['price_prefix']
-						];
-					}
-				}
+					  foreach ($product_option['product_option_value'] as $product_option_value) {
+					   
+						  $option_value_info = $this->model_catalog_option->getValue($product_option_value['option_value_id']);
+				   
+						  if ($option_value_info) {
+							  $product_option_value_data[] = [
+								  'product_option_value_id' => $product_option_value['product_option_value_id'],
+								  'option_value_id' => $product_option_value['option_value_id'],
+								  'name' => $option_value_info['name'],
+								  'price' => (float) $product_option_value['price'] ? $this->currency->format($product_option_value['price'], $this->config->get('config_currency')) : false,
+								  'price_prefix' => $product_option_value['price_prefix']
+							  ];
+						  }
+					  }
 
-				$option_data[] = [
-					'product_option_id' => $product_option['product_option_id'],
-					'product_option_value' => $product_option_value_data,
-					'option_id' => $product_option['option_id'],
-					'name' => $option_info['name'],
-					'type' => $option_info['type'],
-					'value' => $product_option['value'],
-					'required' => $product_option['required']
-				];
-			}
-		}
-		*/
+					  $option_data[] = [
+						  'product_option_id' => $product_option['product_option_id'],
+						  'product_option_value' => $product_option_value_data,
+						  'option_id' => $product_option['option_id'],
+						  'name' => $option_info['name'],
+						  'type' => $option_info['type'],
+						  'value' => $product_option['value'],
+						  'required' => $product_option['required']
+					  ];
+				  }
+			  }
+			  */
 
 
 		// Get existing variations for the product
@@ -173,20 +143,20 @@ class Variations extends \Opencart\System\Engine\Controller
 				'options' => [],
 				'variation_id' => $existingVariation['variation_id'],
 			];
-		 
+
 			foreach ($existingVariation['options'] as $variationOption) {
 				foreach ($option_data as $productOption) {
 					foreach ($productOption['product_option_value'] as $productOptionValue) {
 						// Check if the option IDs match
-						if ($variationOption['p_opt_value_id'] == $productOptionValue['product_option_value_id']) {
-					 
+						if ($variationOption['product_option_id'] == $productOptionValue['product_option_value_id']) {
+
 							$variationData['options'][] = [
 								'name' => $productOption['name'],
 								'value' => $productOptionValue['name'],
 
 							];
 							$variationData['options_ids'][] = [
-								'option_id' => $variationOption['p_opt_value_id'] ,
+								'option_id' => $variationOption['product_option_id'],
 								'option_value_id' => $productOptionValue['option_value_id'],
 
 							];

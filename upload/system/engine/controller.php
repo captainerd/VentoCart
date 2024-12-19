@@ -1,20 +1,20 @@
 <?php
 /**
- * @package      OpenCart
+ * @package      VentoCart
  * @author       Daniel Kerr
- * @copyright    Copyright (c) 2005 - 2022, OpenCart, Ltd. (https://www.opencart.com/)
+ * @copyright    Copyright (c) 2005 - 2022, VentoCart, Ltd. (https://www.ventocart.com/)
  * @license      https://opensource.org/licenses/GPL-3.0
- * @link         https://www.opencart.com
+ * @link         https://www.ventocart.com
  */
-namespace Opencart\System\Engine;
+namespace Ventocart\System\Engine;
 /**
  * Class Controller
  *
- * @mixin \Opencart\System\Engine\Registry
+ * @mixin \Ventocart\System\Engine\Registry
  */
 class Controller {
 	/**
-	 * @var object|\Opencart\System\Engine\Registry
+	 * @var object|\Ventocart\System\Engine\Registry
 	 */
 	protected $registry;
 
@@ -23,7 +23,7 @@ class Controller {
 	 *
 	 * @param object $registry
 	 */
-	public function __construct(\Opencart\System\Engine\Registry $registry) {
+	public function __construct(\Ventocart\System\Engine\Registry $registry) {
 		$this->registry = $registry;
 	}
 

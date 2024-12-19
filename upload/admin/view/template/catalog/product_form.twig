@@ -38,7 +38,7 @@
     <div class="card">
       <div class="card-header"><i class="fa-solid fa-pencil"></i> {{ text_form }}</div>
       <div class="card-body">
-        <form id="form-product" action="{{ save }}" method="post"  >
+        <form id="form-product" action="{{ save }}" method="post"  novalidate>
 
           <ul class="nav nav-tabs">
             <li class="nav-item">  <a href="#tab-general" data-bs-toggle="tab" class="nav-link active"><span class="fa-solid mx-1 fa-cube"></span>  {{ tab_general }}</a></li>
@@ -182,6 +182,7 @@
             </div>
 
           <input type="hidden" name="product_id" value="{{ product_id }}" id="input-product-id"/>
+                 <input type="hidden" id="input-directory" value="products/{{ product_id }}">
         </form>
       </div>
     </div>
@@ -276,6 +277,7 @@ $('#report').on('click', '.pagination a', function (e) {
                 $("#add-new-image-button").attr('disabled',false);
                 $("#tabimage-content").show();
                 $("#input-product-id").val(response.product_id);
+                $("#input-directory").val("products/" + response.product_id);
                 window.product_id = response.product_id;
               }
                 if (response.success) { 

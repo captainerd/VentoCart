@@ -1,70 +1,76 @@
 <?php
 /**
- * @package        OpenCart
+ * @package        VentoCart
  * @author         Daniel Kerr
- * @copyright      Copyright (c) 2005 - 2022, OpenCart, Ltd. (https://www.opencart.com/)
+ * @copyright      Copyright (c) 2005 - 2022, VentoCart, Ltd. (https://www.ventocart.com/)
  * @license        https://opensource.org/licenses/GPL-3.0
- * @link           https://www.opencart.com
+ * @link           https://www.ventocart.com
  */
-namespace Opencart\System\Engine;
+namespace Ventocart\System\Engine;
+
 /**
  * Class Loader
  *
- * @mixin \Opencart\System\Engine\Registry
+ * @mixin \Ventocart\System\Engine\Registry
  */
-class Loader {
+class Loader
+{
 	/**
-	 * @var object|\Opencart\System\Engine\Registry
+	 * @var object|\Ventocart\System\Engine\Registry
 	 */
 	protected $registry;
 
 	/**
-     * Constructor
-     *
-     * @param object $registry
-     */
-	public function __construct(\Opencart\System\Engine\Registry $registry) {
+	 * Constructor
+	 *
+	 * @param object $registry
+	 */
+	public function __construct(\Ventocart\System\Engine\Registry $registry)
+	{
 		$this->registry = $registry;
 	}
 
 	/**
-     * __get
-     *
-     * https://www.php.net/manual/en/language.oop5.overloading.php#object.get
-     *
-     * @param string $key
-     *
-     * @return object
-     */
-	public function __get(string $key): object {
+	 * __get
+	 *
+	 * https://www.php.net/manual/en/language.oop5.overloading.php#object.get
+	 *
+	 * @param string $key
+	 *
+	 * @return object
+	 */
+	public function __get(string $key): object
+	{
 		return $this->registry->get($key);
 	}
 
 	/**
-     * __set
-     *
-     * https://www.php.net/manual/en/language.oop5.overloading.php#object.set
-     *
-     * @param string $key
-     * @param object $value
-     *
-     * @return void
-     */
-	public function __set(string $key, object $value): void {
+	 * __set
+	 *
+	 * https://www.php.net/manual/en/language.oop5.overloading.php#object.set
+	 *
+	 * @param string $key
+	 * @param object $value
+	 *
+	 * @return void
+	 */
+	public function __set(string $key, object $value): void
+	{
 		$this->registry->set($key, $value);
 	}
 
 	/**
-     * Controller
-     *
-     * https://wiki.php.net/rfc/variadics
-     *
-     * @param string $route
-     * @param mixed  $args
-     *
-     * @return mixed
-     */
-	public function controller(string $route, ...$args) {
+	 * Controller
+	 *
+	 * https://wiki.php.net/rfc/variadics
+	 *
+	 * @param string $route
+	 * @param mixed  $args
+	 *
+	 * @return mixed
+	 */
+	public function controller(string $route, ...$args)
+	{
 		// Sanitize the call
 		$route = preg_replace('/[^a-zA-Z0-9_|\/\.]/', '', str_replace('|', '.', $route));
 
@@ -74,7 +80,7 @@ class Loader {
 		$this->event->trigger('controller/' . $trigger . '/before', [&$route, &$args]);
 
 		// Keep the original trigger
-		$action = new \Opencart\System\Engine\Action($route);
+		$action = new \Ventocart\System\Engine\Action($route);
 
 		while ($action) {
 			// Execute action
@@ -84,7 +90,7 @@ class Loader {
 			$action = '';
 
 			// Action object returned then we keep the loop going
-			if ($output instanceof \Opencart\System\Engine\Action) {
+			if ($output instanceof \Ventocart\System\Engine\Action) {
 				$action = $output;
 			}
 		}
@@ -96,30 +102,32 @@ class Loader {
 	}
 
 	/**
-     * Model
+	 * Model
 	 *
-     * @param string $route
-     *
-     * @return void
-     */
-	public function model(string $route): void {
+	 * @param string $route
+	 *
+	 * @return void
+	 */
+	public function model(string $route): void
+	{
 		// Sanitize the call
-		$route = preg_replace('/[^a-zA-Z0-9_\/]/', '', $route);
+
 
 		// Create a new key to store the model object
 		$key = 'model_' . str_replace('/', '_', $route);
 
+
 		if (!$this->registry->has($key)) {
 			// Converting a route path to a class name
-			$class = 'Opencart\\' . $this->config->get('application') . '\Model\\' . str_replace(['_', '/'], ['', '\\'], ucwords($route, '_/'));
+			$class = 'Ventocart\\' . $this->config->get('application') . '\Model\\' . str_replace(['_', '/'], ['', '\\'], ucwords($route, '_/'));
 
 			if (class_exists($class)) {
-				$proxy = new \Opencart\System\Engine\Proxy();
+				$proxy = new \Ventocart\System\Engine\Proxy();
 
 				foreach (get_class_methods($class) as $method) {
 					if ((substr($method, 0, 2) != '__') && is_callable($class, $method)) {
 						// https://wiki.php.net/rfc/variadics
-						$proxy->{$method} = function(&...$args) use ($route, $method) {
+						$proxy->{$method} = function (&...$args) use ($route, $method) {
 							$route = $route . '/' . $method;
 
 							$trigger = $route;
@@ -170,17 +178,18 @@ class Loader {
 	}
 
 	/**
-     * View
-     *
-     * Loads the template file and generates the html code.
-     *
-     * @param string $route
-     * @param array  $data
-     * @param string $code
-     *
-     * @return string
-     */
-	public function view(string $route, array $data = [], string $code = ''): string {
+	 * View
+	 *
+	 * Loads the template file and generates the html code.
+	 *
+	 * @param string $route
+	 * @param array  $data
+	 * @param string $code
+	 *
+	 * @return string
+	 */
+	public function view(string $route, array $data = [], string $code = ''): string
+	{
 		// Sanitize the call
 		$route = preg_replace('/[^a-zA-Z0-9_\/]/', '', $route);
 
@@ -203,15 +212,16 @@ class Loader {
 	}
 
 	/**
-     * Language
-     *
-     * @param string $route
-     * @param string $prefix
-     * @param string $code
-     *
-     * @return array
-     */
-	public function language(string $route, string $prefix = '', string $code = ''): array {
+	 * Language
+	 *
+	 * @param string $route
+	 * @param string $prefix
+	 * @param string $code
+	 *
+	 * @return array
+	 */
+	public function language(string $route, string $prefix = '', string $code = ''): array
+	{
 		// Sanitize the call
 		$route = preg_replace('/[^a-zA-Z0-9_\-\/]/', '', $route);
 
@@ -235,7 +245,8 @@ class Loader {
 	 *
 	 * @return void
 	 */
-	public function library(string $route, &...$args): object {
+	public function library(string $route, &...$args): object
+	{
 		// Sanitize the call
 		$route = preg_replace('/[^a-zA-Z0-9_\/]/', '', $route);
 
@@ -256,13 +267,14 @@ class Loader {
 	}
 
 	/**
-     * Config
-     *
-     * @param string $route
-     *
-     * @return array
-     */
-	public function config(string $route): array {
+	 * Config
+	 *
+	 * @param string $route
+	 *
+	 * @return array
+	 */
+	public function config(string $route): array
+	{
 		// Sanitize the call
 		$route = preg_replace('/[^a-zA-Z0-9_\-\/]/', '', $route);
 
@@ -280,13 +292,14 @@ class Loader {
 	}
 
 	/**
-     * Helper
-     *
-     * @param string $route
-     *
-     * @return void
-     */
-	public function helper(string $route): void {
+	 * Helper
+	 *
+	 * @param string $route
+	 *
+	 * @return void
+	 */
+	public function helper(string $route): void
+	{
 		$route = preg_replace('/[^a-zA-Z0-9_\/]/', '', $route);
 
 		if (!str_starts_with($route, 'extension/')) {
@@ -305,4 +318,20 @@ class Loader {
 			throw new \Exception('Error: Could not load helper ' . $route . '!');
 		}
 	}
+
+	/**
+	 * Bridge
+	 *
+	 * @param string $NameSpace
+	 * 
+	 * @return void
+	 */
+	public function bridge(string $NameSpace): void
+	{
+
+		$bridge = new \Ventocart\System\Engine\Bridge($this->registry, $NameSpace);
+		$this->registry->set('bridge', $bridge);
+		;
+	}
+
 }

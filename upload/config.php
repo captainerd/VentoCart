@@ -6,12 +6,16 @@ define('APPLICATION', 'Catalog');
 // HTTP
 define('HTTP_SERVER', 'http://127.0.0.1/');
 
+define('API_PUBLIC_KEY', 'MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEgCZvj8xl3iUT9zz0aJZuovrXR4I5FW6fO+A8Yf9TmqVECpWjrN2ergHuBHSi1KPwSpkCsTxauecmhiS9P4N9Jw==');
+
+define('API_PRIVATE_KEY', 'MHcCAQEEIDUq3BMGiA405oYpbiMXD3XJOzNorFYsCqQ1yPwIoVY5oAoGCCqGSM49AwEHoUQDQgAEgCZvj8xl3iUT9zz0aJZuovrXR4I5FW6fO+A8Yf9TmqVECpWjrN2ergHuBHSi1KPwSpkCsTxauecmhiS9P4N9Jw==');
 // DIR
-define('DIR_OPENCART', '/var/www/html/');
-define('DIR_APPLICATION', DIR_OPENCART . 'catalog/');
-define('DIR_EXTENSION', DIR_OPENCART . 'extension/');
-define('DIR_IMAGE', DIR_OPENCART . 'image/');
-define('DIR_SYSTEM', DIR_OPENCART . 'system/');
+// DIR
+define('DIR_VENTOCART', '/var/www/html/');
+define('DIR_APPLICATION', DIR_VENTOCART . 'catalog/');
+define('DIR_EXTENSION', DIR_VENTOCART . 'extension/');
+define('DIR_IMAGE', DIR_VENTOCART . 'image/');
+define('DIR_SYSTEM', DIR_VENTOCART . 'system/');
 define('DIR_STORAGE', DIR_SYSTEM . 'storage/');
 define('DIR_LANGUAGE', DIR_APPLICATION . 'language/');
 define('DIR_TEMPLATE', DIR_APPLICATION . 'view/template/');
@@ -35,7 +39,7 @@ define('DB_PORT', '3306');
 define('DB_PREFIX', 've_');
 
 // For Redis if used:
- 
-define('CACHE_HOSTNAME', '127.0.0.1'); 
-define('CACHE_PORT', '6379');  
-define('CACHE_PREFIX', DB_PREFIX); 
+
+define('CACHE_HOSTNAME', '127.0.0.1');
+define('CACHE_PORT', '6379');
+define('CACHE_PREFIX', DB_PREFIX);

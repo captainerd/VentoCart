@@ -1,9 +1,9 @@
 <?php
-namespace Opencart\System\Library\Cache;
+namespace Ventocart\System\Library\Cache;
 /**
  * Class File
  *
- * @package Opencart\System\Library\Cache
+ * @package Ventocart\System\Library\Cache
  */
 class File {
 	/**
@@ -67,9 +67,11 @@ class File {
 
 		if ($files) {
 			foreach ($files as $file) {
+				if (file_exists($file)) {
 				if (!@unlink($file)) {
 					clearstatcache(false, $file);
 				}
+			}
 			}
 		}
 	}

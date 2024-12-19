@@ -1,11 +1,11 @@
 <?php
-namespace Opencart\Catalog\Model\Account;
+namespace Ventocart\Catalog\Model\Account;
 /**
  * Class CustomField
  *
- * @package Opencart\Catalog\Model\Account
+ * @package Ventocart\Catalog\Model\Account
  */
-class CustomField extends \Opencart\System\Engine\Model {
+class CustomField extends \Ventocart\System\Engine\Model {
 	/**
 	 * @param int $custom_field_id
 	 *

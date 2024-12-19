@@ -1,11 +1,11 @@
 <?php
-namespace Opencart\Catalog\Model\Design;
+namespace Ventocart\Catalog\Model\Design;
 /**
  * Class Seo Url
  *
- * @package Opencart\Catalog\Model\Design
+ * @package Ventocart\Catalog\Model\Design
  */
-class SeoUrl extends \Opencart\System\Engine\Model {
+class SeoUrl extends \Ventocart\System\Engine\Model {
 	/**
 	 * @param string $keyword
 	 *

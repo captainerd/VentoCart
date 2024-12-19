@@ -1,11 +1,11 @@
 <?php
-namespace Opencart\Catalog\Model\Localisation;
+namespace Ventocart\Catalog\Model\Localisation;
 /**
  * Class SubscriptionStatus
  *
- * @package Opencart\Catalog\Model\Localisation
+ * @package Ventocart\Catalog\Model\Localisation
  */
-class SubscriptionStatus extends \Opencart\System\Engine\Model {
+class SubscriptionStatus extends \Ventocart\System\Engine\Model {
 	/**
 	 * @param int $subscription_status_id
 	 *

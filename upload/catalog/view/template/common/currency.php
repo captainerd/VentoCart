@@ -1,29 +1,31 @@
 <?php if (count($currencies) > 1): ?>
-  <form action="<?= $this->e($action) ?>" method="post" enctype="multipart/form-data" id="form-currency">
-    <div class="dropdown">
-      <a href="#"  data-bs-toggle="dropdown">
+  <form action="<?= $action ?>" method="post" enctype="multipart/form-data" id="form-currency">
+    <li class="nav-item list-unstyled dropdown">
+      <a href="#" class="nav-link dropdown-toggle" id="currencyDropdown" role="button" data-bs-toggle="dropdown"
+        aria-expanded="false">
         <?php foreach ($currencies as $currency): ?>
           <?php if ($currency['symbol_left'] && $currency['code'] == $code): ?>
-            <strong><?= $this->e($currency['symbol_left']) ?></strong>
+            <span class="  font-weight-bold"><?= $currency['symbol_left'] ?>       <?= $currency['code'] ?></span>
           <?php elseif ($currency['symbol_right'] && $currency['code'] == $code): ?>
-            <strong><?= $this->e($currency['symbol_right']) ?></strong>
+            <span class=" font-weight-bold"><?= $currency['symbol_right'] ?>       <?= $currency['code'] ?></span>
           <?php endif; ?>
         <?php endforeach; ?>
-        <span class="d-none d-xl-inline"><?= $this->e($text_currency) ?></span>
-        <i class="fa-solid fa-caret-down"></i>
-      </a> 
+
+      </a>
 
       <ul class="dropdown-menu">
         <?php foreach ($currencies as $currency): ?>
           <?php if ($currency['symbol_left']): ?>
-            <li><a href="<?= $currency['code'] ?>" class="dropdown-item"><?= $this->e($currency['symbol_left']) ?> <?= $this->e($currency['title']) ?></a></li>
+            <li><a href="<?= $currency['code'] ?>" class="dropdown-item"><?= $this->e($currency['symbol_left']) ?>
+                <?= $this->e($currency['title']) ?></a></li>
           <?php else: ?>
-            <li><a href="<?= $currency['code'] ?>" class="dropdown-item"><?= $this->e($currency['symbol_right']) ?> <?= $this->e($currency['title']) ?></a></li>
+            <li><a href="<?= $currency['code'] ?>" class="dropdown-item"><?= $this->e($currency['symbol_right']) ?>
+                <?= $this->e($currency['title']) ?></a></li>
           <?php endif; ?>
         <?php endforeach; ?>
       </ul>
-    </div>
-    <input type="hidden" name="code" value="">
+    </li>
+    <input type="hidden" name="code" id="currencyCodeInput" value="">
     <input type="hidden" name="redirect" value="<?= $redirect ?>">
   </form>
 <?php endif; ?>

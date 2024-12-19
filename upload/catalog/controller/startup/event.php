@@ -1,11 +1,11 @@
 <?php
-namespace Opencart\Catalog\Controller\Startup;
+namespace Ventocart\Catalog\Controller\Startup;
 /**
  * Class Event
  *
- * @package Opencart\Catalog\Controller\Startup
+ * @package Ventocart\Catalog\Controller\Startup
  */
-class Event extends \Opencart\System\Engine\Controller {
+class Event extends \Ventocart\System\Engine\Controller {
 	/**
 	 * @return void
 	 */
@@ -21,11 +21,11 @@ class Event extends \Opencart\System\Engine\Controller {
 			if ($part[0] == 'catalog') {
 				array_shift($part);
 
-				$this->event->register(implode('/', $part), new \Opencart\System\Engine\Action($result['action']), $result['sort_order']);
+				$this->event->register(implode('/', $part), new \Ventocart\System\Engine\Action($result['action']), $result['sort_order']);
 			}
 
 			if ($part[0] == 'system') {
-				$this->event->register($result['trigger'], new \Opencart\System\Engine\Action($result['action']), $result['sort_order']);
+				$this->event->register($result['trigger'], new \Ventocart\System\Engine\Action($result['action']), $result['sort_order']);
 			}
 		}
 	}

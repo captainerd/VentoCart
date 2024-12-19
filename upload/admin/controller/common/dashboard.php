@@ -1,11 +1,11 @@
 <?php
-namespace Opencart\Admin\Controller\Common;
+namespace Ventocart\Admin\Controller\Common;
 /**
  * Class Dashboard
  *
- * @package Opencart\Admin\Controller\Common
+ * @package Ventocart\Admin\Controller\Common
  */
-class Dashboard extends \Opencart\System\Engine\Controller {
+class Dashboard extends \Ventocart\System\Engine\Controller {
 	/**
 	 * @return void
 	 */

@@ -1,11 +1,11 @@
 <?php
-namespace Opencart\Admin\Model\Setting;
+namespace Ventocart\Admin\Model\Setting;
 /**
  * Class Module
  *
- * @package Opencart\Admin\Model\Setting
+ * @package Ventocart\Admin\Model\Setting
  */
-class Module extends \Opencart\System\Engine\Model {
+class Module extends \Ventocart\System\Engine\Model {
 	/**
 	 * @param string $code
 	 * @param array  $data

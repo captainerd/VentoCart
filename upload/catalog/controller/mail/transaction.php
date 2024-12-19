@@ -1,11 +1,11 @@
 <?php
-namespace Opencart\Catalog\Controller\Mail;
+namespace Ventocart\Catalog\Controller\Mail;
 /**
  * Class Transaction
  *
- * @package Opencart\Catalog\Controller\Mail
+ * @package Ventocart\Catalog\Controller\Mail
  */
-class Transaction extends \Opencart\System\Engine\Controller {
+class Transaction extends \Ventocart\System\Engine\Controller {
 	// catalog/model/account/customer/addTransaction/after
 	/**
 	 * @param string $route
@@ -76,7 +76,7 @@ class Transaction extends \Opencart\System\Engine\Controller {
 					'smtp_timeout'  => $this->config->get('config_mail_smtp_timeout')
 				];
 
-				$mail = new \Opencart\System\Library\Mail($this->config->get('config_mail_engine'), $mail_option);
+				$mail = new \Ventocart\System\Library\Mail($this->config->get('config_mail_engine'), $mail_option);
 				$mail->setTo($customer_info['email']);
 				$mail->setFrom($this->config->get('config_email'));
 				$mail->setSender($store_name);

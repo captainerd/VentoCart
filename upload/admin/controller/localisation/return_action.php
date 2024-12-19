@@ -1,11 +1,11 @@
 <?php
-namespace Opencart\Admin\Controller\Localisation;
+namespace Ventocart\Admin\Controller\Localisation;
 /**
  * Class Return Action
  *
- * @package Opencart\Admin\Controller\Localisation
+ * @package Ventocart\Admin\Controller\Localisation
  */
-class ReturnAction extends \Opencart\System\Engine\Controller {
+class ReturnAction extends \Ventocart\System\Engine\Controller {
 
 	/**
 	 * @return void

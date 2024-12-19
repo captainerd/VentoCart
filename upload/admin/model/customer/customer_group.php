@@ -1,11 +1,11 @@
 <?php
-namespace Opencart\Admin\Model\Customer;
+namespace Ventocart\Admin\Model\Customer;
 /**
  * Class Customer Group
  *
- * @package Opencart\Admin\Model\Customer
+ * @package Ventocart\Admin\Model\Customer
  */
-class CustomerGroup extends \Opencart\System\Engine\Model {
+class CustomerGroup extends \Ventocart\System\Engine\Model {
 	/**
 	 * @param array $data
 	 *

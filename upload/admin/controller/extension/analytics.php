@@ -1,11 +1,11 @@
 <?php
-namespace Opencart\Admin\Controller\Extension;
+namespace Ventocart\Admin\Controller\Extension;
 /**
  * Class Analytics
  *
- * @package Opencart\Admin\Controller\Extension
+ * @package Ventocart\Admin\Controller\Extension
  */
-class Analytics extends \Opencart\System\Engine\Controller {
+class Analytics extends \Ventocart\System\Engine\Controller {
 	/**
 	 * @return void
 	 */
@@ -134,9 +134,9 @@ class Analytics extends \Opencart\System\Engine\Controller {
 			$namespace = str_replace(['_', '/'], ['', '\\'], ucwords($extension, '_/'));
 
 			// Register controllers, models and system extension folders
-			$this->autoloader->register('Opencart\Admin\Controller\Extension\\' . $namespace, DIR_EXTENSION . $extension . '/admin/controller/');
-			$this->autoloader->register('Opencart\Admin\Model\Extension\\' . $namespace, DIR_EXTENSION . $extension . '/admin/model/');
-			$this->autoloader->register('Opencart\System\Extension\\' . $namespace, DIR_EXTENSION . $extension . '/system/');
+			$this->autoloader->register('Ventocart\Admin\Controller\Extension\\' . $namespace, DIR_EXTENSION . $extension . '/admin/controller/');
+			$this->autoloader->register('Ventocart\Admin\Model\Extension\\' . $namespace, DIR_EXTENSION . $extension . '/admin/model/');
+			$this->autoloader->register('Ventocart\System\Extension\\' . $namespace, DIR_EXTENSION . $extension . '/system/');
 
 			// Template directory
 			$this->template->addPath('extension/' . $extension, DIR_EXTENSION . $extension . '/admin/view/template/');

@@ -1,33 +1,42 @@
-<?=  $header   ?>
-<div id="checkout-cart" class="container">
- 
+<?= $header ?>
 
- <?=  $breadcrumb   ?>
+<div id="checkout-cart" class="container shadow   bg-white pb-5 p-2">
+
+
+  <?= $breadcrumb ?>
 
   <?php if ($attention): ?>
-    <div class="alert alert-info"><i class="fa-solid fa-circle-info"></i> <?= $this->e($attention ) ?> <button type="button" class="btn-close" data-bs-dismiss="alert"></button></div>
+    <div class="alert alert-info"><i class="fa-solid fa-circle-info"></i> <?= $attention ?> <button type="button"
+        class="btn-close" data-bs-dismiss="alert"></button></div>
   <?php endif; ?>
   <?php if ($success): ?>
-    <div class="alert alert-success alert-dismissible"><i class="fa-solid fa-circle-check"></i> <?= $this->e($success ) ?> <button type="button" class="btn-close" data-bs-dismiss="alert"></button></div>
+    <div class="alert alert-success alert-dismissible"><i class="fa-solid fa-circle-check"></i> <?= $success ?>
+      <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
   <?php endif; ?>
   <?php if (!empty($error_warning)): ?>
-    <div class="alert alert-danger alert-dismissible"><i class="fa-solid fa-circle-exclamation"></i> <?= $this->e($error_warning ) ?> <button type="button" class="btn-close" data-bs-dismiss="alert"></button></div>
+    <div class="alert alert-danger alert-dismissible"><i class="fa-solid fa-circle-exclamation"></i>
+      <?= $error_warning ?> <button type="button" class="btn-close" data-bs-dismiss="alert"></button></div>
   <?php endif; ?>
-  <div class="row"><?= $this->e($column_left ) ?>
-    <div id="content" class="col"><?= $this->e($content_top ) ?>
-      <h1><?= $this->e($heading_title ) ?><?php if ($weight): ?> (<?= $this->e($weight ) ?>)<?php endif; ?></h1>
-      <div id="shopping-cart"><?=  $list   ?></div>
- 
+  <div class="row"><?= $column_left ?>
+    <?= $content_top ?>
+    <div id="content " class="col border m-2   rounded p-4">
+      <h3><?= $heading_title ?><?php if ($weight): ?> (<?= $weight ?>)<?php endif; ?></h3>
+      <div class=" " id="shopping-cart"><?= $list ?></div>
 
-      <br/>
+
+      <br />
       <div class="row">
-        <div class="col"><a href="<?= $continue  ?>" class="btn btn-light"><?= $this->e($button_shopping ) ?></a></div>
-        <div class="col text-end"><a href="<?= $checkout  ?>" class="btn btn-primary btn-wide"><?= $this->e($button_checkout ) ?></a></div>
+        <div class="col"><a href="<?= $continue ?>" class="btn btn-light"><?= $button_shopping ?></a></div>
+        <div class="col text-end"><a href="<?= $checkout ?>"
+            class="btn btn-primary btn-wide"><?= $button_checkout ?></a></div>
       </div>
-      <?=  $content_bottom  ?></div>
-    <?=  $column_right  ?></div>
+      <?= $content_bottom ?>
+    </div>
+    <?= $column_right ?>
+  </div>
 </div>
-<script ><!--
+<script><!--
 $('#shopping-cart').on('submit', 'form', function (e) {
     e.preventDefault();
 
@@ -65,14 +74,14 @@ $('#shopping-cart').on('submit', 'form', function (e) {
                 $('#alert').prepend('<div class="alert alert-success alert-dismissible"><i class="fa-solid fa-circle-exclamation"></i> ' + json['success'] + ' <button type="button" class="btn-close" data-bs-dismiss="alert"></button></div>');
             }
 
-            $('#shopping-cart').load("index.php?route=checkout/cart.list&language=<?= $this->e($language ) ?>", {}, function () {
-                $('#header-cart').load("index.php?route=common/cart.info&language=<?= $this->e($language ) ?>");
+            $('#shopping-cart').load("index.php?route=checkout/cart.list&language=<?= $this->e($language) ?>", {}, function () {
+  $('#header-cart').load("index.php?route=common/cart.info&language=<?= $this->e($language) ?>");
             });
         },
-        error: function (xhr, ajaxOptions, thrownError) {
-            //x console.log(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
-        }
+  error: function (xhr, ajaxOptions, thrownError) {
+    //x console.log(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+  }
     });
 });
-//--></script>
-<?=  $footer   ?>
+  //--></script>
+<?= $footer ?>

@@ -1,15 +1,17 @@
 <?php
-namespace Opencart\Catalog\Controller\Cron;
+namespace Ventocart\Catalog\Controller\Cron;
 /**
  * Class Cron
  *
- * @package Opencart\Catalog\Controller\Cron
+ * @package Ventocart\Catalog\Controller\Cron
  */
-class Cron extends \Opencart\System\Engine\Controller {
+class Cron extends \Ventocart\System\Engine\Controller
+{
 	/**
 	 * @return void
 	 */
-	public function index(): void {
+	public function index(): void
+	{
 		$time = time();
 
 		$this->load->model('setting/cron');

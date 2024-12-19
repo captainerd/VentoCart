@@ -1,11 +1,11 @@
 <?php
-namespace Opencart\Admin\Model\Report;
+namespace Ventocart\Admin\Model\Report;
 /**
  * Class Statistics
  *
- * @package Opencart\Admin\Model\Report
+ * @package Ventocart\Admin\Model\Report
  */
-class Statistics extends \Opencart\System\Engine\Model {
+class Statistics extends \Ventocart\System\Engine\Model {
 	/**
 	 * @return array
 	 */

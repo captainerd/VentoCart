@@ -1,11 +1,11 @@
 <?php
-namespace Opencart\Catalog\Model\Localisation;
+namespace Ventocart\Catalog\Model\Localisation;
 /**
  * Class ReturnReason
  *
- * @package Opencart\Catalog\Model\Localisation
+ * @package Ventocart\Catalog\Model\Localisation
  */
-class ReturnReason extends \Opencart\System\Engine\Model {
+class ReturnReason extends \Ventocart\System\Engine\Model {
 	/**
 	 * @param array $data
 	 *

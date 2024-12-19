@@ -1,11 +1,11 @@
 <?php
-namespace Opencart\Admin\Model\Localisation;
+namespace Ventocart\Admin\Model\Localisation;
 /**
  * Class OrderStatus
  *
- * @package Opencart\Admin\Model\Localisation
+ * @package Ventocart\Admin\Model\Localisation
  */
-class OrderStatus extends \Opencart\System\Engine\Model {
+class OrderStatus extends \Ventocart\System\Engine\Model {
 	/**
 	 * @param array $data
 	 *

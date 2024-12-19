@@ -1,11 +1,11 @@
 <?php
-namespace Opencart\Catalog\Controller\Startup;
+namespace Ventocart\Catalog\Controller\Startup;
 /**
  * Class Setting
  *
- * @package Opencart\Catalog\Controller\Startup
+ * @package Ventocart\Catalog\Controller\Startup
  */
-class Setting extends \Opencart\System\Engine\Controller {
+class Setting extends \Ventocart\System\Engine\Controller {
 	/**
 	 * @return void
 	 */
@@ -48,7 +48,7 @@ class Setting extends \Opencart\System\Engine\Controller {
 		}
 
 		// Url
-		$this->registry->set('url', new \Opencart\System\Library\Url($this->config->get('config_url')));
+		$this->registry->set('url', new \Ventocart\System\Library\Url($this->config->get('config_url')));
 
 		// Set time zone
 		if ($this->config->get('config_timezone')) {

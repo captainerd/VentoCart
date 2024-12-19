@@ -1,11 +1,11 @@
 <?php
-namespace Opencart\Catalog\Model\Account;
+namespace Ventocart\Catalog\Model\Account;
 /**
  * Class Gdpr
  *
- * @package Opencart\Catalog\Model\Account
+ * @package Ventocart\Catalog\Model\Account
  */
-class Gdpr extends \Opencart\System\Engine\Model {
+class Gdpr extends \Ventocart\System\Engine\Model {
 	/**
 	 * @param string $code
 	 * @param string $email

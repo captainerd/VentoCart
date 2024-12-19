@@ -1,5 +1,5 @@
 <?php
-/* BBCode Converter that converts BBCode written for OpenCart */
+/* BBCode Converter that converts BBCode written for VentoCart */
 function oc_bbcode_decode(string $string) {
 	$pattern = [];
 	$replace = [];

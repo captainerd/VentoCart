@@ -1,11 +1,11 @@
 <?php
-namespace Opencart\Catalog\Controller\Mail;
+namespace Ventocart\Catalog\Controller\Mail;
 /**
  * Class Forgotten
  *
- * @package Opencart\Catalog\Controller\Mail
+ * @package Ventocart\Catalog\Controller\Mail
  */
-class Forgotten extends \Opencart\System\Engine\Controller {
+class Forgotten extends \Ventocart\System\Engine\Controller {
 	// catalog/model/account/customer/editCode/after
 	/**
 	 * @param string $route
@@ -46,7 +46,7 @@ class Forgotten extends \Opencart\System\Engine\Controller {
 						'smtp_timeout'  => $this->config->get('config_mail_smtp_timeout')
 					];
 
-					$mail = new \Opencart\System\Library\Mail($this->config->get('config_mail_engine'), $mail_option);
+					$mail = new \Ventocart\System\Library\Mail($this->config->get('config_mail_engine'), $mail_option);
 					$mail->setTo($args[0]);
 					$mail->setFrom($this->config->get('config_email'));
 					$mail->setSender($store_name);

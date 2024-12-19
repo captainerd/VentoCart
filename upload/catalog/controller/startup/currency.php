@@ -1,11 +1,11 @@
 <?php
-namespace Opencart\Catalog\Controller\Startup;
+namespace Ventocart\Catalog\Controller\Startup;
 /**
  * Class Currency
  *
- * @package Opencart\Catalog\Controller\Startup
+ * @package Ventocart\Catalog\Controller\Startup
  */
-class Currency extends \Opencart\System\Engine\Controller {
+class Currency extends \Ventocart\System\Engine\Controller {
 	/**
 	 * @return void
 	 */
@@ -43,6 +43,6 @@ class Currency extends \Opencart\System\Engine\Controller {
 			setcookie('currency', $code, $option);
 		}
 
-		$this->registry->set('currency', new \Opencart\System\Library\Cart\Currency($this->registry));
+		$this->registry->set('currency', new \Ventocart\System\Library\Cart\Currency($this->registry));
 	}
 }

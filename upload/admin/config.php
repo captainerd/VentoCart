@@ -7,12 +7,12 @@ define('HTTP_SERVER', 'http://localhost/admin/');
 define('HTTP_CATALOG', 'http://localhost/');
 
 // DIR
-define('DIR_OPENCART', '/var/www/html/');
-define('DIR_APPLICATION', DIR_OPENCART . 'admin/');
-define('DIR_EXTENSION', DIR_OPENCART . 'extension/');
-define('DIR_IMAGE', DIR_OPENCART . 'image/');
-define('DIR_SYSTEM', DIR_OPENCART . 'system/');
-define('DIR_CATALOG', DIR_OPENCART . 'catalog/');
+define('DIR_VENTOCART', '/var/www/html/');
+define('DIR_APPLICATION', DIR_VENTOCART . 'admin/');
+define('DIR_EXTENSION', DIR_VENTOCART . 'extension/');
+define('DIR_IMAGE', DIR_VENTOCART . 'image/');
+define('DIR_SYSTEM', DIR_VENTOCART . 'system/');
+define('DIR_CATALOG', DIR_VENTOCART . 'catalog/');
 define('DIR_STORAGE', DIR_SYSTEM . 'storage/');
 define('DIR_LANGUAGE', DIR_APPLICATION . 'language/');
 define('DIR_TEMPLATE', DIR_APPLICATION . 'view/template/');
@@ -35,10 +35,10 @@ define('DB_DATABASE', 'testa');
 define('DB_PORT', '3306');
 define('DB_PREFIX', 've_');
 
-// OpenCart API
-define('OPENCART_SERVER', 'https://www.ventocart.com/');
+// VENTOCART API
+define('VENTOCART_SERVER', 'https://www.ventocart.com/');
 
 // For redis if used
-define('CACHE_HOSTNAME', '127.0.0.1'); 
-define('CACHE_PORT', '6379');  
-define('CACHE_PREFIX', DB_PREFIX); 
+define('CACHE_HOSTNAME', '127.0.0.1');
+define('CACHE_PORT', '6379');
+define('CACHE_PREFIX', DB_PREFIX);

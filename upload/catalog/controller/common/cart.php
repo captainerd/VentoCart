@@ -1,15 +1,17 @@
 <?php
-namespace Opencart\Catalog\Controller\Common;
+namespace Ventocart\Catalog\Controller\Common;
 /**
  * Class Cart
  *
- * @package Opencart\Catalog\Controller\Common
+ * @package Ventocart\Catalog\Controller\Common
  */
-class Cart extends \Opencart\System\Engine\Controller {
+class Cart extends \Ventocart\System\Engine\Controller
+{
 	/**
-	 * @return string
+	 * @return mixed
 	 */
-	public function index(): string {
+	public function index(): mixed
+	{
 		$this->load->language('common/cart');
 
 		$totals = [];
@@ -19,10 +21,10 @@ class Cart extends \Opencart\System\Engine\Controller {
 		$this->load->model('checkout/cart');
 
 		if ($this->customer->isLogged() || !$this->config->get('config_customer_price')) {
-			($this->model_checkout_cart->getTotals)($totals, $taxes, $total);
+			[$totals, $taxes, $total] = $this->model_checkout_cart->getTotals($totals, $taxes, $total);
 		}
 
-		$data['text_items'] = sprintf($this->language->get('text_items'), $this->cart->countProducts() + (isset($this->session->data['vouchers']) ? count($this->session->data['vouchers']) : 0), $this->currency->format($total, $this->session->data['currency']));
+		$data['text_items'] = sprintf($this->language->get('text_items'), $this->cart->countProducts(), $this->currency->format($total, $this->session->data['currency']));
 
 		// Products
 		$data['products'] = [];
@@ -38,7 +40,7 @@ class Cart extends \Opencart\System\Engine\Controller {
 
 			// Display prices
 			if ($this->customer->isLogged() || !$this->config->get('config_customer_price')) {
-				$unit_price = (float)$this->tax->calculate($product['price'], $product['tax_class_id'], $this->config->get('config_tax'));
+				$unit_price = (float) $this->tax->calculate($product['price'], $product['tax_class_id'], $this->config->get('config_tax'));
 
 				$price = $this->currency->format($unit_price, $this->session->data['currency']);
 				$total = $this->currency->format($unit_price * $product['quantity'], $this->session->data['currency']);
@@ -75,32 +77,22 @@ class Cart extends \Opencart\System\Engine\Controller {
 			}
 
 			$data['products'][] = [
-				'cart_id'      => $product['cart_id'],
-				'thumb'        => $product['image'],
-				'name'         => $product['name'],
-				'model'        => $product['model'],
-				'option'       => $product['option'],
+				'cart_id' => $product['cart_id'],
+				'thumb' => $product['image'],
+				'name' => $product['name'],
+				'model' => $product['model'],
+				'option' => $product['option'],
 				'subscription' => $description,
-				'quantity'     => $product['quantity'],
-				'price'        => $price,
-				'total'        => $total,
-				'reward'       => $product['reward'],
-				'href'         => $this->url->link('product/product', 'language=' . $this->config->get('config_language') . '&product_id=' . $product['product_id'])
+				'quantity' => $product['quantity'],
+				'minimum' => $product['minimum'],
+				'price' => $price,
+				'total' => $total,
+				'reward' => $product['reward'],
+				'href' => $this->url->link('product/product', 'language=' . $this->config->get('config_language') . '&product_id=' . $product['product_id'])
 			];
 		}
 
-		// Gift Voucher
-		$data['vouchers'] = [];
 
-		$vouchers = $this->model_checkout_cart->getVouchers();
-
-		foreach ($vouchers as $key => $voucher) {
-			$data['vouchers'][] = [
-				'key'         => $key,
-				'description' => $voucher['description'],
-				'amount'      => $this->currency->format($voucher['amount'], $this->session->data['currency'])
-			];
-		}
 
 		// Totals
 		$data['totals'] = [];
@@ -108,37 +100,44 @@ class Cart extends \Opencart\System\Engine\Controller {
 		foreach ($totals as $total) {
 			$data['totals'][] = [
 				'title' => $total['title'],
-				'text'  => $this->currency->format($total['value'], $this->session->data['currency'])
+				'text' => $this->currency->format($total['value'], $this->session->data['currency'])
 			];
 		}
 
 		$data['list'] = $this->url->link('common/cart.info', 'language=' . $this->config->get('config_language'));
 		$data['product_remove'] = $this->url->link('common/cart.removeProduct', 'language=' . $this->config->get('config_language'));
-		$data['voucher_remove'] = $this->url->link('common/cart.removeVoucher', 'language=' . $this->config->get('config_language'));
+
 
 		$data['cart'] = $this->url->link('checkout/cart', 'language=' . $this->config->get('config_language'));
 		$data['checkout'] = $this->url->link('checkout/checkout', 'language=' . $this->config->get('config_language'));
-
-		return $this->load->view('common/cart', $data);
+		$api_output = $this->customer->isApiClient();
+		if ($api_output) {
+			$data['loggedIn'] = $this->customer->isLogged();
+			return json_encode($data);
+		} else {
+			return $this->load->view('common/cart', $data);
+		}
 	}
 
 	/**
 	 * @return void
 	 */
-	public function info(): void {
+	public function info(): void
+	{
 		$this->response->setOutput($this->index());
 	}
 
 	/**
 	 * @return void
 	 */
-	public function removeProduct(): void {
+	public function removeProduct(): void
+	{
 		$this->load->language('checkout/cart');
 
 		$json = [];
 
 		if (isset($this->request->post['key'])) {
-			$key = (int)$this->request->post['key'];
+			$key = (int) $this->request->post['key'];
 		} else {
 			$key = 0;
 		}
@@ -163,36 +162,15 @@ class Cart extends \Opencart\System\Engine\Controller {
 		$this->response->setOutput(json_encode($json));
 	}
 
-	/**
-	 * @return void
-	 */
-	public function removeVoucher(): void {
-		$this->load->language('checkout/cart');
-
-		$json = [];
-
-		if (isset($this->request->get['key'])) {
-			$key = $this->request->get['key'];
-		} else {
-			$key = '';
-		}
-
-		if (!isset($this->session->data['vouchers'][$key])) {
-			$json['error'] = $this->language->get('error_voucher');
-		}
-
-		if (!$json) {
-			$json['success'] = $this->language->get('text_remove');
-
-			unset($this->session->data['vouchers'][$key]);
-			unset($this->session->data['shipping_method']);
-			unset($this->session->data['shipping_methods']);
-			unset($this->session->data['payment_method']);
-			unset($this->session->data['payment_methods']);
-			unset($this->session->data['reward']);
-		}
-
+	public function clearCart(): void
+	{
+		$this->cart->clear();
+		$json = ['status' => 'ok'];
 		$this->response->addHeader('Content-Type: application/json');
 		$this->response->setOutput(json_encode($json));
 	}
+	/**
+	 * @return void
+	 */
+
 }

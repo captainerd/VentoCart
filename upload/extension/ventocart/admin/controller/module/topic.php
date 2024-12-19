@@ -1,12 +1,12 @@
 <?php
-namespace Opencart\Admin\Controller\Extension\VentoCart\Module;
+namespace Ventocart\Admin\Controller\Extension\VentoCart\Module;
 
 /**
  * Class Topic
  *
- * @package Opencart\Admin\Controller\Extension\Opencart\Module
+ * @package Ventocart\Admin\Controller\Extension\Ventocart\Module
  */
-class Topic extends \Opencart\System\Engine\Controller
+class Topic extends \Ventocart\System\Engine\Controller
 {
 	/**
 	 * @return void

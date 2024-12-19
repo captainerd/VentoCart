@@ -1,7 +1,9 @@
 <?php
-namespace Opencart\Catalog\Model\Checkout;
-class Cart extends \Opencart\System\Engine\Model {
-	public function getProducts(): array {
+namespace Ventocart\Catalog\Model\Checkout;
+class Cart extends \Ventocart\System\Engine\Model
+{
+	public function getProducts(): array
+	{
 		$this->load->model('tool/image');
 		$this->load->model('tool/upload');
 
@@ -24,7 +26,7 @@ class Cart extends \Opencart\System\Engine\Model {
 					$value = $option['value'];
 				} else {
 					$upload_info = $this->model_tool_upload->getUploadByCode($option['value']);
-					 
+
 
 					if ($upload_info) {
 						$value = $upload_info['code'];
@@ -34,76 +36,48 @@ class Cart extends \Opencart\System\Engine\Model {
 				}
 
 				$option_data[] = [
-					'poption_id'       => $option['poption_id'],
-					'product_id'               => $option['product_id'],
-					'name'                    => $option['name'],
-					'value'                   => $value,
-					'type'                    => $option['type']
+					'product_option_id' => $option['product_option_id'],
+					'product_id' => $option['product_id'],
+					'name' => $option['name'],
+					'value' => $value,
+					'type' => $option['type']
 				];
 			}
 
-			$product_total = 0;
 
-			foreach ($products as $product_2) {
-				if ($product_2['product_id'] == $product['product_id']) {
-					$product_total += $product_2['quantity'];
-				}
-			}
 
-			if ($product['minimum'] > $product_total) {
-				$minimum = false;
-			} else {
-				$minimum = true;
-			}
 
 			$product_data[] = [
-				'cart_id'      => $product['cart_id'],
-				'product_id'   => $product['product_id'],
+				'cart_id' => $product['cart_id'],
+				'product_id' => $product['product_id'],
 				'variation_id' => $product['variation_id'],
-				'image'        => $image,
-				'name'         => $product['name'],
-				'model'        => $product['model'],
-				'option'       => $option_data,
+				'type' => $product['type'],
+				'image' => $image,
+				'name' => $product['name'],
+				'model' => $product['model'],
+				'sku' => $product['sku'],
+				'option' => $option_data,
 				'subscription' => $product['subscription'],
-				'download'     => $product['download'],
-				'quantity'     => $product['quantity'],
-				'stock'        => $product['stock'],
-				'minimum'      => $minimum,
-				'shipping'     => $product['shipping'],
-				'subtract'     => $product['subtract'],
-				'reward'       => $product['reward'],
+				'download' => $product['download'],
+				'quantity' => $product['quantity'],
+				'stock' => $product['stock'],
+				'minimum' => $product['minimum'],
+				'shipping' => $product['shipping'],
+				'subtract' => $product['subtract'],
+				'reward' => $product['reward'],
 				'tax_class_id' => $product['tax_class_id'],
-				'price'        => $product['price'],
-				'total'        => $product['total']
+				'price' => $product['price'],
+				'total' => $product['total']
 			];
 		}
 
 		return $product_data;
 	}
 
-	public function getVouchers(): array {
-		$voucher_data = [];
 
-		if (!empty($this->session->data['vouchers'])) {
-			foreach ($this->session->data['vouchers'] as $voucher) {
-				$voucher_data[] = [
-					'code'             => $voucher['code'],
-					'description'      => $voucher['description'],
-					'from_name'        => $voucher['from_name'],
-					'from_email'       => $voucher['from_email'],
-					'to_name'          => $voucher['to_name'],
-					'to_email'         => $voucher['to_email'],
-					'voucher_theme_id' => $voucher['voucher_theme_id'],
-					'message'          => $voucher['message'],
-					'amount'           => $voucher['amount']
-				];
-			}
-		}
+	public function getTotals(array $totals, array $taxes, int $total): array
+	{
 
-		return $voucher_data;
-	}
-
-	public function getTotals(array &$totals, array &$taxes, int &$total): void {
 		$sort_order = [];
 
 		$this->load->model('setting/extension');
@@ -120,8 +94,9 @@ class Cart extends \Opencart\System\Engine\Model {
 			if ($this->config->get('total_' . $result['code'] . '_status')) {
 				$this->load->model('extension/' . $result['extension'] . '/total/' . $result['code']);
 
-				// __call magic method cannot pass-by-reference so we get PHP to call it as an anonymous function.
-				($this->{'model_extension_' . $result['extension'] . '_total_' . $result['code']}->getTotal)($totals, $taxes, $total);
+
+				[$totals, $taxes, $total] = $this->{'model_extension_' . $result['extension'] . '_total_' . $result['code']}->getTotal($totals, $taxes, $total);
+
 			}
 		}
 
@@ -130,15 +105,17 @@ class Cart extends \Opencart\System\Engine\Model {
 		foreach ($totals as $key => $value) {
 			$sort_order[$key] = $value['sort_order'];
 		}
-		
 
 		array_multisort($sort_order, SORT_ASC, $totals);
 
 		$resnew = [];
 		foreach ($totals as $key => $value) {
 
-			if ($value['code'] != "sub_total" && $value['code'] != "tax")	array_push($resnew, $value);
+			if ($value['code'] != "sub_total" && $value['code'] != "tax")
+				array_push($resnew, $value);
 		}
-		 ///$totals = $resnew;
+		return [$totals, $taxes, $total];
 	}
+
+
 }

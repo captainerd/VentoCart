@@ -1,15 +1,17 @@
 <?php
-namespace Opencart\Admin\Controller\Setting;
+namespace Ventocart\Admin\Controller\Setting;
 /**
  * Class Store
  *
- * @package Opencart\Admin\Controller\Setting
+ * @package Ventocart\Admin\Controller\Setting
  */
-class Store extends \Opencart\System\Engine\Controller {
+class Store extends \Ventocart\System\Engine\Controller
+{
 	/**
 	 * @return void
 	 */
-	public function index(): void {
+	public function index(): void
+	{
 		$this->load->language('setting/store');
 
 		$this->document->setTitle($this->language->get('heading_title'));
@@ -49,7 +51,8 @@ class Store extends \Opencart\System\Engine\Controller {
 	/**
 	 * @return void
 	 */
-	public function list(): void {
+	public function list(): void
+	{
 		$this->load->language('setting/store');
 
 		$this->response->setOutput($this->getList());
@@ -58,9 +61,10 @@ class Store extends \Opencart\System\Engine\Controller {
 	/**
 	 * @return string
 	 */
-	protected function getList(): string {
+	protected function getList(): string
+	{
 		if (isset($this->request->get['page'])) {
-			$page = (int)$this->request->get['page'];
+			$page = (int) $this->request->get['page'];
 		} else {
 			$page = 1;
 		}
@@ -82,9 +86,9 @@ class Store extends \Opencart\System\Engine\Controller {
 
 			$data['stores'][] = [
 				'store_id' => 0,
-				'name'     => $this->config->get('config_name') . $this->language->get('text_default'),
-				'url'      => HTTP_CATALOG,
-				'edit'     => $this->url->link('setting/setting', 'user_token=' . $this->session->data['user_token'])
+				'name' => $this->config->get('config_name') . $this->language->get('text_default'),
+				'url' => HTTP_CATALOG,
+				'edit' => $this->url->link('setting/setting', 'user_token=' . $this->session->data['user_token'])
 			];
 		}
 
@@ -95,9 +99,9 @@ class Store extends \Opencart\System\Engine\Controller {
 		foreach ($results as $result) {
 			$data['stores'][] = [
 				'store_id' => $result['store_id'],
-				'name'     => $result['name'],
-				'url'      => $result['url'],
-				'edit'     => $this->url->link('setting/store.form', 'user_token=' . $this->session->data['user_token'] . '&store_id=' . $result['store_id'])
+				'name' => $result['name'],
+				'url' => $result['url'],
+				'edit' => $this->url->link('setting/store.form', 'user_token=' . $this->session->data['user_token'] . '&store_id=' . $result['store_id'])
 			];
 		}
 
@@ -105,9 +109,9 @@ class Store extends \Opencart\System\Engine\Controller {
 
 		$data['pagination'] = $this->load->controller('common/pagination', [
 			'total' => $store_total,
-			'page'  => $page,
+			'page' => $page,
 			'limit' => $this->config->get('config_pagination_admin'),
-			'url'   => $this->url->link('setting/store.list', 'user_token=' . $this->session->data['user_token'] . $url . '&page={page}')
+			'url' => $this->url->link('setting/store.list', 'user_token=' . $this->session->data['user_token'] . $url . '&page={page}')
 		]);
 
 		$data['results'] = sprintf($this->language->get('text_pagination'), ($store_total) ? (($page - 1) * $this->config->get('config_pagination_admin')) + 1 : 0, ((($page - 1) * $this->config->get('config_pagination_admin')) > ($store_total - $this->config->get('config_pagination_admin'))) ? $store_total : ((($page - 1) * $this->config->get('config_pagination_admin')) + $this->config->get('config_pagination_admin')), $store_total, ceil($store_total / $this->config->get('config_pagination_admin')));
@@ -118,7 +122,8 @@ class Store extends \Opencart\System\Engine\Controller {
 	/**
 	 * @return void
 	 */
-	public function form(): void {
+	public function form(): void
+	{
 		$this->load->language('setting/store');
 
 		$this->document->setTitle($this->language->get('heading_title'));
@@ -158,7 +163,7 @@ class Store extends \Opencart\System\Engine\Controller {
 		}
 
 		if (isset($this->request->get['store_id'])) {
-			$data['store_id'] = (int)$this->request->get['store_id'];
+			$data['store_id'] = (int) $this->request->get['store_id'];
 		} else {
 			$data['store_id'] = 0;
 		}
@@ -197,7 +202,7 @@ class Store extends \Opencart\System\Engine\Controller {
 			$this->load->language('extension/' . $extension['extension'] . '/theme/' . $extension['code'], 'extension');
 
 			$data['themes'][] = [
-				'text'  => $this->language->get('extension_heading_title'),
+				'text' => $this->language->get('extension_heading_title'),
 				'value' => $extension['code']
 			];
 		}
@@ -612,7 +617,8 @@ class Store extends \Opencart\System\Engine\Controller {
 	/**
 	 * @return void
 	 */
-	public function save(): void {
+	public function save(): void
+	{
 		$this->load->language('setting/store');
 
 		$json = [];
@@ -733,7 +739,8 @@ class Store extends \Opencart\System\Engine\Controller {
 	/**
 	 * @return void
 	 */
-	public function delete(): void {
+	public function delete(): void
+	{
 		$this->load->language('setting/store');
 
 		$json = [];
@@ -785,4 +792,7 @@ class Store extends \Opencart\System\Engine\Controller {
 		$this->response->addHeader('Content-Type: application/json');
 		$this->response->setOutput(json_encode($json));
 	}
+
+
+
 }

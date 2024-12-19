@@ -1,11 +1,11 @@
 <?php
-namespace Opencart\Admin\Controller\Customer;
+namespace Ventocart\Admin\Controller\Customer;
 /**
  * Class Customer Group
  *
- * @package Opencart\Admin\Controller\Customer
+ * @package Ventocart\Admin\Controller\Customer
  */
-class CustomerGroup extends \Opencart\System\Engine\Controller {
+class CustomerGroup extends \Ventocart\System\Engine\Controller {
 	/**
 	 * @return void
 	 */

@@ -1,15 +1,17 @@
 <?php
-namespace Opencart\Catalog\Controller\Account;
+namespace Ventocart\Catalog\Controller\Account;
 /**
  * Class Address
  *
- * @package Opencart\Catalog\Controller\Account
+ * @package Ventocart\Catalog\Controller\Account
  */
-class Address extends \Opencart\System\Engine\Controller {
+class Address extends \Ventocart\System\Engine\Controller
+{
 	/**
 	 * @return void
 	 */
-	public function index(): void {
+	public function index(): void
+	{
 		$this->load->language('account/address');
 
 		if (!$this->customer->isLogged() || (!isset($this->request->get['customer_token']) || !isset($this->session->data['customer_token']) || ($this->request->get['customer_token'] != $this->session->data['customer_token']))) {
@@ -59,13 +61,34 @@ class Address extends \Opencart\System\Engine\Controller {
 		$data['footer'] = $this->load->controller('common/footer');
 		$data['header'] = $this->load->controller('common/header');
 
-		$this->response->setOutput($this->load->view('account/address', $data));
+
+		$api_output = $this->customer->isApiClient();
+		if ($api_output) {
+			$dataapi['countries'] = $this->load->controller('localisation/country.getCountries');
+			$dataapi['lang_values'] = array_merge(
+				$this->language->loadForAPI('account/address'),
+				$this->language->all()
+			);
+			$dataapi['list'] = $this->model_account_address->getAddresses($this->customer->getId());
+			$this->response->setOutput(json_encode($dataapi));
+
+
+		} else {
+
+
+
+			$this->response->setOutput($this->load->view('account/address', $data));
+		}
+
+
+
 	}
 
 	/**
 	 * @return void
 	 */
-	public function list(): void {
+	public function list(): void
+	{
 		$this->load->language('account/address');
 
 		if (!$this->customer->isLogged() || (!isset($this->request->get['customer_token']) || !isset($this->session->data['customer_token']) || ($this->request->get['customer_token'] != $this->session->data['customer_token']))) {
@@ -80,7 +103,8 @@ class Address extends \Opencart\System\Engine\Controller {
 	/**
 	 * @return string
 	 */
-	protected function getList(): string {
+	protected function getList(): string
+	{
 		$data['addresses'] = [];
 
 		$this->load->model('account/address');
@@ -103,22 +127,22 @@ class Address extends \Opencart\System\Engine\Controller {
 
 			$replace = [
 				'firstname' => $result['firstname'],
-				'lastname'  => $result['lastname'],
-				'company'   => $result['company'],
+				'lastname' => $result['lastname'],
+				'company' => $result['company'],
 				'address_1' => $result['address_1'],
 				'phone' => $result['phone'],
-				'city'      => $result['city'],
-				'postcode'  => $result['postcode'],
-				'zone'      => $result['zone'],
+				'city' => $result['city'],
+				'postcode' => $result['postcode'],
+				'zone' => $result['zone'],
 				'zone_code' => $result['zone_code'],
-				'country'   => $result['country']
+				'country' => $result['country']
 			];
 
 			$data['addresses'][] = [
 				'address_id' => $result['address_id'],
-				'address'    => str_replace(["\r\n", "\r", "\n"], '<br/>', preg_replace(["/\s\s+/", "/\r\r+/", "/\n\n+/"], '<br/>', trim(str_replace($find, $replace, $result['address_format'])))),
-				'edit'       => $this->url->link('account/address.form', 'language=' . $this->config->get('config_language') . '&customer_token=' . $this->session->data['customer_token'] . '&address_id=' . $result['address_id']),
-				'delete'     => $this->url->link('account/address.delete', 'language=' . $this->config->get('config_language') . '&customer_token=' . $this->session->data['customer_token'] . '&address_id=' . $result['address_id'])
+				'address' => str_replace(["\r\n", "\r", "\n"], '<br/>', preg_replace(["/\s\s+/", "/\r\r+/", "/\n\n+/"], '<br/>', trim(str_replace($find, $replace, $result['address_format'])))),
+				'edit' => $this->url->link('account/address.form', 'language=' . $this->config->get('config_language') . '&customer_token=' . $this->session->data['customer_token'] . '&address_id=' . $result['address_id']),
+				'delete' => $this->url->link('account/address.delete', 'language=' . $this->config->get('config_language') . '&customer_token=' . $this->session->data['customer_token'] . '&address_id=' . $result['address_id'])
 			];
 		}
 
@@ -128,7 +152,8 @@ class Address extends \Opencart\System\Engine\Controller {
 	/**
 	 * @return void
 	 */
-	public function form(): void {
+	public function form(): void
+	{
 		$this->load->language('account/address');
 
 		if (!$this->customer->isLogged() || (!isset($this->request->get['customer_token']) || !isset($this->session->data['customer_token']) || ($this->request->get['customer_token'] != $this->session->data['customer_token']))) {
@@ -143,7 +168,7 @@ class Address extends \Opencart\System\Engine\Controller {
 
 		$data['error_upload_size'] = sprintf($this->language->get('error_upload_size'), $this->config->get('config_file_max_size'));
 
-		$data['config_file_max_size'] = ((int)$this->config->get('config_file_max_size') * 1024 * 1024);
+		$data['config_file_max_size'] = ((int) $this->config->get('config_file_max_size') * 1024 * 1024);
 
 		$datab['breadcrumbs'] = [];
 
@@ -173,7 +198,7 @@ class Address extends \Opencart\System\Engine\Controller {
 				'href' => $this->url->link('account/address.form', 'language=' . $this->config->get('config_language') . '&customer_token=' . $this->session->data['customer_token'] . '&address_id=' . $this->request->get['address_id'])
 			];
 		}
-	 
+
 		if (!isset($this->request->get['address_id'])) {
 			$data['save'] = $this->url->link('account/address.save', 'language=' . $this->config->get('config_language') . '&customer_token=' . $this->session->data['customer_token']);
 		} else {
@@ -288,7 +313,8 @@ class Address extends \Opencart\System\Engine\Controller {
 	/**
 	 * @return void
 	 */
-	public function save(): void {
+	public function save(): void
+	{
 		$this->load->language('account/address');
 
 		$json = [];
@@ -335,7 +361,7 @@ class Address extends \Opencart\System\Engine\Controller {
 
 			$this->load->model('localisation/country');
 
-			$country_info = $this->model_localisation_country->getCountry((int)$this->request->post['country_id']);
+			$country_info = $this->model_localisation_country->getCountry((int) $this->request->post['country_id']);
 
 			if ($country_info && $country_info['postcode_required'] && (oc_strlen($this->request->post['postcode']) < 2 || oc_strlen($this->request->post['postcode']) > 10)) {
 				$json['error']['postcode'] = $this->language->get('error_postcode');
@@ -405,7 +431,7 @@ class Address extends \Opencart\System\Engine\Controller {
 
 				$this->session->data['success'] = $this->language->get('text_edit');
 			}
-
+			$json['success'] = 'ok';
 			$json['redirect'] = $this->url->link('account/address', 'language=' . $this->config->get('config_language') . '&customer_token=' . $this->session->data['customer_token'], true);
 		}
 
@@ -416,7 +442,8 @@ class Address extends \Opencart\System\Engine\Controller {
 	/**
 	 * @return void
 	 */
-	public function delete(): void {
+	public function delete(): void
+	{
 		$this->load->language('account/address');
 
 		$json = [];

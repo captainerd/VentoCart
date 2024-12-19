@@ -1,11 +1,11 @@
 <?php
-namespace Opencart\Admin\Controller\Common;
+namespace Ventocart\Admin\Controller\Common;
 /**
  * Class Security
  *
- * @package Opencart\Admin\Controller\Common
+ * @package Ventocart\Admin\Controller\Common
  */
-class Security extends \Opencart\System\Engine\Controller {
+class Security extends \Ventocart\System\Engine\Controller {
 	/**
 	 * @return string
 	 */
@@ -13,13 +13,13 @@ class Security extends \Opencart\System\Engine\Controller {
 		$this->load->language('common/security');
 
 		// Check install directory exists
-		if (is_dir(DIR_OPENCART . 'install/')) {
-			$data['install'] = DIR_OPENCART . 'install/';
+		if (is_dir(DIR_VENTOCART . 'install/')) {
+			$data['install'] = DIR_VENTOCART . 'install/';
 		} else {
 			$data['install'] = '';
 		}
 
-		if (DIR_APPLICATION == DIR_OPENCART . 'admin/') {
+		if (DIR_APPLICATION == DIR_VENTOCART . 'admin/') {
 			$data['admin'] = 'admin';
 		} else {
 			$data['admin'] = '';
@@ -43,7 +43,7 @@ class Security extends \Opencart\System\Engine\Controller {
 		$json = [];
 
 		if ($this->user->hasPermission('modify', 'common/security')) {
-			if (!is_dir(DIR_OPENCART . 'install/')) {
+			if (!is_dir(DIR_VENTOCART . 'install/')) {
 				$json['error'] = $this->language->get('error_install');
 			}
 		} else {
@@ -53,7 +53,7 @@ class Security extends \Opencart\System\Engine\Controller {
 		if (!$json) {
 			$files = [];
 
-			$path = DIR_OPENCART . 'install/';
+			$path = DIR_VENTOCART . 'install/';
 
 			// Make path into an array
 			$directory = [$path];
@@ -146,7 +146,7 @@ class Security extends \Opencart\System\Engine\Controller {
 				$json['error'] = $this->language->get('error_storage');
 			}
 
-			if (!is_writable(DIR_OPENCART . 'config.php') || !is_writable(DIR_APPLICATION . 'config.php')) {
+			if (!is_writable(DIR_VENTOCART . 'config.php') || !is_writable(DIR_APPLICATION . 'config.php')) {
 				$json['error'] = $this->language->get('error_writable');
 			}
 		} else {
@@ -221,7 +221,7 @@ class Security extends \Opencart\System\Engine\Controller {
 				// Modify the config files
 				$files = [
 					DIR_APPLICATION . 'config.php',
-					DIR_OPENCART . 'config.php'
+					DIR_VENTOCART . 'config.php'
 				];
 
 				foreach ($files as $file) {
@@ -273,8 +273,8 @@ class Security extends \Opencart\System\Engine\Controller {
 		$json = [];
 
 		if ($this->user->hasPermission('modify', 'common/security')) {
-			$base_old = DIR_OPENCART . 'admin/';
-			$base_new = DIR_OPENCART . $name . '/';
+			$base_old = DIR_VENTOCART . 'admin/';
+			$base_new = DIR_VENTOCART . $name . '/';
 
 			if (!is_dir($base_old)) {
 				$json['error'] = $this->language->get('error_admin');
@@ -288,7 +288,7 @@ class Security extends \Opencart\System\Engine\Controller {
 				$json['error'] = $this->language->get('error_admin_name');
 			}
 
-			if (!is_writable(DIR_OPENCART . 'config.php') || !is_writable(DIR_APPLICATION . 'config.php')) {
+			if (!is_writable(DIR_VENTOCART . 'config.php') || !is_writable(DIR_APPLICATION . 'config.php')) {
 				$json['error'] = $this->language->get('error_writable');
 			}
 		} else {
@@ -362,7 +362,7 @@ class Security extends \Opencart\System\Engine\Controller {
 					}
 
 					if (strpos($line, 'define(\'DIR_APPLICATION') !== false) {
-						$output .= 'define(\'DIR_APPLICATION\', DIR_OPENCART . \'' . $name . '/\');' . "\n";
+						$output .= 'define(\'DIR_APPLICATION\', DIR_VENTOCART . \'' . $name . '/\');' . "\n";
 
 						$status = false;
 					}
@@ -392,7 +392,7 @@ class Security extends \Opencart\System\Engine\Controller {
 	 */
 	public function __destruct() {
 		// Remove old admin if exists
-		$path = DIR_OPENCART . 'admin/';
+		$path = DIR_VENTOCART . 'admin/';
 
 		if (is_dir($path) && DIR_APPLICATION != $path) {
 			// 1. We need to copy the files, as rename cannot be used on any directory, the executing script is running under

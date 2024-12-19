@@ -1,12 +1,12 @@
 <?php
-namespace Opencart\Catalog\Controller\Extension\VentoCart\Analytics;
+namespace Ventocart\Catalog\Controller\Extension\VentoCart\Analytics;
 
 /**
  * Analytics
  *
- * @package Opencart\Catalog\Controller\Extension\VentoCart\Analytics
+ * @package Ventocart\Catalog\Controller\Extension\VentoCart\Analytics
  */
-class GoogleAnalytics extends \Opencart\System\Engine\Controller
+class GoogleAnalytics extends \Ventocart\System\Engine\Controller
 {
 	/**
 	 * @return string

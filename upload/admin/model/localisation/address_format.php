@@ -1,11 +1,11 @@
 <?php
-namespace Opencart\Admin\Model\Localisation;
+namespace Ventocart\Admin\Model\Localisation;
 /**
  * Class Address Format
  *
- * @package Opencart\Admin\Model\Localisation
+ * @package Ventocart\Admin\Model\Localisation
  */
-class AddressFormat extends \Opencart\System\Engine\Model {
+class AddressFormat extends \Ventocart\System\Engine\Model {
 	/**
 	 * @param array $data
 	 *

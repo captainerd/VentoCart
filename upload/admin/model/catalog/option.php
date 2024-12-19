@@ -1,12 +1,12 @@
 <?php
-namespace Opencart\Admin\Model\Catalog;
+namespace Ventocart\Admin\Model\Catalog;
 /*
 Revamped Options Self-Referencing Table Structure
 Usage:
 
-    option_id, name, type, language_id: These columns are used to store core information about each option.
-    group_id: This column references the master option group, providing a way to group related options together (e.g., "color").
-    option_n: Used to represent the position of the option in the translation sequence, as sort order and as reference. The master option (group) has option_n = -1.
+	option_id, name, type, language_id: These columns are used to store core information about each option.
+	group_id: This column references the master option group, providing a way to group related options together (e.g., "color").
+	option_n: Used to represent the position of the option in the translation sequence, as sort order and as reference. The master option (group) has option_n = -1.
 
 Example:
 
@@ -18,12 +18,12 @@ sort_order and image columns have no effect on products directly. They are speci
 	
 */
 
-class Option extends \Opencart\System\Engine\Model
+class Option extends \Ventocart\System\Engine\Model
 {
 	public function addOption(array $data): int
 	{
 		$group_id = 0;
- 
+
 		foreach ($data['option_description'] as $language_id => $value) {
 			$this->db->query("
 				INSERT INTO `" . DB_PREFIX . "options` 
@@ -54,7 +54,7 @@ class Option extends \Opencart\System\Engine\Model
 						`group_id` = '" . (int) $group_id . "', 
 						`language_id` = '" . (int) $language_id . "', 
 						`type` = '" . $this->db->escape($data['type']) . "', 
-						`option_n` = '" .  (int) $voption['sort_order'] . "'
+						`option_n` = '" . (int) $voption['sort_order'] . "'
 				");
 				}
 			}
@@ -78,21 +78,22 @@ class Option extends \Opencart\System\Engine\Model
 		}
 
 		if (isset($data['option_value']))
-	 
+
 			foreach ($data['option_value'] as $index => $voption) {
-				
+
 				if (isset($voption['delete'])) {
 					$this->db->query("DELETE FROM `" . DB_PREFIX . "options` WHERE `option_n` = '" . (int) $index . "' AND `group_id` = '" . (int) $option_id . "' AND `language_id` = '" . (int) $language_id . "'");
+
 					continue;
 				}
-				if (empty($voption['option_value_description'] )) {
+				if (empty($voption['option_value_description'])) {
 					continue;
 				}
 				foreach ($voption['option_value_description'] as $language_id => $option_value_description) {
 
 					$selectQuery = "SELECT option_id
 				FROM `" . DB_PREFIX . "options` 
-				WHERE `option_n` = '" . (int) $voption['sort_order']  . "' AND 
+				WHERE `option_n` = '" . (int) $voption['sort_order'] . "' AND 
 			 `group_id` = '" . (int) $option_id . "' AND  `language_id` = '" . (int) $language_id . "'";
 
 					// Execute the SELECT query
@@ -105,13 +106,13 @@ class Option extends \Opencart\System\Engine\Model
 					UPDATE `" . DB_PREFIX . "options` 
 					SET 
 						`name` = '" . $this->db->escape($option_value_description['name']) . "', 
-						`image` = '" .    $this->db->escape($voption['image']) . "', 
+						`image` = '" . $this->db->escape($voption['image']) . "', 
 						`group_id` = '" . (int) $option_id . "', 
 						`language_id` = '" . (int) $language_id . "', 
 						`type` = '" . $this->db->escape($data['type']) . "', 
-						`option_n` = '" . (int) $voption['sort_order']  . "' 
+						`option_n` = '" . (int) $voption['sort_order'] . "' 
 					WHERE 
-						`option_n` = '" . (int) $voption['sort_order']  . "' AND 
+						`option_n` = '" . (int) $voption['sort_order'] . "' AND 
 						`group_id` = '" . (int) $option_id . "' AND 
 						`language_id` = '" . (int) $language_id . "'
 				");
@@ -121,7 +122,7 @@ class Option extends \Opencart\System\Engine\Model
 					INSERT INTO `" . DB_PREFIX . "options` 
 					SET 
 						`name` = '" . $this->db->escape($option_value_description['name']) . "', 
-						`image` = '" .  $this->db->escape($voption['image'])  . "', 
+						`image` = '" . $this->db->escape($voption['image']) . "', 
 						`group_id` = '" . (int) $option_id . "', 
 						`type` = '" . $this->db->escape($data['type']) . "', 
 						`language_id` = '" . (int) $language_id . "', 
@@ -137,6 +138,10 @@ class Option extends \Opencart\System\Engine\Model
 	{
 		$this->db->query("DELETE FROM `" . DB_PREFIX . "options` WHERE `option_id` = '" . (int) $option_id . "'");
 		$this->db->query("DELETE FROM `" . DB_PREFIX . "options` WHERE `group_id` = '" . (int) $option_id . "'");
+		$this->db->query("
+		DELETE FROM `" . DB_PREFIX . "product_options`
+		WHERE `option_id` NOT IN (
+		SELECT `option_id` FROM `" . DB_PREFIX . "options`)");
 
 	}
 	public function getGroup(int $option_id): array
@@ -150,7 +155,7 @@ class Option extends \Opencart\System\Engine\Model
 			");
 		// Make sure there are language entries
 		$this->addLanguageEntries($option_id);
-	 
+
 		$query = $this->db->query("
 		SELECT *
 		FROM `" . DB_PREFIX . "options`
@@ -162,29 +167,30 @@ class Option extends \Opencart\System\Engine\Model
 				ORDER BY option_n LIMIT 1
 			)
 	");
-	
+
 
 		return $query->rows;
 	}
 
-	private function addLanguageEntries($option_id) {
+	private function addLanguageEntries($option_id)
+	{
 		// Make sure there are entries for existing languages
 		$queryLanguages = $this->db->query("
 			SELECT DISTINCT `language_id`
 			FROM `" . DB_PREFIX . "language`
 		");
-	
+
 		// Get existing options for the specified option_id or group_id
-	 	$options = $this->db->query("
+		$options = $this->db->query("
 			SELECT * 
 			FROM `" . DB_PREFIX . "options` 
 			WHERE 
 				(`option_id` = '" . (int) $option_id . "' OR `group_id` = '" . (int) $option_id . "')
 		");
-	 
-		 foreach ($options->rows as $option) {
+
+		foreach ($options->rows as $option) {
 			foreach ($queryLanguages->rows as $language) {
-				$language_id = (int)$language['language_id'];
+				$language_id = (int) $language['language_id'];
 				$isThere = $this->db->query("
 					SELECT *
 					FROM `" . DB_PREFIX . "options`
@@ -192,12 +198,12 @@ class Option extends \Opencart\System\Engine\Model
 						`option_n` = '" . (int) $option['option_n'] . "'
 						AND `group_id` = '" . (int) $option['group_id'] . "'
 						AND `language_id` = '" . (int) $language_id . "'
-				"); 
-		 
+				");
+
 				if ($isThere->num_rows == 0) {
-			 
+
 					// Insert a new entry into the options table for the missing language_id
-				 	$this->db->query("
+					$this->db->query("
 						INSERT INTO `" . DB_PREFIX . "options` 
 						SET 
 							`group_id` = '" . (int) $option['group_id'] . "',
@@ -206,10 +212,10 @@ class Option extends \Opencart\System\Engine\Model
 							`type` = '" . $this->db->escape($option['type']) . "',
 							`option_n` = '" . $this->db->escape($option['option_n']) . "'
 					 
-					"); 
-				 }
-		  } 
-		} 
+					");
+				}
+			}
+		}
 	}
 
 
@@ -241,7 +247,7 @@ class Option extends \Opencart\System\Engine\Model
 
 	public function getValues(int $option_id): array
 	{
- 
+
 		$query = $this->db->query("
 			SELECT o1.option_id, o1.option_n, o1.group_id, o2.*
 			FROM `" . DB_PREFIX . "options` o1
@@ -252,12 +258,12 @@ class Option extends \Opencart\System\Engine\Model
 				AND o2.language_id = '" . (int) $this->config->get('config_language_id') . "'  
 			 
 	");
- 
+
 		return $query->rows;
 	}
 	public function getOptions(array $data = []): array
 	{
- 
+
 		$sql = "
 			SELECT * 
 			FROM `" . DB_PREFIX . "options`  
@@ -270,7 +276,7 @@ class Option extends \Opencart\System\Engine\Model
 
 		$sort_data = [
 			'name',
-			'type' 
+			'type'
 		];
 
 		if (isset($data['sort']) && in_array($data['sort'], $sort_data)) {

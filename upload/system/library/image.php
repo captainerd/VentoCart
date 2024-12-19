@@ -1,12 +1,12 @@
 <?php
 /**
- * @package        OpenCart
+ * @package        VentoCart
  * @author         Daniel Kerr
- * @copyright      Copyright (c) 2005 - 2022, OpenCart, Ltd. (https://www.opencart.com/)
+ * @copyright      Copyright (c) 2005 - 2022, VentoCart, Ltd. (https://www.ventocart.com/)
  * @license        https://opensource.org/licenses/GPL-3.0
- * @link           https://www.opencart.com
+ * @link           https://www.ventocart.com
  */
-namespace Opencart\System\Library;
+namespace Ventocart\System\Library;
 /**
  * Class Image
  */
@@ -243,7 +243,7 @@ class Image {
      *
      * @return void
      */
-	public function watermark(\Opencart\System\Library\Image $watermark, string $position = 'bottomright'): void {
+	public function watermark(\Ventocart\System\Library\Image $watermark, string $position = 'bottomright'): void {
 		switch ($position) {
 			case 'topleft':
 				$watermark_pos_x = 0;

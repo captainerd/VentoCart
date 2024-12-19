@@ -1,11 +1,11 @@
 <?php
-namespace Opencart\Admin\Controller\Localisation;
+namespace Ventocart\Admin\Controller\Localisation;
 /**
  * Class Geo Zone
  *
- * @package Opencart\Admin\Controller\Localisation
+ * @package Ventocart\Admin\Controller\Localisation
  */
-class GeoZone extends \Opencart\System\Engine\Controller {
+class GeoZone extends \Ventocart\System\Engine\Controller {
 	/**
 	 * @return void
 	 */

@@ -1,11 +1,11 @@
 <?php
-namespace Opencart\Admin\Controller\Startup;
+namespace Ventocart\Admin\Controller\Startup;
 /**
  * Class Startup
  *
- * @package Opencart\Admin\Controller\Startup
+ * @package Ventocart\Admin\Controller\Startup
  */
-class Startup extends \Opencart\System\Engine\Controller {
+class Startup extends \Ventocart\System\Engine\Controller {
 	/**
 	 * @return void
 	 */
@@ -16,7 +16,9 @@ class Startup extends \Opencart\System\Engine\Controller {
 		$results = $this->model_setting_startup->getStartups();
 
 		foreach ($results as $result) {
+	 
 			if ((substr($result['action'], 0, 6) == 'admin/') && $result['status']) {
+			 
 				$this->load->controller(substr($result['action'], 6));
 			}
 		}

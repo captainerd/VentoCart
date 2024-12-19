@@ -1,36 +1,36 @@
 <?php
 /**
- * @package		OpenCart
+ * @package		VentoCart
  * @author		Daniel Kerr
- * @copyright	Copyright (c) 2005 - 2022, OpenCart, Ltd. (https://www.opencart.com/)
+ * @copyright	Copyright (c) 2005 - 2022, VentoCart, Ltd. (https://www.ventocart.com/)
  * @license		https://opensource.org/licenses/GPL-3.0
- * @link		https://www.opencart.com
+ * @link		https://www.ventocart.com
 */
-namespace Opencart\System\Engine;
+namespace Ventocart\System\Engine;
 /**
  * Class Registry
  *
- * @property \Opencart\System\Engine\Config $config
- * @property \Opencart\System\Engine\Event $event
- * @property \Opencart\System\Engine\Loader $load
- * @property \Opencart\System\Engine\Registry $autoloader
- * @property \Opencart\System\Library\Cache $cache
- * @property \Opencart\System\Library\Cart\Cart $cart
- * @property \Opencart\System\Library\Cart\Currency $currency
- * @property \Opencart\System\Library\Cart\Customer $customer
- * @property \Opencart\System\Library\Cart\Length $length
- * @property \Opencart\System\Library\Cart\Tax $tax
- * @property \Opencart\System\Library\Cart\Weight $weight
- * @property \Opencart\System\Library\DB $db
- * @property \Opencart\System\Library\Document $document
- * @property \Opencart\System\Library\Language $language
- * @property \Opencart\System\Library\Log $log
- * @property \Opencart\System\Library\Request $request
- * @property \Opencart\System\Library\Response $response
- * @property \Opencart\System\Library\Session $session
- * @property \Opencart\System\Library\Template $template
- * @property \Opencart\System\Library\Url $url
- * @property ?\Opencart\System\Library\Cart\User $user
+ * @property \Ventocart\System\Engine\Config $config
+ * @property \Ventocart\System\Engine\Event $event
+ * @property \Ventocart\System\Engine\Loader $load
+ * @property \Ventocart\System\Engine\Registry $autoloader
+ * @property \Ventocart\System\Library\Cache $cache
+ * @property \Ventocart\System\Library\Cart\Cart $cart
+ * @property \Ventocart\System\Library\Cart\Currency $currency
+ * @property \Ventocart\System\Library\Cart\Customer $customer
+ * @property \Ventocart\System\Library\Cart\Length $length
+ * @property \Ventocart\System\Library\Cart\Tax $tax
+ * @property \Ventocart\System\Library\Cart\Weight $weight
+ * @property \Ventocart\System\Library\DB $db
+ * @property \Ventocart\System\Library\Document $document
+ * @property \Ventocart\System\Library\Language $language
+ * @property \Ventocart\System\Library\Log $log
+ * @property \Ventocart\System\Library\Request $request
+ * @property \Ventocart\System\Library\Response $response
+ * @property \Ventocart\System\Library\Session $session
+ * @property \Ventocart\System\Library\Template $template
+ * @property \Ventocart\System\Library\Url $url
+ * @property ?\Ventocart\System\Library\Cart\User $user
  */
 class Registry {
 	/**

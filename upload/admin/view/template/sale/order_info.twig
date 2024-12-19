@@ -63,73 +63,23 @@
           <thead>
             <tr>
               <td class="text-start">{{ column_product }}</td>
-              <td class="text-start">{{ column_model }}</td>
+              <td class="text-start">{{ column_sku }}</td>
               <td class="text-end">{{ column_quantity }}</td>
               <td class="text-end">{{ column_price }}</td>
               <td class="text-end">{{ column_total }}</td>
               <td class="text-end" style="width: 1px;">{{ column_action }}</td>
             </tr>
           </thead>
+
           <tbody id="order-products">
-            {% for order_product in order_products %}
-              <tr>
-                <td class="text-start"><a href="index.php?route=catalog/product.form&user_token={{ user_token }}&product_id={{ order_product.product_id }}" target="_blank">{{ order_product.name }}</a>
-
-                  {% if order_product.option %}
-                    {% for option in order_product.option %}
-                      <br/>
-                      {% if option.type != 'file' %}
-                      <small> - {{ option.name }}: {{ option.value }}</small> {% else %}
-                      <small> - {{ option.name }}: <a href="{{ option.href }}">{{ option.value }}</a></small> {% endif %}
-                    {% endfor %}
-                  {% endif %}
-
-                  {% if order_product.reward %}
-                    <br/>
-                    <small> - {{ text_points }}: {{ order_product.reward }}</small>
-                  {% endif %}
-
-                  {% if order_product.subscription %}
-                    <br/>
-                    <small> - {{ text_subscription }}: <a href="{{ order_product.subscription }}" target="_blank">{{ order_product.subscription_description }}</a></small>
-                  {% endif %}
-
-                </td>
-                <td class="text-start">{{ order_product.model }}</td>
-                <td class="text-end">{{ order_product.quantity }}</td>
-                <td class="text-end">{{ order_product.price }}</td>
-                <td class="text-end">{{ order_product.total }}</td>
-                <td class="text-end">
-                  <form>
-                    <button type="submit" data-bs-toggle="tooltip" title="{{ button_remove }}" class="btn btn-danger"><i class="fa-solid fa-minus-circle"></i></button>
-                    <input type="hidden" name="key" value="{{ order_product.cart_id }}"/>
-                  </form>
-                </td>
-              </tr>
-            {% endfor %}
+          
+          <tr><td>  <div style="min-height: 300px !important;" class="d-flex m-3 mt-10 justify-content-center my-3">
+        <div class="spinner-border text-primary" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+    </div></td></tr>
           </tbody>
-          <tbody id="order-vouchers">
-            {% for order_voucher in order_vouchers %}
-              <tr>
-                <td class="text-start">{{ order_voucher.description }}</td>
-                <td></td>
-                <td class="text-end">1</td>
-                <td class="text-end">{{ order_voucher.amount }}</td>
-                <td class="text-end">{{ order_voucher.amount }}</td>
-                <td class="text-end">
-                  <form>
-                    <button type="submit" data-bs-toggle="tooltip" title="{{ button_remove }}" class="btn btn-danger"><i class="fa-solid fa-minus-circle"></i></button>
-                    <input type="hidden" name="key" value="{{ order_voucher.key }}"/>
-                  </form>
-                </td>
-              </tr>
-            {% endfor %}
-            {% if not order_products and not order_vouchers %}
-              <tr>
-                <td colspan="6" class="text-center">{{ text_no_results }}</td>
-              </tr>
-            {% endif %}
-          </tbody>
+       
           <tfoot>
             <tr>
               <td colspan="5"></td>
@@ -138,7 +88,7 @@
           </tfoot>
         </table>
 
-        <div id="collapse-order" class="collapse">
+        <div id="collapse-order"  >
           <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-xl-4">
 
             <div class="col">
@@ -186,14 +136,7 @@
               </form>
             </div>
 
-            <div class="col">
-              <form id="form-voucher">
-                <div class="input-group form-floating">
-                  <input type="text" name="voucher" value="{{ total_voucher }}" placeholder="{{ entry_voucher }}" id="input-voucher" class="form-control"/> <label for="input-voucher">{{ entry_voucher }}</label>
-                  <button type="submit" id="button-voucher" data-bs-toogle="tooltip" title="{{ button_apply }}" class="btn btn-outline-primary"><i class="fa-solid fa-check"></i></button>
-                </div>
-              </form>
-            </div>
+  
 
             <div class="col">
               <form id="form-reward" class="mb-3">
@@ -258,9 +201,7 @@
 
           </div>
         </div>
-
-        <button type="button" id="button-collapse" class="btn btn-light btn-lg w-100 mb-3">{{ text_more }} <i class="fa-solid fa-angle-down"></i></button>
-
+ 
         <div class="row">
           <div class="col-md">
             <div class="input-group mb-3">
@@ -702,7 +643,7 @@
       <div class="modal-body">
         <ul class="nav nav-tabs">
           <li class="nav-item"><a href="#tab-product" data-bs-toggle="tab" class="nav-link active">{{ tab_product }}</a></li>
-          <li class="nav-item"><a href="#tab-voucher" data-bs-toggle="tab" class="nav-link">{{ tab_voucher }}</a></li>
+       
         </ul>
         <div class="tab-content">
           <div id="tab-product" class="tab-pane active">
@@ -727,46 +668,7 @@
               </div>
             </form>
           </div>
-          <div id="tab-voucher" class="tab-pane">
-            <form id="form-voucher-add">
-              <fieldset class="mb-0">
-                <legend>{{ text_voucher_add }}</legend>
-                <div class="mb-3 required">
-                  <label for="input-to-name" class="form-label">{{ entry_to_name }}</label> <input type="text" name="to_name" value="" placeholder="{{ entry_to_name }}" id="input-to-name" class="form-control"/>
-                  <div id="error-to-name" class="invalid-feedback"></div>
-                </div>
-                <div class="mb-3 required">
-                  <label for="input-to-email" class="form-label">{{ entry_to_email }}</label> <input type="text" name="to_email" value="" placeholder="{{ entry_to_email }}" id="input-to-email" class="form-control"/>
-                  <div id="error-to-email" class="invalid-feedback"></div>
-                </div>
-                <div class="mb-3 required">
-                  <label for="input-from-name" class="form-label">{{ entry_from_name }}</label> <input type="text" name="from_name" value="" placeholder="{{ entry_from_name }}" id="input-from-name" class="form-control"/>
-                  <div id="error-from-name" class="invalid-feedback"></div>
-                </div>
-                <div class="mb-3 required">
-                  <label for="input-from-email" class="form-label">{{ entry_from_email }}</label> <input type="text" name="from_email" value="" placeholder="{{ entry_from_email }}" id="input-from-email" class="form-control"/>
-                  <div id="error-from-email" class="invalid-feedback"></div>
-                </div>
-                <div class="mb-3 required">
-                  <label for="input-theme" class="form-label">{{ entry_theme }}</label> <select name="voucher_theme_id" id="input-theme" class="form-select">
-                    {% for voucher_theme in voucher_themes %}
-                      <option value="{{ voucher_theme.voucher_theme_id }}">{{ voucher_theme.name }}</option>
-                    {% endfor %}
-                  </select>
-                </div>
-                <div class="mb-3">
-                  <label for="input-message" class="form-label">{{ entry_message }}</label> <textarea name="message" rows="5" placeholder="{{ entry_message }}" id="input-message" class="form-control"></textarea>
-                </div>
-                <div class="mb-3 required">
-                  <label for="input-amount" class="form-label">{{ entry_amount }}</label> <input type="text" name="amount" value="{{ voucher_min }}" placeholder="{{ entry_amount }}" id="input-amount" class="form-control"/>
-                  <div id="error-amount" class="invalid-feedback"></div>
-                </div>
-              </fieldset>
-              <div class="text-end">
-                <button type="submit" id="button-voucher-add" class="btn btn-primary"><i class="fa-solid fa-floppy-disk"></i> {{ button_save }}</button>
-              </div>
-            </form>
-          </div>
+          
         </div>
       </div>
     </div>
@@ -1192,21 +1094,14 @@
   </div>
 </div>
 <script ><!--
-$('#button-collapse').on('click', function() {
-    var element = this;
-
-    var target = $('#collapse-order');
-
-    if (!target.is(':hidden')) {
-        target.slideUp('400', function() {
-            $(element).html('{{ text_more }} <i class="fa-solid fa-angle-down"></i>');
-        });
-    } else {
-        target.slideDown('400', function() {
-            $(element).html('{{ text_less }} <i class="fa-solid fa-angle-up"></i>');
-        });
-    }
+$(document).ready(function () {
+ 
+     $('#button-refresh').trigger('click');
+ 
+   
 });
+
+ 
 
 $(document).on('click', '#button-invoice', function() {
     $.ajax({
@@ -1310,8 +1205,8 @@ $('#input-customer').autocomplete({
         $('#input-payment-address').html(html);
         $('#input-shipping-address').html(html);
 
-        $('#payment-method-value').html('');
-        $('#shipping-method-value').html('');
+        //$('#payment-method-value').html('');
+       // $('#shipping-method-value').html('');
     }
 });
 
@@ -1382,8 +1277,8 @@ $('#form-customer').on('submit', function(e) {
 
                 $('#customer-value').html('<a href="index.php?route=customer/customer.form&user_token={{ user_token }}&customer_id=' + $('#input-customer-id').val() + '">' + $('#input-firstname').val() + ' ' + $('#input-lastname').val() + '</a>');
 
-                $('#payment-method-value').html('');
-                $('#shipping-method-value').html('');
+                //$('#payment-method-value').html('');
+               // $('#shipping-method-value').html('');
 
                 $('#button-refresh').trigger('click');
             }
@@ -1405,7 +1300,7 @@ $('#input-product').autocomplete({
                     return {
                         label: item['name'],
                         value: item['product_id'],
-                        model: item['model'],
+                        sku: item['sku'],
                         option: item['option'],
                         subscription: item['subscription'],
                         price: item['price']
@@ -1420,8 +1315,8 @@ $('#input-product').autocomplete({
     'select': function(item) {
         $('#input-product-id').val(item['value']);
         $('#input-product').val(item['label']);
-
-        if (item['option'] != '') {
+        
+        if (item['option']) {
             html = '<fieldset class="mb-0">';
             html += '  <legend>{{ entry_option|escape('js') }}</legend>';
 
@@ -1584,7 +1479,7 @@ $('#input-product').autocomplete({
             $('#option').html('');
         }
 
-        if (item['subscription'] != '') {
+        if (item['subscription'] ) {
             html = '<fieldset class="mb-0">';
             html += '  <legend>{{ entry_subscription|escape('js') }}</legend>';
             html += '  <div class="mb-3 required">';
@@ -1616,7 +1511,7 @@ $('#form-product-add').on('submit', function(e) {
     e.preventDefault();
 
     $.ajax({
-        url: 'index.php?route=sale/order.call&user_token={{ user_token }}&action=sale/cart.add&store_id=' + $('#input-store').val() + '&language=' + $('#input-language').val(),
+        url: 'index.php?route=sale/order.call&user_token={{ user_token }}&action=sale/cart.addProduct&store_id=' + $('#input-store').val() + '&language=' + $('#input-language').val(),
         type: 'post',
         data: $('#form-product-add').serialize(),
         dataType: 'json',
@@ -1646,10 +1541,10 @@ $('#form-product-add').on('submit', function(e) {
             if (json['success']) {
                 $('#form-product-add').prepend('<div class="alert alert-success alert-dismissible"><i class="fa-solid fa-check-circle"></i> ' + json['success'] + ' <button type="button" class="btn-close" data-bs-dismiss="alert"></button></div>');
 
-                $('#payment-method-value').html('');
-                $('#shipping-method-value').html('');
+               // $('#payment-method-value').html('');
+               // $('#shipping-method-value').html('');
 
-                // Refresh products, vouchers and totals
+                // Refresh products,  and totals
                 $('#button-refresh').trigger('click');
             }
         },
@@ -1687,10 +1582,10 @@ $('#order-products').on('submit', 'form', function(e) {
             if (json['success']) {
                 $('#alert').prepend('<div class="alert alert-success alert-dismissible"><i class="fa-solid fa-check-circle"></i> ' + json['success'] + ' <button type="button" class="btn-close" data-bs-dismiss="alert"></button></div>');
 
-                $('#payment-method-value').html('');
-                $('#shipping-method-value').html('');
+               // $('#payment-method-value').html('');
+               // $('#shipping-method-value').html('');
 
-                // Refresh products, vouchers and totals
+                // Refresh products and totals
                 $('#button-refresh').trigger('click');
             }
         },
@@ -1700,102 +1595,9 @@ $('#order-products').on('submit', 'form', function(e) {
     });
 });
 
-// Voucher
-$('#form-voucher-add').on('submit', function(e) {
-    e.preventDefault();
+ 
 
-    $.ajax({
-        url: 'index.php?route=sale/order.call&user_token={{ user_token }}&store_id=' + $('#input-store').val() + '&language=' + $('#input-language').val() + '&action=sale/voucher.add',
-        type: 'post',
-        data: $('#form-voucher-add').serialize(),
-        dataType: 'json',
-        beforeSend: function() {
-            $('#button-voucher-add').button('loading');
-        },
-        complete: function() {
-            $('#button-voucher-add').button('reset');
-        },
-        success: function(json) {
-            $('.alert-dismissible').remove();
-            $('.is-invalid').removeClass('is-invalid');
-            $('.invalid-feedback').removeClass('d-block');
-
-            if (json['error']) {
-                if (json['error']['warning']) {
-                    $('#form-voucher-add').prepend('<div class="alert alert-danger alert-dismissible"><i class="fa-solid fa-circle-exclamation"></i> ' + json['error']['warning'] + ' <button type="button" class="btn-close" data-bs-dismiss="alert"></button></div>');
-                }
-
-                if (json['error']) {
-                    for (key in json['error']) {
-                        $('#input-' + key.replaceAll('_', '-')).addClass('is-invalid').find('.form-control, .form-select, .form-check-input, .form-check-label').addClass('is-invalid');
-                        $('#error-' + key.replaceAll('_', '-')).html(json['error'][key]).addClass('d-block');
-                    }
-                }
-            }
-
-            if (json['success']) {
-                $('#alert').prepend('<div class="alert alert-success alert-dismissible"><i class="fa-solid fa-check-circle"></i> ' + json['success'] + ' <button type="button" class="btn-close" data-bs-dismiss="alert"></button></div>');
-
-                $('#input-to-name').val('');
-                $('#input-to-email').val('');
-                $('#input-from-name').val('');
-                $('#input-from-email').val('');
-                $('#input-message').val('');
-                $('#input-amount').val('{{ voucher_min|escape('js') }}');
-
-                $('#payment-method-value').html('');
-                $('#shipping-method-value').html('');
-
-                // Refresh products, vouchers and totals
-                $('#button-refresh').trigger('click');
-            }
-        },
-        error: function(xhr, ajaxOptions, thrownError) {
-            console.log(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
-        }
-    });
-});
-
-// Remove voucher
-$('#order-vouchers').on('submit', 'form', function(e) {
-    e.preventDefault();
-
-    var element = this;
-
-    $.ajax({
-        url: 'index.php?route=sale/order.call&user_token={{ user_token }}&store_id=' + $('#input-store').val() + '&language=' + $('#input-language').val() + '&action=sale/voucher.remove',
-        type: 'post',
-        data: $(element).serialize(),
-        dataType: 'json',
-        beforeSend: function() {
-            $(e.target).button('loading');
-        },
-        complete: function() {
-            $(e.target).button('reset');
-        },
-        success: function(json) {
-            $('.alert-dismissible').remove();
-
-            // Check for errors
-            if (json['error']) {
-                $('#alert').prepend('<div class="alert alert-danger alert-dismissible"><i class="fa-solid fa-circle-exclamation"></i> ' + json['error'] + ' <button type="button" class="btn-close" data-bs-dismiss="alert"></button></div>');
-            }
-
-            if (json['success']) {
-                $('#alert').prepend('<div class="alert alert-success alert-dismissible"><i class="fa-solid fa-check-circle"></i> ' + json['success'] + ' <button type="button" class="btn-close" data-bs-dismiss="alert"></button></div>');
-
-                $('#payment-method-value').html('');
-                $('#shipping-method-value').html('');
-
-                // Refresh products, vouchers and totals
-                $('#button-refresh').trigger('click');
-            }
-        },
-        error: function(xhr, ajaxOptions, thrownError) {
-            console.log(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
-        }
-    });
-});
+ 
 
 $('#input-store').on('change', function(e) {
     e.preventDefault();
@@ -1867,7 +1669,7 @@ $('#form-coupon').on('submit', function(e) {
             if (json['success']) {
                 $('#alert').prepend('<div class="alert alert-success alert-dismissible"><i class="fa-solid fa-check-circle"></i> ' + json['success'] + ' <button type="button" class="btn-close" data-bs-dismiss="alert"></button></div>');
 
-                // Refresh products, vouchers and totals
+                // Refresh products and totals
                 $('#button-refresh').trigger('click');
             }
         },
@@ -1877,41 +1679,7 @@ $('#form-coupon').on('submit', function(e) {
     });
 });
 
-// Voucher
-$('#form-voucher').on('submit', function(e) {
-    e.preventDefault();
-
-    $.ajax({
-        url: 'index.php?route=sale/order.call&user_token={{ user_token }}&store_id=' + $('#input-store').val() + '&language=' + $('#input-language').val() + '&action=sale/voucher',
-        type: 'post',
-        data: $('#form-voucher').serialize(),
-        dataType: 'json',
-        beforeSend: function() {
-            $('#button-voucher').button('loading');
-        },
-        complete: function() {
-            $('#button-voucher').button('reset');
-        },
-        success: function(json) {
-            $('.alert-dismissible').remove();
-
-            if (json['error']) {
-                $('#alert').prepend('<div class="alert alert-danger alert-dismissible"><i class="fa-solid fa-circle-exclamation"></i> ' + json['error'] + ' <button type="button" class="btn-close" data-bs-dismiss="alert"></button></div>');
-            }
-
-            if (json['success']) {
-                $('#alert').prepend('<div class="alert alert-success alert-dismissible"><i class="fa-solid fa-check-circle"></i> ' + json['success'] + ' <button type="button" class="btn-close" data-bs-dismiss="alert"></button></div>');
-
-                // Refresh products, vouchers and totals
-                $('#button-refresh').trigger('click');
-            }
-        },
-        error: function(xhr, ajaxOptions, thrownError) {
-            console.log(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
-        }
-    });
-});
-
+ 
 // Reward
 $('#form-reward').on('submit', function(e) {
     e.preventDefault();
@@ -2161,7 +1929,7 @@ $('#form-payment-address').on('submit', function(e) {
     e.preventDefault();
 
     $.ajax({
-        url: 'index.php?route=sale/order.call&user_token={{ user_token }}&store_id=' + $('#input-store').val() + '&language=' + $('#input-language').val() + '&action=sale/payment_address',
+        url: 'index.php?route=sale/order.call&user_token={{ user_token }}&store_id=' + $('#input-store').val() + '&language=' + $('#input-language').val() + '&action=sale/payment_address'  + "&order_id={{order_id}}",
         type: 'post',
         data: $('#form-payment-address').serialize(),
         dataType: 'json',
@@ -2394,7 +2162,7 @@ $('#form-shipping-address').on('submit', function(e) {
 
                 $('#shipping-address-value').html(address);
 
-                // Refresh products, vouchers and totals
+                // Refresh products and totals
                 $('#button-refresh').trigger('click');
             }
         },
@@ -2541,7 +2309,7 @@ $('#form-shipping-method').on('submit', function(e) {
                 $('#shipping-method-value').html($('input[name=\'shipping_method\']:checked').parent().find('label').text());
                 $('#input-shipping-code').val($('input[name=\'shipping_method\']:checked').val());
 
-                $('#payment-method-value').html('');
+                //$('#payment-method-value').html('');
 
                 $('#button-refresh').trigger('click');
             }
@@ -2557,7 +2325,7 @@ $('#button-payment-methods').on('click', function() {
     var element = this;
 
     $.ajax({
-        url: 'index.php?route=sale/order.call&user_token={{ user_token }}&action=sale/payment_method&store_id=' + $('#input-store').val() + '&language=' + $('#input-language').val(),
+        url: 'index.php?route=sale/order.call&user_token={{ user_token }}&action=sale/payment_method&store_id=' + $('#input-store').val() + '&language=' + $('#input-language').val()  + "&order_id={{order_id}}",
         dataType: 'json',
         beforeSend: function() {
             $(element).button('loading');
@@ -2688,133 +2456,107 @@ $('#form-comment').on('submit', function(e) {
     });
 });
 
-// Refresh all products, vouchers and totals
+// Refresh all products and totals
 $('#button-refresh').on('click', function() {
-    $.ajax({
-        url: 'index.php?route=sale/order.call&user_token={{ user_token }}&action=sale/cart&store_id=' + $('#input-store').val() + '&language=' + $('#input-language').val(),
-        dataType: 'json',
-        beforeSend: function() {
-            $('#button-refresh').button('loading');
-            $('#button-confirm').prop('disabled', true);
-        },
-        complete: function() {
-            $('#button-refresh').button('reset');
-            $('#button-confirm').prop('disabled', false);
-        },
-        success: function(json) {
-            html = '';
+  $.ajax({
+    url: 'index.php?route=sale/order.call&user_token={{ user_token }}&action=sale/cart&store_id=' + $('#input-store').val() + '&language=' + $('#input-language').val()  + "&order_id={{order_id}}",
+    dataType: 'json',
+    beforeSend: function() {
+        $('#button-refresh').button('loading');
+        $('#button-confirm').prop('disabled', true);
+    },
+    complete: function() {
+        $('#button-refresh').button('reset');
+        $('#button-confirm').prop('disabled', false);
+    },
+    success: function(json) {
+        let html = '';
 
-            if (json['products'].length) {
-                for (i = 0; i < json['products'].length; i++) {
-                    product = json['products'][i];
+        if (Object.keys(json['products']).length > 0) {
+         
+            for (const productId in json['products']) {
+                const product = json['products'][productId];
 
-                    html += '<tr>';
-                    html += '  <td class="text-start"><a href="index.php?route=catalog/product.form&user_token={{ user_token }}&product_id=' + product['product_id'] + '" target="_blank">' + product['name'] + '</a>' + (!product['stock'] ? ' <span class="text-danger">***</span>' : '');
-
-                    if (product['option']) {
-                        for (j = 0; j < product['option'].length; j++) {
-                            option = product['option'][j];
-
-                            html += '<br/>';
-                            html += '  - <small>' + option['name'] + ': ' + option['value'] + '</small>';
-                        }
-                    }
-
-                    if (product['reward']) {
-                        html += '<br/>';
-                        html += '  - <small>{{ text_points|escape('js') }}: ' + product['reward'] + '</small>';
-                    }
-
-                    if (product['subscription']) {
-                        html += '<br/>';
-                        html += '  - <small>{{ text_subscription|escape('js') }}: <a href="index.php?route=sale/subscription.info&user_token={{ user_token }}&subscription_id={{ order_product.subscription_id }}" target="_blank">' + product['subscription'] + '</small>';
-                    }
-
-                    html += '  </td>';
-                    html += '  <td class="text-start">' + product['model'] + '</td>';
-                    html += '  <td class="text-end">' + product['quantity'] + '</td>';
-                    html += '  <td class="text-end">' + product['price'] + '</td>';
-                    html += '  <td class="text-end">' + product['total'] + '</td>';
-                    html += '  <td class="text-end">';
-                    html += '    <form>';
-                    html += '      <button type="submit" data-bs-toggle="tooltip" title="{{ button_remove|escape('js') }}" class="btn btn-danger"><i class="fa-solid fa-minus-circle"></i></button>';
-                    html += '      <input type="hidden" name="key" value="' + product['cart_id'] + '"/>';
-                    html += '    </form>';
-                    html += '  </td>';
-                    html += '</tr>';
-                }
-            }
-
-            $('#order-products').html(html);
-
-            html = '';
-
-            if (json['vouchers'].length) {
-                for (i in json['vouchers']) {
-                    voucher = json['vouchers'][i];
-
-                    html += '<tr>';
-                    html += '  <td class="text-start">' + voucher['description'] + '</td>';
-                    html += '  <td class="text-start"></td>';
-                    html += '  <td class="text-end">1</td>';
-                    html += '  <td class="text-end">' + voucher['amount'] + '</td>';
-                    html += '  <td class="text-end">' + voucher['amount'] + '</td>';
-                    html += '  <td class="text-end">';
-                    html += '    <form>';
-                    html += '      <button type="submit" data-bs-toggle="tooltip" title="{{ button_remove|escape('js') }}" class="btn btn-danger"><i class="fa-solid fa-minus-circle"></i></button>';
-                    html += '      <input type="hidden" name="key" value="' + voucher['key'] + '"/>';
-                    html += '    </form>';
-                    html += '  </td>';
-                    html += '</tr>';
-                }
-            }
-
-            if (!json['products'].length && !json['vouchers'].length) {
                 html += '<tr>';
-                html += '  <td colspan="6" class="text-center">{{ text_no_results|escape('js') }}</td>';
+                html += '  <td class="text-start"><a href="index.php?route=catalog/product.form&user_token={{ user_token }}&product_id=' + product['product_id'] + '" target="_blank">' + product['name'] + '</a>' + (!product['stock'] ? ' <span class="text-danger">***</span>' : '');
+
+                if (product['option']) {
+                    for (const option of product['option']) {
+                        html += '<br/>';
+                        html += '  - <small>' + option['name'] + ': ' + option['value'] + '</small>';
+                    }
+                }
+
+                if (product['reward']) {
+                    html += '<br/>';
+                    html += '  - <small>{{ text_points|escape('js') }}: ' + product['reward'] + '</small>';
+                }
+               
+                if (product['subscription'].length > 0) {
+                    html += '<br/>';
+                    html += '  - <small>{{ text_subscription|escape('js') }}: <a href="index.php?route=sale/subscription.info&user_token={{ user_token }}&subscription_id={{ order_product.subscription_id }}" target="_blank">' + product['subscription'] + '</small>';
+                }
+
+                html += '  </td>';
+                html += '  <td class="text-start">' + product['sku'] + '</td>';
+                html += '  <td class="text-end">' + product['quantity'] + '</td>';
+                html += '  <td class="text-end">' + product['price'] + '</td>';
+                html += '  <td class="text-end">' + product['total'] + '</td>';
+                html += '  <td class="text-end">';
+                html += '    <form>';
+                html += '      <button type="submit" data-bs-toggle="tooltip" title="{{ button_remove|escape('js') }}" class="btn btn-danger"><i class="fa-solid fa-minus-circle"></i></button>';
+                html += '      <input type="hidden" name="card_id" value="' + product['cart_id'] + '"/>';
+                html += '    </form>';
+                html += '  </td>';
                 html += '</tr>';
             }
-
-            $('#order-vouchers').html(html);
-
-            // Totals
-            html = '';
-
-            if (json['totals'].length) {
-                for (i in json['totals']) {
-                    total = json['totals'][i];
-
-                    html += '<tr>';
-                    html += '  <td class="text-end"><strong>' + total['title'] + '</strong></td>';
-                    html += '  <td class="text-end" style="width: 1px;">' + total['text'] + '</td>';
-                    html += '</tr>';
-                }
-            }
-
-            $('#order-totals').html(html);
-
-            if (json['shipping_required']) {
-                $('#shipping-address').removeClass('d-none');
-                $('#shipping-method').removeClass('d-none');
-                $('#button-shipping').prop('disabled', false);
-            } else {
-                $('#shipping-address').addClass('d-none');
-                $('#shipping-method').addClass('d-none');
-                $('#button-shipping').prop('disabled', true);
-            }
-        },
-        error: function(xhr, ajaxOptions, thrownError) {
-            console.log(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
         }
-    });
+
+        $('#order-products').html(html);
+
+        html = '';
+
+    
+        if (json['products'].length === 0) {
+            console.log(json['products']);
+            html += '<tr>';
+            html += '  <td colspan="6" class="text-center">{{text_no_results|escape('js') }}</td>';
+            html += '</tr>';
+        }
+ 
+        // Totals
+        html = '';
+
+        if (json['totals']?.length) {
+            for (const total of json['totals']) {
+                html += '<tr>';
+                html += '  <td class="text-end"><strong>' + total['title'] + '</strong></td>';
+                html += '  <td class="text-end" style="width: 1px;">' + total['text'] + '</td>';
+                html += '</tr>';
+            }
+        }
+
+        $('#order-totals').html(html);
+
+        if (json['shipping_required']) {
+            $('#shipping-address').removeClass('d-none');
+            $('#shipping-method').removeClass('d-none');
+            $('#button-shipping').prop('disabled', false);
+        } else {
+       
+            $('#button-shipping').prop('disabled', true);
+        }
+    }
 });
 
+});
+ 
 // Checkout
 $('#button-confirm').on('click', function() {
     var element = this;
 
     $.ajax({
-        url: 'index.php?route=sale/order.call&user_token={{ user_token }}&action=sale/order.confirm&store_id=' + $('#input-store').val() + '&language=' + $('#input-language').val(),
+        url: 'index.php?route=sale/order.call&user_token={{ user_token }}&action=sale/order.confirm&store_id=' + $('#input-store').val() + '&language=' + $('#input-language').val() + "&order_id={{order_id}}" ,
         dataType: 'json',
         beforeSend: function() {
             $(element).button('loading');

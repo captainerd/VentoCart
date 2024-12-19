@@ -1,9 +1,9 @@
 <?php
 
-namespace Opencart\Admin\Model\Extension\VentoCart\Shipping;
+namespace Ventocart\Admin\Model\Extension\VentoCart\Shipping;
 
 
-class ZoneShipping extends \Opencart\System\Engine\Model
+class ZoneShipping extends \Ventocart\System\Engine\Model
 {
     public function saveOrUpdateEntry($shippingEntryId, $name, $displayName, $volumetric, $countryId, $pricelist, $weightClassId, $entry_sort_order, $postalCodes)
     {

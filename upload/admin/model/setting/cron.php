@@ -1,11 +1,11 @@
 <?php
-namespace Opencart\Admin\Model\Setting;
+namespace Ventocart\Admin\Model\Setting;
 /**
  * Class Cron
  *
- * @package Opencart\Admin\Model\Setting
+ * @package Ventocart\Admin\Model\Setting
  */
-class Cron extends \Opencart\System\Engine\Model {
+class Cron extends \Ventocart\System\Engine\Model {
 	/**
 	 * @param string $code
 	 * @param string $description

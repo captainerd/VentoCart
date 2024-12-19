@@ -1,11 +1,11 @@
 <?php
-namespace Opencart\Catalog\Controller\Product;
+namespace Ventocart\Catalog\Controller\Product;
 /**
  * Class Search
  *
- * @package Opencart\Catalog\Controller\Product
+ * @package Ventocart\Catalog\Controller\Product
  */
-class Search extends \Opencart\System\Engine\Controller {
+class Search extends \Ventocart\System\Engine\Controller {
 	/**
 	 * @return void
 	 */

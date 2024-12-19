@@ -1,11 +1,11 @@
 <?php
-namespace Opencart\Catalog\Controller\Error;
+namespace Ventocart\Catalog\Controller\Error;
 /**
  * Class Exception
  *
- * @package Opencart\Catalog\Controller\Error
+ * @package Ventocart\Catalog\Controller\Error
  */
-class Exception extends \Opencart\System\Engine\Controller {
+class Exception extends \Ventocart\System\Engine\Controller {
 	/**
 	 * @param string $message
 	 * @param string $code

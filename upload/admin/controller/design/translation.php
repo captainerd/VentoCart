@@ -1,11 +1,11 @@
 <?php
-namespace Opencart\Admin\Controller\Design;
+namespace Ventocart\Admin\Controller\Design;
 /**
  * Class Translation
  *
- * @package Opencart\Admin\Controller\Design
+ * @package Ventocart\Admin\Controller\Design
  */
-class Translation extends \Opencart\System\Engine\Controller {
+class Translation extends \Ventocart\System\Engine\Controller {
 	/**
 	 * @return void
 	 */

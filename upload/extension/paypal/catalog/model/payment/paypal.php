@@ -1,6 +1,6 @@
 <?php
-namespace Opencart\Catalog\Model\Extension\PayPal\Payment;
-class PayPal extends \Opencart\System\Engine\Model {
+namespace Ventocart\Catalog\Model\Extension\PayPal\Payment;
+class PayPal extends \Ventocart\System\Engine\Model {
 	
 	public function getMethod(array $address): array {
 		$method_data = [];
@@ -60,7 +60,7 @@ class PayPal extends \Opencart\System\Engine\Model {
 
 			if ($status) {
 				// Setting
-				$_config = new \Opencart\System\Engine\Config();
+				$_config = new \Ventocart\System\Engine\Config();
 				$_config->addPath(DIR_EXTENSION . 'paypal/system/config/');
 				$_config->load('paypal');
 			
@@ -161,7 +161,7 @@ class PayPal extends \Opencart\System\Engine\Model {
 	}
 	
 	public function log(array $data = [], string $title = ''): void {
-		$_config = new \Opencart\System\Engine\Config();
+		$_config = new \Ventocart\System\Engine\Config();
 		$_config->addPath(DIR_EXTENSION . 'paypal/system/config/');
 		$_config->load('paypal');
 		
@@ -170,7 +170,7 @@ class PayPal extends \Opencart\System\Engine\Model {
 		$setting = array_replace_recursive((array)$config_setting, (array)$this->config->get('payment_paypal_setting'));
 		
 		if ($setting['general']['debug']) {
-			$log = new \Opencart\System\Library\Log('paypal.log');
+			$log = new \Ventocart\System\Library\Log('paypal.log');
 			$log->write('PayPal debug (' . $title . '): ' . json_encode($data));
 		}
 	}
@@ -204,7 +204,7 @@ class PayPal extends \Opencart\System\Engine\Model {
 		}
 								
 		// Setting
-		$_config = new \Opencart\System\Engine\Config();
+		$_config = new \Ventocart\System\Engine\Config();
 		$_config->addPath(DIR_EXTENSION . 'paypal/system/config/');
 		$_config->load('paypal');
 		

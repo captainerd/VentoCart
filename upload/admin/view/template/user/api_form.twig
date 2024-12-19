@@ -20,7 +20,6 @@
         <form id="form-api" action="{{ save }}" method="post" data-oc-toggle="ajax">
           <ul class="nav nav-tabs">
             <li class="nav-item"><a href="#tab-general" data-bs-toggle="tab" class="nav-link active">{{ tab_general }}</a></li>
-            <li class="nav-item"><a href="#tab-ip" data-bs-toggle="tab" class="nav-link">{{ tab_ip }}</a></li>
             <li class="nav-item"><a href="#tab-session" data-bs-toggle="tab" class="nav-link">{{ tab_session }}</a></li>
           </ul>
           <div class="tab-content">
@@ -50,35 +49,7 @@
                 </div>
               </div>
             </div>
-            <div id="tab-ip" class="tab-pane">
-              <div class="alert alert-info"><i class="fa-solid fa-info-circle"></i> {{ text_ip }}</div>
-              <div class="table-responsive">
-                <table id="ip" class="table table-bordered table-hover">
-                  <thead>
-                    <tr>
-                      <td class="text-start">{{ entry_ip }}</td>
-                      <td class="text-end"></td>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {% set ip_row = 0 %}
-                    {% for api_ip in api_ips %}
-                      <tr id="ip-row-{{ ip_row }}">
-                        <td class="text-start"><input type="text" name="api_ip[]" value="{{ api_ip }}" placeholder="{{ entry_ip }}" class="form-control"/></td>
-                        <td class="text-end"><button type="button" onclick="$('#ip-row-{{ ip_row }}').remove()" data-bs-toggle="tooltip" title="{{ button_remove }}" class="btn btn-danger"><i class="fa-solid fa-minus-circle"></i></button></td>
-                      </tr>
-                      {% set ip_row = ip_row + 1 %}
-                    {% endfor %}
-                  </tbody>
-                  <tfoot>
-                    <tr>
-                      <td></td>
-                      <td class="text-end"><button type="button" id="button-ip" data-bs-toggle="tooltip" title="{{ button_ip_add }}" class="btn btn-primary"><i class="fa-solid fa-plus-circle"></i></button></td>
-                    </tr>
-                  </tfoot>
-                </table>
-              </div>
-            </div>
+         
             <div id="tab-session" class="tab-pane">
               <div class="table-responsive">
                 <table id="session" class="table table-bordered table-hover">

@@ -1,11 +1,11 @@
 <?php
-namespace Opencart\Admin\Controller\User;
+namespace Ventocart\Admin\Controller\User;
 /**
  * Class User Permission
  *
- * @package Opencart\Admin\Controller\User
+ * @package Ventocart\Admin\Controller\User
  */
-class UserPermission extends \Opencart\System\Engine\Controller {
+class UserPermission extends \Ventocart\System\Engine\Controller {
 	/**
 	 * @return void
 	 */

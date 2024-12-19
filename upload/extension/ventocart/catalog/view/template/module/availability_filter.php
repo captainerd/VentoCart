@@ -1,63 +1,69 @@
 <div class="card mb-3">
-<form method="get" action="index.php" class="availability_form">
-    <div class="card-header">
-     
+    <form method="get" action="index.php" class="availability_form">
+        <div class="card-header p-3">
+
             <i class="fa-solid fa-circle"></i>
-            <strong>Availability</strong>
-    </div>
+            <strong><?= $heading_title ?></strong>
+        </div>
 
-    <?php foreach ($statuses as $availabilityStatus): ?>
-        <div class="  list-group-flush">
+        <?php foreach ($statuses as $availabilityStatus): ?>
+            <div class="p-3  list-group-flush">
 
-<div class="list-group-item">
-                <div id="filter-availability-group-<?= $availabilityStatus['stock_status_id'] ?>">
-                    <div class="form-check">
-                        <input type="checkbox" name="filter_availability[]" value="<?= $availabilityStatus['stock_status_id'] ?>" id="input-availability-filter-<?= $availabilityStatus['stock_status_id'] ?>" class="form-check-input availability-checkbox" <?= (in_array($availabilityStatus['stock_status_id'], $selected_availabilities)) ? 'checked' : '' ?>/>
-                        <label for="input-availability-filter-<?= $availabilityStatus['stock_status_id'] ?>" class="form-check-label"><?= $availabilityStatus['name'] ?> (<?= $availabilityStatus['product_count'] ?>)</label>
+                <div class="list-group-item">
+                    <div id="filter-availability-group-<?= $availabilityStatus['stock_status_id'] ?>">
+                        <div class="form-check">
+                            <input type="checkbox" name="filter_availability[]"
+                                value="<?= $availabilityStatus['stock_status_id'] ?>"
+                                id="input-availability-filter-<?= $availabilityStatus['stock_status_id'] ?>"
+                                class="form-check-input availability-checkbox"
+                                <?= (in_array($availabilityStatus['stock_status_id'], $selected_availabilities)) ? 'checked' : '' ?> />
+                            <label for="input-availability-filter-<?= $availabilityStatus['stock_status_id'] ?>"
+                                class="form-check-label"><?= $availabilityStatus['name'] ?>
+                                (<?= $availabilityStatus['product_count'] ?>)</label>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-    <?php endforeach; ?>
+        <?php endforeach; ?>
 
- 
+
     </form>
 </div>
- 
+
 <script>
-$(document).ready(function() {
-    // Catch the form submission
-    $(".availability-checkbox").on('change',  function(event) {
-   
-        // Prevent the default form submission
-        event.preventDefault();
+    $(document).ready(function () {
+        // Catch the form submission
+        $(".availability-checkbox").on('change', function (event) {
 
-        // Get the serialized form data
-        let formData = $(".availability_form").serialize();
+            // Prevent the default form submission
+            event.preventDefault();
 
-        // Get the existing URL parameters
-        let existingGet = window.location.search.substring(1); // Exclude the leading '?'
-        
-        // Parse the existing parameters
-        let existingParams = new URLSearchParams(existingGet);
+            // Get the serialized form data
+            let formData = $(".availability_form").serialize();
 
-        // Parse the form data
-        let formParams = new URLSearchParams(formData);
+            // Get the existing URL parameters
+            let existingGet = window.location.search.substring(1); // Exclude the leading '?'
 
-        // Remove common parameters
-        existingParams.delete('filter_availability[]');
+            // Parse the existing parameters
+            let existingParams = new URLSearchParams(existingGet);
 
-        // Combine existing and form parameters
-        let combinedParams = new URLSearchParams(existingParams.toString() + '&' + formParams.toString());
-   
-        // Set the new URL with the updated parameters
-         let url = window.location.pathname + '?' + decodeURIComponent(combinedParams.toString());
+            // Parse the form data
+            let formParams = new URLSearchParams(formData);
 
-         if (typeof window.handleUrl != 'function')  {
-         window.location.href = url;
-       } else {
-        window.handleUrl(url);
-       }
+            // Remove common parameters
+            existingParams.delete('filter_availability[]');
+
+            // Combine existing and form parameters
+            let combinedParams = new URLSearchParams(existingParams.toString() + '&' + formParams.toString());
+
+            // Set the new URL with the updated parameters
+            let url = window.location.pathname + '?' + decodeURIComponent(combinedParams.toString());
+
+            if (typeof window.handleUrl != 'function') {
+                window.location.href = url;
+            } else {
+                window.handleUrl(url);
+            }
+        });
     });
-});
 </script>

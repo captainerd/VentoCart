@@ -1,6 +1,6 @@
 <?php
-namespace Opencart\Admin\Model\Catalog;
-class Manufacturer extends \Opencart\System\Engine\Model {
+namespace Ventocart\Admin\Model\Catalog;
+class Manufacturer extends \Ventocart\System\Engine\Model {
 	public function addManufacturer(array $data): int {
 		$this->db->query("INSERT INTO `" . DB_PREFIX . "manufacturer` SET `name` = '" . $this->db->escape((string)$data['name']) . "', `sort_order` = '" . (int)$data['sort_order'] . "'");
 

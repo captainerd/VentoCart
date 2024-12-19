@@ -1,11 +1,11 @@
 <?php
-namespace Opencart\Catalog\Controller\Mail;
+namespace Ventocart\Catalog\Controller\Mail;
 /**
  * Class Affiliate
  *
- * @package Opencart\Catalog\Controller\Mail
+ * @package Ventocart\Catalog\Controller\Mail
  */
-class Affiliate extends \Opencart\System\Engine\Controller {
+class Affiliate extends \Ventocart\System\Engine\Controller {
 	/**
 	 * @param string $route
 	 * @param array  $args
@@ -54,7 +54,7 @@ class Affiliate extends \Opencart\System\Engine\Controller {
 				'smtp_timeout'  => $this->config->get('config_mail_smtp_timeout')
 			];
 
-			$mail = new \Opencart\System\Library\Mail($this->config->get('config_mail_engine'), $mail_option);
+			$mail = new \Ventocart\System\Library\Mail($this->config->get('config_mail_engine'), $mail_option);
 
 			if ($this->customer->isLogged()) {
 				$mail->setTo($this->customer->getEmail());
@@ -129,7 +129,7 @@ class Affiliate extends \Opencart\System\Engine\Controller {
 					'smtp_timeout'  => $this->config->get('config_mail_smtp_timeout')
 				];
 
-				$mail = new \Opencart\System\Library\Mail($this->config->get('config_mail_engine'), $mail_option);
+				$mail = new \Ventocart\System\Library\Mail($this->config->get('config_mail_engine'), $mail_option);
 				$mail->setTo($this->config->get('config_email'));
 				$mail->setFrom($this->config->get('config_email'));
 				$mail->setSender($store_name);

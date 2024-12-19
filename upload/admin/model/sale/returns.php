@@ -1,11 +1,11 @@
 <?php
-namespace Opencart\Admin\Model\Sale;
+namespace Ventocart\Admin\Model\Sale;
 /**
  * Class Returns
  *
- * @package Opencart\Admin\Model\Sale
+ * @package Ventocart\Admin\Model\Sale
  */
-class Returns extends \Opencart\System\Engine\Model {
+class Returns extends \Ventocart\System\Engine\Model {
 	/**
 	 * @param array $data
 	 *

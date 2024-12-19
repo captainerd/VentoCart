@@ -1,11 +1,11 @@
 <?php
-namespace Opencart\Catalog\Controller\Account;
+namespace Ventocart\Catalog\Controller\Account;
 /**
  * Class Newsletter
  *
- * @package Opencart\Catalog\Controller\Account
+ * @package Ventocart\Catalog\Controller\Account
  */
-class Newsletter extends \Opencart\System\Engine\Controller {
+class Newsletter extends \Ventocart\System\Engine\Controller {
 	/**
 	 * @return void
 	 */

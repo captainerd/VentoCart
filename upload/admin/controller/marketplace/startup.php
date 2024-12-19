@@ -1,11 +1,11 @@
 <?php
-namespace Opencart\Admin\Controller\Marketplace;
+namespace Ventocart\Admin\Controller\Marketplace;
 /**
  * Class Startup
  *
- * @package Opencart\Admin\Controller\Marketplace
+ * @package Ventocart\Admin\Controller\Marketplace
  */
-class Startup extends \Opencart\System\Engine\Controller {
+class Startup extends \Ventocart\System\Engine\Controller {
 	/**
 	 * @return void
 	 */

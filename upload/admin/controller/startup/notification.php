@@ -1,11 +1,11 @@
 <?php
-namespace Opencart\Admin\Controller\Common;
+namespace Ventocart\Admin\Controller\Common;
 /**
  * Class Notification
  *
- * @package Opencart\Admin\Controller\Startup
+ * @package Ventocart\Admin\Controller\Startup
  */
-class Notification extends \Opencart\System\Engine\Controller {
+class Notification extends \Ventocart\System\Engine\Controller {
 	/**
 	 * @return void
 	 */
@@ -13,8 +13,8 @@ class Notification extends \Opencart\System\Engine\Controller {
 		if (empty($this->request->cookie['notification'])) {
 			$curl = curl_init();
 
-			// Gets the latest information from opencart.com about news, updates and security.
-			curl_setopt($curl, CURLOPT_URL, OPENCART_SERVER . 'index.php?route=api/notification');
+			// Gets the latest information from ventocart.com about news, updates and security.
+			curl_setopt($curl, CURLOPT_URL, VENTOCART_SERVER . 'index.php?route=api/notification');
 			curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
 			curl_setopt($curl, CURLOPT_HEADER, false);
 			curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, 0);

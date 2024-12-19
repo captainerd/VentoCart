@@ -1,7 +1,7 @@
 <?php
-namespace Opencart\Admin\Model\Catalog;
+namespace Ventocart\Admin\Model\Catalog;
 
-class Attribute extends \Opencart\System\Engine\Model {
+class Attribute extends \Ventocart\System\Engine\Model {
     public function addAttribute(array $data): int {
         $this->db->query("INSERT INTO `" . DB_PREFIX . "attribute` SET  `sort_order` = '" . (int)$data['sort_order'] . "'");
 

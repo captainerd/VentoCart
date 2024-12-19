@@ -1,11 +1,11 @@
 <?php
-namespace Opencart\Catalog\Model\Account;
+namespace Ventocart\Catalog\Model\Account;
 /**
  * Class Wishlist
  *
- * @package Opencart\Catalog\Model\Account
+ * @package Ventocart\Catalog\Model\Account
  */
-class Wishlist extends \Opencart\System\Engine\Model {
+class Wishlist extends \Ventocart\System\Engine\Model {
 	/**
 	 * @param int $product_id
 	 *

@@ -1,11 +1,11 @@
 <?php
-namespace Opencart\Admin\Model\Localisation;
+namespace Ventocart\Admin\Model\Localisation;
 /**
  * Class ReturnAction
  *
- * @package Opencart\Admin\Model\Localisation
+ * @package Ventocart\Admin\Model\Localisation
  */
-class ReturnAction extends \Opencart\System\Engine\Model {
+class ReturnAction extends \Ventocart\System\Engine\Model {
 	/**
 	 * @param array $data
 	 *

@@ -1,6 +1,6 @@
 <?php
-namespace Opencart\Catalog\Model\Extension\PayPal\Payment;
-class PayPalGooglePay extends \Opencart\System\Engine\Model {
+namespace Ventocart\Catalog\Model\Extension\PayPal\Payment;
+class PayPalGooglePay extends \Ventocart\System\Engine\Model {
 	public function getMethod(array $address): array {
 		$method_data = array();
 		

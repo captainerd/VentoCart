@@ -1,11 +1,11 @@
 <?php
-namespace Opencart\Admin\Controller\Tool;
+namespace Ventocart\Admin\Controller\Tool;
 /**
  * Class Backup
  *
- * @package Opencart\Admin\Controller\Tool
+ * @package Ventocart\Admin\Controller\Tool
  */
-class Backup extends \Opencart\System\Engine\Controller {
+class Backup extends \Ventocart\System\Engine\Controller {
 	/**
 	 * @return void
 	 */

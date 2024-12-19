@@ -1,11 +1,11 @@
 <?php
-namespace Opencart\Catalog\Model\Localisation;
+namespace Ventocart\Catalog\Model\Localisation;
 /**
  * Class Language
  *
- * @package Opencart\Catalog\Model\Localisation
+ * @package Ventocart\Catalog\Model\Localisation
  */
-class Language extends \Opencart\System\Engine\Model {
+class Language extends \Ventocart\System\Engine\Model {
 	/**
 	 * @var array
 	 */

@@ -1,13 +1,13 @@
 <?php
 /**
- * @package   OpenCart
+ * @package   VentoCart
  * @author    Daniel Kerr
- * @copyright Copyright (c) 2005 - 2022, OpenCart, Ltd. (https://www.opencart.com/)
+ * @copyright Copyright (c) 2005 - 2022, VentoCart, Ltd. (https://www.ventocart.com/)
  * @license   https://opensource.org/licenses/GPL-3.0
  * @author    Daniel Kerr
- * @see       https://www.opencart.com
+ * @see       https://www.ventocart.com
  */
-namespace Opencart\System\Library;
+namespace Ventocart\System\Library;
 /**
  * Class URL
  */
@@ -39,7 +39,7 @@ class Url {
      *
      * @return void
      */
-	public function addRewrite(\Opencart\System\Engine\Controller $rewrite): void {
+	public function addRewrite(\Ventocart\System\Engine\Controller $rewrite): void {
 		$this->rewrite[] = $rewrite;
 	}
 

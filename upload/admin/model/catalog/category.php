@@ -1,7 +1,7 @@
 <?php
-namespace Opencart\Admin\Model\Catalog;
+namespace Ventocart\Admin\Model\Catalog;
 
-class Category extends \Opencart\System\Engine\Model
+class Category extends \Ventocart\System\Engine\Model
 {
 	public function addCategory(array $data): int
 	{

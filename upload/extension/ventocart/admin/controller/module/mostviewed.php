@@ -1,6 +1,6 @@
 <?php
-namespace Opencart\Admin\Controller\Extension\VentoCart\Module;
-class MostViewed extends \Opencart\System\Engine\Controller {
+namespace Ventocart\Admin\Controller\Extension\VentoCart\Module;
+class MostViewed extends \Ventocart\System\Engine\Controller {
 	public function index(): void {
 		$this->load->language('extension/ventocart/module/mostviewed');
 

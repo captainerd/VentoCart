@@ -1,11 +1,11 @@
 <?php
-namespace Opencart\Admin\Controller\Design;
+namespace Ventocart\Admin\Controller\Design;
 /**
  * Class SEO URL
  *
- * @package Opencart\Admin\Controller\Design
+ * @package Ventocart\Admin\Controller\Design
  */
-class SeoUrl extends \Opencart\System\Engine\Controller {
+class SeoUrl extends \Ventocart\System\Engine\Controller {
 	/**
 	 * @return void
 	 */

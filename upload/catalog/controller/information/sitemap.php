@@ -1,11 +1,11 @@
 <?php
-namespace Opencart\Catalog\Controller\Information;
+namespace Ventocart\Catalog\Controller\Information;
 /**
  * Class Sitemap
  *
- * @package Opencart\Catalog\Controller\Information
+ * @package Ventocart\Catalog\Controller\Information
  */
-class Sitemap extends \Opencart\System\Engine\Controller {
+class Sitemap extends \Ventocart\System\Engine\Controller {
 	/**
 	 * @return void
 	 */

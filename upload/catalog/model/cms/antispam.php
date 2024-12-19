@@ -1,11 +1,11 @@
 <?php
-namespace Opencart\Catalog\Model\Cms;
+namespace Ventocart\Catalog\Model\Cms;
 /**
  * Class Anti-Spam
  *
- * @package Opencart\Catalog\Model\Cms
+ * @package Ventocart\Catalog\Model\Cms
  */
-class Antispam extends \Opencart\System\Engine\Model {
+class Antispam extends \Ventocart\System\Engine\Model {
 	/**
 	 * @param string $comment
 	 *

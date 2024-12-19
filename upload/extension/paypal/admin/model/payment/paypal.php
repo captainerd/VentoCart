@@ -1,6 +1,6 @@
 <?php
-namespace Opencart\Admin\Model\Extension\PayPal\Payment;
-class PayPal extends \Opencart\System\Engine\Model {
+namespace Ventocart\Admin\Model\Extension\PayPal\Payment;
+class PayPal extends \Ventocart\System\Engine\Model {
 		
 	public function getTotalSales(): float {
 		$implode = [];
@@ -207,10 +207,10 @@ class PayPal extends \Opencart\System\Engine\Model {
 		return $agree_status;
 	}
 	
-	public function checkVersion(string $opencart_version, string $paypal_version): array|bool {
+	public function checkVersion(string $ventocart_version, string $paypal_version): array|bool {
 		$curl = curl_init();
 			
-		curl_setopt($curl, CURLOPT_URL, 'https://www.opencart.com/index.php?route=api/promotion/paypalCheckoutIntegration&opencart=' . $opencart_version . '&paypal=' . $paypal_version);
+		curl_setopt($curl, CURLOPT_URL, 'https://www.ventocart.com/index.php?route=api/promotion/paypalCheckoutIntegration&ventocart=' . $ventocart_version . '&paypal=' . $paypal_version);
 		curl_setopt($curl, CURLOPT_HEADER, 0);
 		curl_setopt($curl, CURLOPT_HEADER, 0);
 		curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, 0);
@@ -251,7 +251,7 @@ class PayPal extends \Opencart\System\Engine\Model {
 	}
 	
 	public function log(array $data = [], string $title = ''): void {
-		$_config = new \Opencart\System\Engine\Config();
+		$_config = new \Ventocart\System\Engine\Config();
 		$_config->addPath(DIR_EXTENSION . 'paypal/system/config/');
 		$_config->load('paypal');
 		
@@ -260,7 +260,7 @@ class PayPal extends \Opencart\System\Engine\Model {
 		$setting = array_replace_recursive((array)$config_setting, (array)$this->config->get('payment_paypal_setting'));
 		
 		if ($setting['general']['debug']) {
-			$log = new \Opencart\System\Library\Log('paypal.log');
+			$log = new \Ventocart\System\Library\Log('paypal.log');
 			$log->write('PayPal debug (' . $title . '): ' . json_encode($data));
 		}
 	}

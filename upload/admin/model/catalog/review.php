@@ -1,6 +1,6 @@
 <?php
-namespace Opencart\Admin\Model\Catalog;
-class Review extends \Opencart\System\Engine\Model {
+namespace Ventocart\Admin\Model\Catalog;
+class Review extends \Ventocart\System\Engine\Model {
 	public function addReview(array $data): int {
 		$this->db->query("INSERT INTO `" . DB_PREFIX . "review` SET `author` = '" . $this->db->escape((string)$data['author']) . "', `product_id` = '" . (int)$data['product_id'] . "', `text` = '" . $this->db->escape(strip_tags((string)$data['text'])) . "', `rating` = '" . (int)$data['rating'] . "', `status` = '" . (bool)(isset($data['status']) ? $data['status'] : 0) . "', `date_added` = '" . $this->db->escape((string)$data['date_added']) . "'");
 

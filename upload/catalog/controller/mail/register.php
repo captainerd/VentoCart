@@ -1,11 +1,11 @@
 <?php
-namespace Opencart\Catalog\Controller\Mail;
+namespace Ventocart\Catalog\Controller\Mail;
 /**
  * Class Register
  *
- * @package Opencart\Catalog\Controller\Mail
+ * @package Ventocart\Catalog\Controller\Mail
  */
-class Register extends \Opencart\System\Engine\Controller {
+class Register extends \Ventocart\System\Engine\Controller {
 	// catalog/model/account/customer/addCustomer/after
 	/**
 	 * @param string $route
@@ -55,7 +55,7 @@ class Register extends \Opencart\System\Engine\Controller {
 				'smtp_timeout'  => $this->config->get('config_mail_smtp_timeout')
 			];
 
-			$mail = new \Opencart\System\Library\Mail($this->config->get('config_mail_engine'), $mail_option);
+			$mail = new \Ventocart\System\Library\Mail($this->config->get('config_mail_engine'), $mail_option);
 			$mail->setTo($args[0]['email']);
 			$mail->setFrom($this->config->get('config_email'));
 			$mail->setSender($store_name);
@@ -121,7 +121,7 @@ class Register extends \Opencart\System\Engine\Controller {
 					'smtp_timeout'  => $this->config->get('config_mail_smtp_timeout')
 				];
 
-				$mail = new \Opencart\System\Library\Mail($this->config->get('config_mail_engine'), $mail_option);
+				$mail = new \Ventocart\System\Library\Mail($this->config->get('config_mail_engine'), $mail_option);
 				$mail->setTo($this->config->get('config_email'));
 				$mail->setFrom($this->config->get('config_email'));
 				$mail->setSender($store_name);

@@ -1,11 +1,11 @@
 <?php
-namespace Opencart\Catalog\Controller\Account;
+namespace Ventocart\Catalog\Controller\Account;
 /**
  * Class Subscription
  *
- * @package Opencart\Catalog\Controller\Account
+ * @package Ventocart\Catalog\Controller\Account
  */
-class Subscription extends \Opencart\System\Engine\Controller {
+class Subscription extends \Ventocart\System\Engine\Controller {
 	/**
 	 * @return void
 	 */
@@ -220,7 +220,7 @@ class Subscription extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * @return object|\Opencart\System\Engine\Action|null
+	 * @return object|\Ventocart\System\Engine\Action|null
 	 */
 	public function info(): ?object {
 		$this->load->language('account/subscription');
@@ -531,7 +531,7 @@ class Subscription extends \Opencart\System\Engine\Controller {
 
 			$this->response->setOutput($this->load->view('account/subscription_info', $data));
 		} else {
-			return new \Opencart\System\Engine\Action('error/not_found');
+			return new \Ventocart\System\Engine\Action('error/not_found');
 		}
 
 		return null;

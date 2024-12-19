@@ -317,20 +317,18 @@ if (directory) {
     });
 }); 
 var urlParams = new URLSearchParams(window.location.search);
+  var url = '';
+ 
+if ($('#input-directory').val()) {
+    
+    url += '&directory=' + encodeURIComponent($('#input-directory').val());
+}  
+ 
+ $('#modal-image .modal-body').load('index.php?route=common/filemanager.list&user_token={{ user_token }}' + url);
 
-if (urlParams.has('route') && (urlParams.get('route') === 'catalog/manufacturer.form')) {
-    $('#modal-image .modal-body').load('index.php?route=common/filemanager.list&user_token={{ user_token }}' + '&directory=' + encodeURIComponent("manufacturers"));
-} else if (urlParams.has('route') && (urlParams.get('route') === 'design/banner.form')) {
-    $('#modal-image .modal-body').load('index.php?route=common/filemanager.list&user_token={{ user_token }}' + '&directory=' + encodeURIComponent("banners"));
-} else if (urlParams.has('route') && (urlParams.get('route') === 'cms/topic.form' || urlParams.get('route') === 'cms/article.form')) {
-    $('#modal-image .modal-body').load('index.php?route=common/filemanager.list&user_token={{ user_token }}' + '&directory=' + encodeURIComponent("blog"));
-} else if (urlParams.has('route') && urlParams.get('route') === 'catalog/category.form') {
-    $('#modal-image .modal-body').load('index.php?route=common/filemanager.list&user_token={{ user_token }}' + '&directory=' + encodeURIComponent("categories"));
-} else if (window.product_id) {
-    $('#modal-image .modal-body').load('index.php?route=common/filemanager.list&user_token={{ user_token }}' + '&directory=' + encodeURIComponent("products/" + window.product_id));
-} else {
-    $('#modal-image .modal-body').load('index.php?route=common/filemanager.list&user_token={{ user_token }}');
-}
+ 
+
+ 
   $('#cropper').hide();
   $('#modal-image').on('click', '#button-parent', function (e) {
       e.preventDefault();

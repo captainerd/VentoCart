@@ -1,11 +1,11 @@
 <?php
-namespace Opencart\Catalog\Controller\Common;
+namespace Ventocart\Catalog\Controller\Common;
 /**
  * Class Currency
  *
- * @package Opencart\Catalog\Controller\Common
+ * @package Ventocart\Catalog\Controller\Common
  */
-class Currency extends \Opencart\System\Engine\Controller {
+class Currency extends \Ventocart\System\Engine\Controller {
 	/**
 	 * @return string
 	 */

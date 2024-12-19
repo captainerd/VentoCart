@@ -121,7 +121,7 @@
         <?= $results ?>
       </div>
     </div>
-  <?php endif ?>
+  
 <?php endif ?>
 <?php if (count($products) == 0): ?>
   <div>
@@ -130,3 +130,4 @@
     </div>
   </div>
 <?php endif; ?>
+<?php endif ?>

@@ -10,13 +10,13 @@ Upgrade Process
 
 4. Redirect to upgrade page
 */
-namespace Opencart\Admin\Controller\Tool;
+namespace Ventocart\Admin\Controller\Tool;
 /**
  * Class Upgrade
  *
- * @package Opencart\Admin\Controller\Tool
+ * @package Ventocart\Admin\Controller\Tool
  */
-class Upgrade extends \Opencart\System\Engine\Controller {
+class Upgrade extends \Ventocart\System\Engine\Controller {
 	/**
 	 * @return void
 	 */
@@ -40,7 +40,7 @@ class Upgrade extends \Opencart\System\Engine\Controller {
 		$data['current_version'] = VERSION;
 		$data['upgrade'] = false;
 
-		$curl = curl_init(OPENCART_SERVER . 'index.php?route=api/upgrade');
+		$curl = curl_init(VENTOCART_SERVER . 'index.php?route=api/upgrade');
 
 		curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
 		curl_setopt($curl, CURLOPT_FORBID_REUSE, 1);
@@ -191,18 +191,18 @@ class Upgrade extends \Opencart\System\Engine\Controller {
 									$path = $path . '/' . $directory;
 								}
 
-								if (!is_dir(DIR_OPENCART . $path) && !@mkdir(DIR_OPENCART . $path, 0777)) {
+								if (!is_dir(DIR_VENTOCART . $path) && !@mkdir(DIR_VENTOCART . $path, 0777)) {
 									$json['error'] = sprintf($this->language->get('error_directory'), $path);
 								}
 							}
 
 							// Check if the path is not directory and check there is no existing file
 							if (substr($destination, -1) != '/') {
-								if (is_file(DIR_OPENCART . $destination)) {
-									unlink(DIR_OPENCART . $destination);
+								if (is_file(DIR_VENTOCART . $destination)) {
+									unlink(DIR_VENTOCART . $destination);
 								}
 
-								if (file_put_contents(DIR_OPENCART . $destination, $zip->getFromIndex($i)) === false) {
+								if (file_put_contents(DIR_VENTOCART . $destination, $zip->getFromIndex($i)) === false) {
 									$json['error'] = sprintf($this->language->get('error_copy'), $source, $destination);
 								}
 							}
@@ -214,7 +214,7 @@ class Upgrade extends \Opencart\System\Engine\Controller {
 
 				$json['text'] = $this->language->get('text_patch');
 
-				$json['next'] = HTTP_CATALOG . 'install/index.php?route=upgrade/upgrade_1&version=' . $version . '&admin=' . rtrim(substr(DIR_APPLICATION, strlen(DIR_OPENCART), -1));
+				$json['next'] = HTTP_CATALOG . 'install/index.php?route=upgrade/upgrade_1&version=' . $version . '&admin=' . rtrim(substr(DIR_APPLICATION, strlen(DIR_VENTOCART), -1));
 			} else {
 				$json['error'] = $this->language->get('error_unzip');
 			}

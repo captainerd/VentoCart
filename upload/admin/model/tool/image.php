@@ -1,11 +1,11 @@
 <?php
-namespace Opencart\Admin\Model\Tool;
+namespace Ventocart\Admin\Model\Tool;
 /**
  * Class Image
  *
- * @package Opencart\Admin\Model\Tool
+ * @package Ventocart\Admin\Model\Tool
  */
-class Image extends \Opencart\System\Engine\Model {
+class Image extends \Ventocart\System\Engine\Model {
 	/**
 	 * @param string $filename
 	 * @param int    $width
@@ -48,7 +48,7 @@ class Image extends \Opencart\System\Engine\Model {
 			}
 
 			if ($width_orig != $width || $height_orig != $height) {
-				$image = new \Opencart\System\Library\Image(DIR_IMAGE . $image_old);
+				$image = new \Ventocart\System\Library\Image(DIR_IMAGE . $image_old);
 				$image->resize($width, $height);
 				$image->save(DIR_IMAGE . $image_new);
 			} else {

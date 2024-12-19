@@ -1,6 +1,6 @@
 <?php return array(
     'root' => array(
-        'name' => 'opencart/opencart',
+        'name' => 'ventocart/ventocart',
         'pretty_version' => 'dev-master',
         'version' => 'dev-master',
         'reference' => 'ac8023da95186ba80628e85df34e5b018091902b',
@@ -64,7 +64,7 @@
             'aliases' => array(),
             'dev_requirement' => false,
         ),
-        'opencart/opencart' => array(
+        'ventocart/ventocart' => array(
             'pretty_version' => 'dev-master',
             'version' => 'dev-master',
             'reference' => 'ac8023da95186ba80628e85df34e5b018091902b',

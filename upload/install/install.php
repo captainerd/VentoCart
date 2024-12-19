@@ -3,9 +3,9 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 header('Content-Type: application/json');
-$passweb  = '';
+$passweb = '';
 $getDirectory = dirname(__DIR__) . "/";
- 
+
 
 $host = '';
 $user = '';
@@ -17,80 +17,163 @@ $adminUsername = '';
 $adminPassword = '';
 
 // Function to execute SQL file
- 
-function executeSqlFile($dbConnection, $sqlFile)
+function getTotalKeys(string $filename)
 {
-    global  $password, $database, $user, $host, $prefix, $appConfig, $adminConfig, $getDirectory, $passweb, $adminEmail,  $adminUsername, $adminEmail,  $weburl, $adminDir;
-    $sql = file($sqlFile);
-    $query = '';
-
-    foreach ($sql as $line)	{
-	
-        $startWith = substr(trim($line), 0 ,2);
-        $endWith = substr(trim($line), -1 ,1);
-        
-        if (empty($line) || $startWith == '--' || $startWith == '/*' || $startWith == '//') {
-            continue;
-        }
-            
-        $query = $query . $line;
-        if ($endWith == ';') {
-            $result = mysqli_query($dbConnection,str_replace('ve_',$prefix."_",$query));
-            if (!$result) {
-               
-                die('Error  : ' . mysqli_error($dbConnection));
-            }
-            $query= '';		
-        }
+    $outputFile = $filename . '.bin';
+    if (!file_exists($outputFile)) {
+        throw new Exception("Database file not found.");
     }
-// Manually execute additional queries
- 
-$additionalQuery2 = "INSERT INTO `" . $prefix . "_user` (`user_id`, `user_group_id`, `username`, `password`, `firstname`, `lastname`, `email`, `image`, `code`, `ip`, `status`, `date_added`) VALUES
-(1, 1, '". $adminUsername . "', '" .$passweb . "', 'John', 'Doe', '". $adminEmail. "', '', '', '127.0.0.1', 1, '2023-12-02 14:48:28')";
- 
-mysqli_query($dbConnection, $additionalQuery2) or die('Error: 2 ' . mysqli_error($dbConnection));
-
- 
-//Set up front config
-$mainconfig = file_get_contents($appConfig);
-$weburl = rtrim($weburl, '/') . "/";
-
-$mainconfig = setConfigValue($mainconfig, 'HTTP_SERVER', $weburl);
-$mainconfig = setConfigValue($mainconfig, 'DB_HOSTNAME', $host);
-$mainconfig = setConfigValue($mainconfig, 'DB_USERNAME', $user);
-$mainconfig = setConfigValue($mainconfig, 'DB_PASSWORD', $password);
-$mainconfig = setConfigValue($mainconfig, 'DB_DATABASE', $database);
-$mainconfig = setConfigValue($mainconfig, 'DB_PREFIX', $prefix."_");
-$mainconfig = setConfigValue($mainconfig, 'DIR_OPENCART', $getDirectory);
-$mainconfig = file_put_contents($appConfig,$mainconfig);
-
-//Set up admin config
-$mainconfig = file_get_contents( $adminConfig);
-$weburl = rtrim($weburl, "/");
-$weburlad = $weburl . "/" . $adminDir  . "/";
- 
-$mainconfig = setConfigValue($mainconfig, 'HTTP_SERVER', $weburlad);
-$mainconfig = setConfigValue($mainconfig, 'DB_HOSTNAME', $host);
-$mainconfig = setConfigValue($mainconfig, 'DB_USERNAME', $user);
-$mainconfig = setConfigValue($mainconfig, 'DB_PASSWORD', $password);
-$mainconfig = setConfigValue($mainconfig, 'DB_DATABASE', $database);
-$mainconfig = setConfigValue($mainconfig, 'DB_PREFIX', $prefix."_");
-$mainconfig = setConfigValue($mainconfig, 'HTTP_CATALOG', $weburl . "/");
-$mainconfig = setConfigValue($mainconfig, 'DIR_OPENCART', $getDirectory);
-$mainconfig = setConfigValue($mainconfig, 'DIR_APPLICATION', $adminDir);
-
-file_put_contents( $adminConfig,$mainconfig);
-//rename admin directory
-recursiveRenameDirectory("../admin", "../".$adminDir);
- 
-
- 
+    $handle = fopen($outputFile, 'rb');
+    if (!$handle) {
+        throw new Exception("Unable to open database file.");
+    }
+    $indexSize = unpack('N', fread($handle, 4))[1];
+    unpack('N', fread($handle, 4))[1];
+    $Index = fread($handle, $indexSize);
+    fclose($handle);
+    $indexData = gzuncompress($Index);
+    $index = unserialize($indexData);
+    return count($index);
 }
 
- 
+function storeVentoCartDB(string $filename, array $data): void
+{
+    $binaryData = '';
+    $index = [];
+    $position = 0;
+    foreach ($data as $key => $value) {
+        $serialized = serialize($value);
+        $length = strlen($serialized);
+        $index[$key] = ['offset' => $position, 'length' => $length];
+        $binaryData .= $serialized;
+        $position += $length;
+    }
+    $Index = gzcompress(serialize($index), 1);
+    $Binary = gzcompress($binaryData, 1);
+    $indexSize = strlen($Index);
+    $binarySize = strlen($Binary);
+
+    $handle = fopen($filename . '.bin', 'wb');
+    if (!$handle) {
+        throw new Exception("Unable to open database file for writing.");
+    }
+    fwrite($handle, pack('N', $indexSize));
+    fwrite($handle, pack('N', $binarySize));
+    fwrite($handle, $Index);
+    fwrite($handle, $Binary);
+    fclose($handle);
+}
+
+function readVentoCartDBKey(string $filename, string $key)
+{
+    $outputFile = $filename . '.bin';
+    if (!file_exists($outputFile)) {
+        throw new Exception("Database file not found.");
+    }
+    $handle = fopen($outputFile, 'rb');
+    if (!$handle) {
+        throw new Exception("Unable to open database.");
+    }
+    $indexSize = unpack('N', fread($handle, 4))[1];
+    $binarySize = unpack('N', fread($handle, 4))[1];
+
+    $indexData = gzuncompress(fread($handle, $indexSize));
+    $binaryData = gzuncompress(fread($handle, $binarySize));
+    fclose($handle);
+    $index = unserialize($indexData);
+    if (!isset($index[$key])) {
+        throw new Exception("Key not found.");
+    }
+    $offset = $index[$key]['offset'];
+    $length = $index[$key]['length'];
+    $data = substr($binaryData, $offset, $length);
+    return unserialize($data);
+}
+
+
+function executeSqlFile($dbConnection)
+{
+
+    global $password, $database, $user, $host, $prefix, $appConfig, $adminConfig, $getDirectory, $passweb, $adminEmail, $adminUsername, $adminEmail, $weburl, $adminDir;
+
+    $total = getTotalKeys("database");
+    $page = isset($_GET['page']) ? $_GET['page'] : 0;
+    $perPage = 20;
+    $totalPages = ceil($total / $perPage);
+    $start = ($page - 1) * $perPage;
+    $end = min($start + $perPage, $total);
+    mysqli_query($dbConnection, 'SET foreign_key_checks = 0;');
+
+    if ($page <= $totalPages) {
+        for ($i = $start; $i < $end; $i++) {
+            $query = readVentoCartDBKey('database', (string) $i);
+            $add = str_replace('ve_', $prefix . "_", $query);
+
+            $dbConnection->query($add);
+
+        }
+    }
+    if ($page >= $totalPages) {
+        sleep(1);
+        // Manually execute additional queries
+        $additionalQuery2 = "INSERT INTO `" . $prefix . "_user` (`user_id`, `user_group_id`, `username`, `password`, `firstname`, `lastname`, `email`, `image`, `code`, `ip`, `status`, `date_added`) VALUES
+        (1, 1, '" . $adminUsername . "', '" . $passweb . "', 'John', 'Doe', '" . $adminEmail . "', '', '', '127.0.0.1', 1, '2023-12-02 14:48:28')";
+        mysqli_query($dbConnection, $additionalQuery2) or die('Error: 2 ' . mysqli_error($dbConnection));
+        setupConfigurations($appConfig, $adminConfig, $weburl, $host, $user, $password, $database, $prefix, $getDirectory, $adminDir);
+    }
+    echo json_encode([
+        'status' => 'installing',
+        'page' => $page,
+        'total' => $totalPages,
+    ]);
+}
+
+function setupConfigurations($appConfig, $adminConfig, $weburl, $host, $user, $password, $database, $prefix, $getDirectory, $adminDir)
+{
+    global $password, $database, $user, $host, $prefix, $appConfig, $adminConfig, $getDirectory, $passweb, $adminEmail, $adminUsername, $adminEmail, $weburl, $adminDir;
+
+    //Set up front config
+    $mainconfig = file_get_contents($appConfig);
+    $weburl = rtrim($weburl, '/') . "/";
+
+    $mainconfig = setConfigValue($mainconfig, 'HTTP_SERVER', $weburl);
+    $mainconfig = setConfigValue($mainconfig, 'DB_HOSTNAME', $host);
+    $mainconfig = setConfigValue($mainconfig, 'DB_USERNAME', $user);
+    $mainconfig = setConfigValue($mainconfig, 'DB_PASSWORD', $password);
+    $mainconfig = setConfigValue($mainconfig, 'DB_DATABASE', $database);
+    $mainconfig = setConfigValue($mainconfig, 'DB_PREFIX', $prefix . "_");
+    $mainconfig = setConfigValue($mainconfig, 'DIR_VENTOCART', $getDirectory);
+    $mainconfig = file_put_contents($appConfig, $mainconfig);
+
+    //Set up admin config
+    $mainconfig = file_get_contents($adminConfig);
+    $weburl = rtrim($weburl, "/");
+    $weburlad = $weburl . "/" . $adminDir . "/";
+
+    $mainconfig = setConfigValue($mainconfig, 'HTTP_SERVER', $weburlad);
+    $mainconfig = setConfigValue($mainconfig, 'DB_HOSTNAME', $host);
+    $mainconfig = setConfigValue($mainconfig, 'DB_USERNAME', $user);
+    $mainconfig = setConfigValue($mainconfig, 'DB_PASSWORD', $password);
+    $mainconfig = setConfigValue($mainconfig, 'DB_DATABASE', $database);
+    $mainconfig = setConfigValue($mainconfig, 'DB_PREFIX', $prefix . "_");
+    $mainconfig = setConfigValue($mainconfig, 'HTTP_CATALOG', $weburl . "/");
+    $mainconfig = setConfigValue($mainconfig, 'DIR_VENTOCART', $getDirectory);
+    $mainconfig = setConfigValue($mainconfig, 'DIR_APPLICATION', $adminDir);
+
+    file_put_contents($adminConfig, $mainconfig);
+    //rename admin directory
+    recursiveRenameDirectory("../admin", "../" . $adminDir);
+    sleep(2);
+    recursiveDeleteDirectory('../install');
+}
+
+
+
+
+
 // Check if it's an AJAX request
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['ajax'])) {
- 
+
 
     // Get data from AJAX POST request
     $host = $_POST['host'];
@@ -104,19 +187,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['ajax'])) {
     $adminPassword = $_POST['adminPassword'];
     $adminPasswordconfirm = $_POST['adminPasswordconfirm'];
 
-    
+
     if ($adminPassword != $adminPasswordconfirm) {
         echo json_encode(["status" => "Failed", "message" => "Wrong Admin password confirmation"]);
         exit();
     } else {
-        $passweb  = password_hash(html_entity_decode($adminPassword, ENT_QUOTES, 'UTF-8'), PASSWORD_DEFAULT);
+        $passweb = password_hash(html_entity_decode($adminPassword, ENT_QUOTES, 'UTF-8'), PASSWORD_DEFAULT);
     }
     $adminEmail = $_POST['adminEmail'];
 
- 
+
 
     // Validate that config files exist
- 
+
     $appConfig = $getDirectory . "/config.php";
     $adminConfig = $getDirectory . "/admin/config.php";
 
@@ -124,8 +207,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['ajax'])) {
         // Send JSON response
         echo json_encode(["status" => "Failed", "message" => "Admin config not found"]);
         exit();
-    }  
-    
+    }
+
     if (!file_exists($appConfig)) {
         // Send JSON response
         echo json_encode(["status" => "Failed", "message" => "Config not found"]);
@@ -135,13 +218,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['ajax'])) {
     // Connect to the database
     try {
         $dbConnection = new mysqli($host, $user, $password, $database);
-    
+
         if ($dbConnection->connect_error) {
             throw new Exception("Connection failed: " . $dbConnection->connect_error);
         }
-    
+
         // Continue with your script if the connection is successful
-    
+
     } catch (mysqli_sql_exception $e) {
         // Send JSON response for database connection error
         echo json_encode(["status" => "Failed", "message" => $e->getMessage()]);
@@ -153,18 +236,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['ajax'])) {
     }
 
     // Get all table names in the database
-    $result = $dbConnection->query("SHOW TABLES");
-    $tables = [];
+    if (isset($_GET['page']) && $_GET['page'] == 1) {
+        $result = $dbConnection->query("SHOW TABLES");
+        $tables = [];
 
-    while ($row = $result->fetch_row()) {
-        $tables[] = $row[0];
-    }
+        while ($row = $result->fetch_row()) {
+            $tables[] = $row[0];
+        }
 
-    // Drop each table
-    foreach ($tables as $table) {
-        if (strpos($table, $prefix . "_") === 0) {
-            $dbConnection->query('SET FOREIGN_KEY_CHECKS=0');
-            $dbConnection->query("DROP TABLE IF EXISTS $table");
+        // Drop each table
+        foreach ($tables as $table) {
+            if (strpos($table, $prefix . "_") === 0) {
+                $dbConnection->query('SET FOREIGN_KEY_CHECKS=0');
+                $dbConnection->query("DROP TABLE IF EXISTS $table");
+            }
         }
     }
 
@@ -173,27 +258,25 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['ajax'])) {
 
 
         exit();
-    }  
+    }
 
     // Install the database.sql file
-    executeSqlFile($dbConnection, 'ventocart.sql');
+    executeSqlFile($dbConnection);
 
-    // Close the database connection
-    mysqli_close($dbConnection);
-
-    echo json_encode(["status" => "Finished", "message" => "VentoCart installed successfully."]);
-    recursiveDeleteDirectory('../install');
 }
 
 
-function setConfigValue($config, $setting, $newvalue) {
-    if ($setting == 'DIR_APPLICATION') return str_replace('admin',$newvalue,$config);
+function setConfigValue($config, $setting, $newvalue)
+{
+    if ($setting == 'DIR_APPLICATION')
+        return str_replace('admin', $newvalue, $config);
     return preg_replace("/define\('" . $setting . "',\s*'[^']*'\);/s", "define('" . $setting . "', '{$newvalue}');", $config);
- }
+}
 
- 
 
- function recursiveRenameDirectory($oldPath, $newPath) {
+
+function recursiveRenameDirectory($oldPath, $newPath)
+{
     // Open the old directory
     if (!is_dir($oldPath)) {
         return false; // Directory doesn't exist
@@ -240,7 +323,8 @@ function setConfigValue($config, $setting, $newvalue) {
     return true;
 }
 
-function recursiveDeleteDirectory($path) {
+function recursiveDeleteDirectory($path)
+{
     if (!is_dir($path)) {
         return false; // Not a directory
     }
@@ -280,7 +364,7 @@ function recursiveDeleteDirectory($path) {
     return true;
 }
 
- 
+
 
 
 ?>

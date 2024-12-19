@@ -14,6 +14,7 @@
     </div>
   </div>
   <div class="container-fluid">
+         <input type="hidden" id="input-directory" value="banners">
     <div class="card">
       <div class="card-header"><i class="fa-solid fa-pencil"></i> {{ text_form }}</div>
       <div class="card-body">
@@ -62,11 +63,18 @@
                           <td class="text-start">
                             <input type="text" name="banner_image[{{ language.language_id }}][{{ image_row }}][title]" value="{{ banner_image.title }}" placeholder="{{ entry_title }}" id="input-image-{{ language.language_id }}-{{ image_row }}-title" class="form-control"/>
                             <div id="error-image-{{ language.language_id }}-{{ image_row }}-title" class="invalid-feedback"></div>
-                          </td>
+                         
 
-                          <td class="text-start" style="width: 30%;"><input type="text" name="banner_image[{{ language.language_id }}][{{ image_row }}][link]" value="{{ banner_image.link }}" placeholder="{{ entry_link }}" id="input-image-{{ language.language_id }}-{{ image_row }}-link" class="form-control"/></td>
+                                
+                            <input placeholder="{{entry_description}}" type="text" name="banner_image[{{ language.language_id }}][{{ image_row }}][description]" value="{{ banner_image.description }}" placeholder="{{ entry_description }}" id="input-image-{{ language.language_id }}-{{ image_row }}-title" class="form-control"/>
+                            <div id="error-image-{{ language.language_id }}-{{ image_row }}-description" class="invalid-feedback"></div>
+                      
+  </td>
+
+
+                          <td class="text-start" style="width: 20%;"><input type="text" name="banner_image[{{ language.language_id }}][{{ image_row }}][link]" value="{{ banner_image.link }}" placeholder="{{ entry_link }}" id="input-image-{{ language.language_id }}-{{ image_row }}-link" class="form-control"/></td>
                           <td class="text-center">
-                            <div class="border rounded d-block" style="max-width: 300px;">
+                            <div class="border rounded d-block" style="max-width: 200px;">
                               <img src="{{ banner_image.thumb }}" alt="" title="" id="thumb-image-{{ language.language_id }}-{{ image_row }}" data-oc-placeholder="{{ placeholder }}" class="img-fluid">
                               <input type="hidden" name="banner_image[{{ language.language_id }}][{{ image_row }}][image]" value="{{ banner_image.image }}" id="input-image-{{ language.language_id }}-{{ image_row }}-image"/>
                               <div class="d-grid">
@@ -107,6 +115,7 @@ $('button[id^=\'button-banner\']').on('click', function() {
     html = '<tr id="image-row-' + image_row + '">';
     html += '  <td class="text-start">';
     html += '    <input type="text" name="banner_image[' + $(element).attr('data-language') + '][' + image_row + '][title]" value="" placeholder="{{ entry_title|escape('js') }}" id="input-image-' + $(element).attr('data-language') + '-' + image_row + '-title" class="form-control"/>';
+    html += '    <input type="text" name="banner_image[' + $(element).attr('data-language') + '][' + image_row + '][description]" value="" placeholder="{{ entry_description|escape('js') }}" id="input-image-' + $(element).attr('data-language') + '-' + image_row + '-title" class="form-control"/>';
     html += '    <div id="error-image-' + $(element).attr('data-language') + '-' + image_row + '-title" class="invalid-feedback"></div>';
     html += '  </td>';
     html += '  <td class="text-start"><input type="text" name="banner_image[' + $(element).attr('data-language') + '][' + image_row + '][link]" value="" placeholder="{{ entry_link|escape('js') }}" id="input-image-' + $(element).attr('data-language') + '-' + image_row + '-link" class="form-control"/></td>';

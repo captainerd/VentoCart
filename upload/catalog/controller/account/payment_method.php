@@ -1,12 +1,12 @@
 <?php
-namespace Opencart\Catalog\Controller\Account;
+namespace Ventocart\Catalog\Controller\Account;
 
 /**
  * Class Payment Method
  *
- * @package Opencart\Catalog\Controller\Account
+ * @package Ventocart\Catalog\Controller\Account
  */
-class PaymentMethod extends \Opencart\System\Engine\Controller
+class PaymentMethod extends \Ventocart\System\Engine\Controller
 {
 	/**
 	 * @return void

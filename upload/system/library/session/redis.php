@@ -1,9 +1,9 @@
 <?php
-namespace Opencart\System\Library\Session;
+namespace Ventocart\System\Library\Session;
 /**
  * Class Redis
  *
- * @package Opencart\System\Library\Session
+ * @package Ventocart\System\Library\Session
  */
 class Redis {
 	private object $config;
@@ -14,7 +14,7 @@ class Redis {
      *
      * @param object $registry
      */
-	public function __construct(\Opencart\System\Engine\Registry $registry)	{
+	public function __construct(\Ventocart\System\Engine\Registry $registry)	{
 		$this->config = $registry->get('config');
 
 		try {

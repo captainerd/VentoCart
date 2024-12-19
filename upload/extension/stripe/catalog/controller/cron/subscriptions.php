@@ -1,11 +1,11 @@
 <?php
 
-namespace Opencart\Catalog\Controller\Extension\Stripe\Cron;
+namespace Ventocart\Catalog\Controller\Extension\Stripe\Cron;
 
 use Exception;
 
 
-class Subscriptions extends \Opencart\System\Engine\Controller
+class Subscriptions extends \Ventocart\System\Engine\Controller
 {
 
     //Stripe will automatically send invoices to customers according to your subscriptions settings. https://dashboard.stripe.com/account/billing/automatic

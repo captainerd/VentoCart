@@ -45,12 +45,12 @@ function initTinyMCE() {
 
             // Get all img elements within tempDiv
             let imgElements = tempDiv.querySelectorAll('img');
-           
+
             // Process each img element
 
             imgElements.forEach(function (imgElementA) {
                 let srcValue = imgElementA.getAttribute('src');
-      
+
                 if (!srcValue) { return; }
 
                 let attributes = imgElementA.attributes;
@@ -67,9 +67,9 @@ function initTinyMCE() {
                     fetch(srcValue)
                         .then(response => response.blob())
                         .then(blob => {
-                            console.log(blob);
+                            // console.log(blob);
                             let extension = blob.name.split('.').pop();
-                
+
                             let filename = "pasted_" + Math.floor(Math.random() * 100000000100069).toString() + '.' + extension;
                             // Create form data
                             var formData = new FormData();
@@ -99,7 +99,7 @@ function initTinyMCE() {
                     return;
                 }
 
-               
+
                 uploadPastedImage(srcValue, function (response) {
 
                     tinymce.activeEditor.dom.setAttrib(imgid, 'src', response);
@@ -196,8 +196,8 @@ function getUploadDirectory() {
             directory = 'products/';
             if ($("#input-product-id")) {
                 if ($("#input-product-id") && $("#input-product-id").val() != 0) {
-                directory += $("#input-product-id").val() + '/';
-                }  
+                    directory += $("#input-product-id").val() + '/';
+                }
             }
         }
     }
@@ -453,14 +453,7 @@ $(document).on('submit', 'form', function (e) {
             var formaction = $(button).attr('data-type');
         }
 
-        console.log(e);
-        console.log('element ' + element);
-        console.log('action ' + action);
-        console.log('button ' + button);
-        console.log('formaction ' + formaction);
-        console.log('method ' + method);
-        console.log('enctype ' + enctype);
-        console.log($(element).serialize());
+
 
 
 
@@ -478,8 +471,7 @@ $(document).on('submit', 'form', function (e) {
                 $(button).button('reset');
             },
             success: function (json, textStatus) {
-                console.log(json);
-                console.log(textStatus);
+
 
                 $('.alert-dismissible').remove();
                 $(element).find('.is-invalid').removeClass('is-invalid');
@@ -570,7 +562,6 @@ $(document).on('click', '[data-oc-toggle=\'upload\']', function () {
                         $(element).button('reset');
                     },
                     success: function (json) {
-                        console.log(json);
 
                         if (json['error']) {
                             alert(json['error']);

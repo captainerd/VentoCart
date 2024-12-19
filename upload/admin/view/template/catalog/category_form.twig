@@ -14,6 +14,7 @@
     </div>
   </div>
   <div class="container-fluid">
+         <input type="hidden" id="input-directory" value="categories">
     <div class="card">
       <div class="card-header"><i class="fa-solid fa-pencil"></i> {{ text_form }}</div>
       <div class="card-body">
@@ -423,7 +424,7 @@ $('#input-option-filter').autocomplete({
         });
     },
     'select': function (item) {
-      console.log(item)
+     // console.log(item)
         $('#input-option-filter').val('');
 
         $('#category-option-filter-' + item['value']).remove();

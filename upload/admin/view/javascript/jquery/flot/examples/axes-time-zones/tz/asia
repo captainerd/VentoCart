@@ -347,7 +347,7 @@ Rule	PRC	1987	1991	-	Apr	Sun>=10	0:00	1:00	D
 # counties Dege and Baiyu which lies on the Sichuan side and are
 # therefore supposed to be GMT+7, Xizang region being GMT+6, but Dege
 # county is GMT+8 according to astro.com while Baiyu county is GMT+6
-# (could be true), for the moment I am assuming that those two
+# (could be true), for the moment I am  that those two
 # counties are mistakes in the astro.com data.
 
 # From Paul Eggert (2008-02-11):

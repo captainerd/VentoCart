@@ -1,15 +1,17 @@
 <?php
-namespace Opencart\Catalog\Controller\Account;
+namespace Ventocart\Catalog\Controller\Account;
 /**
  * Class Wish List
  *
- * @package Opencart\Catalog\Controller\Account
+ * @package Ventocart\Catalog\Controller\Account
  */
-class WishList extends \Opencart\System\Engine\Controller {
+class WishList extends \Ventocart\System\Engine\Controller
+{
 	/**
 	 * @return void
 	 */
-	public function index(): void {
+	public function index(): void
+	{
 		$this->load->language('account/wishlist');
 
 		if (!$this->customer->isLogged() || (!isset($this->request->get['customer_token']) || !isset($this->session->data['customer_token']) || ($this->request->get['customer_token'] != $this->session->data['customer_token']))) {
@@ -62,7 +64,8 @@ class WishList extends \Opencart\System\Engine\Controller {
 	/**
 	 * @return void
 	 */
-	public function list(): void {
+	public function list(): void
+	{
 		$this->load->language('account/wishlist');
 
 		$this->response->setOutput($this->getList());
@@ -71,7 +74,8 @@ class WishList extends \Opencart\System\Engine\Controller {
 	/**
 	 * @return string
 	 */
-	public function getList(): string {
+	public function getList(): string
+	{
 		$data['wishlist'] = $this->url->link('account/wishlist.list', 'language=' . $this->config->get('config_language') . (isset($this->session->data['customer_token']) ? '&customer_token=' . $this->session->data['customer_token'] : ''));
 		$data['add_to_cart'] = $this->url->link('checkout/cart.add', 'language=' . $this->config->get('config_language'));
 		$data['remove'] = $this->url->link('account/wishlist.remove', 'language=' . $this->config->get('config_language') . (isset($this->session->data['customer_token']) ? '&customer_token=' . $this->session->data['customer_token'] : ''));
@@ -116,7 +120,7 @@ class WishList extends \Opencart\System\Engine\Controller {
 					$price = false;
 				}
 
-				if ((float)$product_info['special']) {
+				if ((float) $product_info['special']) {
 					$special = $this->currency->format($this->tax->calculate($product_info['special'], $product_info['tax_class_id'], $this->config->get('config_tax')), $this->session->data['currency']);
 				} else {
 					$special = false;
@@ -124,14 +128,14 @@ class WishList extends \Opencart\System\Engine\Controller {
 
 				$data['products'][] = [
 					'product_id' => $product_info['product_id'],
-					'thumb'      => $image,
-					'name'       => $product_info['name'],
-					'model'      => $product_info['model'],
-					'stock'      => $stock,
-					'price'      => $price,
-					'special'    => $special,
-					'minimum'    => $product_info['minimum'] > 0 ? $product_info['minimum'] : 1,
-					'href'       => $this->url->link('product/product', 'language=' . $this->config->get('config_language') . '&product_id=' . $product_info['product_id'])
+					'thumb' => $image,
+					'name' => $product_info['name'],
+					'sku' => $product_info['sku'],
+					'stock' => $stock,
+					'price' => $price,
+					'special' => $special,
+					'minimum' => $product_info['minimum'] > 0 ? $product_info['minimum'] : 1,
+					'href' => $this->url->link('product/product', 'language=' . $this->config->get('config_language') . '&product_id=' . $product_info['product_id'])
 				];
 			} else {
 				$this->model_account_wishlist->deleteWishlist($result['product_id']);
@@ -144,13 +148,14 @@ class WishList extends \Opencart\System\Engine\Controller {
 	/**
 	 * @return void
 	 */
-	public function add(): void {
+	public function add(): void
+	{
 		$this->load->language('account/wishlist');
 
 		$json = [];
 
 		if (isset($this->request->post['product_id'])) {
-			$product_id = (int)$this->request->post['product_id'];
+			$product_id = (int) $this->request->post['product_id'];
 		} else {
 			$product_id = 0;
 		}
@@ -183,7 +188,7 @@ class WishList extends \Opencart\System\Engine\Controller {
 
 				$json['total'] = sprintf($this->language->get('text_wishlist'), $this->model_account_wishlist->getTotalWishlist());
 			} else {
-				$json['success'] = sprintf($this->language->get('text_login'), $this->url->link('account/login', 'language=' . $this->config->get('config_language')), $this->url->link('account/register', 'language=' . $this->config->get('config_language')), $this->url->link('product/product', 'language=' . $this->config->get('config_language') . '&product_id=' . (int)$product_id), $product_info['name'], $this->url->link('account/wishlist', 'language=' . $this->config->get('config_language') . (isset($this->session->data['customer_token']) ? '&customer_token=' . $this->session->data['customer_token'] : '')));
+				$json['success'] = sprintf($this->language->get('text_login'), $this->url->link('account/login', 'language=' . $this->config->get('config_language')), $this->url->link('account/register', 'language=' . $this->config->get('config_language')), $this->url->link('product/product', 'language=' . $this->config->get('config_language') . '&product_id=' . (int) $product_id), $product_info['name'], $this->url->link('account/wishlist', 'language=' . $this->config->get('config_language') . (isset($this->session->data['customer_token']) ? '&customer_token=' . $this->session->data['customer_token'] : '')));
 
 				$json['total'] = sprintf($this->language->get('text_wishlist'), (isset($this->session->data['wishlist']) ? count($this->session->data['wishlist']) : 0));
 			}
@@ -196,13 +201,14 @@ class WishList extends \Opencart\System\Engine\Controller {
 	/**
 	 * @return void
 	 */
-	public function remove(): void {
+	public function remove(): void
+	{
 		$this->load->language('account/wishlist');
 
 		$json = [];
 
 		if (isset($this->request->post['product_id'])) {
-			$product_id = (int)$this->request->post['product_id'];
+			$product_id = (int) $this->request->post['product_id'];
 		} else {
 			$product_id = 0;
 		}

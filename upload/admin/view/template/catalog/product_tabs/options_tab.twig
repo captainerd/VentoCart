@@ -79,7 +79,7 @@
                                 <i class="fa-solid fa-pencil"></i>
                             </a>
                               <!-- Buttons -->
-                              <button type="button" class="btn btn-danger" onclick="removeAllGroup({{ option_row }}, {{ product_option.poption_id }});">
+                              <button type="button" class="btn btn-danger" onclick="removeAllGroup({{ option_row }}, {{ product_option.product_option_id }});">
                                 <i class="fa-solid fa-minus-circle"></i>
                               </button>
                             </div>
@@ -151,7 +151,7 @@
                             </div>
                         </div>
                     {% endif %}
-                    <input type="hidden" name="product_option[{{ option_row }}][poption_id]" value="{{ product_option.poption_id }}"/>
+                    <input type="hidden" name="product_option[{{ option_row }}][product_option_id]" value="{{ product_option.product_option_id }}"/>
                     <input type="hidden" name="product_option[{{ option_row }}][option_id]" value="{{ product_option.option_id  }}"/>
                     
                     {% if product_option.type == 'select' or product_option.type == 'radio' or product_option.type == 'checkbox' or product_option.type == 'image' %}
@@ -176,7 +176,7 @@
                                   <input type="hidden" value="{{product_option_value.sort_order }}" name="product_option[{{ option_row }}][product_option_value][{{ option_value_row }}][sort_order]" class="sort-value">
 
                                   <button type="button"   
-                         onclick="removeOptionValue('accordion{{ option_row }}-{{option_value_row }}', {{product_option_value.poption_id }});"
+                         onclick="removeOptionValue('accordion{{ option_row }}-{{option_value_row }}', {{product_option_value.product_option_id }});"
                       data-bs-toggle="tooltip" title="{{ button_remove }}" class="btn btn-danger">
                     <i class="fa-solid fa-minus-circle"></i>
                       </button>
@@ -227,8 +227,8 @@
     </select>
 
     <input type="hidden"
-      name="product_option[{{ option_row }}][product_option_value][{{ option_value_row }}][poption_id]"
-      value="{{ product_option_value.poption_id }}" />
+      name="product_option[{{ option_row }}][product_option_value][{{ option_value_row }}][product_option_id]"
+      value="{{ product_option_value.product_option_id }}" />
     
       
  
@@ -318,7 +318,7 @@
 <td>
 
 <button type="button" data-bs-toggle="tooltip" title="Lock/Unlock"  
-data-option-value-row="accordion{{ option_row }}-{{option_value_row }}" data-poption-id="{{product_option_value.poption_id }}"
+data-option-value-row="accordion{{ option_row }}-{{option_value_row }}" data-poption-id="{{product_option_value.product_option_id }}"
 class="btn btn-primary add-or-edit-btn"> <i class="fa-solid fa-unlock"></i></button>
 
 </td>
@@ -552,7 +552,7 @@ name="xxxproduct_option_button[option-row-placeholder][option-valuerow-placehold
 <td class="text-start insertselect">
  
 <input type="hidden"
-name="xxxproduct_option[option-row-placeholder][product_option_value][option-valuerow-placeholder][poption_id]"
+name="xxxproduct_option[option-row-placeholder][product_option_value][option-valuerow-placeholder][product_option_id]"
 value="undefined" />
  
 </td>
@@ -1071,7 +1071,7 @@ function removeOptionValue(id, poptionId) {
 function removeAllGroup(optionValueRow, poptionId) {
 
   let newHiddenInput = '';
-  $('#option-row-' + optionValueRow + ' input[type="hidden"][name$="[poption_id]"]').each(function () {
+  $('#option-row-' + optionValueRow + ' input[type="hidden"][name$="[product_option_id]"]').each(function () {
     var poptionIds = $(this).val();
     newHiddenInput += '<input type="hidden" name="product_option[' + poptionIds + '][delete]" value="' +
       poptionIds + '"/>';

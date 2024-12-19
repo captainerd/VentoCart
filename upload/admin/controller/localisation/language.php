@@ -1,15 +1,15 @@
 <?php
-namespace Opencart\Admin\Controller\Localisation;
+namespace Ventocart\Admin\Controller\Localisation;
 
 /**
  * Class Language
  *
- * @package Opencart\Admin\Controller\Localisation
+ * @package Ventocart\Admin\Controller\Localisation
  */
 
 use ResourceBundle;
 
-class Language extends \Opencart\System\Engine\Controller
+class Language extends \Ventocart\System\Engine\Controller
 {
 	/**
 	 * @return void
@@ -410,7 +410,7 @@ class Language extends \Opencart\System\Engine\Controller
 				foreach ($lines as $line) {
 					$pattern = '/^\$\\*file\\*=(.+)/';
 					if (preg_match($pattern, $line, $matches)) {
-						$file = DIR_OPENCART . trim($matches[1]);
+						$file = DIR_VENTOCART . trim($matches[1]);
 					 
 						 
 						 
@@ -555,7 +555,7 @@ class Language extends \Opencart\System\Engine\Controller
 				$translations = $this->extractTranslations(file_get_contents($file));
 
 				$id_key = 0;
-				$filef .= "\n[F]=[" . str_replace(DIR_OPENCART, "", $file) . "]\n";
+				$filef .= "\n[F]=[" . str_replace(DIR_VENTOCART, "", $file) . "]\n";
 
 				foreach ($translations as $translation => $key) {
 
@@ -572,7 +572,7 @@ class Language extends \Opencart\System\Engine\Controller
 				$translations = $this->extractTranslations(file_get_contents($file));
 
 				$id_key = 0;
-				$filef .= "\n" . '$*' . "file*=" . str_replace(DIR_OPENCART, "", $file) . "\n";
+				$filef .= "\n" . '$*' . "file*=" . str_replace(DIR_VENTOCART, "", $file) . "\n";
 
 				foreach ($translations as $translation => $key) {
 
@@ -679,8 +679,8 @@ class Language extends \Opencart\System\Engine\Controller
 	private function getPhpFiles(string $directory): array
 	{
 		$phpFiles = [];
-
-		if (is_dir($directory)) {
+		if ( realpath($directory)) {
+		if (  is_dir($directory)) {
 			$iterator = new \RecursiveIteratorIterator(
 				new \RecursiveDirectoryIterator($directory, \RecursiveDirectoryIterator::SKIP_DOTS),
 				\RecursiveIteratorIterator::SELF_FIRST
@@ -692,6 +692,7 @@ class Language extends \Opencart\System\Engine\Controller
 				}
 			}
 		}
+	}
 
 		return $phpFiles;
 	}
@@ -835,13 +836,13 @@ class Language extends \Opencart\System\Engine\Controller
 				$defaultLang = DIR_EXTENSION . $item . "/admin/language/en-gb";
 				$targetLang = DIR_EXTENSION . $item . "/admin/language/" . $language_info['code'];
 
-				if (is_dir($defaultLang) && filetype($defaultLang) === 'dir' && !is_dir($targetLang)) {
+				if ( realpath($defaultLang) && is_dir($defaultLang) && filetype($defaultLang) === 'dir' && !is_dir($targetLang)) {
 					$this->recursiveCopy($defaultLang, $targetLang);
 				}
 				$defaultLang = DIR_EXTENSION . $item . "/catalog/language/en-gb";
 				$targetLang = DIR_EXTENSION . $item . "/catalog/language/" . $language_info['code'];
 
-				if (is_dir($defaultLang) && filetype($defaultLang) === 'dir' && !is_dir($targetLang)) {
+				if ( realpath($defaultLang) && is_dir($defaultLang) && filetype($defaultLang) === 'dir' && !is_dir($targetLang)) {
 					$this->recursiveCopy($defaultLang, $targetLang);
 				}
 
@@ -945,14 +946,14 @@ class Language extends \Opencart\System\Engine\Controller
 				$defaultLang = DIR_EXTENSION . $item . "/admin/language/en-gb";
 				$targetLang = DIR_EXTENSION . $item . "/admin/language/" . $langCode;
 
-				if (is_dir($defaultLang) && filetype($defaultLang) === 'dir' && !is_dir($targetLang)) {
+				if ( realpath($defaultLang) && is_dir($defaultLang) && filetype($defaultLang) === 'dir' && !is_dir($targetLang)) {
 					$this->recursiveDelete($targetLang);
 					$this->recursiveCopy($defaultLang, $targetLang);
 				}
 				$defaultLang = DIR_EXTENSION . $item . "/catalog/language/en-gb";
 				$targetLang = DIR_EXTENSION . $item . "/catalog/language/" . $langCode;
 
-				if (is_dir($defaultLang) && filetype($defaultLang) === 'dir' && !is_dir($targetLang)) {
+				if ( realpath($defaultLang) && is_dir($defaultLang) && filetype($defaultLang) === 'dir' && !is_dir($targetLang)) {
 					$this->recursiveDelete($targetLang);
 					$this->recursiveCopy($defaultLang, $targetLang);
 				}
@@ -1050,13 +1051,13 @@ class Language extends \Opencart\System\Engine\Controller
 
 					$targetLang = DIR_EXTENSION . $item . "/admin/language/" . $language_info['code'];
 
-					if (is_dir($targetLang)) {
+					if ( realpath($targetLang) && is_dir($targetLang)) {
 						$this->recursiveDelete($targetLang);
 					}
 
 					$targetLang = DIR_EXTENSION . $item . "/catalog/language/" . $language_info['code'];
 
-					if (is_dir($targetLang)) {
+					if (realpath($targetLang) &&is_dir($targetLang)) {
 						$this->recursiveDelete($targetLang);
 					}
 
@@ -1078,7 +1079,7 @@ class Language extends \Opencart\System\Engine\Controller
 
 	function recursiveDelete($directory)
 	{
-		if (!is_dir($directory)) {
+		if (realpath($directory) && !is_dir($directory)) {
 			// If it's not a directory, delete the file
 			if (file_exists($directory)) { unlink($directory); }
 		} else {
@@ -1101,7 +1102,7 @@ class Language extends \Opencart\System\Engine\Controller
 
 	function recursiveCopy($source, $destination)
 	{
-		if (is_dir($source)) {
+		if (realpath($source) && is_dir($source)) {
 			if (!is_dir($destination)) {
 				mkdir($destination, 0755, true);
 			}

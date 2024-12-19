@@ -1,12 +1,12 @@
 <?php
-namespace Opencart\Catalog\Controller\Extension\VentoCart\Analytics;
+namespace Ventocart\Catalog\Controller\Extension\VentoCart\Analytics;
 
 /**
  * Class Basic
  *
- * @package Opencart\Catalog\Controller\Extension\VentoCart\Captcha
+ * @package Ventocart\Catalog\Controller\Extension\VentoCart\Captcha
  */
-class JavaScriptTags extends \Opencart\System\Engine\Controller
+class JavaScriptTags extends \Ventocart\System\Engine\Controller
 {
 	/**
 	 * @return string

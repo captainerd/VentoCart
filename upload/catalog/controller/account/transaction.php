@@ -1,11 +1,11 @@
 <?php
-namespace Opencart\Catalog\Controller\Account;
+namespace Ventocart\Catalog\Controller\Account;
 /**
  * Class Transaction
  *
- * @package Opencart\Catalog\Controller\Account
+ * @package Ventocart\Catalog\Controller\Account
  */
-class Transaction extends \Opencart\System\Engine\Controller {
+class Transaction extends \Ventocart\System\Engine\Controller {
 	/**
 	 * @return void
 	 */

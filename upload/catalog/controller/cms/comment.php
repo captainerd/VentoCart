@@ -1,11 +1,11 @@
 <?php
-namespace Opencart\Catalog\Controller\Cms;
+namespace Ventocart\Catalog\Controller\Cms;
 /**
  * Class Comment
  *
- * @package Opencart\Catalog\Controller\Cms
+ * @package Ventocart\Catalog\Controller\Cms
  */
-class Comment extends \Opencart\System\Engine\Controller {
+class Comment extends \Ventocart\System\Engine\Controller {
 	/**
 	 * @return string
 	 */

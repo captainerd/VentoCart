@@ -3,12 +3,22 @@
  
 <?php endif; ?>
 
-
-<link href='https://fonts.googleapis.com/css?family=Aldrich' rel='stylesheet' type='text/css'>
-  <link rel="stylesheet" href="/catalog/view/stylesheet/photoswipe.css">
-  <link rel="stylesheet" href="/catalog/view/stylesheet/splider.css">
-  <div id="product-info" class="container">
+<?php if ($quickview): ?> 
  
+  <div class=" bg-white modal-header sticky-top">
+  <h5 class="modal-title " id="quickViewModalLabel"> <?=  $heading_title ?>
+ 
+ 
+</h5>
+<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+</div>
+<div class="modal-body">
+  <?php endif; ?>
+
+
+  <div id="product-info" class="container bg-white border shadow">
+ 
+  
   <div class="row">
 
     <?php if (!$quickview): ?> 
@@ -23,7 +33,21 @@
 
       <?php endif; ?>
 
-      
+      <?php if (!$quickview): ?> 
+
+  
+  
+    
+    <div class="p-2 w-100">
+        <h3><?= $heading_title ?></h3>
+    </div>
+ 
+
+       
+  
+            
+         
+          <?php endif;?>
       <div class="row mb-3">
 
         <?php if ($thumb || $images): ?>
@@ -119,62 +143,46 @@ $isVideo = in_array($popupExtension, $videoExtensions);
           </div>
         <?php endif; ?>
 
-        <div class="col-sm">
-          <h3><?=  $heading_title ?></h3>
-          <form method="post" data-oc-toggle="ajax" >
-            <div class="btn-group" style="float: right">
-              
-              <button type="submit" formaction="<?= $this->e($add_to_wishlist ) ?>" data-bs-toggle="tooltip" class="btn btn-light" title="<?= $this->e($button_wishlist ) ?>"><i class="fa-solid fa-heart"></i></button>
-              <button type="submit" formaction="<?= $this->e($add_to_compare ) ?>" data-bs-toggle="tooltip" class="btn btn-light" title="<?= $this->e($button_compare ) ?>"><i class="fa-solid fa-arrow-right-arrow-left"></i></button>
-            </div>
-            <input type="hidden" name="product_id" value="<?= $this->e($product_id ) ?>" >
-          </form>
-            <?php if ($price): ?>
-              <ul class="list-unstyled">
-                <?php if (!$special): ?>
-                  <li>
-                    <h3><span class="price-new price-calc"><?= $this->e($price ) ?></span></h3>
-                  </li>
-                <?php else: ?>
-
+      
     
-                  <li><span class="price-old"><?= $this->e($price ) ?></span></li>
  
-                  <li><h3><span class="price-new  price-calc price-offer"><?= $this->e($special ) ?> </span>   </h3>
-                
-                <?php if (isset($special_ends) && $special_ends !== '0000-00-00' && strtotime($special_ends) > time()): ?>
-            <h4><b> <span class="alert-danger"> <?php if (isset($special_off)):?> -%<?= $special_off ?> Off - <?php endif;?><?= $text_ends_in?>:</span> 
-              <span  class="text-danger" id="coundown"> <?= $special_ends ?> </span></b></h4>
-               <?php endif; ?>
-
-                </li>
-                <?php endif; ?>
-          
-                <?php if ((isset($tax) && $tax != $price) && (isset($tax) && isset($special) && $tax != $special)): ?>
-                  <li><?= $this->e($text_tax ) ?> <span id="exTaxTxt"><?= $this->e($tax ) ?> </span></li> 
-            
-                <?php endif; ?>
-          
-                <?php if ($points): ?>
-                  <li><?= $this->e($text_points ) ?> <?= $this->e($points ) ?></li>
-                <?php endif; ?>
-          
-                <?php if ($discounts): ?>
-                  <li>
-                    <hr>
-                  </li>
-                  <?php foreach ($discounts as $discount): ?>
-                    <li><?= $this->e($discount['quantity']) ?><?= $this->e($text_discount ) ?><?= $this->e($discount['price']) ?></li>
-                  <?php endforeach; ?>
-                <?php endif; ?>
-              </ul>
-            <?php endif; ?>
      
-          <div id="product">
+
+        <div class="col-sm">
+      
+        <div class="btn-group"> 
+      <form method="post" data-oc-toggle="ajax">
+            <button type="submit" formaction="<?= $this->e($add_to_wishlist ) ?>" data-bs-toggle="tooltip" class="btn btn-light" title="<?= $this->e($button_wishlist ) ?>"><i class="fa-solid fa-heart"></i></button>
+            <button type="submit" formaction="<?= $this->e($add_to_compare ) ?>" data-bs-toggle="tooltip" class="btn btn-light" title="<?= $this->e($button_compare ) ?>"><i class="fa-solid fa-arrow-right-arrow-left"></i></button>
+          
+            <input type="hidden" name="product_id" value="<?= $this->e($product_id ) ?>">
+        </form>
+
+                <?php if ($review_status): ?>
+                  
+                <div class="rating">
+                  <p>        
+                     <?php for ($i = 1; $i <= 5; $i++): ?>
+             
+                      <?php if ($rating  < $i): ?>
+                        <span class="fa-stack"><i class="fa-regular fa-star fa-stack-1x"></i></span>
+                      <?php else: ?>
+                        <span class="fa-stack"><i class="fa-solid fa-star fa-stack-1x"></i><i class="fa-regular fa-star fa-stack-1x"></i></span>
+                      <?php endif; ?>
+                    <?php endfor; ?>
+                    <?php if (!$review_status): ?>
+                    <a href="" onclick="$('a[href=\'#tab-review\']').tab('show'); $('#form-review').get(0).scrollIntoView({ behavior: 'smooth' }); return false;"><?= $this->e($text_reviews ) ?></a> / <a href="" onclick="$('a[href=\'#tab-review\']').tab('show');  $('#form-review').get(0).scrollIntoView({ behavior: 'smooth' });return false;"><?= $this->e($text_write ) ?></a></p>
+                    <?php endif; ?>
+                  </div>
+              <?php endif; ?>
+        </div>
+           
+         
+          <div class="lh-lg" id="product">
             <form id="form-product">
               <?php if ($options): ?>
             <hr>
-              <h4><?= $this->e($text_option ) ?></h4>
+              <h5><?= $this->e($text_option ) ?></h5>
               <div>
                 <?php foreach ($options as $option): ?>
 
@@ -204,8 +212,9 @@ $isVideo = in_array($popupExtension, $videoExtensions);
                   <?php endif; ?>
 
                   <?php if ($option['type'] == 'radio'): ?>
-                    <div class="mb-3<?php if ($option['required']): ?> required<?php endif; ?>">
-                      <b class="form-label"><?= $this->e($option['name']) ?>: <span id="txt-<?= $this->e($option['option_id']) ?>" ></span></b>
+                    <div class="mb-3 <?php if ($option['required']): ?> required<?php endif; ?>">
+                     <p>  <?= $this->e($option['name']) ?>: 
+                        <span id="txt-<?= $this->e($option['option_id']) ?>" ></span> </p>
                       <div id="input-option-<?= $this->e($option['product_option_id']) ?>">
                         <?php foreach ($option['product_option_value'] as $option_value): ?>
                         <div class="form-check-product "> 
@@ -346,7 +355,7 @@ $isVideo = in_array($popupExtension, $videoExtensions);
 
                 <?php if ($subscription_plans): ?>
                   <hr/>
-                  <h3><?= $this->e($text_subscription ) ?></h3>
+                  <h5><?= $this->e($text_subscription ) ?></h5>
                   <div class="mb-3 required">
 
                     <select name="subscription_plan_id" id="input-subscription" class="form-select">
@@ -363,27 +372,72 @@ $isVideo = in_array($popupExtension, $videoExtensions);
 
                   </div>
                 <?php endif; ?>
-                <ul class="list-unstyled">
-
-                  <?php if ($manufacturer): ?>
-                    <li><?= $this->e($text_manufacturer ) ?> <a href="<?= $manufacturers  ?>"><?= $this->e($manufacturer ) ?></a></li>
-                  <?php endif; ?>
-      
-                  <li><b> <?= $this->e($text_model ) ?></b> <?= $this->e($sku ) ?></li>
-      
-                  <?php if ($reward): ?>
-                    <li><b><?= $this->e($text_reward ) ?></b> <?= $this->e($reward ) ?></li>
-                  <?php endif; ?>
-      
-                  <li><b><?= $this->e($text_stock ) ?></b> <?= $this->e($stock ) ?></li>
-                </ul>
+          
     
                 <div class="mb-3">
-                  <label for="input-quantity" class="form-label"><?= $this->e($entry_qty ) ?></label>
+
+                <?php if ($price): ?>
+                  <?=$text_price?>:
+              <ul class="list-unstyled">
+                <?php if (!$special): ?>
+                  <li>
+                    <h3><span class="price-new price-calc"><?= $this->e($price ) ?></span></h3>
+                  </li>
+                <?php else: ?>
+
+    
+                  <li><span class="price-old text-danger   text-decoration-line-through"><?= $this->e($price ) ?></span></li>
+ 
+                  <li><h3><span class="price-new  price-calc price-offer"><?= $this->e($special ) ?> </span>   </h3>
+                
+                <?php if (isset($special_ends) && $special_ends !== '0000-00-00' && strtotime($special_ends) > time()): ?>
+            <h4><b> <span class="alert-danger"> <?php if (isset($special_off)):?> -%<?= $special_off ?> Off - <?php endif;?><?= $text_ends_in?>:</span> 
+              <span  class="text-danger" id="coundown"> <?= $special_ends ?> </span></b></h4>
+               <?php endif; ?>
+
+                </li>
+                <?php endif; ?>
+          
+                <?php if ((isset($tax) && $tax != $price) && (isset($tax) && isset($special) && $tax != $special)): ?>
+                  <li><?= $this->e($text_tax ) ?> <span id="exTaxTxt"><?= $this->e($tax ) ?> </span></li> 
+            
+                <?php endif; ?>
+          
+                <?php if ($points): ?>
+                  <li><?= $this->e($text_points ) ?> <?= $this->e($points ) ?></li>
+                <?php endif; ?>
+          
+                <?php if ($discounts): ?>
+                  <li>
+                    <hr>
+                  </li>
+                  <?php foreach ($discounts as $discount): ?>
+                    <li><?= $this->e($discount['quantity']) ?><?= $this->e($text_discount ) ?><?= $this->e($discount['price']) ?></li>
+                  <?php endforeach; ?>
+                <?php endif; ?>
+              </ul>
+            <?php endif; ?>
+
+
+                  <?= $this->e($entry_qty ) ?> 
                   <input type="number" style="width: 80px" name="quantity" value="<?= $this->e($minimum ) ?>"   id="input-quantity" class="form-control"/>
                   <input type="hidden" name="product_id" value="<?= $this->e($product_id ) ?>" id="input-product-id"/>
                   <div id="error-quantity" class="form-text"></div>
                   <br>
+                  <ul class="list-unstyled">
+
+<?php if ($manufacturer): ?>
+  <li><?= $this->e($text_manufacturer ) ?> <a href="<?= $manufacturers  ?>"><?= $this->e($manufacturer ) ?></a></li>
+<?php endif; ?>
+
+<li><b> <?= $this->e($text_sku ) ?>:</b> <?= $this->e($sku ) ?></li>
+
+<?php if ($reward): ?>
+  <li><b><?= $this->e($text_reward ) ?></b> <?= $this->e($reward ) ?></li>
+<?php endif; ?>
+
+<li> <?= $this->e($stock ) ?></li>
+</ul>
                   <button type="submit"   data-oc-where="cart" id="button-cart" class="btn btn-primary  "><?= $this->e($button_cart ) ?></button>
                 </div>
 
@@ -391,25 +445,20 @@ $isVideo = in_array($popupExtension, $videoExtensions);
                   <div class="alert alert-info"><i class="fa-solid fa-circle-info"></i> <?= $this->e($text_minimum ) ?></div>
                 <?php endif; ?>
               </div>
-              <?php if ($review_status): ?>
-                <div class="rating">
-                  <p>        
-                     <?php for ($i = 1; $i <= 5; $i++): ?>
-             
-                      <?php if ($rating  < $i): ?>
-                        <span class="fa-stack"><i class="fa-regular fa-star fa-stack-1x"></i></span>
-                      <?php else: ?>
-                        <span class="fa-stack"><i class="fa-solid fa-star fa-stack-1x"></i><i class="fa-regular fa-star fa-stack-1x"></i></span>
-                      <?php endif; ?>
-                    <?php endfor; ?>
-                    <a href="" onclick="$('a[href=\'#tab-review\']').tab('show'); return false;"><?= $this->e($text_reviews ) ?></a> / <a href="" onclick="$('a[href=\'#tab-review\']').tab('show'); return false;"><?= $this->e($text_write ) ?></a></p>
-                </div>
-              <?php endif; ?>
+       
             </form>
 
             
           </div>
         </div>
+        <?php if ($quickview): ?> 
+          </div>
+          <?php endif; ?>
+
+        <?php if (!$quickview): ?> 
+
+        <div class="tab-content mt-4 p-3 ">
+
         <ul class="nav nav-tabs">
           <li class="nav-item"><a href="#tab-description" data-bs-toggle="tab" class="nav-link active"><?= $this->e($tab_description ) ?></a></li>
 
@@ -422,12 +471,11 @@ $isVideo = in_array($popupExtension, $videoExtensions);
           <?php endif; ?>
 
         </ul>
-        <div class="tab-content">
-
-          <div id="tab-description" class="tab-pane fade show active mb-4"><?=  $description   ?></div>
+       
+          <div id="tab-description" class="tab-pane fade border p-3 show active mb-4"><?=  $description   ?></div>
         
           <?php if ($attribute_groups): ?>
-            <div id="tab-specification" class="tab-pane fade">
+            <div id="tab-specification" class="tab-pane border p-3 fade">
             <div class="container  mt-4">
   <?php if ($attribute_groups): ?>
     <div class="row">
@@ -455,10 +503,16 @@ $isVideo = in_array($popupExtension, $videoExtensions);
           <?php endif; ?>
          
           <?php if ($review_status): ?>
-            <div id="tab-review" class="tab-pane fade mb-4"><?=  $review   ?></div>
+            <div id="tab-review" class="tab-pane border p-3 fade mb-4"><?=  $review   ?></div>
           <?php endif; ?>
 
         </div>
+
+        <?php endif; ?>
+
+
+
+
       </div>
       </div>
       <?php if ($products): ?>
@@ -481,6 +535,7 @@ $isVideo = in_array($popupExtension, $videoExtensions);
               <?php endfor; ?>
         </p>
       <?php endif; ?>
+   
 
       <?=  $content_bottom  ?></div>
     <?=  $column_right   ?></div>
@@ -543,7 +598,7 @@ $('#form-product').on('submit', function(e) {
 });
 window.taxRates = {};
 <?php if (isset($tax) && $tax != false):?>
-window.taxRates = <?=$taxrates?>
+window.taxRates = <?=json_encode($taxrates)?>
   <?php endif; ?>  
 window.discount = 0;
 <?php if (isset($specialfull)):?>
@@ -597,7 +652,6 @@ document.getElementById("coundown").innerHTML =
 
  
 //--></script>
-<script  src="catalog/view/javascript/product.js"></script>
  
 <script type="module">
         
@@ -616,8 +670,9 @@ document.getElementById("coundown").innerHTML =
         });
    
         lightbox.init();
-      
-    </script>
+       // call variation build up 
+       window.productInit();
+          </script>
  
 <?php if (!$quickview): ?>
 <?=  $footer   ?>

@@ -1,11 +1,12 @@
 <?php
-namespace Opencart\System\Library\DB;
+namespace Ventocart\System\Library\DB;
 /**
  * Class MySQLi
  *
- * @package Opencart\System\Library\DB
+ * @package Ventocart\System\Library\DB
  */
-class MySQLi {
+class MySQLi
+{
 	/**
 	 * @var object
 	 */
@@ -23,7 +24,8 @@ class MySQLi {
 	 * @param string $ssl_cert
 	 * @param string $ssl_ca
 	 */
-	public function __construct(string $hostname, string $username, string $password, string $database, string $port = '', string $ssl_key = '', string $ssl_cert = '', string $ssl_ca = '') {
+	public function __construct(string $hostname, string $username, string $password, string $database, string $port = '', string $ssl_key = '', string $ssl_cert = '', string $ssl_ca = '')
+	{
 		if (!$port) {
 			$port = '3306';
 		}
@@ -88,13 +90,14 @@ class MySQLi {
 	}
 
 	/**
-     * Query
-     *
-     * @param string $sql
-     *
-     * @return mixed
-     */
-	public function query(string $sql) {
+	 * Query
+	 *
+	 * @param string $sql
+	 *
+	 * @return mixed
+	 */
+	public function query(string $sql)
+	{
 		try {
 			$query = $this->connection->query($sql);
 
@@ -124,40 +127,45 @@ class MySQLi {
 	}
 
 	/**
-     * Escape
-     *
-     * @param string $value
-     *
-     * @return string
-     */
-	public function escape(string $value): string {
+	 * Escape
+	 *
+	 * @param string $value
+	 *
+	 * @return string
+	 */
+	public function escape(string $value): string
+	{
 		return $this->connection->real_escape_string($value);
 	}
 
 	/**
-     * countAffected
-     *
-     * @return int
-     */
-	public function countAffected(): int {
+	 * countAffected
+	 *
+	 * @return int
+	 */
+	public function countAffected(): int
+	{
 		return $this->connection->affected_rows;
 	}
 
 	/**
-     * getLastId
-     *
-     * @return int
-     */
-	public function getLastId(): int {
+	 * getLastId
+	 *
+	 * @return int
+	 */
+	public function getLastId(): int
+	{
+
 		return $this->connection->insert_id;
 	}
 
 	/**
-     * isConnected
-     *
-     * @return bool
-     */
-	public function isConnected(): bool {
+	 * isConnected
+	 *
+	 * @return bool
+	 */
+	public function isConnected(): bool
+	{
 		return $this->connection;
 	}
 
@@ -167,7 +175,8 @@ class MySQLi {
 	 * Closes the DB connection when this object is destroyed.
 	 *
 	 */
-	public function __destruct() {
+	public function __destruct()
+	{
 		if ($this->connection) {
 			$this->connection->close();
 

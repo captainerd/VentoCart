@@ -1,7 +1,7 @@
 <?php
-namespace Opencart\Admin\Model\Catalog;
+namespace Ventocart\Admin\Model\Catalog;
 
-class Product extends \Opencart\System\Engine\Model
+class Product extends \Ventocart\System\Engine\Model
 {
 	public function addProduct(array $data): int
 	{
@@ -226,15 +226,15 @@ class Product extends \Opencart\System\Engine\Model
 				return $a['sort_order'] - $b['sort_order'];
 			});
 		}
-	 
+
 		if (!empty($data['product_image'][0]['image'])) {
 			$this->db->query("UPDATE `" . DB_PREFIX . "product` SET `image` = '" . $this->db->escape((string) $data['product_image'][0]['image']) . "' WHERE `product_id` = '" . (int) $product_id . "'");
-			
+
 			//Remove the "product" main image from the array 
-		 
+
 		} else {
 			$this->db->query("UPDATE `" . DB_PREFIX . "product` SET `image` = '' WHERE `product_id` = '" . (int) $product_id . "'");
-			
+
 		}
 		if (!empty($data['product_image'])) {
 			array_shift($data['product_image']);
@@ -436,16 +436,17 @@ class Product extends \Opencart\System\Engine\Model
 			AND `language_id` = '" . (int) $this->config->get('config_language_id') . "'
 		");
 
+
 		// Loop through the selected options
 
 		foreach ($query->rows as $option) {
-
+			$insertQuery = "";
 			// Check if 'type' is not text, textarea, date, time, or datetime
 
 			if (!in_array($option['type'], array('file', 'text', 'textarea', 'date', 'time', 'datetime'))) {
 				// Insert values into DB_PREFIX . "product_options" where option_n != -1
 				if ($option['option_n'] != -1) {
-					$this->db->query("
+					$insertQuery = "
 					INSERT INTO `" . DB_PREFIX . "product_options` 
 					SET 
 						`product_id` = '" . (int) $product_id . "', 
@@ -455,17 +456,18 @@ class Product extends \Opencart\System\Engine\Model
 						`subtract` = '" . (int) 0 . "', 
 						`price` = '" . (float) 0 . "', 
 						`price_prefix` = '+', 
+						`value` = '', 
 						`points` = '" . (int) 0 . "', 
 						`points_prefix` = '+', 
 						`weight` = '" . (float) 0 . "', 
 						`weight_prefix` = '+', 
 						`sort_order` = '" . (int) 0 . "'
-				");
+				";
 				}
 			} else {
 				if ($option['option_n'] == -1) {
 
-					$this->db->query("
+					$insertQuery = "
 					INSERT INTO `" . DB_PREFIX . "product_options` 
 					SET 
 						`product_id` = '" . (int) $product_id . "', 
@@ -475,13 +477,17 @@ class Product extends \Opencart\System\Engine\Model
 						`subtract` = '" . (int) 0 . "', 
 						`price` = '" . (float) 0 . "', 
 						`price_prefix` = '+', 
+						`value` = '', 
 						`points` = '" . (int) 0 . "', 
 						`points_prefix` = '+', 
 						`weight` = '" . (float) 0 . "', 
 						`weight_prefix` = '+', 
 						`sort_order` = '" . (int) 0 . "'
-				");
+				";
 				}
+			}
+			if (!empty($insertQuery)) {
+				$query = $this->db->query($insertQuery);
 			}
 		}
 
@@ -503,9 +509,9 @@ class Product extends \Opencart\System\Engine\Model
 		return ($query->row['total'] > 0);
 	}
 
-	private function deleteProductOption($product_id, $poption_id)
+	private function deleteProductOption($product_id, $product_option_id)
 	{
-		$sql = "DELETE FROM `" . DB_PREFIX . "product_options` WHERE `product_id` = '" . $product_id . "' AND `poption_id` = '" . $poption_id . "'";
+		$sql = "DELETE FROM `" . DB_PREFIX . "product_options` WHERE `product_id` = '" . $product_id . "' AND `product_option_id` = '" . $product_option_id . "'";
 		$this->db->query($sql);
 	}
 	// Function to update or insert a product option
@@ -516,7 +522,7 @@ class Product extends \Opencart\System\Engine\Model
 		$this->db->query("
 			REPLACE INTO `" . DB_PREFIX . "product_options`
 			SET 
-				`poption_id` = '" . (int) $product_option_value['poption_id'] . "',
+				`product_option_id` = '" . (int) $product_option_value['product_option_id'] . "',
 				`product_id` = '" . $product_id . "', 
 				`option_id` = '" . (int) $value_id . "', 
 				`required` = '" . $required . "',
@@ -534,7 +540,7 @@ class Product extends \Opencart\System\Engine\Model
 	}
 	private function updateOrInsertProductOptionForOtherTypes($product_id, $required, $product_option)
 	{
-		$poption_id = isset($product_option['poption_id']) ? $product_option['poption_id'] : 0;
+		$product_option_id = isset($product_option['product_option_id']) ? $product_option['product_option_id'] : 0;
 		// Common properties
 		$product_id = (int) $product_id;
 		if (!isset($product_option['value']))
@@ -543,7 +549,7 @@ class Product extends \Opencart\System\Engine\Model
 			REPLACE INTO `" . DB_PREFIX . "product_options`
 			SET 
 				`product_id` = '" . $product_id . "', 
-				`poption_id` = '" . (int) $poption_id . "', 
+				`product_option_id` = '" . (int) $product_option_id . "', 
 				`option_id` = '" . $this->db->escape($product_option['option_id']) . "',
 				`required` = '" . (int) $required . "',
 				`sort_order` = '" . (int) $product_option['sort_order'] . "',
@@ -905,25 +911,51 @@ class Product extends \Opencart\System\Engine\Model
 
 		return $query->rows;
 	}
+
+
 	public function getOptionsLegacy(int $product_id): array
 	{
 		$product_option_data = [];
 
 		$product_option_query = $this->db->query("
-		SELECT po.*, o.*, og.name AS group_name, og.type AS group_type 
-		FROM `" . DB_PREFIX . "product_options` po
-		LEFT JOIN `" . DB_PREFIX . "options` o ON po.option_id = o.option_id
-		LEFT JOIN `" . DB_PREFIX . "options` og ON o.group_id = og.option_id
-		WHERE po.product_id = '" . (int) $product_id . "'
-		AND o.language_id = '" . (int) $this->config->get('config_language_id') . "'
-		 
+		SELECT 
+			po.*, 
+			o.*, 
+			o3.name AS group_name, 
+			og.type AS group_type,
+			o2.name AS o2_name,
+			o2.*  -- Include other columns from o2 as needed
+		FROM 
+			`" . DB_PREFIX . "product_options` po
+		LEFT JOIN 
+			`" . DB_PREFIX . "options` o ON po.option_id = o.option_id
+		LEFT JOIN 
+			`" . DB_PREFIX . "options` og ON o.group_id = og.option_id
+		LEFT JOIN 
+			`" . DB_PREFIX . "options` o2 ON 
+				o2.option_n = o.option_n
+			AND o2.group_id = o.group_id
+			AND o2.language_id = '" . (int) $this->config->get('config_language_id') . "'
+		LEFT JOIN 
+			`" . DB_PREFIX . "options` o3 ON 
+				o3.option_n = '-1'
+			AND o3.group_id = o.group_id 
+			AND o3.language_id = '" . (int) $this->config->get('config_language_id') . "'
+		WHERE 
+			po.product_id = '" . (int) $product_id . "'
+		GROUP BY 
+			po.option_id
+		ORDER BY 
+			po.sort_order
 	");
+
+
 
 		foreach ($product_option_query->rows as $product_option) {
 
-			$product_option_value_data[$product_option['group_id']][] = [
-				'product_option_value_id' => $product_option['poption_id'],
-				'option_value_id' => $product_option['poption_id'],
+			$product_option_value_data[$product_option['group_id']][$product_option['product_option_id']] = [
+				'product_option_value_id' => $product_option['product_option_id'],
+				'option_value_id' => $product_option['product_option_id'],
 				'name' => $product_option['name'],
 				'image' => '',
 				'quantity' => $product_option['quantity'],
@@ -936,29 +968,62 @@ class Product extends \Opencart\System\Engine\Model
 
 
 			$product_option_data[$product_option['group_id']] = [
-				'product_option_id' => $product_option['poption_id'],
+				'product_option_id' => $product_option['product_option_id'],
 				'product_option_value' => $product_option_value_data[$product_option['group_id']],
-				'option_id' => $product_option['poption_id'],
+				'option_id' => $product_option['product_option_id'],
 				'name' => $product_option['group_name'],
 				'type' => $product_option['group_type'],
 				'value' => $product_option['value'],
 				'required' => $product_option['required']
 			];
 		}
-		return $product_option_data;
+
+		$option_data = [];
+		foreach ($product_option_data as $product_option) {
+
+
+			if ($product_option) {
+				if ($product_option['type'] != "checkbox" && $product_option['type'] != "radio" && $product_option['type'] != "select")
+					continue;
+				$product_option_value_data = [];
+
+				foreach ($product_option['product_option_value'] as $product_option_value) {
+
+					$product_option_value_data[] = [
+						'product_option_value_id' => $product_option_value['product_option_value_id'],
+						'option_value_id' => $product_option_value['option_value_id'],
+						'name' => $product_option_value['name'],
+						'price' => (float) $product_option_value['price'] ? $this->currency->format($product_option_value['price'], $this->config->get('config_currency')) : false,
+						'price_prefix' => $product_option_value['price_prefix']
+					];
+
+				}
+
+				$option_data[] = [
+					'product_option_id' => $product_option['product_option_id'],
+					'product_option_value' => $product_option_value_data,
+					'option_id' => $product_option['option_id'],
+					'name' => $product_option['name'],
+					'type' => $product_option['type'],
+					'value' => $product_option['value'],
+					'required' => $product_option['required']
+				];
+			}
+		}
+		return $option_data;
 	}
 
 	public function getImages(int $product_id): array
 	{
 		$query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "product_image` WHERE `product_id` = '" . (int) $product_id . "' ORDER BY `sort_order` ASC");
 		$queryProductImage = $this->db->query("SELECT image FROM `" . DB_PREFIX . "product` WHERE `product_id` = '" . (int) $product_id . "' ORDER BY `sort_order` ASC");
-		
+
 		array_unshift($query->rows, [
 			'image' => $queryProductImage->row['image'],
 			'sort_order' => 0,
 			'product_id' => $product_id,
 		]);
-	 
+
 		return $query->rows;
 	}
 

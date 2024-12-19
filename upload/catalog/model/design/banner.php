@@ -1,11 +1,11 @@
 <?php
-namespace Opencart\Catalog\Model\Design;
+namespace Ventocart\Catalog\Model\Design;
 /**
  * Class Banner
  *
- * @package Opencart\Catalog\Model\Design
+ * @package Ventocart\Catalog\Model\Design
  */
-class Banner extends \Opencart\System\Engine\Model {
+class Banner extends \Ventocart\System\Engine\Model {
 	/**
 	 * @param int $banner_id
 	 *

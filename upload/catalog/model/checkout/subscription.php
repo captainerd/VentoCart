@@ -1,6 +1,6 @@
 <?php
-namespace Opencart\Catalog\Model\Checkout;
-class Subscription extends \Opencart\System\Engine\Model {
+namespace Ventocart\Catalog\Model\Checkout;
+class Subscription extends \Ventocart\System\Engine\Model {
 	public function addSubscription(array $data): int {
 		if ($data['trial_status'] && $data['trial_duration']) {
 			$trial_remaining = $data['trial_duration'] - 1;

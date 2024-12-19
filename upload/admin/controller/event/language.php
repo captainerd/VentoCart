@@ -1,11 +1,11 @@
 <?php
-namespace Opencart\Admin\Controller\Event;
+namespace Ventocart\Admin\Controller\Event;
 /**
  * Class Language
  *
- * @package Opencart\Admin\Controller\Event
+ * @package Ventocart\Admin\Controller\Event
  */
-class Language extends \Opencart\System\Engine\Controller {
+class Language extends \Ventocart\System\Engine\Controller {
 
 	/**
 	 * Dump all the language vars into the template.

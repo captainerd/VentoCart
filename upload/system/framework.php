@@ -1,18 +1,17 @@
 <?php
 // Autoloader
-$autoloader = new \Opencart\System\Engine\Autoloader();
-$autoloader->register('Opencart\\' . APPLICATION, DIR_APPLICATION);
-$autoloader->register('Opencart\Extension', DIR_EXTENSION);
-$autoloader->register('Opencart\System', DIR_SYSTEM);
+$autoloader = new \Ventocart\System\Engine\Autoloader();
+$autoloader->register('Ventocart\\' . APPLICATION, DIR_APPLICATION);
+$autoloader->register('Ventocart\System', DIR_SYSTEM);
 
 require_once(DIR_SYSTEM . 'vendor.php');
 
 // Registry
-$registry = new \Opencart\System\Engine\Registry();
+$registry = new \Ventocart\System\Engine\Registry();
 $registry->set('autoloader', $autoloader);
 
 // Config
-$config = new \Opencart\System\Engine\Config();
+$config = new \Ventocart\System\Engine\Config();
 $registry->set('config', $config);
 $config->addPath(DIR_CONFIG);
 
@@ -27,11 +26,11 @@ $config->set('application', APPLICATION);
 date_default_timezone_set($config->get('date_timezone'));
 
 // Logging
-$log = new \Opencart\System\Library\Log($config->get('error_filename'));
+$log = new \Ventocart\System\Library\Log($config->get('error_filename'));
 $registry->set('log', $log);
 
 // Error Handler
-set_error_handler(function(string $code, string $message, string $file, string $line) use ($log, $config) {
+set_error_handler(function (string $code, string $message, string $file, string $line) use ($log, $config) {
 	switch ($code) {
 		case E_NOTICE:
 		case E_USER_NOTICE:
@@ -65,7 +64,7 @@ set_error_handler(function(string $code, string $message, string $file, string $
 });
 
 // Exception Handler
-set_exception_handler(function(\Throwable $e) use ($log, $config): void  {
+set_exception_handler(function (\Throwable $e) use ($log, $config): void {
 	if ($config->get('error_log')) {
 		$log->write($e->getMessage() . ': in ' . $e->getFile() . ' on line ' . $e->getLine());
 	}
@@ -79,34 +78,34 @@ set_exception_handler(function(\Throwable $e) use ($log, $config): void  {
 });
 
 // Event
-$event = new \Opencart\System\Engine\Event($registry);
+$event = new \Ventocart\System\Engine\Event($registry);
 $registry->set('event', $event);
 
 // Event Register
 if ($config->has('action_event')) {
 	foreach ($config->get('action_event') as $key => $value) {
 		foreach ($value as $priority => $action) {
-			$event->register($key, new \Opencart\System\Engine\Action($action), $priority);
+			$event->register($key, new \Ventocart\System\Engine\Action($action), $priority);
 		}
 	}
 }
 
 // Loader
-$loader = new \Opencart\System\Engine\Loader($registry);
+$loader = new \Ventocart\System\Engine\Loader($registry);
 $registry->set('load', $loader);
 
 // Request
-$request = new \Opencart\System\Library\Request();
+$request = new \Ventocart\System\Library\Request();
 $registry->set('request', $request);
 
 // Compatibility
 if (isset($request->get['route'])) {
 	$request->get['route'] = str_replace('|', '.', $request->get['route']);
-	$request->get['route'] = str_replace('%7C', '|', (string)$request->get['route']);
+	$request->get['route'] = str_replace('%7C', '|', (string) $request->get['route']);
 }
 
 // Response
-$response = new \Opencart\System\Library\Response();
+$response = new \Ventocart\System\Library\Response();
 $registry->set('response', $response);
 
 foreach ($config->get('response_header') as $header) {
@@ -124,13 +123,13 @@ $response->setCompression($config->get('response_compression'));
 
 // Database
 if ($config->get('db_autostart')) {
-	$db = new \Opencart\System\Library\DB($config->get('db_engine'), $config->get('db_hostname'), $config->get('db_username'), $config->get('db_password'), $config->get('db_database'), $config->get('db_port'), $config->get('db_ssl_key'), $config->get('db_ssl_cert'), $config->get('db_ssl_ca'));
+	$db = new \Ventocart\System\Library\DB($config->get('db_engine'), $config->get('db_hostname'), $config->get('db_username'), $config->get('db_password'), $config->get('db_database'), $config->get('db_port'), $config->get('db_ssl_key'), $config->get('db_ssl_cert'), $config->get('db_ssl_ca'));
 	$registry->set('db', $db);
 }
 
 // Session
 if ($config->get('session_autostart')) {
-	$session = new \Opencart\System\Library\Session($config->get('session_engine'), $registry);
+	$session = new \Ventocart\System\Library\Session($config->get('session_engine'), $registry);
 	$registry->set('session', $session);
 
 	if (isset($request->cookie[$config->get('session_name')])) {
@@ -143,10 +142,10 @@ if ($config->get('session_autostart')) {
 
 	// Require higher security for session cookies
 	$option = [
-		'expires'  => 0,
-		'path'     => $config->get('session_path'),
-		'domain'   => $config->get('session_domain'),
-		'secure'   => $request->server['HTTPS'],
+		'expires' => 0,
+		'path' => $config->get('session_path'),
+		'domain' => $config->get('session_domain'),
+		'secure' => $request->server['HTTPS'],
 		'httponly' => false,
 		'SameSite' => $config->get('session_samesite')
 	];
@@ -155,42 +154,42 @@ if ($config->get('session_autostart')) {
 }
 
 // Cache
-$registry->set('cache', new \Opencart\System\Library\Cache($config->get('cache_engine'), $config->get('cache_expire')));
+$registry->set('cache', new \Ventocart\System\Library\Cache($config->get('cache_engine'), $config->get('cache_expire')));
 
 // Template
-$template = new \Opencart\System\Library\Template($config->get('template_engine'));
+$template = new \Ventocart\System\Library\Template($config->get('template_engine'));
 $registry->set('template', $template);
 $template->addPath(DIR_TEMPLATE);
 
 // Language
-$language = new \Opencart\System\Library\Language($config->get('language_code'));
+$language = new \Ventocart\System\Library\Language($config->get('language_code'));
 $language->addPath(DIR_LANGUAGE);
 $language->load('default');
 $registry->set('language', $language);
 
 // Url
-$registry->set('url', new \Opencart\System\Library\Url($config->get('site_url')));
+$registry->set('url', new \Ventocart\System\Library\Url($config->get('site_url')));
 
 // Document
-$registry->set('document', new \Opencart\System\Library\Document());
+$registry->set('document', new \Ventocart\System\Library\Document());
 
 // Factory
-$registry->set('factory', new \Opencart\System\Engine\Factory($registry));
+$registry->set('factory', new \Ventocart\System\Engine\Factory($registry));
 
 $action = '';
 $args = [];
 $output = '';
 
 // Action error object to execute if any other actions cannot be executed.
-$error = new \Opencart\System\Engine\Action($config->get('action_error'));
+$error = new \Ventocart\System\Engine\Action($config->get('action_error'));
 
 // Pre Actions
 foreach ($config->get('action_pre_action') as $pre_action) {
-	$pre_action  = new \Opencart\System\Engine\Action($pre_action);
+	$pre_action = new \Ventocart\System\Engine\Action($pre_action);
 
 	$result = $pre_action->execute($registry);
 
-	if ($result instanceof \Opencart\System\Engine\Action) {
+	if ($result instanceof \Ventocart\System\Engine\Action) {
 		$action = $result;
 
 		break;
@@ -200,14 +199,14 @@ foreach ($config->get('action_pre_action') as $pre_action) {
 	if ($result instanceof \Exception) {
 		echo "Error: " . $result->getMessage();
 	}
-	
+
 }
 
 // Route
 if (isset($request->get['route'])) {
-	$route = (string)$request->get['route'];
+	$route = (string) $request->get['route'];
 } else {
-	$route = (string)$config->get('action_default');
+	$route = (string) $config->get('action_default');
 }
 
 // Keep the original trigger
@@ -217,7 +216,7 @@ $trigger = $route;
 $event->trigger('controller/' . $trigger . '/before', [&$route, &$args]);
 
 if (!$action) {
-	$action = new \Opencart\System\Engine\Action($route);
+	$action = new \Ventocart\System\Engine\Action($route);
 }
 
 // Dispatch
@@ -229,7 +228,7 @@ while ($action) {
 	$action = '';
 
 	// Action object returned then we keep the loop going
-	if ($output instanceof \Opencart\System\Engine\Action) {
+	if ($output instanceof \Ventocart\System\Engine\Action) {
 		$action = $output;
 	}
 

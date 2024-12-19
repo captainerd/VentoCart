@@ -1,11 +1,11 @@
 <?php
-namespace Opencart\Admin\Controller\Marketplace;
+namespace Ventocart\Admin\Controller\Marketplace;
 /**
  * Class Modification
  *
- * @package Opencart\Admin\Controller\Marketplace
+ * @package Ventocart\Admin\Controller\Marketplace
  */
-class Modification extends \Opencart\System\Engine\Controller {
+class Modification extends \Ventocart\System\Engine\Controller {
 	/**
 	 * @return void
 	 */
@@ -528,7 +528,7 @@ class Modification extends \Opencart\System\Engine\Controller {
 			}
 
 			// Log
-			$ocmod = new \Opencart\System\Library\Log('ocmod.log');
+			$ocmod = new \Ventocart\System\Library\Log('ocmod.log');
 			$ocmod->write(implode("\n", $log));
 
 			// Write all modification files

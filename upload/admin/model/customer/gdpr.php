@@ -1,11 +1,11 @@
 <?php
-namespace Opencart\Admin\Model\Customer;
+namespace Ventocart\Admin\Model\Customer;
 /**
  * Class GDPR
  *
- * @package Opencart\Admin\Model\Customer
+ * @package Ventocart\Admin\Model\Customer
  */
-class Gdpr extends \Opencart\System\Engine\Model {
+class Gdpr extends \Ventocart\System\Engine\Model {
 	/**
 	 * @param int $gdpr_id
 	 * @param int $status

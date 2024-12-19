@@ -1,11 +1,11 @@
 <?php
-namespace Opencart\Admin\Model\Marketing;
+namespace Ventocart\Admin\Model\Marketing;
 /**
  * Class Coupon
  *
- * @package Opencart\Admin\Model\Marketing
+ * @package Ventocart\Admin\Model\Marketing
  */
-class Coupon extends \Opencart\System\Engine\Model {
+class Coupon extends \Ventocart\System\Engine\Model {
 	/**
 	 * @param array $data
 	 *

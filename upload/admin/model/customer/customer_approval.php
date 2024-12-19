@@ -1,11 +1,11 @@
 <?php
-namespace Opencart\Admin\Model\Customer;
+namespace Ventocart\Admin\Model\Customer;
 /**
  * Class Customer Approval
  *
- * @package Opencart\Admin\Model\Customer
+ * @package Ventocart\Admin\Model\Customer
  */
-class CustomerApproval extends \Opencart\System\Engine\Model {
+class CustomerApproval extends \Ventocart\System\Engine\Model {
 	/**
 	 * @param array $data
 	 *

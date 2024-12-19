@@ -1,11 +1,11 @@
 <?php
-namespace Opencart\Admin\Controller\Marketplace;
+namespace Ventocart\Admin\Controller\Marketplace;
 /**
  * Class Marketplace
  *
- * @package Opencart\Admin\Controller\Marketplace
+ * @package Ventocart\Admin\Controller\Marketplace
  */
-class Marketplace extends \Opencart\System\Engine\Controller {
+class Marketplace extends \Ventocart\System\Engine\Controller {
 	/**
 	 * @return void
 	 */
@@ -112,14 +112,14 @@ class Marketplace extends \Opencart\System\Engine\Controller {
 
 		// We create a hash from the data in a similar method to how amazon does things.
 		$string = 'api/marketplace/list' . "\n";
-		$string .= $this->config->get('opencart_username') . "\n";
+		$string .= $this->config->get('ventocart_username') . "\n";
 		$string .= $this->request->server['HTTP_HOST'] . "\n";
 		$string .= VERSION . "\n";
 		$string .= $time . "\n";
 
-		$signature = base64_encode(hash_hmac('sha1', $string, $this->config->get('opencart_secret'), 1));
+		$signature = base64_encode(hash_hmac('sha1', $string, $this->config->get('ventocart_secret'), 1));
 
-		$url  = '&username=' . urlencode($this->config->get('opencart_username'));
+		$url  = '&username=' . urlencode($this->config->get('ventocart_username'));
 		$url .= '&domain=' . $this->request->server['HTTP_HOST'];
 		$url .= '&version=' . VERSION;
 		$url .= '&time=' . $time;
@@ -157,7 +157,7 @@ class Marketplace extends \Opencart\System\Engine\Controller {
 			$url .= '&page=' . $this->request->get['page'];
 		}
 
-		$curl = curl_init(OPENCART_SERVER . 'index.php?route=api/marketplace' . $url);
+		$curl = curl_init(VENTOCART_SERVER . 'index.php?route=api/marketplace' . $url);
 
 		curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
 		curl_setopt($curl, CURLOPT_FOLLOWLOCATION, 1);
@@ -247,9 +247,9 @@ class Marketplace extends \Opencart\System\Engine\Controller {
 			}
 		}
 
-		$data['signature'] = $this->config->get('opencart_username') && $this->config->get('opencart_secret');
+		$data['signature'] = $this->config->get('ventocart_username') && $this->config->get('ventocart_secret');
 
-		if (!$this->config->get('opencart_username') || !$this->config->get('opencart_secret')) {
+		if (!$this->config->get('ventocart_username') || !$this->config->get('ventocart_secret')) {
 			$data['error_warning'] = $this->language->get('error_api');
 		} elseif (isset($response_info['error'])) {
 			$data['error_warning'] = $response_info['error'];
@@ -529,7 +529,7 @@ class Marketplace extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * @return object|\Opencart\System\Engine\Action|null
+	 * @return object|\Ventocart\System\Engine\Action|null
 	 */
 	public function info(): ?object {
 		if (isset($this->request->get['extension_id'])) {
@@ -542,22 +542,22 @@ class Marketplace extends \Opencart\System\Engine\Controller {
 
 		// We create a hash from the data in a similar method to how amazon does things.
 		$string = 'api/marketplace/info' . "\n";
-		$string .= $this->config->get('opencart_username') . "\n";
+		$string .= $this->config->get('ventocart_username') . "\n";
 		$string .= $this->request->server['HTTP_HOST'] . "\n";
 		$string .= VERSION . "\n";
 		$string .= $extension_id . "\n";
 		$string .= $time . "\n";
 
-		$signature = base64_encode(hash_hmac('sha1', $string, $this->config->get('opencart_secret'), 1));
+		$signature = base64_encode(hash_hmac('sha1', $string, $this->config->get('ventocart_secret'), 1));
 
-		$url  = '&username=' . urlencode($this->config->get('opencart_username'));
+		$url  = '&username=' . urlencode($this->config->get('ventocart_username'));
 		$url .= '&domain=' . $this->request->server['HTTP_HOST'];
 		$url .= '&version=' . VERSION;
 		$url .= '&extension_id=' . $extension_id;
 		$url .= '&time=' . $time;
 		$url .= '&signature=' . rawurlencode($signature);
 
-		$curl = curl_init(OPENCART_SERVER . 'index.php?route=api/marketplace/info' . $url);
+		$curl = curl_init(VENTOCART_SERVER . 'index.php?route=api/marketplace/info' . $url);
 
 		curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
 		curl_setopt($curl, CURLOPT_FOLLOWLOCATION, 1);
@@ -578,9 +578,9 @@ class Marketplace extends \Opencart\System\Engine\Controller {
 
 			$this->document->setTitle($this->language->get('heading_title'));
 
-			$data['signature'] = $this->config->get('opencart_username') && $this->config->get('opencart_secret');
+			$data['signature'] = $this->config->get('ventocart_username') && $this->config->get('ventocart_secret');
 
-			if (!$this->config->get('opencart_username') || !$this->config->get('opencart_secret')) {
+			if (!$this->config->get('ventocart_username') || !$this->config->get('ventocart_secret')) {
 				$data['error_warning'] = $this->language->get('error_api');
 			} elseif (isset($response_info['error'])) {
 				$data['error_warning'] = $response_info['error'];
@@ -692,7 +692,7 @@ class Marketplace extends \Opencart\System\Engine\Controller {
 
 			return null;
 		} else {
-			return new \Opencart\System\Engine\Action('error/not_found');
+			return new \Ventocart\System\Engine\Action('error/not_found');
 		}
 	}
 
@@ -782,7 +782,7 @@ class Marketplace extends \Opencart\System\Engine\Controller {
 			$json['error'] = $this->language->get('error_permission');
 		}
 
-		if (!$this->config->get('opencart_username') || !$this->config->get('opencart_secret')) {
+		if (!$this->config->get('ventocart_username') || !$this->config->get('ventocart_secret')) {
 			$json['error'] = $this->language->get('error_api');
 		}
 
@@ -795,23 +795,23 @@ class Marketplace extends \Opencart\System\Engine\Controller {
 
 			// We create a hash from the data in a similar method to how amazon does things.
 			$string = 'api/marketplace/purchase' . "\n";
-			$string .= $this->config->get('opencart_username') . "\n";
+			$string .= $this->config->get('ventocart_username') . "\n";
 			$string .= $this->request->server['HTTP_HOST'] . "\n";
 			$string .= VERSION . "\n";
 			$string .= $extension_id . "\n";
 			$string .= $this->request->post['pin'] . "\n";
 			$string .= $time . "\n";
 
-			$signature = base64_encode(hash_hmac('sha1', $string, $this->config->get('opencart_secret'), 1));
+			$signature = base64_encode(hash_hmac('sha1', $string, $this->config->get('ventocart_secret'), 1));
 
-			$url  = '&username=' . urlencode($this->config->get('opencart_username'));
+			$url  = '&username=' . urlencode($this->config->get('ventocart_username'));
 			$url .= '&domain=' . $this->request->server['HTTP_HOST'];
 			$url .= '&version=' . urlencode(VERSION);
 			$url .= '&extension_id=' . $extension_id;
 			$url .= '&time=' . $time;
 			$url .= '&signature=' . rawurlencode($signature);
 
-			$curl = curl_init(OPENCART_SERVER . 'index.php?route=api/marketplace/purchase' . $url);
+			$curl = curl_init(VENTOCART_SERVER . 'index.php?route=api/marketplace/purchase' . $url);
 
 			curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
 			curl_setopt($curl, CURLOPT_FORBID_REUSE, 1);
@@ -875,16 +875,16 @@ class Marketplace extends \Opencart\System\Engine\Controller {
 
 			// We create a hash from the data in a similar method to how amazon does things.
 			$string  = 'api/marketplace/download' . "\n";
-			$string .= $this->config->get('opencart_username') . "\n";
+			$string .= $this->config->get('ventocart_username') . "\n";
 			$string .= $this->request->server['HTTP_HOST'] . "\n";
 			$string .= VERSION . "\n";
 			$string .= $extension_id . "\n";
 			$string .= $extension_download_id . "\n";
 			$string .= $time . "\n";
 
-			$signature = base64_encode(hash_hmac('sha1', $string, $this->config->get('opencart_secret'), 1));
+			$signature = base64_encode(hash_hmac('sha1', $string, $this->config->get('ventocart_secret'), 1));
 
-			$url  = '&username=' . urlencode($this->config->get('opencart_username'));
+			$url  = '&username=' . urlencode($this->config->get('ventocart_username'));
 			$url .= '&domain=' . $this->request->server['HTTP_HOST'];
 			$url .= '&version=' . urlencode(VERSION);
 			$url .= '&extension_id=' . $extension_id;
@@ -892,7 +892,7 @@ class Marketplace extends \Opencart\System\Engine\Controller {
 			$url .= '&time=' . $time;
 			$url .= '&signature=' . rawurlencode($signature);
 
-			$curl = curl_init(OPENCART_SERVER . 'index.php?route=api/marketplace/download&extension_download_id=' . $extension_download_id . $url);
+			$curl = curl_init(VENTOCART_SERVER . 'index.php?route=api/marketplace/download&extension_download_id=' . $extension_download_id . $url);
 
 			curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
 			curl_setopt($curl, CURLOPT_FORBID_REUSE, 1);
@@ -923,7 +923,7 @@ class Marketplace extends \Opencart\System\Engine\Controller {
 						'code' 				    => basename($response_info['filename'], '.ocmod.zip'),
 						'author'                => $response_info['author'],
 						'version'               => $response_info['version'],
-						'link' 					=> OPENCART_SERVER . 'index.php?route=marketplace/extension.info&extension_id=' . $extension_id
+						'link' 					=> VENTOCART_SERVER . 'index.php?route=marketplace/extension.info&extension_id=' . $extension_id
 					];
 
 					$this->load->model('setting/extension');
@@ -969,8 +969,8 @@ class Marketplace extends \Opencart\System\Engine\Controller {
 			$json['error'] = $this->language->get('error_permission');
 		}
 
-		if (!$this->config->get('opencart_username') || !$this->config->get('opencart_secret')) {
-			$json['error'] = $this->language->get('error_opencart');
+		if (!$this->config->get('ventocart_username') || !$this->config->get('ventocart_secret')) {
+			$json['error'] = $this->language->get('error_ventocart');
 		}
 
 		if (!$json) {
@@ -978,7 +978,7 @@ class Marketplace extends \Opencart\System\Engine\Controller {
 
 			// We create a hash from the data in a similar method to how amazon does things.
 			$string = 'api/marketplace/addcomment' . "\n";
-			$string .= urlencode($this->config->get('opencart_username')) . "\n";
+			$string .= urlencode($this->config->get('ventocart_username')) . "\n";
 			$string .= $this->request->server['HTTP_HOST'] . "\n";
 			$string .= urlencode(VERSION) . "\n";
 			$string .= $extension_id . "\n";
@@ -986,9 +986,9 @@ class Marketplace extends \Opencart\System\Engine\Controller {
 			$string .= urlencode(base64_encode($this->request->post['comment'])) . "\n";
 			$string .= $time . "\n";
 
-			$signature = base64_encode(hash_hmac('sha1', $string, $this->config->get('opencart_secret'), 1));
+			$signature = base64_encode(hash_hmac('sha1', $string, $this->config->get('ventocart_secret'), 1));
 
-			$url  = '&username=' . $this->config->get('opencart_username');
+			$url  = '&username=' . $this->config->get('ventocart_username');
 			$url .= '&domain=' . $this->request->server['HTTP_HOST'];
 			$url .= '&version=' . VERSION;
 			$url .= '&extension_id=' . $extension_id;
@@ -996,7 +996,7 @@ class Marketplace extends \Opencart\System\Engine\Controller {
 			$url .= '&time=' . $time;
 			$url .= '&signature=' . rawurlencode($signature);
 
-			$curl = curl_init(OPENCART_SERVER . 'index.php?route=api/marketplace/addcomment&extension_id=' . $extension_id . $url);
+			$curl = curl_init(VENTOCART_SERVER . 'index.php?route=api/marketplace/addcomment&extension_id=' . $extension_id . $url);
 
 			curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
 			curl_setopt($curl, CURLOPT_FORBID_REUSE, 1);
@@ -1045,7 +1045,7 @@ class Marketplace extends \Opencart\System\Engine\Controller {
 		$data['button_more'] = $this->language->get('button_more');
 		$data['button_reply'] = $this->language->get('button_reply');
 
-		$curl = curl_init(OPENCART_SERVER . 'index.php?route=api/marketplace/comment&extension_id=' . $extension_id . '&page=' . $page);
+		$curl = curl_init(VENTOCART_SERVER . 'index.php?route=api/marketplace/comment&extension_id=' . $extension_id . '&page=' . $page);
 
 		curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
 		curl_setopt($curl, CURLOPT_FORBID_REUSE, 1);
@@ -1122,7 +1122,7 @@ class Marketplace extends \Opencart\System\Engine\Controller {
 			$page = 1;
 		}
 
-		$curl = curl_init(OPENCART_SERVER . 'index.php?route=api/marketplace/comment&extension_id=' . $extension_id . '&parent_id=' . $parent_id . '&page=' . $page);
+		$curl = curl_init(VENTOCART_SERVER . 'index.php?route=api/marketplace/comment&extension_id=' . $extension_id . '&parent_id=' . $parent_id . '&page=' . $page);
 
 		curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
 		curl_setopt($curl, CURLOPT_FORBID_REUSE, 1);

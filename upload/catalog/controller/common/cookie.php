@@ -1,11 +1,11 @@
 <?php
-namespace Opencart\Catalog\Controller\Common;
+namespace Ventocart\Catalog\Controller\Common;
 /**
  * Class Cookie
  *
- * @package Opencart\Catalog\Controller\Common
+ * @package Ventocart\Catalog\Controller\Common
  */
-class Cookie extends \Opencart\System\Engine\Controller {
+class Cookie extends \Ventocart\System\Engine\Controller {
 	/**
 	 * @return string
 	 */

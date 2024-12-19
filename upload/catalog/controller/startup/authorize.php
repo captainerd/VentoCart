@@ -1,13 +1,13 @@
 <?php
-namespace Opencart\catalog\controller\startup;
+namespace Ventocart\catalog\controller\startup;
 /**
  * Class Authorize
  *
- * @package Opencart\Admin\Controller\Startup
+ * @package Ventocart\Admin\Controller\Startup
  */
-class Authorize extends \Opencart\System\Engine\Controller {
+class Authorize extends \Ventocart\System\Engine\Controller {
 	/**
-	 * @return object|\Opencart\System\Engine\Action|null
+	 * @return object|\Ventocart\System\Engine\Action|null
 	 */
 	public function index(): ?object {
 		if (isset($this->request->get['route'])) {
@@ -42,11 +42,11 @@ class Authorize extends \Opencart\System\Engine\Controller {
 			$token_info = $this->model_user_user->getAuthorizeByToken($this->user->getId(), $token);
 
 			if (!$token_info || !$token_info['status'] && $token_info['attempts'] <= 2) {
-				return new \Opencart\System\Engine\Action('common/authorize');
+				return new \Ventocart\System\Engine\Action('common/authorize');
 			}
 
 			if ($token_info && !$token_info['status'] && $token_info['attempts'] > 2) {
-				return new \Opencart\System\Engine\Action('common/authorize.unlock');
+				return new \Ventocart\System\Engine\Action('common/authorize.unlock');
 			}
 		}
 

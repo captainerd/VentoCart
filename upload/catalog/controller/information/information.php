@@ -1,11 +1,11 @@
 <?php
-namespace Opencart\Catalog\Controller\Information;
+namespace Ventocart\Catalog\Controller\Information;
 /**
  * Class Information
  *
- * @package Opencart\Catalog\Controller\Information
+ * @package Ventocart\Catalog\Controller\Information
  */
-class Information extends \Opencart\System\Engine\Controller {
+class Information extends \Ventocart\System\Engine\Controller {
 	/**
 	 * @return void
 	 */
@@ -54,7 +54,7 @@ class Information extends \Opencart\System\Engine\Controller {
 
 			$this->response->setOutput($this->load->view('information/information', $data));
 		} else {
-			return new \Opencart\System\Engine\Action('error/not_found');
+			return new \Ventocart\System\Engine\Action('error/not_found');
 		}
 
 		return null;

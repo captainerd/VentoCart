@@ -1,11 +1,11 @@
 <?php
-namespace Opencart\Catalog\Model\Localisation;
+namespace Ventocart\Catalog\Model\Localisation;
 /**
  * Class Country
  *
- * @package Opencart\Catalog\Model\Localisation
+ * @package Ventocart\Catalog\Model\Localisation
  */
-class Country extends \Opencart\System\Engine\Model {
+class Country extends \Ventocart\System\Engine\Model {
 	/**
 	 * @param int $country_id
 	 *

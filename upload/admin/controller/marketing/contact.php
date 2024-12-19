@@ -1,15 +1,17 @@
 <?php
-namespace Opencart\Admin\Controller\Marketing;
+namespace Ventocart\Admin\Controller\Marketing;
 /**
  * Class Contact
  *
- * @package Opencart\Admin\Controller\Marketing
+ * @package Ventocart\Admin\Controller\Marketing
  */
-class Contact extends \Opencart\System\Engine\Controller {
+class Contact extends \Ventocart\System\Engine\Controller
+{
 	/**
 	 * @return void
 	 */
-	public function index(): void {
+	public function index(): void
+	{
 		$this->load->language('marketing/contact');
 
 		$this->document->setTitle($this->language->get('heading_title'));
@@ -22,6 +24,7 @@ class Contact extends \Opencart\System\Engine\Controller {
 			'text' => $this->language->get('text_home'),
 			'href' => $this->url->link('common/dashboard', 'user_token=' . $this->session->data['user_token'])
 		];
+
 
 		$data['breadcrumbs'][] = [
 			'text' => $this->language->get('heading_title'),
@@ -49,22 +52,34 @@ class Contact extends \Opencart\System\Engine\Controller {
 	 * @return void
 	 * @throws \Exception
 	 */
-	public function send(): void {
+	public function send(): void
+	{
 		$this->load->language('marketing/contact');
 
 		$json = [];
+		if (!isset($this->request->get['download'])) {
+			if (!$this->user->hasPermission('modify', 'marketing/contact')) {
+				$json['error']['warning'] = $this->language->get('error_permission');
+			}
 
-		if (!$this->user->hasPermission('modify', 'marketing/contact')) {
-			$json['error']['warning'] = $this->language->get('error_permission');
+			if (!$this->request->post['subject']) {
+				$json['error']['subject'] = $this->language->get('error_subject');
+			}
+
+			if (!$this->request->post['message']) {
+				$json['error']['message'] = $this->language->get('error_message');
+			}
+
+		} else {
+			if (!isset($this->request->get['store_id'])) {
+				$json['error']['message'] = $this->language->get('error_store_id');
+			} else {
+				$this->request->post['store_id'] = $this->request->get['store_id'];
+				$this->request->post['to'] = $this->request->get['to'];
+			}
 		}
 
-		if (!$this->request->post['subject']) {
-			$json['error']['subject'] = $this->language->get('error_subject');
-		}
 
-		if (!$this->request->post['message']) {
-			$json['error']['message'] = $this->language->get('error_message');
-		}
 
 		if (!$json) {
 			$this->load->model('setting/store');
@@ -73,52 +88,115 @@ class Contact extends \Opencart\System\Engine\Controller {
 			$this->load->model('marketing/affiliate');
 			$this->load->model('sale/order');
 
-			$store_info = $this->model_setting_store->getStore($this->request->post['store_id']);
+			$store_id = $this->request->post['store_id'];
 
-			if ($store_info) {
-				$store_name = $store_info['name'];
-			} else {
-				$store_name = $this->config->get('config_name');
+			$store_info = $this->model_setting_store->getStore($store_id);
+
+			$setting = $this->model_setting_setting->getSetting('config', $store_id);
+
+
+			$store_url = $store_info['url'];
+
+
+			if (!preg_match('/^https?:\/\//', $store_url)) {
+				// Check the current scheme and prepend it if for some reason is missing
+				$current_scheme = isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? 'https' : 'http';
+				$store_url = $current_scheme . '://' . ltrim($store_url, '/');
 			}
-
-			$setting = $this->model_setting_setting->getSetting('config', $this->request->post['store_id']);
 
 			$store_email = isset($setting['config_email']) ? $setting['config_email'] : $this->config->get('config_email');
 
 			if (isset($this->request->get['page'])) {
-				$page = (int)$this->request->get['page'];
+				$page = (int) $this->request->get['page'];
 			} else {
 				$page = 1;
 			}
 
-			$limit = 10;
+			$limit = 5;
 
 			$email_total = 0;
 
 			$emails = [];
 
+
+
 			switch ($this->request->post['to']) {
-				case 'newsletter':
+				case 'customer_guest':
 					$customer_data = [
 						'filter_newsletter' => 1,
-						'start'             => ($page - 1) * $limit,
-						'limit'             => $limit
+						'start' => ($page - 1) * $limit,
+						'limit' => $limit,
+						'emails' => 1,
+						'store_id' => $store_id,
 					];
+					if (isset($this->request->get['download'])) {
+						$customer_data = [
+							'filter_newsletter' => 1,
+							'emails' => 1,
+							'store_id' => $store_id,
+						];
+					}
 
-					$email_total = $this->model_customer_customer->getTotalCustomers($customer_data);
+					$email_total = $this->model_customer_customer->getTotalGuests($customer_data);
 
-					$results = $this->model_customer_customer->getCustomers($customer_data);
+					$results = $this->model_customer_customer->getGuests($customer_data);
 
 					foreach ($results as $result) {
 						$emails[] = $result['email'];
 					}
 					break;
+
+				case 'newsletter':
+
+					$customer_data = [
+						'filter_newsletter' => 1,
+						'start' => ($page - 1) * $limit,
+						'limit' => $limit,
+						'emails' => 1,
+						'store_id' => $store_id,
+					];
+					if (isset($this->request->get['download'])) {
+						$customer_data = [
+							'filter_newsletter' => 1,
+							'emails' => 1,
+							'store_id' => $store_id,
+						];
+					}
+					$emails = [];
+					// Fetch total and results from guest customers
+					$guest_total = $this->model_customer_customer->getTotalGuests($customer_data);
+					$guest_results = $this->model_customer_customer->getGuests($customer_data);
+
+					foreach ($guest_results as $result) {
+						$emails[] = $result['email'];
+					}
+
+
+					// Fetch total and results from regular customers
+					$customer_total = $this->model_customer_customer->getTotalCustomers($customer_data);
+					$customer_results = $this->model_customer_customer->getCustomers($customer_data);
+					foreach ($customer_results as $result) {
+						$emails[] = $result['email'];
+					}
+
+					// Sum totals
+
+					$email_total = max($guest_total, $customer_total);
+
+					break;
 				case 'customer_all':
 					$customer_data = [
 						'start' => ($page - 1) * $limit,
-						'limit' => $limit
+						'limit' => $limit,
+						'emails' => 1,
+						'store_id' => $store_id,
 					];
-
+					if (isset($this->request->get['download'])) {
+						$customer_data = [
+							'emails' => 1,
+							'store_id' => $store_id,
+						];
+					}
 					$email_total = $this->model_customer_customer->getTotalCustomers($customer_data);
 
 					$results = $this->model_customer_customer->getCustomers($customer_data);
@@ -130,10 +208,18 @@ class Contact extends \Opencart\System\Engine\Controller {
 				case 'customer_group':
 					$customer_data = [
 						'filter_customer_group_id' => $this->request->post['customer_group_id'],
-						'start'                    => ($page - 1) * $limit,
-						'limit'                    => $limit
+						'start' => ($page - 1) * $limit,
+						'limit' => $limit,
+						'emails' => 1,
+						'store_id' => $store_id,
 					];
-
+					if (isset($this->request->get['download'])) {
+						$customer_data = [
+							'emails' => 1,
+							'filter_customer_group_id' => $this->request->post['customer_group_id'],
+							'store_id' => $store_id,
+						];
+					}
 					$email_total = $this->model_customer_customer->getTotalCustomers($customer_data);
 
 					$results = $this->model_customer_customer->getCustomers($customer_data);
@@ -160,9 +246,16 @@ class Contact extends \Opencart\System\Engine\Controller {
 				case 'affiliate_all':
 					$affiliate_data = [
 						'start' => ($page - 1) * $limit,
-						'limit' => $limit
+						'limit' => $limit,
+						'emails' => 1,
+						'store_id' => $store_id,
 					];
-
+					if (isset($this->request->get['download'])) {
+						$affiliate_data = [
+							'emails' => 1,
+							'store_id' => $store_id,
+						];
+					}
 					$email_total = $this->model_marketing_affiliate->getTotalAffiliates($affiliate_data);
 
 					$results = $this->model_marketing_affiliate->getAffiliates($affiliate_data);
@@ -199,28 +292,58 @@ class Contact extends \Opencart\System\Engine\Controller {
 					break;
 			}
 
-			if ($emails) {
-				$start = ($page - 1) * $limit;
-				$end = $start + $limit;
+			if (isset($this->request->get['download'])) {
+				$filename = 'emails_list.txt';
 
-				if ($end < $email_total) {
-					$json['text'] = sprintf($this->language->get('text_sent'), $start ? $start : 1, $email_total);
 
-					$json['next'] = $this->url->link('marketing/contact.send', 'user_token=' . $this->session->data['user_token'] . '&page=' . ($page + 1), true);
-				} else {
-					$json['success'] = $this->language->get('text_success');
+				header('Content-Type: text/plain');
+				header('Content-Disposition: attachment; filename="' . $filename . '"');
+				header('Pragma: no-cache');
+				header('Expires: 0');
 
-					$json['next'] = '';
+
+				$output = fopen('php://output', 'w');
+
+
+				foreach ($emails as $email) {
+					fwrite($output, $email . PHP_EOL);
 				}
 
-				$message  = '<html dir="ltr" lang="' . $this->language->get('code') . '">' . "\n";
-				$message .= '  <head>' . "\n";
-				$message .= '    <title>' . $this->request->post['subject'] . '</title>' . "\n";
-				$message .= '    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">' . "\n";
-				$message .= '  </head>' . "\n";
-				$message .= '  <body>' . html_entity_decode($this->request->post['message'], ENT_QUOTES, 'UTF-8') . '</body>' . "\n";
-				$message .= '</html>' . "\n";
 
+				fclose($output);
+				exit;
+			}
+
+
+			if ($page * $limit < $email_total) {
+				$json['total'] = $email_total;
+				$json['send'] = $page * $limit;
+				$json['text'] = sprintf($this->language->get('text_sent'), $page * $limit, $email_total);
+				$json['next'] = $this->url->link('marketing/contact.send', 'user_token=' . $this->session->data['user_token'] . '&page=' . ($page + 1), true);
+			} else {
+				$json['total'] = $email_total;
+				$json['send'] = $page * $limit;
+				$json['success'] = $this->language->get('text_success');
+				$json['next'] = '';
+			}
+			$logo = isset($setting['config_logo']) ? $setting['config_logo'] : $this->config->get('config_logo');
+			$store_logo = $store_url . 'image/' . html_entity_decode($logo, ENT_QUOTES, 'UTF-8');
+
+			$store_name = isset($setting['config_name']) ? $setting['config_name'] : $this->config->get('config_name');
+
+			$store_name = html_entity_decode($store_name, ENT_QUOTES, 'UTF-8');
+			$data['store_logo'] = $store_logo;
+			$data['store_name'] = $store_name;
+
+
+			$data['subject'] = $this->request->post['subject'];
+			$data['message'] = html_entity_decode($this->request->post['message'], ENT_QUOTES, 'UTF-8');
+
+			$footer_template_pre = $this->language->get('newsletter_footer');
+
+
+			$data['langCode'] = $this->config->get('config_language');
+			if ($emails) {
 				if ($this->config->get('config_mail_engine')) {
 					$mail_option = [
 						'parameter' => $this->config->get('config_mail_parameter'),
@@ -231,22 +354,28 @@ class Contact extends \Opencart\System\Engine\Controller {
 						'smtp_timeout' => $this->config->get('config_mail_smtp_timeout')
 					];
 
-					$mail = new \Opencart\System\Library\Mail($this->config->get('config_mail_engine'), $mail_option);
+					$mail = new \Ventocart\System\Library\Mail($this->config->get('config_mail_engine'), $mail_option);
+				}
+				foreach ($emails as $email) {
+					if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
+						$data['email'] = $email;
+						$unsub_url = $store_url . "index.php?route=guest/newsletter&email=" . urlencode($email) . "&action=unsubscribe";
+						$unsub = '<a href="' . $unsub_url . '">' . $this->language->get('newsletter_unsubscribe') . '</a>';
+						$data['footer'] = sprintf($footer_template_pre, $store_name, $unsub);
 
-					foreach ($emails as $email) {
-						if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
-							$mail->setTo(trim($email));
-							$mail->setFrom($store_email);
-							$mail->setSender(html_entity_decode($store_name, ENT_QUOTES, 'UTF-8'));
-							$mail->setSubject(html_entity_decode($this->request->post['subject'], ENT_QUOTES, 'UTF-8'));
-							$mail->setHtml($message);
-							$mail->send();
-						}
+						$mail->setTo(trim($email));
+						$mail->setFrom($store_email);
+						$mail->setSender(html_entity_decode($store_name, ENT_QUOTES, 'UTF-8'));
+						$mail->setSubject(html_entity_decode($this->request->post['subject'], ENT_QUOTES, 'UTF-8'));
+
+						$message = $this->load->view('mail/newsletter', $data);
+
+						$mail->setHtml($message);
+						$mail->send();
 					}
 				}
-			} else {
-				$json['error']['warning'] = $this->language->get('error_email');
 			}
+
 		}
 
 		$this->response->addHeader('Content-Type: application/json');

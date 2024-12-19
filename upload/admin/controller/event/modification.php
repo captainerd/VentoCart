@@ -1,11 +1,11 @@
 <?php
-namespace Opencart\Admin\Controller\Event;
+namespace Ventocart\Admin\Controller\Event;
 /**
  * Class Modification
  *
- * @package Opencart\Admin\Controller\Event
+ * @package Ventocart\Admin\Controller\Event
  */
-class Modification extends \Opencart\System\Engine\Controller {
+class Modification extends \Ventocart\System\Engine\Controller {
 	/**
 	 * Controller
 	 *

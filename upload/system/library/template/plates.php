@@ -1,12 +1,12 @@
 <?php
-namespace Opencart\System\Library\Template;
+namespace Ventocart\System\Library\Template;
 
-use Opencart\System\Library\Template\Twig;
+use Ventocart\System\Library\Template\Twig;
 
 /**
  * Class Plates
  *
- * @package Opencart\System\Library\Template
+ * @package Ventocart\System\Library\Template
  */
 class Plates
 {
@@ -37,11 +37,11 @@ class Plates
 	 */
 	public function __construct()
 	{
-		$this->root = substr(DIR_OPENCART, 0, -1);
-	 
+		$this->root = substr(DIR_VENTOCART, 0, -1);
+
 
 		$this->adaptor = new \League\Plates\Engine($this->root);
-		 
+
 	}
 
 	/**
@@ -51,7 +51,8 @@ class Plates
 	 * @param    string  $directory
 	 *
 	 * @return	 void
-	 */public function addPath(string $namespace, string $directory = ''): void
+	 */
+	public function addPath(string $namespace, string $directory = ''): void
 	{
 		if (!$directory) {
 			$this->directory = $namespace;
@@ -71,7 +72,7 @@ class Plates
 	 */
 	public function render(string $filename, array $data = [], string $code = ''): string
 	{
-	 
+
 		$file = $this->directory . $filename;
 		$namespace = '';
 
@@ -93,8 +94,8 @@ class Plates
 		$file = substr($file, strlen($this->root) + 1);
 
 		//If Plates Template file doesn't exists call fail over to twig
-		if (!file_exists(DIR_OPENCART . '/'. $file . '.php') && $this->convert == false) {
-		 
+		if (!file_exists(DIR_VENTOCART . '/' . $file . '.php') && $this->convert == false) {
+
 			if ($code) {
 				// render from modified template code
 				$loader = new \Twig\Loader\ArrayLoader([$file => $code]);
@@ -139,15 +140,15 @@ class Plates
 	//A tea, a wig and two plates walk into foo-bar, helper function to convert twig to plates
 	private function deTwigfy($filename)
 	{
-					/* Conversion:
+		/* Conversion:
 
-					- No form post/action= or button/back submit, should be escaping, having $this->e($var)
-					- No links that perform actions and hold get values should have $this->e()
-					- Everything other MUST have $this->e() to improve secuirty against XSS attacks
-					- language entries that hold html may ignore $this->e() 
-					   this function ignores the above rules, inspection and debuging must be done manually.
-					*/
- 
+							 - No form post/action= or button/back submit, should be escaping, having $this->e($var)
+							 - No links that perform actions and hold get values should have $this->e()
+							 - Everything other MUST have $this->e() to improve secuirty against XSS attacks
+							 - language entries that hold html may ignore $this->e() 
+								this function ignores the above rules, inspection and debuging must be done manually.
+							 */
+
 		if (file_exists($filename . '.php')) {
 			return;
 		}

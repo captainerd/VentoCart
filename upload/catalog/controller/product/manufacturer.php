@@ -1,11 +1,11 @@
 <?php
-namespace Opencart\Catalog\Controller\Product;
+namespace Ventocart\Catalog\Controller\Product;
 /**
  * Class Manufacturer
  *
- * @package Opencart\Catalog\Controller\Product
+ * @package Ventocart\Catalog\Controller\Product
  */
-class Manufacturer extends \Opencart\System\Engine\Controller {
+class Manufacturer extends \Ventocart\System\Engine\Controller {
 	/**
 	 * @return void
 	 */
@@ -63,9 +63,9 @@ class Manufacturer extends \Opencart\System\Engine\Controller {
 	}
 
 	/**
-	 * @return object|\Opencart\System\Engine\Action|null
+	 * @return object|\Ventocart\System\Engine\Action|null
 	 */
-	public function info(): ?\Opencart\System\Engine\Action {
+	public function info(): ?\Ventocart\System\Engine\Action {
 		$this->load->language('product/manufacturer');
 
 		if (isset($this->request->get['manufacturer_id'])) {
@@ -351,7 +351,7 @@ class Manufacturer extends \Opencart\System\Engine\Controller {
 
 			$this->response->setOutput($this->load->view('product/manufacturer_info', $data));
 		} else {
-			return new \Opencart\System\Engine\Action('error/not_found');
+			return new \Ventocart\System\Engine\Action('error/not_found');
 		}
 
 		return null;

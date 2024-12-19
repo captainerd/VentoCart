@@ -8,7 +8,7 @@ use Aws\Sts\StsClient;
 use GuzzleHttp\Promise;
 
 /**
- * Credential provider that provides credentials via assuming a role with a web identity
+ * Credential provider that provides credentials via  a role with a web identity
  * More Information, see: https://docs.aws.amazon.com/aws-sdk-php/v3/api/api-sts-2011-06-15.html#assumerolewithwebidentity
  */
 class AssumeRoleWithWebIdentityCredentialProvider
@@ -146,7 +146,7 @@ class AssumeRoleWithWebIdentityCredentialProvider
                         }
                     } else {
                         throw new CredentialsException(
-                            "Error assuming role from web identity credentials",
+                            "Error  role from web identity credentials",
                             0,
                             $e
                         );

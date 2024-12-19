@@ -7,7 +7,7 @@ use Aws\Sts\StsClient;
 use GuzzleHttp\Promise\PromiseInterface;
 
 /**
- * Credential provider that provides credentials via assuming a role
+ * Credential provider that provides credentials via  a role
  * More Information, see: http://docs.aws.amazon.com/aws-sdk-php/v3/api/api-sts-2011-06-15.html#assumerole
  */
 class AssumeRoleCredentialProvider

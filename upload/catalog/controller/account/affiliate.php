@@ -1,11 +1,11 @@
 <?php
-namespace Opencart\Catalog\Controller\Account;
+namespace Ventocart\Catalog\Controller\Account;
 /**
  * Class Affiliate
  *
- * @package Opencart\Catalog\Controller\Account
+ * @package Ventocart\Catalog\Controller\Account
  */
-class Affiliate extends \Opencart\System\Engine\Controller {
+class Affiliate extends \Ventocart\System\Engine\Controller {
 	/**
 	 * @return void
 	 */

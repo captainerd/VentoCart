@@ -1,11 +1,11 @@
 <?php
-namespace Opencart\Admin\Controller\Marketplace;
+namespace Ventocart\Admin\Controller\Marketplace;
 /**
  * Class Promotion
  *
- * @package Opencart\Admin\Controller\Marketplace
+ * @package Ventocart\Admin\Controller\Marketplace
  */
-class Promotion extends \Opencart\System\Engine\Controller {
+class Promotion extends \Ventocart\System\Engine\Controller {
 	/**
 	 * @return string
 	 */
@@ -32,7 +32,7 @@ class Promotion extends \Opencart\System\Engine\Controller {
 		if (!$promotion) {
 			$curl = curl_init();
 
-			curl_setopt($curl, CURLOPT_URL, OPENCART_SERVER . 'index.php?route=api/recommended&type=' . $type . '&version=' . VERSION);
+			curl_setopt($curl, CURLOPT_URL, VENTOCART_SERVER . 'index.php?route=api/recommended&type=' . $type . '&version=' . VERSION);
 			curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
 			curl_setopt($curl, CURLOPT_HEADER, false);
 			curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, 0);

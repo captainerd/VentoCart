@@ -1,12 +1,12 @@
 <?php
-namespace Opencart\Admin\Controller\Common;
+namespace Ventocart\Admin\Controller\Common;
 
 /**
  * Class File Manager
  *
- * @package Opencart\Admin\Controller\Common
+ * @package Ventocart\Admin\Controller\Common
  */
-class FileManager extends \Opencart\System\Engine\Controller
+class FileManager extends \Ventocart\System\Engine\Controller
 {
 	/**
 	 * @return void

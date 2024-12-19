@@ -1,5 +1,5 @@
 
-    /* CaptaiNerd: For custimization read my comments */
+/* CaptaiNerd: For custimization read my comments */
 class AddressCheckOut {
 
   constructor(formName, $) {
@@ -28,14 +28,14 @@ class AddressCheckOut {
   }
 
   attachEventHandlers() {
-    
+
     $('#input-register-acc').on('change', this.onRegisterAccChange);
     $('#input-customer-group').on('change', this.onCustomerGroupChange);
     $('#input-address-match').on('change', this.onAddressMatchChange);
     $('select[name$=\'country_id\']').on('change', this.onCountryChange);
     $('select[name$=\'zone_id\']').on('change', this.onZoneChange);
     $('#form-' + this.formName).on('submit', this.onSubmitForm);
-   
+
     // Trigger initial change events
     $('#input-customer-group').trigger('change');
     $('select[name$=\'country_id\']').trigger('change');
@@ -93,20 +93,20 @@ class AddressCheckOut {
   }
 
   checkFieldLength(e, throttle = true) {
- 
+
     let hasInvalidFields = false;
     let invalidFieldApplied = false; // New variable to track if the class is already applied
     $('#form-' + this.formName + ' .required :input:not(:checkbox,:radio,:button)').filter(':visible').each(function (index, element) {
 
       let value = $(element).val();
-     
+
 
 
       let parentDiv = $(element).closest('div'); // Get the parent div of the input field
-    
-      
+
+
       if (value !== null && value !== undefined && !parentDiv.hasClass('d-none') && value.length < 1) {
-      
+
         if (!invalidFieldApplied) { // Check if class is not applied yet
           $(element).addClass('is-invalid');
 
@@ -132,22 +132,22 @@ class AddressCheckOut {
 
 
         clearTimeout(this.submitThrottling);
-     
+
         this.submitThrottling = setTimeout(() => {
-          if ($("#input-register-acc").val()  != 1)  $('#form-' + this.formName).trigger('submit', [true]);
+          if ($("#input-register-acc").val() != 1) $('#form-' + this.formName).trigger('submit', [true]);
 
         }, 4000);
       }
 
-  
-        $("#button-confirm").attr('disabled', true);
-      
-        if ($("#input-register-acc").val()  != 1) {
-       
-          $("#button-confirm").html(window.loaderDiv);
-          $('#button-confirm').show();
-        }
-     
+
+      $("#button-confirm").attr('disabled', true);
+
+      if ($("#input-register-acc").val() != 1) {
+
+        $("#button-confirm").html(window.loaderDiv);
+        $('#button-confirm').show();
+      }
+
       $('#checkout-payment').show();
     }
   }
@@ -158,12 +158,12 @@ class AddressCheckOut {
   }
 
   onCountryChange(event) {
- 
+
     var element = event.target;
     var type = $(event.target).attr('id').split('-')[1];
- 
+
     if ($('#input-' + type + '-country').val() == "") return;
- 
+
     $.ajax({
       url: 'index.php?route=localisation/country&language=' + window.lang + '&country_id=' + $('#input-' + type + '-country').val(),
       dataType: 'json',
@@ -232,8 +232,8 @@ class AddressCheckOut {
   onSubmitForm(event, arg = true) {
 
     event.preventDefault();
-    if ( this.formName !== 'register') { return; }
-  
+    if (this.formName !== 'register') { return; }
+
     $.ajax({
       url: 'index.php?route=checkout/register.save&language=' + window.lang,
       type: 'post',
@@ -302,7 +302,7 @@ class AddressCheckOut {
             $('#alert').prepend('<div  class="alert alert-success alert-dismissible"><i class="fa-solid fa-circle-check"></i> ' + json['success'] + ' <button type="button" class="btn-close" data-bs-dismiss="alert"></button></div>');
 
           }
-  
+
           if (!arg) {
 
             $('#alert').prepend('<div  class="alert alert-success alert-dismissible"><i class="fa-solid fa-circle-check"></i> ' + json['success'] + ' <button type="button" class="btn-close" data-bs-dismiss="alert"></button></div>');
@@ -346,13 +346,13 @@ function populatePaymentAndShippingMethods() {
 
       if (json.shipping_methods) {
         // Populate shipping methods in your HTML
-       
+
         populateMethods('shipping-methods-container', json.shipping_methods, "shipping_method");
       }
       if (json.payment_methods) {
 
         // Populate payment methods in your HTML
- 
+
         populateMethods('payment-methods-container', json.payment_methods, "payment_method");
 
 
@@ -376,11 +376,11 @@ function populatePaymentAndShippingMethods() {
 // Function to populate methods in your HTML element
 function populateMethods(containerId, methods, name) {
   let containerElement = document.getElementById(containerId);
- 
+
   // Clear existing content
   if (containerElement) containerElement.innerHTML = '';
   if (!containerElement) return;
- 
+
   // Generate and append new radio buttons and labels
   Object.keys(methods).forEach((mcode, mindex) => {
 
@@ -416,7 +416,7 @@ function populateMethods(containerId, methods, name) {
         // radioInput.checked = true; //uncomment this and comment the bellow
 
       }
-     
+
       if (selectedByUser(option, containerId)) {
         radioInput.checked = true;
       }
@@ -442,15 +442,15 @@ function populateMethods(containerId, methods, name) {
 }
 function selectedByUser(code, containerId) {
   // Check if the code is stored in localStorage
- 
+
   return localStorage.getItem(containerId) === code;
-    
-  
+
+
 }
 //Save the selected Payment/Shipping Settings
 $(document).ready(function () {
-  
-  $("#input-register-acc").change(function() {
+
+  $("#input-register-acc").change(function () {
     // Check if the checkbox is checked
     if ($(this).prop("checked")) {
       // Set the value to 1 when checked
@@ -466,7 +466,7 @@ $(document).ready(function () {
     e.preventDefault();
     let dontShow = true;
 
-  
+
 
     if (!$('input[name="payment_method"]:checked').val() || $('input[name="payment_method"]:checked').val().length < 2) {
       $('#overlay').fadeOut();
@@ -479,12 +479,18 @@ $(document).ready(function () {
     }
 
     $("#form-register").trigger('change', [true]);
-    
+
     localStorage.setItem('payment-methods-container', $('input[name="payment_method"]:checked').val());
     localStorage.setItem('shipping-methods-container', $('input[name="shipping_method"]:checked').val());
+    var hasAgreeCheckout = null;
+    if ($("#input-register-agree-checkout") && $("#input-register-agree-checkout").is(':checked')) {
+      hasAgreeCheckout = true;
 
+    } else {
+      hasAgreeCheckout = false
+    }
     $.ajax({
-      url: 'index.php?route=checkout/shipping_payment_methods.save&language=' + window.lang,
+      url: 'index.php?route=checkout/shipping_payment_methods.save&language=' + window.lang + '&agree_checkout=' + hasAgreeCheckout,
       type: 'post',
       data: $('#payment-shipping-method-form').serialize(),
       dataType: 'json',
@@ -525,9 +531,15 @@ $(document).ready(function () {
           $('#input-payment-code').val($('input[name=\'payment_method\']:checked').val());
           $('#checkout-payment').val('');
           $('#checkout-payment').empty();
-          $('#checkout-payment').load('index.php?route=checkout/payment.confirm&language=' + window.lang);
 
-          $('#checkout-confirm').load('index.php?route=checkout/confirm.confirm&language=' + window.lang);
+
+          $('#checkout-confirm').load('index.php?route=checkout/confirm.confirm&language=' + window.lang, function () {
+            // payment must be loaded only after confirm.cofirm finished setting session data vars for order
+
+            $('#checkout-payment').load('index.php?route=checkout/confirm.payment&language=' + window.lang);
+
+
+          });
 
         }
       },
@@ -544,7 +556,7 @@ $(document).ready(function () {
 
   });
 
-    // Check if the phone input doesn't start with a single "+" and autocomplete by placeholder
+  // Check if the phone input doesn't start with a single "+" and autocomplete by placeholder
   $('.shortPhone').on('input', function () {
     if (this.value.substr(0, 1) !== "+") {
       if (!isNaN($(this).attr('placeholder'))) {
@@ -554,159 +566,159 @@ $(document).ready(function () {
   });
 
 
-  $('input[name$=\'_existing\']').on('change', function() {
+  $('input[name$=\'_existing\']').on('change', function () {
     var name = $(this).attr('name');
     var word = name.substring(0, name.indexOf('_existing'));
 
     if ($(this).val() == 1) {
-        $('#' + word + '-existing').show();
-        $('#' + word + '-new').hide();
+      $('#' + word + '-existing').show();
+      $('#' + word + '-new').hide();
     } else {
-        $('#' + word + '-existing').hide();
-        $('#' + word + '-new').show();
+      $('#' + word + '-existing').hide();
+      $('#' + word + '-new').show();
     }
-});
-
-
-$('.address-select').on('change', function() {
-  var element = this;
-  var type = $(element).data('type');  
-
-  chain.attach(function() {
-      return $.ajax({
-          url: 'index.php?route=checkout/address.address&language=' + window.lang + '&address_id=' + $(element).val() + '&address_type=' + type,
-          dataType: 'json',
-          beforeSend: function() {
-              $(element).prop('disabled', true);
-          },
-          complete: function() {
-              $(element).prop('disabled', false);
-          },
-          success: function(json) {
-              //x console.log(json);
-
-              $('#input-' + type + '-address').removeClass('is-invalid');
-              $('#error-' + type + '-address').removeClass('d-block');
-
-              if (json['redirect']) {
-                  location = json['redirect'];
-              }
-
-              if (json['error']) {
-                  $('#input-' + type + '-address').addClass('is-invalid');
-                  $('#error-' + type + '-address').html(json['error']).addClass('d-block');
-              }
-
-              if (json['success']) {
-                  $('#alert').prepend('<div class="alert alert-success alert-dismissible"><i class="fa-solid fa-circle-check"></i> ' + json['success'] + ' <button type="button" class="btn-close" data-bs-dismiss="alert"></button></div>');
-
-                  $('#input-shipping-method').val('');
-                  $('#input-' + type + '-method').val('');
-
-                  // $('#checkout-confirm').load('index.php?route=checkout/confirm.confirm&language=<?= $this->e($language ) ?>');
-                  populatePaymentAndShippingMethods();
-              }
-          },
-          error: function(xhr, ajaxOptions, thrownError) {
-              //x console.log(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
-          }
-      });
   });
-});
-$('.address-form').on('submit', function(e) {
-  e.preventDefault();
- 
-  var element = this;
-  var type = $(element).data('type');  
 
-  chain.attach(function() {
+
+  $('.address-select').on('change', function () {
+    var element = this;
+    var type = $(element).data('type');
+
+    chain.attach(function () {
+      return $.ajax({
+        url: 'index.php?route=checkout/address.address&language=' + window.lang + '&address_id=' + $(element).val() + '&address_type=' + type,
+        dataType: 'json',
+        beforeSend: function () {
+          $(element).prop('disabled', true);
+        },
+        complete: function () {
+          $(element).prop('disabled', false);
+        },
+        success: function (json) {
+          //x console.log(json);
+
+          $('#input-' + type + '-address').removeClass('is-invalid');
+          $('#error-' + type + '-address').removeClass('d-block');
+
+          if (json['redirect']) {
+            location = json['redirect'];
+          }
+
+          if (json['error']) {
+            $('#input-' + type + '-address').addClass('is-invalid');
+            $('#error-' + type + '-address').html(json['error']).addClass('d-block');
+          }
+
+          if (json['success']) {
+            $('#alert').prepend('<div class="alert alert-success alert-dismissible"><i class="fa-solid fa-circle-check"></i> ' + json['success'] + ' <button type="button" class="btn-close" data-bs-dismiss="alert"></button></div>');
+
+            $('#input-shipping-method').val('');
+            $('#input-' + type + '-method').val('');
+
+            // $('#checkout-confirm').load('index.php?route=checkout/confirm.confirm&language=<?= $this->e($language ) ?>');
+            populatePaymentAndShippingMethods();
+          }
+        },
+        error: function (xhr, ajaxOptions, thrownError) {
+          //x console.log(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+        }
+      });
+    });
+  });
+  $('.address-form').on('submit', function (e) {
+    e.preventDefault();
+
+    var element = this;
+    var type = $(element).data('type');
+
+    chain.attach(function () {
       return $.ajax({
         url: 'index.php?route=checkout/address.save&language=' + window.lang + '&address_id=' + $(element).val() + '&address_type=' + type,
-          type: 'post',
-          data: $('#form-' + type + '-address').serialize(),
-          dataType: 'json',
-          contentType: 'application/x-www-form-urlencoded',
-          beforeSend: function() {
-              $('#button-' + type + '-address').button('loading');
-          },
-          complete: function() {
-              $('#button-' + type + '-address').button('reset');
-          },
-          success: function(json) {
-              //x console.log(json);
+        type: 'post',
+        data: $('#form-' + type + '-address').serialize(),
+        dataType: 'json',
+        contentType: 'application/x-www-form-urlencoded',
+        beforeSend: function () {
+          $('#button-' + type + '-address').button('loading');
+        },
+        complete: function () {
+          $('#button-' + type + '-address').button('reset');
+        },
+        success: function (json) {
+          //x console.log(json);
 
-              $('#form-' + type + '-address').find('.is-invalid').removeClass('is-invalid');
-              $('#form-' + type + '-address').find('.invalid-feedback').removeClass('d-block');
+          $('#form-' + type + '-address').find('.is-invalid').removeClass('is-invalid');
+          $('#form-' + type + '-address').find('.invalid-feedback').removeClass('d-block');
 
-              if (json['redirect']) {
-                  location = json['redirect'];
-              }
-
-              if (json['error']) {
-                  if (json['error']['warning']) {
-                      $('#alert').prepend('<div class="alert alert-danger alert-dismissible"><i class="fa-solid fa-circle-exclamation"></i> ' + json['error']['warning'] + ' <button type="button" class="btn-close" data-bs-dismiss="alert"></button></div>');
-                  }
-
-                  for (i in json['error']) {
-                      for (key in json['error']) {
-                    
-                          $('#input-' + type + '-' + key.replaceAll('_', '-')).addClass('is-invalid').find('.form-control, .form-select, .form-check-input, .form-check-label').addClass('is-invalid');
-                          $('#error-' + type + '-' + key.replaceAll('_', '-')).html(json['error'][key]).addClass('d-block');
-                          $("#button-confirm").text(json['error'][key]).removeClass('btn-success').addClass('btn-danger').attr('disabled', true);
-                      }
-                  }
-              }
-
-              if (json['success']) {
-                  $('#alert').prepend('<div class="alert alert-success alert-dismissible"><i class="fa-solid fa-circle-check"></i> ' + json['success'] + ' <button type="button" class="btn-close" data-bs-dismiss="alert"></button></div>');
-
-                  $('#form-' + type + '-address')[0].reset();
-
-               
-                 let html = '';
-                  if (json['addresses']) {
-                      for (i in json['addresses']) {
-                          html += '<option value="' + json['addresses'][i]['address_id'] + '">' + json['addresses'][i]['firstname'] + ' ' + json['addresses'][i]['lastname'] + ', ' + (json['addresses'][i]['company'] ? json['addresses'][i]['company'] + ', ' : '') + json['addresses'][i]['address_1'] + ', ' + json['addresses'][i]['city'] + ', ' + json['addresses'][i]['zone'] + ', ' + json['addresses'][i]['country'] + '</option>';
-                      }
-                  }
-
-                  // Payment Address
-                  $('#input-' + type + '-address').html(html);
-
-                  $('#input-' + type + '-address').val(json['address_id']);
-
-                  $('#' + type + '-addresses').css({display: 'block'});
-
-                  $('#input-' + type + '-existing').trigger('click');
-
-                  $("#button-confirm").attr('disabled', false);
-                  $("#button-confirm").text(window.btntxt).removeClass('btn-danger').addClass('btn-success').attr('disabled', true);
-            
-                  populatePaymentAndShippingMethods();
-                
-              }
-          },
-          error: function(xhr, ajaxOptions, thrownError) {
-          
+          if (json['redirect']) {
+            location = json['redirect'];
           }
+
+          if (json['error']) {
+            if (json['error']['warning']) {
+              $('#alert').prepend('<div class="alert alert-danger alert-dismissible"><i class="fa-solid fa-circle-exclamation"></i> ' + json['error']['warning'] + ' <button type="button" class="btn-close" data-bs-dismiss="alert"></button></div>');
+            }
+
+            for (i in json['error']) {
+              for (key in json['error']) {
+
+                $('#input-' + type + '-' + key.replaceAll('_', '-')).addClass('is-invalid').find('.form-control, .form-select, .form-check-input, .form-check-label').addClass('is-invalid');
+                $('#error-' + type + '-' + key.replaceAll('_', '-')).html(json['error'][key]).addClass('d-block');
+                $("#button-confirm").text(json['error'][key]).removeClass('btn-success').addClass('btn-danger').attr('disabled', true);
+              }
+            }
+          }
+
+          if (json['success']) {
+            $('#alert').prepend('<div class="alert alert-success alert-dismissible"><i class="fa-solid fa-circle-check"></i> ' + json['success'] + ' <button type="button" class="btn-close" data-bs-dismiss="alert"></button></div>');
+
+            $('#form-' + type + '-address')[0].reset();
+
+
+            let html = '';
+            if (json['addresses']) {
+              for (i in json['addresses']) {
+                html += '<option value="' + json['addresses'][i]['address_id'] + '">' + json['addresses'][i]['firstname'] + ' ' + json['addresses'][i]['lastname'] + ', ' + (json['addresses'][i]['company'] ? json['addresses'][i]['company'] + ', ' : '') + json['addresses'][i]['address_1'] + ', ' + json['addresses'][i]['city'] + ', ' + json['addresses'][i]['zone'] + ', ' + json['addresses'][i]['country'] + '</option>';
+              }
+            }
+
+            // Payment Address
+            $('#input-' + type + '-address').html(html);
+
+            $('#input-' + type + '-address').val(json['address_id']);
+
+            $('#' + type + '-addresses').css({ display: 'block' });
+
+            $('#input-' + type + '-existing').trigger('click');
+
+            $("#button-confirm").attr('disabled', false);
+            $("#button-confirm").text(window.btntxt).removeClass('btn-danger').addClass('btn-success').attr('disabled', true);
+
+            populatePaymentAndShippingMethods();
+
+          }
+        },
+        error: function (xhr, ajaxOptions, thrownError) {
+
+        }
       });
+    });
   });
-});
 
-$('#input-sameaddress').on('change', function() {
- 
-  toggleShippingAddressForm();
-});
+  $('#input-sameaddress').on('change', function () {
 
-// Function to toggle the visibility of the shipping address form
-function toggleShippingAddressForm() {
-  if ($('#input-sameaddress').prop('checked')) {
-    $('.shipping-address-form').removeClass("d-none");
-   
-  } else {
-    $('.shipping-address-form').addClass("d-none");
+    toggleShippingAddressForm();
+  });
+
+  // Function to toggle the visibility of the shipping address form
+  function toggleShippingAddressForm() {
+    if ($('#input-sameaddress').prop('checked')) {
+      $('.shipping-address-form').removeClass("d-none");
+
+    } else {
+      $('.shipping-address-form').addClass("d-none");
+    }
   }
-}
 
 
 });

@@ -1,5 +1,5 @@
 <?php
-namespace Opencart\System\Library;
+namespace Ventocart\System\Library;
 class PayPal {
 	private $server = [
 		'sandbox' => 'https://api.sandbox.paypal.com',

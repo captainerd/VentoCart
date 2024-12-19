@@ -1,12 +1,12 @@
 <?php
-namespace Opencart\Admin\Controller\Extension\Ventocart\Module;
+namespace Ventocart\Admin\Controller\Extension\Ventocart\Module;
  
 /**
  * Class Filter
  *
- * @package Opencart\Admin\Controller\Extension\VentoCart\Module
+ * @package Ventocart\Admin\Controller\Extension\VentoCart\Module
  */
-class attributefilter extends \Opencart\System\Engine\Controller {
+class attributefilter extends \Ventocart\System\Engine\Controller {
 	/**
 	 * @return void
 	 */

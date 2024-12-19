@@ -1,11 +1,12 @@
 <?php
-namespace Opencart\Admin\Controller\Mail;
+namespace Ventocart\Admin\Controller\Mail;
 /**
  * Class Transaction
  *
- * @package Opencart\Admin\Controller\Mail
+ * @package Ventocart\Admin\Controller\Mail
  */
-class Transaction extends \Opencart\System\Engine\Controller {
+class Transaction extends \Ventocart\System\Engine\Controller
+{
 	/**
 	 * @param string $route
 	 * @param array  $args
@@ -14,33 +15,34 @@ class Transaction extends \Opencart\System\Engine\Controller {
 	 * @return void
 	 * @throws \Exception
 	 */
-	public function index(string &$route, array &$args, &$output): void {
+	public function index(string &$route, array &$args, &$output): void
+	{
 		if (isset($args[0])) {
 			$customer_id = $args[0];
 		} else {
 			$customer_id = 0;
 		}
-		
+
 		if (isset($args[1])) {
 			$description = $args[1];
 		} else {
 			$description = '';
-		}		
-		
+		}
+
 		if (isset($args[2])) {
 			$amount = $args[2];
 		} else {
 			$amount = 0;
 		}
-		
+
 		if (isset($args[3])) {
 			$order_id = $args[3];
 		} else {
 			$order_id = 0;
 		}
-			
+
 		$this->load->model('customer/customer');
-						
+
 		$customer_info = $this->model_customer_customer->getCustomer($customer_id);
 
 		if ($customer_info) {
@@ -52,7 +54,7 @@ class Transaction extends \Opencart\System\Engine\Controller {
 
 			if ($store_info) {
 				$store_name = html_entity_decode($store_info['name'], ENT_QUOTES, 'UTF-8');
-				$store_url = $store_info['store_url'];
+				$store_url = isset($store_info['store_url']) ? $store_info['store_url'] : $this->config->get('site_url');
 			} else {
 				$store_name = html_entity_decode($this->config->get('config_name'), ENT_QUOTES, 'UTF-8');
 				$store_url = $this->config->get('config_url');
@@ -81,15 +83,15 @@ class Transaction extends \Opencart\System\Engine\Controller {
 
 			if ($this->config->get('config_mail_engine')) {
 				$mail_option = [
-					'parameter'     => $this->config->get('config_mail_parameter'),
+					'parameter' => $this->config->get('config_mail_parameter'),
 					'smtp_hostname' => $this->config->get('config_mail_smtp_hostname'),
 					'smtp_username' => $this->config->get('config_mail_smtp_username'),
 					'smtp_password' => html_entity_decode($this->config->get('config_mail_smtp_password'), ENT_QUOTES, 'UTF-8'),
-					'smtp_port'     => $this->config->get('config_mail_smtp_port'),
-					'smtp_timeout'  => $this->config->get('config_mail_smtp_timeout')
+					'smtp_port' => $this->config->get('config_mail_smtp_port'),
+					'smtp_timeout' => $this->config->get('config_mail_smtp_timeout')
 				];
 
-				$mail = new \Opencart\System\Library\Mail($this->config->get('config_mail_engine'), $mail_option);
+				$mail = new \Ventocart\System\Library\Mail($this->config->get('config_mail_engine'), $mail_option);
 				$mail->setTo($customer_info['email']);
 				$mail->setFrom($this->config->get('config_email'));
 				$mail->setSender($store_name);
@@ -98,5 +100,5 @@ class Transaction extends \Opencart\System\Engine\Controller {
 				$mail->send();
 			}
 		}
-	}		
-}	
+	}
+}
