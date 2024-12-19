@@ -4,6 +4,8 @@ VentoCart is a modern and feature-rich fork of OpenCart version 4, crafted to re
 
 Our mission is to deliver an all-in-one e-commerce solution that's fast, secure, and easy to extend—perfect for modern web and mobile applications.
 
+![Screenshot from 2024-12-11 09-39-04](https://github.com/user-attachments/assets/d9832de9-b4a4-4ac0-a244-f8d716a8d43f)
+
 ## Key Features:
 
 - **Headless Architecture:** Build modern frontends or mobile apps using our robust Web API and ReactJS app-template with TailwindCSS.
