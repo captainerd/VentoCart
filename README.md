@@ -4,11 +4,10 @@ VentoCart is a modern and feature-rich fork of OpenCart version 4, crafted to re
 
 Our mission is to deliver an all-in-one e-commerce solution that's fast, secure, and easy to extend—perfect for modern web and mobile applications.
 
-![Screenshot from 2024-12-11 09-39-04](https://github.com/user-attachments/assets/d9832de9-b4a4-4ac0-a244-f8d716a8d43f)
-
+ 
 ## Key Features:
 
-- **Headless Architecture:** Build modern frontends or mobile apps using our robust Web API and ReactJS app-template with TailwindCSS.
+- **Headless Architecture:** Build modern frontends or mobile apps using our robust Web API and ReactJS app-template with TailwindCSS. [Visit here the ReactJS front Repo](https://github.com/captainerd/ReactVento)
 - **Variation System:** Easily manage product options and set price differences for combinations like color and size.
 - **Abandoned Carts and Gift Cards:** Retain customers with detailed cart analytics and offer gift cards for flexible payments.
 - **Modern Marketing Tools:** Enhanced newsletter features, sleek email templates, and legal unsubscribe links.
@@ -28,6 +27,12 @@ Our mission is to deliver an all-in-one e-commerce solution that's fast, secure,
 - **Much more:** Visit our project website to learn more about VentoCart and try out our demo. Experience the future of e-commerce with VentoCart.
 
 ## Screen-shots:
+
+- **Abandoned Carts ** Provides detailed analytics on cart activity and allows you to browse and review customer carts with a tracking system for cart recoveries via mail
+
+![Screenshot from 2024-12-11 09-39-04](https://github.com/user-attachments/assets/d9832de9-b4a4-4ac0-a244-f8d716a8d43f)
+
+
 
 ![screen1](https://github.com/captainerd/VentoCart/assets/58100748/a8b1eb21-3e8a-4107-82ff-9936cc0cc0f0)
 
