@@ -5,24 +5,18 @@ namespace Ventocart\Admin\Model\User;
  *
  * @package Ventocart\Admin\Model\User
  */
-class Api extends \Ventocart\System\Engine\Model {
+class Api extends \Ventocart\System\Engine\Model
+{
 	/**
 	 * @param array $data
 	 *
 	 * @return int
 	 */
-	public function addApi(array $data): int {
-		$this->db->query("INSERT INTO `" . DB_PREFIX . "api` SET `username` = '" . $this->db->escape((string)$data['username']) . "', `key` = '" . $this->db->escape((string)$data['key']) . "', `status` = '" . (bool)(isset($data['status']) ? $data['status'] : 0) . "', `date_added` = NOW(), `date_modified` = NOW()");
+	public function addApi(array $data): int
+	{
+		$this->db->query("INSERT INTO `" . DB_PREFIX . "api` SET `username` = '" . $this->db->escape((string) $data['username']) . "', `key` = '" . $this->db->escape((string) $data['key']) . "', `status` = '" . (bool) (isset($data['status']) ? $data['status'] : 0) . "', `date_added` = NOW(), `date_modified` = NOW()");
 
 		$api_id = $this->db->getLastId();
-
-		if (isset($data['api_ip'])) {
-			foreach ($data['api_ip'] as $ip) {
-				if ($ip) {
-					$this->db->query("INSERT INTO `" . DB_PREFIX . "api_ip` SET `api_id` = '" . (int)$api_id . "', `ip` = '" . $this->db->escape($ip) . "'");
-				}
-			}
-		}
 
 		return $api_id;
 	}
@@ -33,18 +27,12 @@ class Api extends \Ventocart\System\Engine\Model {
 	 *
 	 * @return void
 	 */
-	public function editApi(int $api_id, array $data): void {
-		$this->db->query("UPDATE `" . DB_PREFIX . "api` SET `username` = '" . $this->db->escape((string)$data['username']) . "', `key` = '" . $this->db->escape((string)$data['key']) . "', `status` = '" . (bool)(isset($data['status']) ? $data['status'] : 0) . "', `date_modified` = NOW() WHERE `api_id` = '" . (int)$api_id . "'");
+	public function editApi(int $api_id, array $data): void
+	{
+		$this->db->query("UPDATE `" . DB_PREFIX . "api` SET `username` = '" . $this->db->escape((string) $data['username']) . "', `key` = '" . $this->db->escape((string) $data['key']) . "', `status` = '" . (bool) (isset($data['status']) ? $data['status'] : 0) . "', `date_modified` = NOW() WHERE `api_id` = '" . (int) $api_id . "'");
 
-		$this->db->query("DELETE FROM `" . DB_PREFIX . "api_ip` WHERE `api_id` = '" . (int)$api_id . "'");
+		// The IP-related deletion and insertion have been removed.
 
-		if (isset($data['api_ip'])) {
-			foreach ($data['api_ip'] as $ip) {
-				if ($ip) {
-					$this->db->query("INSERT INTO `" . DB_PREFIX . "api_ip` SET `api_id` = '" . (int)$api_id . "', `ip` = '" . $this->db->escape($ip) . "'");
-				}
-			}
-		}
 	}
 
 	/**
@@ -52,8 +40,9 @@ class Api extends \Ventocart\System\Engine\Model {
 	 *
 	 * @return void
 	 */
-	public function deleteApi(int $api_id): void {
-		$this->db->query("DELETE FROM `" . DB_PREFIX . "api` WHERE `api_id` = '" . (int)$api_id . "'");
+	public function deleteApi(int $api_id): void
+	{
+		$this->db->query("DELETE FROM `" . DB_PREFIX . "api` WHERE `api_id` = '" . (int) $api_id . "'");
 	}
 
 	/**
@@ -61,8 +50,9 @@ class Api extends \Ventocart\System\Engine\Model {
 	 *
 	 * @return array
 	 */
-	public function getApi(int $api_id): array {
-		$query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "api` WHERE `api_id` = '" . (int)$api_id . "'");
+	public function getApi(int $api_id): array
+	{
+		$query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "api` WHERE `api_id` = '" . (int) $api_id . "'");
 
 		return $query->row;
 	}
@@ -72,7 +62,8 @@ class Api extends \Ventocart\System\Engine\Model {
 	 *
 	 * @return array
 	 */
-	public function getApis(array $data = []): array {
+	public function getApis(array $data = []): array
+	{
 		$sql = "SELECT * FROM `" . DB_PREFIX . "api`";
 
 		$sort_data = [
@@ -103,7 +94,7 @@ class Api extends \Ventocart\System\Engine\Model {
 				$data['limit'] = 20;
 			}
 
-			$sql .= " LIMIT " . (int)$data['start'] . "," . (int)$data['limit'];
+			$sql .= " LIMIT " . (int) $data['start'] . "," . (int) $data['limit'];
 		}
 
 		$query = $this->db->query($sql);
@@ -114,38 +105,21 @@ class Api extends \Ventocart\System\Engine\Model {
 	/**
 	 * @return int
 	 */
-	public function getTotalApis(): int {
+	public function getTotalApis(): int
+	{
 		$query = $this->db->query("SELECT COUNT(*) AS `total` FROM `" . DB_PREFIX . "api`");
 
-		return (int)$query->row['total'];
+		return (int) $query->row['total'];
 	}
 
-	/**
-	 * @param int    $api_id
-	 * @param string $ip
-	 *
-	 * @return void
-	 */
-	public function addIp(int $api_id, string $ip): void {
-		$this->db->query("INSERT INTO `" . DB_PREFIX . "api_ip` SET `api_id` = '" . (int)$api_id . "', `ip` = '" . $this->db->escape($ip) . "'");
-	}
+
 
 	/**
 	 * @param int $api_id
 	 *
 	 * @return array
 	 */
-	public function getIps(int $api_id): array {
-		$ip_data = [];
 
-		$query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "api_ip` WHERE `api_id` = '" . (int)$api_id . "'");
-
-		foreach ($query->rows as $result) {
-			$ip_data[] = $result['ip'];
-		}
-
-		return $ip_data;
-	}
 
 	/**
 	 * @param int    $api_id
@@ -154,25 +128,23 @@ class Api extends \Ventocart\System\Engine\Model {
 	 *
 	 * @return int
 	 */
-	public function addSession(int $api_id, string $session_id, string $ip): int {
-		$api_ip_query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "api_ip` WHERE `ip` = '" . $this->db->escape($ip) . "'");
+	public function addSession(int $api_id, string $session_id, string $ip): int
+	{
 
-		if (!$api_ip_query->num_rows) {
-			$this->db->query("INSERT INTO `" . DB_PREFIX . "api_ip` SET `api_id` = '" . (int)$api_id . "', `ip` = '" . $this->db->escape($ip) . "'");
-		}
-
-		$this->db->query("INSERT INTO `" . DB_PREFIX . "api_session` SET `api_id` = '" . (int)$api_id . "', `session_id` = '" . $this->db->escape($session_id) . "', `ip` = '" . $this->db->escape($ip) . "', `date_added` = NOW(), `date_modified` = NOW()");
+		$this->db->query("INSERT INTO `" . DB_PREFIX . "api_session` SET `api_id` = '" . (int) $api_id . "', `session_id` = '" . $this->db->escape($session_id) . "', `ip` = '" . $this->db->escape($ip) . "', `date_added` = NOW(), `date_modified` = NOW()");
 
 		return $this->db->getLastId();
 	}
+
 
 	/**
 	 * @param int $api_id
 	 *
 	 * @return array
 	 */
-	public function getSessions(int $api_id): array {
-		$query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "api_session` WHERE `api_id` = '" . (int)$api_id . "'");
+	public function getSessions(int $api_id): array
+	{
+		$query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "api_session` WHERE `api_id` = '" . (int) $api_id . "'");
 
 		return $query->rows;
 	}
@@ -182,8 +154,9 @@ class Api extends \Ventocart\System\Engine\Model {
 	 *
 	 * @return void
 	 */
-	public function deleteSession(int $api_session_id): void {
-		$this->db->query("DELETE FROM `" . DB_PREFIX . "api_session` WHERE `api_session_id` = '" . (int)$api_session_id . "'");
+	public function deleteSession(int $api_session_id): void
+	{
+		$this->db->query("DELETE FROM `" . DB_PREFIX . "api_session` WHERE `api_session_id` = '" . (int) $api_session_id . "'");
 	}
 
 	/**
@@ -191,7 +164,8 @@ class Api extends \Ventocart\System\Engine\Model {
 	 *
 	 * @return void
 	 */
-	public function deleteSessionBySessionId(string $session_id): void {
+	public function deleteSessionBySessionId(string $session_id): void
+	{
 		$this->db->query("DELETE FROM `" . DB_PREFIX . "api_session` WHERE `session_id` = '" . $this->db->escape($session_id) . "'");
 	}
 }
