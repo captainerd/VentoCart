@@ -12,6 +12,7 @@ class Checkout extends \Ventocart\System\Engine\Controller
 
         // Checks if the client placed a guest order in the past and saves the address
         if (
+            $this->customer->isLogged() &&
             isset($this->session->data['payment_address'])
             && isset($this->session->data['payment_address']['address_id'])
             && $this->session->data['payment_address']['address_id'] == 0

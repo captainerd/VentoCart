@@ -122,17 +122,16 @@ class AddressCheckOut {
     });
 
     if (hasInvalidFields) {
-
+      clearTimeout(window.submitThrottling);
       $('#checkout-payment').hide();
       return false;
     } else {
-
+      clearTimeout(window.submitThrottling);
       //Throttle form submition requests as the user types in
       if (throttle) {
 
-        clearTimeout(this.submitThrottling);
 
-        this.submitThrottling = setTimeout(() => {
+        window.submitThrottling = setTimeout(() => {
           if ($("#input-register-acc").val() != 1) $('#form-' + this.formName).trigger('submit', [true]);
 
         }, 2000);
@@ -317,7 +316,7 @@ class AddressCheckOut {
             $('#input-captcha').prop('disabled', true);
             $('#input-register-agree').prop('disabled', true);
           }
-
+          clearTimeout(window.submitThrottling);
           $('#checkout-confirm').load('index.php?route=checkout/confirm.confirm&language=' + window.lang);
 
         }
