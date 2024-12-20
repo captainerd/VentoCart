@@ -382,7 +382,7 @@ AND (cu.newsletter = 1 OR n.session_id IS NOT NULL);
             FROM `" . DB_PREFIX . "cart` c
             LEFT JOIN `" . DB_PREFIX . "customer` customer ON c.customer_id = customer.customer_id 
             WHERE  (c.customer_id > 0 OR (c.customer_id = 0 AND c.session_id != ''))  
-            GROUP BY unique_id 
+            GROUP BY session_id 
             LIMIT " . (int) $start . ", " . (int) $limit . "
         ");
 
