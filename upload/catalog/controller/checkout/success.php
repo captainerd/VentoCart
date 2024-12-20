@@ -6,7 +6,9 @@ class Success extends \Ventocart\System\Engine\Controller
 	{
 		$this->load->language('checkout/success');
 
+
 		if (isset($this->session->data['order_id'])) {
+			$order_id = $this->session->data['order_id'];
 			$this->cart->clear();
 
 			unset($this->session->data['order_id']);
@@ -52,7 +54,19 @@ class Success extends \Ventocart\System\Engine\Controller
 		if ($this->customer->isLogged()) {
 			$data['text_message'] = sprintf($this->language->get('text_customer'), $this->url->link('account/account', 'language=' . $this->config->get('config_language') . '&customer_token=' . $this->session->data['customer_token']), $this->url->link('account/order', 'language=' . $this->config->get('config_language') . '&customer_token=' . $this->session->data['customer_token']), $this->url->link('account/download', 'language=' . $this->config->get('config_language') . '&customer_token=' . $this->session->data['customer_token']), $this->url->link('information/contact', 'language=' . $this->config->get('config_language')));
 		} else {
+			$this->load->model('guest/order');
+
+
+
 			$data['text_message'] = sprintf($this->language->get('text_guest'), $this->url->link('information/contact', 'language=' . $this->config->get('config_language')));
+			$guest_order_top = $this->language->get('text_guest_top');
+			$guest_order_middle = '';
+			if (isset($order_id)) {
+				$order_code = $this->model_guest_order->encryptOrderId($order_id);
+				$guest_order_middle = sprintf($this->language->get('text_guest_middle'), '?route=guest/order.get&order_id=' . $order_code, $order_code);
+			}
+			$data['text_message'] = $guest_order_top . $guest_order_middle . $this->language->get('text_guest_bottom');
+
 		}
 
 		$api_output = $this->customer->isApiClient();

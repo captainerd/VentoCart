@@ -130,13 +130,12 @@ class AddressCheckOut {
       //Throttle form submition requests as the user types in
       if (throttle) {
 
-
         clearTimeout(this.submitThrottling);
 
         this.submitThrottling = setTimeout(() => {
           if ($("#input-register-acc").val() != 1) $('#form-' + this.formName).trigger('submit', [true]);
 
-        }, 4000);
+        }, 2000);
       }
 
 
