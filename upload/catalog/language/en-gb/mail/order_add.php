@@ -1,7 +1,7 @@
 <?php
 // Text
 $_['text_subject'] = '%s - Order %s';
-$_['text_guest_check'] = 'You did not place this order under an account. However, you can still check its status anytime using this link: %s. Or navigate to Guest Order Status and enter your order code: %s.';
+$_['text_guest_check'] = 'You did not place this order under an account. However, you can still check its status anytime using by <a href="%s">clicking here.</a> <p>Or navigate to Guest Order Status and enter your order code: %s</p>';
 $_['text_greeting'] = 'Thank you for your interest in %s products. Your order has been received and will be processed once payment has been confirmed.';
 $_['text_link'] = 'To view your order click on the link below:';
 $_['text_order_detail'] = 'Order Details';
