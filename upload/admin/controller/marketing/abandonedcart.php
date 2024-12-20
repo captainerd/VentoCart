@@ -5,6 +5,7 @@ namespace Ventocart\Admin\Controller\Marketing;
  *
  * @package Ventocart\Admin\Controller\Marketing
  */
+
 class AbandonedCart extends \Ventocart\System\Engine\Controller
 {
     /**
@@ -200,11 +201,19 @@ class AbandonedCart extends \Ventocart\System\Engine\Controller
         // Fetch paged carts
         $customers = $this->model_marketing_abandonedcart->getTotalGeneralWithDetails($page, $pages);
 
+
         foreach ($customers as $indexcustomer => $customer) {
-            $cart = clone $this->cart;
-            $cartcontents = $cart->getProducts($customer['cart']);
 
             unset($customers[$indexcustomer]['cart']);
+            unset($cartcontents);
+
+
+
+            $cart = clone $this->cart;
+            $cart->flush();
+
+            $cartcontents = $cart->getProducts($customer['cart']);
+
             foreach ($cartcontents as $index => $cartcontent) {
 
                 $newcartitem = [
@@ -220,6 +229,7 @@ class AbandonedCart extends \Ventocart\System\Engine\Controller
                     $optionstring .= "[ " . $option['name'] . ": " . $option['value'] . " ] - ";
                 }
                 $newcartitem['options'] = $optionstring;
+
                 $customers[$indexcustomer]['cart'][] = $newcartitem;
             }
         }

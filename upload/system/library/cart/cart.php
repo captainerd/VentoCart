@@ -9,6 +9,7 @@ class Cart
 	private object $session;
 	private object $tax;
 	private object $weight;
+	private object $registry;
 	private array $data = [];
 
 	/**
@@ -176,11 +177,21 @@ class Cart
 
 	}
 	/**
+	 * flush
+	 *
+	 * @return	void
+	 */
+	public function flush(): void
+	{
+		$this->data = [];
+	}
+
+
+	/**
 	 * getProducts
 	 *
 	 * @return	array
 	 */
-
 
 	public function getProducts($products = []): array
 	{
@@ -191,6 +202,7 @@ class Cart
 				$products = $cart_query->rows;
 			}
 			foreach ($products as $cart) {
+
 				$stock = true;
 
 				$product_query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "product_to_store` `p2s` LEFT JOIN `" . DB_PREFIX . "product` p ON (p2s.`product_id` = p.`product_id`) LEFT JOIN `" . DB_PREFIX . "product_description` pd ON (p.`product_id` = pd.`product_id`) WHERE p2s.`store_id` = '" . (int) $this->config->get('config_store_id') . "' AND p2s.`product_id` = '" . (int) $cart['product_id'] . "' AND pd.`language_id` = '" . (int) $this->config->get('config_language_id') . "' AND p.`date_available` <= NOW() AND p.`status` = '1'");
