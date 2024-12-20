@@ -199,7 +199,7 @@
                                                         <select name="weight" id="input-weight" class="form-select">
                                                             <option value="s"> <?= $entry_select ?> <?= $entry_weight ?>
                                                             </option>
-                                                            <?php for ($i = 0.5; $i <= 150; $i += ($i === 0.5 ? 0.5 : 1)): ?>
+                                                            <?php for ($i = 0.5; $i <= 150; $i += ($i === 0.5 ? 0.5 : 0.5)): ?>
                                                                 <option value="<?= $i ?>"><?= $i ?></option>
                                                             <?php endfor; ?>
                                                             <option value="1000000">1000000</option>
@@ -342,7 +342,7 @@
                     <select name="weight" id="editWeight" class="form-select">
                         <option value="s"> <?= $entry_select ?> <?= $entry_weight ?>
                         </option>
-                        <?php for ($i = 0.5; $i <= 150; $i += ($i === 0.5 ? 0.5 : 1)): ?>
+                        <?php for ($i = 0.5; $i <= 150; $i += ($i === 0.5 ? 0.5 : 0.5)): ?>
                             <option value="<?= $i ?>"><?= $i ?></option>
                         <?php endfor; ?>
                         <option value="1000000">1000000</option>
@@ -713,6 +713,7 @@
         $('#add-new-entry-f').click(function () {
             // Clear all form fields when "Add New" is selected
             mainForm = true;
+            $('#select_postalentry').val('0');
             $('input[name="name"]').val('');
             $('input[name^="displayName"]').val('');
 

@@ -93,9 +93,9 @@
     </div>
   </div>
 <?php else: ?>
-  <li class="text-center p-4">
-    <?= $this->e($text_no_results) ?>
-  </li>
+
+  <?= $this->e($text_no_results) ?>
+
 <?php endif; ?>
 <? /* update badge */ ?>
 <script>

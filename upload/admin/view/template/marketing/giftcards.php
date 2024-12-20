@@ -387,15 +387,7 @@
                 contentType: false,
                 data: formData, // Send the data as JSON
                 success: function (response) {
-                    if (response.error && response.error.warning) {
-                        $('#alert').prepend(
-                            '<div class="alert alert-danger alert-dismissible">' +
-                            '<i class="fa-solid fa-exclamation-circle"></i>  ' + response.error.warning +
-                            '<button type="button" class="btn-close" data-bs-dismiss="alert"></button>' +
-                            '</div>'
-                        );
-                        return;
-                    }
+
                     if (response.success) {
                         $('#addCardModal').modal('hide');
                         sendAlert(response.success); // Success message
@@ -485,7 +477,10 @@
                         } else {
                             amounts = 'Open';
                         }
-                        let names = Object.values(JSON.parse(card.card_name))[response.language_id];
+
+                        let names = JSON.parse(card.card_name);
+                        names = names[response.language_id];
+
                         let date = new Date(card.date_added);
                         let formattedDate = ('0' + date.getDate()).slice(-2) + '/' + ('0' + (date.getMonth() + 1)).slice(-2) + '/' + date.getFullYear();
 
@@ -589,10 +584,8 @@
                     // Append the table to the div
                     $('#purchased-giftcards').html(table);
 
-                    // Pagination controls
 
-                    // Append pagination controls
-                    $('#purchased-giftcards').append(pagination);
+
                 } else {
                     // Display error or empty state
                     $('#purchased-giftcards').html('<p>No gift cards found.</p>');
@@ -688,15 +681,6 @@
             if (confirm('Are you sure you want to delete this gift card?')) {
                 // Make the AJAX call to delete the gift card
                 $.getJSON(`?route=marketing/giftcards.delete&user_token=<?= $user_token ?>&giftcard_id=${giftcardId}`, function (response) {
-                    if (response.error && response.error.warning) {
-                        $('#alert').prepend(
-                            '<div class="alert alert-danger alert-dismissible">' +
-                            '<i class="fa-solid fa-exclamation-circle"></i>  ' + response.error.warning +
-                            '<button type="button" class="btn-close" data-bs-dismiss="alert"></button>' +
-                            '</div>'
-                        );
-                        return;
-                    }
                     if (response.success) {
                         // Show success message
                         sendAlert(response.success);
@@ -793,15 +777,6 @@
                     type: 'POST',
                     data: { giftcard_terms: selectedTerms },
                     success: function (response) {
-                        if (response.error && response.error.warning) {
-                            $('#alert').prepend(
-                                '<div class="alert alert-danger alert-dismissible">' +
-                                '<i class="fa-solid fa-exclamation-circle"></i>  ' + response.error.warning +
-                                '<button type="button" class="btn-close" data-bs-dismiss="alert"></button>' +
-                                '</div>'
-                            );
-                            return;
-                        }
                         if (response.success) {
                             $('#alert').append(
                                 '<div class="alert alert-success alert-dismissible">' +

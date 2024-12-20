@@ -192,9 +192,8 @@ a {
 }
 
 .modal #button-cart {
-  transform: scale(1.6);
-  position: sticky;
-  bottom: 16px;
+  transform: scale(1.3);
+
 
 }
 
