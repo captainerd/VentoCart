@@ -15,8 +15,6 @@ Our mission is to deliver an all-in-one e-commerce solution that's fast, secure,
 - **Mass Image Management & Video Support:** Easily add, crop, and manage product media for a polished storefront.
 - **Advanced Installer:** Streamlined installation with progress tracking and efficient binary processing.
 - **Premium Default Template:** Fully redesigned for real-world use with a mobile-first approach and 3-level category menus.
- 
-- **Variation System:** Easily set price differences based on option combinations like color and size.
 - **Drag and Drop Functionality:** Effortlessly organize elements such as pictures, categories, and more with intuitive drag-and-drop capabilities.
 - **Mass Image Management:** Streamline the process of adding and managing product images efficiently.
 - **Image Cropper:** Crop and customize images directly within the platform for a polished look.
