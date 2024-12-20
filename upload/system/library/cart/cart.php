@@ -9,7 +9,6 @@ class Cart
 	private object $session;
 	private object $tax;
 	private object $weight;
-	private object $registry;
 	private array $data = [];
 
 	/**
