@@ -106,7 +106,7 @@ class Menu extends \Ventocart\System\Engine\Controller
 				'image' => $category['image'],
 				'children' => $children_data,
 				'column' => $category['column'] ? $category['column'] : 1,
-				'href' => strlen($category['redirect_url']) > 0 ? $category['redirect_url'] : $this->url->link('product/category' . '&path=' . $category['category_id'])
+				'href' => strlen($category['redirect_url']) > 0 ? $category['redirect_url'] : $this->url->link('product/category' . '&path=' . $parent_id . "_" . $category['category_id'])
 			];
 
 		}
