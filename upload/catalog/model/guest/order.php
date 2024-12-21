@@ -18,7 +18,7 @@ class Order extends \Ventocart\System\Engine\Model
     private function generateIv()
     {
 
-        return substr(hash('sha256', (string) API_PRIVATE_KEY), 0, 16); // 16-byte IV for AES-256-CBC
+        return substr(hash('sha256', (string) $this->getPrivateKey()), 0, 16); // 16-byte IV for AES-256-CBC
     }
 
     /**
@@ -30,7 +30,7 @@ class Order extends \Ventocart\System\Engine\Model
     public function encryptOrderId($order_id)
     {
         $iv = $this->generateIv(); // Generate IV
-        $encrypted = openssl_encrypt((string) $order_id, 'aes-256-cbc', API_PRIVATE_KEY, 0, $iv); // Encrypt
+        $encrypted = openssl_encrypt((string) $order_id, 'aes-256-cbc', $this->getPrivateKey(), 0, $iv); // Encrypt
         return base64_encode($encrypted); // Encode to make it URL-safe
     }
 
@@ -45,8 +45,26 @@ class Order extends \Ventocart\System\Engine\Model
     {
         $iv = $this->generateIv(); // Generate IV
         $encrypted = base64_decode($encrypted_data); // Decode the base64 string
-        $decrypted = openssl_decrypt($encrypted, 'aes-256-cbc', API_PRIVATE_KEY, 0, $iv); // Decrypt
+        $decrypted = openssl_decrypt($encrypted, 'aes-256-cbc', $this->getPrivateKey(), 0, $iv); // Decrypt
         return $decrypted;
     }
+    /**
+     * Returns private key for both namespaces
+     *.
+     * @return string 
+     * 
+     */
+
+    private function getPrivateKey()
+    {
+        $filePath = DIR_VENTOCART . 'config.php';
+        $constantName = 'API_PRIVATE_KEY';
+        $content = file_get_contents($filePath);
+        if (preg_match("/define\\('$constantName',\\s*'(.*?)'\\);/", $content, $matches)) {
+            return $matches[1];
+        }
+        return null;
+    }
+
 
 }

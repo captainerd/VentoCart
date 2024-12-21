@@ -9,7 +9,7 @@ define('HTTP_SERVER', 'http://127.0.0.1/');
 define('API_PUBLIC_KEY', 'MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEgCZvj8xl3iUT9zz0aJZuovrXR4I5FW6fO+A8Yf9TmqVECpWjrN2ergHuBHSi1KPwSpkCsTxauecmhiS9P4N9Jw==');
 
 define('API_PRIVATE_KEY', 'MHcCAQEEIDUq3BMGiA405oYpbiMXD3XJOzNorFYsCqQ1yPwIoVY5oAoGCCqGSM49AwEHoUQDQgAEgCZvj8xl3iUT9zz0aJZuovrXR4I5FW6fO+A8Yf9TmqVECpWjrN2ergHuBHSi1KPwSpkCsTxauecmhiS9P4N9Jw==');
-// DIR
+
 // DIR
 define('DIR_VENTOCART', '/var/www/html/');
 define('DIR_APPLICATION', DIR_VENTOCART . 'catalog/');
