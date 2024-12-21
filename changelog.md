@@ -1,5 +1,47 @@
 ---
 
+## What's New in VentoCart v5.0.0.2
+
+### 1. **New Features**
+
+- **Customers Who Bought That Also Bought These**:  
+  On product pages, displays a swipe carousel of products commonly bought together with the viewed product.  
+
+- **More in the Category**:  
+  On product pages, shows a swipe carousel of product thumbnails from the same category.  
+
+---
+
+### 2. **Bug Fixes**
+
+- **Admin Panel Fixes**:  
+  - Fixed issue where products weren’t displayed on the first admin login for orders.  
+  - Resolved abandoned cart statistics inaccuracies in the admin dashboard.  
+
+- **Checkout Process**:  
+  - Curated JS for a smoother checkout experience.  
+
+---
+
+### 3. **New Enhancements**
+
+- **Autocomplete on Checkout**:  
+  - Country/Zone dropdowns now have autocomplete functionality, making the selection process faster.  
+
+- **Advanced Shipping Updates**:  
+  - Updated weight selection from whole numbers (1, 2, 3) to whole-and-half values (1, 1.5, 2, 2.5) for better compatibility with UPS and other shipping services.  
+
+---
+
+### 4. **Template Improvements**
+
+- **Modularization**:  
+  - Deleted the custom swiper and replaced it with Swiper.js for product thumbnails, improving code reusability across modules.  
+
+- **Guest Order Tracking**:  
+  - The tracking code for guest orders is now shown immediately on the order confirmation page.  
+
+---
 ## What's New in VentoCart v5.0.0.1
 
 ### 1. **API Overhaul**

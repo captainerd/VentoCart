@@ -6,7 +6,7 @@ Our mission is to deliver an all-in-one e-commerce solution that's fast, secure,
 
  
 ## Key Features:
-
+- **Product Modules::** Includes features like "Usually Bought Together With...", "More in that Category..", "Most Popular Products", Product Lists and more.
 - **Headless Architecture:** Build modern frontends or mobile apps using our robust Web API and ReactJS app-template with TailwindCSS. [Visit here the ReactJS front Repo](https://github.com/captainerd/ReactVento)
 - **Variation System:** Easily manage product options and set price differences for combinations like color and size.
 - **Abandoned Carts and Gift Cards:** Retain customers with detailed cart analytics and offer gift cards for flexible payments.
