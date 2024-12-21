@@ -251,9 +251,9 @@ class Register extends \Ventocart\System\Engine\Controller
 			$this->load->model('localisation/zone');
 			$this->request->post['payment_zone'] = $this->model_localisation_zone->getZone($this->request->post['payment_zone_id'])['name'];
 		}
-		if (isset($this->request->post['shipping_zone_id']) && is_numeric($this->request->post['payment_zone_id'])) {
+		if (isset($this->request->post['shipping_zone_id']) && is_numeric($this->request->post['shipping_zone_id'])) {
 			$this->load->model('localisation/zone');
-			$this->request->post['shipping_zone'] = $this->model_localisation_zone->getZone($this->request->post['payment_zone_id'])['name'];
+			$this->request->post['shipping_zone'] = $this->model_localisation_zone->getZone($this->request->post['shipping_zone_id'])['name'];
 		}
 
 		$json = [];
