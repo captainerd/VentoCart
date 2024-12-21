@@ -247,7 +247,7 @@
       <label for="input-email" class="form-label"><?= $this->e($entry_email) ?></label>
       <input type="text" name="payment_email" value="<?= $this->e($payment_email) ?>"
         placeholder="<?= $this->e($entry_email) ?>" id="input-email" class="form-control">
-      <div id="error-email" class="invalid-feedback"></div>
+      <div id="error-payment-email" class="invalid-feedback"></div>
     </div>
     <div class="col mb-3 required">
       <label for="input-payment-phone" class="form-label"><?= $this->e($entry_phone) ?></label>

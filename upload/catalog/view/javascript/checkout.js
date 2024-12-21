@@ -177,7 +177,9 @@ class AddressCheckOut {
         if (json['phone_code'] && json['phone_code'] !== "") {
           $('#input-' + type + '-phone').attr('placeholder', '+' + json['phone_code']);
         }
-
+        if ($('#autocpl-' + 'input-' + type + '-zone').length) {
+          $('#autocpl-' + 'input-' + type + '-zone').val('');
+        }
 
         if (json['postcode_required'] == '1') {
           $('#input-' + type + '-postcode').parent().addClass('required');
@@ -273,7 +275,7 @@ class AddressCheckOut {
 
       },
       success: function (json) {
-
+        //   $('.invalid-feedback').removeClass('d-block');
         $('#form-' + this.formName).find('.is-invalid').removeClass('is-invalid');
         $('#form-' + this.formName).find('.invalid-feedback').removeClass('d-block');
 
@@ -288,11 +290,13 @@ class AddressCheckOut {
           }
 
           for (var key in json['error']) {
+
             $('#input-' + key.replaceAll('_', '-')).addClass('is-invalid').find('.form-control, .form-select, .form-check-input, .form-check-label').addClass('is-invalid');
             $('#error-' + key.replaceAll('_', '-')).html(json['error'][key]).addClass('d-block');
             $("#button-confirm").text($('#error-' + key.replaceAll('_', '-')).text());
             $("#button-confirm").attr('disabled', true);
           }
+
         }
 
         if (json['success']) {
@@ -725,7 +729,9 @@ $(document).ready(function () {
   selectToAutocomplete('input-payment-country');
 
   selectToAutocomplete('input-payment-zone');
+  selectToAutocomplete('input-shipping-country');
 
+  selectToAutocomplete('input-shipping-zone');
 
   window.updateOptions = function (elementId, newOptions) {
     // Update the selectOptions object with new options
@@ -766,10 +772,10 @@ $(document).ready(function () {
       setTimeout(() => {
 
         let text = $('#' + elementId + ' option[value="' + selected + '"]').text();
-
+        $('#' + elementId).val(selected);
         $input.val(text);
 
-      }, 1000);
+      }, 500);
 
     }
 
@@ -796,7 +802,12 @@ $(document).ready(function () {
 
   }
 
-
+  $(document).on('focus', 'input, select', function () {
+    var $feedback = $(this).siblings('.invalid-feedback');
+    if ($feedback.hasClass('d-block')) {
+      $feedback.removeClass('d-block');
+    }
+  })
 });
 
 
