@@ -48,24 +48,15 @@
       </div>
 
       <div class="row">
-        <!-- Customer and Shipping Information -->
-        <div class="col-md-6">
-          <div class="form-control-plaintext p-0 border rounded mb-3">
-            <div class="lead p-2">
-              <strong>{{ text_customer_details }}</strong>
-              <ul class="list-unstyled mb-0">
-                <li><strong>{{ text_customer_email }}:</strong> {% if order.email %}{{ order.email }}{% else %}N/A{% endif %}</li>
-                <li><strong>{{ text_customer_telephone }}:</strong> {% if order.telephone %}{{ order.telephone }}{% else %}N/A{% endif %}</li>
-              </ul>
-            </div>
-          </div>
-        </div>
+    
 
         <div class="col-md-6">
           <div class="form-control-plaintext p-0 border rounded mb-3">
             <div class="lead p-2">
               <strong>{{ text_shipping_address }}</strong>
-              <p class="mb-0">{% if order.shipping_address %}{{ order.shipping_address }}{% else %}N/A{% endif %}</p>
+              <br> {% if order.email %}{{ order.email }}{% else %}N/A{% endif %} 
+              <p class="mb-0">{% if order.shipping_address %}{{ order.shipping_address }}{% else %}N/A{% endif %}
+              </p>
             </div>
           </div>
         </div>
