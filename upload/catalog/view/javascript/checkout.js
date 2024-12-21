@@ -764,10 +764,12 @@ $(document).ready(function () {
       .insertBefore('#' + elementId);
     if (typeof selected != 'undefined') {
       setTimeout(() => {
-        let text = $('#' + elementId + ' option[value="' + 1280 + '"]').text();
+
+        let text = $('#' + elementId + ' option[value="' + selected + '"]').text();
+
         $input.val(text);
 
-      }, 500);
+      }, 1000);
 
     }
 
