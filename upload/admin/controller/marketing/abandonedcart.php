@@ -211,26 +211,27 @@ class AbandonedCart extends \Ventocart\System\Engine\Controller
 
             $cart = clone $this->cart;
             $cart->flush();
+            if (!empty($customer['cart'])) {
+                $cartcontents = $cart->getProducts($customer['cart']);
 
-            $cartcontents = $cart->getProducts($customer['cart']);
+                foreach ($cartcontents as $index => $cartcontent) {
 
-            foreach ($cartcontents as $index => $cartcontent) {
+                    $newcartitem = [
+                        'product_name' => $cartcontent['name'],
+                        'product_id' => $cartcontent['product_id'],
+                        'price' => $cartcontent['price'],
+                        'quantity' => $cartcontent['quantity'],
+                        'sku' => $cartcontent['sku'],
+                        'options' => '',
+                    ];
+                    $optionstring = '';
+                    foreach ($cartcontent['option'] as $option) {
+                        $optionstring .= "[ " . $option['name'] . ": " . $option['value'] . " ] - ";
+                    }
+                    $newcartitem['options'] = $optionstring;
 
-                $newcartitem = [
-                    'product_name' => $cartcontent['name'],
-                    'product_id' => $cartcontent['product_id'],
-                    'price' => $cartcontent['price'],
-                    'quantity' => $cartcontent['quantity'],
-                    'sku' => $cartcontent['sku'],
-                    'options' => '',
-                ];
-                $optionstring = '';
-                foreach ($cartcontent['option'] as $option) {
-                    $optionstring .= "[ " . $option['name'] . ": " . $option['value'] . " ] - ";
+                    $customers[$indexcustomer]['cart'][] = $newcartitem;
                 }
-                $newcartitem['options'] = $optionstring;
-
-                $customers[$indexcustomer]['cart'][] = $newcartitem;
             }
         }
 
