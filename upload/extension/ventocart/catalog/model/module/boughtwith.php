@@ -29,7 +29,7 @@ class BoughtWith extends \Ventocart\Catalog\Model\Catalog\Product
    AND p.date_available <= NOW()
    AND pd.language_id = '" . (int) $this->config->get('config_language_id') . "'
    AND p.product_id != '" . (int) $product_id . "' 
-   ORDER BY p.date_added DESC 
+    ORDER BY RAND() 
    LIMIT " . (int) $limit;
 
         $product_data = $this->cache->get('product_bought_with.' . md5($sql));

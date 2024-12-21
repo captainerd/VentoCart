@@ -40,7 +40,8 @@ class moreincategory extends \Ventocart\Catalog\Model\Catalog\Product
                   WHERE `product_id` = '" . (int) $product_id . "'
               )
               AND `p2c`.`product_id` != '" . (int) $product_id . "' 
-            GROUP BY p2c.product_id ORDER BY `p`.`date_added` DESC 
+            GROUP BY p2c.product_id  ORDER BY RAND() 
+            
             LIMIT 0," . (int) $limit;
 
         // Fetch the result from cache
