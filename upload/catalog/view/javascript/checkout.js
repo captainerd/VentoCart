@@ -185,31 +185,33 @@ class AddressCheckOut {
           $('#input-' + type + '-postcode').parent().removeClass('required');
         }
 
-        var html = '<option value="">' + window.text_select + '</option>';
+        var options = [
+          { label: window.text_select, value: '' } // Initial "select" option
+        ];
 
         if (json['zone'] && !json['zone'].length) {
           $('#input-' + type + '-zone').parent().hide();
-
           return;
         } else {
           $('#input-' + type + '-zone').parent().show();
         }
 
         if (json['zone'] && json['zone'].length && json['zone'] != '') {
-
-
-
+          // Add each zone as an option
           for (var i = 0; i < json['zone'].length; i++) {
-            html += '<option value="' + json['zone'][i]['zone_id'] + '"';
-            if (json['zone'][i]['zone_id'] == $('#input-' + type + '-zone').attr('data-oc-value')) {
-              html += ' selected';
-            }
-            html += '>' + json['zone'][i]['name'] + '</option>';
+            options.push({
+              label: json['zone'][i]['name'], // Name of the zone
+              value: json['zone'][i]['zone_id'] // zone_id as the value
+            });
           }
         } else {
-          html += '<option value="0" selected>' + window.text_none + '</option>';
+          // If no zones, add a "None" option
+          options.push({ label: window.text_none, value: '0' });
         }
-        $('#input-' + type + '-zone').html(html);
+
+        // Now, instead of manually modifying the HTML, call updateOptions
+        window.updateOptions('input-' + type + '-zone', options);
+
       },
       error: function (xhr, ajaxOptions, thrownError) {
 
@@ -716,6 +718,80 @@ $(document).ready(function () {
     } else {
       $('.shipping-address-form').addClass("d-none");
     }
+  }
+
+
+  var selectOptions = {};
+  selectToAutocomplete('input-payment-country');
+
+  selectToAutocomplete('input-payment-zone');
+
+
+  window.updateOptions = function (elementId, newOptions) {
+    // Update the selectOptions object with new options
+    selectOptions[elementId] = newOptions;
+
+    // Reinitialize the autocomplete for the updated element
+    var $input = $('#autocpl-' + elementId);
+    var $select = $('#' + elementId);
+    $select.empty(); // Remove all current options
+
+    // Add the new options to the select element
+    newOptions.forEach(function (option) {
+      $select.append('<option value="' + option.value + '">' + option.label + '</option>');
+    });
+    if ($input.length) {
+      // Update the source of the autocomplete with new options
+      $input.autocomplete("option", "source", newOptions);
+    }
+  }
+  function selectToAutocomplete(elementId) {
+    let selected = $('#' + elementId).data('oc-value');
+
+
+    if ($('#autocpl-' + elementId).length) {
+      $('#autocpl-' + elementId).autocomplete('close');
+      $('#autocpl-' + elementId).remove();
+    }
+
+    selectOptions[elementId] = $('#' + elementId + ' option').map(function () {
+      return { label: $(this).text(), value: $(this).val() };
+    }).get();
+    if ($('#autocpl-' + elementId).length) {
+      $('#autocpl-' + elementId).remove();
+    }
+    var $input = $('<input type="text" id="autocpl-' + elementId + '" value="' + $('#' + elementId + ' option:selected').text().trim() + '" autocomplete="off">')
+      .insertBefore('#' + elementId);
+    if (typeof selected != 'undefined') {
+      setTimeout(() => {
+        let text = $('#' + elementId + ' option[value="' + 1280 + '"]').text();
+        $input.val(text);
+
+      }, 500);
+
+    }
+
+    $input.attr('class', $('#' + elementId).attr('class'));
+    $input.autocomplete({
+      source: selectOptions[elementId],
+      minLength: 0,
+      select: function (event, ui) {
+        event.preventDefault();
+        $input.val(ui.item.label.trim());
+        $('#' + elementId).val(ui.item.value);
+      }
+    });
+
+    $input.on('click', function () {
+      $input.val('');
+      $("#autocpl-" + elementId).autocomplete("search", "");
+    });
+    $input.on('blur', function () {
+      $input.val($('#' + elementId + ' option:selected').text().trim());
+      $('#' + elementId).trigger('change');
+    });
+    $('#' + elementId).hide();
+
   }
 
 

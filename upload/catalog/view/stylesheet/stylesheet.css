@@ -957,3 +957,9 @@ footer p {
   top: 122px;
   right: -46px;
 }
+
+.ui-widget-content {
+  max-height: 250px;
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
