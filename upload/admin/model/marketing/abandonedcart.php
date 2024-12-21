@@ -237,7 +237,7 @@ FROM `" . DB_PREFIX . "cart` c
 LEFT JOIN `" . DB_PREFIX . "customer` cu ON c.customer_id = cu.customer_id
 LEFT JOIN `" . DB_PREFIX . "newsletter` n ON c.session_id = n.session_id
 WHERE (c.customer_id != 0 OR (c.customer_id = 0 AND c.session_id != ''))
-AND c.date_added <= '" . $this->db->escape($date_threshold) . "'
+ AND c.admin = 0 AND c.date_added <= '" . $this->db->escape($date_threshold) . "'
 AND (cu.newsletter = 1 OR n.session_id IS NOT NULL);
         ");
         if (!isset($query->row['total'])) {
@@ -270,7 +270,7 @@ AND (cu.newsletter = 1 OR n.session_id IS NOT NULL);
         LEFT JOIN `" . DB_PREFIX . "newsletter` n ON c.session_id = n.session_id
         WHERE c.customer_id = 0
         AND c.date_added <= '" . $this->db->escape($date_threshold) . "'
-        AND n.session_id IS NOT NULL
+         AND c.admin = 0  AND n.session_id IS NOT NULL
           GROUP BY c.session_id
     ");
         if (!isset($query->row['total'])) {
@@ -302,7 +302,7 @@ AND (cu.newsletter = 1 OR n.session_id IS NOT NULL);
             LEFT JOIN `" . DB_PREFIX . "customer` cu ON c.customer_id = cu.customer_id
             WHERE c.customer_id != 0
             AND c.date_added <= '" . $this->db->escape($date_threshold) . "'
-            AND cu.newsletter = 1
+            AND cu.newsletter = 1  AND c.admin = 0 
           
         ");
 
@@ -351,9 +351,9 @@ AND (cu.newsletter = 1 OR n.session_id IS NOT NULL);
             LEFT JOIN `" . DB_PREFIX . "product_description` pd ON c.product_id = pd.product_id AND pd.language_id = " . (int) $this->config->get('config_language_id') . "
             LEFT JOIN `" . DB_PREFIX . "product_image` pi ON c.product_id = pi.product_id AND pi.sort_order = 1
             WHERE (
-                (c.customer_id != 0 AND c.customer_id = " . $customer_id . ") 
+                ((c.customer_id != 0 AND c.customer_id = " . $customer_id . ") 
                 OR 
-                (c.session_id = '" . $session_id . "' AND c.customer_id = 0)
+                (c.session_id = '" . $session_id . "' AND c.customer_id = 0))  AND  admin = 0 
             )
             LIMIT 5
         ";
@@ -390,8 +390,8 @@ AND (cu.newsletter = 1 OR n.session_id IS NOT NULL);
         $result = [];
         foreach ($query->rows as $row) {
             // Determine the column to filter by (customer_id or session_id)
-            $filterColumn = is_numeric($row['unique_id']) ? 'customer_id' : 'session_id';
-            $filterValue = $this->db->escape($row['unique_id']);
+
+            $filterValue = $row['unique_id'];
 
             // Query to get cart details with product names
             $cartQuery = $this->db->query("
@@ -401,7 +401,7 @@ AND (cu.newsletter = 1 OR n.session_id IS NOT NULL);
                 FROM `" . DB_PREFIX . "cart` c
                 LEFT JOIN `" . DB_PREFIX . "product_description` pd 
                     ON c.product_id = pd.product_id
-                WHERE c.$filterColumn = '$filterValue' AND  admin = 0 GROUP BY cart_id
+                WHERE c.session_id = '$filterValue' AND  admin = 0 GROUP BY cart_id
             ");
 
             // Append the data to the result
@@ -442,7 +442,7 @@ AND (cu.newsletter = 1 OR n.session_id IS NOT NULL);
                                 END) AS total
             FROM `" . DB_PREFIX . "cart` c
             WHERE c.date_added <= '" . $this->db->escape($date_threshold) . "'
-            AND (c.customer_id != 0 OR c.session_id != '')
+            AND (c.customer_id != 0 OR c.session_id != '')  AND c.admin='0'
         ");
 
         // Ensure the total is returned as an integer
@@ -468,7 +468,7 @@ AND (cu.newsletter = 1 OR n.session_id IS NOT NULL);
                 END
             ) AS total
         FROM `" . DB_PREFIX . "cart` c
-        WHERE c.date_added >= '" . $this->db->escape($date_threshold) . "'
+        WHERE c.date_added >= '" . $this->db->escape($date_threshold) . "'  AND c.admin='0'
         GROUP BY DATE(c.date_added)
         ORDER BY DATE(c.date_added)
     ");
@@ -543,7 +543,7 @@ AND (cu.newsletter = 1 OR n.session_id IS NOT NULL);
             LEFT JOIN `" . DB_PREFIX . "newsletter` n ON c.session_id = n.session_id
             WHERE (c.customer_id != 0 OR (c.customer_id = 0 AND c.session_id != ''))
             AND c.date_added >= '" . $this->db->escape($date_threshold) . "'
-            AND (cu.newsletter = 1 OR n.session_id IS NOT NULL)
+            AND (cu.newsletter = 1 OR n.session_id IS NOT NULL)  AND c.admin='0'
             GROUP BY DATE(c.date_added)
             ORDER BY DATE(c.date_added)
         ");
@@ -572,7 +572,7 @@ AND (cu.newsletter = 1 OR n.session_id IS NOT NULL);
                 DATE(c.date_added) AS date,
                 COUNT(DISTINCT c.session_id) AS total
             FROM `" . DB_PREFIX . "cart` c
-            WHERE c.date_added >= '" . $this->db->escape($date_threshold) . "'
+            WHERE c.date_added >= '" . $this->db->escape($date_threshold) . "'  AND admin='0'
             GROUP BY DATE(c.date_added), c.session_id
             HAVING COUNT(c.cart_id) > 1
             ORDER BY DATE(c.date_added) DESC
