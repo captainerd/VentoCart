@@ -136,7 +136,7 @@ class Order extends \Ventocart\System\Engine\Model
 				} else {
 					$subscription_plan_id = 0;
 				}
-
+				$this->session->data['admin'] = 1;
 				$cartid = $this->cart->add($product['product_id'], (int) $product['quantity'], $option_data, $subscription_plan_id, true, $product['price'], $product['type']);
 				$this->session->data['virtual_product'][$cartid] = $product;
 
