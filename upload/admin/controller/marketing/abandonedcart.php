@@ -1,501 +1,612 @@
 <?php
-namespace Ventocart\Admin\Controller\Marketing;
+namespace Ventocart\Admin\Model\Marketing;
 /**
- * Class AbandonedCart
+ * Class Affiliate
  *
- * @package Ventocart\Admin\Controller\Marketing
+ * @package Ventocart\Admin\Model\Marketing
  */
-
-class AbandonedCart extends \Ventocart\System\Engine\Controller
+class AbandonedCart extends \Ventocart\System\Engine\Model
 {
-    /**
-     * @return void
-     */
-    public function index(): void
+
+    public function addOneNotice($customer_id, $session_id)
     {
+        // Determine the identifier (either customer_id or session_id)
+        $identifier = ($customer_id > 0) ? $customer_id : $session_id;
 
+        // Get the current date for date_lastnotice
+        $current_date = date('Y-m-d H:i:s');
 
-        $this->load->language("marketing/abandonedcart");
-        $this->load->model('setting/setting');
+        // Update the total_notices and date_lastnotice for the corresponding identifier
+        $this->db->query("
+            UPDATE `" . DB_PREFIX . "cart_abandoned` 
+            SET 
+                total_notices = total_notices + 1, 
+                date_lastnotice = '" . $this->db->escape($current_date) . "' 
+            WHERE 
+                (customer_id = '" . (int) $identifier . "' OR session_id = '" . $this->db->escape($identifier) . "')
+        ");
+    }
+    public function addOneClick($customer_id, $session_id)
+    {
+        // Determine the identifier (either customer_id or session_id)
+        $identifier = ($customer_id > 0) ? $customer_id : $session_id;
 
-        // insert chart js
-        $this->document->addScript('https://cdn.jsdelivr.net/npm/chart.js');
-        // insert tinymce
-        $this->document->addScript('view/javascript/tinymce/tinymce.min.js');
+        // Get the current date for date_last_click
+        $current_date = date('Y-m-d H:i:s');
 
-
-        // Retrieve all settings with the prefix 'your_extension_name'
-        $data = $this->model_setting_setting->getSetting('abandonedcart');
-
-        $this->load->model('marketing/abandonedcart');
-
-
-
-
-        // Total guest and customer that are subscribed and older than thershold
-
-        $data['totalcarts'] = $this->model_marketing_abandonedcart->getTotalCarts();
-
-        // Total customer cards (registered accounts) that are subscribed and older than thershold
-        $data['totalaccountcarts'] = $this->model_marketing_abandonedcart->getTotalCustomers();
-
-        // Total guest carts that are abandoned and subscribed
-        $data['totalguestcarts'] = $this->model_marketing_abandonedcart->getTotalGuests();
-
-        // All carts, regadless if they are abandoned (older than threshold) and regadless if they are subscribed to newsletters
-        $data['allcarts'] = $this->model_marketing_abandonedcart->getTotalGeneral();
-
-
-        // Total carts that are abandoned, including subscribed or not
-
-        $data['totalcartsabandoned'] = $this->model_marketing_abandonedcart->getTotalGeneralAbandoned();
-
-        // Chart use, carts per day for the last 30 days 
-        $data['cartsPerDay'] = $this->model_marketing_abandonedcart->getCartsPerDayLast30Days();
-
-        // Chart use, abandoned and subscripted to newsletter, carts
-        $data['cartsAbandonedSubbedPerDay'] = $this->model_marketing_abandonedcart->getAbandonedNewsLetterCartsPerDayLast30Days();
-
-        // Chart use, all carts with more than 1 product in them.
-        $data['cartsWithMorethan1Product'] = $this->model_marketing_abandonedcart->getCartsPerDayLast30DaysMoreThan1Products();
-
-        // Chart use, clicks on dates recovered from abandoned email campeings 
-        $data['clicksonemail'] = $this->model_marketing_abandonedcart->getClicksReturns30Days();
-        $this->load->model('localisation/language'); // it is already loaded
-        $data['languages'] = $this->model_localisation_language->getLanguages();
-
-        // Date labels for Chart Js
-        $labels = [];
-        for ($i = 30; $i >= 0; $i--) {
-            $date = date('m/d', strtotime("-$i days"));
-            $labels[] = $date;
-        }
-        $data['chartLabels'] = $labels;
-
-
-
-        if (!isset($data['abandonedcart_abandoned_threshold'])) {
-            $data['abandonedcart_abandoned_threshold'] = 3;
-        }
-        if (!isset($data['abandonedcart_repeat_frequency'])) {
-            $data['abandonedcart_repeat_frequency'] = 6;
-        }
-        if (!isset($data['abandonedcart_total_notifications'])) {
-            $data['abandonedcart_total_notifications'] = 3;
-        }
-        if (!isset($data['abandonedcart_cart_memory'])) {
-            $data['abandonedcart_cart_memory'] = 4;
-        }
-        $this->load->language("marketing/abandonedcart");
-        $this->load->model('marketing/abandonedcart');
-
-        $data['breadcrumbs'] = [];
-
-        $data['breadcrumbs'][] = [
-            'text' => $this->language->get('text_home'),
-            'href' => $this->url->link('common/dashboard', 'user_token=' . $this->session->data['user_token'])
-        ];
-
-
-        $data['breadcrumbs'][] = [
-            'text' => $this->language->get('heading_title'),
-            'href' => $this->url->link('marketing/abandonedcart', 'user_token=' . $this->session->data['user_token'])
-        ];
-
-
-        $data['user_token'] = $this->session->data['user_token'];
-
-        $data['header'] = $this->load->controller('common/header');
-        $data['column_left'] = $this->load->controller('common/column_left');
-        $data['footer'] = $this->load->controller('common/footer');
-
-
-
-
-        $this->response->setOutput($this->load->view('marketing/abandonedcart', $data));
+        // Update the date_last_click for the corresponding identifier
+        $this->db->query("
+            UPDATE `" . DB_PREFIX . "cart_abandoned` 
+            SET 
+                date_last_click = '" . $this->db->escape($current_date) . "' 
+            WHERE 
+                (customer_id = '" . (int) $identifier . "' OR session_id = '" . $this->db->escape($identifier) . "')
+        ");
     }
 
-    public function save(): void
+
+    public function insertAbandonedCarts(): void
     {
-        $json = [];
-        $this->load->language("marketing/abandonedcart");
-
-        if (!$this->user->hasPermission('modify', 'marketing/abandonedcart')) {
-            $json['error']['warning'] = $this->language->get('error_permission');
-            $this->response->addHeader('Content-Type: application/json');
-            $this->response->setOutput(json_encode($json));
-            return;
-        }
-
-        // Validate the inputs
-        $languages = $this->model_localisation_language->getLanguages();
-
-
-        foreach ($languages as $index => $language) {
-
-            if (empty($this->request->post['noticetemplate'][$language['language_id']])) {
-
-                $json['error']['noticetemplate'] = $this->language->get('error_noticetemplate');
-
-            }
-            if (empty($this->request->post['noticesubject'][$language['language_id']])) {
-
-                $json['error']['noticesubject'] = $this->language->get('error_noticesubject');
-
-            }
-        }
-
-        if (!isset($this->request->post['abandoned_threshold']) || !is_numeric($this->request->post['abandoned_threshold']) || $this->request->post['abandoned_threshold'] <= 0) {
-            $json['error']['abandoned_threshold'] = $this->language->get('error_abandoned_threshold');
-        }
-
-        if (!isset($this->request->post['repeat_frequency']) || !is_numeric($this->request->post['repeat_frequency']) || $this->request->post['repeat_frequency'] <= 0) {
-            $json['error']['repeat_frequency'] = $this->language->get('error_repeat_frequency');
-        }
-
-        if (!isset($this->request->post['total_notifications']) || !is_numeric($this->request->post['total_notifications']) || $this->request->post['total_notifications'] < 0) {
-            $json['error']['total_notifications'] = $this->language->get('error_total_notifications');
-        }
-
-        if (!isset($this->request->post['abandonedcart_cart_memory']) || !is_numeric($this->request->post['abandonedcart_cart_memory']) || $this->request->post['abandonedcart_cart_memory'] < 0) {
-            $json['error']['abandonedcart_cart_memory'] = $this->language->get('error_abandonedcart_cart_memory');
-        }
-
-        // If there are validation errors, return them
-        if (!empty($json['error'])) {
-            $this->response->setOutput(json_encode($json));
-            return;
-        }
-
-        // If validation is successful, save the settings
+        // Load the setting model to get the threshold value for abandoned carts
         $this->load->model('setting/setting');
+        $settings = $this->model_setting_setting->getSetting('abandonedcart');
+        $threshold = isset($settings['abandonedcart_abandoned_threshold']) ? (int) $settings['abandonedcart_abandoned_threshold'] : 30;
+        $deleteafter = isset($settings['abandonedcart_cart_memory']) ? (int) $settings['abandonedcart_cart_memory'] : 3;
+        // Query to select abandoned carts, excluding those already present in cart_abandoned table
+        $query = $this->db->query("
+            SELECT 
+                CASE 
+                    WHEN c.customer_id != 0 THEN c.customer_id 
+                    ELSE c.session_id 
+                END AS identifier,
+                c.session_id,
+                c.customer_id
+            FROM `" . DB_PREFIX . "cart` c
+            LEFT JOIN `" . DB_PREFIX . "customer` cu ON c.customer_id = cu.customer_id
+            LEFT JOIN `" . DB_PREFIX . "cart_abandoned` ca ON (c.customer_id = ca.customer_id OR c.session_id = ca.session_id)
+            WHERE (c.customer_id != 0 OR (c.customer_id = 0 AND c.session_id != ''))
+            AND c.date_added <= DATE_SUB(NOW(), INTERVAL $threshold DAY)
+            AND ca.abandoned_id IS NULL
+            GROUP BY 
+                CASE 
+                    WHEN c.customer_id != 0 THEN c.customer_id 
+                    ELSE c.session_id 
+                END;
+        ");
 
-        $this->model_setting_setting->editSetting('abandonedcart', [
-            'abandonedcart_abandoned_threshold' => $this->request->post['abandoned_threshold'],
-            'abandonedcart_repeat_frequency' => $this->request->post['repeat_frequency'],
-            'abandonedcart_total_notifications' => $this->request->post['total_notifications'],
-            'abandonedcart_cart_memory' => $this->request->post['abandonedcart_cart_memory'],
-            'abandonedcart_template' => $this->request->post['noticetemplate'],
-            'abandonedcart_subject' => $this->request->post['noticesubject'],
-        ]);
+        if ($query->num_rows > 0) {
+            foreach ($query->rows as $row) {
+                $session_id = $this->db->escape($row['session_id']);
+                $customer_id = (int) $row['customer_id'];
 
-        // Return success response
-        $json['success'] = 'Settings saved successfully!';
-        $this->response->setOutput(json_encode($json));
-    }
-
-    public function getPagedCarts()
-    {
-        $pages = 10; // Items per page
-        $page = 0;
-        if (isset($this->request->get['page'])) {
-            $page = (int) $this->request->get['page'] - 1;
-        }
-        $this->load->model('localisation/language');
-        $this->load->model('marketing/abandonedcart');
-
-        // Get total carts
-        $totalCarts = $this->model_marketing_abandonedcart->getTotalGeneral();
-
-
-        // Fetch paged carts
-        $customers = $this->model_marketing_abandonedcart->getTotalGeneralWithDetails($page, $pages);
-
-
-        foreach ($customers as $indexcustomer => $customer) {
-
-            unset($customers[$indexcustomer]['cart']);
-            unset($cartcontents);
-
-
-
-            $cart = clone $this->cart;
-            $cart->flush();
-
-            $cartcontents = $cart->getProducts($customer['cart']);
-
-            foreach ($cartcontents as $index => $cartcontent) {
-
-                $newcartitem = [
-                    'product_name' => $cartcontent['name'],
-                    'product_id' => $cartcontent['product_id'],
-                    'price' => $cartcontent['price'],
-                    'quantity' => $cartcontent['quantity'],
-                    'sku' => $cartcontent['sku'],
-                    'options' => '',
-                ];
-                $optionstring = '';
-                foreach ($cartcontent['option'] as $option) {
-                    $optionstring .= "[ " . $option['name'] . ": " . $option['value'] . " ] - ";
-                }
-                $newcartitem['options'] = $optionstring;
-
-                $customers[$indexcustomer]['cart'][] = $newcartitem;
+                // Insert new record into the cart_abandoned table
+                $this->db->query("
+                INSERT INTO `" . DB_PREFIX . "cart_abandoned` (
+                    `customer_id`,
+                    `session_id`,
+                    `total_notices`,
+                    `date_last_click`,
+                    `date_lastnotice`,
+                    `click_count`
+                ) VALUES (
+                    " . ($customer_id > 0 ? (int) $customer_id : 0) . ",
+                    " . (!empty($session_id) ? "'" . $this->db->escape($session_id) . "'" : 'NULL') . ",
+                    0,
+                    NULL,
+                    NULL,
+                    0
+                )
+            ");
             }
         }
 
 
-        // Calculate total pages
-        $totalPages = ceil($totalCarts / $pages);
+        $query = $this->db->query("
+    DELETE FROM `" . DB_PREFIX . "cart_abandoned`
+    WHERE `date_lastnotice` < DATE_SUB(NOW(), INTERVAL " . (int) $deleteafter . " MONTH)
+");
 
-        // Return as JSON
-        $this->response->addHeader('Content-Type: application/json');
-        $this->response->setOutput(json_encode([
-            'carts' => $customers,
-            'totalPages' => $totalPages
-        ]));
+
     }
 
-    public function scheduleNow(): void
+    public function emailFromNewsletter($session_id)
     {
-        $this->load->language('marketing/abandonedcart');
+        // Sanitize the input to prevent SQL injection
+        $session_id = $this->db->escape($session_id);
+
+        // Query to get the email for the given session_id
+        $query = $this->db->query("SELECT email FROM `" . DB_PREFIX . "newsletter` WHERE session_id = '" . $session_id . "' LIMIT 1");
+
+        // Check if any result is returned
+        if ($query->num_rows) {
+            return $query->row['email'];
+        } else {
+            return null;  // Return null if no email is found
+        }
+    }
 
 
-        if (!$this->user->hasPermission('modify', 'marketing/abandonedcart')) {
-            $json['error']['warning'] = $this->language->get('error_permission');
-            $this->response->addHeader('Content-Type: application/json');
-            $this->response->setOutput(json_encode($json));
-            return;
+    public function getAbandonedCount(): int
+    {
+
+        // Load the setting model to get the threshold value for abandoned carts
+        $this->load->model('setting/setting');
+        $settings = $this->model_setting_setting->getSetting('abandonedcart');
+        $threshold = isset($settings['abandonedcart_abandoned_threshold']) ? (int) $settings['abandonedcart_abandoned_threshold'] : 30; // Default to 30 days if not set
+
+        // Query to get total abandoned carts with customer language information
+        $query = $this->db->query("
+        SELECT COUNT(*) AS total
+        FROM `" . DB_PREFIX . "cart_abandoned` ca
+        LEFT JOIN `" . DB_PREFIX . "cart` c ON (
+            ca.session_id = c.session_id 
+            OR (ca.customer_id > 0 AND ca.customer_id = c.customer_id)
+        )
+        LEFT JOIN `" . DB_PREFIX . "customer` cu ON (
+            ca.customer_id > 0 AND ca.customer_id = cu.customer_id
+        )
+        WHERE (c.customer_id != 0 OR (c.customer_id = 0 AND c.session_id != ''))
+        AND c.date_added <= DATE_SUB(NOW(), INTERVAL $threshold DAY)
+    ");
+
+        return (int) $query->row['total'];
+    }
+
+
+
+    // Function to handle sending notices (to be implemented)
+    public function getAbandoned($filter = []): array
+    {
+        // First insert newly abandoned carts
+        $this->insertAbandonedCarts();
+
+        // Load the setting model to get the threshold value for abandoned carts
+        $this->load->model('setting/setting');
+        $settings = $this->model_setting_setting->getSetting('abandonedcart');
+        $threshold = isset($settings['abandonedcart_abandoned_threshold']) ? (int) $settings['abandonedcart_abandoned_threshold'] : 30; // Default to 30 days if not set
+
+        // Extract limit and page from the filter
+        $limit = isset($filter['limit']) ? (int) $filter['limit'] : null; // Default is null (no limit)
+        $page = isset($filter['page']) ? (int) $filter['page'] : 1; // Default is page 1
+        $start = ($page - 1) * $limit; // Calculate offset based on the current page
+
+        // Query to get abandoned carts with customer language information
+        $sql = "
+            SELECT 
+                ca.*,
+                c.date_added AS cart_date_added,
+                cu.language_id,
+                cu.store_id,
+                cu.firstname,
+                cu.email
+            FROM `" . DB_PREFIX . "cart_abandoned` ca
+            LEFT JOIN `" . DB_PREFIX . "cart` c ON (
+                ca.session_id = c.session_id 
+                OR (ca.customer_id > 0 AND ca.customer_id = c.customer_id)
+            )
+            LEFT JOIN `" . DB_PREFIX . "customer` cu ON (
+                ca.customer_id > 0 AND ca.customer_id = cu.customer_id
+            )
+            WHERE (c.customer_id != 0 OR (c.customer_id = 0 AND c.session_id != ''))
+            AND c.date_added <= DATE_SUB(NOW(), INTERVAL $threshold DAY)
+            GROUP BY 
+                CASE 
+                    WHEN ca.customer_id > 0 THEN ca.customer_id
+                    ELSE ca.session_id
+                END
+        ";
+
+        // Add LIMIT and OFFSET if limit is set
+        if ($limit) {
+            $sql .= " LIMIT $start, $limit";
         }
 
+        // Execute query
+        $query = $this->db->query($sql);
 
-
-        $page = isset($this->request->get['page']) ? (int) $this->request->get['page'] : 1;
-        $limit = 5;
-        $this->load->model('marketing/abandonedcart');
-        $total = $this->model_marketing_abandonedcart->getAbandonedCount();
-
-        $start = ($page - 1) * $limit;
-
-
-        $filter = [
-            'limit' => $limit,
-            'start' => $start
-        ];
-
-        $sendmail = $this->sendNotifications($filter);
-
-        $this->response->addHeader('Content-Type: application/json');
-        $this->response->setOutput(json_encode([
-            'success' => sprintf($this->language->get('text_schedule_processed'), $total, $sendmail),
-            'total' => $total,
-            'page' => $page,
-            'done' => $limit * $page
-        ]));
+        return $query->rows;
     }
 
-    public function sendNotifications($filter = []): int
+
+
+    public function getTotalCarts(): int
     {
-
-
+        // Load the setting model to get the threshold value
         $this->load->model('setting/setting');
-
-        $this->load->model('marketing/abandonedcart');
-        $this->load->model('localisation/language');
         $settings = $this->model_setting_setting->getSetting('abandonedcart');
 
-        // Retrieve the total notifications and repeat frequency settings
-        $totalNotificationsLimit = isset($settings['abandonedcart_total_notifications']) ? (int) $settings['abandonedcart_total_notifications'] : 3;
-        $repeatFrequency = isset($settings['abandonedcart_repeat_frequency']) ? (int) $settings['abandonedcart_repeat_frequency'] : 4;
+        // Get the abandoned threshold setting
+        $threshold = isset($settings['abandonedcart_abandoned_threshold']) ? (int) $settings['abandonedcart_abandoned_threshold'] : 0;
 
-        // Retrieve the list of abandoned carts to process
-        $abandoned = $this->model_marketing_abandonedcart->getAbandoned($filter);
-
-
-        $langCollection = $this->model_localisation_language->getLanguages();
-
-        // Get stores default if later is a guest and doesn't have to set.
-        $languageId = $langCollection[$this->config->get('config_language')]['language_id'];
-        $send = 0;
-
-        foreach ($abandoned as $cart) {
-
-            if (empty($cart['email'])) {
-                $cart['email'] = $this->model_marketing_abandonedcart->emailFromNewsletter($cart['session_id']);
-            }
-            if (empty($cart['email'])) {
-
-                continue; // Ignore this particular cart
-            }
-            // Skip if total notices sent exceeds or equals the limit
-            if ((int) $cart['total_notices'] >= $totalNotificationsLimit) {
-                continue; // Ignore this stupid cart
-            }
-
-            // Check if the last notice date is set
-            if (!empty($cart['date_lastnotice'])) {
-                // Calculate the next eligible date for sending a notice
-                $nextEligibleDate = date('Y-m-d H:i:s', strtotime($cart['date_lastnotice'] . " + $repeatFrequency days"));
-
-                // Skip if the last notice was sent too recently
-                if (strtotime($nextEligibleDate) > time()) {
-                    continue; // Ignore this idiotic cart
-                }
-            }
-
-            if (!empty($cart['language_id'])) {
-                $languageId = $cart['language_id'];
-
-            }
-            // Id rather not do aikido than sql calls via localisation model 
-            $cart['langcode'] = array_key_first(array_filter($langCollection, function ($language) use ($languageId) {
-                return $language['language_id'] == $languageId;
-            }));
-            $storeId = 0;
-            if (!empty($cart['store_id'])) {
-                $storeId = $cart['store_id'];
-            }
-            $cart['store_id'] = $storeId;
-
-            $message = $this->MarkUp($settings['abandonedcart_template'][$languageId], $cart);
-            $subject = $settings['abandonedcart_subject'][$languageId];
-
-            $emailSent = $this->Sendmail($cart['email'], $subject, $message);
-
-            // Only increment the notice count if the email was sent successfully
-            if ($emailSent) {
-                $send++;
-                $this->model_marketing_abandonedcart->addOneNotice($cart['customer_id'], $cart['session_id']);
-            }
-
+        if ($threshold <= 0) {
+            return 0; // Return 0 if the threshold is not set or is invalid
         }
-        return $send;
-    }
-    private function Sendmail($email, $subject, $message)
-    {
-        $mailSent = false;
 
-        try {
-            if ($this->config->get('config_mail_engine')) {
-                $mail_option = [
-                    'parameter' => $this->config->get('config_mail_parameter'),
-                    'smtp_hostname' => $this->config->get('config_mail_smtp_hostname'),
-                    'smtp_username' => $this->config->get('config_mail_smtp_username'),
-                    'smtp_password' => html_entity_decode($this->config->get('config_mail_smtp_password'), ENT_QUOTES, 'UTF-8'),
-                    'smtp_port' => $this->config->get('config_mail_smtp_port'),
-                    'smtp_timeout' => $this->config->get('config_mail_smtp_timeout')
-                ];
-
-                $mail = new \Ventocart\System\Library\Mail($this->config->get('config_mail_engine'), $mail_option);
+        // Calculate the date threshold for comparison (e.g., 30 days ago)
+        $date_threshold = date('Y-m-d H:i:s', strtotime("-$threshold days"));
 
 
-                if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
-                    $data['email'] = $email;
-                    $data['langCode'] = $message['langcode'];
-                    $data['footer'] = $message['footer'];
-                    $data['message'] = $message['msg'];
-                    $data['store_logo'] = $message['logo'];
-                    $data['store_name'] = $message['store_name'];
-                    $data['subject'] = $subject;
-                    $mail->setTo(trim($email));
-                    $mail->setFrom($message['store_email']);
-                    $mail->setSender(html_entity_decode($message['store_email'], ENT_QUOTES, 'UTF-8'));
-                    $mail->setSubject(html_entity_decode($subject, ENT_QUOTES, 'UTF-8'));
 
-                    $msg = $this->load->view('mail/newsletter', $data);
-
-                    $mail->setHtml($msg);
-                    $mailSent = $mail->send();
-
-                }
-            }
-        } catch (\Exception $e) {
-
-            $this->log->write("Mail send error: " . $e->getMessage());
+        // Query to get total carts
+        $query = $this->db->query("
+   SELECT COUNT(DISTINCT CASE 
+                        WHEN c.customer_id != 0 THEN c.customer_id 
+                        ELSE c.session_id 
+                    END) AS total
+FROM `" . DB_PREFIX . "cart` c
+LEFT JOIN `" . DB_PREFIX . "customer` cu ON c.customer_id = cu.customer_id
+LEFT JOIN `" . DB_PREFIX . "newsletter` n ON c.session_id = n.session_id
+WHERE (c.customer_id != 0 OR (c.customer_id = 0 AND c.session_id != ''))
+ AND c.admin = 0 AND c.date_added <= '" . $this->db->escape($date_threshold) . "'
+AND (cu.newsletter = 1 OR n.session_id IS NOT NULL);
+        ");
+        if (!isset($query->row['total'])) {
+            $query->row['total'] = 0;
         }
-        return $mailSent;
-
+        return (int) $query->row['total'];
     }
-    // Because "mark-down" is already taken 
-    private function MarkUp($template, $cart)
-    {
 
-        $this->load->language("marketing/abandonedcart");
-        $this->load->model('marketing/abandonedcart');
+
+    public function getTotalGuests(): int
+    {
+        // Load the setting model to get the threshold value
         $this->load->model('setting/setting');
-        $template = html_entity_decode($template);
-        $cart['products'] = $this->model_marketing_abandonedcart->getCartProducts($cart);
-        // Get store ID and set default if not provided
-        $storeId = isset($cart['store_id']) ? $cart['store_id'] : 0;
+        $settings = $this->model_setting_setting->getSetting('abandonedcart');
 
-        // Get store name and URL
-        if ($storeId == 0) {
-            $store_name = $this->config->get('config_name');  // Default store name
-            $store_url = HTTP_CATALOG;  // Default store URL
-        } else {
-            $this->load->model('setting/store');
-            $store_info = $this->model_setting_store->getStore($storeId);
+        // Get the abandoned threshold setting
+        $threshold = isset($settings['abandonedcart_abandoned_threshold']) ? (int) $settings['abandonedcart_abandoned_threshold'] : 0;
 
-            $store_name = $store_info ? $store_info['name'] : $this->config->get('config_name');
-            $store_url = $store_info ? $store_info['url'] : HTTP_CATALOG;
+        if ($threshold <= 0) {
+            return 0; // Return 0 if the threshold is not set or is invalid
         }
 
-        $setting = $this->model_setting_setting->getSetting('config', $storeId);
-        $logo = isset($setting['config_logo']) ? $setting['config_logo'] : $this->config->get('config_logo');
+        // Calculate the date threshold for comparison (e.g., 30 days ago)
+        $date_threshold = date('Y-m-d H:i:s', strtotime("-$threshold days"));
 
-        $logo = $store_url . 'image/' . html_entity_decode($logo, ENT_QUOTES, 'UTF-8');
+        // Query to get total guest carts
+        $query = $this->db->query("
+        SELECT COUNT(DISTINCT c.session_id) AS total
+        FROM `" . DB_PREFIX . "cart` c
+        LEFT JOIN `" . DB_PREFIX . "newsletter` n ON c.session_id = n.session_id
+        WHERE c.customer_id = 0
+        AND c.date_added <= '" . $this->db->escape($date_threshold) . "'
+         AND c.admin = 0  AND n.session_id IS NOT NULL
+          GROUP BY c.session_id
+    ");
+        if (!isset($query->row['total'])) {
+            $query->row['total'] = 0;
+        }
+        return (int) $query->row['total'];
+    }
 
-        $store_email = isset($setting['config_email']) ? $setting['config_email'] : $this->config->get('config_email');
-        // Replace [sitename] and [siteurl]
-        $template = str_replace('[sitename]', $store_name, $template);
-        $template = str_replace('[siteurl]', $store_url, $template);
+    public function getTotalCustomers(): int
+    {
+        // Load the setting model to get the threshold value
+        $this->load->model('setting/setting');
+        $settings = $this->model_setting_setting->getSetting('abandonedcart');
 
-        // Replace [products] with a styled product container
-        $products_html = '<div class="row row-cols-1 row-cols-md-3 row-cols-lg-4 g-4 shadow p-3 mb-5 bg-body rounded">';
+        // Get the abandoned threshold setting
+        $threshold = isset($settings['abandonedcart_abandoned_threshold']) ? (int) $settings['abandonedcart_abandoned_threshold'] : 0;
 
-        foreach ($cart['products'] as $product) {
-            $product_image = $store_url . "?route=product/product.getImage&width=150&height=150&image=" . $product['product_image'];
-            $product_name = isset($product['product_name']) ? htmlspecialchars($product['product_name']) : "-";
-            $product_name = (strlen($product_name) > 12) ? substr($product_name, 0, 12) . "..." : $product_name;
-
-
-            $products_html .= '
-                <div class="col">
-                    <div class="card h-100 shadow-sm">
-                        <img src="' . $product_image . '" class="card-img-top img-fluid" alt="' . $product_name . '">
-                        <div class="card-body text-center">
-                            <h6 class="card-title" style="font-size: 0.9rem;">' . $product_name . '</h6>
-                        </div>
-                    </div>
-                </div>';
+        if ($threshold <= 0) {
+            return 0; // Return 0 if the threshold is not set or is invalid
         }
 
-        $products_html .= '</div>';
+        // Calculate the date threshold for comparison (e.g., 30 days ago)
+        $date_threshold = date('Y-m-d H:i:s', strtotime("-$threshold days"));
 
-        // Replace [products] with the styled HTML
-        $template = str_replace('[products]', $products_html, $template);
-        if (!empty($cart['firstname'])) {
-            $template = str_replace('[name]', $cart['firstname'], $template);  // Use registered name
-        } else {
-            $template = str_replace('[name]', $this->language->get('mail_text_customer'), $template);  // Use "Customer" for guests
+        // Query to get total customer carts
+        $query = $this->db->query("
+            SELECT COUNT(DISTINCT c.customer_id) AS total
+            FROM `" . DB_PREFIX . "cart` c
+            LEFT JOIN `" . DB_PREFIX . "customer` cu ON c.customer_id = cu.customer_id
+            WHERE c.customer_id != 0
+            AND c.date_added <= '" . $this->db->escape($date_threshold) . "'
+            AND cu.newsletter = 1  AND c.admin = 0 
+          
+        ");
+
+        if (!isset($query->row['total'])) {
+            $query->row['total'] = 0;
         }
-        // Replace [cart-button] with a Bootstrap-styled button
-        $cart_button_html = '<div class="text-center">
-        <a href="' . $store_url . 'index.php?route=guest/newsletter.cartReturn" class="btn btn-primary">' . $this->language->get('mail_text_return_to_cart') . '</a>
-    </div>';
-        $template = str_replace('[cart-button]', $cart_button_html, $template);
+        return (int) $query->row['total'];
+    }
 
 
-        $this->load->language("marketing/contact");
+    public function getTotalGeneral(): int
+    {
+        // Query to get total unique carts (based on session_id or customer_id)
+        $query = $this->db->query(" 
+            SELECT COUNT(DISTINCT 
+                CASE 
+                    WHEN c.customer_id != 0 THEN c.customer_id 
+                    ELSE c.session_id 
+                END
+            ) AS total
+            FROM `" . DB_PREFIX . "cart` c
+            WHERE (c.customer_id != 0 OR (c.customer_id = 0 AND c.session_id != '')) AND admin = 0 GROUP BY cart_id
+        ");
 
-        $footer_template_pre = $this->language->get('newsletter_footer');
-        $unsub_url = $store_url . "index.php?route=guest/newsletter&email=" . urlencode($cart['email']) . "&action=unsubscribe";
-        $unsub = '<a href="' . $unsub_url . '">' . $this->language->get('newsletter_unsubscribe') . '</a>';
-        $footer = sprintf($footer_template_pre, $store_name, $unsub);
+        // Return the total or 0 if no result is found
+        if (!isset($query->row['total'])) {
+            $query->row['total'] = 0;
+        }
 
+        return (int) $query->row['total'];
+    }
 
-        // Return the final template after replacements
-        return [
-            'msg' => $template,
-            'footer' => $footer,
-            'store_name' => $store_name,
-            'langcode' => $cart['langcode'],
-            'logo' => $logo,
-            'store_email' => $store_email
-        ];
+    public function getCartProducts($cart)
+    {
+        // Prepare customer_id and session_id conditions
+        $customer_id = isset($cart['customer_id']) ? (int) $cart['customer_id'] : 0;
+        $session_id = isset($cart['session_id']) ? $this->db->escape($cart['session_id']) : '';
+
+        // Prepare the SQL query
+        $sql = "
+            SELECT 
+                c.product_id, 
+                pd.name AS product_name, 
+                pi.image AS product_image
+            FROM `" . DB_PREFIX . "cart` c
+            LEFT JOIN `" . DB_PREFIX . "product_description` pd ON c.product_id = pd.product_id AND pd.language_id = " . (int) $this->config->get('config_language_id') . "
+            LEFT JOIN `" . DB_PREFIX . "product_image` pi ON c.product_id = pi.product_id AND pi.sort_order = 1
+            WHERE (
+                ((c.customer_id != 0 AND c.customer_id = " . $customer_id . ") 
+                OR 
+                (c.session_id = '" . $session_id . "' AND c.customer_id = 0))  AND  admin = 0 
+            )
+            LIMIT 5
+        ";
+
+        // Execute the query
+        $query = $this->db->query($sql);
+
+        // Return the results
+        return $query->rows;
+    }
+
+    public function getTotalGeneralWithDetails(int $start = 0, int $limit = 10): array
+    {
+
+        // Query to get unique IDs and customer details if applicable
+        $query = $this->db->query("
+            SELECT 
+                CASE 
+                    WHEN c.customer_id > 0 THEN c.customer_id 
+                    ELSE c.session_id 
+                END AS unique_id,
+                CASE 
+                    WHEN c.customer_id > 0 THEN CONCAT(customer.firstname, ' ', customer.lastname)
+                    ELSE NULL
+                END AS customer_name
+            FROM `" . DB_PREFIX . "cart` c
+            LEFT JOIN `" . DB_PREFIX . "customer` customer ON c.customer_id = customer.customer_id 
+            WHERE  (c.customer_id > 0 OR (c.customer_id = 0 AND c.session_id != ''))  
+            GROUP BY session_id 
+            LIMIT " . (int) $start . ", " . (int) $limit . "
+        ");
+
+        // Prepare the data to return
+        $result = [];
+        foreach ($query->rows as $row) {
+            // Determine the column to filter by (customer_id or session_id)
+
+            $filterValue = $row['unique_id'];
+
+            // Query to get cart details with product names
+            $cartQuery = $this->db->query("
+                SELECT 
+                    c.*,
+                    pd.name AS product_name
+                FROM `" . DB_PREFIX . "cart` c
+                LEFT JOIN `" . DB_PREFIX . "product_description` pd 
+                    ON c.product_id = pd.product_id
+                WHERE c.session_id = '$filterValue' AND  admin = 0 GROUP BY cart_id
+            ");
+
+            // Append the data to the result
+            $result[] = [
+                'unique_id' => $row['unique_id'],
+                'customer_name' => $row['customer_name'],
+                'cart' => $cartQuery->rows // Add cart details with product names
+            ];
+        }
+
+        return $result;
     }
 
 
 
 
+    public function getTotalGeneralAbandoned(): int
+    {
+        // Load the setting model to get the threshold value
+        $this->load->model('setting/setting');
+        $settings = $this->model_setting_setting->getSetting('abandonedcart');
+
+        // Get the abandoned threshold setting
+        $threshold = isset($settings['abandonedcart_abandoned_threshold']) ? (int) $settings['abandonedcart_abandoned_threshold'] : 0;
+
+        if ($threshold <= 0) {
+            return 0; // Return 0 if the threshold is not set or is invalid
+        }
+
+        // Calculate the date threshold for comparison
+        $date_threshold = date('Y-m-d H:i:s', strtotime("-$threshold days"));
+
+        // Query to get total unique carts (based on session_id or customer_id)
+        $query = $this->db->query("
+            SELECT COUNT(DISTINCT CASE 
+                                    WHEN c.customer_id != 0 THEN c.customer_id 
+                                    ELSE c.session_id 
+                                END) AS total
+            FROM `" . DB_PREFIX . "cart` c
+            WHERE c.date_added <= '" . $this->db->escape($date_threshold) . "'
+            AND (c.customer_id != 0 OR c.session_id != '')  AND c.admin='0'
+        ");
+
+        // Ensure the total is returned as an integer
+        return isset($query->row['total']) ? (int) $query->row['total'] : 0;
+    }
+
+
+    public function getCartsPerDayLast30Days(): array
+    {
+
+
+        // Calculate the date 30 days ago from today
+        $date_threshold = date('Y-m-d', strtotime('-30 days'));
+
+        // Query to get the total carts per day for the last 30 days
+        $query = $this->db->query("
+        SELECT 
+            DATE(c.date_added) AS date,
+            COUNT(DISTINCT 
+                CASE 
+                    WHEN c.customer_id != 0 THEN c.customer_id 
+                    ELSE c.session_id 
+                END
+            ) AS total
+        FROM `" . DB_PREFIX . "cart` c
+        WHERE c.date_added >= '" . $this->db->escape($date_threshold) . "'  AND c.admin='0'
+        GROUP BY DATE(c.date_added)
+        ORDER BY DATE(c.date_added)
+    ");
+
+        // Prepare the data for Chart.js
+        $result = [];
+        foreach ($query->rows as $row) {
+            $result[$row['date']] = [
+                'date' => $row['date'],
+                'total' => (int) $row['total']
+            ];
+        }
+
+        return $this->dateZeroFiller($result);
+    }
+
+    public function test(): void
+    {
+        die("yes");
+    }
+    public function getClicksReturns30Days(): array
+    {
+        // Calculate the date 30 days ago from today
+        $date_threshold = date('Y-m-d', strtotime('-30 days'));
+
+        // Query to get the total abandoned carts per day and click counts for the last 30 days
+        $query = $this->db->query("
+        SELECT 
+            DATE(ca.date_last_click) AS date,
+            COUNT(DISTINCT 
+                CASE 
+                    WHEN ca.customer_id != 0 THEN ca.customer_id 
+                    ELSE ca.session_id 
+                END
+            ) AS total,
+            SUM(ca.click_count) AS click_count
+        FROM `" . DB_PREFIX . "cart_abandoned` ca
+        WHERE ca.date_last_click >= '" . $this->db->escape($date_threshold) . "'
+        GROUP BY DATE(ca.date_last_click)
+        ORDER BY DATE(ca.date_last_click)
+    ");
+
+        // Prepare the data for Chart.js
+        $result = [];
+        foreach ($query->rows as $row) {
+            $result[$row['date']] = [
+                'date' => $row['date'],
+                'total' => (int) $row['total'],
+                'click_count' => (int) $row['click_count']
+            ];
+        }
+
+        return $this->dateZeroFiller($result);
+    }
+
+
+    public function getAbandonedNewsLetterCartsPerDayLast30Days(): array
+    {
+        // Calculate the date 30 days ago from today
+        $date_threshold = date('Y-m-d', strtotime('-30 days'));
+
+        // Query to get the total carts per day for the last 30 days
+        $query = $this->db->query("
+            SELECT 
+                DATE(c.date_added) AS date,
+                COUNT(DISTINCT CASE 
+                    WHEN c.customer_id != 0 THEN c.customer_id 
+                    ELSE c.session_id 
+                END) AS total
+            FROM `" . DB_PREFIX . "cart` c
+            LEFT JOIN `" . DB_PREFIX . "customer` cu ON c.customer_id = cu.customer_id
+            LEFT JOIN `" . DB_PREFIX . "newsletter` n ON c.session_id = n.session_id
+            WHERE (c.customer_id != 0 OR (c.customer_id = 0 AND c.session_id != ''))
+            AND c.date_added >= '" . $this->db->escape($date_threshold) . "'
+            AND (cu.newsletter = 1 OR n.session_id IS NOT NULL)  AND c.admin='0'
+            GROUP BY DATE(c.date_added)
+            ORDER BY DATE(c.date_added)
+        ");
+
+        // Prepare the data for Chart.js
+        $result = [];
+        foreach ($query->rows as $row) {
+            $result[$row['date']] = [
+                'date' => $row['date'],
+                'total' => (int) $row['total']
+            ];
+        }
+
+        return $this->dateZeroFiller($result);
+    }
+
+
+    public function getCartsPerDayLast30DaysMoreThan1Products(): array
+    {
+        // Calculate the date 30 days ago from today
+        $date_threshold = date('Y-m-d', strtotime('-30 days'));
+
+        // Query to get the total carts per day for the last 30 days where each cart has more than 1 product (card_id)
+        $query = $this->db->query("
+            SELECT 
+                DATE(c.date_added) AS date,
+                COUNT(DISTINCT c.session_id) AS total
+            FROM `" . DB_PREFIX . "cart` c
+            WHERE c.date_added >= '" . $this->db->escape($date_threshold) . "'  AND admin='0'
+            GROUP BY DATE(c.date_added), c.session_id
+            HAVING COUNT(c.cart_id) > 1
+            ORDER BY DATE(c.date_added) DESC
+        ");
+
+        // Prepare the data for Chart.js
+        $result = [];
+        foreach ($query->rows as $row) {
+            $result[$row['date']] = [
+                'date' => $row['date'],
+                'total' => (int) $row['total']
+            ];
+        }
+
+        return $this->dateZeroFiller($result);
+    }
+
+
+
+    private function dateZeroFiller($result)
+    {
+        $date_threshold = date('Y-m-d', strtotime('-30 days'));
+        while (strtotime($date_threshold) <= strtotime(date('Y-m-d'))) {
+            if (!isset($result[$date_threshold])) {
+                $result[$date_threshold] = [
+                    'date' => $date_threshold,
+                    'total' => 0 // Fixed the semicolon issue
+                ];
+            }
+            $date_threshold = date('Y-m-d', strtotime($date_threshold . ' +1 day'));
+        }
+        ksort($result);
+        // Return the updated result
+
+        return $result;
+    }
 }
