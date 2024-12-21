@@ -963,3 +963,33 @@ footer p {
   overflow-y: scroll;
   overflow-x: hidden;
 }
+
+.swiper {
+  width: 100%;
+  height: 100%;
+}
+
+.swiper-pagination-bullet {
+  width: 15px !important;
+  height: 15px !important;
+  border-radius: 0 !important;
+}
+
+.swiper-slide {
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.swiper-pagination {
+  top: 3px !important;
+
+}
+
+.swiper-slide img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}

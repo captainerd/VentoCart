@@ -20,10 +20,10 @@ class Home extends \Ventocart\System\Engine\Controller
 		/* Product related */
 		$this->document->addLink('https://fonts.googleapis.com/css?family=Aldrich', 'stylesheet', 'text/css');
 		$this->document->addLink('/catalog/view/stylesheet/photoswipe.css', 'stylesheet', 'text/css');
-		$this->document->addLink('/catalog/view/stylesheet/splider.css', 'stylesheet', 'text/css');
 
+		$this->document->addLink('https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css', 'stylesheet', 'text/css');
 		$this->document->addScript("catalog/view/javascript/product.js");
-
+		$this->document->addScript("https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js");
 		$data['column_left'] = $this->load->controller('common/column_left');
 		$data['column_right'] = $this->load->controller('common/column_right');
 		$data['content_top'] = $this->load->controller('common/content_top');

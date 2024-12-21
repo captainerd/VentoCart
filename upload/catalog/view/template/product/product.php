@@ -96,45 +96,34 @@ $isVideo = in_array($popupExtension, $videoExtensions);
             
               <?php if ($images): ?>
                 
-              <div class="btnslide-container"> 
-                <div class="slider-container ">
-                  <ul id="custom-slider"> 
-                  <?php foreach ($images as $image): ?>
-    <li>
-          <?php
-            $fileExtension = pathinfo($image['popup'], PATHINFO_EXTENSION);
-            $isVideo = in_array($fileExtension, ['avi', 'mkv', 'mp4']);
-            ?>
+    
+                <div class="swiper productThumb slider-container">
+    <div class="swiper-wrapper">
+        <?php foreach ($images as $image): ?>
+            <div class="swiper-slide">
+                <?php
+                $fileExtension = pathinfo($image['popup'], PATHINFO_EXTENSION);
+                $isVideo = in_array($fileExtension, ['avi', 'mkv', 'mp4']);
+                ?>
+                <?php if ($isVideo): ?>
+                    <a data-pswp-width="800" data-pswp-height="800" data-pswp-type="video" href="<?= $image['popup'] ?>" title="<?= $this->e($heading_title) ?>">
+                        <video class="img-thumbnailz splider-image" style="width:100%;   object-fit: cover;">
+                            <source src="<?= $this->e($image['popup']) ?>" type="video/<?= $fileExtension ?>">
+                            Your browser does not support the video tag.
+                        </video>
+                    </a>
+                <?php else: ?>
+                    <a data-pswp-width="800" data-pswp-height="800" href="<?= $image['popup'] ?>" title="<?= $this->e($heading_title) ?>">
+                        <img draggable="false" src="<?= $this->e($image['thumb']) ?>" title="<?= $this->e($heading_title) ?>" alt="<?= $this->e($heading_title) ?>" class="img-thumbnailz splider-image">
+                    </a>
+                <?php endif; ?>
+            </div>
+        <?php endforeach; ?>
+    </div>
+    <!-- Pagination -->
+    <div style="position:relative" class="swiper-pagination"></div>
+</div>
 
-
-
-            <?php if ($isVideo): ?>
-                <!-- Video Thumbnail -->
-                <a data-pswp-width="800" data-pswp-height="800" data-pswp-type="video" href="<?= $image['popup'] ?>" title="<?= $this->e($heading_title) ?>">
-             
-              
-                <video class="img-thumbnailz splider-image" style="width:<?=$thumb_width?>px; height:<?=$thumb_height?>px; object-fit: cover;">
-                    <source src="<?= $this->e($image['popup']) ?>" type="video/<?= $fileExtension ?>">
-                    Your browser does not support the video tag.
-                </video>
-            <?php else: ?>
-              <a data-pswp-width="800" data-pswp-height="800"  href="<?= $image['popup'] ?>" title="<?= $this->e($heading_title) ?>">
-             
-                <!-- Image -->
-                <img   draggable="false" src="<?= $this->e($image['thumb']) ?>" title="<?= $this->e($heading_title) ?>" alt="<?= $this->e($heading_title) ?>" class="img-thumbnailz splider-image">
-            <?php endif; ?>
-        </a>
-        &nbsp; </li>  
-<?php endforeach; ?>
-                  </ul>
-                </div>
-                <button  class="scroll-button left"  id="scrollleft">
-                  <i class="fas fa-chevron-left"></i>
-                </button>
-                <button class="scroll-button right"   id="scrollright" >
-                  <i class="fas fa-chevron-right"></i>
-                </button>
-              </div>
               
                 
               <?php endif; ?>
@@ -519,7 +508,7 @@ $isVideo = in_array($popupExtension, $videoExtensions);
 
       <?php if (!$quickview): ?>
         <h3><?= $this->e($text_related ) ?></h3>
-        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-xl-4">
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-4 row-cols-xl-5">
           <?php foreach ($products as $product): ?>
             <div class="col"><?=  $product   ?></div>
           <?php endforeach; ?>
@@ -672,7 +661,33 @@ document.getElementById("coundown").innerHTML =
         lightbox.init();
        // call variation build up 
        window.productInit();
+
+ 
+
+
+
+
+
+
+
+
+
           </script>
+
+
+<script>
+    var swiper = new Swiper(".productThumb", {
+      slidesPerView: 3,
+      spaceBetween: 5,
+      freeMode: true,
+      pagination: {
+        el: ".swiper-pagination",
+        clickable: true,
+      },
+    });
+  </script>
+
+
  
 <?php if (!$quickview): ?>
 <?=  $footer   ?>

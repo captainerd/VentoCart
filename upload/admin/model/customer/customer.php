@@ -63,12 +63,24 @@ class Customer extends \Ventocart\System\Engine\Model
 	 */
 	public function deleteCustomer(int $customer_id): void
 	{
+		// Fetch the email of the customer based on customer_id
+		$query = $this->db->query("SELECT `email` FROM `" . DB_PREFIX . "customer` WHERE `customer_id` = '" . (int) $customer_id . "'");
+
+		if ($query->num_rows) {
+			$email = $query->row['email'];
+			$this->db->query("DELETE FROM `" . DB_PREFIX . "customer_login` WHERE `email` = '" . $this->db->escape($email) . "'");
+		}
+
+
 		$this->db->query("DELETE FROM `" . DB_PREFIX . "customer` WHERE `customer_id` = '" . (int) $customer_id . "'");
 		$this->db->query("DELETE FROM `" . DB_PREFIX . "customer_activity` WHERE `customer_id` = '" . (int) $customer_id . "'");
+
 		$this->db->query("DELETE FROM `" . DB_PREFIX . "cart_abandoned` WHERE `customer_id` = '" . (int) $customer_id . "'");
-		$this->db->query("DELETE FROM `" . DB_PREFIX . "customer_login` WHERE `customer_id` = '" . (int) $customer_id . "'");
+
 		$this->db->query("DELETE FROM `" . DB_PREFIX . "customer_giftcard` WHERE `customer_id` = '" . (int) $customer_id . "'");
+
 		$this->db->query("DELETE FROM `" . DB_PREFIX . "customer_affiliate` WHERE `customer_id` = '" . (int) $customer_id . "'");
+
 		$this->db->query("DELETE FROM `" . DB_PREFIX . "customer_affiliate_report` WHERE `customer_id` = '" . (int) $customer_id . "'");
 		$this->db->query("DELETE FROM `" . DB_PREFIX . "customer_approval` WHERE `customer_id` = '" . (int) $customer_id . "'");
 		$this->db->query("DELETE FROM `" . DB_PREFIX . "customer_authorize` WHERE `customer_id` = '" . (int) $customer_id . "'");

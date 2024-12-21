@@ -19,8 +19,8 @@ class Product extends \Ventocart\System\Engine\Controller
 		/* Product related */
 		$this->document->addLink('https://fonts.googleapis.com/css?family=Aldrich', 'stylesheet', 'text/css');
 		$this->document->addLink('/catalog/view/stylesheet/photoswipe.css', 'stylesheet', 'text/css');
-		$this->document->addLink('/catalog/view/stylesheet/splider.css', 'stylesheet', 'text/css');
-
+		$this->document->addLink('https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css', 'stylesheet', 'text/css');
+		$this->document->addScript("https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js");
 		$this->document->addScript("catalog/view/javascript/product.js");
 
 		if (isset($this->request->get['path'])) {
