@@ -472,8 +472,6 @@ class Order extends \Ventocart\System\Engine\Controller
 			$this->model_actions_sale_order->load();
 
 
-
-
 		} else {
 			$order_id = 0;
 		}

@@ -5,14 +5,16 @@ namespace Ventocart\Admin\Model\Design;
  *
  * @package Ventocart\Admin\Model\Design
  */
-class SeoUrl extends \Ventocart\System\Engine\Model {
+class SeoUrl extends \Ventocart\System\Engine\Model
+{
 	/**
 	 * @param array $data
 	 *
 	 * @return int
 	 */
-	public function addSeoUrl(array $data): int {
-		$this->db->query("INSERT INTO `" . DB_PREFIX . "seo_url` SET `store_id` = '" . (int)$data['store_id'] . "', `language_id` = '" . (int)$data['language_id'] . "', `key` = '" . $this->db->escape((string)$data['key']) . "', `value` = '" . $this->db->escape((string)$data['value']) . "', `keyword` = '" . $this->db->escape((string)$this->convertToSeoFriendly($data['keyword'])) . "', `sort_order` = '" . (int)$data['sort_order'] . "'");
+	public function addSeoUrl(array $data): int
+	{
+		$this->db->query("INSERT INTO `" . DB_PREFIX . "seo_url` SET `store_id` = '" . (int) $data['store_id'] . "', `language_id` = '" . (int) $data['language_id'] . "', `key` = '" . $this->db->escape((string) $data['key']) . "', `value` = '" . $this->db->escape((string) $data['value']) . "', `keyword` = '" . $this->db->escape((string) $this->convertToSeoFriendly($data['keyword'])) . "', `sort_order` = '" . (int) $data['sort_order'] . "'");
 
 		return $this->db->getLastId();
 	}
@@ -23,8 +25,9 @@ class SeoUrl extends \Ventocart\System\Engine\Model {
 	 *
 	 * @return void
 	 */
-	public function editSeoUrl(int $seo_url_id, array $data): void {
-		$this->db->query("UPDATE `" . DB_PREFIX . "seo_url` SET `store_id` = '" . (int)$data['store_id'] . "', `language_id` = '" . (int)$data['language_id'] . "', `key` = '" . $this->db->escape((string)$data['key']) . "', `value` = '" . $this->db->escape((string)$data['value']) . "', `keyword` = '" . $this->db->escape((string)$this->convertToSeoFriendly($data['keyword'])) . "', `sort_order` = '" . (int)$data['sort_order'] . "' WHERE `seo_url_id` = '" . (int)$seo_url_id . "'");
+	public function editSeoUrl(int $seo_url_id, array $data): void
+	{
+		$this->db->query("UPDATE `" . DB_PREFIX . "seo_url` SET `store_id` = '" . (int) $data['store_id'] . "', `language_id` = '" . (int) $data['language_id'] . "', `key` = '" . $this->db->escape((string) $data['key']) . "', `value` = '" . $this->db->escape((string) $data['value']) . "', `keyword` = '" . $this->db->escape((string) $this->convertToSeoFriendly($data['keyword'])) . "', `sort_order` = '" . (int) $data['sort_order'] . "' WHERE `seo_url_id` = '" . (int) $seo_url_id . "'");
 	}
 
 	/**
@@ -32,8 +35,9 @@ class SeoUrl extends \Ventocart\System\Engine\Model {
 	 *
 	 * @return void
 	 */
-	public function deleteSeoUrl(int $seo_url_id): void {
-		$this->db->query("DELETE FROM `" . DB_PREFIX . "seo_url` WHERE `seo_url_id` = '" . (int)$seo_url_id . "'");
+	public function deleteSeoUrl(int $seo_url_id): void
+	{
+		$this->db->query("DELETE FROM `" . DB_PREFIX . "seo_url` WHERE `seo_url_id` = '" . (int) $seo_url_id . "'");
 	}
 
 	/**
@@ -41,8 +45,9 @@ class SeoUrl extends \Ventocart\System\Engine\Model {
 	 *
 	 * @return array
 	 */
-	public function getSeoUrl(int $seo_url_id): array {
-		$query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "seo_url` WHERE `seo_url_id` = '" . (int)$seo_url_id . "'");
+	public function getSeoUrl(int $seo_url_id): array
+	{
+		$query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "seo_url` WHERE `seo_url_id` = '" . (int) $seo_url_id . "'");
 
 		return $query->row;
 	}
@@ -52,7 +57,8 @@ class SeoUrl extends \Ventocart\System\Engine\Model {
 	 *
 	 * @return array
 	 */
-	public function getSeoUrls(array $data = []): array {
+	public function getSeoUrls(array $data = []): array
+	{
 		$sql = "SELECT *, (SELECT `name` FROM `" . DB_PREFIX . "store` `s` WHERE `s`.`store_id` = `su`.`store_id`) AS `store`, (SELECT `name` FROM `" . DB_PREFIX . "language` `l` WHERE `l`.`language_id` = `su`.`language_id`) AS `language` FROM `" . DB_PREFIX . "seo_url` `su`";
 
 		$implode = [];
@@ -70,11 +76,11 @@ class SeoUrl extends \Ventocart\System\Engine\Model {
 		}
 
 		if (isset($data['filter_store_id']) && $data['filter_store_id'] !== '') {
-			$implode[] = "`store_id` = '" . (int)$data['filter_store_id'] . "'";
+			$implode[] = "`store_id` = '" . (int) $data['filter_store_id'] . "'";
 		}
 
 		if (!empty($data['filter_language_id']) && $data['filter_language_id'] !== '') {
-			$implode[] = "`language_id` = '" . (int)$data['filter_language_id'] . "'";
+			$implode[] = "`language_id` = '" . (int) $data['filter_language_id'] . "'";
 		}
 
 		if ($implode) {
@@ -111,7 +117,7 @@ class SeoUrl extends \Ventocart\System\Engine\Model {
 				$data['limit'] = 20;
 			}
 
-			$sql .= " LIMIT " . (int)$data['start'] . "," . (int)$data['limit'];
+			$sql .= " LIMIT " . (int) $data['start'] . "," . (int) $data['limit'];
 		}
 
 		$query = $this->db->query($sql);
@@ -124,7 +130,8 @@ class SeoUrl extends \Ventocart\System\Engine\Model {
 	 *
 	 * @return int
 	 */
-	public function getTotalSeoUrls(array $data = []): int {
+	public function getTotalSeoUrls(array $data = []): int
+	{
 		$sql = "SELECT COUNT(*) AS `total` FROM `" . DB_PREFIX . "seo_url`";
 
 		$implode = [];
@@ -142,11 +149,11 @@ class SeoUrl extends \Ventocart\System\Engine\Model {
 		}
 
 		if (!empty($data['filter_store_id']) && $data['filter_store_id'] !== '') {
-			$implode[] = "`store_id` = '" . (int)$data['filter_store_id'] . "'";
+			$implode[] = "`store_id` = '" . (int) $data['filter_store_id'] . "'";
 		}
 
 		if (!empty($data['filter_language_id']) && $data['filter_language_id'] !== '') {
-			$implode[] = "`language_id` = '" . (int)$data['filter_language_id'] . "'";
+			$implode[] = "`language_id` = '" . (int) $data['filter_language_id'] . "'";
 		}
 
 		if ($implode) {
@@ -155,7 +162,7 @@ class SeoUrl extends \Ventocart\System\Engine\Model {
 
 		$query = $this->db->query($sql);
 
-		return (int)$query->row['total'];
+		return (int) $query->row['total'];
 	}
 
 	/**
@@ -166,8 +173,9 @@ class SeoUrl extends \Ventocart\System\Engine\Model {
 	 *
 	 * @return array
 	 */
-	public function getSeoUrlByKeyValue(string $key, string $value, int $store_id, int $language_id): array {
-		$query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "seo_url` WHERE `key` = '" . $this->db->escape($key) . "' AND `value` = '" . $this->db->escape($value) . "' AND `store_id` = '" . (int)$store_id . "' AND `language_id` = '" . (int)$language_id . "'");
+	public function getSeoUrlByKeyValue(string $key, string $value, int $store_id, int $language_id): array
+	{
+		$query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "seo_url` WHERE `key` = '" . $this->db->escape($key) . "' AND `value` = '" . $this->db->escape($value) . "' AND `store_id` = '" . (int) $store_id . "' AND `language_id` = '" . (int) $language_id . "'");
 
 		return $query->row;
 	}
@@ -179,11 +187,12 @@ class SeoUrl extends \Ventocart\System\Engine\Model {
 	 *
 	 * @return array
 	 */
-	public function getSeoUrlByKeyword(string $keyword, int $store_id, int $language_id = 0): array {
-		$sql = "SELECT * FROM `" . DB_PREFIX . "seo_url` WHERE (`keyword` = '" . $this->db->escape($keyword) . "' OR LCASE(`keyword`) LIKE '" . $this->db->escape('%/' . oc_strtolower($keyword)) . "') AND `store_id` = '" . (int)$store_id . "'";
+	public function getSeoUrlByKeyword(string $keyword, int $store_id, int $language_id = 0): array
+	{
+		$sql = "SELECT * FROM `" . DB_PREFIX . "seo_url` WHERE (`keyword` = '" . $this->db->escape($keyword) . "' OR LCASE(`keyword`) LIKE '" . $this->db->escape('%/' . oc_strtolower($keyword)) . "') AND `store_id` = '" . (int) $store_id . "'";
 
 		if ($language_id) {
-			$sql .= " AND `language_id` = '" . (int)$language_id . "'";
+			$sql .= " AND `language_id` = '" . (int) $language_id . "'";
 		}
 
 		$query = $this->db->query($sql);
@@ -191,19 +200,20 @@ class SeoUrl extends \Ventocart\System\Engine\Model {
 		return $query->row;
 	}
 
-	private function convertToSeoFriendly($text) {
+	private function convertToSeoFriendly($text)
+	{
 		// Transliterate non-Latin characters
 		$text = transliterator_transliterate('Any-Latin; Latin-ASCII; Lower()', $text);
-	
+
 		// Convert to lowercase
 		$text = strtolower($text);
-	
-		// Remove special characters and replace spaces with dashes
-		$text = preg_replace('/[^a-z0-9]+/', '-', $text);
-	
-		// Remove leading and trailing dashes
-		$text = trim($text, '-');
-	
+
+		// Replace spaces with dashes, but preserve existing slashes
+		$text = preg_replace('/[^a-z0-9\/]+/', '-', $text);
+
+		// Remove leading and trailing dashes or slashes
+		$text = trim($text, '-/');
+
 		return $text;
 	}
 }

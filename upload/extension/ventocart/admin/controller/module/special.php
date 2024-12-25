@@ -5,11 +5,13 @@ namespace Ventocart\Admin\Controller\Extension\Ventocart\Module;
  *
  * @package Ventocart\Admin\Controller\Extension\Ventocart\Module
  */
-class Special extends \Ventocart\System\Engine\Controller {
+class Special extends \Ventocart\System\Engine\Controller
+{
 	/**
 	 * @return void
 	 */
-	public function index(): void {
+	public function index(): void
+	{
 		$this->load->language('extension/ventocart/module/special');
 
 		$this->document->setTitle($this->language->get('heading_title'));
@@ -58,11 +60,18 @@ class Special extends \Ventocart\System\Engine\Controller {
 			$data['name'] = '';
 		}
 
-		if (isset($module_info['axis'])) {
-			$data['axis'] = $module_info['axis'];
+		if (isset($module_info['autoplay'])) {
+			$data['autoplay'] = $module_info['autoplay'];
 		} else {
-			$data['axis'] ='';
+			$data['autoplay'] = '';
 		}
+
+		if (isset($module_info['interval'])) {
+			$data['interval'] = $module_info['interval'];
+		} else {
+			$data['interval'] = '';
+		}
+
 
 		if (isset($module_info['limit'])) {
 			$data['limit'] = $module_info['limit'];
@@ -87,9 +96,9 @@ class Special extends \Ventocart\System\Engine\Controller {
 		} else {
 			$data['status'] = '';
 		}
-		
+
 		if (isset($this->request->get['module_id'])) {
-			$data['module_id'] = (int)$this->request->get['module_id'];
+			$data['module_id'] = (int) $this->request->get['module_id'];
 		} else {
 			$data['module_id'] = 0;
 		}
@@ -104,7 +113,8 @@ class Special extends \Ventocart\System\Engine\Controller {
 	/**
 	 * @return void
 	 */
-	public function save(): void {
+	public function save(): void
+	{
 		$this->load->language('extension/ventocart/module/special');
 
 		$json = [];

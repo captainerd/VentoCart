@@ -19,7 +19,7 @@
   <div id="product-info" class="container bg-white border shadow">
  
   
-  <div class="row">
+  <div class="row mx-auto">
 
     <?php if (!$quickview): ?> 
 
@@ -38,7 +38,7 @@
   
   
     
-    <div class="p-2 w-100">
+    <div class="  w-100">
         <h3><?= $heading_title ?></h3>
     </div>
  
@@ -68,7 +68,7 @@ $isVideo = in_array($popupExtension, $videoExtensions);
 
  
                 <div id="videoContainer"    <?php if (!$isVideo): ?>style="display:none" <?php endif; ?>>
-            <video   style="   <?php if (!$isVideo): ?> display:none; <?php endif; ?>" controls  autoplay muted >
+            <video  poster="<?= $poster ?>"  style="   <?php if (!$isVideo): ?> display:none; <?php endif; ?>" controls  autoplay muted >
               <?php     if ($isVideo): ?>          <source  src="<?=$thumb?>"  > <?php endif; ?>
                     Your browser does not support the video tag.
                 </video>
@@ -97,17 +97,23 @@ $isVideo = in_array($popupExtension, $videoExtensions);
               <?php if ($images): ?>
                 
     
-                <div class="swiper productThumb slider-container">
-    <div class="swiper-wrapper">
+               
+                <section
+ 
+  class="productThumb splide slider-container mt-3"
+  aria-label="The carousel with thumbnails. Selecting a thumbnail will change the Beautiful Gallery carousel."
+>  
+<div class="splide__track">
+<ul class="splide__list">
         <?php foreach ($images as $image): ?>
-            <div class="swiper-slide">
+          <li class="splide__slide">
                 <?php
                 $fileExtension = pathinfo($image['popup'], PATHINFO_EXTENSION);
                 $isVideo = in_array($fileExtension, ['avi', 'mkv', 'mp4']);
                 ?>
                 <?php if ($isVideo): ?>
                     <a data-pswp-width="800" data-pswp-height="800" data-pswp-type="video" href="<?= $image['popup'] ?>" title="<?= $this->e($heading_title) ?>">
-                        <video class="img-thumbnailz splider-image" style="width:100%;   object-fit: cover;">
+                        <video poster="<?= $image['poster']?>"  class="img-thumbnailz splider-image" style="width:100%;   object-fit: cover;">
                             <source src="<?= $this->e($image['popup']) ?>" type="video/<?= $fileExtension ?>">
                             Your browser does not support the video tag.
                         </video>
@@ -117,12 +123,11 @@ $isVideo = in_array($popupExtension, $videoExtensions);
                         <img draggable="false" src="<?= $this->e($image['thumb']) ?>" title="<?= $this->e($heading_title) ?>" alt="<?= $this->e($heading_title) ?>" class="img-thumbnailz splider-image">
                     </a>
                 <?php endif; ?>
-            </div>
+                </li>
         <?php endforeach; ?>
-    </div>
-    <!-- Pagination -->
-    <div style="position:relative" class="swiper-pagination"></div>
-</div>
+                </ul>
+
+                </section>
 
               
                 
@@ -149,7 +154,7 @@ $isVideo = in_array($popupExtension, $videoExtensions);
 
                 <?php if ($review_status): ?>
                   
-                <div class="rating">
+                <div class="rating mt-2 mx-2">
                   <p>        
                      <?php for ($i = 1; $i <= 5; $i++): ?>
              
@@ -446,7 +451,7 @@ $isVideo = in_array($popupExtension, $videoExtensions);
 
         <?php if (!$quickview): ?> 
 
-        <div class="tab-content mt-4 p-3 ">
+        <div class="tab-content mt-4   ">
 
         <ul class="nav nav-tabs">
           <li class="nav-item"><a href="#tab-description" data-bs-toggle="tab" class="nav-link active"><?= $this->e($tab_description ) ?></a></li>
@@ -674,19 +679,7 @@ document.getElementById("coundown").innerHTML =
 
           </script>
 
-
-<script>
-    var swiper = new Swiper(".productThumb", {
-      slidesPerView: 3,
-      spaceBetween: 5,
-      freeMode: true,
-      pagination: {
-        el: ".swiper-pagination",
-        clickable: true,
-      },
-    });
-  </script>
-
+ 
 
  
 <?php if (!$quickview): ?>

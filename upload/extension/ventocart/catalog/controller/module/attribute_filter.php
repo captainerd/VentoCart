@@ -13,7 +13,6 @@ class AttributeFilter extends \Ventocart\System\Engine\Controller
 	public function index(): mixed
 	{
 
-		$api_output = $this->customer->isApiClient();
 
 		if (isset($this->request->get['path'])) {
 			$parts = explode('_', (string) $this->request->get['path']);
@@ -56,14 +55,9 @@ class AttributeFilter extends \Ventocart\System\Engine\Controller
 
 			$data['filter_attributes'] = $filteredData;
 
-			if (!$api_output) {
-				return $this->load->view('extension/ventocart/module/attribute_filter', $data);
-			} else {
 
-				$data['module'] = "attribute_filter";
+			return $this->load->view('extension/ventocart/module/attribute_filter', $data);
 
-				return $data;
-			}
 
 		}
 

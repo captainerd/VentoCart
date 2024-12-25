@@ -5,7 +5,7 @@
  * @copyright	Copyright (c) 2005 - 2022, VentoCart, Ltd. (https://www.ventocart.com/)
  * @license		https://opensource.org/licenses/GPL-3.0
  * @link		https://www.ventocart.com
-*/
+ */
 namespace Ventocart\System\Engine;
 /**
  * Class Registry
@@ -32,7 +32,8 @@ namespace Ventocart\System\Engine;
  * @property \Ventocart\System\Library\Url $url
  * @property ?\Ventocart\System\Library\Cart\User $user
  */
-class Registry {
+class Registry
+{
 	/**
 	 * @var array
 	 */
@@ -47,7 +48,8 @@ class Registry {
 	 *
 	 * @return ?object
 	 */
-	public function __get(string $key): ?object {
+	public function __get(string $key): ?object
+	{
 		return $this->get($key);
 	}
 
@@ -61,7 +63,8 @@ class Registry {
 	 *
 	 * @return   void
 	 */
-	public function __set(string $key, object $value): void {
+	public function __set(string $key, object $value): void
+	{
 		$this->set($key, $value);
 	}
 
@@ -74,54 +77,59 @@ class Registry {
 	 *
 	 * @return bool
 	 */
-	public function __isset(string $key): bool {
+	public function __isset(string $key): bool
+	{
 		return $this->has($key);
 	}
 
 	/**
-     * Get
-     *
-     * @param string $key
-     *
-     * @return ?object
-     */
-	public function get(string $key): ?object {
+	 * Get
+	 *
+	 * @param string $key
+	 *
+	 * @return ?object
+	 */
+	public function get(string $key): ?object
+	{
 		return isset($this->data[$key]) ? $this->data[$key] : null;
 	}
 
-    /**
-     * Set
-     *
-     * @param string $key
-     * @param object $value
-     *
-     * @return void
-     */
-	public function set(string $key, object $value): void {
+	/**
+	 * Set
+	 *
+	 * @param string $key
+	 * @param object $value
+	 *
+	 * @return void
+	 */
+	public function set(string $key, object $value): void
+	{
 		$this->data[$key] = $value;
 	}
-	
-    /**
-     * Has
-     *
-     * @param string $key
-     *
-     * @return bool
-     */
-	public function has(string $key): bool {
+
+	/**
+	 * Has
+	 *
+	 * @param string $key
+	 *
+	 * @return bool
+	 */
+	public function has(string $key): bool
+	{
 		return isset($this->data[$key]);
 	}
 
 	/**
-     * Unset
-     *
-     * Unsets registry value by key.
-     *
-     * @param string $key
-     *
-     * @return void
-     */
-	public function unset(string $key): void {
+	 * Unset
+	 *
+	 * Unsets registry value by key.
+	 *
+	 * @param string $key
+	 *
+	 * @return void
+	 */
+	public function unset(string $key): void
+	{
 		unset($this->data[$key]);
 	}
 }

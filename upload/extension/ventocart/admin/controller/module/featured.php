@@ -5,11 +5,13 @@ namespace Ventocart\Admin\Controller\Extension\Ventocart\Module;
  *
  * @package Ventocart\Admin\Controller\Extension\Ventocart\Module
  */
-class Featured extends \Ventocart\System\Engine\Controller {
+class Featured extends \Ventocart\System\Engine\Controller
+{
 	/**
 	 * @return void
 	 */
-	public function index(): void {
+	public function index(): void
+	{
 		$this->load->language('extension/ventocart/module/featured');
 
 		$this->document->setTitle($this->language->get('heading_title'));
@@ -74,15 +76,21 @@ class Featured extends \Ventocart\System\Engine\Controller {
 			if ($product_info) {
 				$data['products'][] = [
 					'product_id' => $product_info['product_id'],
-					'name'       => $product_info['name']
+					'name' => $product_info['name']
 				];
 			}
 		}
 
-		if (!empty($module_info['axis'])) {
-			$data['axis'] = $module_info['axis'];
+		if (isset($module_info['autoplay'])) {
+			$data['autoplay'] = $module_info['autoplay'];
 		} else {
-			$data['axis'] ='';
+			$data['autoplay'] = '';
+		}
+
+		if (isset($module_info['interval'])) {
+			$data['interval'] = $module_info['interval'];
+		} else {
+			$data['interval'] = '';
 		}
 
 		if (isset($module_info['width'])) {
@@ -102,9 +110,9 @@ class Featured extends \Ventocart\System\Engine\Controller {
 		} else {
 			$data['status'] = '';
 		}
-		
+
 		if (isset($this->request->get['module_id'])) {
-			$data['module_id'] = (int)$this->request->get['module_id'];
+			$data['module_id'] = (int) $this->request->get['module_id'];
 		} else {
 			$data['module_id'] = 0;
 		}
@@ -121,7 +129,8 @@ class Featured extends \Ventocart\System\Engine\Controller {
 	/**
 	 * @return void
 	 */
-	public function save(): void {
+	public function save(): void
+	{
 		$this->load->language('extension/ventocart/module/featured');
 
 		$json = [];

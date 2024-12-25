@@ -88,8 +88,18 @@ class Topic extends \Ventocart\System\Engine\Controller
 		} else {
 			$data['preview'] = 0;
 		}
+		if (isset($module_info['autoplay'])) {
+			$data['autoplay'] = $module_info['autoplay'];
+		} else {
+			$data['autoplay'] = '';
+		}
 
- 
+		if (isset($module_info['interval'])) {
+			$data['interval'] = $module_info['interval'];
+		} else {
+			$data['interval'] = '';
+		}
+
 		if (isset($module_info['hidedate'])) {
 			$data['hidedate'] = $module_info['hidedate'];
 		} else {

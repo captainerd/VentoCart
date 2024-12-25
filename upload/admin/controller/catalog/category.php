@@ -1,7 +1,9 @@
 <?php
 namespace Ventocart\Admin\Controller\Catalog;
-class Category extends \Ventocart\System\Engine\Controller {
-	public function index(): void {
+class Category extends \Ventocart\System\Engine\Controller
+{
+	public function index(): void
+	{
 		$this->load->language('catalog/category');
 
 		$this->document->setTitle($this->language->get('heading_title'));
@@ -37,7 +39,7 @@ class Category extends \Ventocart\System\Engine\Controller {
 		$data['delete'] = $this->url->link('catalog/category.delete', 'user_token=' . $this->session->data['user_token']);
 
 		$data['list'] = $this->getList();
-	 
+
 
 		$data['user_token'] = $this->session->data['user_token'];
 
@@ -48,28 +50,31 @@ class Category extends \Ventocart\System\Engine\Controller {
 		$this->response->setOutput($this->load->view('catalog/category', $data));
 	}
 
-	public function list(): void {
+	public function list(): void
+	{
 		$this->load->language('catalog/category');
 
 		$this->response->setOutput($this->getList());
 	}
 
-	public function updateSortOrder(): void { 
+	public function updateSortOrder(): void
+	{
 		$newsort = $this->request->post['newSort'];
 		$this->load->language('catalog/category');
 		if ($this->user->hasPermission('modify', 'catalog/category')) {
-		$this->load->model('catalog/category');
-		foreach( $newsort as $categoery_id => $updatesort) {
-			$this->model_catalog_category->updateSort($categoery_id, $updatesort);
+			$this->load->model('catalog/category');
+			foreach ($newsort as $categoery_id => $updatesort) {
+				$this->model_catalog_category->updateSort($categoery_id, $updatesort);
+			}
+			$this->response->setOutput(json_encode(['status' => 'ok', 'text' => $this->language->get('sorting_updated')]));
+		} else {
+
+			$this->response->setOutput(json_encode(['status' => 'ok', 'text' => $this->language->get('error_permission')]));
 		}
-		$this->response->setOutput(json_encode(['status' => 'ok', 'text' => $this->language->get('sorting_updated')]));
-	} else {
- 
-	$this->response->setOutput(json_encode(['status' => 'ok', 'text' => $this->language->get('error_permission')]));
-	}
 
 	}
-	protected function getList(): string {
+	protected function getList(): string
+	{
 		if (isset($this->request->get['sort'])) {
 			$sort = $this->request->get['sort'];
 		} else {
@@ -83,7 +88,7 @@ class Category extends \Ventocart\System\Engine\Controller {
 		}
 
 		if (isset($this->request->get['page'])) {
-			$page = (int)$this->request->get['page'];
+			$page = (int) $this->request->get['page'];
 		} else {
 			$page = 1;
 		}
@@ -107,7 +112,7 @@ class Category extends \Ventocart\System\Engine\Controller {
 		$data['categories'] = [];
 
 		$filter_data = [
-			'sort'  => "sort_order",
+			'sort' => "sort_order",
 			'order' => "ASC",
 			'start' => ($page - 1) * $this->config->get('config_pagination_admin'),
 			'limit' => 10000
@@ -118,18 +123,18 @@ class Category extends \Ventocart\System\Engine\Controller {
 		$category_total = $this->model_catalog_category->getTotalCategories();
 
 		$results = $this->model_catalog_category->getCategories($filter_data);
- 
+
 		foreach ($results as $result) {
-	 
-			$data['categories'][ $result['category_id']] = [
+
+			$data['categories'][$result['category_id']] = [
 				'category_id' => (int) $result['category_id'],
 				'parent_id' => (int) $result['parent_id'],
-				'name'        => $result['name'],
-				'sort_order'  => (int) $result['sort_order'],
-				'edit'        => $this->url->link('catalog/category.form', 'user_token=' . $this->session->data['user_token'] . '&category_id=' . $result['category_id'] . $url)
+				'name' => $result['name'],
+				'sort_order' => (int) $result['sort_order'],
+				'edit' => $this->url->link('catalog/category.form', 'user_token=' . $this->session->data['user_token'] . '&category_id=' . $result['category_id'] . $url)
 			];
-	}
- 
+		}
+
 		$url = '';
 
 		if ($order == 'ASC') {
@@ -157,9 +162,9 @@ class Category extends \Ventocart\System\Engine\Controller {
 
 		$data['pagination'] = $this->load->controller('common/pagination', [
 			'total' => $category_total,
-			'page'  => $page,
+			'page' => $page,
 			'limit' => 10000,
-			'url'   => $this->url->link('catalog/category.list', 'user_token=' . $this->session->data['user_token'] . $url . '&page={page}')
+			'url' => $this->url->link('catalog/category.list', 'user_token=' . $this->session->data['user_token'] . $url . '&page={page}')
 		]);
 
 		$data['results'] = sprintf($this->language->get('text_pagination'), ($category_total) ? (($page - 1) * $this->config->get('config_pagination_admin')) + 1 : 0, ((($page - 1) * $this->config->get('config_pagination_admin')) > ($category_total - $this->config->get('config_pagination_admin'))) ? $category_total : ((($page - 1) * $this->config->get('config_pagination_admin')) + $this->config->get('config_pagination_admin')), $category_total, ceil($category_total / $this->config->get('config_pagination_admin')));
@@ -170,7 +175,8 @@ class Category extends \Ventocart\System\Engine\Controller {
 		return $this->load->view('catalog/category_list', $data);
 	}
 
-	public function form(): void {
+	public function form(): void
+	{
 		$this->load->language('catalog/category');
 
 		$this->document->setTitle($this->language->get('heading_title'));
@@ -218,15 +224,16 @@ class Category extends \Ventocart\System\Engine\Controller {
 			$this->load->model('catalog/category');
 
 			$category_info = $this->model_catalog_category->getCategory($this->request->get['category_id']);
-			$data['category_id'] = (int)$this->request->get['category_id'];
+
+			$data['category_id'] = (int) $this->request->get['category_id'];
 			$data['category_description'] = $this->model_catalog_category->getDescriptions($this->request->get['category_id']);
 			$filters = $this->model_catalog_category->getFilters($this->request->get['category_id']);
-		 
+
 		} else {
 			$data['category_id'] = 0;
 			$data['category_description'] = [];
 			$filters = [];
-	 
+
 		}
 
 		$this->load->model('tool/image');
@@ -262,68 +269,68 @@ class Category extends \Ventocart\System\Engine\Controller {
 		$data['category_attribute_filters'] = [];
 		$data['category_manufacturer_filters'] = [];
 		foreach ($filters as $filter_id) {
-	 
 
-			if ( $filter_id['type'] == "filter") {
+
+			if ($filter_id['type'] == "filter") {
 				$filter_info = $this->model_catalog_filter->getFilter($filter_id['id']);
-				if ($filter_info ) {
-				$data['category_filters'][] = [
-					'filter_id' => $filter_info['filter_id'],
-					'name'      => $filter_info['group'] . ' &gt; ' . $filter_info['name']
-				];
-			}
+				if ($filter_info) {
+					$data['category_filters'][] = [
+						'filter_id' => $filter_info['filter_id'],
+						'name' => $filter_info['group'] . ' &gt; ' . $filter_info['name']
+					];
+				}
 			}
 			if ($filter_id['type'] == "option") {
-			 
+
 				$filter_option_info = $this->model_catalog_option->getOption($filter_id['id']);
-				if ($filter_option_info ) {
-				$data['category_option_filters'][] = [
-					'option_id' => $filter_option_info['option_id'],
-					'name'      => $filter_option_info['name']
-				];
-			}
+				if ($filter_option_info) {
+					$data['category_option_filters'][] = [
+						'option_id' => $filter_option_info['option_id'],
+						'name' => $filter_option_info['name']
+					];
+				}
 			}
 			if ($filter_id['type'] == "attribute") {
-			 
+
 				$filter_option_info = $this->model_catalog_attribute->getAttribute($filter_id['id']);
-			 
-				if ($filter_option_info ) {
-				$data['category_attribute_filters'][] = [
-					'attribute_id' => $filter_option_info['attribute_id'],
-					'name'      => $filter_option_info['name']
-				];
-			}
+
+				if ($filter_option_info) {
+					$data['category_attribute_filters'][] = [
+						'attribute_id' => $filter_option_info['attribute_id'],
+						'name' => $filter_option_info['name']
+					];
+				}
 			}
 
 			if ($filter_id['type'] == "manufacturer") {
-			 
+
 				$filter_option_info = $this->model_catalog_manufacturer->getManufacturer($filter_id['id']);
-			 
-				if ($filter_option_info ) {
-				$data['category_manufacturer_filters'][] = [
-					'manufacturer_id' => $filter_option_info['manufacturer_id'],
-					'name'      => $filter_option_info['name']
-				];
-			}
+
+				if ($filter_option_info) {
+					$data['category_manufacturer_filters'][] = [
+						'manufacturer_id' => $filter_option_info['manufacturer_id'],
+						'name' => $filter_option_info['name']
+					];
+				}
 			}
 
 		}
- 
-		
+
+
 
 		$data['stores'] = [];
-		
+
 		$data['stores'][] = [
 			'store_id' => 0,
-			'name'     => $this->language->get('text_default')
+			'name' => $this->language->get('text_default')
 		];
-		
+
 		$stores = $this->model_setting_store->getStores();
 
 		foreach ($stores as $store) {
 			$data['stores'][] = [
 				'store_id' => $store['store_id'],
-				'name'     => $store['name']
+				'name' => $store['name']
 			];
 		}
 
@@ -333,7 +340,7 @@ class Category extends \Ventocart\System\Engine\Controller {
 			$data['category_store'] = [0];
 		}
 
-	 
+
 		$data['placeholder'] = $this->model_tool_image->resize('no_image.png', 100, 100);
 
 		if (is_file(DIR_IMAGE . html_entity_decode($data['image'], ENT_QUOTES, 'UTF-8'))) {
@@ -353,7 +360,7 @@ class Category extends \Ventocart\System\Engine\Controller {
 
 					if ($pos !== false) {
 						$keyword = substr($keyword, $pos + 1);
-					}  
+					}
 
 					$data['category_seo_url'][$store_id][$language_id] = $keyword;
 				}
@@ -379,8 +386,9 @@ class Category extends \Ventocart\System\Engine\Controller {
 		$this->response->setOutput($this->load->view('catalog/category_form', $data));
 	}
 
- 
-	public function save(): void {
+
+	public function save(): void
+	{
 		$this->load->language('catalog/category');
 
 		$json = [];
@@ -394,40 +402,29 @@ class Category extends \Ventocart\System\Engine\Controller {
 				$json['error']['name_' . $language_id] = $this->language->get('error_name');
 			}
 
-			if (oc_strlen(trim($this->request->post['redirect_url']) == 0)  && (oc_strlen(trim($value['meta_title'])) < 1) || (oc_strlen($value['meta_title']) > 255)) {
+			if (oc_strlen(trim($this->request->post['redirect_url']) == 0) && (oc_strlen(trim($value['meta_title'])) < 1) || (oc_strlen($value['meta_title']) > 255)) {
 				$json['error']['meta_title_' . $language_id] = $this->language->get('error_meta_title');
 			}
 		}
 
 		$this->load->model('catalog/category');
 
-		if (isset($this->request->post['category_id']) && $this->request->post['parent_id']) {
-			$results = $this->model_catalog_category->getPaths($this->request->post['parent_id']);
-			
-			foreach ($results as $result) {
-				if ($result['path_id'] == $this->request->post['category_id']) {
-					$json['error']['parent'] = $this->language->get('error_parent');
-					
-					break;
-				}
-			}
-		}
 
 		if ($this->request->post['category_seo_url']) {
 			$this->load->model('design/seo_url');
 
 			foreach ($this->request->post['category_seo_url'] as $store_id => $language) {
 				foreach ($language as $language_id => $keyword) {
-					
+
 					if ((oc_strlen(trim($keyword)) < 1) || (oc_strlen($keyword) > 64)) {
 						$json['error']['keyword_' . $store_id . '_' . $language_id] = $this->language->get('error_keyword');
 					}
 
-			
+
 
 					$seo_url_info = $this->model_design_seo_url->getSeoUrlByKeyword($keyword, $store_id);
 
-					if ($seo_url_info && (!isset($this->request->post['category_id']) || $seo_url_info['key'] != 'path' || $seo_url_info['value'] != $this->model_catalog_category->getPath($this->request->post['category_id']))) {
+					if ($seo_url_info && (!isset($this->request->post['category_id']) || $seo_url_info['key'] != 'path' || $seo_url_info['value'] != $this->model_catalog_category->getCategoryPath($this->request->post['category_id']))) {
 						$json['error']['keyword_' . $store_id . '_' . $language_id] = $this->language->get('error_keyword_exists');
 					}
 				}
@@ -439,10 +436,11 @@ class Category extends \Ventocart\System\Engine\Controller {
 		}
 
 		if (!$json) {
-		 
+
 			if (!$this->request->post['category_id']) {
 				$json['category_id'] = $this->model_catalog_category->addCategory($this->request->post);
 			} else {
+
 				$this->model_catalog_category->editCategory($this->request->post['category_id'], $this->request->post);
 			}
 
@@ -453,7 +451,8 @@ class Category extends \Ventocart\System\Engine\Controller {
 		$this->response->setOutput(json_encode($json));
 	}
 
-	public function repair(): void {
+	public function repair(): void
+	{
 		$this->load->language('catalog/category');
 
 		$json = [];
@@ -474,7 +473,8 @@ class Category extends \Ventocart\System\Engine\Controller {
 		$this->response->setOutput(json_encode($json));
 	}
 
-	public function delete(): void {
+	public function delete(): void
+	{
 		$this->load->language('catalog/category');
 
 		$json = [];
@@ -503,7 +503,8 @@ class Category extends \Ventocart\System\Engine\Controller {
 		$this->response->setOutput(json_encode($json));
 	}
 
-	public function autocomplete(): void {
+	public function autocomplete(): void
+	{
 		$json = [];
 
 		if (isset($this->request->get['filter_name'])) {
@@ -511,10 +512,10 @@ class Category extends \Ventocart\System\Engine\Controller {
 
 			$filter_data = [
 				'filter_name' => '%' . $this->request->get['filter_name'] . '%',
-				'sort'        => 'name',
-				'order'       => 'ASC',
-				'start'       => 0,
-				'limit'       => 5
+				'sort' => 'name',
+				'order' => 'ASC',
+				'start' => 0,
+				'limit' => 5
 			];
 
 			$results = $this->model_catalog_category->getCategories($filter_data);
@@ -522,7 +523,7 @@ class Category extends \Ventocart\System\Engine\Controller {
 			foreach ($results as $result) {
 				$json[] = [
 					'category_id' => $result['category_id'],
-					'name'        => $result['name']
+					'name' => $result['name']
 				];
 			}
 		}

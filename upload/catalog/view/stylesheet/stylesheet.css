@@ -402,7 +402,7 @@ a {
   padding-left: 1rem;
 }
 
-/* end mobile menu */
+/* end VentoCart mobile menu */
 #giftcard-container {
   display: flex;
   flex-wrap: wrap;
@@ -424,6 +424,22 @@ a {
   height: 39px;
 }
 
+.thumbnail-container:hover .buttons-overlay {
+  top: 50% !important;
+  opacity: 1;
+}
+
+.buttons-overlay {
+  position: absolute;
+  top: 320px;
+  width: 100%;
+  transition: top 0.6s ease;
+  padding: 10px;
+
+  display: flex;
+  justify-content: center;
+}
+
 .product-thumb {
   margin: 0;
   position: relative;
@@ -431,6 +447,7 @@ a {
   display: block;
   padding-bottom: 0%;
   object-fit: cover;
+
 
 }
 
@@ -596,13 +613,19 @@ a {
 .thumbnail-container {
   overflow: hidden;
   position: relative;
+  width: 100%;
+
+
 }
+
 
 .thumbnail-container:hover {
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
   transform: scale(1.02);
 
 }
+
+
 
 .card-background {
   width: 314px;
@@ -752,7 +775,7 @@ ul.list-cart-drawer li {
 }
 
 .multicolored-text {
-  background: linear-gradient(to right, black 0%, black 5ch, #ffae00 2ch, #ffae00 100%);
+  background: linear-gradient(to right, black 0%, black 3ch, #ffae00 2ch, #ffae00 100%);
   -webkit-background-clip: text;
   color: transparent;
 
@@ -964,32 +987,72 @@ footer p {
   overflow-x: hidden;
 }
 
-.swiper {
+
+
+.img-thumbnailz {
   width: 100%;
-  height: 100%;
 }
 
-.swiper-pagination-bullet {
-  width: 15px !important;
-  height: 15px !important;
-  border-radius: 0 !important;
+.homecat-images {
+  position: relative;
+  display: inline-block;
+  overflow: hidden;
 }
 
-.swiper-slide {
+.homecat-images .afx {
+  background-color: #fff;
   text-align: center;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.swiper-pagination {
-  top: 3px !important;
-
-}
-
-.swiper-slide img {
   display: block;
+  border-radius: 50%;
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+  transition: background-color 0.3s ease;
+}
+
+.homecat-images .afx:hover img {
+  transform: scale(1.3) rotate(15deg);
+  /* Add rotation and scaling */
+}
+
+.homecat-images img {
+  width: 100%;
+  height: auto;
+  transition: transform 0.5s ease-in-out;
+  transform-style: preserve-3d;
+}
+
+.homecat-images img:hover {
+  transform: scale(1.3) rotate(15deg);
+}
+
+.homecat-images .afx::before {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 0;
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  opacity: 0.4;
+  background-color: #007bff;
+  transition: top 0.5s ease-in, background-color 0.5s ease;
+  z-index: 2;
+}
+
+.homecat-images a:hover::before {
+  top: 0;
+
+  background-color: #f00;
+  /* Red when hovered */
+}
+
+.homecat-images a:nth-child(1)::before {
+  background-color: #0034ff;
+
+  /* Example: Facebook blue */
+}
+
+.img-cat-title .afx {
+  color: #e65b08;
+  text-transform: uppercase;
 }

@@ -44,16 +44,19 @@ class NewsLetter extends \Ventocart\System\Engine\Controller
             $email = trim($this->request->get['email']);
             $this->load->model('guest/newsletter');
 
-            if ($action === 'subscribe') {
-                $result = $this->model_guest_newsletter->route($email, 'subscribe');
-                $data['var'] = $result; // The result will be a string for success or error
-            } elseif ($action === 'unsubscribe') {
-                $result = $this->model_guest_newsletter->route($email, 'unsubscribe');
-                $data['var'] = $result; // The result will be a string for success or error
+            if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+                $data['var'] = 'error_email';
             } else {
-                $data['var'] = 'invalid_action';
+                if ($action === 'subscribe') {
+                    $result = $this->model_guest_newsletter->route($email, 'subscribe');
+                    $data['var'] = $result; // The result will be a string for success or error
+                } elseif ($action === 'unsubscribe') {
+                    $result = $this->model_guest_newsletter->route($email, 'unsubscribe');
+                    $data['var'] = $result; // The result will be a string for success or error
+                } else {
+                    $data['var'] = 'invalid_action';
+                }
             }
-
 
             $data['alert_style'] = 'danger';
 

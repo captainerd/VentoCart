@@ -142,7 +142,14 @@
                                 </div>
                             </div>
                         </form>
-
+                        <!-- Error alert container, hidden by default -->
+                        <div id="errorContainer" class="alert alert-danger alert-dismissible fade show" role="alert"
+                            style="display: none;">
+                            <strong>Error!</strong> <span id="errorMessage"></span>
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -287,7 +294,11 @@
                 error: function (xhr, status, error) {
                     // Handle AJAX request errors
                     $(".progress-bar").css("width", "0%").attr("aria-valuenow", 0).text("0%");
+                    var serverResponse = xhr.responseText;
                     alert("AJAX request failed: " + status + "\nError: " + error);
+                    $("#errorContainer").html(serverResponse);
+                    $("#errorContainer").show();
+
                     $("#formContainer").show();
                     clearInterval(interval);
                     $(".progress-bar").css("width", 0 + "%").attr("aria-valuenow", 0).text(0 + "%");

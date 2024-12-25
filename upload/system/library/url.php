@@ -11,7 +11,8 @@ namespace Ventocart\System\Library;
 /**
  * Class URL
  */
-class Url {
+class Url
+{
 	/**
 	 * @var string
 	 */
@@ -26,35 +27,38 @@ class Url {
 	 *
 	 * @param string $url
 	 */
-	public function __construct(string $url) {
+	public function __construct(string $url)
+	{
 		$this->url = $url;
 	}
 
 	/**
-     * addRewrite
-     *
-     * Add a rewrite method to the URL system
-     *
-     * @param object $rewrite
-     *
-     * @return void
-     */
-	public function addRewrite(\Ventocart\System\Engine\Controller $rewrite): void {
+	 * addRewrite
+	 *
+	 * Add a rewrite method to the URL system
+	 *
+	 * @param object $rewrite
+	 *
+	 * @return void
+	 */
+	public function addRewrite(\Ventocart\System\Engine\Controller $rewrite): void
+	{
 		$this->rewrite[] = $rewrite;
 	}
 
 	/**
-     * Link
-     * 
-     * Generates a URL
-     *
-     * @param string $route
-     * @param mixed  $args
-     * @param bool   $js
-     *
-     * @return string
-     */
-	public function link(string $route, $args = '', bool $js = false): string {
+	 * Link
+	 * 
+	 * Generates a URL
+	 *
+	 * @param string $route
+	 * @param mixed  $args
+	 * @param bool   $js
+	 *
+	 * @return string
+	 */
+	public function link(string $route, $args = '', bool $js = false): string
+	{
 		$url = $this->url . 'index.php?route=' . $route;
 
 		if ($args) {

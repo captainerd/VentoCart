@@ -1006,7 +1006,31 @@
               </div>
             </div>
             <div id="tab-image" class="tab-pane">
+               <legend>{{ text_image_settings }}</legend>
               <fieldset>
+              <!-- File Type Selection -->
+<div class="row mb-3 required">
+  <label for="input-image-filetype" class="col-sm-2 col-form-label">{{ entry_image_filetype }}</label>
+  <div class="col-sm-10">
+    <select name="config_image_filetype" id="input-image-filetype" class="form-control">
+      <option value="as_uploaded" {{ config_image_filetype == 'as_uploaded' ? 'selected' : '' }}>{{ entry_filetype_as_uploaded }}</option>
+      <option value="webp" {{ config_image_filetype == 'webp' ? 'selected' : '' }}>{{ entry_filetype_webp }}</option>
+      <option value="avif" {{ config_image_filetype == 'avif' ? 'selected' : '' }}>{{ entry_filetype_avif }}</option>
+      <option value="jpeg" {{ config_image_filetype == 'jpeg' ? 'selected' : '' }}>{{ entry_filetype_jpeg }}</option>
+      <option value="png" {{ config_image_filetype == 'png' ? 'selected' : '' }}>{{ entry_filetype_png }}</option>
+    </select>
+    <div id="error-image-filetype" class="invalid-feedback"></div>
+  </div>
+</div>
+
+<!-- Image Quality Selection -->
+<div class="row mb-3 required">
+  <label for="input-image-quality" class="col-sm-2 col-form-label">{{ entry_image_quality }}</label>
+  <div class="col-sm-10">
+    <input type="number" name="config_image_quality" value="{{ config_image_quality }}" min="1" max="100" placeholder="{{ entry_quality }}" id="input-image-quality" class="form-control"/>
+    <div id="error-image-quality" class="invalid-feedback"></div>
+  </div>
+</div>
                 <legend>{{ text_image_size }}</legend>
                 <div class="row mb-3 required">
                   <label for="input-image-default-width" class="col-sm-2 col-form-label">{{ entry_image_default }}</label>

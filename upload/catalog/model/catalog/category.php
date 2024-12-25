@@ -17,11 +17,15 @@ class Category extends \Ventocart\System\Engine\Model
 		$query = $this->db->query("SELECT DISTINCT * FROM `" . DB_PREFIX . "category` `c` LEFT JOIN `" . DB_PREFIX . "category_description` `cd` ON (`c`.`category_id` = `cd`.`category_id`) LEFT JOIN `" . DB_PREFIX . "category_to_store` `c2s` ON (`c`.`category_id` = `c2s`.`category_id`) WHERE `c`.`category_id` = '" . (int) $category_id . "' AND `cd`.`language_id` = '" . (int) $this->config->get('config_language_id') . "' AND `c2s`.`store_id` = '" . (int) $this->config->get('config_store_id') . "' AND `c`.`status` = '1'");
 		$pattern = '/\[link=(.*?)\]/';
 		$query->row['redirect_url'] = '';
-		if (preg_match($pattern, $query->row['meta_title'], $matches)) {
-			$query->row['redirect_url'] = $matches[1];
-			$query->row['meta_title'] = '';
+		if ($query->num_rows > 0) {
+			if (preg_match($pattern, $query->row['meta_title'], $matches)) {
+				$query->row['redirect_url'] = $matches[1];
+				$query->row['meta_title'] = '';
+			}
+			return $query->row;
+		} else {
+			return [];
 		}
-		return $query->row;
 	}
 
 	/**

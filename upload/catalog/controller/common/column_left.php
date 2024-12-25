@@ -13,7 +13,7 @@ class ColumnLeft extends \Ventocart\System\Engine\Controller
 	public function index(): mixed
 	{
 		$this->load->model('design/layout');
-		$api_output = $this->customer->isApiClient();
+
 		if (isset($this->request->get['route'])) {
 			$route = (string) $this->request->get['route'];
 		} else {
@@ -91,11 +91,9 @@ class ColumnLeft extends \Ventocart\System\Engine\Controller
 				}
 			}
 		}
-		if (!$api_output) {
-			return $this->load->view('common/column_left', $data);
-		} else {
-			return $data;
-		}
+
+		return $this->load->view('common/column_left', $data);
+
 
 	}
 }

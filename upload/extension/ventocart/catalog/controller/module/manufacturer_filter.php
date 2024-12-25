@@ -13,7 +13,7 @@ class manufacturerFilter extends \Ventocart\System\Engine\Controller
 	 */
 	public function index()
 	{
-		$api_output = $this->customer->isApiClient();
+
 		if (isset($this->request->get['path'])) {
 			$parts = explode('_', (string) $this->request->get['path']);
 		} else {
@@ -42,13 +42,9 @@ class manufacturerFilter extends \Ventocart\System\Engine\Controller
 			if (empty($data['filter_manufacturers'])) {
 				return '';
 			}
-			if (!$api_output) {
-				return $this->load->view('extension/ventocart/module/manufacturer_filter', $data);
-			} else {
-				$data['module'] = "manufacturer_filter";
-				$data['lang_values'] = $this->language->loadForAPI('extension/ventocart/module/manufacturer_filter');
-				return $data;
-			}
+
+			return $this->load->view('extension/ventocart/module/manufacturer_filter', $data);
+
 
 		}
 

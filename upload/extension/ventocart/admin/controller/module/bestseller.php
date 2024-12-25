@@ -5,11 +5,13 @@ namespace Ventocart\Admin\Controller\Extension\Ventocart\Module;
  *
  * @package Ventocart\Admin\Controller\Extension\Ventocart\Module
  */
-class BestSeller extends \Ventocart\System\Engine\Controller {
+class BestSeller extends \Ventocart\System\Engine\Controller
+{
 	/**
 	 * @return void
 	 */
-	public function index(): void {
+	public function index(): void
+	{
 		$this->load->language('extension/ventocart/module/bestseller');
 
 		$this->document->setTitle($this->language->get('heading_title'));
@@ -58,10 +60,16 @@ class BestSeller extends \Ventocart\System\Engine\Controller {
 			$data['name'] = '';
 		}
 
-		if (isset($module_info['axis'])) {
-			$data['axis'] = $module_info['axis'];
+		if (isset($module_info['autoplay'])) {
+			$data['autoplay'] = $module_info['autoplay'];
 		} else {
-			$data['axis'] ='';
+			$data['autoplay'] = '';
+		}
+
+		if (isset($module_info['interval'])) {
+			$data['interval'] = $module_info['interval'];
+		} else {
+			$data['interval'] = '';
 		}
 
 		if (isset($module_info['limit'])) {
@@ -87,9 +95,9 @@ class BestSeller extends \Ventocart\System\Engine\Controller {
 		} else {
 			$data['status'] = '';
 		}
-		
+
 		if (isset($this->request->get['module_id'])) {
-			$data['module_id'] = (int)$this->request->get['module_id'];
+			$data['module_id'] = (int) $this->request->get['module_id'];
 		} else {
 			$data['module_id'] = 0;
 		}
@@ -108,7 +116,8 @@ class BestSeller extends \Ventocart\System\Engine\Controller {
 	/**
 	 * @return void
 	 */
-	public function save(): void {
+	public function save(): void
+	{
 		$this->load->language('extension/ventocart/module/bestseller');
 
 		$json = [];
@@ -150,7 +159,8 @@ class BestSeller extends \Ventocart\System\Engine\Controller {
 	/**
 	 * @return void
 	 */
-	public function install(): void {
+	public function install(): void
+	{
 		if ($this->user->hasPermission('modify', 'extension/ventocart/module/bestseller')) {
 			$this->load->model('extension/ventocart/module/bestseller');
 
@@ -161,7 +171,8 @@ class BestSeller extends \Ventocart\System\Engine\Controller {
 	/**
 	 * @return void
 	 */
-	public function uninstall(): void {
+	public function uninstall(): void
+	{
 		if ($this->user->hasPermission('modify', 'extension/ventocart/module/bestseller')) {
 			$this->load->model('extension/ventocart/module/bestseller');
 
@@ -172,7 +183,8 @@ class BestSeller extends \Ventocart\System\Engine\Controller {
 	/**
 	 * @return void
 	 */
-	public function report(): void {
+	public function report(): void
+	{
 		$this->load->language('extension/ventocart/module/bestseller');
 
 		$this->response->setOutput($this->getReport());
@@ -181,9 +193,10 @@ class BestSeller extends \Ventocart\System\Engine\Controller {
 	/**
 	 * @return string
 	 */
-	public function getReport(): string {
+	public function getReport(): string
+	{
 		if (isset($this->request->get['page']) && $this->request->get['route'] == 'extension/ventocart/module/bestseller.report') {
-			$page = (int)$this->request->get['page'];
+			$page = (int) $this->request->get['page'];
 		} else {
 			$page = 1;
 		}
@@ -208,8 +221,8 @@ class BestSeller extends \Ventocart\System\Engine\Controller {
 
 			$data['reports'][] = [
 				'product' => $product,
-				'total'   => $result['total'],
-				'edit'    => $this->url->link('catalog/product.edit', 'user_token=' . $this->session->data['user_token'] . '&product_id=' . $result['product_id'])
+				'total' => $result['total'],
+				'edit' => $this->url->link('catalog/product.edit', 'user_token=' . $this->session->data['user_token'] . '&product_id=' . $result['product_id'])
 			];
 		}
 
@@ -217,9 +230,9 @@ class BestSeller extends \Ventocart\System\Engine\Controller {
 
 		$data['pagination'] = $this->load->controller('common/pagination', [
 			'total' => $report_total,
-			'page'  => $page,
+			'page' => $page,
 			'limit' => $limit,
-			'url'   => $this->url->link('extension/ventocart/module/bestseller.report', 'user_token=' . $this->session->data['user_token'] . '&page={page}')
+			'url' => $this->url->link('extension/ventocart/module/bestseller.report', 'user_token=' . $this->session->data['user_token'] . '&page={page}')
 		]);
 
 		$data['results'] = sprintf($this->language->get('text_pagination'), ($report_total) ? (($page - 1) * $limit) + 1 : 0, ((($page - 1) * $limit) > ($report_total - $limit)) ? $report_total : ((($page - 1) * $limit) + $limit), $report_total, ceil($report_total / $limit));
@@ -230,13 +243,14 @@ class BestSeller extends \Ventocart\System\Engine\Controller {
 	/**
 	 * @return void
 	 */
-	public function sync(): void {
+	public function sync(): void
+	{
 		$this->load->language('extension/ventocart/module/bestseller');
 
 		$json = [];
 
 		if (isset($this->request->get['page'])) {
-			$page = (int)$this->request->get['page'];
+			$page = (int) $this->request->get['page'];
 		} else {
 			$page = 1;
 		}

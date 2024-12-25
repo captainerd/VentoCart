@@ -1,3 +1,65 @@
+## What's New in VentoCart v5.1.0.0
+
+1. **Swiper Replaced with Slide:**
+   - The default template now uses **Slide** instead of Swiper. This change reduces complexity and improves performance, making it better suited for eCommerce sites.
+
+2. **Refined Topics & Product Listings Modules:**
+   - **Topics** module has been improved and now features a carousel layout.
+   - **All product listing modules** have been converted to carousels, with configurable settings for **interval** and **autoplay**.
+   - The **vertical axis** has been removed, as it requires special handling in carousels when theming.
+
+3. **New Module - Category List:**
+   - A **Category List** module has been added, allowing admins to promote selected special categories from the admin panel
+   - From admin/extensions/modules **Category List**
+
+4. **Newsletter Module Improvements:**
+   - The **Newsletter** module has been refined and now works on the **home route** as well.
+   - It detects if it’s mounted on the homepage, and if so, it displays as a **modal**. Once the modal is closed, it will not appear again, thanks to **localStorage** detection.
+
+5. **Quick Thumb Module Refinements:**
+   - **Quick Thumb**, the small product thumbnail used in various listings (like the "Others buy this too" section), has been enhanced.
+   - **Add-to-cart button** has been added for **desktop** users to increase ease of access and improve user experience.
+
+6. **Theme & CSS Work:**
+   - Extensive **theme and CSS** improvements have been made.
+   - Theme developers now have enough tools and **CSS examples** to start building custom themes with minimal effort.
+
+7. **AutoVideo Thumb - Poster Attribute to Videos:**
+   - On upload, if a video file is detected, it will automatically upload a snapshot image of the 20%'th frame of the video (close to the middle).
+   - Deleting the video file it will automatically delete the snapshot image too.
+   - This image will then be resized and used as a 'poster' on all video thumbnails.
+   - The poster attribute specifies an image to be shown while the video is downloading or until the user hits the play button.
+
+8. **Web API Refactoring:**
+   - Cleared all the logic of the web API and created a dedicated controller/namespace, in order to avoid polluting the codebase and to keep it maintainable.
+   - The API now has its own logic in most cases and will reuse controllers from the web version part.
+   - The ReactJS app is being rewritten to follow the new end points and structure.
+
+9. **SEO Enhancement - Category Path Logic Rewriting:**
+   - To improve SEO, the category path logic has been completely re-written due to issues with the OC legacy implementation, which was often failing.
+   - category_path tabe has been dropped.
+   - Added default SEO routes for various sections
+
+10. **SEO Enhancement Added Image Settings, setting in Admin/Settings:**
+    - Added an option in Admin/Settings/Image to select SEO-friendly image formats for the frontend, such as WebP. Once set, all images will be converted to the selected format, regardless of the format uploaded initially.
+    - An input field to specify the desired image quality.
+
+11. **AVIF Image Format Support:**
+    - Added **AVIF** support. You can now upload images in AVIF format, (provided your PHP GD is installed with AVIF support.)
+
+12. **Bug Fixes**
+   - Resolved an issue with the **Availability Filter**: The product counter now includes only products belonging to the selected category, ensuring more accurate filtering and counts.
+
+13. **Improved Installer**
+   - Enhanced the installer with an **error-return section**: In case of an error during finalization, the server's output will now be displayed directly in the HTML for easier troubleshooting and debugging.
+ 
+
+Versioning Update: We have updated our versioning to align more closely with the versioning scheme used by OpenCart. Going forward, we will be incrementing the version numbers based on the following structure:
+
+    MAJOR: For breaking changes or significant rewrites.
+    MINOR: For core structure changes that affect compatibility but do not break existing functionality.
+    FEATURE: For the addition of new features or extensions, without breaking backward compatibility.
+    PATCH: For bug fixes and small tweaks.
 ---
 
 ## What's New in VentoCart v5.0.0.2

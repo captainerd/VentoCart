@@ -16,10 +16,10 @@ class Featured extends \Ventocart\System\Engine\Controller
 	{
 		$this->load->language('extension/ventocart/module/featured');
 
-		$data['axis'] = $setting['axis'];
 
 		$data['products'] = [];
-
+		$data['autoplay'] = $setting['autoplay'];
+		$data['interval'] = $setting['interval'];
 		$this->load->model('catalog/product');
 		$this->load->model('tool/image');
 
@@ -36,7 +36,27 @@ class Featured extends \Ventocart\System\Engine\Controller
 
 			foreach ($products as $product) {
 				if ($product['image']) {
+
+					// Video poster creation
+					$fileExtension = strtolower(pathinfo($product['image'], PATHINFO_EXTENSION));
+					$poster = '';
+
+					if (in_array($fileExtension, ['mp4', 'mkv', 'avi'])) {
+
+						// Prepare the resized video thumbnail, the URL is the same as the video
+						$image_format = $this->config->get('config_image_filetype');
+						if ($image_format == 'as_uploaded') {
+							$image_format = ".png";  // Default to PNG if 'as_uploaded' is chosen
+						}
+						$image = $product['image'];
+
+						$poster = substr_replace($product['image'], '.png', strrpos($product['image'], '.'));  // Only modify the $poster variable
+						$poster = $this->model_tool_image->resize(html_entity_decode($poster, ENT_QUOTES, 'UTF-8'), $setting['width'], $setting['height']);
+
+					}
 					$image = $this->model_tool_image->resize(html_entity_decode($product['image'], ENT_QUOTES, 'UTF-8'), $setting['width'], $setting['height']);
+
+
 				} else {
 					$image = $this->model_tool_image->resize('placeholder.png', $setting['width'], $setting['height']);
 				}
@@ -62,6 +82,7 @@ class Featured extends \Ventocart\System\Engine\Controller
 				$product_data = [
 					'product_id' => $product['product_id'],
 					'thumb' => $image,
+					'poster' => $poster,
 					'name' => $product['name'],
 					'description' => oc_substr(trim(strip_tags(html_entity_decode($product['description'], ENT_QUOTES, 'UTF-8'))), 0, $this->config->get('config_product_description_length')) . '..',
 					'price' => $price,
@@ -82,14 +103,9 @@ class Featured extends \Ventocart\System\Engine\Controller
 
 		if ($data['products']) {
 
-			$api_output = $this->customer->isApiClient();
-			if ($api_output) {
-				$data['module'] = "featured";
-				$data['lang_values'] = $this->language->loadForAPI('extension/ventocart/module/featured');
-				return $data;
-			} else {
-				return $this->load->view('extension/ventocart/module/featured', $data);
-			}
+
+			return $this->load->view('extension/ventocart/module/featured', $data);
+
 		} else {
 			return '';
 		}

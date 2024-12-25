@@ -62,23 +62,11 @@ class Address extends \Ventocart\System\Engine\Controller
 		$data['header'] = $this->load->controller('common/header');
 
 
-		$api_output = $this->customer->isApiClient();
-		if ($api_output) {
-			$dataapi['countries'] = $this->load->controller('localisation/country.getCountries');
-			$dataapi['lang_values'] = array_merge(
-				$this->language->loadForAPI('account/address'),
-				$this->language->all()
-			);
-			$dataapi['list'] = $this->model_account_address->getAddresses($this->customer->getId());
-			$this->response->setOutput(json_encode($dataapi));
-
-
-		} else {
 
 
 
-			$this->response->setOutput($this->load->view('account/address', $data));
-		}
+		$this->response->setOutput($this->load->view('account/address', $data));
+
 
 
 

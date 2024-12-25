@@ -60,11 +60,7 @@ class MoreInCategory extends \Ventocart\System\Engine\Controller
             $data['name'] = '';
         }
 
-        if (isset($module_info['axis'])) {
-            $data['axis'] = $module_info['axis'];
-        } else {
-            $data['axis'] = '';
-        }
+
 
         if (isset($module_info['limit'])) {
             $data['limit'] = $module_info['limit'];

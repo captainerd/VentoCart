@@ -4,25 +4,29 @@ $mediaExtension = pathinfo($thumb, PATHINFO_EXTENSION);
 $isVideo = in_array($mediaExtension, $videoExtensions);
 ?>
 <div class=" h-100 rounded  bg-white thumbnail-container  border">
-    <?php if ($isVideo): ?>
-        <a href="<?= $href ?>" class="product-link  text-primary-emphasis text-center text-decoration-none">
-            <video style="   object-fit: cover !important" class=" autoplayHover product-thumb" muted loop>
+    <a href="<?= $href ?>" class="product-link  text-primary-emphasis text-center text-decoration-none">
+        <?php if ($isVideo): ?>
+
+            <video poster="<?= $poster ?>" style="   object-fit: cover !important" class=" autoplayHover product-thumb"
+                muted loop>
                 <source src="<?= $thumb ?>" type="video/<?= $mediaExtension ?>">
                 Your browser does not support the video tag.
-            </video> </a>
-    <?php else: ?> <a href="<?= $href ?>" class="product-link  text-primary-emphasis text-center text-decoration-none">
-            <img class="img-fluid product-thumb" src="<?= $thumb ?>" alt="<?= $this->e($name) ?>" /> </a>
-    <?php endif; ?>
-    <?php if (isset($special) && $special): ?>
-        <div class="offer-strip-container">
-            <div style="  background-color: rgba(255, 0, 0, 0.7);" class="offer-strip"><?= $text_offer ?></div>
-        </div>
-    <?php endif ?>
-    <?php if (isset($new) && $new): ?>
-        <div class="offer-strip-container">
-            <div style=" background-color: rgba(126, 211, 1, 0.8);" class="offer-strip"><?= $text_new ?></div>
-        </div>
-    <?php endif ?>
+            </video>
+        <?php else: ?>
+            <img class="img-fluid product-thumb" src="<?= $thumb ?>" alt="<?= $this->e($name) ?>" />
+        <?php endif; ?>
+        <?php if (isset($special) && $special): ?>
+            <div class="offer-strip-container">
+                <div style="  background-color: rgba(255, 0, 0, 0.7);" class="offer-strip"><?= $text_offer ?></div>
+            </div>
+        <?php endif ?>
+        <?php if (isset($new) && $new && (isset($special) && !$special)): ?>
+            <div class="offer-strip-container">
+                <div style=" background-color: rgba(126, 211, 1, 0.8);" class="offer-strip"><?= $text_new ?></div>
+            </div>
+
+        <?php endif ?>
+    </a>
     <div class="card-body">
         <?php if ($review_status && $rating): ?>
             <div class="rating text-center ">
@@ -39,7 +43,7 @@ $isVideo = in_array($mediaExtension, $videoExtensions);
 
         <div class="card-title mt-1">
             <a href="<?= $href ?>" class="product-link mt-auto text-primary-emphasis text-center text-decoration-none">
-                <h6 class="text-light-emphasis product-name"><?= $this->e($name) ?></h6>
+                <h6 class="text-light-emphasis px-2 product-name"><?= $this->e($name) ?></h6>
             </a>
         </div>
 

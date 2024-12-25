@@ -26,7 +26,7 @@ class BoughtWith extends \Ventocart\System\Engine\Controller
         }
         $this->load->language('extension/ventocart/module/boughtwith');
 
-        $data['axis'] = $setting['axis'];
+
         $data['autoplay'] = $setting['autoplay'];
 
         $data['products'] = [];
@@ -35,6 +35,8 @@ class BoughtWith extends \Ventocart\System\Engine\Controller
         $this->load->model('tool/image');
 
         $results = $this->model_extension_ventocart_module_boughtwith->getboughtwith($setting['limit'], $product_id);
+        $this->load->language('product/thumb');
+
 
         if ($results) {
             foreach ($results as $result) {
@@ -62,6 +64,9 @@ class BoughtWith extends \Ventocart\System\Engine\Controller
                     $tax = false;
                 }
 
+
+
+
                 $product_data = [
                     'product_id' => $result['product_id'],
                     'thumb' => $image,
@@ -78,6 +83,13 @@ class BoughtWith extends \Ventocart\System\Engine\Controller
                     'rating' => $result['rating'],
                     'href' => $this->url->link('product/product', 'language=' . $this->config->get('config_language') . '&product_id=' . $result['product_id'])
                 ];
+                $product_data['cart'] = $this->url->link('common/cart.info', 'language=' . $this->config->get('config_language'));
+
+                $product_data['add_to_cart'] = $this->url->link('checkout/cart.add', 'language=' . $this->config->get('config_language'));
+                $product_data['add_to_wishlist'] = $this->url->link('account/wishlist.add', 'language=' . $this->config->get('config_language'));
+                $product_data['add_to_compare'] = $this->url->link('product/compare.add', 'language=' . $this->config->get('config_language'));
+
+                $product_data['review_status'] = (int) $this->config->get('config_review_status');
 
                 $data['products'][] = $this->load->view('product/quick_thumb', $product_data);
 
@@ -85,15 +97,8 @@ class BoughtWith extends \Ventocart\System\Engine\Controller
 
 
 
-            $api_output = $this->customer->isApiClient();
 
-            if ($api_output) {
-                $data['module'] = "boughtwithProducts";
-                $data['lang_values'] = $this->language->loadForAPI('extension/ventocart/module/boughtwith');
-                return $data;
-            } else {
-                return $this->load->view('extension/ventocart/module/boughtwith', $data);
-            }
+            return $this->load->view('extension/ventocart/module/boughtwith', $data);
 
         } else {
             return '';

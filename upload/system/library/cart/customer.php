@@ -148,29 +148,6 @@ class Customer
 		}
 	}
 
-
-
-	public function setApiSigned(bool $status): void
-	{
-		$this->apiSigned = $status;
-	}
-
-	public function isApiSigned(): bool
-	{
-		return $this->apiSigned;
-	}
-
-	public function setApiClient(bool $status): void
-	{
-		$this->apiClient = $status;
-	}
-
-	public function isApiClient(): bool
-	{
-		return $this->apiClient;
-	}
-
-
 	/**
 	 * Logout
 	 *

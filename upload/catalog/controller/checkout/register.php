@@ -216,15 +216,11 @@ class Register extends \Ventocart\System\Engine\Controller
 
 		$data['language'] = $this->config->get('config_language');
 
-		$api_output = $this->customer->isApiClient();
-		if ($api_output) {
-			$data['loggedIn'] = $this->customer->isLogged();
-			return $data;
-		} else {
 
 
-			return $this->load->view('checkout/register', $data);
-		}
+
+		return $this->load->view('checkout/register', $data);
+
 	}
 
 	public function save(): void
@@ -658,12 +654,9 @@ class Register extends \Ventocart\System\Engine\Controller
 
 
 
-		$api_output = $this->customer->isApiClient();
 
 		$this->session->close();
-		if ($api_output) {
-			$json['loggedIn'] = $this->customer->isLogged();
-		}
+
 		$this->response->addHeader('Content-Type: application/json');
 		$this->response->setOutput(json_encode($json));
 	}

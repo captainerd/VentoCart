@@ -386,6 +386,7 @@ AND (cu.newsletter = 1 OR n.session_id IS NOT NULL);
             LIMIT " . (int) $start . ", " . (int) $limit . "
         ");
 
+
         // Prepare the data to return
         $result = [];
         foreach ($query->rows as $row) {

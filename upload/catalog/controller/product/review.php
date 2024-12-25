@@ -13,7 +13,7 @@ class Review extends \Ventocart\System\Engine\Controller
 	public function index(): mixed
 	{
 		$this->load->language('product/review');
-		$api_output = $this->customer->isApiClient();
+
 		if (isset($this->request->get['product_id'])) {
 			$product_id = (int) $this->request->get['product_id'];
 		} else {
@@ -55,11 +55,9 @@ class Review extends \Ventocart\System\Engine\Controller
 		}
 
 		$data['language'] = $this->config->get('config_language');
-		if (!$api_output) {
-			return $this->load->view('product/review', $data);
-		} else {
-			return $data;
-		}
+
+		return $this->load->view('product/review', $data);
+
 	}
 
 	/**

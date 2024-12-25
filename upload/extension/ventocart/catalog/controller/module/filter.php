@@ -80,14 +80,9 @@ class Filter extends \Ventocart\System\Engine\Controller
 				}
 
 
-				$api_output = $this->customer->isApiClient();
-				if ($api_output) {
-					$data['module'] = "filter";
-					$data['lang_values'] = $this->language->loadForAPI('extension/ventocart/module/filter');
-					return $data;
-				} else {
-					return $this->load->view('extension/ventocart/module/filter', $data);
-				}
+
+				return $this->load->view('extension/ventocart/module/filter', $data);
+
 			}
 		}
 

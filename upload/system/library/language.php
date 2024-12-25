@@ -167,7 +167,7 @@ class Language
 	}
 
 	/**
-	 * Load language data from a file and return it as an associative array for API use
+	 * Load language data from a file and return it isolated as an associative array for API use
 	 *
 	 * @param string $filePath
 	 * @return array
@@ -206,8 +206,6 @@ class Language
 						$languageArray[$matches[1]] = $matches[2];
 					}
 				}
-
-
 			}
 		}
 		foreach ($matches as $match) {

@@ -58,7 +58,7 @@ class Order extends \Ventocart\System\Engine\Model
     private function getPrivateKey()
     {
         $filePath = DIR_VENTOCART . 'config.php';
-        $constantName = 'API_PRIVATE_KEY';
+        $constantName = 'SERVER_SECRET';
         $content = file_get_contents($filePath);
         if (preg_match("/define\\('$constantName',\\s*'(.*?)'\\);/", $content, $matches)) {
             return $matches[1];

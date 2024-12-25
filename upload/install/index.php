@@ -56,8 +56,45 @@ $phpSettings = [
     // ['Magic Quotes GPC', ini_get('magic_quotes_gpc'), 'Off', 'n'], Magic Quotes GPC was deprecated in PHP 5.3.0 and completely removed in PHP 5.4.0.
     ['File Uploads', ini_get('file_uploads'), 'On', 'n'],
     ['Session Auto Start', ini_get('session.auto_start'), 'Off', 'n'],
-    ['Restrict Storage Dir Access', checkStorageAccess(), true, true],
+    ['Restrict Storage Dir Access', checkStorageAccess(), 'On', true],
+    ['Admin Directory Writable', checkDirPermissions('../admin'), 'On', true],
+    ['Admin config Writable', checkFilePermissions('../admin/config.php'), 'On', true],
+    ['Install Directory Writable', checkDirPermissions('../install'), 'On', true],
+    ['Config Writable', checkFilePermissions('../config.php'), 'On', true],
+
 ];
+
+function checkFilePermissions($file)
+{
+    // Check if the file exists
+    if (!is_file($file)) {
+        return false;
+    }
+
+    // Check if the file is writable
+    if (is_writable($file)) {
+        return true;
+    }
+
+    return false;
+}
+
+// Function to check directory permissions
+function checkDirPermissions($dir)
+{
+
+    // Check if directory exists and is writable
+    if (!is_dir($dir)) {
+        return false;
+    }
+
+    if (is_writable($dir)) {
+        return true;
+    }
+
+    return false;
+}
+
 
 // PHP Extensions
 $phpExtensions = [

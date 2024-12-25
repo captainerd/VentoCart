@@ -47,6 +47,22 @@ $_['text_region'] = 'Region';
 $_['text_language'] = 'Language';
 $_['text_currency'] = 'Currency';
 $_['text_measurement'] = 'Measurement';
+$_['text_image_settings'] = "Image Settings";
+
+
+
+$_['entry_image_default'] = 'Image Default Dimensions';
+$_['entry_width'] = 'Width';
+$_['entry_height'] = 'Height';
+$_['entry_image_filetype'] = 'Image File Type';
+$_['entry_filetype_as_uploaded'] = 'As Uploaded';
+$_['entry_filetype_webp'] = 'WebP';
+$_['entry_filetype_avif'] = 'AVIF';
+$_['entry_filetype_jpeg'] = 'JPEG';
+$_['entry_filetype_png'] = 'PNG';
+$_['entry_image_quality'] = 'Image Quality';
+$_['entry_quality'] = 'Quality (1-100)';
+
 
 // Entry
 $_['entry_meta_title'] = 'Meta Title';
@@ -137,6 +153,7 @@ $_['entry_return_status'] = 'Return Status';
 $_['entry_captcha'] = 'Captcha';
 $_['entry_captcha_page'] = 'Captcha Page';
 $_['entry_logo'] = 'Store Logo';
+
 $_['entry_image_default'] = 'Default Image Size (W x H)';
 $_['entry_image_category'] = 'Category Image Size (W x H)';
 $_['entry_image_thumb'] = 'Product Image Thumb Size (W x H)';
@@ -177,6 +194,8 @@ $_['entry_error_log'] = 'Log Errors';
 $_['entry_error_filename'] = 'Error Log Filename';
 $_['entry_status'] = 'Status';
 $_['entry_infinite_scroll'] = 'Infinite Scroll';
+$_['error_image_filetype'] = 'Error image file type';
+$_['error_image_quality'] = 'Error image quality';
 
 // Help
 $_['help_geocode'] = 'Please enter your store location geocode manually.';

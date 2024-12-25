@@ -19,15 +19,13 @@ class Menu extends \Ventocart\System\Engine\Controller
 		$data = $this->basics();
 
 		$data['categories'] = $this->buildMenu(0);
-		$api_output = $this->customer->isApiClient();
 
 
-		if (!$api_output) {
 
-			return $this->load->view('common/menu', $data);
-		} else {
-			return $data;
-		}
+
+
+		return $this->load->view('common/menu', $data);
+
 
 	}
 
@@ -106,7 +104,7 @@ class Menu extends \Ventocart\System\Engine\Controller
 				'image' => $category['image'],
 				'children' => $children_data,
 				'column' => $category['column'] ? $category['column'] : 1,
-				'href' => strlen($category['redirect_url']) > 0 ? $category['redirect_url'] : $this->url->link('product/category' . '&path=' . $parent_id . "_" . $category['category_id'])
+				'href' => strlen($category['redirect_url']) > 0 ? $category['redirect_url'] : $this->url->link('product/category' . '&path=' . $category['path'])
 			];
 
 		}

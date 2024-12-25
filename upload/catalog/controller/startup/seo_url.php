@@ -5,11 +5,13 @@ namespace Ventocart\Catalog\Controller\Startup;
  *
  * @package Ventocart\Catalog\Controller\Startup
  */
-class SeoUrl extends \Ventocart\System\Engine\Controller {
+class SeoUrl extends \Ventocart\System\Engine\Controller
+{
 	/**
 	 * @return void
 	 */
-	public function index(): void {
+	public function index(): void
+	{
 		// Add rewrite to URL class
 		if ($this->config->get('config_seo_url')) {
 			$this->url->addRewrite($this);
@@ -21,6 +23,7 @@ class SeoUrl extends \Ventocart\System\Engine\Controller {
 				$parts = explode('/', $this->request->get['_route_']);
 
 				// remove any empty arrays from trailing
+
 				if (oc_strlen(end($parts)) == 0) {
 					array_pop($parts);
 				}
@@ -30,9 +33,13 @@ class SeoUrl extends \Ventocart\System\Engine\Controller {
 
 					if ($seo_url_info) {
 						$this->request->get[$seo_url_info['key']] = html_entity_decode($seo_url_info['value'], ENT_QUOTES, 'UTF-8');
+
 					}
+
 				}
+
 			}
+
 		}
 	}
 
@@ -41,7 +48,8 @@ class SeoUrl extends \Ventocart\System\Engine\Controller {
 	 *
 	 * @return string
 	 */
-	public function rewrite(string $link): string {
+	public function rewrite(string $link): string
+	{
 		$url_info = parse_url(str_replace('&amp;', '&', $link));
 
 		// Build the url
@@ -72,7 +80,7 @@ class SeoUrl extends \Ventocart\System\Engine\Controller {
 		foreach ($parts as $part) {
 			[$key, $value] = explode('=', $part);
 
-			$result = $this->model_design_seo_url->getSeoUrlByKeyValue((string)$key, (string)$value);
+			$result = $this->model_design_seo_url->getSeoUrlByKeyValue((string) $key, (string) $value);
 
 			if ($result) {
 				$paths[] = $result;
@@ -103,4 +111,5 @@ class SeoUrl extends \Ventocart\System\Engine\Controller {
 
 		return $url;
 	}
+
 }

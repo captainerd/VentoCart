@@ -71,15 +71,11 @@ class Category extends \Ventocart\System\Engine\Controller
 				'href' => !empty($category['redirect_url']) ? $category['redirect_url'] : $this->url->link('product/category', 'language=' . $this->config->get('config_language') . '&path=' . $category['category_id'])
 			];
 		}
-		$api_output = $this->customer->isApiClient();
-		if ($api_output) {
 
-			$data['module'] = "category";
-			$data['lang_values'] = $this->language->loadForAPI('extension/ventocart/module/category');
-			return $data;
-		} else {
-			return $this->load->view('extension/ventocart/module/category', $data);
-		}
+
+
+		return $this->load->view('extension/ventocart/module/category', $data);
+
 
 	}
 }

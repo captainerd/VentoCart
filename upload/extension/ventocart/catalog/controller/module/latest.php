@@ -16,19 +16,46 @@ class Latest extends \Ventocart\System\Engine\Controller
 	{
 		$this->load->language('extension/ventocart/module/latest');
 
-		$data['axis'] = $setting['axis'];
 
 		$data['products'] = [];
-
+		$data['autoplay'] = $setting['autoplay'];
+		$data['interval'] = $setting['interval'];
 		$this->load->model('extension/ventocart/module/latest');
 		$this->load->model('tool/image');
 
+		$data['component'] = 'LatestProducts';
 		$results = $this->model_extension_ventocart_module_latest->getLatest($setting['limit']);
 
 		if ($results) {
 			foreach ($results as $result) {
+
+
 				if ($result['image']) {
+
+					// Video poster creation
+					$fileExtension = strtolower(pathinfo($result['image'], PATHINFO_EXTENSION));
+					$poster = '';
+
+					if (in_array($fileExtension, ['mp4', 'mkv', 'avi'])) {
+
+						// Prepare the resized video thumbnail, the URL is the same as the video
+						$image_format = $this->config->get('config_image_filetype');
+						if ($image_format == 'as_uploaded') {
+							$image_format = ".png";  // Default to PNG if 'as_uploaded' is chosen
+						}
+						$image = $result['image'];
+
+						$poster = substr_replace($result['image'], '.png', strrpos($result['image'], '.'));  // Only modify the $poster variable
+						$poster = $this->model_tool_image->resize(html_entity_decode($poster, ENT_QUOTES, 'UTF-8'), $setting['width'], $setting['height']);
+
+					}
 					$image = $this->model_tool_image->resize(html_entity_decode($result['image'], ENT_QUOTES, 'UTF-8'), $setting['width'], $setting['height']);
+
+
+
+
+
+
 				} else {
 					$image = $this->model_tool_image->resize('placeholder.png', $setting['width'], $setting['height']);
 				}
@@ -54,6 +81,7 @@ class Latest extends \Ventocart\System\Engine\Controller
 				$product_data = [
 					'product_id' => $result['product_id'],
 					'thumb' => $image,
+					'poster' => $poster,
 					'name' => $result['name'],
 					'date_added' => $result['date_added'],
 					'new' => (strtotime($result['date_added']) >= time() - 604800) ? true : false,
@@ -74,15 +102,9 @@ class Latest extends \Ventocart\System\Engine\Controller
 
 
 
-			$api_output = $this->customer->isApiClient();
 
-			if ($api_output) {
-				$data['module'] = "LatestProducts";
-				$data['lang_values'] = $this->language->loadForAPI('extension/ventocart/module/latest');
-				return $data;
-			} else {
-				return $this->load->view('extension/ventocart/module/latest', $data);
-			}
+			return $this->load->view('extension/ventocart/module/latest', $data);
+
 
 		} else {
 			return '';

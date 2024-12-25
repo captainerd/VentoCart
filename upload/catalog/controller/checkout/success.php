@@ -69,25 +69,19 @@ class Success extends \Ventocart\System\Engine\Controller
 
 		}
 
-		$api_output = $this->customer->isApiClient();
 
-		if ($api_output) {
-			unset($data['breadcrumb']);
-			$this->response->addHeader('Content-Type: application/json');
-			$this->response->setOutput(json_encode($data));
 
-		} else {
 
-			$data['continue'] = $this->url->link('common/home', 'language=' . $this->config->get('config_language'));
+		$data['continue'] = $this->url->link('common/home', 'language=' . $this->config->get('config_language'));
 
-			$data['column_left'] = $this->load->controller('common/column_left');
-			$data['column_right'] = $this->load->controller('common/column_right');
-			$data['content_top'] = $this->load->controller('common/content_top');
-			$data['content_bottom'] = $this->load->controller('common/content_bottom');
-			$data['footer'] = $this->load->controller('common/footer');
-			$data['header'] = $this->load->controller('common/header');
+		$data['column_left'] = $this->load->controller('common/column_left');
+		$data['column_right'] = $this->load->controller('common/column_right');
+		$data['content_top'] = $this->load->controller('common/content_top');
+		$data['content_bottom'] = $this->load->controller('common/content_bottom');
+		$data['footer'] = $this->load->controller('common/footer');
+		$data['header'] = $this->load->controller('common/header');
 
-			$this->response->setOutput($this->load->view('common/success', $data));
-		}
+		$this->response->setOutput($this->load->view('common/success', $data));
+
 	}
 }

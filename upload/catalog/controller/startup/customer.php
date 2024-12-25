@@ -13,16 +13,8 @@ class Customer extends \Ventocart\System\Engine\Controller
 	public function index(): void
 	{
 		$this->registry->set('customer', new \Ventocart\System\Library\Cart\Customer($this->registry));
-		$api_output = isset($this->request->get['apitoken']) ? true : false;
 
-		if ($api_output) {
-			$this->response->addHeader('LoggedIn: ' . $this->customer->isLogged());
-			$this->customer->setApiClient(true);
-			if (isset($this->session->data['apiSigned'])) {
-				$this->customer->setApiSigned($this->session->data['apiSigned']);
-			}
-			// 
-		}
+
 		if (!empty($this->request->get['customer_token'])) {
 			$this->session->data['customer_token'] = $this->request->get['customer_token'];
 		} elseif (!empty($this->session->data['customer_token'])) {

@@ -152,26 +152,7 @@ function productInit() {
         $(".slider-container video").mouseover(function () {
             let newSrc = $(this).find('source').attr('src');
 
-
-            let height = $('.img-zoom-container').height();
-            $('.img-zoom-container').height(height);
-
-            $('#videoContainer').show();
-            $('#pictureContainer').hide();
-
-            let $video = $('#videoContainer video');
-            $video.show();
-
-            $video.find('source').remove();
-            $video.append($('<source>').attr({ 'src': newSrc, 'type': 'video/' + newSrc.split('.').pop().toLowerCase() }));
-            $video[0].addEventListener('canplaythrough', function () {
-                // Play the video
-                $video.prop('muted', true);
-                $video.prop('autoplay', true);
-                $('.img-zoom-container').height('auto');
-                //$video[0].play();
-            });
-            $video[0].load();
+            placeinVideo(newSrc)
 
 
 
@@ -185,18 +166,9 @@ function productInit() {
         });
 
         $(".slider-container img").mouseover(function () {
-            $('#pictureContainer').show();
-            $('#videoContainer').hide();
-
-
             var newSrc = $(this).attr("src");
             newSrc = newSrc.replace(/(\d+)x(\d+)(?=\D*$)/i, window.picontWidth + 'x' + window.picontHeight);
-
-            $("#mainpic img").attr("src", newSrc);
-
-            // Change the href attribute of the #mainpic a element
-            $("#mainpic a").attr("href", newSrc);
-            $(".magnifyglass").blowup();
+            placeinImage(newSrc);
         });
 
 
@@ -225,6 +197,78 @@ function productInit() {
 
             checkOverflow();
         });
+
+        function placeinImage(newSrc) {
+
+            $('#pictureContainer').show();
+            $('#videoContainer').hide();
+            $("#mainpic img").attr("src", newSrc);
+
+            // Change the href attribute of the #mainpic a element
+            $("#mainpic a").attr("href", newSrc);
+            $(".magnifyglass").blowup();
+
+        }
+        function placeinVideo(newSrc) {
+
+            let height = $('.img-zoom-container').height();
+            $('.img-zoom-container').height(height);
+
+            $('#videoContainer').show();
+            $('#pictureContainer').hide();
+
+            let $video = $('#videoContainer video');
+            $video.show();
+
+            $video.find('source').remove();
+            $video.append($('<source>').attr({ 'src': newSrc, 'type': 'video/' + newSrc.split('.').pop().toLowerCase() }));
+            $video[0].addEventListener('canplaythrough', function () {
+                // Play the video
+                $video.prop('muted', true);
+                $video.prop('autoplay', true);
+                $('.img-zoom-container').height('auto');
+                //$video[0].play();
+            });
+            $video[0].load();
+        }
+        // initialize the splide
+        const splide = new Splide('.productThumb', {
+
+            gap: 10,
+            rewind: true,
+
+            perPage: 4,
+            type: 'slide',
+
+            pagination: true,
+            focus: 'center',
+
+            breakpoints: {
+                600: {
+                    fixedWidth: 100,
+                    fixedHeight: 100,
+                },
+            },
+        }).mount();
+        splide.on('move', () => {
+            const activeIndex = splide.index; // Index of the current active slide
+
+            // Optional: Access the active slide element
+            const activeSlide = splide.Components.Slides.getAt(activeIndex).slide;
+            let newSrc = activeSlide.lastElementChild.getAttribute('href');
+            newSrc = newSrc.replace(/(\d+)x(\d+)(?=\D*$)/i, window.picontWidth + 'x' + window.picontHeight);
+            const videoExtensions = /\.(avi|mkv|mp4)$/i;
+            if (videoExtensions.test(newSrc)) {
+                placeinVideo(newSrc)
+                console.log('newSrc is a video file.');
+            } else {
+                placeinImage(newSrc)
+            }
+        });
+
+
+
+
 
         function checkOverflow() {
             var container = $(".slider-container")[0];

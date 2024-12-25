@@ -87,64 +87,10 @@ class Confirm extends \Ventocart\System\Engine\Controller
 
 
 
-		$api_output = $this->customer->isApiClient();
-
-		if ($api_output) {
-			if (!$this->customer->isLogged()) {
-				$data['register'] = $this->load->controller('checkout/register');
-
-			}
-			$data['methods'] = $this->load->controller('checkout/shipping_payment_methods.getPaymentAndShipping');
 
 
+		return $this->load->view('checkout/confirm', $data);
 
-			$this->load->language('checkout/payment_address');
-			$this->load->language('checkout/shipping_address');
-			$this->load->language('checkout/register');
-			$allowed_keys = [
-				'text_register',
-				'text_guest',
-				'text_payment_address',
-				'text_shipping_address',
-				'entry_email',
-				'entry_password',
-				'entry_firstname',
-				'entry_lastname',
-				'entry_company',
-				'entry_country',
-				'entry_zone',
-				'entry_newsletter',
-				'text_agree',
-				'text_addresses',
-				'text_edit_addresses',
-				'text_save',
-				'text_ok',
-				'text_agree_checkout',
-				'entry_match',
-				'payment_method.heading_title',
-				'text_addresses_view',
-			];
-
-			$lang_values = $this->language->all();
-			$data['lang_values'] = array_intersect_key($lang_values, array_flip($allowed_keys));
-			$data['lang_values'] = array_merge($this->language->loadForAPI('checkout/checkout'), $data['lang_values']);
-
-			$data['lang_values']['payment_method'] = array_merge(
-
-				$this->language->loadForAPI('checkout/payment_shipping_methods'),
-
-			);
-			$data['payment'] = $this->getPayment();
-			$data['loggedIn'] = $this->customer->isLogged();
-			if ($data['loggedIn']) {
-				$data['address'] = $this->load->controller('checkout/address')['addresses'];
-
-			}
-			return json_encode($data);
-		} else {
-
-			return $this->load->view('checkout/confirm', $data);
-		}
 	}
 
 	public function placeOrder()

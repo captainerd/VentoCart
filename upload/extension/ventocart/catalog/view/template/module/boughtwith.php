@@ -1,66 +1,55 @@
-<div s class="  border rounded shadow-sm bg-light px-2 mb-4  pb-4  ">
-    <h5 class="p-2  text-muted "><?= $heading_title ?></h5>
+<div class="  border rounded shadow-sm   p-0 mx-auto mb-4   ">
 
-    <!-- Swiper -->
-    <div class="swiper bougthWithSiper">
-        <div class="swiper-wrapper">
-            <?php foreach ($products as $product): ?>
-                <div class="swiper-slide">
-                    <div><?= $product ?></div>
-                </div>
-            <?php endforeach; ?>
-        </div>
+    <h5 style="background: #f2f2f2;" class="p-2 text-muted m-0"><?= $heading_title ?></h5>
+    <div class="p-2 bg-light ">
+        <?php
+        $className = 'module-splide' . rand(1000, 9999);
+        ?>
+        <section class="splide splide-<?= $className ?> " aria-label="Beautiful Images">
+            <div class="splide__track ">
+                <ul class="splide__list ">
 
-        <div style="position: relative" class="swiper-pagination"></div>
+                    <?php foreach ($products as $product): ?>
 
+                        <li style="max-width: 184px;" class="splide__slide"><?= $product ?></li>
+
+
+                    <?php endforeach; ?>
+                </ul>
+
+            </div>
+        </section>
     </div>
-
 
     <script>
 
-        var swiper = new Swiper('.bougthWithSiper', {
-            loop: true,
-            slidesPerView: 5,
-            slideToClickedSlide: true,
-            spaceBetween: 20,
-            direction: '<?= $axis ?>',
-            pagination: {
-                el: '.swiper-pagination',
-                clickable: true,
-            },
-            <?php if ($autoplay): ?>
-                                                                                                        autoplay: {
-                    delay: 2500,
-                    disableOnInteraction: false,
-                },
-            <?php endif; ?>
-            breakpoints: {
-                // when window width is >= 320px
-                220: {
-                    slidesPerView: 3,
-                    spaceBetween: 20
-                },
-                320: {
-                    slidesPerView: 4,
-                    spaceBetween: 20
-                },
-                // when window width is >= 480px
-                480: {
-                    slidesPerView: 5,
-                    spaceBetween: 10
-                },
-                // when window width is >= 640px
-                740: {
-                    slidesPerView: 6,
-                    spaceBetween: 10
-                },
+        new Splide('.splide-<?= $className ?>', {
+            lazyLoad: 'nearby',
+            perPage: 5,
+            perMove: 1,
+            type: 'slide',
+            pagination: false,
+            gap: 20,
 
-                940: {
-                    slidesPerView: 7,
-                    spaceBetween: 10
-                }
-            }
-        });
+
+            <?php if ($autoplay): ?>                                                                                                                                                                                                         autoplay: true,
+                interval: 3000,
+                pauseOnHover: true,
+            <?php endif; ?>
+
+
+            breakpoints: {
+                1000: {
+                    perPage: 1,
+                },
+                700: {
+                    perPage: 1,
+                },
+                400: {
+                    perPage: 1,
+                },
+            },
+        }).mount();
     </script>
 
 

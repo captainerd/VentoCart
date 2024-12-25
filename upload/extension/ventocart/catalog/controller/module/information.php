@@ -30,13 +30,8 @@ class Information extends \Ventocart\System\Engine\Controller
 
 
 
-		$api_output = $this->customer->isApiClient();
-		$data['module'] = "information";
-		if ($api_output) {
-			$data['lang_values'] = $this->language->loadForAPI('extension/ventocart/module/information');
-			return $data;
-		} else {
-			return $this->load->view('extension/ventocart/module/information', $data);
-		}
+
+		return $this->load->view('extension/ventocart/module/information', $data);
+
 	}
 }

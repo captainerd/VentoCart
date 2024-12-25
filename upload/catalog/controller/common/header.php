@@ -68,6 +68,7 @@ class Header extends \Ventocart\System\Engine\Controller
 
 		$data['home'] = $this->url->link('common/home');
 		$data['wishlist'] = $this->url->link('account/wishlist' . (isset($this->session->data['customer_token']) ? '&customer_token=' . $this->session->data['customer_token'] : ''));
+		$data['sales_link'] = $this->url->link('product/special');
 		$data['logged'] = $this->customer->isLogged();
 
 		if (!$this->customer->isLogged()) {
@@ -96,13 +97,9 @@ class Header extends \Ventocart\System\Engine\Controller
 
 
 
-		$api_output = $this->customer->isApiClient();
 
-		if (!$api_output) {
-			return $this->load->view('common/header', $data);
-		} else {
-			return $data;
-		}
+		return $this->load->view('common/header', $data);
+
 
 	}
 }

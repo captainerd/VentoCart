@@ -1,0 +1,32 @@
+.splide__pagination {
+    position: relative;
+    top: 3px;
+}
+
+.splide__pagination__page {
+    background-color: #147bff;
+    /* Default dot color */
+    border-radius: 50%;
+    width: 12px;
+    height: 12px;
+    margin: 0 5px;
+}
+
+.splide__pagination li {
+    border: none;
+    box-shadow: none;
+}
+
+.splide__pagination__page.is-active {
+    background-color: #147bff;
+    /* Active dot color */
+}
+
+.splide__arrow {
+    transition: opacity .3s ease;
+}
+
+.splide__arrow:disabled {
+    opacity: 0;
+    pointer-events: none;
+}

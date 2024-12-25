@@ -5,11 +5,13 @@ namespace Ventocart\Admin\Controller\Extension\Ventocart\Module;
  *
  * @package Ventocart\Admin\Controller\Extension\Ventocart\Module
  */
-class Latest extends \Ventocart\System\Engine\Controller {
+class Latest extends \Ventocart\System\Engine\Controller
+{
 	/**
 	 * @return void
 	 */
-	public function index(): void {
+	public function index(): void
+	{
 		$this->load->language('extension/ventocart/module/latest');
 
 		$this->document->setTitle($this->language->get('heading_title'));
@@ -61,7 +63,7 @@ class Latest extends \Ventocart\System\Engine\Controller {
 		if (isset($module_info['axis'])) {
 			$data['axis'] = $module_info['axis'];
 		} else {
-			$data['axis'] ='';
+			$data['axis'] = '';
 		}
 
 		if (isset($module_info['limit'])) {
@@ -87,9 +89,21 @@ class Latest extends \Ventocart\System\Engine\Controller {
 		} else {
 			$data['status'] = '';
 		}
-		
+		if (isset($module_info['autoplay'])) {
+			$data['autoplay'] = $module_info['autoplay'];
+		} else {
+			$data['autoplay'] = '';
+		}
+
+		if (isset($module_info['interval'])) {
+			$data['interval'] = $module_info['interval'];
+		} else {
+			$data['interval'] = '';
+		}
+
+
 		if (isset($this->request->get['module_id'])) {
-			$data['module_id'] = (int)$this->request->get['module_id'];
+			$data['module_id'] = (int) $this->request->get['module_id'];
 		} else {
 			$data['module_id'] = 0;
 		}
@@ -104,7 +118,8 @@ class Latest extends \Ventocart\System\Engine\Controller {
 	/**
 	 * @return void
 	 */
-	public function save(): void {
+	public function save(): void
+	{
 		$this->load->language('extension/ventocart/module/latest');
 
 		$json = [];

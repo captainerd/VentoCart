@@ -88,7 +88,7 @@ class Cart extends \Ventocart\System\Engine\Controller
 				'price' => $price,
 				'total' => $total,
 				'reward' => $product['reward'],
-				'href' => $this->url->link('product/product', 'language=' . $this->config->get('config_language') . '&product_id=' . $product['product_id'])
+				'href' => $this->url->link('product/product', '&product_id=' . $product['product_id'])
 			];
 		}
 
@@ -104,19 +104,15 @@ class Cart extends \Ventocart\System\Engine\Controller
 			];
 		}
 
-		$data['list'] = $this->url->link('common/cart.info', 'language=' . $this->config->get('config_language'));
-		$data['product_remove'] = $this->url->link('common/cart.removeProduct', 'language=' . $this->config->get('config_language'));
+		$data['list'] = $this->url->link('common/cart.info');
+		$data['product_remove'] = $this->url->link('common/cart.removeProduct');
 
 
-		$data['cart'] = $this->url->link('checkout/cart', 'language=' . $this->config->get('config_language'));
-		$data['checkout'] = $this->url->link('checkout/checkout', 'language=' . $this->config->get('config_language'));
-		$api_output = $this->customer->isApiClient();
-		if ($api_output) {
-			$data['loggedIn'] = $this->customer->isLogged();
-			return json_encode($data);
-		} else {
-			return $this->load->view('common/cart', $data);
-		}
+		$data['cart'] = $this->url->link('checkout/cart');
+		$data['checkout'] = $this->url->link('checkout/checkout');
+
+		return $this->load->view('common/cart', $data);
+
 	}
 
 	/**

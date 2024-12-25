@@ -16,7 +16,6 @@ class Topic extends \Ventocart\System\Engine\Controller
 	public function index(array $setting = []): mixed
 	{
 
-		$api_output = $this->customer->isApiClient();
 
 		if (empty($setting))
 			return '';
@@ -80,7 +79,7 @@ class Topic extends \Ventocart\System\Engine\Controller
 				'date_added' => $article['date_added'],
 				'name' => $article['name'],
 				'preview' => $topicDescription,
-				'href' => $this->url->link('cms/blog.info', 'language=' . $this->config->get('config_language') . '&article_id=' . $article['article_id'] . '&topic_id=' . $article['topic_id'])
+				'href' => $this->url->link('cms/blog.info', '&article_id=' . $article['article_id'] . '&topic_id=' . $article['topic_id'])
 			];
 		}
 
@@ -92,22 +91,17 @@ class Topic extends \Ventocart\System\Engine\Controller
 				'image' => $topic['image'],
 				'name' => $topic['name'] . ($this->config->get('config_article_count') ? ' (' . $this->model_cms_article->getTotalArticles(['filter_topic_id' => $topic['topic_id']]) . ')' : ''),
 				'preview' => $topicDescription,
-				'href' => $this->url->link('cms/blog', 'language=' . $this->config->get('config_language') . '&topic_id=' . $topic['topic_id'])
+				'href' => $this->url->link('cms/blog', '&topic_id=' . $topic['topic_id'])
 			];
 		}
 
 
-		if ($api_output) {
 
-			$data['module'] = "topic";
-			$data['lang_values'] = $this->language->loadForAPI('extension/ventocart/module/topic');
-			return $data;
+		if ($setting['preview']) {
+			return $this->load->view('extension/ventocart/module/topic_preview', $data);
 		} else {
-			if ($setting['preview']) {
-				return $this->load->view('extension/ventocart/module/topic_preview', $data);
-			} else {
-				return $this->load->view('extension/ventocart/module/topic', $data);
-			}
+			return $this->load->view('extension/ventocart/module/topic', $data);
+
 		}
 
 	}

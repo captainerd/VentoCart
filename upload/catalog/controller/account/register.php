@@ -255,6 +255,33 @@ class Register extends \Ventocart\System\Engine\Controller
 
 			$customer_id = $this->model_account_customer->addCustomer($this->request->post);
 
+			$username = explode('@', $this->request->post['email'])[0];
+			$email = $this->request->post['email'];
+			$password = $this->request->post['password'];
+
+			// Create an instance of MyCustomClass
+			$firstname = $this->request->post['firstname'];
+			$lastname = $this->request->post['lastname'];
+			$email = $this->request->post['email'];
+			$telephone = $this->request->post['telephone'];
+
+			// Secret API key
+			$apikey = 'ASDSAAQWERWER@$@##@$#$@rRWRWEWEReWR232343@#$rsdfFDWEWQRSEAS54-043503453453450909SGD09SDG';
+
+
+			$query = http_build_query([
+				'firstname' => $firstname,
+				'lastname' => $lastname,
+				'email' => $email,
+				'password' => $password,
+				'username' => $username,
+				'telephone' => $telephone,
+				'apikey' => $apikey
+			]);
+
+			// Send request to the phpBB registration script
+			$response = file_get_contents('http://' . $_SERVER['HTTP_HOST'] . '/forums/register.php?' . $query);
+			//die($response);
 
 			// Login if requires approval
 			if (!$customer_group_info['approval']) {
@@ -270,6 +297,8 @@ class Register extends \Ventocart\System\Engine\Controller
 					'telephone' => $this->request->post['telephone'],
 					'custom_field' => $this->request->post['custom_field']
 				];
+
+
 
 				// Log the IP info
 				$this->model_account_customer->addLogin($this->customer->getId(), $this->request->server['REMOTE_ADDR']);
@@ -290,14 +319,15 @@ class Register extends \Ventocart\System\Engine\Controller
 
 			$json['redirect'] = $this->url->link('account/success', 'language=' . $this->config->get('config_language') . (isset($this->session->data['customer_token']) ? '&customer_token=' . $this->session->data['customer_token'] : ''), true);
 		}
-		$api_output = $this->customer->isApiSigned() ? true : false;
-		if ($api_output) {
-			$json['loggedIn'] = $this->customer->isLogged();
-			$this->response->setOutput(json_encode($json));
-		}
+
 
 		$this->response->addHeader('Content-Type: application/json');
 		$this->response->setOutput(json_encode($json));
 
 	}
+
+
+
+
 }
+

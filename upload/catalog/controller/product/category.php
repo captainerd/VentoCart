@@ -36,7 +36,6 @@ class Category extends \Ventocart\System\Engine\Controller
 		$page = isset($this->request->get['page']) ? (int) $this->request->get['page'] : 1;
 		$limit = isset($this->request->get['limit']) && (int) $this->request->get['limit'] ? (int) $this->request->get['limit'] : $this->config->get('config_pagination');
 
-		$api_output = $this->customer->isApiClient();
 
 		$parts = explode('_', $path);
 
@@ -434,24 +433,14 @@ class Category extends \Ventocart\System\Engine\Controller
 			}
 
 			$product_total = $this->model_catalog_product->getTotalProducts($filter_data);
-			if (!$api_output) {
-				$data['pagination'] = $this->load->controller('common/pagination', [
-					'total' => $product_total,
-					'page' => $page,
-					'limit' => $limit,
-					'url' => $this->url->link('product/category', 'language=' . $this->config->get('config_language') . '&path=' . $this->request->get['path'] . $url . '&page={page}')
-				]);
-			} else {
-				$data['pagination'] = [
-					'total' => $product_total,
-					'page' => $page,
-					'limit' => $limit,
-					'url' => $this->url->link('product/category', 'language=' . $this->config->get('config_language') . '&path=' . $this->request->get['path'] . $url . '&page={page}')
-				];
 
+			$data['pagination'] = $this->load->controller('common/pagination', [
+				'total' => $product_total,
+				'page' => $page,
+				'limit' => $limit,
+				'url' => $this->url->link('product/category', 'language=' . $this->config->get('config_language') . '&path=' . $this->request->get['path'] . $url . '&page={page}')
+			]);
 
-
-			}
 			$data['infiniteScroll'] = $this->config->get('config_product_infinite_scroll');
 			$data['results'] = sprintf($this->language->get('text_pagination'), ($product_total) ? (($page - 1) * $limit) + 1 : 0, ((($page - 1) * $limit) > ($product_total - $limit)) ? $product_total : ((($page - 1) * $limit) + $limit), $product_total, ceil($product_total / $limit));
 
@@ -488,35 +477,9 @@ class Category extends \Ventocart\System\Engine\Controller
 			$data['content_bottom'] = $this->load->controller('common/content_bottom');
 			$data['footer'] = $this->load->controller('common/footer');
 			$data['header'] = $this->load->controller('common/header');
-			if (!$api_output) {
-				$this->response->setOutput($this->load->view('product/category', $data));
-			} else {
 
-				$allowedKeys = [
-					'products',
-					'heading_title',
-					'text_compare',
-					'categories',
-					'image',
-					'infiniteScroll',
-					'limits',
-					'homne',
-					'content_top',
-					'column_left',
-					'column_right',
-					'content_bottom',
-					'order',
-					'limit',
-					'results',
-					'continue',
-					'sorts',
-					'description',
-				];
-				$data = array_intersect_key($data, array_flip($allowedKeys));
-				$data['lang_values'] = $this->language->loadForAPI('product/category');
+			$this->response->setOutput($this->load->view('product/category', $data));
 
-				$this->response->setOutput(json_encode($data));
-			}
 		} else {
 			return new \Ventocart\System\Engine\Action('error/not_found');
 		}

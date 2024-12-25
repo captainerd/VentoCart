@@ -19,14 +19,9 @@ class HTML extends \Ventocart\System\Engine\Controller
 
 			$data['html'] = html_entity_decode($setting['module_description'][$this->config->get('config_language_id')]['description'], ENT_QUOTES, 'UTF-8');
 
-			$api_output = $this->customer->isApiClient();
 
-			if ($api_output) {
+			return $this->load->view('extension/ventocart/module/html', $data);
 
-				return '';
-			} else {
-				return $this->load->view('extension/ventocart/module/html', $data);
-			}
 
 		} else {
 			return '';

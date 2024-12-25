@@ -5,39 +5,41 @@ namespace Ventocart\Catalog\Controller\Cms;
  *
  * @package Ventocart\Catalog\Controller\Cms
  */
-class Blog extends \Ventocart\System\Engine\Controller {
+class Blog extends \Ventocart\System\Engine\Controller
+{
 	/**
 	 * @return void
 	 */
-	public function index(): void {
+	public function index(): void
+	{
 		$this->load->language('cms/blog');
 
 		if (isset($this->request->get['search'])) {
-			$filter_search = (string)$this->request->get['search'];
+			$filter_search = (string) $this->request->get['search'];
 		} else {
 			$filter_search = '';
 		}
 
 		if (isset($this->request->get['tag'])) {
-			$filter_tag = (string)$this->request->get['tag'];
+			$filter_tag = (string) $this->request->get['tag'];
 		} else {
 			$filter_tag = '';
 		}
 
 		if (isset($this->request->get['topic_id'])) {
-			$filter_topic_id = (int)$this->request->get['topic_id'];
+			$filter_topic_id = (int) $this->request->get['topic_id'];
 		} else {
 			$filter_topic_id = 0;
 		}
 
 		if (isset($this->request->get['author'])) {
-			$filter_author = (string)$this->request->get['author'];
+			$filter_author = (string) $this->request->get['author'];
 		} else {
 			$filter_author = '';
 		}
 
 		if (isset($this->request->get['page'])) {
-			$page = (int)$this->request->get['page'];
+			$page = (int) $this->request->get['page'];
 		} else {
 			$page = 1;
 		}
@@ -46,9 +48,9 @@ class Blog extends \Ventocart\System\Engine\Controller {
 
 		$datab['breadcrumbs'][] = [
 			'text' => $this->language->get('text_home'),
-			'href' => $this->url->link('common/home', 'language=' . $this->config->get('config_language'))
+			'href' => $this->url->link('common/home')
 		];
-	 
+
 		$url = '';
 
 		if (isset($this->request->get['search'])) {
@@ -73,7 +75,7 @@ class Blog extends \Ventocart\System\Engine\Controller {
 
 		$datab['breadcrumbs'][] = [
 			'text' => $this->language->get('text_blog'),
-			'href' => $this->url->link('cms/blog', 'language=' . $this->config->get('config_language') . $url)
+			'href' => $this->url->link('cms/blog', $url)
 		];
 
 		$this->load->model('cms/topic');
@@ -105,7 +107,7 @@ class Blog extends \Ventocart\System\Engine\Controller {
 
 			$datab['breadcrumbs'][] = [
 				'text' => $topic_info['name'],
-				'href' => $this->url->link('cms/blog', 'language=' . $this->config->get('config_language') . $url)
+				'href' => $this->url->link('cms/blog', $url)
 			];
 		}
 
@@ -140,12 +142,12 @@ class Blog extends \Ventocart\System\Engine\Controller {
 		$data['articles'] = [];
 
 		$filter_data = [
-			'filter_search'   => $filter_search,
+			'filter_search' => $filter_search,
 			'filter_topic_id' => $filter_topic_id,
-			'filter_author'   => $filter_author,
-			'filter_tag'      => $filter_tag,
-			'start'           => ($page - 1) * $limit,
-			'limit'           => $limit
+			'filter_author' => $filter_author,
+			'filter_tag' => $filter_tag,
+			'start' => ($page - 1) * $limit,
+			'limit' => $limit
 		];
 
 		$this->load->model('cms/article');
@@ -160,21 +162,21 @@ class Blog extends \Ventocart\System\Engine\Controller {
 			}
 
 			if (is_file(DIR_IMAGE . html_entity_decode($result['image'], ENT_QUOTES, 'UTF-8'))) {
-				$image = $this->model_tool_image->resize(html_entity_decode($result['image'], ENT_QUOTES, 'UTF-8'), $this->config->get('config_image_article_width'), $this->config->get('config_image_article_height'),'',true);
+				$image = $this->model_tool_image->resize(html_entity_decode($result['image'], ENT_QUOTES, 'UTF-8'), $this->config->get('config_image_article_width'), $this->config->get('config_image_article_height'), '', true);
 			} else {
 				$image = '';
 			}
 
 			$data['articles'][] = [
-				'article_id'    => $result['article_id'],
-				'name'          => $result['name'],
-				'description'   => $description,
-				'image'         => $image,
-				'author'        => $result['author'],
+				'article_id' => $result['article_id'],
+				'name' => $result['name'],
+				'description' => $description,
+				'image' => $image,
+				'author' => $result['author'],
 				'filter_author' => $this->url->link('cms/blog', 'language=' . $this->config->get('config_language') . '&author=' . $result['author'] . $url),
 				'comment_total' => $this->model_cms_article->getTotalComments($result['article_id']),
-				'date_added'    => date($this->language->get('date_format_short'), strtotime($result['date_added'])),
-				'href'          => $this->url->link('cms/blog.info', 'language=' . $this->config->get('config_language') . '&article_id=' . $result['article_id'] . $url)
+				'date_added' => date($this->language->get('date_format_short'), strtotime($result['date_added'])),
+				'href' => $this->url->link('cms/blog.info', 'language=' . $this->config->get('config_language') . '&article_id=' . $result['article_id'] . $url)
 			];
 		}
 
@@ -193,33 +195,33 @@ class Blog extends \Ventocart\System\Engine\Controller {
 		}
 
 		if (isset($this->request->get['author'])) {
-			$url .= '&author=' . (string)$this->request->get['author'];
+			$url .= '&author=' . (string) $this->request->get['author'];
 		}
 
 		$article_total = $this->model_cms_article->getTotalArticles($filter_data);
 
 		$data['pagination'] = $this->load->controller('common/pagination', [
 			'total' => $article_total,
-			'page'  => $page,
+			'page' => $page,
 			'limit' => $limit,
-			'url'   => $this->url->link('cms/blog', 'language=' . $this->config->get('config_language') . $url . '&page={page}')
+			'url' => $this->url->link('cms/blog', $url . '&page={page}')
 		]);
 
 		$data['results'] = sprintf($this->language->get('text_pagination'), ($article_total) ? (($page - 1) * $limit) + 1 : 0, ((($page - 1) * $limit) > ($article_total - $limit)) ? $article_total : ((($page - 1) * $limit) + $limit), $article_total, ceil($article_total / $limit));
 
 		// http://googlewebmastercentral.articlespot.com/2011/09/pagination-with-relnext-and-relprev.html
 		if ($page == 1) {
-			$this->document->addLink($this->url->link('cms/blog', 'language=' . $this->config->get('config_language')), 'canonical');
+			$this->document->addLink($this->url->link('cms/blog'), 'canonical');
 		} else {
-			$this->document->addLink($this->url->link('cms/blog', 'language=' . $this->config->get('config_language') . '&page='. $page), 'canonical');
+			$this->document->addLink($this->url->link('cms/blog', '&page=' . $page), 'canonical');
 		}
 
 		if ($page > 1) {
-			$this->document->addLink($this->url->link('cms/blog', 'language=' . $this->config->get('config_language') . (($page - 2) ? '&page='. ($page - 1) : '')), 'prev');
+			$this->document->addLink($this->url->link('cms/blog', (($page - 2) ? '&page=' . ($page - 1) : '')), 'prev');
 		}
 
 		if (ceil($article_total / $limit) > $page) {
-			$this->document->addLink($this->url->link('cms/blog', 'language=' . $this->config->get('config_language') . '&page='. ($page + 1)), 'next');
+			$this->document->addLink($this->url->link('cms/blog', '&page=' . ($page + 1)), 'next');
 		}
 
 		$data['search'] = $filter_search;
@@ -232,7 +234,7 @@ class Blog extends \Ventocart\System\Engine\Controller {
 		foreach ($results as $result) {
 			$data['topics'][] = [
 				'topic_id' => $result['topic_id'],
-				'name'     => $result['name']
+				'name' => $result['name']
 			];
 		}
 
@@ -249,19 +251,20 @@ class Blog extends \Ventocart\System\Engine\Controller {
 	}
 
 	/**
-     * @return object|\Ventocart\System\Engine\Action|null
-     */
-	public function info(): ?object {
+	 * @return object|\Ventocart\System\Engine\Action|null
+	 */
+	public function info(): ?object
+	{
 		$this->load->language('cms/blog');
 
 		if (isset($this->request->get['article_id'])) {
-			$article_id = (int)$this->request->get['article_id'];
+			$article_id = (int) $this->request->get['article_id'];
 		} else {
 			$article_id = 0;
 		}
 
 		if (isset($this->request->get['topic_id'])) {
-			$topic_id = (int)$this->request->get['topic_id'];
+			$topic_id = (int) $this->request->get['topic_id'];
 		} else {
 			$topic_id = 0;
 		}
@@ -279,12 +282,12 @@ class Blog extends \Ventocart\System\Engine\Controller {
 
 			$datab['breadcrumbs'][] = [
 				'text' => $this->language->get('text_home'),
-				'href' => $this->url->link('common/home', 'language=' . $this->config->get('config_language'))
+				'href' => $this->url->link('common/home')
 			];
 
 			$datab['breadcrumbs'][] = [
 				'text' => $this->language->get('text_blog'),
-				'href' => $this->url->link('cms/blog', 'language=' . $this->config->get('config_language'))
+				'href' => $this->url->link('cms/blog')
 			];
 
 			$url = '';
@@ -316,13 +319,13 @@ class Blog extends \Ventocart\System\Engine\Controller {
 			if ($topic_info) {
 				$data['breadcrumbs'][] = [
 					'text' => $topic_info['name'],
-					'href' => $this->url->link('cms/blog', 'language=' . $this->config->get('config_language') . $url)
+					'href' => $this->url->link('cms/blog', $url)
 				];
 			}
 
 			$data['breadcrumbs'][] = [
 				'text' => $article_info['name'],
-				'href' => $this->url->link('cms/blog.info', 'language=' . $this->config->get('config_language') . '&article_id=' .  $article_id . $url)
+				'href' => $this->url->link('cms/blog.info', '&article_id=' . $article_id . $url)
 			];
 
 			$data['heading_title'] = $article_info['name'];
@@ -330,7 +333,7 @@ class Blog extends \Ventocart\System\Engine\Controller {
 			$this->load->model('tool/image');
 
 			if (is_file(DIR_IMAGE . html_entity_decode($article_info['image'], ENT_QUOTES, 'UTF-8'))) {
-				$data['image'] = $this->model_tool_image->resize(html_entity_decode($article_info['image'], ENT_QUOTES, 'UTF-8'), $this->config->get('config_image_article_width'), $this->config->get('config_image_article_height'),'',true);
+				$data['image'] = $this->model_tool_image->resize(html_entity_decode($article_info['image'], ENT_QUOTES, 'UTF-8'), $this->config->get('config_image_article_width'), $this->config->get('config_image_article_height'), '', true);
 			} else {
 				$data['image'] = '';
 			}
@@ -338,7 +341,7 @@ class Blog extends \Ventocart\System\Engine\Controller {
 			$data['description'] = html_entity_decode($article_info['description'], ENT_QUOTES, 'UTF-8');
 
 			$data['author'] = $article_info['author'];
-			$data['filter_author'] = $this->url->link('cms/blog', 'language=' . $this->config->get('config_language') . '&author=' . $article_info['author']);
+			$data['filter_author'] = $this->url->link('cms/blog', '&author=' . $article_info['author']);
 
 			$data['date_added'] = date($this->language->get('date_format_short'), strtotime($article_info['date_added']));
 
@@ -349,13 +352,13 @@ class Blog extends \Ventocart\System\Engine\Controller {
 
 				foreach ($tags as $tag) {
 					$data['tags'][] = [
-						'tag'  => trim($tag),
-						'href' => $this->url->link('cms/blog', 'language=' . $this->config->get('config_language') . '&tag=' . trim($tag))
+						'tag' => trim($tag),
+						'href' => $this->url->link('cms/blog', '&tag=' . trim($tag))
 					];
 				}
 			}
 			$data['breadcrumb'] = $this->load->view('common/breadcrumb', $datab);
-			
+
 			$data['comment'] = $this->config->get('config_comment_status') ? $this->load->controller('cms/comment') : '';
 			$data['comment_total'] = $this->model_cms_article->getTotalComments($article_id);
 

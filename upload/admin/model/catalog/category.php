@@ -12,10 +12,32 @@ class Category extends \Ventocart\System\Engine\Model
 			}
 
 		}
+		// Get the new path after the update
+
 
 		$this->db->query("INSERT INTO `" . DB_PREFIX . "category` SET `parent_id` = '" . (int) $data['parent_id'] . "', `top` = '" . (isset($data['top']) ? (int) $data['top'] : 0) . "', `column` = '" . (int) $data['column'] . "', `sort_order` = '" . (int) $data['sort_order'] . "', `status` = '" . (bool) (isset($data['status']) ? $data['status'] : 0) . "', `date_modified` = NOW(), `date_added` = NOW()");
 
 		$category_id = $this->db->getLastId();
+
+
+
+
+		$parent_path = $this->getCategoryPath($data['parent_id']);
+		if ($data['parent_id'] == 0) {
+			$path_new = $category_id; // skip because we dont have parent
+		} else {
+			$path_new = $parent_path . "_" . $category_id;
+		}
+
+
+		// Update the category with the new path
+		$this->db->query("
+			 UPDATE `" . DB_PREFIX . "category` 
+			 SET 
+				 `path` = '" . $this->db->escape($path_new) . "' 
+			 WHERE `category_id` = '" . (int) $category_id . "'
+		 ");
+
 
 		if (isset($data['image'])) {
 			$this->db->query("UPDATE `" . DB_PREFIX . "category` SET `image` = '" . $this->db->escape((string) $data['image']) . "' WHERE `category_id` = '" . (int) $category_id . "'");
@@ -25,18 +47,6 @@ class Category extends \Ventocart\System\Engine\Model
 			$this->db->query("INSERT INTO `" . DB_PREFIX . "category_description` SET `category_id` = '" . (int) $category_id . "', `language_id` = '" . (int) $language_id . "', `name` = '" . $this->db->escape($value['name']) . "', `description` = '" . $this->db->escape($value['description']) . "', `meta_title` = '" . $this->db->escape($value['meta_title']) . "', `meta_description` = '" . $this->db->escape($value['meta_description']) . "', `meta_keyword` = '" . $this->db->escape($value['meta_keyword']) . "'");
 		}
 
-		// MySQL Hierarchical Data Closure Table Pattern
-		$level = 0;
-
-		$query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "category_path` WHERE `category_id` = '" . (int) $data['parent_id'] . "' ORDER BY `level` ASC");
-
-		foreach ($query->rows as $result) {
-			$this->db->query("INSERT INTO `" . DB_PREFIX . "category_path` SET `category_id` = '" . (int) $category_id . "', `path_id` = '" . (int) $result['path_id'] . "', `level` = '" . (int) $level . "'");
-
-			$level++;
-		}
-
-		$this->db->query("INSERT INTO `" . DB_PREFIX . "category_path` SET `category_id` = '" . (int) $category_id . "', `path_id` = '" . (int) $category_id . "', `level` = '" . (int) $level . "'");
 
 		if (isset($data['category_filter'])) {
 			foreach ($data['category_filter'] as $filter_id) {
@@ -61,21 +71,13 @@ class Category extends \Ventocart\System\Engine\Model
 				$this->db->query("INSERT INTO `" . DB_PREFIX . "category_filter` SET `category_id` = '" . (int) $category_id . "', `filter_id` = '" . (int) $filter_id . "', `type` = 'manufacturer' ");
 			}
 		}
-		
+
 		if (isset($data['category_store'])) {
 			foreach ($data['category_store'] as $store_id) {
 				$this->db->query("INSERT INTO `" . DB_PREFIX . "category_to_store` SET `category_id` = '" . (int) $category_id . "', `store_id` = '" . (int) $store_id . "'");
 			}
 		}
 
-		// Seo urls on categories need to be done differently to they include the full keyword path
-		$parent_path = $this->getPath($data['parent_id']);
-
-		if (!$parent_path) {
-			$path = $category_id;
-		} else {
-			$path = $parent_path . '_' . $category_id;
-		}
 
 		$this->load->model('design/seo_url');
 
@@ -87,7 +89,7 @@ class Category extends \Ventocart\System\Engine\Model
 					$keyword = $seo_url_info['keyword'] . '/' . $keyword;
 				}
 
-				$this->db->query("INSERT INTO `" . DB_PREFIX . "seo_url` SET `store_id` = '" . (int) $store_id . "', `language_id` = '" . (int) $language_id . "', `key` = 'path', `value`= '" . $this->db->escape($path) . "', `keyword` = '" . $this->db->escape($this->convertToSeoFriendly($keyword)) . "'");
+				$this->db->query("INSERT INTO `" . DB_PREFIX . "seo_url` SET `store_id` = '" . (int) $store_id . "', `language_id` = '" . (int) $language_id . "', `key` = 'path', `value`= '" . $this->db->escape($path_new) . "', `keyword` = '" . $this->db->escape($this->convertToSeoFriendly($keyword)) . "'");
 			}
 		}
 
@@ -106,7 +108,7 @@ class Category extends \Ventocart\System\Engine\Model
 	}
 	public function editCategory(int $category_id, array $data): void
 	{
-	 
+
 
 		if (isset($data['redirect_url']) && $data['redirect_url'] != "") {
 			foreach ($data['category_description'] as $language_id => $value) {
@@ -114,7 +116,25 @@ class Category extends \Ventocart\System\Engine\Model
 			}
 
 		}
+		$path_old = $this->getCategoryPath($category_id);
+
+		$path_new = $this->getCategoryPath($data['parent_id']) . "_" . $category_id;
+		if ($data['parent_id'] == 0) {
+			$path_new = $category_id; // skip because we dont have parent
+		}
+
 		$this->db->query("UPDATE `" . DB_PREFIX . "category` SET `parent_id` = '" . (int) $data['parent_id'] . "', `top` = '" . (isset($data['top']) ? (int) $data['top'] : 0) . "', `column` = '" . (int) $data['column'] . "', `sort_order` = '" . (int) $data['sort_order'] . "', `status` = '" . (bool) (isset($data['status']) ? $data['status'] : 0) . "', `date_modified` = NOW() WHERE `category_id` = '" . (int) $category_id . "'");
+
+		// Get the new path after the update
+
+
+		// Update the category with the new path
+		$this->db->query("
+			 UPDATE `" . DB_PREFIX . "category` 
+			 SET 
+				 `path` = '" . $this->db->escape($path_new) . "' 
+			 WHERE `category_id` = '" . (int) $category_id . "'
+		 ");
 
 		if (isset($data['image'])) {
 			$this->db->query("UPDATE `" . DB_PREFIX . "category` SET `image` = '" . $this->db->escape((string) $data['image']) . "' WHERE `category_id` = '" . (int) $category_id . "'");
@@ -126,59 +146,7 @@ class Category extends \Ventocart\System\Engine\Model
 			$this->db->query("INSERT INTO `" . DB_PREFIX . "category_description` SET `category_id` = '" . (int) $category_id . "', `language_id` = '" . (int) $language_id . "', `name` = '" . $this->db->escape($value['name']) . "', `description` = '" . $this->db->escape($value['description']) . "', `meta_title` = '" . $this->db->escape($value['meta_title']) . "', `meta_description` = '" . $this->db->escape($value['meta_description']) . "', `meta_keyword` = '" . $this->db->escape($value['meta_keyword']) . "'");
 		}
 
-		// Old path
-		$path_old = $this->getPath($category_id);
 
-		// MySQL Hierarchical Data Closure Table Pattern
-		$query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "category_path` WHERE `path_id` = '" . (int) $category_id . "' ORDER BY `level` ASC");
-
-		if ($query->rows) {
-			foreach ($query->rows as $category_path) {
-				// Delete the path below the current one
-				$this->db->query("DELETE FROM `" . DB_PREFIX . "category_path` WHERE `category_id` = '" . (int) $category_path['category_id'] . "' AND `level` < '" . (int) $category_path['level'] . "'");
-
-				$paths = [];
-
-				// Get the nodes new parents
-				$query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "category_path` WHERE `category_id` = '" . (int) $data['parent_id'] . "' ORDER BY `level` ASC");
-
-				foreach ($query->rows as $result) {
-					$paths[] = $result['path_id'];
-				}
-
-				// Get whats left of the nodes current path
-				$query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "category_path` WHERE `category_id` = '" . (int) $category_path['category_id'] . "' ORDER BY `level` ASC");
-
-				foreach ($query->rows as $result) {
-					$paths[] = $result['path_id'];
-				}
-
-				// Combine the paths with a new level
-				$level = 0;
-
-				foreach ($paths as $path_id) {
-					$this->db->query("REPLACE INTO `" . DB_PREFIX . "category_path` SET `category_id` = '" . (int) $category_path['category_id'] . "', `path_id` = '" . (int) $path_id . "', `level` = '" . (int) $level . "'");
-
-					$level++;
-				}
-			}
-		} else {
-			// Delete the path below the current one
-			$this->db->query("DELETE FROM `" . DB_PREFIX . "category_path` WHERE `category_id` = '" . (int) $category_id . "'");
-
-			// Fix for records with no paths
-			$level = 0;
-
-			$query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "category_path` WHERE `category_id` = '" . (int) $data['parent_id'] . "' ORDER BY `level` ASC");
-
-			foreach ($query->rows as $result) {
-				$this->db->query("INSERT INTO `" . DB_PREFIX . "category_path` SET `category_id` = '" . (int) $category_id . "', `path_id` = '" . (int) $result['path_id'] . "', `level` = '" . (int) $level . "'");
-
-				$level++;
-			}
-
-			$this->db->query("REPLACE INTO `" . DB_PREFIX . "category_path` SET `category_id` = '" . (int) $category_id . "', `path_id` = '" . (int) $category_id . "', `level` = '" . (int) $level . "'");
-		}
 
 		$this->db->query("DELETE FROM `" . DB_PREFIX . "category_filter` WHERE `category_id` = '" . (int) $category_id . "'");
 
@@ -204,7 +172,7 @@ class Category extends \Ventocart\System\Engine\Model
 				$this->db->query("INSERT INTO `" . DB_PREFIX . "category_filter` SET `category_id` = '" . (int) $category_id . "', `filter_id` = '" . (int) $filter_id . "', `type` = 'manufacturer' ");
 			}
 		}
- 
+
 
 		$this->db->query("DELETE FROM `" . DB_PREFIX . "category_to_store` WHERE `category_id` = '" . (int) $category_id . "'");
 
@@ -214,22 +182,19 @@ class Category extends \Ventocart\System\Engine\Model
 			}
 		}
 
-		// Seo urls on categories need to be done differently to they include the full keyword path
-		$path_parent = $this->getPath($data['parent_id']);
 
-		if (!$path_parent) {
-			$path_new = $category_id;
-		} else {
-			$path_new = $path_parent . '_' . $category_id;
-		}
-
-		// Get old data to so we know what to replace
-		$seo_url_data = $this->getSeoUrls($category_id);
 
 		// Delete the old path
-		$this->db->query("DELETE FROM `" . DB_PREFIX . "seo_url` WHERE `key` = 'path' AND `value` = '" . $this->db->escape($path_old) . "'");
 
 		$this->load->model('design/seo_url');
+		$path_parent = $this->getCategoryPath($data['parent_id']);
+
+		if ($data['parent_id'] == 0) {
+			$path_parent = $category_id;
+		}
+
+
+		$this->db->query("DELETE FROM `" . DB_PREFIX . "seo_url` WHERE `key` = 'path' AND `value` = '" . $path_old . "'");
 
 		foreach ($data['category_seo_url'] as $store_id => $language) {
 			foreach ($language as $language_id => $keyword) {
@@ -239,12 +204,24 @@ class Category extends \Ventocart\System\Engine\Model
 					$keyword = $parent_info['keyword'] . '/' . $keyword;
 				}
 
-				$this->db->query("INSERT INTO `" . DB_PREFIX . "seo_url` SET `store_id` = '" . (int) $store_id . "', `language_id` = '" . (int) $language_id . "', `key` = 'path', `value` = '" . $this->db->escape($path_new) . "', `keyword` = '" . $this->db->escape($this->convertToSeoFriendly($keyword)) . "'");
 
-				// Update sub category seo urls
-				if (isset($seo_url_data[$store_id][$language_id])) {
-					$this->db->query("UPDATE `" . DB_PREFIX . "seo_url` SET `value` = CONCAT('" . $this->db->escape($path_new . '_') . "', SUBSTRING(`value`, " . (strlen($path_old . '_') + 1) . ")), `keyword` = CONCAT('" . $this->db->escape($this->convertToSeoFriendly($keyword)) . "', SUBSTRING(`keyword`, " . (oc_strlen($seo_url_data[$store_id][$language_id]) + 1) . ")) WHERE `store_id` = '" . (int) $store_id . "' AND `language_id` = '" . (int) $language_id . "' AND `key` = 'path' AND `value` LIKE '" . $this->db->escape($path_old . '\_%') . "'");
-				}
+				// Generate the SQL query
+				$sql = "
+				INSERT INTO `" . DB_PREFIX . "seo_url` (`store_id`, `language_id`, `key`, `value`, `keyword`) 
+				VALUES (
+					'" . (int) $store_id . "', 
+					'" . (int) $language_id . "', 
+					'path', 
+					'" . $this->db->escape($path_new) . "', 
+					'" . $this->db->escape($keyword) . "'
+				)
+				ON DUPLICATE KEY UPDATE 
+					`value` = '" . $this->db->escape($path_new) . "', 
+					`keyword` = '" . $this->db->escape($keyword) . "';  
+			";
+				$this->db->query($sql);
+				// update all of its children urls with the new /parent/children
+				$this->updateSeoChildren($category_id, $keyword, $language_id, $store_id);
 			}
 		}
 
@@ -257,9 +234,73 @@ class Category extends \Ventocart\System\Engine\Model
 			}
 		}
 	}
+	public function updateSeoChildren(int $category_id, string $category_path, int $language_id, int $store_id)
+	{
+		// Get all child categories where parent_id = $category_id
+		$query = $this->db->query("
+			SELECT `category_id` 
+			FROM `" . DB_PREFIX . "category` 
+			WHERE `parent_id` = '" . (int) $category_id . "'
+		");
+
+		// Loop through each child category
+		foreach ($query->rows as $row) {
+			$child_category_id = $row['category_id'];
+
+			// Step 1: Get the old path and its keyword for the child
+			$child_query = $this->db->query("
+				SELECT c.`path`, su.`keyword`
+				FROM `" . DB_PREFIX . "category` c
+				LEFT JOIN `" . DB_PREFIX . "seo_url` su 
+					ON su.`value` = c.`path` 
+					AND su.`language_id` = '" . (int) $language_id . "' 
+					AND su.`store_id` = '" . (int) $store_id . "'
+				WHERE c.`category_id` = '" . (int) $child_category_id . "'
+				AND su.`key` = 'path'
+			");
+
+			if (!$child_query->num_rows) {
+				continue; // Skip if no path or keyword is found for the child
+			}
+
+			$my_old_path = $child_query->row['path'];
+			$my_keyword = $child_query->row['keyword'];
+
+			// Extract the last part of the keyword as 'me' its the last name of path ffparnet/fparent/parent/me <- me.
+			$exploded_path = explode('/', $my_keyword);
+			$me = end($exploded_path);
+
+			// Step 3: Build the new SEO path for the child (all the /parents/full/path plus /me)
+			$new_path = $category_path . '/' . $me;
+
+			// Step 4: Update the child's path in the SEO URL table
+			$this->db->query("
+				UPDATE `" . DB_PREFIX . "seo_url` 
+				SET `keyword` = '" . $this->db->escape($new_path) . "' 
+				WHERE `value` = '" . $this->db->escape($my_old_path) . "' 
+				AND `key` = 'path'
+				AND `language_id` = '" . (int) $language_id . "' 
+				AND `store_id` = '" . (int) $store_id . "'
+			");
+
+			// Recursive call to update the child's children
+			$this->updateSeoChildren($child_category_id, $new_path, $language_id, $store_id);
+		}
+	}
+
 
 	public function deleteCategory(int $category_id): void
 	{
+		$query = $this->db->query("
+		SELECT * 
+		FROM `" . DB_PREFIX . "category` 
+		WHERE `path` LIKE  '%" . (int) $category_id . "_%'
+	");
+
+		foreach ($query->rows as $result) {
+			$this->deleteCategory($result['category_id']);
+		}
+		$this->db->query("DELETE FROM `" . DB_PREFIX . "seo_url` WHERE `key` = 'path' AND `value` = '" . $this->getCategoryPath($category_id) . "'");
 		$this->db->query("DELETE FROM `" . DB_PREFIX . "category` WHERE `category_id` = '" . (int) $category_id . "'");
 		$this->db->query("DELETE FROM `" . DB_PREFIX . "category_description` WHERE `category_id` = '" . (int) $category_id . "'");
 		$this->db->query("DELETE FROM `" . DB_PREFIX . "category_filter` WHERE `category_id` = '" . (int) $category_id . "'");
@@ -267,44 +308,29 @@ class Category extends \Ventocart\System\Engine\Model
 		$this->db->query("DELETE FROM `" . DB_PREFIX . "category_to_layout` WHERE `category_id` = '" . (int) $category_id . "'");
 		$this->db->query("DELETE FROM `" . DB_PREFIX . "product_to_category` WHERE `category_id` = '" . (int) $category_id . "'");
 		$this->db->query("DELETE FROM `" . DB_PREFIX . "coupon_category` WHERE `category_id` = '" . (int) $category_id . "'");
-		$this->db->query("DELETE FROM `" . DB_PREFIX . "seo_url` WHERE `key` = 'path' AND `value` = '" . $this->db->escape($this->getPath($category_id)) . "'");
-		$this->db->query("DELETE FROM `" . DB_PREFIX . "category_path` WHERE `category_id` = '" . (int) $category_id . "'");
 
-		$query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "category_path` WHERE `path_id` = '" . (int) $category_id . "'");
 
-		foreach ($query->rows as $result) {
-			$this->deleteCategory($result['category_id']);
-		}
+
+
 	}
 
-	public function repairCategories(int $parent_id = 0): void
-	{
-		$query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "category` WHERE `parent_id` = '" . (int) $parent_id . "'");
-
-		foreach ($query->rows as $category) {
-			// Delete the path below the current one
-			$this->db->query("DELETE FROM `" . DB_PREFIX . "category_path` WHERE `category_id` = '" . (int) $category['category_id'] . "'");
-
-			// Fix for records with no paths
-			$level = 0;
-
-			$query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "category_path` WHERE `category_id` = '" . (int) $parent_id . "' ORDER BY `level` ASC");
-
-			foreach ($query->rows as $result) {
-				$this->db->query("INSERT INTO `" . DB_PREFIX . "category_path` SET `category_id` = '" . (int) $category['category_id'] . "', `path_id` = '" . (int) $result['path_id'] . "', `level` = '" . (int) $level . "'");
-
-				$level++;
-			}
-
-			$this->db->query("REPLACE INTO `" . DB_PREFIX . "category_path` SET `category_id` = '" . (int) $category['category_id'] . "', `path_id` = '" . (int) $category['category_id'] . "', `level` = '" . (int) $level . "'");
-
-			$this->repairCategories($category['category_id']);
-		}
-	}
 
 	public function getCategory(int $category_id): array
 	{
-		$query = $this->db->query("SELECT DISTINCT *, (SELECT GROUP_CONCAT(cd1.`name` ORDER BY `level` SEPARATOR ' > ') FROM `" . DB_PREFIX . "category_path` cp LEFT JOIN `" . DB_PREFIX . "category_description` cd1 ON (cp.`path_id` = cd1.`category_id` AND cp.`category_id` != cp.`path_id`) WHERE cp.`category_id` = c.`category_id` AND cd1.`language_id` = '" . (int) $this->config->get('config_language_id') . "' GROUP BY cp.`category_id`) AS `path` FROM `" . DB_PREFIX . "category` c LEFT JOIN `" . DB_PREFIX . "category_description` cd2 ON (c.`category_id` = cd2.`category_id`) WHERE c.`category_id` = '" . (int) $category_id . "' AND cd2.`language_id` = '" . (int) $this->config->get('config_language_id') . "'");
+		$query = $this->db->query("
+		SELECT 
+			c.*, 
+			cd2.*, 
+			cd_parent.`name` AS `path` 
+		FROM `" . DB_PREFIX . "category` c
+		LEFT JOIN `" . DB_PREFIX . "category_description` cd2 
+			ON c.`category_id` = cd2.`category_id`
+		LEFT JOIN `" . DB_PREFIX . "category_description` cd_parent 
+			ON c.`parent_id` = cd_parent.`category_id` 
+			AND cd_parent.`language_id` = '" . (int) $this->config->get('config_language_id') . "'
+		WHERE c.`category_id` = '" . (int) $category_id . "'
+		AND cd2.`language_id` = '" . (int) $this->config->get('config_language_id') . "'
+	");
 		$pattern = '/\[link=(.*?)\]/';
 		$query->row['redirect_url'] = '';
 		if (preg_match($pattern, $query->row['meta_title'], $matches)) {
@@ -312,71 +338,86 @@ class Category extends \Ventocart\System\Engine\Model
 			$query->row['meta_title'] = '';
 		}
 
-		return  $query->row;
+		return $query->row;
 	}
 
-	public function getPath(int $category_id): string
-	{
-		return implode('_', array_column($this->getPaths($category_id), 'path_id'));
-	}
 
-	public function getPaths(int $category_id): array
-	{
-		$query = $this->db->query("SELECT `category_id`, `path_id`, `level` FROM `" . DB_PREFIX . "category_path` WHERE `category_id` = '" . (int) $category_id . "' ORDER BY `level` ASC");
-
-		return $query->rows;
-	}
 
 	public function getCategories(array $data = []): array
 	{
-		$sql = "SELECT cp.`category_id` AS `category_id`, cd2.`name` AS `name`, c1.`parent_id`, c1.`sort_order`
-        FROM `" . DB_PREFIX . "category_path` cp
-        LEFT JOIN `" . DB_PREFIX . "category` c1 ON (cp.`category_id` = c1.`category_id`)
-        LEFT JOIN `" . DB_PREFIX . "category` c2 ON (cp.`path_id` = c2.`category_id`)
-        LEFT JOIN `" . DB_PREFIX . "category_description` cd1 ON (cp.`path_id` = cd1.`category_id`)
-        LEFT JOIN `" . DB_PREFIX . "category_description` cd2 ON (cp.`category_id` = cd2.`category_id`)
-        WHERE cd1.`language_id` = '" . (int) $this->config->get('config_language_id') . "'
-        AND cd2.`language_id` = '" . (int) $this->config->get('config_language_id') . "'";
+		// Base SQL query to select categories with their descriptions
+		$sql = "
+		SELECT 
+			c.*, 
+			cd.`name` 
+		FROM `" . DB_PREFIX . "category` c
+		LEFT JOIN `" . DB_PREFIX . "category_description` cd 
+			ON c.`category_id` = cd.`category_id`
+		WHERE cd.`language_id` = '" . (int) $this->config->get('config_language_id') . "'
+		";
 
+		// Apply filter for category name if provided in $data
 		if (!empty($data['filter_name'])) {
-			$sql .= " AND cd2.`name` LIKE '" . $this->db->escape((string) $data['filter_name']) . "'";
+			$sql .= " AND cd.`name` LIKE '" . $this->db->escape((string) $data['filter_name']) . "%'"; // Adding "%" for LIKE matching
 		}
 
-		$sql .= " GROUP BY cp.`category_id`";
+		// Apply filter for category id if provided in $data
+		if (!empty($data['filter_category_id'])) {
+			$sql .= " AND c.`category_id` = '" . (int) $data['filter_category_id'] . "'";
+		}
 
+		// Apply filter for parent id if provided in $data
+		if (!empty($data['filter_parent_id'])) {
+			$sql .= " AND c.`parent_id` = '" . (int) $data['filter_parent_id'] . "'";
+		}
+
+		// Apply filter for status if provided in $data
+		if (isset($data['filter_status'])) {
+			$sql .= " AND c.`status` = '" . (int) $data['filter_status'] . "'";
+		}
+
+		// Group categories by category_id to avoid duplicates
+		$sql .= " GROUP BY c.`category_id`";
+
+		// Sorting logic
 		$sort_data = [
 			'name',
-			'sort_order'
+			'sort_order',
+			'category_id' // Add category_id for sorting if needed
 		];
 
 		if (isset($data['sort']) && in_array($data['sort'], $sort_data)) {
 			$sql .= " ORDER BY `" . $data['sort'] . "`";
 		} else {
-			$sql .= " ORDER BY `sort_order`";
+			$sql .= " ORDER BY `sort_order`"; // Default sort
 		}
 
+		// Order direction (ASC or DESC)
 		if (isset($data['order']) && ($data['order'] == 'DESC')) {
 			$sql .= " DESC";
 		} else {
 			$sql .= " ASC";
 		}
 
+		// Pagination logic (if start or limit are provided)
 		if (isset($data['start']) || isset($data['limit'])) {
 			if ($data['start'] < 0) {
 				$data['start'] = 0;
 			}
 
 			if ($data['limit'] < 1) {
-				$data['limit'] = 20;
+				$data['limit'] = 20; // Default limit
 			}
 
 			$sql .= " LIMIT " . (int) $data['start'] . "," . (int) $data['limit'];
 		}
 
+		// Execute query and return results
 		$query = $this->db->query($sql);
 
 		return $query->rows;
 	}
+
 
 	public function getDescriptions(int $category_id): array
 	{
@@ -389,7 +430,7 @@ class Category extends \Ventocart\System\Engine\Model
 
 			$redirect = '';
 			if (preg_match($pattern, $result['meta_title'], $matches)) {
-				$redirect =   $matches[1];
+				$redirect = $matches[1];
 				$result['meta_title'] = '';
 			}
 
@@ -414,19 +455,19 @@ class Category extends \Ventocart\System\Engine\Model
 		$query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "category_filter` WHERE `category_id` = '" . (int) $category_id . "'");
 
 		foreach ($query->rows as $result) {
-			$category_filter_data[] = ['id'=> $result['filter_id'], 'type' => $result['type'] ];
+			$category_filter_data[] = ['id' => $result['filter_id'], 'type' => $result['type']];
 		}
 
 		return $category_filter_data;
 	}
 
- 
+
 
 	public function getSeoUrls(int $category_id): array
 	{
 		$category_seo_url_data = [];
 
-		$query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "seo_url` WHERE `key` = 'path' AND `value` = '" . $this->db->escape($this->getPath($category_id)) . "'");
+		$query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "seo_url` WHERE `key` = 'path' AND `value` = '" . $this->db->escape($this->getCategoryPath($category_id)) . "'");
 
 		foreach ($query->rows as $result) {
 			$category_seo_url_data[$result['store_id']][$result['language_id']] = $result['keyword'];
@@ -483,12 +524,45 @@ class Category extends \Ventocart\System\Engine\Model
 		// Convert to lowercase
 		$text = strtolower($text);
 
-		// Remove special characters and replace spaces with dashes
-		$text = preg_replace('/[^a-z0-9]+/', '-', $text);
+		// Replace spaces with dashes, but preserve existing slashes
+		$text = preg_replace('/[^a-z0-9\/]+/', '-', $text);
 
-		// Remove leading and trailing dashes
-		$text = trim($text, '-');
+		// Remove leading and trailing dashes or slashes
+		$text = trim($text, '-/');
 
 		return $text;
 	}
+
+	public function getCategoryPerentPath($category_id)
+	{
+		$sql = $this->db->query("
+			SELECT c2.path 
+			FROM " . DB_PREFIX . "category c1
+			LEFT JOIN " . DB_PREFIX . "category c2
+			ON c1.parent_id = c2.category_id
+			WHERE c1.category_id = '" . (int) $category_id . "'
+		");
+
+		if ($sql->num_rows) {
+
+			return $sql->row['path'];
+		} else {
+			return $category_id;
+		}
+	}
+	public function getCategoryPath($category_id)
+	{
+		$sql = $this->db->query("
+			SELECT path
+			FROM " . DB_PREFIX . "category 
+			WHERE category_id = '" . (int) $category_id . "'
+		");
+
+		if ($sql->num_rows) {
+			return $sql->row['path'];
+		} else {
+			return 0; // Return null if no path is found
+		}
+	}
+
 }

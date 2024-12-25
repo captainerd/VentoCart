@@ -15,10 +15,7 @@ class Thumb extends \Ventocart\System\Engine\Controller
 	public function index(array $data): mixed
 	{
 
-		$api_output = $this->customer->isApiClient();
-		if ($api_output) {
-			return $data;
-		}
+
 		$this->load->language('product/thumb');
 
 		$data['cart'] = $this->url->link('common/cart.info', 'language=' . $this->config->get('config_language'));

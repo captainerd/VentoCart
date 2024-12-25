@@ -12,34 +12,8 @@ class Logout extends \Ventocart\System\Engine\Controller
 	 */
 	public function index(): void
 	{
-		$api_output = $this->customer->isApiClient();
+
 		$this->load->language('account/logout');
-
-
-		if ($api_output) {
-			$json['success'] = $this->language->get('text_logout');
-			$json['text_message'] = $this->language->get('text_message');
-			$json['heading_title'] = $this->language->get('heading_title');
-			$this->response->setOutput(json_encode($json));
-
-			unset($this->session->data['customer']);
-			unset($this->session->data['shipping_address']);
-			unset($this->session->data['shipping_method']);
-			unset($this->session->data['shipping_methods']);
-			unset($this->session->data['payment_address']);
-			unset($this->session->data['payment_method']);
-			unset($this->session->data['payment_methods']);
-			unset($this->session->data['comment']);
-			unset($this->session->data['order_id']);
-			unset($this->session->data['coupon']);
-			unset($this->session->data['reward']);
-
-			unset($this->session->data['customer_token']);
-			$this->customer->logout();
-			return;
-		}
-
-
 
 
 		if ($this->customer->isLogged()) {

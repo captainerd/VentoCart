@@ -44,15 +44,9 @@ class Store extends \Ventocart\System\Engine\Controller
 					'url' => $result['url'] . 'index.php?route=common/home&session_id=' . $this->session->getId()
 				];
 			}
-			$api_output = $this->customer->isApiClient();
 
-			if ($api_output) {
-				$data['module'] = "store";
-				$data['lang_values'] = $this->language->loadForAPI('extension/ventocart/module/store');
-				return $data;
-			} else {
-				return $this->load->view('extension/ventocart/module/store', $data);
-			}
+			return $this->load->view('extension/ventocart/module/store', $data);
+
 
 
 		} else {

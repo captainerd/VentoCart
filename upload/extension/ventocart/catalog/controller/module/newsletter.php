@@ -15,6 +15,8 @@ class Newsletter extends \Ventocart\System\Engine\Controller
 
         $data = [];
         $this->load->language('guest/newsletter');
+        $data['is_home'] = !isset($this->request->get['route']) ? true : ($this->request->get['route'] == 'common/home');
+
         $this->load->model('guest/newsletter');
         if (!$this->model_guest_newsletter->isSubscriber()) {
 

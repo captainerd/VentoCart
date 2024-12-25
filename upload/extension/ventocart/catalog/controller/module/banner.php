@@ -15,12 +15,12 @@ class Banner extends \Ventocart\System\Engine\Controller
 	public function index(array $setting): mixed
 	{
 		static $module = 0;
-		$api_output = $this->customer->isApiClient();
+
 		$this->load->model('design/banner');
 		$this->load->model('tool/image');
 
 		$data['banners'] = [];
-
+		$data['component'] = 'BannerCarousel';
 		$results = $this->model_design_banner->getBanner($setting['banner_id']);
 
 		foreach ($results as $result) {
@@ -45,13 +45,10 @@ class Banner extends \Ventocart\System\Engine\Controller
 			$data['width'] = $setting['width'];
 			$data['height'] = $setting['height'];
 
-			if (!$api_output) {
 
-				return $this->load->view('extension/ventocart/module/banner', $data);
-			} else {
-				$data['module'] = "BannerCarousel";
-				return $data;
-			}
+
+			return $this->load->view('extension/ventocart/module/banner', $data);
+
 		} else {
 			return '';
 		}

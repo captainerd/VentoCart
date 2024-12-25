@@ -78,6 +78,7 @@ class FileManager extends \Ventocart\System\Engine\Controller
 			'.jpeg',
 			'.png',
 			'.gif',
+			'.avif',
 			'.webp',
 			'.JPG',
 			'.JPEG',
@@ -246,12 +247,12 @@ class FileManager extends \Ventocart\System\Engine\Controller
 		$this->response->setOutput($this->load->view('common/filemanager_list', $data));
 	}
 
-	 /**
+	/**
 	 * @return void
 	 */
 
-	 public function uploadFromURL(): void
-	 {   
+	public function uploadFromURL(): void
+	{
 		$this->load->language('common/filemanager');
 
 		if (!$this->user->hasPermission('modify', 'common/filemanager')) {
@@ -260,46 +261,46 @@ class FileManager extends \Ventocart\System\Engine\Controller
 			return;
 		}
 
-		 if (isset($this->request->post['imgUrl'], $this->request->post['directory'])) {
-			 // Sanitize user input
-			 $imageUrl = filter_var($this->request->post['imgUrl'], FILTER_SANITIZE_URL);
-			 $directory = filter_var($this->request->post['directory'], FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-		 
-			 $json = [];
-			 // Validate directory format
-			 if (preg_match('/^[a-zA-Z0-9_\/]+$/', $directory)) {
-				 // Fetch image content
-				 $imageUrl = html_entity_decode($imageUrl);
-				 $imageContent = file_get_contents($imageUrl);
-				 // If image content is successfully fetched
-				 if ($imageContent !== false) {
-					 // Get image size information
-					 $imageSize = getimagesizefromstring($imageContent);
-					 // Extract file extension from image type
-					 $extension = image_type_to_extension($imageSize[2], false);
-					 if ($extension === 'jpeg') {
-						 $extension = 'jpg'; // Adjust extension format to match commonly used convention
-					 }
-					 // Generate filename
-					 $filename = "pasted_" . substr(md5($imageUrl), 0, 10) . '.' . $extension;
-					 // Construct absolute path
-					 $base = DIR_IMAGE . 'catalog/' . $directory  . $filename;
-					 // Save image content to file
-					 file_put_contents($base, $imageContent);
-					 $json['filename'] = $filename;
-				 } else {
-					 $json['error'] = 'Failed to fetch image content.';
-				 }
-			 } else {
-				 $json['error'] = 'Invalid directory format.';
-			 }
-		 } else {
-			 $json['error'] = 'Required parameters are missing.';
-		 }
-	 
-		 $this->response->setOutput(json_encode($json));
-	 }
-	 
+		if (isset($this->request->post['imgUrl'], $this->request->post['directory'])) {
+			// Sanitize user input
+			$imageUrl = filter_var($this->request->post['imgUrl'], FILTER_SANITIZE_URL);
+			$directory = filter_var($this->request->post['directory'], FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+
+			$json = [];
+			// Validate directory format
+			if (preg_match('/^[a-zA-Z0-9_\/]+$/', $directory)) {
+				// Fetch image content
+				$imageUrl = html_entity_decode($imageUrl);
+				$imageContent = file_get_contents($imageUrl);
+				// If image content is successfully fetched
+				if ($imageContent !== false) {
+					// Get image size information
+					$imageSize = getimagesizefromstring($imageContent);
+					// Extract file extension from image type
+					$extension = image_type_to_extension($imageSize[2], false);
+					if ($extension === 'jpeg') {
+						$extension = 'jpg'; // Adjust extension format to match commonly used convention
+					}
+					// Generate filename
+					$filename = "pasted_" . substr(md5($imageUrl), 0, 10) . '.' . $extension;
+					// Construct absolute path
+					$base = DIR_IMAGE . 'catalog/' . $directory . $filename;
+					// Save image content to file
+					file_put_contents($base, $imageContent);
+					$json['filename'] = $filename;
+				} else {
+					$json['error'] = 'Failed to fetch image content.';
+				}
+			} else {
+				$json['error'] = 'Invalid directory format.';
+			}
+		} else {
+			$json['error'] = 'Required parameters are missing.';
+		}
+
+		$this->response->setOutput(json_encode($json));
+	}
+
 	/**
 	 * @return void
 	 */
@@ -362,6 +363,7 @@ class FileManager extends \Ventocart\System\Engine\Controller
 						'jpeg',
 						'png',
 						'gif',
+						'avif',
 						'webp',
 						'JPG',
 						'JPEG',
@@ -380,6 +382,7 @@ class FileManager extends \Ventocart\System\Engine\Controller
 					$allowed = [
 						'image/x-icon',
 						'image/jpeg',
+						'image/avif',
 						'image/pjpeg',
 						'image/png',
 						'image/x-png',
@@ -565,6 +568,21 @@ class FileManager extends \Ventocart\System\Engine\Controller
 				foreach ($files as $file) {
 					// If file just delete
 					if (is_file($file)) {
+
+
+						// Get the file extension and base name
+						$fileExtension = strtolower(pathinfo($file, PATHINFO_EXTENSION));
+						$baseName = pathinfo($file, PATHINFO_FILENAME);
+
+						// Check if the file is a video
+						if (in_array($fileExtension, ['mp4', 'mkv', 'avi'])) {
+							$screenshotFile = dirname($file) . DIRECTORY_SEPARATOR . $baseName . '.png';
+
+							// Delete screenshot if it exists
+							if (is_file($screenshotFile)) {
+								unlink($screenshotFile);
+							}
+						}
 						unlink($file);
 					}
 

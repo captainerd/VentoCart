@@ -196,13 +196,8 @@ class ShippingPaymentMethods extends \Ventocart\System\Engine\Controller
 
             $json['success'] = $this->language->get('text_success');
         }
-        $api_output = $this->customer->isApiClient();
-        if ($api_output) {
-            // Order Totals
-            $totals = $this->load->controller('checkout/confirm.totals');
-            $json['totals'] = $totals['totals'];
 
-        }
+
         // Send response as JSON
         $this->response->addHeader('Content-Type: application/json');
         $this->response->setOutput(json_encode($json));
@@ -279,15 +274,11 @@ class ShippingPaymentMethods extends \Ventocart\System\Engine\Controller
             $json['error_shipping'] = $this->language->get('text_shipping_not_needed');
         }
 
-        $api_output = $this->customer->isApiClient();
 
-        if ($api_output) {
-            return $json;
-        } else {
-            $this->response->addHeader('Content-Type: application/json');
-            $this->response->setOutput(json_encode($json));
-            return null;
-        }
+        $this->response->addHeader('Content-Type: application/json');
+        $this->response->setOutput(json_encode($json));
+        return null;
+
     }
 
 

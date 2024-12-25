@@ -10,7 +10,8 @@ namespace Ventocart\System\Library;
 /**
  * Class Image
  */
-class Image {
+class Image
+{
 	/**
 	 * @var string
 	 */
@@ -37,12 +38,13 @@ class Image {
 	private string $mime;
 
 	/**
-     * Constructor
-     *
-     * @param string $file
-     *
-     */
-	public function __construct(string $file) {
+	 * Constructor
+	 *
+	 * @param string $file
+	 *
+	 */
+	public function __construct(string $file)
+	{
 		if (!extension_loaded('gd')) {
 			exit('Error: PHP GD is not installed!');
 		}
@@ -74,101 +76,138 @@ class Image {
 	}
 
 	/**
-     * getFile
-     *
-     * @return string
-     */
-	public function getFile(): string {
+	 * getFile
+	 *
+	 * @return string
+	 */
+	public function getFile(): string
+	{
 		return $this->file;
 	}
 
 	/**
-     * getImage
-     *
-     * @return object
-     */
-	public function getImage(): object {
+	 * getImage
+	 *
+	 * @return object
+	 */
+	public function getImage(): object
+	{
 		return $this->image;
 	}
 
 	/**
-     * getWidth
-     *
-     * @return int
-     */
-	public function getWidth(): int {
+	 * getWidth
+	 *
+	 * @return int
+	 */
+	public function getWidth(): int
+	{
 		return $this->width;
 	}
 
 	/**
-     * getHeight
-     *
-     * @return int
-     */
-	public function getHeight(): int {
+	 * getHeight
+	 *
+	 * @return int
+	 */
+	public function getHeight(): int
+	{
 		return $this->height;
 	}
 
 	/**
-     * getBits
-     *
-     * @return string
-     */
-	public function getBits(): string {
+	 * getBits
+	 *
+	 * @return string
+	 */
+	public function getBits(): string
+	{
 		return $this->bits;
 	}
 
 	/**
-     * getMime
-     *
-     * @return string
-     */
-	public function getMime(): string {
+	 * getMime
+	 *
+	 * @return string
+	 */
+	public function getMime(): string
+	{
 		return $this->mime;
 	}
 
 	/**
-     * Save
-     *
-     * @param string $file
-     * @param int    $quality
-     *
-     * @return void
-     */
-	public function save(string $file, int $quality = 100): void {
+	 * Save
+	 *
+	 * @param string $file
+	 * @param int    $quality
+	 *
+	 * @return void
+	 */
+	public function save(string $file, int $quality = 100, $filetype = ''): void
+	{
 		$info = pathinfo($file);
-		$quality = 100;
 		$extension = strtolower($info['extension']);
 
 		if (is_object($this->image) || is_resource($this->image)) {
-			if ($extension == 'jpeg' || $extension == 'jpg') {
-				imagejpeg($this->image, $file, $quality);
-			} elseif ($extension == 'png') {
-				imagepng($this->image, $file);
-			} elseif ($extension == 'gif') {
-				imagegif($this->image, $file);
-			} elseif ($extension == 'webp') {
-				imagewebp($this->image, $file);
+			if (!empty($filetype)) {
+
+				// If the filetype is provided, save the image as the specified format
+				if ($filetype == 'webp') {
+					$file = preg_replace('/\.(jpg|jpeg|png|gif|avif)$/i', '.webp', $file);
+
+					imagewebp($this->image, $file, $quality);
+				} elseif ($filetype == 'jpeg' || $filetype == 'jpg') {
+					$file = preg_replace('/\.(png|webp|gif|avif)$/i', '.jpg', $file);
+					imagejpeg($this->image, $file, $quality);
+				} elseif ($filetype == 'png') {
+					$file = preg_replace('/\.(jpg|jpeg|webp|gif|avif)$/i', '.png', $file);
+					imagepng($this->image, $file, (int) max(0, min(9, ($quality / 10))));
+				} elseif ($filetype == 'gif') {
+					$file = preg_replace('/\.(jpg|jpeg|png|webp|avif)$/i', '.gif', $file);
+					imagegif($this->image, $file);  // GIF (no quality parameter)
+				} elseif ($filetype == 'avif') {
+					$file = preg_replace('/\.(jpg|jpeg|png|webp|gif)$/i', '.avif', $file);
+					imageavif($this->image, $file, $quality);
+				}
+			} else {
+				// Default behavior based on file extension
+				if (is_object($this->image) || is_resource($this->image)) {
+					if ($extension == 'jpeg' || $extension == 'jpg') {
+						imagejpeg($this->image, $file, $quality);
+					} elseif ($extension == 'png') {
+						imagepng($this->image, $file, (int) max(0, min(9, ($quality / 10))));
+					} elseif ($extension == 'gif') {
+						imagegif($this->image, $file);
+					} elseif ($extension == 'webp') {
+						imagewebp($this->image, $file, $quality);
+					} elseif ($extension == 'avif') {
+						imageavif($this->image, $file, $quality);
+					}
+
+					imagedestroy($this->image);
+				}
 			}
 
-			imagedestroy($this->image);
+			imagedestroy($this->image);  // Cleanup after saving the image
 		}
 	}
 
+
 	/**
-     * Resize
-     *
-     * @param int    $width
-     * @param int    $height
-     * @param string $default
-     *
-     * @return void
-     */
-	public function resize(int $width = 0, int $height = 0, string $default = ''): void {
+	 * Resize
+	 *
+	 * @param int    $width
+	 * @param int    $height
+	 * @param string $default
+	 *
+	 * @return void
+	 */
+	public function resize(int $width = 0, int $height = 0, string $default = ''): void
+	{
 		if (!$this->width || !$this->height) {
 			return;
 		}
-	
+
 		// If one dimension is zero, calculate the other dimension based on aspect ratio
 		if ($width == 0 && $height != 0) {
 			$width = $this->width * ($height / $this->height);
@@ -178,15 +217,15 @@ class Image {
 			// If both dimensions are zero, exit without resizing
 			return;
 		}
-	
+
 		// Rest of the resize logic remains the same...
 		$xpos = 0;
 		$ypos = 0;
 		$scale = 1;
-	
+
 		$scale_w = $width / $this->width;
 		$scale_h = $height / $this->height;
-	
+
 		if ($default == 'w') {
 			$scale = $scale_w;
 		} elseif ($default == 'h') {
@@ -194,63 +233,65 @@ class Image {
 		} else {
 			$scale = min($scale_w, $scale_h);
 		}
-	
+
 		if ($scale == 1 && $scale_h == $scale_w && ($this->mime != 'image/png' || $this->mime != 'image/webp')) {
 			return;
 		}
-	
-		$new_width = (int)($this->width * $scale);
-		$new_height = (int)($this->height * $scale);
-		$xpos = (int)(($width - $new_width) / 2);
-		$ypos = (int)(($height - $new_height) / 2);
-	
+
+		$new_width = (int) ($this->width * $scale);
+		$new_height = (int) ($this->height * $scale);
+		$xpos = (int) (($width - $new_width) / 2);
+		$ypos = (int) (($height - $new_height) / 2);
+
 		$image_old = $this->image;
 		$this->image = imagecreatetruecolor($width, $height);
-	
+
 		if ($this->mime == 'image/png') {
 			imagealphablending($this->image, false);
 			imagesavealpha($this->image, true);
-	
 			$background = imagecolorallocatealpha($this->image, 255, 255, 255, 127);
-	
 			imagecolortransparent($this->image, $background);
+		} elseif ($this->mime == 'image/avif') {
+			// Handle AVIF images
+			$background = imagecolorallocate($this->image, 255, 255, 255);
 		} elseif ($this->mime == 'image/webp') {
 			imagealphablending($this->image, false);
 			imagesavealpha($this->image, true);
-	
+
 			$background = imagecolorallocatealpha($this->image, 255, 255, 255, 127);
-	
+
 			imagecolortransparent($this->image, $background);
 		} else {
 			$background = imagecolorallocate($this->image, 255, 255, 255);
 		}
-	
+
 		imagefilledrectangle($this->image, 0, 0, $width, $height, $background);
-	
+
 		imagecopyresampled($this->image, $image_old, $xpos, $ypos, 0, 0, $new_width, $new_height, $this->width, $this->height);
 		imagedestroy($image_old);
-	
+
 		$this->width = $width;
 		$this->height = $height;
 	}
-	
+
 
 	/**
-     * Watermark
-     *
-     * @param object $watermark
-     * @param string $position
-     *
-     * @return void
-     */
-	public function watermark(\Ventocart\System\Library\Image $watermark, string $position = 'bottomright'): void {
+	 * Watermark
+	 *
+	 * @param object $watermark
+	 * @param string $position
+	 *
+	 * @return void
+	 */
+	public function watermark(\Ventocart\System\Library\Image $watermark, string $position = 'bottomright'): void
+	{
 		switch ($position) {
 			case 'topleft':
 				$watermark_pos_x = 0;
 				$watermark_pos_y = 0;
 				break;
 			case 'topcenter':
-				$watermark_pos_x = (int)(($this->width - $watermark->getWidth()) / 2);
+				$watermark_pos_x = (int) (($this->width - $watermark->getWidth()) / 2);
 				$watermark_pos_y = 0;
 				break;
 			case 'topright':
@@ -259,22 +300,22 @@ class Image {
 				break;
 			case 'middleleft':
 				$watermark_pos_x = 0;
-				$watermark_pos_y = (int)(($this->height - $watermark->getHeight()) / 2);
+				$watermark_pos_y = (int) (($this->height - $watermark->getHeight()) / 2);
 				break;
 			case 'middlecenter':
-				$watermark_pos_x = (int)(($this->width - $watermark->getWidth()) / 2);
-				$watermark_pos_y = (int)(($this->height - $watermark->getHeight()) / 2);
+				$watermark_pos_x = (int) (($this->width - $watermark->getWidth()) / 2);
+				$watermark_pos_y = (int) (($this->height - $watermark->getHeight()) / 2);
 				break;
 			case 'middleright':
 				$watermark_pos_x = ($this->width - $watermark->getWidth());
-				$watermark_pos_y = (int)(($this->height - $watermark->getHeight()) / 2);
+				$watermark_pos_y = (int) (($this->height - $watermark->getHeight()) / 2);
 				break;
 			case 'bottomleft':
 				$watermark_pos_x = 0;
 				$watermark_pos_y = ($this->height - $watermark->getHeight());
 				break;
 			case 'bottomcenter':
-				$watermark_pos_x = (int)(($this->width - $watermark->getWidth()) / 2);
+				$watermark_pos_x = (int) (($this->width - $watermark->getWidth()) / 2);
 				$watermark_pos_y = ($this->height - $watermark->getHeight());
 				break;
 			case 'bottomright':
@@ -291,21 +332,22 @@ class Image {
 	}
 
 	/**
-     * Crop
-     *
-     * @param int $top_x
-     * @param int $top_y
-     * @param int $bottom_x
-     * @param int $bottom_y
-     *
-     * @return void
-     */
-	
-	 public function crop(int $width = 0, int $height = 0, string $default = ''): void {
+	 * Crop
+	 *
+	 * @param int $top_x
+	 * @param int $top_y
+	 * @param int $bottom_x
+	 * @param int $bottom_y
+	 *
+	 * @return void
+	 */
+
+	public function crop(int $width = 0, int $height = 0, string $default = ''): void
+	{
 		if (!$this->width || !$this->height) {
 			return;
 		}
-	
+
 		// If one dimension is zero, calculate the other dimension based on aspect ratio
 		if ($width == 0 && $height != 0) {
 			$width = $this->width * ($height / $this->height);
@@ -315,13 +357,13 @@ class Image {
 			// If both dimensions are zero, exit without resizing
 			return;
 		}
-	
+
 		// New aspect ratio
 		$newAspectRatio = $width / $height;
-	
+
 		// Original aspect ratio
 		$originalAspectRatio = $this->width / $this->height;
-	
+
 		// Determine which dimension to adjust to match the new aspect ratio
 		if ($newAspectRatio != $originalAspectRatio) {
 			// If new aspect ratio is different, crop the image to match
@@ -337,13 +379,13 @@ class Image {
 				$this->height = intval($cropHeight);
 			}
 		}
-	
+
 		// Rest of the resize logic remains the same...
-		$xpos = (int)(($width - $this->width) / 2);
-		$ypos = (int)(($height - $this->height) / 2);
+		$xpos = (int) (($width - $this->width) / 2);
+		$ypos = (int) (($height - $this->height) / 2);
 		$image_old = $this->image;
 		$this->image = imagecreatetruecolor($width, $height);
-	
+
 		// Fill background with transparency for PNG and WEBP
 		if ($this->mime == 'image/png' || $this->mime == 'image/webp') {
 			imagealphablending($this->image, false);
@@ -354,28 +396,29 @@ class Image {
 			// Fill background with white for other formats
 			$background = imagecolorallocate($this->image, 255, 255, 255);
 		}
-	
+
 		imagefilledrectangle($this->image, 0, 0, $width, $height, $background);
-	
+
 		imagecopyresampled($this->image, $image_old, $xpos, $ypos, 0, 0, $this->width, $this->height, $this->width, $this->height);
 		imagedestroy($image_old);
-	
+
 		$this->width = $width;
 		$this->height = $height;
 	}
-	
 
-	
+
+
 
 	/**
-     * Rotate
-     *
-     * @param int    $degree
-     * @param string $color
-     *
-     * @return void
-     */
-	public function rotate(int $degree, string $color = 'FFFFFF'): void {
+	 * Rotate
+	 *
+	 * @param int    $degree
+	 * @param string $color
+	 *
+	 * @return void
+	 */
+	public function rotate(int $degree, string $color = 'FFFFFF'): void
+	{
 		$rgb = $this->html2rgb($color);
 
 		$this->image = imagerotate($this->image, $degree, imagecolorallocate($this->image, $rgb[0], $rgb[1], $rgb[2]));
@@ -385,55 +428,59 @@ class Image {
 	}
 
 	/**
-     * Filter
-     *
-     * @return void
-     */
-	private function filter(): void {
+	 * Filter
+	 *
+	 * @return void
+	 */
+	private function filter(): void
+	{
 		$args = func_get_args();
 
 		call_user_func_array('imagefilter', $args);
 	}
 
 	/**
-     * Text
-     *
-     * @param string $text
-     * @param int    $x
-     * @param int    $y
-     * @param int    $size
-     * @param string $color
-     *
-     * @return void
-     */
-	private function text(string $text, int $x = 0, int $y = 0, int $size = 5, string $color = '000000'): void {
+	 * Text
+	 *
+	 * @param string $text
+	 * @param int    $x
+	 * @param int    $y
+	 * @param int    $size
+	 * @param string $color
+	 *
+	 * @return void
+	 */
+	private function text(string $text, int $x = 0, int $y = 0, int $size = 5, string $color = '000000'): void
+	{
 		$rgb = $this->html2rgb($color);
 
 		imagestring($this->image, $size, $x, $y, $text, imagecolorallocate($this->image, $rgb[0], $rgb[1], $rgb[2]));
 	}
 
 	/**
-     * Merge
-     *
-     * @param object $merge
-     * @param int    $x
-     * @param int    $y
-     * @param int    $opacity
-     *
-     * @return void
-     */
-	private function merge(object $merge, int $x = 0, int $y = 0, int $opacity = 100): void {
+	 * Merge
+	 *
+	 * @param object $merge
+	 * @param int    $x
+	 * @param int    $y
+	 * @param int    $opacity
+	 *
+	 * @return void
+	 */
+	private function merge(object $merge, int $x = 0, int $y = 0, int $opacity = 100): void
+	{
 		imagecopymerge($this->image, $merge->getImage(), $x, $y, 0, 0, $merge->getWidth(), $merge->getHeight(), $opacity);
 	}
 
 	/**
-     * HTML2RGB
-     *
-     * @param string $color
-     *
-     * @return array
-     */
-	private function html2rgb(string $color): array {
+	 * HTML2RGB
+	 *
+	 * @param string $color
+	 *
+	 * @return array
+	 */
+	private function html2rgb(string $color): array
+	{
 		if ($color[0] == '#') {
 			$color = substr($color, 1);
 		}
@@ -472,4 +519,6 @@ class Image {
 			$b
 		];
 	}
+
+
 }

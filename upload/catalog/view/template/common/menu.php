@@ -16,7 +16,7 @@
                                     <?php foreach ($category['children'] as $childKey => $child): ?>
                                         <li class="dropdown-item">
                                             <a href="<?= $child['href'] ?>" class="dropdown-item"><?= $child['name'] ?></a>
-
+                                            <!-- VentoCart menu -->
                                             <!-- Check if child has children (grandchildren) -->
                                             <?php if (!empty($child['children'])): ?>
                                                 <ul

@@ -56,7 +56,7 @@
     </a>
 
     <!-- Checkout Icon with pulsing circle -->
-    <a href="?route=checkout/checkout" class="checkout-link mx-4 d-flex align-items-center text-decoration-none">
+    <a href="<?= $checkout ?>" class="checkout-link mx-4 d-flex align-items-center text-decoration-none">
       <div class="outer-circle d-flex justify-content-center align-items-center me-2">
         <i class="fas  fa-wallet phone-icon"></i> <!-- Changed to fa-checkout -->
       </div>
@@ -64,7 +64,7 @@
     </a>
 
     <!-- Specials Icon with pulsing circle -->
-    <a href="?route=product/special" class="specials-link mx-4 d-flex align-items-center text-decoration-none">
+    <a href="<?= $sales_link ?>" class="specials-link mx-4 d-flex align-items-center text-decoration-none">
       <div class="outer-circle d-flex justify-content-center align-items-center me-2">
         <i class="fas fa-tags specials-icon"></i> <!-- Icon for Specials -->
       </div>

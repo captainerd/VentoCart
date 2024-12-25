@@ -260,6 +260,12 @@ class Setting extends \Ventocart\System\Engine\Controller
 		$data['config_subscription_failed_status_id'] = $this->config->get('config_subscription_failed_status_id');
 		$data['config_subscription_denied_status_id'] = $this->config->get('config_subscription_denied_status_id');
 
+
+		$data['config_image_default_width'] = $this->config->get('config_image_default_width');
+		$data['config_image_default_height'] = $this->config->get('config_image_default_height');
+		$data['config_image_filetype'] = $this->config->get('config_image_filetype');
+		$data['config_image_quality'] = $this->config->get('config_image_quality');
+
 		// Api
 		$this->load->model('user/api');
 
@@ -466,7 +472,15 @@ class Setting extends \Ventocart\System\Engine\Controller
 		if (!$this->user->hasPermission('modify', 'setting/setting')) {
 			$json['error']['warning'] = $this->language->get('error_permission');
 		}
+		// Validation for image file type
+		if (empty($this->request->post['config_image_filetype']) || !in_array($this->request->post['config_image_filetype'], ['as_uploaded', 'webp', 'avif', 'jpeg', 'png'])) {
+			$json['error']['image_filetype'] = $this->language->get('error_image_filetype');
+		}
 
+		// Validation for image quality
+		if (empty($this->request->post['config_image_quality']) || !is_numeric($this->request->post['config_image_quality']) || $this->request->post['config_image_quality'] < 1 || $this->request->post['config_image_quality'] > 100) {
+			$json['error']['image_quality'] = $this->language->get('error_image_quality');
+		}
 		if (!$this->request->post['config_meta_title']) {
 			$json['error']['meta_title'] = $this->language->get('error_meta_title');
 		}

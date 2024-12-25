@@ -6,7 +6,7 @@ class Product extends \Ventocart\System\Engine\Controller
 	{
 
 		$this->load->language('product/product');
-		$api_output = $this->customer->isApiClient();
+
 		$datab['breadcrumbs'] = [];
 
 		$datab['breadcrumbs'][] = [
@@ -19,8 +19,9 @@ class Product extends \Ventocart\System\Engine\Controller
 		/* Product related */
 		$this->document->addLink('https://fonts.googleapis.com/css?family=Aldrich', 'stylesheet', 'text/css');
 		$this->document->addLink('/catalog/view/stylesheet/photoswipe.css', 'stylesheet', 'text/css');
-		$this->document->addLink('https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css', 'stylesheet', 'text/css');
-		$this->document->addScript("https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js");
+		$this->document->addLink('/catalog/view/stylesheet/splide/splide.min.css', 'stylesheet', 'text/css');
+		$this->document->addLink('/catalog/view/stylesheet/splide/themes/splide-vento.css', 'stylesheet', 'text/css');
+		$this->document->addScript("catalog/view/javascript/splide/splide.min.js");
 		$this->document->addScript("catalog/view/javascript/product.js");
 
 		if (isset($this->request->get['path'])) {
@@ -311,6 +312,22 @@ class Product extends \Ventocart\System\Engine\Controller
 			$data['add_to_compare'] = $this->url->link('product/compare.add', 'language=' . $this->config->get('config_language'));
 
 			$this->load->model('tool/image');
+			// Video poster creation
+			$fileExtension = strtolower(pathinfo($product_info['image'], PATHINFO_EXTENSION));
+			$poster = '';
+
+			if (in_array($fileExtension, ['mp4', 'mkv', 'avi'])) {
+
+				// Prepare the resized video thumbnail, the URL is the same as the video
+				$image_format = $this->config->get('config_image_filetype');
+				if ($image_format == 'as_uploaded') {
+					$image_format = ".png";  // Default to PNG if 'as_uploaded' is chosen
+				}
+				$image = $product_info['image'];
+
+				$poster = substr_replace($product_info['image'], '.png', strrpos($product_info['image'], '.'));  // Only modify the $poster variable
+
+			}
 
 			if (is_file(DIR_IMAGE . html_entity_decode($product_info['image'], ENT_QUOTES, 'UTF-8'))) {
 				$data['popup'] = $this->model_tool_image->resize(html_entity_decode($product_info['image'], ENT_QUOTES, 'UTF-8'), $this->config->get('config_image_popup_width'), $this->config->get('config_image_popup_height'));
@@ -321,12 +338,13 @@ class Product extends \Ventocart\System\Engine\Controller
 
 			$data['images'][] = [
 				'popup' => $this->model_tool_image->resize(html_entity_decode($product_info['image'], ENT_QUOTES, 'UTF-8'), $this->config->get('config_image_popup_width'), $this->config->get('config_image_popup_height')),
-				'thumb' => $this->model_tool_image->resize(html_entity_decode($product_info['image'], ENT_QUOTES, 'UTF-8'), $this->config->get('config_image_additional_width'), $this->config->get('config_image_additional_height'))
+				'thumb' => $this->model_tool_image->resize(html_entity_decode($product_info['image'], ENT_QUOTES, 'UTF-8'), $this->config->get('config_image_additional_width'), $this->config->get('config_image_additional_height')),
+				'poster' => $this->model_tool_image->resize(html_entity_decode($poster, ENT_QUOTES, 'UTF-8'), $this->config->get('config_image_additional_width'), $this->config->get('config_image_additional_height'))
 			];
 
 			if (is_file(DIR_IMAGE . html_entity_decode($product_info['image'], ENT_QUOTES, 'UTF-8'))) {
 				$data['thumb'] = $this->model_tool_image->resize(html_entity_decode($product_info['image'], ENT_QUOTES, 'UTF-8'), $this->config->get('config_image_thumb_width'), $this->config->get('config_image_thumb_height'));
-				$data['thumb2'] = $this->model_tool_image->resize(html_entity_decode($product_info['image'], ENT_QUOTES, 'UTF-8'), $this->config->get('config_image_additional_height'), $this->config->get('config_image_additional_height'));
+				$data['poster'] = $this->model_tool_image->resize(html_entity_decode($poster, ENT_QUOTES, 'UTF-8'), $this->config->get('config_image_thumb_width'), $this->config->get('config_image_thumb_height'));
 
 			} else {
 				$data['thumb'] = '';
@@ -341,10 +359,33 @@ class Product extends \Ventocart\System\Engine\Controller
 
 			foreach ($results as $result) {
 				if (is_file(DIR_IMAGE . html_entity_decode($result['image'], ENT_QUOTES, 'UTF-8'))) {
+
+					$fileExtension = strtolower(pathinfo($result['image'], PATHINFO_EXTENSION));
+					$poster = '';
+
+					if (in_array($fileExtension, ['mp4', 'mkv', 'avi'])) {
+
+						// Prepare the resized video thumbnail, the URL is the same as the video
+						$image_format = $this->config->get('config_image_filetype');
+						if ($image_format == 'as_uploaded') {
+							$image_format = ".png";  // Default to PNG if 'as_uploaded' is chosen
+						}
+
+
+						$poster = substr_replace($result['image'], '.png', strrpos($result['image'], '.'));  // Only modify the $poster variable
+
+					}
+
+
 					$this->model_tool_image->resize(html_entity_decode($result['image'], ENT_QUOTES, 'UTF-8'), $this->config->get('config_image_thumb_width'), $this->config->get('config_image_thumb_height'));
 					$data['images'][] = [
+
 						'popup' => $this->model_tool_image->resize(html_entity_decode($result['image'], ENT_QUOTES, 'UTF-8'), $this->config->get('config_image_popup_width'), $this->config->get('config_image_popup_height')),
+
+						'poster' => $this->model_tool_image->resize(html_entity_decode($poster, ENT_QUOTES, 'UTF-8'), $this->config->get('config_image_popup_width'), $this->config->get('config_image_popup_height')),
 						'thumb' => $this->model_tool_image->resize(html_entity_decode($result['image'], ENT_QUOTES, 'UTF-8'), $this->config->get('config_image_additional_width'), $this->config->get('config_image_additional_height'))
+
+
 					];
 				}
 			}
@@ -583,13 +624,10 @@ class Product extends \Ventocart\System\Engine\Controller
 			if (isset($_GET['quickview'])) {
 				$data['quickview'] = 1;
 			}
-			if (!$api_output) {
 
-				$this->response->setOutput($this->load->view('product/product', $data));
-			} else {
-				$data['lang_values'] = $this->language->all();
-				$this->response->setOutput(json_encode($data));
-			}
+
+			$this->response->setOutput($this->load->view('product/product', $data));
+
 
 		} else {
 			$url = '';

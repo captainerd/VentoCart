@@ -1,6 +1,8 @@
 <?php
 
 $_['heading_title'] = 'Newsletter';
+
+$_['text_subscribe'] = 'Subscribe to our newsletter';
 $_['text_description'] = 'Subscribe to our newsletter to receive the latest updates and special offers.';
 $_['entry_email'] = 'Your Email';
 $_['entry_action'] = 'Select whether you want to subscribe or unsubscribe';

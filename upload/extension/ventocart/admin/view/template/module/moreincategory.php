@@ -29,21 +29,7 @@
                             <div id="error-name" class="invalid-feedback"></div>
                         </div>
                     </div>
-                    <div class="row mb-3">
-                        <label for="input-axis" class="col-sm-2 col-form-label"><?= $entry_axis ?></label>
-                        <div class="col-sm-10">
-                            <select name="axis" id="input-axis" class="form-select">
-                                <option value="horizontal" <?php if ($axis == 'horizontal')
-                                    echo ' selected'; ?>>
-                                    <?= $text_horizontal ?>
-                                </option>
-                                <option value="vertical" <?php if ($axis == 'vertical')
-                                    echo ' selected'; ?>>
-                                    <?= $text_vertical ?>
-                                </option>
-                            </select>
-                        </div>
-                    </div>
+
                     <div class="row mb-3">
                         <label for="input-limit" class="col-sm-2 col-form-label"><?= $entry_limit ?></label>
                         <div class="col-sm-10">

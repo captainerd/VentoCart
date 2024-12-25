@@ -10,8 +10,9 @@ $_['text_horizontal'] = 'Horizontal';
 $_['text_vertical'] = 'Vertical';
 
 // Entry
+
 $_['entry_name'] = 'Module Name';
-$_['entry_axis'] = 'Axis';
+
 $_['entry_autoplay'] = 'Autoplay';
 $_['entry_limit'] = 'Limit';
 $_['entry_width'] = 'Image Width';
