@@ -32,6 +32,9 @@ $_['text_giftcard_added'] = 'Gift Card added to the cart';
 $_['text_redeem_info'] = 'Once you click Redeem, the amount on the gift card will be credited to your account. You can use this balance for purchases on our store.
 Please note: Redeeming a gift card is final and cannot be reversed. ';
 
+$_['text_balance'] = "Balance";
+$_['text_status'] = "Status";
+$_['text_expr'] = "EXPR";
 $_['text_active'] = "Active";
 $_['text_expired'] = "Expired";
 $_['text_no_giftcards'] = 'You don\'t have yet any gift cards redeemed in your account';

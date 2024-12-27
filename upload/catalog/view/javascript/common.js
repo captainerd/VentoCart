@@ -25,7 +25,6 @@ function getURLVar(key) {
 $(document).ready(function () {
 
     // initialize one quickview modal
-    var quickViewModal = new bootstrap.Modal(document.getElementById('quickViewModal'));
 
 
     $(".autoplayHover").mouseover(function () {
@@ -48,15 +47,15 @@ $(document).ready(function () {
         if (window.innerWidth < 400) {
             return;
         }
+        $(".modal-content-quckview").html('<div class="d-flex align-items-center justify-content-center" style="height: 20vh;"><div class="spinner-border text-primary" role="status">  </div></div>');
 
-        var quickViewModal = new bootstrap.Modal(document.getElementById('quickViewModal'));
         // Show a loading spinner inside the modal content
-        $(".modal-content").html('<div class="d-flex align-items-center justify-content-center" style="height: 20vh;"><div class="spinner-border text-primary" role="status"> <span class="sr-only">Loading...</span> </div></div>');
 
+        $('#quickViewModal').modal('show');
         // Load the content from the data-targ attribute into the modal body
-        $(".modal-content").load($(this).attr("data-targ"), function () {
+        $(".modal-content-quckview").load($(this).attr("data-targ"), function () {
             // After content is loaded, show the modal
-            quickViewModal.show();
+
         });
     });
 
@@ -343,14 +342,15 @@ $(document).on('submit', 'form[data-oc-toggle=\'ajax\']', function (e) {
             $(form).find('.invalid-feedback').removeClass('d-block');
 
             if (json['options_needed'] && window.innerWidth > 400) {
-                var quickViewModal = new bootstrap.Modal(document.getElementById('quickViewModal'));
+
                 // Show a loading spinner inside the modal content
-                $(".modal-content").html('<div class="d-flex align-items-center justify-content-center" style="height: 20vh;"><div class="spinner-border text-primary" role="status"> <span class="sr-only">Loading...</span> </div></div>');
+                $(".modal-content-quckview").html('<div class="d-flex align-items-center justify-content-center" style="height: 20vh;"><div class="spinner-border text-primary" role="status"> <span class="sr-only">Loading...</span> </div></div>');
                 // Load the content from the data-targ attribute into the modal body
-                $(".modal-content").load('?route=product/product&quickview=1&product_id=' + json['options_needed'], function () {
+                $('#quickViewModal').modal('show');
+                $(".modal-content-quckview").load('?route=product/product&quickview=1&product_id=' + json['options_needed'], function () {
                     // After content is loaded, show the modal
 
-                    quickViewModal.show();
+
                 });
                 return;
             }

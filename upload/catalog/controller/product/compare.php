@@ -27,7 +27,7 @@ class Compare extends \Ventocart\System\Engine\Controller
 				$this->session->data['success'] = $this->language->get('text_remove');
 			}
 
-			$this->response->redirect($this->url->link('product/compare', 'language=' . $this->config->get('config_language')));
+			$this->response->redirect($this->url->link('product/compare'));
 		}
 
 		$this->document->setTitle($this->language->get('heading_title'));
@@ -36,16 +36,16 @@ class Compare extends \Ventocart\System\Engine\Controller
 
 		$datab['breadcrumbs'][] = [
 			'text' => $this->language->get('text_home'),
-			'href' => $this->url->link('common/home', 'language=' . $this->config->get('config_language'))
+			'href' => $this->url->link('common/home')
 		];
 
 		$datab['breadcrumbs'][] = [
 			'text' => $this->language->get('heading_title'),
-			'href' => $this->url->link('product/compare', 'language=' . $this->config->get('config_language'))
+			'href' => $this->url->link('product/compare')
 		];
 
-		$datab['add_to_cart'] = $this->url->link('checkout/cart.add', 'language=' . $this->config->get('config_language'));
-		$datab['cart'] = $this->url->link('common/cart.info', 'language=' . $this->config->get('config_language'));
+		$datab['add_to_cart'] = $this->url->link('checkout/cart.add');
+		$datab['cart'] = $this->url->link('common/cart.info');
 		$data['breadcrumb'] = $this->load->view('common/breadcrumb', $datab);
 		if (isset($this->session->data['success'])) {
 			$data['success'] = $this->session->data['success'];
@@ -143,8 +143,8 @@ class Compare extends \Ventocart\System\Engine\Controller
 					'width' => $this->length->format($product_info['width'], $product_info['length_class_id'], $this->language->get('decimal_point'), $this->language->get('thousand_point')),
 					'height' => $this->length->format($product_info['height'], $product_info['length_class_id'], $this->language->get('decimal_point'), $this->language->get('thousand_point')),
 					'attribute' => $attribute_data,
-					'href' => $this->url->link('product/product', 'language=' . $this->config->get('config_language') . '&product_id=' . $product_id),
-					'remove' => $this->url->link('product/compare', 'language=' . $this->config->get('config_language') . '&remove=' . $product_id)
+					'href' => $this->url->link('product/product', 'product_id=' . $product_id),
+					'remove' => $this->url->link('product/compare', 'remove=' . $product_id)
 				];
 
 				foreach ($attribute_groups as $attribute_group) {
@@ -159,7 +159,7 @@ class Compare extends \Ventocart\System\Engine\Controller
 			}
 		}
 
-		$data['continue'] = $this->url->link('common/home', 'language=' . $this->config->get('config_language'));
+		$data['continue'] = $this->url->link('common/home');
 
 		$data['column_left'] = $this->load->controller('common/column_left');
 		$data['column_right'] = $this->load->controller('common/column_right');
@@ -213,7 +213,12 @@ class Compare extends \Ventocart\System\Engine\Controller
 
 			$this->session->data['compare'][] = $this->request->post['product_id'];
 
-			$json['success'] = sprintf($this->language->get('text_success'), $this->url->link('product/product', 'language=' . $this->config->get('config_language') . '&product_id=' . $this->request->post['product_id']), $product_info['name'], $this->url->link('product/compare', 'language=' . $this->config->get('config_language')));
+			$json['success'] = sprintf(
+				$this->language->get('text_success'),
+				$this->url->link('product/product', 'product_id=' . $this->request->post['product_id']),
+				$product_info['name'],
+				$this->url->link('product/compare')
+			);
 
 			$json['total'] = sprintf($this->language->get('text_compare'), (isset($this->session->data['compare']) ? count($this->session->data['compare']) : 0));
 		}

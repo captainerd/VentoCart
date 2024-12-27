@@ -158,7 +158,6 @@ class Mail
 		if (empty($this->option['text']) && empty($this->option['html'])) {
 			throw new \Exception('Error: E-Mail message required!');
 		}
-
 		return $this->adaptor->send();
 	}
 }

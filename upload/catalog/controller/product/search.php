@@ -5,11 +5,13 @@ namespace Ventocart\Catalog\Controller\Product;
  *
  * @package Ventocart\Catalog\Controller\Product
  */
-class Search extends \Ventocart\System\Engine\Controller {
+class Search extends \Ventocart\System\Engine\Controller
+{
 	/**
 	 * @return void
 	 */
-	public function index(): void {
+	public function index(): void
+	{
 		$this->load->language('product/search');
 
 		if (isset($this->request->get['search'])) {
@@ -31,7 +33,7 @@ class Search extends \Ventocart\System\Engine\Controller {
 		}
 
 		if (isset($this->request->get['category_id'])) {
-			$filter_category_id = (int)$this->request->get['category_id'];
+			$filter_category_id = (int) $this->request->get['category_id'];
 		} else {
 			$filter_category_id = 0;
 		}
@@ -55,21 +57,21 @@ class Search extends \Ventocart\System\Engine\Controller {
 		}
 
 		if (isset($this->request->get['page'])) {
-			$page = (int)$this->request->get['page'];
+			$page = (int) $this->request->get['page'];
 		} else {
 			$page = 1;
 		}
 
-		if (isset($this->request->get['limit']) && (int)$this->request->get['limit']) {
-			$limit = (int)$this->request->get['limit'];
+		if (isset($this->request->get['limit']) && (int) $this->request->get['limit']) {
+			$limit = (int) $this->request->get['limit'];
 		} else {
 			$limit = $this->config->get('config_pagination');
 		}
 
 		if (isset($this->request->get['search'])) {
-			$this->document->setTitle($this->language->get('heading_title') .  ' - ' . $this->request->get['search']);
+			$this->document->setTitle($this->language->get('heading_title') . ' - ' . $this->request->get['search']);
 		} elseif (isset($this->request->get['tag'])) {
-			$this->document->setTitle($this->language->get('heading_title') .  ' - ' . $this->language->get('heading_tag') . $this->request->get['tag']);
+			$this->document->setTitle($this->language->get('heading_title') . ' - ' . $this->language->get('heading_tag') . $this->request->get['tag']);
 		} else {
 			$this->document->setTitle($this->language->get('heading_title'));
 		}
@@ -78,9 +80,9 @@ class Search extends \Ventocart\System\Engine\Controller {
 
 		$datab['breadcrumbs'][] = [
 			'text' => $this->language->get('text_home'),
-			'href' => $this->url->link('common/home', 'language=' . $this->config->get('config_language'))
+			'href' => $this->url->link('common/home')
 		];
-	 
+
 		$url = '';
 
 		if (isset($this->request->get['search'])) {
@@ -121,18 +123,18 @@ class Search extends \Ventocart\System\Engine\Controller {
 
 		$datab['breadcrumbs'][] = [
 			'text' => $this->language->get('heading_title'),
-			'href' => $this->url->link('product/search', 'language=' . $this->config->get('config_language') . $url)
+			'href' => $this->url->link('product/search', $url)
 		];
 
 		if (isset($this->request->get['search'])) {
-			$data['heading_title'] = $this->language->get('heading_title') .  ' - ' . $this->request->get['search'];
+			$data['heading_title'] = $this->language->get('heading_title') . ' - ' . $this->request->get['search'];
 		} else {
 			$data['heading_title'] = $this->language->get('heading_title');
 		}
 		$data['breadcrumb'] = $this->load->view('common/breadcrumb', $datab);
 		$data['text_compare'] = sprintf($this->language->get('text_compare'), isset($this->session->data['compare']) ? count($this->session->data['compare']) : 0);
 
-		$data['compare'] = $this->url->link('product/compare', 'language=' . $this->config->get('config_language'));
+		$data['compare'] = $this->url->link('product/compare');
 
 		$this->load->model('catalog/category');
 
@@ -156,21 +158,21 @@ class Search extends \Ventocart\System\Engine\Controller {
 				foreach ($categories_3 as $category_3) {
 					$level_3_data[] = [
 						'category_id' => $category_3['category_id'],
-						'name'        => $category_3['name'],
+						'name' => $category_3['name'],
 					];
 				}
 
 				$level_2_data[] = [
 					'category_id' => $category_2['category_id'],
-					'name'        => $category_2['name'],
-					'children'    => $level_3_data
+					'name' => $category_2['name'],
+					'children' => $level_3_data
 				];
 			}
 
 			$data['categories'][] = [
 				'category_id' => $category_1['category_id'],
-				'name'        => $category_1['name'],
-				'children'    => $level_2_data
+				'name' => $category_1['name'],
+				'children' => $level_2_data
 			];
 		}
 
@@ -178,15 +180,15 @@ class Search extends \Ventocart\System\Engine\Controller {
 
 		if ($filter_search || $filter_tag) {
 			$filter_data = [
-				'filter_search'       => $filter_search,
-				'filter_description'  => $filter_description,
-				'filter_tag'          => $filter_tag ? $filter_tag : $filter_search,
-				'filter_category_id'  => $filter_category_id,
+				'filter_search' => $filter_search,
+				'filter_description' => $filter_description,
+				'filter_tag' => $filter_tag ? $filter_tag : $filter_search,
+				'filter_category_id' => $filter_category_id,
 				'filter_sub_category' => $filter_sub_category,
-				'sort'                => $sort,
-				'order'               => $order,
-				'start'               => ($page - 1) * $limit,
-				'limit'               => $limit
+				'sort' => $sort,
+				'order' => $order,
+				'start' => ($page - 1) * $limit,
+				'limit' => $limit
 			];
 
 			$this->load->model('catalog/product');
@@ -213,29 +215,29 @@ class Search extends \Ventocart\System\Engine\Controller {
 					$price = false;
 				}
 
-				if ((float)$result['special']) {
+				if ((float) $result['special']) {
 					$special = $this->currency->format($this->tax->calculate($result['special'], $result['tax_class_id'], $this->config->get('config_tax')), $this->session->data['currency']);
 				} else {
 					$special = false;
 				}
 
 				if ($this->config->get('config_tax')) {
-					$tax = $this->currency->format((float)$result['special'] ? $result['special'] : $result['price'], $this->session->data['currency']);
+					$tax = $this->currency->format((float) $result['special'] ? $result['special'] : $result['price'], $this->session->data['currency']);
 				} else {
 					$tax = false;
 				}
 
 				$product_data = [
-					'product_id'  => $result['product_id'],
-					'thumb'       => $image,
-					'name'        => $result['name'],
+					'product_id' => $result['product_id'],
+					'thumb' => $image,
+					'name' => $result['name'],
 					'description' => $description,
-					'price'       => $price,
-					'special'     => $special,
-					'tax'         => $tax,
-					'minimum'     => $result['minimum'] > 0 ? $result['minimum'] : 1,
-					'rating'      => $result['rating'],
-					'href'        => $this->url->link('product/product', 'language=' . $this->config->get('config_language') . '&product_id=' . $result['product_id'] . $url)
+					'price' => $price,
+					'special' => $special,
+					'tax' => $tax,
+					'minimum' => $result['minimum'] > 0 ? $result['minimum'] : 1,
+					'rating' => $result['rating'],
+					'href' => $this->url->link('product/product', 'product_id=' . $result['product_id'] . $url)
 				];
 
 				$data['products'][] = $this->load->controller('product/thumb', $product_data);
@@ -270,59 +272,59 @@ class Search extends \Ventocart\System\Engine\Controller {
 			$data['sorts'] = [];
 
 			$data['sorts'][] = [
-				'text'  => $this->language->get('text_default'),
+				'text' => $this->language->get('text_default'),
 				'value' => 'p.sort_order-ASC',
-				'href'  => $this->url->link('product/search', 'language=' . $this->config->get('config_language') . '&sort=p.sort_order&order=ASC' . $url)
+				'href' => $this->url->link('product/search', '&sort=p.sort_order&order=ASC' . $url)
 			];
 
 			$data['sorts'][] = [
-				'text'  => $this->language->get('text_name_asc'),
+				'text' => $this->language->get('text_name_asc'),
 				'value' => 'pd.name-ASC',
-				'href'  => $this->url->link('product/search', 'language=' . $this->config->get('config_language') . '&sort=pd.name&order=ASC' . $url)
+				'href' => $this->url->link('product/search', '&sort=pd.name&order=ASC' . $url)
 			];
 
 			$data['sorts'][] = [
-				'text'  => $this->language->get('text_name_desc'),
+				'text' => $this->language->get('text_name_desc'),
 				'value' => 'pd.name-DESC',
-				'href'  => $this->url->link('product/search', 'language=' . $this->config->get('config_language') . '&sort=pd.name&order=DESC' . $url)
+				'href' => $this->url->link('product/search', '&sort=pd.name&order=DESC' . $url)
 			];
 
 			$data['sorts'][] = [
-				'text'  => $this->language->get('text_price_asc'),
+				'text' => $this->language->get('text_price_asc'),
 				'value' => 'p.price-ASC',
-				'href'  => $this->url->link('product/search', 'language=' . $this->config->get('config_language') . '&sort=p.price&order=ASC' . $url)
+				'href' => $this->url->link('product/search', '&sort=p.price&order=ASC' . $url)
 			];
 
 			$data['sorts'][] = [
-				'text'  => $this->language->get('text_price_desc'),
+				'text' => $this->language->get('text_price_desc'),
 				'value' => 'p.price-DESC',
-				'href'  => $this->url->link('product/search', 'language=' . $this->config->get('config_language') . '&sort=p.price&order=DESC' . $url)
+				'href' => $this->url->link('product/search', '&sort=p.price&order=DESC' . $url)
 			];
 
 			if ($this->config->get('config_review_status')) {
 				$data['sorts'][] = [
-					'text'  => $this->language->get('text_rating_desc'),
+					'text' => $this->language->get('text_rating_desc'),
 					'value' => 'rating-DESC',
-					'href'  => $this->url->link('product/search', 'language=' . $this->config->get('config_language') . '&sort=rating&order=DESC' . $url)
+					'href' => $this->url->link('product/search', '&sort=rating&order=DESC' . $url)
 				];
 
 				$data['sorts'][] = [
-					'text'  => $this->language->get('text_rating_asc'),
+					'text' => $this->language->get('text_rating_asc'),
 					'value' => 'rating-ASC',
-					'href'  => $this->url->link('product/search', 'language=' . $this->config->get('config_language') . '&sort=rating&order=ASC' . $url)
+					'href' => $this->url->link('product/search', '&sort=rating&order=ASC' . $url)
 				];
 			}
 
 			$data['sorts'][] = [
-				'text'  => $this->language->get('text_model_asc'),
+				'text' => $this->language->get('text_model_asc'),
 				'value' => 'p.model-ASC',
-				'href'  => $this->url->link('product/search', 'language=' . $this->config->get('config_language') . '&sort=p.model&order=ASC' . $url)
+				'href' => $this->url->link('product/search', '&sort=p.model&order=ASC' . $url)
 			];
 
 			$data['sorts'][] = [
-				'text'  => $this->language->get('text_model_desc'),
+				'text' => $this->language->get('text_model_desc'),
 				'value' => 'p.model-DESC',
-				'href'  => $this->url->link('product/search', 'language=' . $this->config->get('config_language') . '&sort=p.model&order=DESC' . $url)
+				'href' => $this->url->link('product/search', '&sort=p.model&order=DESC' . $url)
 			];
 
 			$url = '';
@@ -363,9 +365,9 @@ class Search extends \Ventocart\System\Engine\Controller {
 
 			foreach ($limits as $value) {
 				$data['limits'][] = [
-					'text'  => $value,
+					'text' => $value,
 					'value' => $value,
-					'href'  => $this->url->link('product/search', 'language=' . $this->config->get('config_language') . $url . '&limit=' . $value)
+					'href' => $this->url->link('product/search', $url . '&limit=' . $value)
 				];
 			}
 
@@ -407,9 +409,9 @@ class Search extends \Ventocart\System\Engine\Controller {
 
 			$data['pagination'] = $this->load->controller('common/pagination', [
 				'total' => $product_total,
-				'page'  => $page,
+				'page' => $page,
 				'limit' => $limit,
-				'url'   => $this->url->link('product/search', 'language=' . $this->config->get('config_language') . $url . '&page={page}')
+				'url' => $this->url->link('product/search', $url . '&page={page}')
 			]);
 
 			$data['results'] = sprintf($this->language->get('text_pagination'), ($product_total) ? (($page - 1) * $limit) + 1 : 0, ((($page - 1) * $limit) > ($product_total - $limit)) ? $product_total : ((($page - 1) * $limit) + $limit), $product_total, ceil($product_total / $limit));
@@ -430,13 +432,13 @@ class Search extends \Ventocart\System\Engine\Controller {
 				}
 
 				$search_data = [
-					'keyword'      => $filter_tag ? $filter_tag : $filter_search,
-					'description'  => $filter_description,
-					'category_id'  => $filter_category_id,
+					'keyword' => $filter_tag ? $filter_tag : $filter_search,
+					'description' => $filter_description,
+					'category_id' => $filter_category_id,
 					'sub_category' => $filter_sub_category,
-					'products'     => $product_total,
-					'customer_id'  => $customer_id,
-					'ip'           => $ip
+					'products' => $product_total,
+					'customer_id' => $customer_id,
+					'ip' => $ip
 				];
 
 				$this->model_account_search->addSearch($search_data);

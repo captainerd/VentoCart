@@ -12,7 +12,7 @@ class Checkout extends \Ventocart\System\Engine\Controller
 
         // Validate cart has products and has stock.
         if ((!$this->cart->hasProducts()) || (!$this->cart->hasStock() && !$this->config->get('config_stock_checkout'))) {
-            $this->response->redirect($this->url->link('checkout/cart', 'language=' . $this->config->get('config_language')));
+            $this->response->redirect($this->url->link('checkout/cart'));
         }
 
 
@@ -59,17 +59,17 @@ class Checkout extends \Ventocart\System\Engine\Controller
 
         $datab['breadcrumbs'][] = [
             'text' => $this->language->get('text_home'),
-            'href' => $this->url->link('common/home', 'language=' . $this->config->get('config_language'))
+            'href' => $this->url->link('common/home')
         ];
 
         $datab['breadcrumbs'][] = [
             'text' => $this->language->get('text_cart'),
-            'href' => $this->url->link('checkout/cart', 'language=' . $this->config->get('config_language'))
+            'href' => $this->url->link('checkout/cart')
         ];
 
         $datab['breadcrumbs'][] = [
             'text' => $this->language->get('heading_title'),
-            'href' => $this->url->link('checkout/checkout', 'language=' . $this->config->get('config_language'))
+            'href' => $this->url->link('checkout/checkout')
         ];
         $data['breadcrumb'] = $this->load->view('common/breadcrumb', $datab);
 
@@ -139,7 +139,7 @@ class Checkout extends \Ventocart\System\Engine\Controller
 
         // Validate cart has products and has stock.
         if ((!$this->cart->hasProducts()) || (!$this->cart->hasStock() && !$this->config->get('config_stock_checkout'))) {
-            $json['redirect'] = $this->url->link('checkout/cart', 'language=' . $this->config->get('config_language'), true);
+            $json['redirect'] = $this->url->link('checkout/cart', '', true);
         }
 
 

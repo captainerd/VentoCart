@@ -1,33 +1,36 @@
-<?=  $header    ?>
+<?= $header ?>
 <div id="account-subscription" class="container">
-<?=  $breadcrumb  ?>
-  <div class="row"><?=  $column_left  ?>
-    <div id="content" class="col"><?=  $content_top  ?>
-      <h1><?= $this->e($heading_title ) ?></h1>
-      <div id="subscription-list">
-      <?=$subscription_list?>
-</div>
+    <?= $breadcrumb ?>
+    <div class="row"><?= $column_left ?>
+        <div id="content" class="col  p-3 bg-white border"><?= $content_top ?>
+            <h1><?= $this->e($heading_title) ?></h1>
+            <div id="subscription-list">
+                <?= $subscription_list ?>
+            </div>
 
-      <div class="text-end"><a href="<?=  $continue  ?>" class="btn btn-primary"><?= $this->e($button_continue ) ?></a></div>
-      <?=  $content_bottom  ?></div>
-    <?=  $column_right  ?></div>
+            <div class="text-end"><a href="<?= $continue ?>"
+                    class="btn btn-primary"><?= $this->e($button_continue) ?></a></div>
+            <?= $content_bottom ?>
+        </div>
+        <?= $column_right ?>
+    </div>
 </div>
 
 <script>
-$(".cancelSubscBtn").click(function(event) {
-    // Display the warning message
-    var confirmed = confirm("<?= $text_warrning ?>");
+    $(".cancelSubscBtn").click(function (event) {
+        // Display the warning message
+        var confirmed = confirm("<?= $text_warrning ?>");
 
-    // If the user clicks Cancel, prevent the default action
-    if (!confirmed) {
-        event.stopPropagation();
-        event.preventDefault();
-    }
-});
+        // If the user clicks Cancel, prevent the default action
+        if (!confirmed) {
+            event.stopPropagation();
+            event.preventDefault();
+        }
+    });
 </script>
 
 
-<script ><!--
+<script><!--
 $('#subscription-list').on('click', '.btn-danger, .resumeSubbtn', function (e) {
     e.preventDefault();
 
@@ -52,14 +55,14 @@ $('#subscription-list').on('click', '.btn-danger, .resumeSubbtn', function (e) {
             if (json['success']) {
                 $('#alert').prepend('<div class="alert alert-success alert-dismissible"><i class="fa-solid fa-circle-check"></i> ' + json['success'] + ' <button type="button" class="btn-close" data-bs-dismiss="alert"></button></div>');
 
-                $('#subscription-list').load('index.php?route=account/subscription.list&customer_token=<?= $this->e($customer_token ) ?>');
+                $('#subscription-list').load('index.php?route=account/subscription.list&customer_token=<?= $this->e($customer_token) ?>');
             }
         },
-        error: function (xhr, ajaxOptions, thrownError) {
-            //x console.log(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
-        }
+    error: function (xhr, ajaxOptions, thrownError) {
+        //x console.log(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+    }
     });
 });
-//--></script>
+    //--></script>
 
-<?=  $footer  ?>
+<?= $footer ?>

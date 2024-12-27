@@ -8,7 +8,6 @@
     </div>
   </div>
 
-  <script src="catalog/view/javascript/checkout.js"></script>
 
   <div class="row"><?= $column_left ?>
     <div id="content" class="col  border bg-white mb-3 rounded shadow-sm p-4 "><?= $content_top ?>
@@ -46,7 +45,7 @@
 
     <div id="checkout-confirm" class="mb-3  border bg-white  rounded shadow-sm p-4 ">
       <button type="button" style="flex-grow: 1;" id="button-confirm" class="btn btn-danger ">
-        <?= $error_payment_address ?>
+        <?= $text_fill_the_form ?>
       </button>
       <?= $confirm ?>
     </div>

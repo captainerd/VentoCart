@@ -18,24 +18,24 @@ class Login extends \Ventocart\System\Engine\Controller
 
 		// If already logged in and has matching token then redirect to account page
 		if ($this->customer->isLogged() && isset($this->request->get['customer_token']) && isset($this->session->data['customer_token']) && ($this->request->get['customer_token'] == $this->session->data['customer_token'])) {
-			$this->response->redirect($this->url->link('account/account', 'language=' . $this->config->get('config_language') . '&customer_token=' . $this->session->data['customer_token']));
+			$this->response->redirect($this->url->link('account/account'));
 		}
 
 		$datab['breadcrumbs'] = [];
 
 		$datab['breadcrumbs'][] = [
 			'text' => $this->language->get('text_home'),
-			'href' => $this->url->link('common/home', 'language=' . $this->config->get('config_language'))
+			'href' => $this->url->link('common/home')
 		];
 
 		$datab['breadcrumbs'][] = [
 			'text' => $this->language->get('text_account'),
-			'href' => $this->url->link('account/account', 'language=' . $this->config->get('config_language'))
+			'href' => $this->url->link('account/account')
 		];
 
 		$datab['breadcrumbs'][] = [
 			'text' => $this->language->get('text_login'),
-			'href' => $this->url->link('account/login', 'language=' . $this->config->get('config_language'))
+			'href' => $this->url->link('account/login')
 		];
 		$data['breadcrumb'] = $this->load->view('common/breadcrumb', $datab);
 		// Check to see if user is using incorrect token
@@ -99,9 +99,9 @@ class Login extends \Ventocart\System\Engine\Controller
 
 		$data['login_token_field'] = $this->session->data['login_token_field'];
 		$data['login_token'] = $this->session->data['login_token'];
-		$data['login'] = $this->url->link('account/login.login', 'language=' . $this->config->get('config_language'));
-		$data['register'] = $this->url->link('account/register', 'language=' . $this->config->get('config_language'));
-		$data['forgotten'] = $this->url->link('account/forgotten', 'language=' . $this->config->get('config_language'));
+		$data['login'] = $this->url->link('account/login.login');
+		$data['register'] = $this->url->link('account/register');
+		$data['forgotten'] = $this->url->link('account/forgotten');
 
 		$data['column_left'] = $this->load->controller('common/column_left');
 		$data['column_right'] = $this->load->controller('common/column_right');
@@ -143,7 +143,7 @@ class Login extends \Ventocart\System\Engine\Controller
 		) {
 
 
-			$json['redirect'] = $this->url->link('account/login', 'language=' . $this->config->get('config_language'), true);
+			$json['redirect'] = $this->url->link('account/login', true);
 
 
 		}
@@ -215,7 +215,7 @@ class Login extends \Ventocart\System\Engine\Controller
 
 			} else {
 
-				$json['redirect'] = $this->url->link('account/account', 'language=' . $this->config->get('config_language') . '&customer_token=' . $this->session->data['customer_token'], true);
+				$json['redirect'] = $this->url->link('account/account', true);
 
 			}
 		}
@@ -296,13 +296,13 @@ class Login extends \Ventocart\System\Engine\Controller
 			// Create customer token
 			$this->session->data['customer_token'] = oc_token(26);
 
-			$this->response->redirect($this->url->link('account/account', 'language=' . $this->config->get('config_language') . '&customer_token=' . $this->session->data['customer_token']));
+			$this->response->redirect($this->url->link('account/account'));
 		} else {
 			$this->session->data['error'] = $this->language->get('error_login');
 
 			$this->model_account_customer->editToken($email, '');
 
-			$this->response->redirect($this->url->link('account/login', 'language=' . $this->config->get('config_language')));
+			$this->response->redirect($this->url->link('account/login'));
 		}
 	}
 }

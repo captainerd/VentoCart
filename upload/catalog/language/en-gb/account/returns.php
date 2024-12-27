@@ -18,6 +18,7 @@ $_['text_status'] = 'Status:';
 $_['text_date_added'] = 'Date Added:';
 $_['text_comment'] = 'Return Comments';
 $_['text_history'] = 'Return History';
+
 $_['text_no_results'] = 'You have not made any previous returns!';
 $_['text_agree'] = 'I have read and agree to the <a href="%s" class="modal-link"><b>%s</b></a>';
 
@@ -35,6 +36,9 @@ $_['column_opened'] = 'Opened';
 $_['column_comment'] = 'Comment';
 $_['column_reason'] = 'Reason';
 $_['column_action'] = 'Action';
+
+
+$_['button_request_return'] = 'Request return';
 
 // Entry
 $_['entry_order_id'] = 'Order ID';

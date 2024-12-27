@@ -175,6 +175,9 @@ class Customer
 	 */
 	public function isLogged(): bool
 	{
+		if (!isset($this->session->data['customer_token'])) {
+			return false;
+		}
 		return $this->customer_id ? true : false;
 	}
 

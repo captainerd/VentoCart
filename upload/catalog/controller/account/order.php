@@ -20,10 +20,10 @@ class Order extends \Ventocart\System\Engine\Controller
 			$page = 1;
 		}
 
-		if (!$this->customer->isLogged() || (!isset($this->request->get['customer_token']) || !isset($this->session->data['customer_token']) || ($this->request->get['customer_token'] != $this->session->data['customer_token']))) {
-			$this->session->data['redirect'] = $this->url->link('account/order', 'language=' . $this->config->get('config_language'));
+		if (!$this->customer->isLogged()) {
+			$this->session->data['redirect'] = $this->url->link('account/order');
 
-			$this->response->redirect($this->url->link('account/login', 'language=' . $this->config->get('config_language')));
+			$this->response->redirect($this->url->link('account/login'));
 		}
 
 		$this->document->setTitle($this->language->get('heading_title'));
@@ -38,17 +38,17 @@ class Order extends \Ventocart\System\Engine\Controller
 
 		$datab['breadcrumbs'][] = [
 			'text' => $this->language->get('text_home'),
-			'href' => $this->url->link('common/home', 'language=' . $this->config->get('config_language'))
+			'href' => $this->url->link('common/home')
 		];
 
 		$datab['breadcrumbs'][] = [
 			'text' => $this->language->get('text_account'),
-			'href' => $this->url->link('account/account', 'language=' . $this->config->get('config_language'))
+			'href' => $this->url->link('account/account')
 		];
 
 		$datab['breadcrumbs'][] = [
 			'text' => $this->language->get('heading_title'),
-			'href' => $this->url->link('account/order', 'language=' . $this->config->get('config_language') . $url)
+			'href' => $this->url->link('account/order', $url)
 		];
 		$data['breadcrumb'] = $this->load->view('common/breadcrumb', $datab);
 		$limit = 10;
@@ -79,7 +79,7 @@ class Order extends \Ventocart\System\Engine\Controller
 				'date_added' => date($this->language->get('date_format_short'), strtotime($result['date_added'])),
 				'products' => ($product_total),
 				'total' => $this->currency->format($result['total'], $result['currency_code'], $result['currency_value']),
-				'view' => $this->url->link('account/order.info', 'language=' . $this->config->get('config_language') . '&order_id=' . $result['order_id']),
+				'view' => $this->url->link('account/order.info', 'order_id=' . $result['order_id']),
 			];
 		}
 
@@ -89,12 +89,12 @@ class Order extends \Ventocart\System\Engine\Controller
 			'total' => $order_total,
 			'page' => $page,
 			'limit' => $limit,
-			'url' => $this->url->link('account/order', 'language=' . $this->config->get('config_language') . '&page={page}')
+			'url' => $this->url->link('account/order', 'page={page}')
 		]);
 
 		$data['results'] = sprintf($this->language->get('text_pagination'), ($order_total) ? (($page - 1) * $limit) + 1 : 0, ((($page - 1) * $limit) > ($order_total - $limit)) ? $order_total : ((($page - 1) * $limit) + $limit), $order_total, ceil($order_total / $limit));
 
-		$data['continue'] = $this->url->link('account/account', 'language=' . $this->config->get('config_language'));
+		$data['continue'] = $this->url->link('account/account');
 
 		$data['column_left'] = $this->load->controller('common/column_left');
 		$data['column_right'] = $this->load->controller('common/column_right');
@@ -124,10 +124,10 @@ class Order extends \Ventocart\System\Engine\Controller
 			$order_id = $this->session->data['grand_order_access'];
 		}
 		if (empty($this->session->data['grand_order_access'])) {
-			if (!$this->customer->isLogged() || !isset($this->session->data['customer_token'])) {
-				$this->session->data['redirect'] = $this->url->link('account/order', 'language=' . $this->config->get('config_language'));
+			if (!$this->customer->isLogged()) {
+				$this->session->data['redirect'] = $this->url->link('account/order');
 
-				$this->response->redirect($this->url->link('account/login', 'language=' . $this->config->get('config_language')));
+				$this->response->redirect($this->url->link('account/login'));
 			}
 		}
 
@@ -153,22 +153,22 @@ class Order extends \Ventocart\System\Engine\Controller
 
 			$datab['breadcrumbs'][] = [
 				'text' => $this->language->get('text_home'),
-				'href' => $this->url->link('common/home', 'language=' . $this->config->get('config_language'))
+				'href' => $this->url->link('common/home')
 			];
 
 			$datab['breadcrumbs'][] = [
 				'text' => $this->language->get('text_account'),
-				'href' => $this->url->link('account/account', 'language=' . $this->config->get('config_language'))
+				'href' => $this->url->link('account/account')
 			];
 
 			$datab['breadcrumbs'][] = [
 				'text' => $this->language->get('heading_title'),
-				'href' => $this->url->link('account/order', 'language=' . $this->config->get('config_language') . $url)
+				'href' => $this->url->link('account/order', $url)
 			];
 
 			$datab['breadcrumbs'][] = [
 				'text' => $heading_title,
-				'href' => $this->url->link('account/order.info', 'language=' . $this->config->get('config_language') . '&order_id=' . $order_id . $url)
+				'href' => $this->url->link('account/order.info', 'order_id=' . $order_id . $url)
 			];
 			$data['breadcrumb'] = $this->load->view('common/breadcrumb', $datab);
 			if ($order_info['invoice_no']) {
@@ -344,7 +344,7 @@ class Order extends \Ventocart\System\Engine\Controller
 				$subscription_info = $this->model_account_subscription->getSubscriptionByOrderProductId($order_id, $product['order_product_id']);
 
 				if ($subscription_info) {
-					$subscription = $this->url->link('account/subscription.info', 'language=' . $this->config->get('config_language') . '&subscription_id=' . $subscription_info['subscription_id']);
+					$subscription = $this->url->link('account/subscription.info', 'subscription_id=' . $subscription_info['subscription_id']);
 				} else {
 					$subscription = '';
 				}
@@ -352,7 +352,7 @@ class Order extends \Ventocart\System\Engine\Controller
 				$product_info = $this->model_catalog_product->getProduct($product['product_id']);
 
 				if ($product_info) {
-					$reorder = $this->url->link('account/order.reorder', 'language=' . $this->config->get('config_language') . '&order_id=' . $order_id . '&order_product_id=' . $product['order_product_id']);
+					$reorder = $this->url->link('account/order.reorder', 'order_id=' . $order_id . '&order_product_id=' . $product['order_product_id']);
 				} else {
 					$reorder = '';
 				}
@@ -366,9 +366,9 @@ class Order extends \Ventocart\System\Engine\Controller
 					'quantity' => $product['quantity'],
 					'price' => $this->currency->format($product['price'] + ($this->config->get('config_tax') ? $product['tax'] : 0), $order_info['currency_code'], $order_info['currency_value']),
 					'total' => $this->currency->format($product['total'] + ($this->config->get('config_tax') ? ($product['tax'] * $product['quantity']) : 0), $order_info['currency_code'], $order_info['currency_value']),
-					'href' => $this->url->link('product/product', 'language=' . $this->config->get('config_language') . '&product_id=' . $product['product_id']),
+					'href' => $this->url->link('product/product', 'product_id=' . $product['product_id']),
 					'reorder' => $reorder,
-					'return' => $this->url->link('account/returns.add', 'language=' . $this->config->get('config_language') . '&order_id=' . $order_info['order_id'] . '&product_id=' . $product['product_id'])
+					'return' => $this->url->link('account/returns.add', 'order_id=' . $order_info['order_id'] . '&product_id=' . $product['product_id'])
 				];
 			}
 
@@ -391,7 +391,7 @@ class Order extends \Ventocart\System\Engine\Controller
 			// History
 			$data['history'] = $this->getHistory($order_info['order_id']);
 
-			$data['continue'] = $this->url->link('account/order', 'language=' . $this->config->get('config_language'));
+			$data['continue'] = $this->url->link('account/order');
 
 			$data['column_left'] = $this->load->controller('common/column_left');
 			$data['column_right'] = $this->load->controller('common/column_right');
@@ -487,11 +487,10 @@ class Order extends \Ventocart\System\Engine\Controller
 		} else {
 			$order_product_id = 0;
 		}
+		if (!$this->customer->isLogged()) {
+			$this->session->data['redirect'] = $this->url->link('account/order');
 
-		if (!$this->customer->isLogged() || (!isset($this->request->get['customer_token']) || !isset($this->session->data['customer_token']) || ($this->request->get['customer_token'] != $this->session->data['customer_token']))) {
-			$this->session->data['redirect'] = $this->url->link('account/order', 'language=' . $this->config->get('config_language'));
-
-			$this->response->redirect($this->url->link('account/login', 'language=' . $this->config->get('config_language')));
+			$this->response->redirect($this->url->link('account/login'));
 		}
 
 		$this->load->model('account/order');
@@ -533,7 +532,7 @@ class Order extends \Ventocart\System\Engine\Controller
 
 					$this->cart->add($order_product_info['product_id'], $order_product_info['quantity'], $option_data, $subscription_id);
 
-					$this->session->data['success'] = sprintf($this->language->get('text_success'), $this->url->link('product/product', 'language=' . $this->config->get('config_language') . '&product_id=' . $product_info['product_id']), $product_info['name'], $this->url->link('checkout/cart', 'language=' . $this->config->get('config_language')));
+					$this->session->data['success'] = sprintf($this->language->get('text_success'), $this->url->link('product/product', 'product_id=' . $product_info['product_id']), $product_info['name'], $this->url->link('checkout/cart'));
 
 					unset($this->session->data['shipping_method']);
 					unset($this->session->data['shipping_methods']);
@@ -545,6 +544,6 @@ class Order extends \Ventocart\System\Engine\Controller
 			}
 		}
 
-		$this->response->redirect($this->url->link('account/order.info', 'language=' . $this->config->get('config_language') . '&order_id=' . $order_id));
+		$this->response->redirect($this->url->link('account/order.info', 'order_id=' . $order_id));
 	}
 }

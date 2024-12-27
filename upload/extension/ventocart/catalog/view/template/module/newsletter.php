@@ -84,7 +84,8 @@
                 success: function (json) {
                     if (json['success']) {
                         $('#alert').prepend('<div class="alert alert-success alert-dismissible"><i class="fa-solid fa-circle-check"></i> ' + json['success'] + ' <button type="button" class="btn-close" data-bs-dismiss="alert"></button></div>');
-                        $('.subscribe-module').fadeOut();
+
+                        $("#subscribeModal").modal('hide');
                     }
                 },
                 error: function () {

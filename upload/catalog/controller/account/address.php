@@ -14,27 +14,27 @@ class Address extends \Ventocart\System\Engine\Controller
 	{
 		$this->load->language('account/address');
 
-		if (!$this->customer->isLogged() || (!isset($this->request->get['customer_token']) || !isset($this->session->data['customer_token']) || ($this->request->get['customer_token'] != $this->session->data['customer_token']))) {
-			$this->session->data['redirect'] = $this->url->link('account/address', 'language=' . $this->config->get('config_language'));
+		if (!$this->customer->isLogged()) {
+			$this->session->data['redirect'] = $this->url->link('account/address');
 
-			$this->response->redirect($this->url->link('account/login', 'language=' . $this->config->get('config_language')));
+			$this->response->redirect($this->url->link('account/login'));
 		}
 
 		$this->document->setTitle($this->language->get('heading_title'));
 
 		$datab['breadcrumbs'][] = [
 			'text' => $this->language->get('text_home'),
-			'href' => $this->url->link('common/home', 'language=' . $this->config->get('config_language'))
+			'href' => $this->url->link('common/home')
 		];
 
 		$datab['breadcrumbs'][] = [
 			'text' => $this->language->get('text_account'),
-			'href' => $this->url->link('account/account', 'language=' . $this->config->get('config_language') . '&customer_token=' . $this->session->data['customer_token'])
+			'href' => $this->url->link('account/account')
 		];
 
 		$datab['breadcrumbs'][] = [
 			'text' => $this->language->get('heading_title'),
-			'href' => $this->url->link('account/address', 'language=' . $this->config->get('config_language') . '&customer_token=' . $this->session->data['customer_token'])
+			'href' => $this->url->link('account/address')
 		];
 		$data['breadcrumb'] = $this->load->view('common/breadcrumb', $datab);
 		if (isset($this->session->data['success'])) {
@@ -45,8 +45,8 @@ class Address extends \Ventocart\System\Engine\Controller
 			$data['success'] = '';
 		}
 
-		$data['add'] = $this->url->link('account/address.form', 'language=' . $this->config->get('config_language') . '&customer_token=' . $this->session->data['customer_token']);
-		$data['back'] = $this->url->link('account/account', 'language=' . $this->config->get('config_language') . '&customer_token=' . $this->session->data['customer_token']);
+		$data['add'] = $this->url->link('account/address.form');
+		$data['back'] = $this->url->link('account/account');
 
 		$data['list'] = $this->getList();
 
@@ -79,10 +79,10 @@ class Address extends \Ventocart\System\Engine\Controller
 	{
 		$this->load->language('account/address');
 
-		if (!$this->customer->isLogged() || (!isset($this->request->get['customer_token']) || !isset($this->session->data['customer_token']) || ($this->request->get['customer_token'] != $this->session->data['customer_token']))) {
-			$this->session->data['redirect'] = $this->url->link('account/address', 'language=' . $this->config->get('config_language'));
+		if (!$this->customer->isLogged()) {
+			$this->session->data['redirect'] = $this->url->link('account/address');
 
-			$this->response->redirect($this->url->link('account/login', 'language=' . $this->config->get('config_language')));
+			$this->response->redirect($this->url->link('account/login'));
 		}
 
 		$this->response->setOutput($this->getList());
@@ -129,8 +129,8 @@ class Address extends \Ventocart\System\Engine\Controller
 			$data['addresses'][] = [
 				'address_id' => $result['address_id'],
 				'address' => str_replace(["\r\n", "\r", "\n"], '<br/>', preg_replace(["/\s\s+/", "/\r\r+/", "/\n\n+/"], '<br/>', trim(str_replace($find, $replace, $result['address_format'])))),
-				'edit' => $this->url->link('account/address.form', 'language=' . $this->config->get('config_language') . '&customer_token=' . $this->session->data['customer_token'] . '&address_id=' . $result['address_id']),
-				'delete' => $this->url->link('account/address.delete', 'language=' . $this->config->get('config_language') . '&customer_token=' . $this->session->data['customer_token'] . '&address_id=' . $result['address_id'])
+				'edit' => $this->url->link('account/address.form', 'address_id=' . $result['address_id']),
+				'delete' => $this->url->link('account/address.delete', 'address_id=' . $result['address_id'])
 			];
 		}
 
@@ -144,10 +144,10 @@ class Address extends \Ventocart\System\Engine\Controller
 	{
 		$this->load->language('account/address');
 
-		if (!$this->customer->isLogged() || (!isset($this->request->get['customer_token']) || !isset($this->session->data['customer_token']) || ($this->request->get['customer_token'] != $this->session->data['customer_token']))) {
-			$this->session->data['redirect'] = $this->url->link('account/address', 'language=' . $this->config->get('config_language'));
+		if (!$this->customer->isLogged()) {
+			$this->session->data['redirect'] = $this->url->link('account/address');
 
-			$this->response->redirect($this->url->link('account/login', 'language=' . $this->config->get('config_language')));
+			$this->response->redirect($this->url->link('account/login'));
 		}
 
 		$this->document->setTitle($this->language->get('heading_title'));
@@ -162,38 +162,38 @@ class Address extends \Ventocart\System\Engine\Controller
 
 		$datab['breadcrumbs'][] = [
 			'text' => $this->language->get('text_home'),
-			'href' => $this->url->link('common/home', 'language=' . $this->config->get('config_language'))
+			'href' => $this->url->link('common/home')
 		];
 
 		$datab['breadcrumbs'][] = [
 			'text' => $this->language->get('text_account'),
-			'href' => $this->url->link('account/account', 'language=' . $this->config->get('config_language') . '&customer_token=' . $this->session->data['customer_token'])
+			'href' => $this->url->link('account/account')
 		];
 
 		$datab['breadcrumbs'][] = [
 			'text' => $this->language->get('heading_title'),
-			'href' => $this->url->link('account/address', 'language=' . $this->config->get('config_language') . '&customer_token=' . $this->session->data['customer_token'])
+			'href' => $this->url->link('account/address')
 		];
 
 		if (!isset($this->request->get['address_id'])) {
 			$datab['breadcrumbs'][] = [
 				'text' => $this->language->get('text_address_add'),
-				'href' => $this->url->link('account/address.form', 'language=' . $this->config->get('config_language') . '&customer_token=' . $this->session->data['customer_token'])
+				'href' => $this->url->link('account/address.form')
 			];
 		} else {
 			$datab['breadcrumbs'][] = [
 				'text' => $this->language->get('text_address_edit'),
-				'href' => $this->url->link('account/address.form', 'language=' . $this->config->get('config_language') . '&customer_token=' . $this->session->data['customer_token'] . '&address_id=' . $this->request->get['address_id'])
+				'href' => $this->url->link('account/address.form', 'address_id=' . $this->request->get['address_id'])
 			];
 		}
 
 		if (!isset($this->request->get['address_id'])) {
-			$data['save'] = $this->url->link('account/address.save', 'language=' . $this->config->get('config_language') . '&customer_token=' . $this->session->data['customer_token']);
+			$data['save'] = $this->url->link('account/address.save');
 		} else {
-			$data['save'] = $this->url->link('account/address.save', 'language=' . $this->config->get('config_language') . '&customer_token=' . $this->session->data['customer_token'] . '&address_id=' . $this->request->get['address_id']);
+			$data['save'] = $this->url->link('account/address.save', 'address_id=' . $this->request->get['address_id']);
 		}
 
-		$data['upload'] = $this->url->link('tool/upload', 'language=' . $this->config->get('config_language'));
+		$data['upload'] = $this->url->link('tool/upload');
 
 		if (isset($this->request->get['address_id'])) {
 			$this->load->model('account/address');
@@ -284,7 +284,7 @@ class Address extends \Ventocart\System\Engine\Controller
 			$data['default'] = false;
 		}
 
-		$data['back'] = $this->url->link('account/address', 'language=' . $this->config->get('config_language') . '&customer_token=' . $this->session->data['customer_token']);
+		$data['back'] = $this->url->link('account/address');
 		$data['breadcrumb'] = $this->load->view('common/breadcrumb', $datab);
 		$data['language'] = $this->config->get('config_language');
 
@@ -307,10 +307,10 @@ class Address extends \Ventocart\System\Engine\Controller
 
 		$json = [];
 
-		if (!$this->customer->isLogged() || (!isset($this->request->get['customer_token']) || !isset($this->session->data['customer_token']) || ($this->request->get['customer_token'] != $this->session->data['customer_token']))) {
-			$this->session->data['redirect'] = $this->url->link('account/address', 'language=' . $this->config->get('config_language'));
+		if (!$this->customer->isLogged()) {
+			$this->session->data['redirect'] = $this->url->link('account/address');
 
-			$json['redirect'] = $this->url->link('account/login', 'language=' . $this->config->get('config_language'), true);
+			$json['redirect'] = $this->url->link('account/login', '', true);
 		}
 
 		if (!$json) {
@@ -420,7 +420,7 @@ class Address extends \Ventocart\System\Engine\Controller
 				$this->session->data['success'] = $this->language->get('text_edit');
 			}
 			$json['success'] = 'ok';
-			$json['redirect'] = $this->url->link('account/address', 'language=' . $this->config->get('config_language') . '&customer_token=' . $this->session->data['customer_token'], true);
+			$json['redirect'] = $this->url->link('account/address', '', true);
 		}
 
 		$this->response->addHeader('Content-Type: application/json');
@@ -442,10 +442,10 @@ class Address extends \Ventocart\System\Engine\Controller
 			$address_id = 0;
 		}
 
-		if (!$this->customer->isLogged() || (!isset($this->request->get['customer_token']) || !isset($this->session->data['customer_token']) || ($this->request->get['customer_token'] != $this->session->data['customer_token']))) {
-			$this->session->data['redirect'] = $this->url->link('account/address', 'language=' . $this->config->get('config_language'));
+		if (!$this->customer->isLogged()) {
+			$this->session->data['redirect'] = $this->url->link('account/address');
 
-			$json['redirect'] = $this->url->link('account/login', 'language=' . $this->config->get('config_language'), true);
+			$json['redirect'] = $this->url->link('account/login', '', true);
 		}
 
 		if (!$json) {

@@ -5,25 +5,27 @@ namespace Ventocart\Catalog\Controller\Account;
  *
  * @package Ventocart\Catalog\Controller\Account
  */
-class Subscription extends \Ventocart\System\Engine\Controller {
+class Subscription extends \Ventocart\System\Engine\Controller
+{
 	/**
 	 * @return void
 	 */
 
-	 public function index(): void {
+	public function index(): void
+	{
 		$this->load->language('account/subscription');
 
-	 
+
 		if (isset($this->request->get['page'])) {
-			$page = (int)$this->request->get['page'];
+			$page = (int) $this->request->get['page'];
 		} else {
 			$page = 1;
 		}
 
-		if (!$this->customer->isLogged() || (!isset($this->request->get['customer_token']) || !isset($this->session->data['customer_token']) || ($this->request->get['customer_token'] != $this->session->data['customer_token']))) {
-			$this->session->data['redirect'] = $this->url->link('account/subscription', 'language=' . $this->config->get('config_language'));
+		if (!$this->customer->isLogged()) {
+			$this->session->data['redirect'] = $this->url->link('account/subscription');
 
-			$this->response->redirect($this->url->link('account/login', 'language=' . $this->config->get('config_language')));
+			$this->response->redirect($this->url->link('account/login'));
 		}
 
 		$this->document->setTitle($this->language->get('heading_title'));
@@ -38,22 +40,22 @@ class Subscription extends \Ventocart\System\Engine\Controller {
 
 		$datab['breadcrumbs'][] = [
 			'text' => $this->language->get('text_home'),
-			'href' => $this->url->link('common/home', 'language=' . $this->config->get('config_language'))
+			'href' => $this->url->link('common/home')
 		];
 
 		$datab['breadcrumbs'][] = [
 			'text' => $this->language->get('text_account'),
-			'href' => $this->url->link('account/account', 'language=' . $this->config->get('config_language') . '&customer_token=' . $this->session->data['customer_token'])
+			'href' => $this->url->link('account/account')
 		];
 
 		$datab['breadcrumbs'][] = [
 			'text' => $this->language->get('heading_title'),
-			'href' => $this->url->link('account/subscription', 'language=' . $this->config->get('config_language') . '&customer_token=' . $this->session->data['customer_token'] . $url)
+			'href' => $this->url->link('account/subscription', $url)
 		];
 		$data['breadcrumb'] = $this->load->view('common/breadcrumb', $datab);
 		$data['subscription_list'] = $this->subscription_list();
 
-		$data['continue'] = $this->url->link('account/account', 'language=' . $this->config->get('config_language') . '&customer_token=' . $this->session->data['customer_token']);
+		$data['continue'] = $this->url->link('account/account');
 
 		$data['column_left'] = $this->load->controller('common/column_left');
 		$data['column_right'] = $this->load->controller('common/column_right');
@@ -61,25 +63,27 @@ class Subscription extends \Ventocart\System\Engine\Controller {
 		$data['content_bottom'] = $this->load->controller('common/content_bottom');
 		$data['footer'] = $this->load->controller('common/footer');
 		$data['header'] = $this->load->controller('common/header');
-		
+
 		$this->response->setOutput($this->load->view('account/subscription', $data));
 
 
-	 }
-	 public function list() {
+	}
+	public function list()
+	{
 		$this->response->setOutput($this->subscription_list());
 
 
-	 }
-	public function subscription_list() {
+	}
+	public function subscription_list()
+	{
 		$this->load->language('account/subscription');
 
 		if (isset($this->request->get['page'])) {
-			$page = (int)$this->request->get['page'];
+			$page = (int) $this->request->get['page'];
 		} else {
 			$page = 1;
 		}
- 
+
 		$limit = 10;
 
 		$data['subscriptions'] = [];
@@ -91,7 +95,7 @@ class Subscription extends \Ventocart\System\Engine\Controller {
 		$this->load->model('localisation/subscription_status');
 
 		$results = $this->model_account_subscription->getSubscriptions(($page - 1) * $limit, $limit);
-	 
+
 		foreach ($results as $result) {
 			$product_info = $this->model_catalog_product->getProduct($result['product_id']);
 
@@ -135,7 +139,7 @@ class Subscription extends \Ventocart\System\Engine\Controller {
 				}
 
 				$results_p = $this->model_setting_extension->getExtensionsByType('payment');
-				$payStatus =  '-';
+				$payStatus = [];
 
 
 				// Methods supported by PayMent Proccessor either or not to render customer button controls for subscription
@@ -143,16 +147,16 @@ class Subscription extends \Ventocart\System\Engine\Controller {
 				// in payment proccesor model these methods needed: 
 
 				// canCancel(param array subscription_data_by_payment_proccessor) returns boolean if that subscription can be canceled  
-	            // canResume(param array subscription_data_by_payment_proccessor) returns boolean // - // 
-			    // canRestart(param array subscription_data_by_payment_proccessor) returns boolean // - // 
- 
+				// canResume(param array subscription_data_by_payment_proccessor) returns boolean // - // 
+				// canRestart(param array subscription_data_by_payment_proccessor) returns boolean // - // 
+
 
 				// cancelSubscription(payment_id id) returns boolean (pauses or cancels) 
 				// resumeSubscription(payment_id id)  returns boolean  (resumes) 
 				// restartSubscription(payment_id id, invoice id)  returns boolean (attempt to charge and start a new period)
 
 				$can_cancel = false;
-			    $can_resume = false;
+				$can_resume = false;
 				$can_restart = false;
 
 				// getSubscriptionDetails() model must return array
@@ -164,52 +168,54 @@ class Subscription extends \Ventocart\System\Engine\Controller {
 						$this->load->model('extension/' . $resultp['extension'] . '/payment/' . $resultp['code']);
 
 						try {
- 
-							$payStatus = $this->{'model_extension_' . $resultp['extension'] . '_payment_' . $resultp['code']}->getSubscriptionDetails($result['payment_id']);
-							
-							$can_resume = $this->{'model_extension_' . $resultp['extension'] . '_payment_' . $resultp['code']}->canResume($payStatus['full']);
-							$can_cancel = $this->{'model_extension_' . $resultp['extension'] . '_payment_' . $resultp['code']}->canCancel($payStatus['full']);
-							$can_restart = $this->{'model_extension_' . $resultp['extension'] . '_payment_' . $resultp['code']}->canRestart($payStatus['full']);
+							if (isset($result['payment_id'])) {
+								$payStatus = $this->{'model_extension_' . $resultp['extension'] . '_payment_' . $resultp['code']}->getSubscriptionDetails($result['payment_id']);
+							}
+							if (isset($payStatus['full'])) {
+								$can_resume = $this->{'model_extension_' . $resultp['extension'] . '_payment_' . $resultp['code']}->canResume($payStatus['full']);
+								$can_cancel = $this->{'model_extension_' . $resultp['extension'] . '_payment_' . $resultp['code']}->canCancel($payStatus['full']);
+								$can_restart = $this->{'model_extension_' . $resultp['extension'] . '_payment_' . $resultp['code']}->canRestart($payStatus['full']);
+							}
 							if (!empty($payStatus)) {
 								$payment_extension_code = $resultp['code'];
 							}
-					
+
 						} catch (\Exception $e) {
 							// Method not found, or an error occurred.
-						   }
+						}
 					}
 				}
-			 
-				 
-				if (is_array($payStatus) && is_numeric($payStatus['status'])) {
+
+
+				if (is_array($payStatus) && isset($payStatus['status']) && is_numeric($payStatus['status'])) {
 					$subscription_status_info = $this->model_localisation_subscription_status->getSubscriptionStatus($payStatus['status']);
-					 
- 				}
-				
+
+				}
+
 
 				$data['subscriptions'][] = [
-					'product_id'      => $result['product_id'],
-					'product_name'    => $product_info['name'],
-					'description'     => $description,
-					'product'         => $this->url->link('product/product', 'language=' . $this->config->get('config_language') . '&product_id=' . $result['product_id']),
-					'status'          => empty($payStatus['canceled_at']) ? $subscription_status_info['name'] : $this->language->get('text_cancels_at')  . ' ' . date($this->language->get('date_format_short'), $payStatus['canceled_at']),
- 
-					'date_added'      => date($this->language->get('date_format_short'), strtotime($result['date_added'])),
-					'view'            => $this->url->link('account/subscription.info', 'language=' . $this->config->get('config_language') . '&customer_token=' . $this->session->data['customer_token'] . '&subscription_id=' . $result['subscription_id']),
-					 'cancel_subscription_link'  => $can_cancel ? $this->url->link('account/subscription.cancel', '&customer_token=' . $this->session->data['customer_token'] . '&track_id=' . $result['payment_id'] . '&id=' . $result['subscription_id']) . '&code='.$payment_extension_code : '',
-					 'resume_subscription_link'  =>  $can_resume  ? $this->url->link('account/subscription.cancel', '&customer_token=' . $this->session->data['customer_token'] . '&track_id=' . $result['payment_id'] . '&id=' . $result['subscription_id']) . '&resume=1&code='.$payment_extension_code : '',
-					 'restart_unpaid_subscription'  =>  $can_restart ? $this->url->link('account/subscription.cancel', '&customer_token=' . $this->session->data['customer_token'] . '&track_id=' . $result['payment_id'] . '&id=' . $result['subscription_id']) . '&restart=1&code='.$payment_extension_code . '&invoice=' .  $payStatus['full']['latest_invoice'] : '', 
-					];
+					'product_id' => $result['product_id'],
+					'product_name' => $product_info['name'],
+					'description' => $description,
+					'product' => $this->url->link('product/product', 'product_id=' . $result['product_id']),
+					'status' => empty($payStatus['canceled_at']) ? $subscription_status_info['name'] : $this->language->get('text_cancels_at') . ' ' . date($this->language->get('date_format_short'), $payStatus['canceled_at']),
+
+					'date_added' => date($this->language->get('date_format_short'), strtotime($result['date_added'])),
+					'view' => $this->url->link('account/subscription.info', 'subscription_id=' . $result['subscription_id']),
+					'cancel_subscription_link' => $can_cancel ? $this->url->link('account/subscription.cancel', '&customer_token=' . $this->session->data['customer_token'] . '&track_id=' . $result['payment_id'] . '&id=' . $result['subscription_id']) . '&code=' . $payment_extension_code : '',
+					'resume_subscription_link' => $can_resume ? $this->url->link('account/subscription.cancel', '&customer_token=' . $this->session->data['customer_token'] . '&track_id=' . $result['payment_id'] . '&id=' . $result['subscription_id']) . '&resume=1&code=' . $payment_extension_code : '',
+					'restart_unpaid_subscription' => $can_restart ? $this->url->link('account/subscription.cancel', '&customer_token=' . $this->session->data['customer_token'] . '&track_id=' . $result['payment_id'] . '&id=' . $result['subscription_id']) . '&restart=1&code=' . $payment_extension_code . '&invoice=' . $payStatus['full']['latest_invoice'] : '',
+				];
 			}
 		}
- 
+
 		$subscription_total = $this->model_account_subscription->getTotalSubscriptions();
 
 		$data['pagination'] = $this->load->controller('common/pagination', [
 			'total' => $subscription_total,
-			'page'  => $page,
+			'page' => $page,
 			'limit' => $limit,
-			'url'   => $this->url->link('account/subscription', 'language=' . $this->config->get('config_language') . '&customer_token=' . $this->session->data['customer_token'] . '&page={page}')
+			'url' => $this->url->link('account/subscription', 'page={page}')
 		]);
 
 		$data['results'] = sprintf($this->language->get('text_pagination'), ($subscription_total) ? (($page - 1) * $limit) + 1 : 0, ((($page - 1) * $limit) > ($subscription_total - $limit)) ? $subscription_total : ((($page - 1) * $limit) + $limit), $subscription_total, ceil($subscription_total / $limit));
@@ -222,23 +228,24 @@ class Subscription extends \Ventocart\System\Engine\Controller {
 	/**
 	 * @return object|\Ventocart\System\Engine\Action|null
 	 */
-	public function info(): ?object {
+	public function info(): ?object
+	{
 		$this->load->language('account/subscription');
 
 		if (isset($this->request->get['subscription_id'])) {
-			$subscription_id = (int)$this->request->get['subscription_id'];
+			$subscription_id = (int) $this->request->get['subscription_id'];
 		} else {
 			$subscription_id = 0;
 		}
 
-		if (!$this->customer->isLogged() || (!isset($this->request->get['customer_token']) || !isset($this->session->data['customer_token']) || ($this->request->get['customer_token'] != $this->session->data['customer_token']))) {
-			$this->session->data['redirect'] = $this->url->link('account/subscription', 'language=' . $this->config->get('config_language'));
+		if (!$this->customer->isLogged()) {
+			$this->session->data['redirect'] = $this->url->link('account/subscription');
 
-			$this->response->redirect($this->url->link('account/login', 'language=' . $this->config->get('config_language')));
+			$this->response->redirect($this->url->link('account/login'));
 		}
 
 		$this->load->model('account/subscription');
-	 
+
 		$subscription_info = $this->model_account_subscription->getSubscription($subscription_id);
 
 		if ($subscription_info) {
@@ -258,15 +265,15 @@ class Subscription extends \Ventocart\System\Engine\Controller {
 
 			$datab['breadcrumbs'][] = [
 				'text' => $this->language->get('text_home'),
-				'href' => $this->url->link('common/home', 'language=' . $this->config->get('config_language'))
+				'href' => $this->url->link('common/home')
 			];
-			$data['continue'] = $this->url->link('account/subscription', 'language=' . $this->config->get('config_language') . '&customer_token=' . $this->session->data['customer_token']);
+			$data['continue'] = $this->url->link('account/subscription');
 			$datab['breadcrumbs'][] = [
 				'text' => $this->language->get('text_account'),
 				'href' => $data['continue'],
 			];
 
-	 
+
 			$data['subscription_id'] = $subscription_info['subscription_id'];
 			$data['order_id'] = $subscription_info['order_id'];
 
@@ -315,15 +322,15 @@ class Subscription extends \Ventocart\System\Engine\Controller {
 
 				$replace = [
 					'firstname' => $address_info['firstname'],
-					'lastname'  => $address_info['lastname'],
-					'company'   => $address_info['company'],
+					'lastname' => $address_info['lastname'],
+					'company' => $address_info['company'],
 					'address_1' => $address_info['address_1'],
 					'phone' => $address_info['phone'],
-					'city'      => $address_info['city'],
-					'postcode'  => $address_info['postcode'],
-					'zone'      => $address_info['zone'],
+					'city' => $address_info['city'],
+					'postcode' => $address_info['postcode'],
+					'zone' => $address_info['zone'],
 					'zone_code' => $address_info['zone_code'],
-					'country'   => $address_info['country']
+					'country' => $address_info['country']
 				];
 
 				$pattern_1 = [
@@ -376,15 +383,15 @@ class Subscription extends \Ventocart\System\Engine\Controller {
 
 				$replace = [
 					'firstname' => $address_info['firstname'],
-					'lastname'  => $address_info['lastname'],
-					'company'   => $address_info['company'],
+					'lastname' => $address_info['lastname'],
+					'company' => $address_info['company'],
 					'address_1' => $address_info['address_1'],
 					'phone' => $address_info['phone'],
-					'city'      => $address_info['city'],
-					'postcode'  => $address_info['postcode'],
-					'zone'      => $address_info['zone'],
+					'city' => $address_info['city'],
+					'postcode' => $address_info['postcode'],
+					'zone' => $address_info['zone'],
 					'zone_code' => $address_info['zone_code'],
-					'country'   => $address_info['country']
+					'country' => $address_info['country']
 				];
 
 				$pattern_1 = [
@@ -410,7 +417,7 @@ class Subscription extends \Ventocart\System\Engine\Controller {
 				$data['shipping_method'] = '';
 			}
 
-		 
+
 
 			$this->load->model('catalog/product');
 
@@ -450,15 +457,15 @@ class Subscription extends \Ventocart\System\Engine\Controller {
 				$trial_frequency = $this->language->get('text_' . $subscription_info['trial_frequency']);
 				$trial_duration = $subscription_info['trial_duration'];
 
-				$data['description'] .=  $subscription_info['name'] . ' - ' .  sprintf($this->language->get('text_subscription_trial'), $trial_price, $trial_cycle, $trial_frequency, $trial_duration);
+				$data['description'] .= $subscription_info['name'] . ' - ' . sprintf($this->language->get('text_subscription_trial'), $trial_price, $trial_cycle, $trial_frequency, $trial_duration);
 			}
 
 			$datab['breadcrumbs'][] = [
 				'text' => $this->language->get('heading_title'),
-				'href' => $this->url->link('account/subscription', 'language=' . $this->config->get('config_language') . '&customer_token=' . $this->session->data['customer_token'] . $url)
+				'href' => $this->url->link('account/subscription', $url)
 			];
 
-	 
+
 
 			$price = $this->currency->format($this->tax->calculate($subscription_info['price'], $product_info['tax_class_id'], $this->config->get('config_tax')), $currency);
 			$cycle = $subscription_info['cycle'];
@@ -466,60 +473,62 @@ class Subscription extends \Ventocart\System\Engine\Controller {
 			$duration = $subscription_info['duration'];
 
 			if ($duration) {
-				$data['description'] .=  $subscription_info['name'] . ' - ' .  sprintf($this->language->get('text_subscription_duration'), $price, $cycle, $frequency, $duration);
+				$data['description'] .= $subscription_info['name'] . ' - ' . sprintf($this->language->get('text_subscription_duration'), $price, $cycle, $frequency, $duration);
 			} else {
-				$data['description'] .=  $subscription_info['name'] . ' - ' .  sprintf($this->language->get('text_subscription_cancel'), $price, $cycle, $frequency);
+				$data['description'] .= $subscription_info['name'] . ' - ' . sprintf($this->language->get('text_subscription_cancel'), $price, $cycle, $frequency);
 			}
 
 
 			$results_p = $this->model_setting_extension->getExtensionsByType('payment');
-			$payStatus =  '-';
+			$payStatus = [];
 			$can_cancel = false;
 
 			$datab['breadcrumbs'][] = [
 				'text' => $data['description'],
-				'href' => $this->url->link('account/subscription.info', 'language=' . $this->config->get('config_language') . '&customer_token=' . $this->session->data['customer_token'] . '&subscription_id=' . $this->request->get['subscription_id'] . $url)
+				'href' => $this->url->link('account/subscription.info', 'subscription_id=' . $this->request->get['subscription_id'] . $url)
 			];
 			$data['breadcrumb'] = $this->load->view('common/breadcrumb', $datab);
-			
-	 
+
+
 			foreach ($results_p as $resultp) {
 				if ($this->config->get('payment_' . $resultp['code'] . '_status')) {
 					$this->load->model('extension/' . $resultp['extension'] . '/payment/' . $resultp['code']);
 
 					try {
- 
-						$payStatus = $this->{'model_extension_' . $resultp['extension'] . '_payment_' . $resultp['code']}->getSubscriptionDetails($subscription_info['payment_id']);
-					 
-					
-						if (is_array($payStatus) && is_numeric($payStatus['status'])) {
+						if (isset($subscription_info['payment_id'])) {
+							$payStatus = $this->{'model_extension_' . $resultp['extension'] . '_payment_' . $resultp['code']}->getSubscriptionDetails($subscription_info['payment_id']);
+						} else {
+							$payStatus['status'] = 0;
+						}
+
+						if (isset($payStatus['status']) && is_numeric($payStatus['status'])) {
 							// Override status with real (payment gateway) status
-							$data['subscription_status']  = $this->model_localisation_subscription_status->getSubscriptionStatus($payStatus['status']);
+							$data['subscription_status'] = $this->model_localisation_subscription_status->getSubscriptionStatus($payStatus['status']);
 							// Since the particular subscription has valid status, payment methods belong to the same payment proccessor
 							$data['saved_methods'] = $this->{'model_extension_' . $resultp['extension'] . '_payment_' . $resultp['code']}->getStored();
-							$data['default_payment_method'] = $payStatus['default_payment_method'];  
-						 
+							$data['default_payment_method'] = $payStatus['default_payment_method'];
+
 							$data['method_code'] = $resultp['code'];
 							$data['track_id'] = $subscription_info['payment_id'];
 						}
-					
+
 					} catch (\Exception $e) {
 						// Method not found, or an error occurred.
-					   }
+					}
 				}
 			}
- 
-		  
-		 
-		 
-		 
-		 
+
+
+
+
+
+
 			// Orders
 			$data['history'] = $this->getHistory();
 			$data['order'] = $this->getOrder();
 
-			//$data['order'] = $this->url->link('account/order.info', 'language=' . $this->config->get('config_language') . '&customer_token=' . $this->session->data['customer_token'] . '&order_id=' . $subscription_info['order_id']);
-			$data['product'] = $this->url->link('product/product', 'language=' . $this->config->get('config_language') . '&customer_token=' . $this->session->data['customer_token'] . '&product_id=' . $subscription_info['product_id']);
+			//$data['order'] = $this->url->link('account/order.info',   '&order_id=' . $subscription_info['order_id']);
+			$data['product'] = $this->url->link('product/product', 'product_id=' . $subscription_info['product_id']);
 
 			$data['column_left'] = $this->load->controller('common/column_left');
 			$data['column_right'] = $this->load->controller('common/column_right');
@@ -527,7 +536,7 @@ class Subscription extends \Ventocart\System\Engine\Controller {
 			$data['content_bottom'] = $this->load->controller('common/content_bottom');
 			$data['footer'] = $this->load->controller('common/footer');
 			$data['header'] = $this->load->controller('common/header');
- 
+
 
 			$this->response->setOutput($this->load->view('account/subscription_info', $data));
 		} else {
@@ -541,23 +550,25 @@ class Subscription extends \Ventocart\System\Engine\Controller {
 	 * @return void
 	 */
 
-	 public function edit(): void {
+	public function edit(): void
+	{
 		$json = [];
 		if (isset($this->request->post['method_code']) && isset($this->request->post['track_id'])) {
- 
-			$this->load->model('extension/' .  $this->request->post['method_code'] . '/payment/' .  $this->request->post['method_code']);
+
+			$this->load->model('extension/' . $this->request->post['method_code'] . '/payment/' . $this->request->post['method_code']);
 			$result = $this->{'model_extension_' . $this->request->post['method_code'] . '_payment_' . $this->request->post['method_code']}->updateMethodSubscription($this->request->post['track_id'], $this->request->post['paymentMethod']);
-					if ($result ) {
-						$json['success'] = "Saved";
-					}	else {
-						$json['error'] = "Error";
-					}
-		 
-	}
+			if ($result) {
+				$json['success'] = "Saved";
+			} else {
+				$json['error'] = "Error";
+			}
+
+		}
 		$this->response->addHeader('Content-Type: application/json');
 		$this->response->setOutput(json_encode($json));
-	 }
-	public function history(): void {
+	}
+	public function history(): void
+	{
 		$this->load->language('account/subscription');
 
 		$this->response->setOutput($this->getHistory());
@@ -566,20 +577,21 @@ class Subscription extends \Ventocart\System\Engine\Controller {
 	/**
 	 * @return string
 	 */
-	public function getHistory(): string {
+	public function getHistory(): string
+	{
 		if (isset($this->request->get['subscription_id'])) {
-			$subscription_id = (int)$this->request->get['subscription_id'];
+			$subscription_id = (int) $this->request->get['subscription_id'];
 		} else {
 			$subscription_id = 0;
 		}
 
 		if (isset($this->request->get['page']) && $this->request->get['route'] == 'account/subscription.history') {
-			$page = (int)$this->request->get['page'];
+			$page = (int) $this->request->get['page'];
 		} else {
 			$page = 1;
 		}
 
- 
+
 
 		$limit = 10;
 
@@ -591,8 +603,8 @@ class Subscription extends \Ventocart\System\Engine\Controller {
 
 		foreach ($results as $result) {
 			$data['histories'][] = [
-				'status'     => $result['status'],
-				'comment'    => nl2br($result['comment']),
+				'status' => $result['status'],
+				'comment' => nl2br($result['comment']),
 				'date_added' => date($this->language->get('date_format_short'), strtotime($result['date_added']))
 			];
 		}
@@ -601,9 +613,9 @@ class Subscription extends \Ventocart\System\Engine\Controller {
 
 		$data['pagination'] = $this->load->controller('common/pagination', [
 			'total' => $subscription_total,
-			'page'  => $page,
+			'page' => $page,
 			'limit' => $limit,
-			'url'   => $this->url->link('account/subscription.history', 'customer_token=' . $this->session->data['customer_token'] . '&subscription_id=' . $subscription_id . '&page={page}')
+			'url' => $this->url->link('account/subscription.history', 'subscription_id=' . $subscription_id . '&page={page}')
 		]);
 
 		$data['results'] = sprintf($this->language->get('text_pagination'), ($subscription_total) ? (($page - 1) * $limit) + 1 : 0, ((($page - 1) * $limit) > ($subscription_total - $limit)) ? $subscription_total : ((($page - 1) * $limit) + $limit), $subscription_total, ceil($subscription_total / $limit));
@@ -614,7 +626,8 @@ class Subscription extends \Ventocart\System\Engine\Controller {
 	/**
 	 * @return void
 	 */
-	public function order(): void {
+	public function order(): void
+	{
 		$this->load->language('account/subscription');
 
 		$this->response->setOutput($this->getOrder());
@@ -623,15 +636,16 @@ class Subscription extends \Ventocart\System\Engine\Controller {
 	/**
 	 * @return string
 	 */
-	public function getOrder(): string {
+	public function getOrder(): string
+	{
 		if (isset($this->request->get['subscription_id'])) {
-			$subscription_id = (int)$this->request->get['subscription_id'];
+			$subscription_id = (int) $this->request->get['subscription_id'];
 		} else {
 			$subscription_id = 0;
 		}
 
 		if (isset($this->request->get['page']) && $this->request->get['route'] == 'account/subscription.order') {
-			$page = (int)$this->request->get['page'];
+			$page = (int) $this->request->get['page'];
 		} else {
 			$page = 1;
 		}
@@ -646,11 +660,11 @@ class Subscription extends \Ventocart\System\Engine\Controller {
 
 		foreach ($results as $result) {
 			$data['orders'][] = [
-				'order_id'   => $result['order_id'],
-				'status'     => $result['status'],
-				'total'      => $this->currency->format($result['total'], $result['currency_code'], $result['currency_value']),
+				'order_id' => $result['order_id'],
+				'status' => $result['status'],
+				'total' => $this->currency->format($result['total'], $result['currency_code'], $result['currency_value']),
 				'date_added' => date($this->language->get('date_format_short'), strtotime($result['date_added'])),
-				'view'       => $this->url->link('sale/subscription.order', 'customer_token=' . $this->session->data['customer_token'] . '&order_id=' . $result['order_id'] . '&page={page}')
+				'view' => $this->url->link('sale/subscription.order', 'order_id=' . $result['order_id'] . '&page={page}')
 			];
 		}
 
@@ -658,9 +672,9 @@ class Subscription extends \Ventocart\System\Engine\Controller {
 
 		$data['pagination'] = $this->load->controller('common/pagination', [
 			'total' => $order_total,
-			'page'  => $page,
+			'page' => $page,
 			'limit' => $limit,
-			'url'   => $this->url->link('sale/subscription.order', 'customer_token=' . $this->session->data['customer_token'] . '&subscription_id=' . $subscription_id . '&page={page}')
+			'url' => $this->url->link('sale/subscription.order', 'subscription_id=' . $subscription_id . '&page={page}')
 		]);
 
 		$data['results'] = sprintf($this->language->get('text_pagination'), ($order_total) ? (($page - 1) * $limit) + 1 : 0, ((($page - 1) * $limit) > ($order_total - $limit)) ? $order_total : ((($page - 1) * $limit) + $limit), $order_total, ceil($order_total / $limit));
@@ -690,67 +704,70 @@ class Subscription extends \Ventocart\System\Engine\Controller {
 		}
 
 		if (isset($this->request->get['resume'])) {
-			$resume = (int)$this->request->get['resume'];
+			$resume = (int) $this->request->get['resume'];
 		} else {
 			$resume = false;
 		}
 		if (isset($this->request->get['restart'])) {
-			$restart = (int)$this->request->get['restart'];
+			$restart = (int) $this->request->get['restart'];
 		} else {
 			$restart = false;
 		}
 
 		if (isset($this->request->get['invoice'])) {
-			$invoice =  $this->request->get['invoice'];
+			$invoice = $this->request->get['invoice'];
 		} else {
 			$invoice = false;
 		}
 
 
-		if (!$this->customer->isLogged() || (!isset($this->request->get['customer_token']) || !isset($this->session->data['customer_token']) || ($this->request->get['customer_token'] != $this->session->data['customer_token']))) {
-			$this->session->data['redirect'] = $this->url->link('account/payment_method', 'language=' . $this->config->get('config_language'));
+		if (!$this->customer->isLogged()) {
+			$this->session->data['redirect'] = $this->url->link('account/payment_method');
 
-			$json['redirect'] = $this->url->link('account/login', 'language=' . $this->config->get('config_language'), true);
+			$json['redirect'] = $this->url->link('account/login', '', true);
 		}
-	 
+
 		if (!$json) {
-		 
-	 
+
+
 			$payment_method_info = $this->model_setting_extension->getExtensionByCode('payment', $code);
-		 
+
 			if (!$payment_method_info) {
 				$json['error'] = $this->language->get('error_payment_method');
 			}
 		}
-	    $passed = false;
+		$passed = false;
 		if (!$json) {
 			$this->load->model('extension/' . $payment_method_info['extension'] . '/payment/' . $payment_method_info['code']);
 
 			try {
-			 
+
 				if (!$resume && !$restart) {
 					// cancel or pause a subscription
-					$passed =	$this->{'model_extension_' . $payment_method_info['extension'] . '_payment_' . $payment_method_info['code']}->cancelSubscription($track_id);
+					$passed = $this->{'model_extension_' . $payment_method_info['extension'] . '_payment_' . $payment_method_info['code']}->cancelSubscription($track_id);
 				} else if ($restart) {
 					// for past due subscriptions, start from day starting period as of today-now and charge cycle again
-					$passed =	$this->{'model_extension_' . $payment_method_info['extension'] . '_payment_' . $payment_method_info['code']}->restartSubscription($track_id, $invoice);
-			
+					$passed = $this->{'model_extension_' . $payment_method_info['extension'] . '_payment_' . $payment_method_info['code']}->restartSubscription($track_id, $invoice);
+
 				} else if ($resume) {
 					// for paused/canceled subscription, eg. pay the latest unpaid invoice
-					$passed =	$this->{'model_extension_' . $payment_method_info['extension'] . '_payment_' . $payment_method_info['code']}->resumeSubscription($track_id);
+					$passed = $this->{'model_extension_' . $payment_method_info['extension'] . '_payment_' . $payment_method_info['code']}->resumeSubscription($track_id);
 				}
-		
-				} catch (\Exception $e) {
-					$passed = $e->getMessage();
+
+			} catch (\Exception $e) {
+				$passed = $e->getMessage();
 				// Method not found, or an error occurred.
-			   }
-			   if ($passed === true) {
-				if (!$resume && !$restart) $json['success'] =  $this->language->get('text_cancelled');
-				if ($resume) $json['success'] =  $this->language->get('text_success_resume');
-				if ($restart) $json['success'] =  $this->language->get('text_success_restart');
-			   } else {
+			}
+			if ($passed === true) {
+				if (!$resume && !$restart)
+					$json['success'] = $this->language->get('text_cancelled');
+				if ($resume)
+					$json['success'] = $this->language->get('text_success_resume');
+				if ($restart)
+					$json['success'] = $this->language->get('text_success_restart');
+			} else {
 				$json['error'] = sprintf($this->language->get('error_not_cancelled'), $passed);
-			   }
+			}
 		}
 
 		$this->response->addHeader('Content-Type: application/json');

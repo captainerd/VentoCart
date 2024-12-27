@@ -3,7 +3,7 @@
   <?= $breadcrumb ?>
   <div class="row">
     <?= $column_left ?>
-    <div id="content" class="col"><?= $content_top ?>
+    <div id="content" class="col  p-3 bg-white border"><?= $content_top ?>
       <h1><?= $heading_title ?></h1>
       <p><?= $text_account_already ?></p>
       <form id="<?= $form_name ?>" action="<?= $register ?>" method="post" data-oc-toggle="ajax">
@@ -244,27 +244,60 @@
         </fieldset>
 
         <fieldset>
-          <legend><?= $text_newsletter ?></legend>
-          <div class="row mb-3">
-            <label class="col-sm-2 col-form-label"><?= $entry_newsletter ?></label>
-            <div class="col-sm-10">
-              <div class="form-check form-switch form-switch-lg">
-                <input type="hidden" name="newsletter" value="0" /> <input type="checkbox" name="newsletter" value="1"
-                  id="input-newsletter" class="form-check-input">
+          <?= $captcha ?>
+
+
+          <div class="row mb-3 required">
+            <div class="col d-flex flex-column align-items-end">
+              <!-- Newsletter Switch -->
+              <div class="d-flex form-switch-lg align-items-center  ">
+                <label class="form-check-label me-2" for="input-newsletter">
+                  <?= $entry_newsletter ?>
+                </label>
+                <div class="form-check form-switch  ">
+                  <input type="hidden" name="newsletter" value="0" />
+                  <input type="checkbox" checked class="form-check-input" name="newsletter" value="1"
+                    id="input-newsletter" />
+                </div>
               </div>
+
+              <!-- Agree Switch -->
+              <div class="d-flex form-switch-lg align-items-center">
+                <label class="form-check-label me-2" for="input-agree">
+                  <?= $text_agree ?>
+                </label>
+                <div class="form-check form-switch  ">
+                  <input type="checkbox" class="form-check-input" name="agree" value="1" id="input-agree" />
+                </div>
+              </div>
+
+            </div>
+
+          </div>
+          <div class="row mb-3 required">
+            <div class="col d-flex flex-column align-items-end">
+
+              <button type="submit" class="btn btn-primary"><?= $button_continue ?></button>
             </div>
           </div>
-        </fieldset>
-        <?= $captcha ?>
-        <div class="text-end">
-          <?php if ($text_agree): ?>
-            <div class="form-check form-switch form-switch-lg form-check-reverse form-check-inline">
-              <label class="form-check-label"><?= $text_agree ?></label> <input type="checkbox" name="agree" value="1"
-                class="form-check-input">
-            </div>
-          <?php endif; ?>
-          <button type="submit" class="btn btn-primary"><?= $button_continue ?></button>
-        </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
       </form>
       <?= $content_bottom ?>
     </div>

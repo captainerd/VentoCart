@@ -25,7 +25,7 @@ class Confirm extends \Ventocart\System\Engine\Controller
 		$information_info = $this->model_catalog_information->getInformation((int) $this->config->get('config_checkout_id'));
 
 		if ($information_info) {
-			$data['text_agree_checkout'] = sprintf($this->language->get('text_agree'), $this->url->link('information/information.info', 'language=' . $this->config->get('config_language') . '&information_id=' . $this->config->get('config_checkout_id')), $information_info['title']);
+			$data['text_agree_checkout'] = sprintf($this->language->get('text_agree'), $this->url->link('information/information.info', 'information_id=' . $this->config->get('config_checkout_id')), $information_info['title']);
 		} else {
 			$data['text_agree_checkout'] = '';
 		}
@@ -81,7 +81,7 @@ class Confirm extends \Ventocart\System\Engine\Controller
 				'price' => $price_status ? $this->currency->format($this->tax->calculate($product['price'], $product['tax_class_id'], $this->config->get('config_tax')), $this->session->data['currency']) : '',
 				'total' => $price_status ? $this->currency->format($product_total, $this->session->data['currency']) : '',
 				'reward' => $product['reward'],
-				'href' => $this->url->link('product/product', 'language=' . $this->config->get('config_language') . '&product_id=' . $product['product_id'])
+				'href' => $this->url->link('product/product', 'product_id=' . $product['product_id'])
 			];
 		}
 
@@ -326,6 +326,7 @@ class Confirm extends \Ventocart\System\Engine\Controller
 				$subscription_data = [];
 
 				if ($product['subscription']) {
+
 					$subscription_data = [
 						'subscription_plan_id' => $product['subscription']['subscription_plan_id'],
 						'name' => $product['subscription']['name'],

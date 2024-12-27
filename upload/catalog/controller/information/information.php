@@ -5,15 +5,17 @@ namespace Ventocart\Catalog\Controller\Information;
  *
  * @package Ventocart\Catalog\Controller\Information
  */
-class Information extends \Ventocart\System\Engine\Controller {
+class Information extends \Ventocart\System\Engine\Controller
+{
 	/**
 	 * @return void
 	 */
-	public function index(): ?object {
+	public function index(): ?object
+	{
 		$this->load->language('information/information');
 
 		if (isset($this->request->get['information_id'])) {
-			$information_id = (int)$this->request->get['information_id'];
+			$information_id = (int) $this->request->get['information_id'];
 		} else {
 			$information_id = 0;
 		}
@@ -31,19 +33,19 @@ class Information extends \Ventocart\System\Engine\Controller {
 
 			$datab['breadcrumbs'][] = [
 				'text' => $this->language->get('text_home'),
-				'href' => $this->url->link('common/home', 'language=' . $this->config->get('config_language'))
+				'href' => $this->url->link('common/home')
 			];
 
 			$datab['breadcrumbs'][] = [
 				'text' => $information_info['title'],
-				'href' => $this->url->link('information/information', 'language=' . $this->config->get('config_language') . '&information_id=' .  $information_id)
+				'href' => $this->url->link('information/information', 'information_id=' . $information_id)
 			];
 
 			$data['heading_title'] = $information_info['title'];
 
 			$data['description'] = html_entity_decode($information_info['description'], ENT_QUOTES, 'UTF-8');
 
-			$data['continue'] = $this->url->link('common/home', 'language=' . $this->config->get('config_language'));
+			$data['continue'] = $this->url->link('common/home');
 			$data['breadcrumb'] = $this->load->view('common/breadcrumb', $datab);
 			$data['column_left'] = $this->load->controller('common/column_left');
 			$data['column_right'] = $this->load->controller('common/column_right');
@@ -63,9 +65,10 @@ class Information extends \Ventocart\System\Engine\Controller {
 	/**
 	 * @return void
 	 */
-	public function info(): void {
+	public function info(): void
+	{
 		if (isset($this->request->get['information_id'])) {
-			$information_id = (int)$this->request->get['information_id'];
+			$information_id = (int) $this->request->get['information_id'];
 		} else {
 			$information_id = 0;
 		}

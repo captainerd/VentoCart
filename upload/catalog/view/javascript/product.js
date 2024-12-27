@@ -292,7 +292,7 @@ function productInit() {
 
         // Calculate prices in real-time based on the selected options
 
-        $('form').on('change', 'input[data-spanid], select[data-spanid]', function (event) {
+        $('#form-product').on('change', 'input[data-spanid], select[data-spanid]', function (event) {
             // Get the data-spanid value from the clicked radio button
 
 
@@ -433,7 +433,7 @@ function productInit() {
             $.each(variation.options, function (index, option) {
                 // Check <select> elements
                 var foundSelect = false;
-                $('form').find('select').each(function () {
+                $('#form-product').find('select').each(function () {
                     var currentSelect = $(this);
                     var selectedOptionValue = currentSelect.find('option:selected').val();
 
@@ -446,7 +446,7 @@ function productInit() {
 
                 // Check <input> elements (including checkboxes and radios)
                 var foundInput = false;
-                $('form').find(':input').each(function () {
+                $('#form-product').find(':input').each(function () {
                     var currentInput = $(this);
                     var inputValue = currentInput.val();
 

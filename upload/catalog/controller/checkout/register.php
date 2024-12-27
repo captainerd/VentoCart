@@ -50,7 +50,7 @@ class Register extends \Ventocart\System\Engine\Controller
 
 
 
-		$data['text_login'] = sprintf($this->language->get('text_login'), $this->url->link('account/login', 'language=' . $this->config->get('config_language') . '&redirect=' . urlencode($this->url->link('checkout/checkout', 'language=' . $this->config->get('config_language'), true))));
+		$data['text_login'] = sprintf($this->language->get('text_login'), $this->url->link('account/login', 'redirect=' . urlencode($this->url->link('checkout/checkout', '', true))));
 
 		$data['entry_newsletter'] = sprintf($this->language->get('entry_newsletter'), $this->config->get('config_name'));
 
@@ -63,7 +63,7 @@ class Register extends \Ventocart\System\Engine\Controller
 
 		$data['shipping_required'] = $this->cart->hasShipping();
 
-		$data['upload'] = $this->url->link('tool/upload', 'language=' . $this->config->get('config_language'));
+		$data['upload'] = $this->url->link('tool/upload');
 
 		$data['customer_groups'] = [];
 
@@ -200,7 +200,7 @@ class Register extends \Ventocart\System\Engine\Controller
 		$information_info = $this->model_catalog_information->getInformation($this->config->get('config_account_id'));
 
 		if ($information_info) {
-			$data['text_agree'] = sprintf($this->language->get('text_agree'), $this->url->link('information/information.info', 'language=' . $this->config->get('config_language') . '&information_id=' . $this->config->get('config_account_id')), $information_info['title']);
+			$data['text_agree'] = sprintf($this->language->get('text_agree'), $this->url->link('information/information.info', 'information_id=' . $this->config->get('config_account_id')), $information_info['title']);
 		} else {
 			$data['text_agree'] = '';
 		}
@@ -208,7 +208,7 @@ class Register extends \Ventocart\System\Engine\Controller
 		$information_info = $this->model_catalog_information->getInformation($this->config->get('config_checkout_id'));
 
 		if ($information_info) {
-			$data['text_agree_checkout'] = sprintf($this->language->get('text_agree'), $this->url->link('information/information.info', 'language=' . $this->config->get('config_language') . '&information_id=' . $this->config->get('config_account_id')), $information_info['title']);
+			$data['text_agree_checkout'] = sprintf($this->language->get('text_agree'), $this->url->link('information/information.info', 'information_id=' . $this->config->get('config_account_id')), $information_info['title']);
 		} else {
 			$data['text_agree_checkout'] = '';
 		}
@@ -303,13 +303,13 @@ class Register extends \Ventocart\System\Engine\Controller
 
 		// Validate cart has products and has stock.
 		if ((!$this->cart->hasProducts()) || (!$this->cart->hasStock() && !$this->config->get('config_stock_checkout'))) {
-			$json['redirect'] = $this->url->link('checkout/cart', 'language=' . $this->config->get('config_language'), true);
+			$json['redirect'] = $this->url->link('checkout/cart', '', true);
 		}
 
 		// Validate minimum quantity requirements.
 
 		if ($this->cart->hasMinimum()) {
-			$json['redirect'] = $this->url->link('checkout/cart', 'language=' . $this->config->get('config_language'), true);
+			$json['redirect'] = $this->url->link('checkout/cart', '', true);
 
 
 		}
@@ -619,7 +619,7 @@ class Register extends \Ventocart\System\Engine\Controller
 				}
 			} else {
 				// If account needs approval we redirect to the account success / requires approval page.
-				$json['redirect'] = $this->url->link('account/success', 'language=' . $this->config->get('config_language'), true);
+				$json['redirect'] = $this->url->link('account/success', '', true);
 			}
 
 

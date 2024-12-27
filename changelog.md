@@ -1,3 +1,17 @@
+## What's New in VentoCart v5.1.1.0
+
+1.  **Bug fixes**
+    - Fixed template bug re-printing the price on option click for the QuickView Feature 
+    - Fixed admin/localisation/language bug where it wasn't notifying 'Added successful' after add.
+    - Fixed front end password recovery template bugs
+
+2.  **Refactory**
+    - Removed url parameters for language, customer token, as they where legacy/uneeded
+    - Improved front end account template designs
+
+3.  **Features**
+    - Enabled the functionality to upgrade via the button in admin/maintenance/upgrade
+
 ## What's New in VentoCart v5.1.0.0
 
 1. **Swiper Replaced with Slide:**

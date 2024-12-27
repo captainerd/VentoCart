@@ -11,18 +11,24 @@ class Product extends \Ventocart\System\Engine\Controller
 
 		$datab['breadcrumbs'][] = [
 			'text' => $this->language->get('text_home'),
-			'href' => $this->url->link('common/home', 'language=' . $this->config->get('config_language'))
+			'href' => $this->url->link('common/home')
 		];
 
 		$this->load->model('catalog/category');
 
 		/* Product related */
-		$this->document->addLink('https://fonts.googleapis.com/css?family=Aldrich', 'stylesheet', 'text/css');
-		$this->document->addLink('/catalog/view/stylesheet/photoswipe.css', 'stylesheet', 'text/css');
-		$this->document->addLink('/catalog/view/stylesheet/splide/splide.min.css', 'stylesheet', 'text/css');
-		$this->document->addLink('/catalog/view/stylesheet/splide/themes/splide-vento.css', 'stylesheet', 'text/css');
-		$this->document->addScript("catalog/view/javascript/splide/splide.min.js");
-		$this->document->addScript("catalog/view/javascript/product.js");
+		$data['quickview'] = 0;
+		if (isset($_GET['quickview'])) {
+			$data['quickview'] = 1;
+		}
+		if ($data['quickview'] == 0) {
+			$this->document->addLink('https://fonts.googleapis.com/css?family=Aldrich', 'stylesheet', 'text/css');
+			$this->document->addLink('/catalog/view/stylesheet/photoswipe.css', 'stylesheet', 'text/css');
+			$this->document->addLink('/catalog/view/stylesheet/splide/splide.min.css', 'stylesheet', 'text/css');
+			$this->document->addLink('/catalog/view/stylesheet/splide/themes/splide-vento.css', 'stylesheet', 'text/css');
+			$this->document->addScript("catalog/view/javascript/splide/splide.min.js");
+			$this->document->addScript("catalog/view/javascript/product.js");
+		}
 
 		if (isset($this->request->get['path'])) {
 			$path = '';
@@ -43,7 +49,7 @@ class Product extends \Ventocart\System\Engine\Controller
 				if ($category_info) {
 					$datab['breadcrumbs'][] = [
 						'text' => $category_info['name'],
-						'href' => $this->url->link('product/category', 'language=' . $this->config->get('config_language') . '&path=' . $path)
+						'href' => $this->url->link('product/category', 'path=' . $path)
 					];
 				}
 			}
@@ -72,7 +78,7 @@ class Product extends \Ventocart\System\Engine\Controller
 
 				$datab['breadcrumbs'][] = [
 					'text' => $category_info['name'],
-					'href' => $this->url->link('product/category', 'language=' . $this->config->get('config_language') . '&path=' . $this->request->get['path'] . $url)
+					'href' => $this->url->link('product/category', 'path=' . $this->request->get['path'] . $url)
 				];
 			}
 		}
@@ -82,7 +88,7 @@ class Product extends \Ventocart\System\Engine\Controller
 		if (isset($this->request->get['manufacturer_id'])) {
 			$datab['breadcrumbs'][] = [
 				'text' => $this->language->get('text_brand'),
-				'href' => $this->url->link('product/manufacturer', 'language=' . $this->config->get('config_language'))
+				'href' => $this->url->link('product/manufacturer')
 			];
 
 			$url = '';
@@ -108,7 +114,7 @@ class Product extends \Ventocart\System\Engine\Controller
 			if ($manufacturer_info) {
 				$datab['breadcrumbs'][] = [
 					'text' => $manufacturer_info['name'],
-					'href' => $this->url->link('product/manufacturer.info', 'language=' . $this->config->get('config_language') . '&manufacturer_id=' . $this->request->get['manufacturer_id'] . $url)
+					'href' => $this->url->link('product/manufacturer.info', 'manufacturer_id=' . $this->request->get['manufacturer_id'] . $url)
 				];
 			}
 		}
@@ -154,7 +160,7 @@ class Product extends \Ventocart\System\Engine\Controller
 
 			$datab['breadcrumbs'][] = [
 				'text' => $this->language->get('text_search'),
-				'href' => $this->url->link('product/search', 'language=' . $this->config->get('config_language') . $url)
+				'href' => $this->url->link('product/search', $url)
 			];
 		}
 
@@ -243,20 +249,20 @@ class Product extends \Ventocart\System\Engine\Controller
 
 			$datab['breadcrumbs'][] = [
 				'text' => $product_info['name'],
-				'href' => $this->url->link('product/product', 'language=' . $this->config->get('config_language') . $url . '&product_id=' . $this->request->get['product_id'])
+				'href' => $this->url->link('product/product', $url . '&product_id=' . $this->request->get['product_id'])
 			];
 
 			$this->document->setTitle($product_info['meta_title']);
 			$this->document->setDescription($product_info['meta_description']);
 			$this->document->setKeywords($product_info['meta_keyword']);
-			$this->document->addLink($this->url->link('product/product', 'language=' . $this->config->get('config_language') . '&product_id=' . $this->request->get['product_id']), 'canonical');
+			$this->document->addLink($this->url->link('product/product', 'product_id=' . $this->request->get['product_id']), 'canonical');
 
 
 
 			$data['heading_title'] = $product_info['name'];
 
 			$data['text_minimum'] = sprintf($this->language->get('text_minimum'), $product_info['minimum']);
-			$data['text_login'] = sprintf($this->language->get('text_login'), $this->url->link('account/login', 'language=' . $this->config->get('config_language')), $this->url->link('account/register', 'language=' . $this->config->get('config_language')));
+			$data['text_login'] = sprintf($this->language->get('text_login'), $this->url->link('account/login'), $this->url->link('account/register'));
 			$data['text_reviews'] = sprintf($this->language->get('text_reviews'), (int) $product_info['reviews']);
 
 			$data['tab_review'] = sprintf($this->language->get('tab_review'), $product_info['reviews']);
@@ -265,7 +271,7 @@ class Product extends \Ventocart\System\Engine\Controller
 
 			$data['config_file_max_size'] = ((int) $this->config->get('config_file_max_size') * 1024 * 1024);
 
-			$data['upload'] = $this->url->link('tool/upload', 'language=' . $this->config->get('config_language'));
+			$data['upload'] = $this->url->link('tool/upload');
 
 			$data['product_id'] = (int) $this->request->get['product_id'];
 
@@ -277,7 +283,7 @@ class Product extends \Ventocart\System\Engine\Controller
 				$data['manufacturer'] = '';
 			}
 
-			$data['manufacturers'] = $this->url->link('product/manufacturer.info', 'language=' . $this->config->get('config_language') . '&manufacturer_id=' . $product_info['manufacturer_id']);
+			$data['manufacturers'] = $this->url->link('product/manufacturer.info', 'manufacturer_id=' . $product_info['manufacturer_id']);
 			$data['model'] = $product_info['model'];
 			$data['sku'] = $product_info['sku'];
 			$data['reward'] = $product_info['reward'];
@@ -308,8 +314,8 @@ class Product extends \Ventocart\System\Engine\Controller
 
 			$data['review'] = $this->load->controller('product/review');
 
-			$data['add_to_wishlist'] = $this->url->link('account/wishlist.add', 'language=' . $this->config->get('config_language'));
-			$data['add_to_compare'] = $this->url->link('product/compare.add', 'language=' . $this->config->get('config_language'));
+			$data['add_to_wishlist'] = $this->url->link('account/wishlist.add');
+			$data['add_to_compare'] = $this->url->link('product/compare.add');
 
 			$this->load->model('tool/image');
 			// Video poster creation
@@ -545,7 +551,7 @@ class Product extends \Ventocart\System\Engine\Controller
 				$data['minimum'] = 1;
 			}
 
-			$data['share'] = $this->url->link('product/product', 'language=' . $this->config->get('config_language') . '&product_id=' . (int) $this->request->get['product_id']);
+			$data['share'] = $this->url->link('product/product', 'product_id=' . (int) $this->request->get['product_id']);
 
 			$data['attribute_groups'] = $this->model_catalog_product->getAttributes($this->request->get['product_id']);
 
@@ -589,7 +595,7 @@ class Product extends \Ventocart\System\Engine\Controller
 					'tax' => $tax,
 					'minimum' => $result['minimum'] > 0 ? $result['minimum'] : 1,
 					'rating' => $result['rating'],
-					'href' => $this->url->link('product/product', 'language=' . $this->config->get('config_language') . '&product_id=' . $result['product_id'])
+					'href' => $this->url->link('product/product', 'product_id=' . $result['product_id'])
 				];
 
 				$data['products'][] = $this->load->controller('product/thumb', $product_data);
@@ -603,7 +609,7 @@ class Product extends \Ventocart\System\Engine\Controller
 				foreach ($tags as $tag) {
 					$data['tags'][] = [
 						'tag' => trim($tag),
-						'href' => $this->url->link('product/search', 'language=' . $this->config->get('config_language') . '&tag=' . trim($tag))
+						'href' => $this->url->link('product/search', 'tag=' . trim($tag))
 					];
 				}
 			}
@@ -613,7 +619,7 @@ class Product extends \Ventocart\System\Engine\Controller
 			}
 
 			$data['language'] = $this->config->get('config_language');
-			$data['quickview'] = 0;
+
 			$data['column_left'] = $this->load->controller('common/column_left');
 			$data['column_right'] = $this->load->controller('common/column_right');
 			$data['content_top'] = $this->load->controller('common/content_top');
@@ -621,9 +627,7 @@ class Product extends \Ventocart\System\Engine\Controller
 			$data['footer'] = $this->load->controller('common/footer');
 			$data['header'] = $this->load->controller('common/header');
 			$data['breadcrumb'] = $this->load->view('common/breadcrumb', $datab);
-			if (isset($_GET['quickview'])) {
-				$data['quickview'] = 1;
-			}
+
 
 
 			$this->response->setOutput($this->load->view('product/product', $data));
@@ -682,12 +686,12 @@ class Product extends \Ventocart\System\Engine\Controller
 
 			$datab['breadcrumbs'][] = [
 				'text' => $this->language->get('text_error'),
-				'href' => $this->url->link('product/product', 'language=' . $this->config->get('config_language') . $url . '&product_id=' . $product_id)
+				'href' => $this->url->link('product/product', $url . '&product_id=' . $product_id)
 			];
 
 			$this->document->setTitle($this->language->get('text_error'));
 
-			$data['continue'] = $this->url->link('common/home', 'language=' . $this->config->get('config_language'));
+			$data['continue'] = $this->url->link('common/home');
 			$data['heading_title'] = $this->language->get('text_error');
 			$data['column_left'] = $this->load->controller('common/column_left');
 			$data['column_right'] = $this->load->controller('common/column_right');

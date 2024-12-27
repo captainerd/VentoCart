@@ -55,7 +55,7 @@ class Address extends \Ventocart\System\Engine\Controller
 		$data['error_upload_size'] = sprintf($this->language->get('error_upload_size'), $this->config->get('config_file_max_size'));
 		$data['config_file_max_size'] = ((int) $this->config->get('config_file_max_size') * 1024 * 1024);
 
-		$data['upload'] = $this->url->link('tool/upload', 'language=' . $this->config->get('config_language'));
+		$data['upload'] = $this->url->link('tool/upload');
 
 		$this->load->model('account/address');
 
@@ -94,7 +94,7 @@ class Address extends \Ventocart\System\Engine\Controller
 		$information_info = $this->model_catalog_information->getInformation($this->config->get('config_checkout_id'));
 
 		if ($information_info) {
-			$data['text_agree_checkout'] = sprintf($this->language->get('text_agree'), $this->url->link('information/information.info', 'language=' . $this->config->get('config_language') . '&information_id=' . $this->config->get('config_account_id')), $information_info['title']);
+			$data['text_agree_checkout'] = sprintf($this->language->get('text_agree'), $this->url->link('information/information.info', 'information_id=' . $this->config->get('config_account_id')), $information_info['title']);
 		} else {
 			$data['text_agree_checkout'] = '';
 		}
@@ -136,7 +136,7 @@ class Address extends \Ventocart\System\Engine\Controller
 		$this->load->language('checkout/' . $address_type . '_address');
 		// Validate cart has products and has stock.
 		if ((!$this->cart->hasProducts()) || (!$this->cart->hasStock() && !$this->config->get('config_stock_checkout'))) {
-			$json['redirect'] = $this->url->link('checkout/cart', 'language=' . $this->config->get('config_language'), true);
+			$json['redirect'] = $this->url->link('checkout/cart', '', true);
 		}
 
 		// Validate minimum quantity requirements.
@@ -144,7 +144,7 @@ class Address extends \Ventocart\System\Engine\Controller
 
 		// Validate if customer is logged in or customer session data is not set
 		if (!$this->customer->isLogged() || !isset($this->session->data['customer'])) {
-			$json['redirect'] = $this->url->link('account/login', 'language=' . $this->config->get('config_language'), true);
+			$json['redirect'] = $this->url->link('account/login', '', true);
 		}
 
 
@@ -287,19 +287,19 @@ class Address extends \Ventocart\System\Engine\Controller
 		}
 
 		if (!isset($this->session->data['customer'])) {
-			$json['redirect'] = $this->url->link('checkout/cart', 'language=' . $this->config->get('config_language'), true);
+			$json['redirect'] = $this->url->link('checkout/cart', '', true);
 		}
 
 		// Validate cart has products and has stock.
 		if ((!$this->cart->hasProducts()) || (!$this->cart->hasStock() && !$this->config->get('config_stock_checkout'))) {
-			$json['redirect'] = $this->url->link('checkout/cart', 'language=' . $this->config->get('config_language'), true);
+			$json['redirect'] = $this->url->link('checkout/cart', '', true);
 		}
 
 
 
 		// Validate if customer is logged in or customer session data is not set
 		if (!$this->customer->isLogged() || !isset($this->session->data['customer'])) {
-			$json['redirect'] = $this->url->link('account/login', 'language=' . $this->config->get('config_language'), true);
+			$json['redirect'] = $this->url->link('account/login', '', true);
 		}
 
 

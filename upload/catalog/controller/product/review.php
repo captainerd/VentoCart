@@ -20,7 +20,7 @@ class Review extends \Ventocart\System\Engine\Controller
 			$product_id = 0;
 		}
 
-		$data['text_login'] = sprintf($this->language->get('text_login'), $this->url->link('account/login', 'language=' . $this->config->get('config_language')), $this->url->link('account/register', 'language=' . $this->config->get('config_language')));
+		$data['text_login'] = sprintf($this->language->get('text_login'), $this->url->link('account/login'), $this->url->link('account/register'));
 
 		$data['list'] = $this->getList();
 
@@ -200,7 +200,7 @@ class Review extends \Ventocart\System\Engine\Controller
 			'total' => $review_total,
 			'page' => $page,
 			'limit' => 5,
-			'url' => $this->url->link('product/review.list', 'language=' . $this->config->get('config_language') . '&product_id=' . $product_id . '&page={page}')
+			'url' => $this->url->link('product/review.list', 'product_id=' . $product_id . '&page={page}')
 		]);
 
 		$data['results'] = sprintf($this->language->get('text_pagination'), ($review_total) ? (($page - 1) * 5) + 1 : 0, ((($page - 1) * 5) > ($review_total - 5)) ? $review_total : ((($page - 1) * 5) + 5), $review_total, ceil($review_total / 5));

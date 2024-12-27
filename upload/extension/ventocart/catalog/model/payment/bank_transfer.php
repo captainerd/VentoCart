@@ -1,7 +1,9 @@
 <?php
 namespace Ventocart\Catalog\Model\Extension\Ventocart\Payment;
-class BankTransfer extends \Ventocart\System\Engine\Model {
-	public function getMethods(array $address = []): array {
+class BankTransfer extends \Ventocart\System\Engine\Model
+{
+	public function getMethods(array $address = []): array
+	{
 		$this->load->language('extension/ventocart/payment/bank_transfer');
 
 		if ($this->cart->hasSubscription()) {
@@ -11,7 +13,7 @@ class BankTransfer extends \Ventocart\System\Engine\Model {
 		} elseif (!$this->config->get('payment_bank_transfer_geo_zone_id')) {
 			$status = true;
 		} else {
-			$query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "zone_to_geo_zone` WHERE `geo_zone_id` = '" . (int)$this->config->get('payment_bank_transfer_geo_zone_id') . "' AND `country_id` = '" . (int)$address['country_id'] . "' AND (`zone_id` = '" . (int)$address['zone_id'] . "' OR `zone_id` = '0')");
+			$query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "zone_to_geo_zone` WHERE `geo_zone_id` = '" . (int) $this->config->get('payment_bank_transfer_geo_zone_id') . "' AND `country_id` = '" . (int) $address['country_id'] . "' AND (`zone_id` = '" . (int) $address['zone_id'] . "' OR `zone_id` = '0')");
 
 			if ($query->num_rows) {
 				$status = true;
@@ -29,9 +31,9 @@ class BankTransfer extends \Ventocart\System\Engine\Model {
 			];
 
 			$method_data = [
-				'code'       => 'bank_transfer',
-				'name'       => $this->language->get('heading_title'),
-				'option'     => $option_data,
+				'code' => 'bank_transfer',
+				'name' => $this->language->get('heading_title'),
+				'option' => $option_data,
 				'sort_order' => $this->config->get('payment_bank_transfer_sort_order')
 			];
 		}

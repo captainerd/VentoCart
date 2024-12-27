@@ -1,9 +1,9 @@
 <?= $header ?>
 <div id="giftcards-controller-area" class="container">
     <?= $breadcrumb ?>
-    <div class="row">
+    <div class="row ">
         <?= $column_left ?>
-        <div id="content" class="col">
+        <div id="content" class="col  p-3 bg-white border ">
             <?= $content_top ?>
             <!-- Main content for the gift cards starts here -->
             <h1><?= $heading_title ?> <?= $total ?> </h1>
@@ -13,7 +13,7 @@
             <?= $redeem_container ?>
 
             <!-- Gift card listing section -->
-            <div class="container  my-2">
+            <div class="container p-3 bg-white border  my-2">
 
 
                 <nav>
@@ -29,11 +29,12 @@
                             <div class="d-flex justify-content-center align-items-center" style="height: 200px;">
                                 <div class="card-background">
                                     <h5 class="card-title giftcard-title  "> </h5>
-                                    <p class="giftcard-holder"><span>EXPR</span> <span class="card-expiry ">
-                                        </span> <span>Status: </span> <span class="card-status ">
+                                    <p class="giftcard-holder"><span><?= $text_expr ?></span> <span
+                                            class="card-expiry ">
+                                        </span> <span><?= $text_status ?>: </span> <span class="card-status ">
                                         </span>
                                     </p>
-                                    <p class="giftcard-code   "><span>Balance: </span><span
+                                    <p class="giftcard-code   "><span><?= $text_balance ?>: </span><span
                                             class=" card-balance "></span>
                                     </p>
                                     <p class="giftcard-site card-sender-email"> </p>
@@ -44,27 +45,31 @@
 
 
                     </div>
+                    <nav>
+                        <ul class="pagination pagination-cards justify-content-center">
+                            <!-- Populated dynamically -->
+                        </ul>
+                    </nav>
 
-                    <ul class="pagination pagination-cards justify-content-center">
-                        <!-- Populated dynamically -->
-                    </ul>
-                </nav>
-
-                <!-- Gift Cards Row (wraps cards in rows and columns) -->
-                <div id="giftcard-container" style="min-width: 500px" class="row my-4 g-1">
-                    <!-- Hidden Card Template (hidden by default) -->
+                    <!-- Gift Cards Row (wraps cards in rows and columns) -->
+                    <div id="giftcard-container" style="min-width: 500px" class="row my-4 g-1">
+                        <!-- Hidden Card Template (hidden by default) -->
 
 
 
-                </div>
-                <nav>
-                    <ul class="pagination pagination-cards justify-content-center">
-                        <!-- Populated dynamically -->
-                    </ul>
-                </nav>
+                    </div>
+                    <nav>
+                        <ul class="pagination pagination-cards justify-content-center">
+                            <!-- Populated dynamically -->
+                        </ul>
+                    </nav>
+                    <div class="text-end">
+                        <a href="<?= $continue ?>" class="btn btn-primary"><?= $this->e($button_continue) ?></a>
+                    </div>
             </div>
 
             <?= $content_bottom ?>
+
         </div>
         <?= $column_right ?>
     </div>

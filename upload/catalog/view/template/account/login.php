@@ -11,7 +11,7 @@
       <?= $this->e($error_warning) ?> <button type="button" class="btn-close" data-bs-dismiss="alert"></button></div>
   <?php endif; ?>
   <div class="row"><?= $column_left ?>
-    <div id="content" class="col"><?= $content_top ?>
+    <div id="content" class="col  p-3 bg-white border"><?= $content_top ?>
       <div class="row">
         <div class="col mb-3">
           <div class="border rounded p-3 d-flex flex-column h-100">

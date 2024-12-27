@@ -1,5 +1,5 @@
 <?= $header ?>
-<div id="giftcards-controller-area" class="container">
+<div id="giftcards-controller-area" class="container mt-3 bg-white border rounded ">
     <?= $breadcrumb ?>
     <div class="row">
         <?= $column_left ?>
@@ -13,7 +13,7 @@
             <?= $redeem_container ?>
 
             <!-- Gift card listing section -->
-            <div class="container  my-4">
+            <div class="container  px-4 my-4">
                 <div class="container mt-4">
 
                     <div class="container mt-4">

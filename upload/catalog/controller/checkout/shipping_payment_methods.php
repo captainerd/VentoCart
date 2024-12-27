@@ -136,12 +136,12 @@ class ShippingPaymentMethods extends \Ventocart\System\Engine\Controller
 
         // Validate the cart
         if ((!$this->cart->hasProducts()) || (!$this->cart->hasStock() && !$this->config->get('config_stock_checkout'))) {
-            $json['redirect'] = $this->url->link('checkout/cart', 'language=' . $this->config->get('config_language'), true);
+            $json['redirect'] = $this->url->link('checkout/cart', '', true);
         } else {
             // Check minimum quantity requirements for all products in the cart
             $products = $this->cart->getProducts();
             if ($this->cart->hasMinimum()) {
-                $json['redirect'] = $this->url->link('checkout/cart', 'language=' . $this->config->get('config_language'), true);
+                $json['redirect'] = $this->url->link('checkout/cart', '', true);
 
             }
 
@@ -288,11 +288,11 @@ class ShippingPaymentMethods extends \Ventocart\System\Engine\Controller
             (!$this->cart->hasProducts()) ||
             (!$this->cart->hasStock() && !$this->config->get('config_stock_checkout'))
         ) {
-            return $this->url->link('checkout/cart', 'language=' . $this->config->get('config_language'), true);
+            return $this->url->link('checkout/cart', '', true);
         }
 
         if ($this->cart->hasMinimum()) {
-            return $this->url->link('checkout/cart', 'language=' . $this->config->get('config_language'), true);
+            return $this->url->link('checkout/cart', '', true);
 
         }
 
@@ -335,7 +335,7 @@ class ShippingPaymentMethods extends \Ventocart\System\Engine\Controller
         } else {
             $json['error'] = sprintf(
                 $this->language->get('error_no_shipping'),
-                $this->url->link('information/contact', 'language=' . $this->config->get('config_language'))
+                $this->url->link('information/contact')
             );
         }
 
@@ -369,7 +369,7 @@ class ShippingPaymentMethods extends \Ventocart\System\Engine\Controller
         } else {
             $json['error'] = sprintf(
                 $this->language->get('error_no_payment'),
-                $this->url->link('information/contact', 'language=' . $this->config->get('config_language'))
+                $this->url->link('information/contact')
             );
         }
 

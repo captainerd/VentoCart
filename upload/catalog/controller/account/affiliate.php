@@ -5,46 +5,47 @@ namespace Ventocart\Catalog\Controller\Account;
  *
  * @package Ventocart\Catalog\Controller\Account
  */
-class Affiliate extends \Ventocart\System\Engine\Controller {
+class Affiliate extends \Ventocart\System\Engine\Controller
+{
 	/**
 	 * @return void
 	 */
-	public function index(): void {
+	public function index(): void
+	{
 		$this->load->language('account/affiliate');
-
-		if (!$this->customer->isLogged() || (!isset($this->request->get['customer_token']) || !isset($this->session->data['customer_token']) || ($this->request->get['customer_token'] != $this->session->data['customer_token']))) {
+		if (!$this->customer->isLogged()) {
 			$this->customer->logout();
 
-			$this->session->data['redirect'] = $this->url->link('account/affiliate', 'language=' . $this->config->get('config_language'));
+			$this->session->data['redirect'] = $this->url->link('account/affiliate');
 
-			$this->response->redirect($this->url->link('account/login', 'language=' . $this->config->get('config_language')));
+			$this->response->redirect($this->url->link('account/login'));
 		}
 
 		$this->document->setTitle($this->language->get('heading_title'));
 
 		$datab['error_upload_size'] = sprintf($this->language->get('error_upload_size'), $this->config->get('config_file_max_size'));
 
-		$datab['config_file_max_size'] = ((int)$this->config->get('config_file_max_size') * 1024 * 1024);
+		$datab['config_file_max_size'] = ((int) $this->config->get('config_file_max_size') * 1024 * 1024);
 
 		$datab['breadcrumbs'] = [];
 
 		$datab['breadcrumbs'][] = [
 			'text' => $this->language->get('text_home'),
-			'href' => $this->url->link('common/home', 'language=' . $this->config->get('config_language'))
+			'href' => $this->url->link('common/home')
 		];
 
 		$datab['breadcrumbs'][] = [
 			'text' => $this->language->get('text_account'),
-			'href' => $this->url->link('account/account', 'language=' . $this->config->get('config_language') . '&customer_token=' . $this->session->data['customer_token'])
+			'href' => $this->url->link('account/account')
 		];
 
 		$datab['breadcrumbs'][] = [
 			'text' => $this->language->get('text_affiliate'),
-			'href' => $this->url->link('account/affiliate', 'language=' . $this->config->get('config_language') . '&customer_token=' . $this->session->data['customer_token'])
+			'href' => $this->url->link('account/affiliate')
 		];
 		$data['breadcrumb'] = $this->load->view('common/breadcrumb', $datab);
-		$data['save'] = $this->url->link('account/affiliate.save', 'language=' . $this->config->get('config_language') . '&customer_token=' . $this->session->data['customer_token']);
-		$data['upload'] = $this->url->link('tool/upload', 'language=' . $this->config->get('config_language'));
+		$data['save'] = $this->url->link('account/affiliate.save');
+		$data['upload'] = $this->url->link('tool/upload');
 
 		$this->load->model('account/affiliate');
 
@@ -119,7 +120,7 @@ class Affiliate extends \Ventocart\System\Engine\Controller {
 		// Custom Fields
 		$this->load->model('account/custom_field');
 
-		$custom_fields = $this->model_account_custom_field->getCustomFields((int)$this->config->get('config_customer_group_id'));
+		$custom_fields = $this->model_account_custom_field->getCustomFields((int) $this->config->get('config_customer_group_id'));
 
 		foreach ($custom_fields as $custom_field) {
 			if ($custom_field['location'] == 'affiliate') {
@@ -141,7 +142,7 @@ class Affiliate extends \Ventocart\System\Engine\Controller {
 			$information_info = $this->model_catalog_information->getInformation($this->config->get('config_affiliate_id'));
 
 			if ($information_info) {
-				$data['text_agree'] = sprintf($this->language->get('text_agree'), $this->url->link('information/information.info', 'language=' . $this->config->get('config_language') . '&information_id=' . $this->config->get('config_affiliate_id')), $information_info['title']);
+				$data['text_agree'] = sprintf($this->language->get('text_agree'), $this->url->link('information/information.info' . '&information_id=' . $this->config->get('config_affiliate_id')), $information_info['title']);
 			} else {
 				$data['text_agree'] = '';
 			}
@@ -149,7 +150,7 @@ class Affiliate extends \Ventocart\System\Engine\Controller {
 			$data['text_agree'] = '';
 		}
 
-		$data['back'] = $this->url->link('account/account', 'language=' . $this->config->get('config_language') . '&customer_token=' . $this->session->data['customer_token']);
+		$data['back'] = $this->url->link('account/account');
 
 		$data['language'] = $this->config->get('config_language');
 
@@ -166,19 +167,20 @@ class Affiliate extends \Ventocart\System\Engine\Controller {
 	/**
 	 * @return void
 	 */
-	public function save(): void {
+	public function save(): void
+	{
 		$this->load->language('account/affiliate');
 
 		$json = [];
 
-		if (!$this->customer->isLogged() || (!isset($this->request->get['customer_token']) || !isset($this->session->data['customer_token']) || ($this->request->get['customer_token'] != $this->session->data['customer_token']))) {
-			$this->session->data['redirect'] = $this->url->link('account/affiliate', 'language=' . $this->config->get('config_language'));
+		if (!$this->customer->isLogged()) {
+			$this->session->data['redirect'] = $this->url->link('account/affiliate');
 
-			$json['redirect'] = $this->url->link('account/login', 'language=' . $this->config->get('config_language'), true);
+			$json['redirect'] = $this->url->link('account/login', true);
 		}
 
 		if (!$this->config->get('config_affiliate_status')) {
-			$json['redirect'] = $this->url->link('account/account', 'language=' . $this->config->get('config_language') . '&customer_token=' . $this->session->data['customer_token'], true);
+			$json['redirect'] = $this->url->link('account/account', true);
 		}
 
 		$keys = [
@@ -219,7 +221,7 @@ class Affiliate extends \Ventocart\System\Engine\Controller {
 			// Custom field validation
 			$this->load->model('account/custom_field');
 
-			$custom_fields = $this->model_account_custom_field->getCustomFields((int)$this->config->get('config_customer_group_id'));
+			$custom_fields = $this->model_account_custom_field->getCustomFields((int) $this->config->get('config_customer_group_id'));
 
 			foreach ($custom_fields as $custom_field) {
 				if ($custom_field['location'] == 'affiliate') {
@@ -256,7 +258,7 @@ class Affiliate extends \Ventocart\System\Engine\Controller {
 
 			$this->session->data['success'] = $this->language->get('text_success');
 
-			$json['redirect'] = $this->url->link('account/account', 'language=' . $this->config->get('config_language') . '&customer_token=' . $this->session->data['customer_token'], true);
+			$json['redirect'] = $this->url->link('account/account', true);
 		}
 
 		$this->response->addHeader('Content-Type: application/json');

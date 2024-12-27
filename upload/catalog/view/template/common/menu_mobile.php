@@ -48,7 +48,6 @@
                             <?php else: ?>
                                 <a href="<?= $account ?>" class="d-block"><?= $this->e($text_account) ?></a>
                                 <a href="<?= $order ?>" class="d-block"><?= $this->e($text_order) ?></a>
-                                <a href="<?= $transaction ?>" class="d-block"><?= $this->e($text_transaction) ?></a>
                                 <a href="<?= $download ?>" class="d-block"><?= $this->e($text_download) ?></a>
                                 <a href="<?= $logout ?>" class="d-block"><?= $this->e($text_logout) ?></a>
                             <?php endif; ?>

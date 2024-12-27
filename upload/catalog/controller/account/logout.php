@@ -37,7 +37,7 @@ class Logout extends \Ventocart\System\Engine\Controller
 
 			unset($this->session->data['customer_token']);
 
-			$this->response->redirect($this->url->link('account/logout', 'language=' . $this->config->get('config_language')));
+			$this->response->redirect($this->url->link('account/logout'));
 		}
 
 
@@ -48,20 +48,20 @@ class Logout extends \Ventocart\System\Engine\Controller
 
 		$datab['breadcrumbs'][] = [
 			'text' => $this->language->get('text_home'),
-			'href' => $this->url->link('common/home', 'language=' . $this->config->get('config_language'))
+			'href' => $this->url->link('common/home')
 		];
 
 		$datab['breadcrumbs'][] = [
 			'text' => $this->language->get('text_account'),
-			'href' => $this->url->link('account/account', 'language=' . $this->config->get('config_language'))
+			'href' => $this->url->link('account/account')
 		];
 
 		$datab['breadcrumbs'][] = [
 			'text' => $this->language->get('text_logout'),
-			'href' => $this->url->link('account/logout', 'language=' . $this->config->get('config_language'))
+			'href' => $this->url->link('account/logout')
 		];
 		$data['breadcrumb'] = $this->load->view('common/breadcrumb', $datab);
-		$data['continue'] = $this->url->link('common/home', 'language=' . $this->config->get('config_language'));
+		$data['continue'] = $this->url->link('common/home');
 
 		$data['column_left'] = $this->load->controller('common/column_left');
 		$data['column_right'] = $this->load->controller('common/column_right');

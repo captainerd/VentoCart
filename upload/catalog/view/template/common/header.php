@@ -111,7 +111,7 @@
   <div class="modal fade" id="quickViewModal" style=" transform: scale(0.7);" tabindex="-1"
     aria-labelledby="quickViewModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
-      <div class="modal-content">
+      <div class="modal-content modal-content-quckview">
 
 
 

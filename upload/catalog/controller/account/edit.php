@@ -5,17 +5,19 @@ namespace Ventocart\Catalog\Controller\Account;
  *
  * @package Ventocart\Catalog\Controller\Account
  */
-class Edit extends \Ventocart\System\Engine\Controller {
+class Edit extends \Ventocart\System\Engine\Controller
+{
 	/**
 	 * @return void
 	 */
-	public function index(): void {
+	public function index(): void
+	{
 		$this->load->language('account/edit');
 
-		if (!$this->customer->isLogged() || (!isset($this->request->get['customer_token']) || !isset($this->session->data['customer_token']) || ($this->request->get['customer_token'] != $this->session->data['customer_token']))) {
-			$this->session->data['redirect'] = $this->url->link('account/edit', 'language=' . $this->config->get('config_language'));
+		if (!$this->customer->isLogged()) {
+			$this->session->data['redirect'] = $this->url->link('account/edit');
 
-			$this->response->redirect($this->url->link('account/login', 'language=' . $this->config->get('config_language')));
+			$this->response->redirect($this->url->link('account/login'));
 		}
 
 		$this->document->setTitle($this->language->get('heading_title'));
@@ -24,27 +26,27 @@ class Edit extends \Ventocart\System\Engine\Controller {
 
 		$datab['breadcrumbs'][] = [
 			'text' => $this->language->get('text_home'),
-			'href' => $this->url->link('common/home', 'language=' . $this->config->get('config_language'))
+			'href' => $this->url->link('common/home')
 		];
 
 		$datab['breadcrumbs'][] = [
 			'text' => $this->language->get('text_account'),
-			'href' => $this->url->link('account/account', 'language=' . $this->config->get('config_language') . '&customer_token=' . $this->session->data['customer_token'])
+			'href' => $this->url->link('account/account')
 		];
 
 		$datab['breadcrumbs'][] = [
 			'text' => $this->language->get('text_edit'),
-			'href' => $this->url->link('account/edit', 'language=' . $this->config->get('config_language') . '&customer_token=' . $this->session->data['customer_token'])
+			'href' => $this->url->link('account/edit')
 		];
 		$data['breadcrumb'] = $this->load->view('common/breadcrumb', $datab);
 		$data['error_upload_size'] = sprintf($this->language->get('error_upload_size'), $this->config->get('config_file_max_size'));
 
-		$data['config_file_max_size'] = ((int)$this->config->get('config_file_max_size') * 1024 * 1024);
+		$data['config_file_max_size'] = ((int) $this->config->get('config_file_max_size') * 1024 * 1024);
 		$data['config_telephone_display'] = $this->config->get('config_telephone_display');
 		$data['config_telephone_required'] = $this->config->get('config_telephone_required');
 
-		$data['save'] = $this->url->link('account/edit.save', 'language=' . $this->config->get('config_language') . '&customer_token=' . $this->session->data['customer_token']);
-		$data['upload'] = $this->url->link('tool/upload', 'language=' . $this->config->get('config_language'));
+		$data['save'] = $this->url->link('account/edit.save');
+		$data['upload'] = $this->url->link('tool/upload');
 
 		$this->load->model('account/customer');
 
@@ -74,7 +76,7 @@ class Edit extends \Ventocart\System\Engine\Controller {
 			$data['account_custom_field'] = [];
 		}
 
-		$data['back'] = $this->url->link('account/account', 'language=' . $this->config->get('config_language') . '&customer_token=' . $this->session->data['customer_token']);
+		$data['back'] = $this->url->link('account/account');
 
 		$data['language'] = $this->config->get('config_language');
 
@@ -91,15 +93,16 @@ class Edit extends \Ventocart\System\Engine\Controller {
 	/**
 	 * @return void
 	 */
-	public function save(): void {
+	public function save(): void
+	{
 		$this->load->language('account/edit');
 
 		$json = [];
 
-		if (!$this->customer->isLogged() || (!isset($this->request->get['customer_token']) || !isset($this->session->data['customer_token']) || ($this->request->get['customer_token'] != $this->session->data['customer_token']))) {
-			$this->session->data['redirect'] = $this->url->link('account/edit', 'language=' . $this->config->get('config_language'));
+		if (!$this->customer->isLogged()) {
+			$this->session->data['redirect'] = $this->url->link('account/edit');
 
-			$json['redirect'] = $this->url->link('account/login', 'language=' . $this->config->get('config_language'), true);
+			$json['redirect'] = $this->url->link('account/login', true);
 		}
 
 		if (!$json) {
@@ -162,13 +165,13 @@ class Edit extends \Ventocart\System\Engine\Controller {
 
 			// Update customer session details
 			$this->session->data['customer'] = [
-				'customer_id'       => $this->customer->getId(),
+				'customer_id' => $this->customer->getId(),
 				'customer_group_id' => $this->customer->getGroupId(),
-				'firstname'         => $this->request->post['firstname'],
-				'lastname'          => $this->request->post['lastname'],
-				'email'             => $this->request->post['email'],
-				'telephone'         => $this->request->post['telephone'],
-				'custom_field'      => isset($this->request->post['custom_field']) ? $this->request->post['custom_field'] : []
+				'firstname' => $this->request->post['firstname'],
+				'lastname' => $this->request->post['lastname'],
+				'email' => $this->request->post['email'],
+				'telephone' => $this->request->post['telephone'],
+				'custom_field' => isset($this->request->post['custom_field']) ? $this->request->post['custom_field'] : []
 			];
 
 			unset($this->session->data['shipping_method']);
@@ -176,7 +179,7 @@ class Edit extends \Ventocart\System\Engine\Controller {
 			unset($this->session->data['payment_method']);
 			unset($this->session->data['payment_methods']);
 
-			$json['redirect'] = $this->url->link('account/account', 'language=' . $this->config->get('config_language') . '&customer_token=' . $this->session->data['customer_token'], true);
+			$json['redirect'] = $this->url->link('account/account', true);
 		}
 
 		$this->response->addHeader('Content-Type: application/json');

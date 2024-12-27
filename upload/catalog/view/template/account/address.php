@@ -1,25 +1,28 @@
-<?=  $header    ?>
+<?= $header ?>
 <div id="account-address" class="container">
-<?=  $breadcrumb  ?>
+  <?= $breadcrumb ?>
   <?php if ($success): ?>
-    <div class="alert alert-success alert-dismissible"><i class="fa-solid fa-circle-check"></i> <?= $this->e($success ) ?></div>
+    <div class="alert alert-success alert-dismissible"><i class="fa-solid fa-circle-check"></i> <?= $this->e($success) ?>
+    </div>
   <?php endif; ?>
-  <div class="row"><?=  $column_left  ?>
-    <div id="content" class="col"><?=  $content_top  ?>
-      <h1><?= $this->e($text_address_book ) ?></h1>
-      <div id="address"><?=  $list   ?></div>
+  <div class="row"><?= $column_left ?>
+    <div id="content" class="col  p-3 bg-white border"><?= $content_top ?>
+      <h1><?= $this->e($text_address_book) ?></h1>
+      <div id="address"><?= $list ?></div>
       <div class="row">
         <div class="col">
-          <a href="<?= $back   ?>" class="btn btn-light"><?= $this->e($button_back ) ?></a>
+          <a href="<?= $back ?>" class="btn btn-light"><?= $this->e($button_back) ?></a>
         </div>
         <div class="col text-end">
-          <a href="<?=  $add   ?>" class="btn btn-primary"><?= $this->e($button_new_address ) ?></a>
+          <a href="<?= $add ?>" class="btn btn-primary"><?= $this->e($button_new_address) ?></a>
         </div>
       </div>
-      <?=  $content_bottom  ?></div>
-    <?=  $column_right  ?></div>
+      <?= $content_bottom ?>
+    </div>
+    <?= $column_right ?>
+  </div>
 </div>
-<script ><!--
+<script><!--
 $('#address').on('click', '.btn-danger', function (e) {
     e.preventDefault();
 
@@ -46,13 +49,13 @@ $('#address').on('click', '.btn-danger', function (e) {
             if (json['success']) {
                 $('#address').before('<div class="alert alert-success alert-dismissible"><i class="fa-solid fa-circle-check"></i> ' + json['success'] + ' <button type="button" class="btn-close" data-bs-dismiss="alert"></button></div>');
 
-                $('#address').load('index.php?route=account/address.list&language=<?= $this->e($language ) ?>&customer_token=<?=  $customer_token   ?>');
+                $('#address').load('index.php?route=account/address.list&language=<?= $this->e($language) ?>& customer_token=<?= $customer_token ?>');
             }
         },
-        error: function (xhr, ajaxOptions, thrownError) {
-            //x console.log(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
-        }
+  error: function (xhr, ajaxOptions, thrownError) {
+    //x console.log(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+  }
     });
 });
-//--></script>
-<?=  $footer  ?>
+  //--></script>
+<?= $footer ?>

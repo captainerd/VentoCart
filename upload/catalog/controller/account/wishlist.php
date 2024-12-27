@@ -14,10 +14,10 @@ class WishList extends \Ventocart\System\Engine\Controller
 	{
 		$this->load->language('account/wishlist');
 
-		if (!$this->customer->isLogged() || (!isset($this->request->get['customer_token']) || !isset($this->session->data['customer_token']) || ($this->request->get['customer_token'] != $this->session->data['customer_token']))) {
-			$this->session->data['redirect'] = $this->url->link('account/wishlist', 'language=' . $this->config->get('config_language'));
+		if (!$this->customer->isLogged()) {
+			$this->session->data['redirect'] = $this->url->link('account/wishlist');
 
-			$this->response->redirect($this->url->link('account/login', 'language=' . $this->config->get('config_language')));
+			$this->response->redirect($this->url->link('account/login'));
 		}
 
 		$this->document->setTitle($this->language->get('heading_title'));
@@ -26,17 +26,17 @@ class WishList extends \Ventocart\System\Engine\Controller
 
 		$datab['breadcrumbs'][] = [
 			'text' => $this->language->get('text_home'),
-			'href' => $this->url->link('common/home', 'language=' . $this->config->get('config_language'))
+			'href' => $this->url->link('common/home')
 		];
 
 		$datab['breadcrumbs'][] = [
 			'text' => $this->language->get('text_account'),
-			'href' => $this->url->link('account/account', 'language=' . $this->config->get('config_language') . (isset($this->session->data['customer_token']) ? '&customer_token=' . $this->session->data['customer_token'] : ''))
+			'href' => $this->url->link('account/account')
 		];
 
 		$datab['breadcrumbs'][] = [
 			'text' => $this->language->get('heading_title'),
-			'href' => $this->url->link('account/wishlist', 'language=' . $this->config->get('config_language') . (isset($this->session->data['customer_token']) ? '&customer_token=' . $this->session->data['customer_token'] : ''))
+			'href' => $this->url->link('account/wishlist')
 		];
 		$data['breadcrumb'] = $this->load->view('common/breadcrumb', $datab);
 		if (isset($this->session->data['success'])) {
@@ -49,7 +49,7 @@ class WishList extends \Ventocart\System\Engine\Controller
 
 		$data['list'] = $this->load->controller('account/wishlist.getList');
 
-		$data['continue'] = $this->url->link('account/account', 'language=' . $this->config->get('config_language') . (isset($this->session->data['customer_token']) ? '&customer_token=' . $this->session->data['customer_token'] : ''));
+		$data['continue'] = $this->url->link('account/account');
 
 		$data['column_left'] = $this->load->controller('common/column_left');
 		$data['column_right'] = $this->load->controller('common/column_right');
@@ -76,9 +76,9 @@ class WishList extends \Ventocart\System\Engine\Controller
 	 */
 	public function getList(): string
 	{
-		$data['wishlist'] = $this->url->link('account/wishlist.list', 'language=' . $this->config->get('config_language') . (isset($this->session->data['customer_token']) ? '&customer_token=' . $this->session->data['customer_token'] : ''));
-		$data['add_to_cart'] = $this->url->link('checkout/cart.add', 'language=' . $this->config->get('config_language'));
-		$data['remove'] = $this->url->link('account/wishlist.remove', 'language=' . $this->config->get('config_language') . (isset($this->session->data['customer_token']) ? '&customer_token=' . $this->session->data['customer_token'] : ''));
+		$data['wishlist'] = $this->url->link('account/wishlist.list');
+		$data['add_to_cart'] = $this->url->link('checkout/cart.add');
+		$data['remove'] = $this->url->link('account/wishlist.remove');
 
 		$data['products'] = [];
 
@@ -135,7 +135,7 @@ class WishList extends \Ventocart\System\Engine\Controller
 					'price' => $price,
 					'special' => $special,
 					'minimum' => $product_info['minimum'] > 0 ? $product_info['minimum'] : 1,
-					'href' => $this->url->link('product/product', 'language=' . $this->config->get('config_language') . '&product_id=' . $product_info['product_id'])
+					'href' => $this->url->link('product/product', 'product_id=' . $product_info['product_id'])
 				];
 			} else {
 				$this->model_account_wishlist->deleteWishlist($result['product_id']);
@@ -184,11 +184,11 @@ class WishList extends \Ventocart\System\Engine\Controller
 
 				$this->model_account_wishlist->addWishlist($product_id);
 
-				$json['success'] = sprintf($this->language->get('text_success'), $this->url->link('product/product', 'language=' . $this->config->get('config_language') . '&product_id=' . $product_id), $product_info['name'], $this->url->link('account/wishlist', 'language=' . $this->config->get('config_language') . (isset($this->session->data['customer_token']) ? '&customer_token=' . $this->session->data['customer_token'] : '')));
+				$json['success'] = sprintf($this->language->get('text_success'), $this->url->link('product/product', 'product_id=' . $product_id), $product_info['name'], $this->url->link('account/wishlist'));
 
 				$json['total'] = sprintf($this->language->get('text_wishlist'), $this->model_account_wishlist->getTotalWishlist());
 			} else {
-				$json['success'] = sprintf($this->language->get('text_login'), $this->url->link('account/login', 'language=' . $this->config->get('config_language')), $this->url->link('account/register', 'language=' . $this->config->get('config_language')), $this->url->link('product/product', 'language=' . $this->config->get('config_language') . '&product_id=' . (int) $product_id), $product_info['name'], $this->url->link('account/wishlist', 'language=' . $this->config->get('config_language') . (isset($this->session->data['customer_token']) ? '&customer_token=' . $this->session->data['customer_token'] : '')));
+				$json['success'] = sprintf($this->language->get('text_login'), $this->url->link('account/login'), $this->url->link('account/register'), $this->url->link('product/product', 'product_id=' . (int) $product_id), $product_info['name'], $this->url->link('account/wishlist'));
 
 				$json['total'] = sprintf($this->language->get('text_wishlist'), (isset($this->session->data['wishlist']) ? count($this->session->data['wishlist']) : 0));
 			}

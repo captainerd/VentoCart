@@ -5,11 +5,13 @@ namespace Ventocart\Catalog\Controller\Information;
  *
  * @package Ventocart\Catalog\Controller\Information
  */
-class Gdpr extends \Ventocart\System\Engine\Controller {
+class Gdpr extends \Ventocart\System\Engine\Controller
+{
 	/**
 	 * @return object|\Ventocart\System\Engine\Action|null
 	 */
-	public function index(): ?object {
+	public function index(): ?object
+	{
 		$this->load->model('catalog/information');
 
 		$information_info = $this->model_catalog_information->getInformation($this->config->get('config_gdpr_id'));
@@ -23,25 +25,25 @@ class Gdpr extends \Ventocart\System\Engine\Controller {
 
 			$datab['breadcrumbs'][] = [
 				'text' => $this->language->get('text_home'),
-				'href' => $this->url->link('common/home', 'language=' . $this->config->get('config_language'))
+				'href' => $this->url->link('common/home')
 			];
 
 			$datab['breadcrumbs'][] = [
 				'text' => $this->language->get('heading_title'),
-				'href' => $this->url->link('information/gdpr', 'language=' . $this->config->get('config_language'))
+				'href' => $this->url->link('information/gdpr')
 			];
 			$data['breadcrumb'] = $this->load->view('common/breadcrumb', $datab);
-			$data['action'] = $this->url->link('information/gdpr.action', 'language=' . $this->config->get('config_language'));
+			$data['action'] = $this->url->link('information/gdpr.action');
 
 			$data['title'] = $information_info['title'];
 
-			$data['gdpr'] = $this->url->link('information/information', 'language=' . $this->config->get('config_language') . '&information_id=' . $information_info['information_id']);
+			$data['gdpr'] = $this->url->link('information/information', 'information_id=' . $information_info['information_id']);
 
 			$data['email'] = $this->customer->getEmail();
 			$data['store'] = $this->config->get('config_name');
 			$data['limit'] = $this->config->get('config_gdpr_limit');
 
-			$data['cancel'] = $this->url->link('account/account', 'language=' . $this->config->get('config_language'));
+			$data['cancel'] = $this->url->link('account/account');
 
 			$data['column_left'] = $this->load->controller('common/column_left');
 			$data['column_right'] = $this->load->controller('common/column_right');
@@ -80,11 +82,12 @@ class Gdpr extends \Ventocart\System\Engine\Controller {
 	 *	pending    = 1
 	 *	processing = 2
 	 *	denied     = -1
-	*/
+	 */
 	/**
 	 * @return void
 	 */
-	public function action(): void {
+	public function action(): void
+	{
 		$this->load->language('information/gdpr');
 
 		$json = [];
@@ -146,9 +149,10 @@ class Gdpr extends \Ventocart\System\Engine\Controller {
 	/**
 	 * @return object|\Ventocart\System\Engine\Action|null
 	 */
-	public function success(): ?object {
+	public function success(): ?object
+	{
 		if (isset($this->request->get['code'])) {
-			$code = (string)$this->request->get['code'];
+			$code = (string) $this->request->get['code'];
 		} else {
 			$code = '';
 		}
@@ -166,17 +170,17 @@ class Gdpr extends \Ventocart\System\Engine\Controller {
 
 			$datab['breadcrumbs'][] = [
 				'text' => $this->language->get('text_home'),
-				'href' => $this->url->link('common/home', 'language=' . $this->config->get('config_language'))
+				'href' => $this->url->link('common/home')
 			];
 
 			$datab['breadcrumbs'][] = [
 				'text' => $this->language->get('text_account'),
-				'href' => $this->url->link('information/gdpr', 'language=' . $this->config->get('config_language'))
+				'href' => $this->url->link('information/gdpr')
 			];
 
 			$datab['breadcrumbs'][] = [
 				'text' => $this->language->get('heading_title'),
-				'href' => $this->url->link('information/gdpr.success', 'language=' . $this->config->get('config_language'))
+				'href' => $this->url->link('information/gdpr.success')
 			];
 			$data['breadcrumb'] = $this->load->view('common/breadcrumb', $datab);
 			if ($gdpr_info['status'] == 0) {

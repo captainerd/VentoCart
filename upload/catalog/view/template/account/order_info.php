@@ -3,7 +3,7 @@
     <?= $breadcrumb ?>
     <div class="row">
         <?= $column_left ?>
-        <div id="content" class="col">
+        <div id="content" class="col p-3 bg-white border ">
             <?= $content_top ?>
             <h1 class="mb-4"><?= $this->e($heading_title) ?></h1>
             <div class="row  m-4 mb-4">

@@ -1,6 +1,6 @@
 <div id="redeem-container">
     <!-- Redeem Form -->
-    <div id="redeem-form" style="max-width: 370px;" class="mb-4 p-3 border rounded bg-light">
+    <div id="redeem-form" style="max-width: 370px;" class="mb-4 p-3 shadow border rounded bg-light">
         <label for="redeem-card" class="form-label fw-bold">
             <?= $entry_redeem_code ?>: <div style="display: none;"
                 class="spinner-border redeem-spinner  spinner-border-sm" role="status">

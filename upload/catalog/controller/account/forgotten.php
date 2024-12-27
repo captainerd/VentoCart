@@ -5,15 +5,17 @@ namespace Ventocart\Catalog\Controller\Account;
  *
  * @package Ventocart\Catalog\Controller\Account
  */
-class Forgotten extends \Ventocart\System\Engine\Controller {
+class Forgotten extends \Ventocart\System\Engine\Controller
+{
 	/**
 	 * @return void
 	 */
-	public function index(): void {
+	public function index(): void
+	{
 		$this->load->language('account/forgotten');
 
 		if ($this->customer->isLogged()) {
-			$this->response->redirect($this->url->link('account/account', 'language=' . $this->config->get('config_language') . '&customer_token=' . $this->session->data['customer_token']));
+			$this->response->redirect($this->url->link('account/account'));
 		}
 
 		$this->document->setTitle($this->language->get('heading_title'));
@@ -22,22 +24,22 @@ class Forgotten extends \Ventocart\System\Engine\Controller {
 
 		$datab['breadcrumbs'][] = [
 			'text' => $this->language->get('text_home'),
-			'href' => $this->url->link('common/home', 'language=' . $this->config->get('config_language'))
+			'href' => $this->url->link('common/home')
 		];
 
 		$datab['breadcrumbs'][] = [
 			'text' => $this->language->get('text_account'),
-			'href' => $this->url->link('account/account', 'language=' . $this->config->get('config_language'))
+			'href' => $this->url->link('account/account')
 		];
 
 		$datab['breadcrumbs'][] = [
 			'text' => $this->language->get('text_forgotten'),
-			'href' => $this->url->link('account/forgotten', 'language=' . $this->config->get('config_language'))
+			'href' => $this->url->link('account/forgotten')
 		];
 		$data['breadcrumb'] = $this->load->view('common/breadcrumb', $datab);
-		$data['confirm'] = $this->url->link('account/forgotten.confirm', 'language=' . $this->config->get('config_language'));
+		$data['confirm'] = $this->url->link('account/forgotten.confirm');
 
-		$data['back'] = $this->url->link('account/login', 'language=' . $this->config->get('config_language'));
+		$data['back'] = $this->url->link('account/login');
 
 		$data['column_left'] = $this->load->controller('common/column_left');
 		$data['column_right'] = $this->load->controller('common/column_right');
@@ -52,13 +54,14 @@ class Forgotten extends \Ventocart\System\Engine\Controller {
 	/**
 	 * @return void
 	 */
-	public function confirm(): void {
+	public function confirm(): void
+	{
 		$this->load->language('account/forgotten');
 
 		$json = [];
 
 		if ($this->customer->isLogged()) {
-			$json['redirect'] = $this->url->link('account/account', 'language=' . $this->config->get('config_language') . '&customer_token=' . $this->session->data['customer_token'], true);
+			$json['redirect'] = $this->url->link('account/account', true);
 		}
 
 		if (!$json) {
@@ -84,7 +87,7 @@ class Forgotten extends \Ventocart\System\Engine\Controller {
 
 			$this->session->data['success'] = $this->language->get('text_success');
 
-			$json['redirect'] = $this->url->link('account/login', 'language=' . $this->config->get('config_language'), true);
+			$json['redirect'] = $this->url->link('account/login', true);
 		}
 
 		$this->response->addHeader('Content-Type: application/json');
@@ -94,23 +97,26 @@ class Forgotten extends \Ventocart\System\Engine\Controller {
 	/**
 	 * @return void
 	 */
-	public function reset(): void {
+	public function reset(): void
+	{
+
+
 		$this->load->language('account/forgotten');
 
 		if (isset($this->request->get['email'])) {
-			$email = (string)$this->request->get['email'];
+			$email = (string) $this->request->get['email'];
 		} else {
 			$email = '';
 		}
 
 		if (isset($this->request->get['code'])) {
-			$code = (string)$this->request->get['code'];
+			$code = (string) $this->request->get['code'];
 		} else {
 			$code = '';
 		}
 
 		if ($this->customer->isLogged()) {
-			$this->response->redirect($this->url->link('account/account', 'language=' . $this->config->get('config_language') . '&customer_token=' . $this->session->data['customer_token']));
+			$this->response->redirect($this->url->link('account/account'));
 		}
 
 		$this->load->model('account/customer');
@@ -122,7 +128,7 @@ class Forgotten extends \Ventocart\System\Engine\Controller {
 
 			$this->session->data['error'] = $this->language->get('error_code');
 
-			$this->response->redirect($this->url->link('account/login', 'language=' . $this->config->get('config_language')));
+			$this->response->redirect($this->url->link('account/login'));
 		}
 
 		$this->document->setTitle($this->language->get('heading_reset'));
@@ -131,23 +137,23 @@ class Forgotten extends \Ventocart\System\Engine\Controller {
 
 		$datab['breadcrumbs'][] = [
 			'text' => $this->language->get('text_home'),
-			'href' => $this->url->link('common/home', 'language=' . $this->config->get('config_language'))
+			'href' => $this->url->link('common/home')
 		];
 
 		$datab['breadcrumbs'][] = [
 			'text' => $this->language->get('text_account'),
-			'href' => $this->url->link('account/account', 'language=' . $this->config->get('config_language'))
+			'href' => $this->url->link('account/account')
 		];
 
 		$datab['breadcrumbs'][] = [
 			'text' => $this->language->get('heading_title'),
-			'href' => $this->url->link('account/forgotten.reset', 'language=' . $this->config->get('config_language'))
+			'href' => $this->url->link('account/forgotten.reset')
 		];
 		$data['breadcrumb'] = $this->load->view('common/breadcrumb', $datab);
 		$this->session->data['reset_token'] = substr(bin2hex(openssl_random_pseudo_bytes(26)), 0, 26);
 
-		$data['save'] = $this->url->link('account/forgotten.password', 'language=' . $this->config->get('config_language') . '&email=' . urlencode($email) . '&code=' . $code . '&reset_token=' . $this->session->data['reset_token']);
-		$data['back'] = $this->url->link('account/login', 'language=' . $this->config->get('config_language'));
+		$data['save'] = $this->url->link('account/forgotten.password' . '&email=' . urlencode($email) . '&code=' . $code . '&reset_token=' . $this->session->data['reset_token']);
+		$data['back'] = $this->url->link('account/login');
 
 		$data['column_left'] = $this->load->controller('common/column_left');
 		$data['column_right'] = $this->load->controller('common/column_right');
@@ -156,37 +162,39 @@ class Forgotten extends \Ventocart\System\Engine\Controller {
 		$data['footer'] = $this->load->controller('common/footer');
 		$data['header'] = $this->load->controller('common/header');
 
+
 		$this->response->setOutput($this->load->view('account/forgotten_reset', $data));
 	}
 
 	/**
 	 * @return void
 	 */
-	public function password(): void {
+	public function password(): void
+	{
 		$this->load->language('account/forgotten');
 
 		$json = [];
 
 		if (isset($this->request->get['email'])) {
-			$email = (string)$this->request->get['email'];
+			$email = (string) $this->request->get['email'];
 		} else {
 			$email = '';
 		}
 
 		if (isset($this->request->get['code'])) {
-			$code = (string)$this->request->get['code'];
+			$code = (string) $this->request->get['code'];
 		} else {
 			$code = '';
 		}
 
 		if ($this->customer->isLogged()) {
-			$json['redirect'] = $this->url->link('account/account', 'language=' . $this->config->get('config_language') . '&customer_token=' . $this->session->data['customer_token'], true);
+			$json['redirect'] = $this->url->link('account/account', true);
 		}
 
 		if (!isset($this->request->get['reset_token']) || !isset($this->session->data['reset_token']) || ($this->request->get['reset_token'] != $this->session->data['reset_token'])) {
 			$this->session->data['error'] = $this->language->get('error_session');
 
-			$json['redirect'] = $this->url->link('account/forgotten', 'language=' . $this->config->get('config_language'), true);
+			$json['redirect'] = $this->url->link('account/forgotten', true);
 		}
 
 		$this->load->model('account/customer');
@@ -199,7 +207,7 @@ class Forgotten extends \Ventocart\System\Engine\Controller {
 
 			$this->session->data['error'] = $this->language->get('error_code');
 
-			$json['redirect'] = $this->url->link('account/forgotten', 'language=' . $this->config->get('config_language'), true);
+			$json['redirect'] = $this->url->link('account/forgotten', true);
 		}
 
 		if (!$json) {
@@ -226,11 +234,11 @@ class Forgotten extends \Ventocart\System\Engine\Controller {
 		if (!$json) {
 			$this->model_account_customer->editPassword($customer_info['email'], $this->request->post['password']);
 
-			$this->session->data['success'] = $this->language->get('text_success');
+			$this->session->data['success'] = $this->language->get('text_success_last');
 
 			unset($this->session->data['reset_token']);
 
-			$json['redirect'] = $this->url->link('account/login', 'language=' . $this->config->get('config_language'), true);
+			$json['redirect'] = $this->url->link('account/login', true);
 		}
 
 		$this->response->addHeader('Content-Type: application/json');

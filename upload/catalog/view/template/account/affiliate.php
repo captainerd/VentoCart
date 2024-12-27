@@ -2,7 +2,7 @@
 <div id="account-affiliate" class="container">
 <?=  $breadcrumb  ?>
   <div class="row"><?=  $column_left  ?>
-    <div id="content" class="col"><?=  $content_top  ?>
+    <div id="content" class="col  p-3 bg-white border"><?=  $content_top  ?>
       <h1><?= $this->e($heading_title ) ?></h1>
       <form id="form-affiliate" action="<?=  $save   ?>" method="post" data-oc-toggle="ajax">
 

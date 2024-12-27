@@ -197,7 +197,8 @@ class Language extends \Ventocart\System\Engine\Controller
 
 	/**
 	 * @return void
-	 */public function saveTranslation(): void
+	 */
+	public function saveTranslation(): void
 	{
 		if (!isset($this->request->post['file']) || !isset($this->request->post['content'])) {
 			return;
@@ -256,7 +257,7 @@ class Language extends \Ventocart\System\Engine\Controller
 
 		try {
 			ob_start();
-			$result = eval($codeToCheck);
+			$result = eval ($codeToCheck);
 			ob_end_clean();
 
 			if ($result === false) {
@@ -411,35 +412,35 @@ class Language extends \Ventocart\System\Engine\Controller
 					$pattern = '/^\$\\*file\\*=(.+)/';
 					if (preg_match($pattern, $line, $matches)) {
 						$file = DIR_VENTOCART . trim($matches[1]);
-					 
-						 
-						 
-							if (file_exists($previousfile)) {
-								// Check for missing keys in the user's content
-								$defaultContent = file_get_contents(str_replace($langCode, "/en-gb/", $previousfile));
-								$keysDefault = $this->extractTranslations($defaultContent);
-								$keysUser = $this->extractTranslations($newcontent);
-								 
-								// Iterate through the keys of the first array
-								foreach ($keysDefault as $key => $value) {
-									 
-									// Check if the key exists in the second array
-									if (!array_key_exists($key, $keysUser)) {
-										 
-										// Insert the missing key-value pair
-										$newcontent .= "\n" . '$' . "_['" . $key . "'] = '" . $value . "';\n";
-									}
+
+
+
+						if (file_exists($previousfile)) {
+							// Check for missing keys in the user's content
+							$defaultContent = file_get_contents(str_replace($langCode, "/en-gb/", $previousfile));
+							$keysDefault = $this->extractTranslations($defaultContent);
+							$keysUser = $this->extractTranslations($newcontent);
+
+							// Iterate through the keys of the first array
+							foreach ($keysDefault as $key => $value) {
+
+								// Check if the key exists in the second array
+								if (!array_key_exists($key, $keysUser)) {
+
+									// Insert the missing key-value pair
+									$newcontent .= "\n" . '$' . "_['" . $key . "'] = '" . $value . "';\n";
 								}
-								// Save the new content to the file
-								$success = file_put_contents($previousfile, "<?php\n" . $newcontent . "\n?>");
-								if ($success !== false) {
-									$files_translated++;
-								}
-								//reset for the next file
-								$newcontent = '';
 							}
-							 
-						 
+							// Save the new content to the file
+							$success = file_put_contents($previousfile, "<?php\n" . $newcontent . "\n?>");
+							if ($success !== false) {
+								$files_translated++;
+							}
+							//reset for the next file
+							$newcontent = '';
+						}
+
+
 						$previousfile = $file;
 
 					} else {
@@ -452,7 +453,7 @@ class Language extends \Ventocart\System\Engine\Controller
 
 							$ntext = mb_convert_encoding($ntext, 'UTF-8');
 
-							$newcontent .= '$_[\'' . $linecontent['key'] . '\']' . ' = ' . "'" . $ntext. "';\n";
+							$newcontent .= '$_[\'' . $linecontent['key'] . '\']' . ' = ' . "'" . $ntext . "';\n";
 						}
 					}
 
@@ -479,23 +480,23 @@ class Language extends \Ventocart\System\Engine\Controller
 	 */
 	private function extractKeyVariable($contentString)
 	{
-		 
+
 		// Define the pattern to match generic key-value pairs
 		$pattern = '/^(\$[\p{L}_][\p{L}\p{N}_]*)\s*=\s*(.+)/u';
 
 		// Match the pattern in the content
 		if (preg_match($pattern, $contentString, $matches)) {
-	 
-	 
+
+
 
 			// Extract the key and the value
-			 
+
 			$value = trim($matches[2]);
 			$key = $matches[1];
 			$key = str_replace('$', '', $key);
-		 
+
 			// Output the extracted key and value
-		 
+
 			return ['key' => $key, 'value' => $value];
 		} else {
 			return [];
@@ -679,20 +680,20 @@ class Language extends \Ventocart\System\Engine\Controller
 	private function getPhpFiles(string $directory): array
 	{
 		$phpFiles = [];
-		if ( realpath($directory)) {
-		if (  is_dir($directory)) {
-			$iterator = new \RecursiveIteratorIterator(
-				new \RecursiveDirectoryIterator($directory, \RecursiveDirectoryIterator::SKIP_DOTS),
-				\RecursiveIteratorIterator::SELF_FIRST
-			);
+		if (realpath($directory)) {
+			if (is_dir($directory)) {
+				$iterator = new \RecursiveIteratorIterator(
+					new \RecursiveDirectoryIterator($directory, \RecursiveDirectoryIterator::SKIP_DOTS),
+					\RecursiveIteratorIterator::SELF_FIRST
+				);
 
-			foreach ($iterator as $file) {
-				if ($file->isFile() && $file->getExtension() === 'php') {
-					$phpFiles[] = $file->getPathname();
+				foreach ($iterator as $file) {
+					if ($file->isFile() && $file->getExtension() === 'php') {
+						$phpFiles[] = $file->getPathname();
+					}
 				}
 			}
 		}
-	}
 
 		return $phpFiles;
 	}
@@ -740,12 +741,12 @@ class Language extends \Ventocart\System\Engine\Controller
 					$country = str_replace(".png", "", $file);
 					$country = str_replace("_", " ", $country);
 					$country = ucwords($country);
-			
+
 					$locales = [];
 					$isoCountryCode = null;
-			
+
 					$allLocales = \ResourceBundle::getLocales('');
-			
+
 					foreach ($allLocales as $loc) {
 						$countryNames = explode(', ', \Locale::getDisplayRegion($loc));
 						if (in_array($country, $countryNames)) {
@@ -756,7 +757,7 @@ class Language extends \Ventocart\System\Engine\Controller
 							];
 						}
 					}
-			
+
 					if ($locales) {
 						$countries[] = [
 							'flag' => $file,
@@ -768,7 +769,7 @@ class Language extends \Ventocart\System\Engine\Controller
 				}
 			}
 		}
-	 
+
 
 
 		$data['countries'] = $countries;
@@ -836,13 +837,13 @@ class Language extends \Ventocart\System\Engine\Controller
 				$defaultLang = DIR_EXTENSION . $item . "/admin/language/en-gb";
 				$targetLang = DIR_EXTENSION . $item . "/admin/language/" . $language_info['code'];
 
-				if ( realpath($defaultLang) && is_dir($defaultLang) && filetype($defaultLang) === 'dir' && !is_dir($targetLang)) {
+				if (realpath($defaultLang) && is_dir($defaultLang) && filetype($defaultLang) === 'dir' && !is_dir($targetLang)) {
 					$this->recursiveCopy($defaultLang, $targetLang);
 				}
 				$defaultLang = DIR_EXTENSION . $item . "/catalog/language/en-gb";
 				$targetLang = DIR_EXTENSION . $item . "/catalog/language/" . $language_info['code'];
 
-				if ( realpath($defaultLang) && is_dir($defaultLang) && filetype($defaultLang) === 'dir' && !is_dir($targetLang)) {
+				if (realpath($defaultLang) && is_dir($defaultLang) && filetype($defaultLang) === 'dir' && !is_dir($targetLang)) {
 					$this->recursiveCopy($defaultLang, $targetLang);
 				}
 
@@ -910,7 +911,7 @@ class Language extends \Ventocart\System\Engine\Controller
 		}
 
 		$language_info = $this->model_localisation_language->getLanguageByCode($this->request->post['code']);
-	 
+
 		if (!$this->request->post['language_id']) {
 			if ($language_info) {
 				$json['error']['warning'] = $this->language->get('error_exists');
@@ -927,48 +928,48 @@ class Language extends \Ventocart\System\Engine\Controller
 
 			//Flag is set, it is a new language
 			if (isset($this->request->post['flag'])) {
-			$langCode = $this->request->post['code'];
-			$catalogDir = DIR_CATALOG . "language/" . $langCode;
-			$adminDir = DIR_APPLICATION . "language/" . $langCode;
+				$langCode = $this->request->post['code'];
+				$catalogDir = DIR_CATALOG . "language/" . $langCode;
+				$adminDir = DIR_APPLICATION . "language/" . $langCode;
 
-			$this->recursiveDelete($adminDir);
-			$this->recursiveDelete($catalogDir);
+				$this->recursiveDelete($adminDir);
+				$this->recursiveDelete($catalogDir);
 
-			$this->recursiveCopy(DIR_CATALOG . "language/en-gb", $catalogDir);
-			$this->recursiveCopy(DIR_APPLICATION . "language/en-gb", $adminDir);
-
-
-			$contents = scandir(DIR_EXTENSION);
-			$contents = array_diff($contents, array('.', '..'));
-			foreach ($contents as $item) {
+				$this->recursiveCopy(DIR_CATALOG . "language/en-gb", $catalogDir);
+				$this->recursiveCopy(DIR_APPLICATION . "language/en-gb", $adminDir);
 
 
-				$defaultLang = DIR_EXTENSION . $item . "/admin/language/en-gb";
-				$targetLang = DIR_EXTENSION . $item . "/admin/language/" . $langCode;
+				$contents = scandir(DIR_EXTENSION);
+				$contents = array_diff($contents, array('.', '..'));
+				foreach ($contents as $item) {
 
-				if ( realpath($defaultLang) && is_dir($defaultLang) && filetype($defaultLang) === 'dir' && !is_dir($targetLang)) {
-					$this->recursiveDelete($targetLang);
-					$this->recursiveCopy($defaultLang, $targetLang);
+
+					$defaultLang = DIR_EXTENSION . $item . "/admin/language/en-gb";
+					$targetLang = DIR_EXTENSION . $item . "/admin/language/" . $langCode;
+
+					if (realpath($defaultLang) && is_dir($defaultLang) && filetype($defaultLang) === 'dir' && !is_dir($targetLang)) {
+						$this->recursiveDelete($targetLang);
+						$this->recursiveCopy($defaultLang, $targetLang);
+					}
+					$defaultLang = DIR_EXTENSION . $item . "/catalog/language/en-gb";
+					$targetLang = DIR_EXTENSION . $item . "/catalog/language/" . $langCode;
+
+					if (realpath($defaultLang) && is_dir($defaultLang) && filetype($defaultLang) === 'dir' && !is_dir($targetLang)) {
+						$this->recursiveDelete($targetLang);
+						$this->recursiveCopy($defaultLang, $targetLang);
+					}
+
 				}
-				$defaultLang = DIR_EXTENSION . $item . "/catalog/language/en-gb";
-				$targetLang = DIR_EXTENSION . $item . "/catalog/language/" . $langCode;
 
-				if ( realpath($defaultLang) && is_dir($defaultLang) && filetype($defaultLang) === 'dir' && !is_dir($targetLang)) {
-					$this->recursiveDelete($targetLang);
-					$this->recursiveCopy($defaultLang, $targetLang);
+				unlink($adminDir . "/en-gb.png");
+				unlink($catalogDir . "/en-gb.png");
+
+				if ($this->request->post['flag'] != "") {
+					copy(DIR_CATALOG . "language/flags/" . $this->request->post['flag'], $catalogDir . "/" . $langCode . ".png");
+					copy(DIR_CATALOG . "language/flags/" . $this->request->post['flag'], $adminDir . "/" . $langCode . ".png");
+
 				}
-
 			}
-
-			unlink($adminDir . "/en-gb.png");
-			unlink($catalogDir . "/en-gb.png");
-
-			if ($this->request->post['flag'] != "") {
-				copy(DIR_CATALOG . "language/flags/" . $this->request->post['flag'], $catalogDir . "/" . $langCode . ".png");
-				copy(DIR_CATALOG . "language/flags/" . $this->request->post['flag'], $adminDir . "/" . $langCode . ".png");
-
-			}
-		}
 
 			if (!$this->request->post['language_id']) {
 				$json['language_id'] = $this->model_localisation_language->addLanguage($this->request->post);
@@ -1032,7 +1033,7 @@ class Language extends \Ventocart\System\Engine\Controller
 		}
 
 		if (!$json) {
-			 
+
 			if (isset($language_info['code']) && $language_info['code'] != "en-gb") {
 				$this->load->model('localisation/language');
 				$catalogDir = DIR_CATALOG . "language/" . $language_info['code'];
@@ -1051,13 +1052,13 @@ class Language extends \Ventocart\System\Engine\Controller
 
 					$targetLang = DIR_EXTENSION . $item . "/admin/language/" . $language_info['code'];
 
-					if ( realpath($targetLang) && is_dir($targetLang)) {
+					if (realpath($targetLang) && is_dir($targetLang)) {
 						$this->recursiveDelete($targetLang);
 					}
 
 					$targetLang = DIR_EXTENSION . $item . "/catalog/language/" . $language_info['code'];
 
-					if (realpath($targetLang) &&is_dir($targetLang)) {
+					if (realpath($targetLang) && is_dir($targetLang)) {
 						$this->recursiveDelete($targetLang);
 					}
 
@@ -1079,23 +1080,31 @@ class Language extends \Ventocart\System\Engine\Controller
 
 	function recursiveDelete($directory)
 	{
+
+
+
+
 		if (realpath($directory) && !is_dir($directory)) {
 			// If it's not a directory, delete the file
-			if (file_exists($directory)) { unlink($directory); }
+			if (file_exists($directory)) {
+				unlink($directory);
+			}
 		} else {
 			// If it's a directory, delete its contents and then the directory itself
-			$files = scandir($directory);
+			if (is_dir($directory)) {
+				$files = scandir($directory);
 
-			foreach ($files as $file) {
-				if ($file != "." && $file != "..") {
-					$path = $directory . '/' . $file;
+				foreach ($files as $file) {
+					if ($file != "." && $file != "..") {
+						$path = $directory . '/' . $file;
 
-					$this->recursiveDelete($path);
+						$this->recursiveDelete($path);
+					}
 				}
-			}
 
-			// Remove the directory itself after deleting its contents
-			rmdir($directory);
+				// Remove the directory itself after deleting its contents
+				rmdir($directory);
+			}
 		}
 	}
 

@@ -14,7 +14,7 @@ class Register extends \Ventocart\System\Engine\Controller
 	{
 
 		if ($this->customer->isLogged()) {
-			$this->response->redirect($this->url->link('account/account', 'language=' . $this->config->get('config_language') . '&customer_token=' . $this->session->data['customer_token']));
+			$this->response->redirect($this->url->link('account/account'));
 		}
 
 		$this->load->language('account/register');
@@ -25,20 +25,20 @@ class Register extends \Ventocart\System\Engine\Controller
 
 		$datab['breadcrumbs'][] = [
 			'text' => $this->language->get('text_home'),
-			'href' => $this->url->link('common/home', 'language=' . $this->config->get('config_language'))
+			'href' => $this->url->link('common/home')
 		];
 
 		$datab['breadcrumbs'][] = [
 			'text' => $this->language->get('text_account'),
-			'href' => $this->url->link('account/account', 'language=' . $this->config->get('config_language'))
+			'href' => $this->url->link('account/account')
 		];
 
 		$datab['breadcrumbs'][] = [
 			'text' => $this->language->get('text_register'),
-			'href' => $this->url->link('account/register', 'language=' . $this->config->get('config_language'))
+			'href' => $this->url->link('account/register')
 		];
 		$data['breadcrumb'] = $this->load->view('common/breadcrumb', $datab);
-		$data['text_account_already'] = sprintf($this->language->get('text_account_already'), $this->url->link('account/login', 'language=' . $this->config->get('config_language')));
+		$data['text_account_already'] = sprintf($this->language->get('text_account_already'), $this->url->link('account/login'));
 
 		$data['error_upload_size'] = sprintf($this->language->get('error_upload_size'), $this->config->get('config_file_max_size'));
 
@@ -47,8 +47,8 @@ class Register extends \Ventocart\System\Engine\Controller
 		$data['config_telephone_required'] = $this->config->get('config_telephone_required');
 
 
-		$data['register'] = $this->url->link('account/register.register', 'language=' . $this->config->get('config_language'));
-		$data['upload'] = $this->url->link('tool/upload', 'language=' . $this->config->get('config_language'));
+		$data['register'] = $this->url->link('account/register.register');
+		$data['upload'] = $this->url->link('tool/upload');
 
 		$data['customer_groups'] = [];
 
@@ -95,7 +95,7 @@ class Register extends \Ventocart\System\Engine\Controller
 		$information_info = $this->model_catalog_information->getInformation($this->config->get('config_account_id'));
 
 		if ($information_info) {
-			$data['text_agree'] = sprintf($this->language->get('text_agree'), $this->url->link('information/information.info', 'language=' . $this->config->get('config_language') . '&information_id=' . $this->config->get('config_account_id')), $information_info['title']);
+			$data['text_agree'] = sprintf($this->language->get('text_agree'), $this->url->link('information/information.info', 'information_id=' . $this->config->get('config_account_id')), $information_info['title']);
 		} else {
 			$data['text_agree'] = '';
 		}
@@ -154,7 +154,7 @@ class Register extends \Ventocart\System\Engine\Controller
 		];
 
 		if (!empty($this->request->post['email'])) { //email field is honeypot
-			$json['redirect'] = $this->url->link('account/register', 'language=' . $this->config->get('config_language'), true);
+			$json['redirect'] = $this->url->link('account/register', '', true);
 		} else {
 			$this->request->post['email'] = $this->request->post[$this->session->data['email_field']];
 		}
@@ -165,7 +165,7 @@ class Register extends \Ventocart\System\Engine\Controller
 		}
 
 		if (!isset($this->request->post[$this->session->data['register_token_field']]) || !isset($this->session->data['register_token']) || ($this->session->data['register_token'] != $this->request->post[$this->session->data['register_token_field']])) {
-			$json['redirect'] = $this->url->link('account/register', 'language=' . $this->config->get('config_language'), true);
+			$json['redirect'] = $this->url->link('account/register', '', true);
 		}
 
 		if (!$json) {
@@ -317,7 +317,7 @@ class Register extends \Ventocart\System\Engine\Controller
 			unset($this->session->data['payment_method']);
 			unset($this->session->data['payment_methods']);
 
-			$json['redirect'] = $this->url->link('account/success', 'language=' . $this->config->get('config_language') . (isset($this->session->data['customer_token']) ? '&customer_token=' . $this->session->data['customer_token'] : ''), true);
+			$json['redirect'] = $this->url->link('account/success', '', true);
 		}
 
 

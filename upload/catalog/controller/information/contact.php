@@ -20,15 +20,15 @@ class Contact extends \Ventocart\System\Engine\Controller
 
 		$datab['breadcrumbs'][] = [
 			'text' => $this->language->get('text_home'),
-			'href' => $this->url->link('common/home', 'language=' . $this->config->get('config_language'))
+			'href' => $this->url->link('common/home')
 		];
 
 		$datab['breadcrumbs'][] = [
 			'text' => $this->language->get('heading_title'),
-			'href' => $this->url->link('information/contact', 'language=' . $this->config->get('config_language'))
+			'href' => $this->url->link('information/contact')
 		];
 		$data['breadcrumb'] = $this->load->view('common/breadcrumb', $datab);
-		$data['send'] = $this->url->link('information/contact.send', 'language=' . $this->config->get('config_language'));
+		$data['send'] = $this->url->link('information/contact.send');
 
 		$this->load->model('tool/image');
 
@@ -170,7 +170,7 @@ class Contact extends \Ventocart\System\Engine\Controller
 				$mail->send();
 			}
 
-			$json['redirect'] = $this->url->link('information/contact.success', 'language=' . $this->config->get('config_language'), true);
+			$json['redirect'] = $this->url->link('information/contact.success', '', true);
 		}
 
 		$this->response->addHeader('Content-Type: application/json');
@@ -190,17 +190,17 @@ class Contact extends \Ventocart\System\Engine\Controller
 
 		$datab['breadcrumbs'][] = [
 			'text' => $this->language->get('text_home'),
-			'href' => $this->url->link('common/home', 'language=' . $this->config->get('config_language'))
+			'href' => $this->url->link('common/home')
 		];
 
 		$datab['breadcrumbs'][] = [
 			'text' => $this->language->get('heading_title'),
-			'href' => $this->url->link('information/contact', 'language=' . $this->config->get('config_language'))
+			'href' => $this->url->link('information/contact')
 		];
 		$data['breadcrumb'] = $this->load->view('common/breadcrumb', $datab);
 		$data['text_message'] = $this->language->get('text_message');
 
-		$data['continue'] = $this->url->link('common/home', 'language=' . $this->config->get('config_language'));
+		$data['continue'] = $this->url->link('common/home');
 
 		$data['column_left'] = $this->load->controller('common/column_left');
 		$data['column_right'] = $this->load->controller('common/column_right');

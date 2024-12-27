@@ -95,7 +95,12 @@ $('#button-upgrade').on('click', function () {
 
                         $(element).button('reset');
                     }
+                        if (json['finish']) {
+                          alert('The upgrade has been completed')
+                        location.href = json['finish'];
 
+                        chain.attach(upgrade);
+                    }
                     if (json['next']) {
                         next = json['next'];
 

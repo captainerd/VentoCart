@@ -91,13 +91,12 @@
                         <?php else: ?>
                             <li><a href="<?= $account ?>" class="dropdown-item"><?= $this->e($text_account) ?></a></li>
                             <li><a href="<?= $order ?>" class="dropdown-item"><?= $this->e($text_order) ?></a></li>
-                            <li><a href="<?= $transaction ?>" class="dropdown-item"><?= $this->e($text_transaction) ?></a>
-                            </li>
-                            <li><a href="<?= $download ?>" class="dropdown-item"><?= $this->e($text_download) ?></a></li>
-                            <li><a href="<?= $logout ?>" class="dropdown-item"><?= $this->e($text_logout) ?></a></li>
-                        <?php endif; ?>
-                    </ul>
-                </li>
+                    </li>
+                    <li><a href="<?= $download ?>" class="dropdown-item"><?= $this->e($text_download) ?></a></li>
+                    <li><a href="<?= $logout ?>" class="dropdown-item"><?= $this->e($text_logout) ?></a></li>
+                <?php endif; ?>
+            </ul>
+            </li>
             </ul>
         </div>
 

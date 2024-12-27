@@ -13,12 +13,12 @@ class Cart extends \Ventocart\System\Engine\Controller
 
 		$datab['breadcrumbs'][] = [
 			'text' => $this->language->get('text_home'),
-			'href' => $this->url->link('common/home', 'language=' . $this->config->get('config_language'))
+			'href' => $this->url->link('common/home')
 		];
 
 		$datab['breadcrumbs'][] = [
 			'text' => $this->language->get('heading_title'),
-			'href' => $this->url->link('checkout/cart', 'language=' . $this->config->get('config_language'))
+			'href' => $this->url->link('checkout/cart')
 		];
 		$data['breadcrumb'] = $this->load->view('common/breadcrumb', $datab);
 
@@ -34,7 +34,7 @@ class Cart extends \Ventocart\System\Engine\Controller
 			}
 
 			if ($this->config->get('config_customer_price') && !$this->customer->isLogged()) {
-				$data['attention'] = sprintf($this->language->get('text_login'), $this->url->link('account/login', 'language=' . $this->config->get('config_language')), $this->url->link('account/register', 'language=' . $this->config->get('config_language')));
+				$data['attention'] = sprintf($this->language->get('text_login'), $this->url->link('account/login'), $this->url->link('account/register'));
 			} else {
 				$data['attention'] = '';
 			}
@@ -69,8 +69,8 @@ class Cart extends \Ventocart\System\Engine\Controller
 				}
 			}
 
-			$data['continue'] = $this->url->link('common/home', 'language=' . $this->config->get('config_language'));
-			$data['checkout'] = $this->url->link('checkout/checkout', 'language=' . $this->config->get('config_language'));
+			$data['continue'] = $this->url->link('common/home');
+			$data['checkout'] = $this->url->link('checkout/checkout');
 			$data['language'] = $this->config->get('config_language');
 
 			$data['column_left'] = $this->load->controller('common/column_left');
@@ -84,7 +84,7 @@ class Cart extends \Ventocart\System\Engine\Controller
 		} else {
 			$data['text_error'] = $this->language->get('text_no_results');
 
-			$data['continue'] = $this->url->link('common/home', 'language=' . $this->config->get('config_language'));
+			$data['continue'] = $this->url->link('common/home');
 
 			$data['column_left'] = $this->load->controller('common/column_left');
 			$data['column_right'] = $this->load->controller('common/column_right');
@@ -107,9 +107,9 @@ class Cart extends \Ventocart\System\Engine\Controller
 
 	public function getList(): string
 	{
-		$data['list'] = $this->url->link(' ', 'language=' . $this->config->get('config_language'));
-		$data['product_edit'] = $this->url->link('checkout/cart.edit', 'language=' . $this->config->get('config_language'));
-		$data['product_remove'] = $this->url->link('checkout/cart.remove', 'language=' . $this->config->get('config_language'));
+		$data['list'] = $this->url->link(' ');
+		$data['product_edit'] = $this->url->link('checkout/cart.edit');
+		$data['product_remove'] = $this->url->link('checkout/cart.remove');
 
 		// Display prices
 
@@ -174,7 +174,7 @@ class Cart extends \Ventocart\System\Engine\Controller
 				'reward' => $product['reward'],
 				'price' => $price_status ? $this->currency->format($this->tax->calculate($product['price'], $product['tax_class_id'], $this->config->get('config_tax')), $this->session->data['currency']) : '',
 				'total' => $price_status ? $this->currency->format($product_total, $this->session->data['currency']) : '',
-				'href' => $this->url->link('product/product', 'language=' . $this->config->get('config_language') . '&product_id=' . $product['product_id'])
+				'href' => $this->url->link('product/product', 'product_id=' . $product['product_id'])
 			];
 		}
 
@@ -251,16 +251,16 @@ class Cart extends \Ventocart\System\Engine\Controller
 
 			$json['success'] = sprintf(
 				$this->language->get('text_success'),
-				$this->url->link('product/product', 'language=' . $this->config->get('config_language') . '&product_id=' . $product_id),
+				$this->url->link('product/product', 'product_id=' . $product_id),
 				$product_info['name'],
-				$this->url->link('checkout/cart', 'language=' . $this->config->get('config_language'))
+				$this->url->link('checkout/cart')
 			);
 
 			// Clear shipping and payment methods
 			unset($this->session->data['shipping_method'], $this->session->data['shipping_methods']);
 			unset($this->session->data['payment_method'], $this->session->data['payment_methods']);
 		} else {
-			$json['redirect'] = $this->url->link('product/product', 'language=' . $this->config->get('config_language') . '&product_id=' . $product_id, true);
+			$json['redirect'] = $this->url->link('product/product', 'product_id=' . $product_id, true);
 		}
 
 		$this->response->addHeader('Content-Type: application/json');
@@ -295,7 +295,8 @@ class Cart extends \Ventocart\System\Engine\Controller
 		if ($subscriptions) {
 			$subscription_plan_ids = array_column($subscriptions, 'subscription_plan_id');
 
-			if (!in_array($subscription_plan_id, $subscription_plan_ids, true)) {
+			if (!in_array($subscription_plan_id, $subscription_plan_ids)) {
+
 				$json['error']['subscription'] = $this->language->get('error_subscription');
 			}
 		}
@@ -331,7 +332,7 @@ class Cart extends \Ventocart\System\Engine\Controller
 			if ($this->cart->hasProducts()) {
 				$json['success'] = $this->language->get('text_edit');
 			} else {
-				$json['redirect'] = $this->url->link('checkout/cart', 'language=' . $this->config->get('config_language'), true);
+				$json['redirect'] = $this->url->link('checkout/cart', '', true);
 			}
 
 			unset($this->session->data['shipping_method']);
@@ -368,7 +369,7 @@ class Cart extends \Ventocart\System\Engine\Controller
 			if ($this->cart->hasProducts()) {
 				$json['success'] = $this->language->get('text_remove');
 			} else {
-				$json['redirect'] = $this->url->link('checkout/cart', 'language=' . $this->config->get('config_language'), true);
+				$json['redirect'] = $this->url->link('checkout/cart', '', true);
 			}
 
 			unset($this->session->data['shipping_method']);

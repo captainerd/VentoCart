@@ -5,20 +5,26 @@ namespace Ventocart\Catalog\Controller\Cms;
  *
  * @package Ventocart\Catalog\Controller\Cms
  */
-class Comment extends \Ventocart\System\Engine\Controller {
+class Comment extends \Ventocart\System\Engine\Controller
+{
 	/**
 	 * @return string
 	 */
-	public function index(): string {
+	public function index(): string
+	{
 		$this->load->language('cms/comment');
 
 		if (isset($this->request->get['article_id'])) {
-			$article_id = (int)$this->request->get['article_id'];
+			$article_id = (int) $this->request->get['article_id'];
 		} else {
 			$article_id = 0;
 		}
 
-		$data['text_login'] = sprintf($this->language->get('text_login'), $this->url->link('account/login', 'language=' . $this->config->get('config_language')), $this->url->link('account/register', 'language=' . $this->config->get('config_language')));
+		$data['text_login'] = sprintf(
+			$this->language->get('text_login'),
+			$this->url->link('account/login'),
+			$this->url->link('account/register')
+		);
 
 		$data['list'] = $this->getList();
 
@@ -46,8 +52,8 @@ class Comment extends \Ventocart\System\Engine\Controller {
 
 		$extension_info = $this->model_setting_extension->getExtensionByCode('captcha', $this->config->get('config_captcha'));
 
-		if ($extension_info && $this->config->get('captcha_' . $this->config->get('config_captcha') . '_status') && in_array('comment', (array)$this->config->get('config_captcha_page'))) {
-			$data['captcha'] = $this->load->controller('extension/'  . $extension_info['extension'] . '/captcha/' . $extension_info['code']);
+		if ($extension_info && $this->config->get('captcha_' . $this->config->get('config_captcha') . '_status') && in_array('comment', (array) $this->config->get('config_captcha_page'))) {
+			$data['captcha'] = $this->load->controller('extension/' . $extension_info['extension'] . '/captcha/' . $extension_info['code']);
 		} else {
 			$data['captcha'] = '';
 		}
@@ -60,7 +66,8 @@ class Comment extends \Ventocart\System\Engine\Controller {
 	/**
 	 * @return void
 	 */
-	public function list(): void {
+	public function list(): void
+	{
 		$this->load->language('cms/comment');
 
 		$this->response->setOutput($this->getList());
@@ -69,15 +76,16 @@ class Comment extends \Ventocart\System\Engine\Controller {
 	/**
 	 * @return string
 	 */
-	public function getList(): string {
+	public function getList(): string
+	{
 		if (isset($this->request->get['article_id'])) {
-			$article_id = (int)$this->request->get['article_id'];
+			$article_id = (int) $this->request->get['article_id'];
 		} else {
 			$article_id = 0;
 		}
 
 		if (isset($this->request->get['page'])) {
-			$page = (int)$this->request->get['page'];
+			$page = (int) $this->request->get['page'];
 		} else {
 			$page = 1;
 		}
@@ -86,26 +94,26 @@ class Comment extends \Ventocart\System\Engine\Controller {
 
 		$this->load->model('cms/article');
 
-		$results = $this->model_cms_article->getComments($article_id, ($page - 1) * (int)$this->config->get('config_pagination_admin'), (int)$this->config->get('config_pagination_admin'));
+		$results = $this->model_cms_article->getComments($article_id, ($page - 1) * (int) $this->config->get('config_pagination_admin'), (int) $this->config->get('config_pagination_admin'));
 
 		foreach ($results as $result) {
 			$data['comments'][] = [
 				'article_comment_id' => $result['article_comment_id'],
-				'comment'            => nl2br($result['comment']),
-				'author'             => $result['author'],
-				'date_added'         => date($this->language->get('date_format_short'), strtotime($result['date_added']))
+				'comment' => nl2br($result['comment']),
+				'author' => $result['author'],
+				'date_added' => date($this->language->get('date_format_short'), strtotime($result['date_added']))
 			];
 		}
 
 		$comment_total = $this->model_cms_article->getTotalComments($article_id);
-		
+
 		$limit = 5;
-		
+
 		$data['pagination'] = $this->load->controller('common/pagination', [
 			'total' => $comment_total,
-			'page'  => $page,
+			'page' => $page,
 			'limit' => $limit,
-			'url'   => $this->url->link('cms/blog.comment.list', 'language=' . $this->config->get('config_language') . '&article_id=' . $article_id . '&page={page}')
+			'url' => $this->url->link('cms/blog.comment.list', 'article_id=' . $article_id . '&page={page}')
 		]);
 
 		$data['results'] = sprintf($this->language->get('text_pagination'), ($comment_total) ? (($page - 1) * $limit) + 1 : 0, ((($page - 1) * $limit) > ($comment_total - $limit)) ? $comment_total : ((($page - 1) * $limit) + $limit), $comment_total, ceil($comment_total / $limit));
@@ -114,15 +122,16 @@ class Comment extends \Ventocart\System\Engine\Controller {
 	}
 
 	/**
-     * @return void
-     */
-	public function write(): void {
+	 * @return void
+	 */
+	public function write(): void
+	{
 		$this->load->language('cms/comment');
 
 		$json = [];
 
 		if (isset($this->request->get['article_id'])) {
-			$article_id = (int)$this->request->get['article_id'];
+			$article_id = (int) $this->request->get['article_id'];
 		} else {
 			$article_id = 0;
 		}
@@ -171,8 +180,8 @@ class Comment extends \Ventocart\System\Engine\Controller {
 
 		$extension_info = $this->model_setting_extension->getExtensionByCode('captcha', $this->config->get('config_captcha'));
 
-		if ($extension_info && $this->config->get('captcha_' . $this->config->get('config_captcha') . '_status') && in_array('comment', (array)$this->config->get('config_captcha_page'))) {
-			$captcha = $this->load->controller('extension/'  . $extension_info['extension'] . '/captcha/' . $extension_info['code'] . '.validate');
+		if ($extension_info && $this->config->get('captcha_' . $this->config->get('config_captcha') . '_status') && in_array('comment', (array) $this->config->get('config_captcha_page'))) {
+			$captcha = $this->load->controller('extension/' . $extension_info['extension'] . '/captcha/' . $extension_info['code'] . '.validate');
 
 			if ($captcha) {
 				$json['error']['captcha'] = $captcha;

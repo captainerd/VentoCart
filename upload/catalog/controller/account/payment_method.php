@@ -15,27 +15,27 @@ class PaymentMethod extends \Ventocart\System\Engine\Controller
 	{
 		$this->load->language('account/payment_method');
 
-		if (!$this->customer->isLogged() || (!isset($this->request->get['customer_token']) || !isset($this->session->data['customer_token']) || ($this->request->get['customer_token'] != $this->session->data['customer_token']))) {
-			$this->session->data['redirect'] = $this->url->link('account/payment_method', 'language=' . $this->config->get('config_language'));
+		if (!$this->customer->isLogged()) {
+			$this->session->data['redirect'] = $this->url->link('account/payment_method');
 
-			$this->response->redirect($this->url->link('account/login', 'language=' . $this->config->get('config_language')));
+			$this->response->redirect($this->url->link('account/login'));
 		}
 
 		$this->document->setTitle($this->language->get('heading_title'));
 
 		$datab['breadcrumbs'][] = [
 			'text' => $this->language->get('text_home'),
-			'href' => $this->url->link('common/home', 'language=' . $this->config->get('config_language'))
+			'href' => $this->url->link('common/home')
 		];
 
 		$datab['breadcrumbs'][] = [
 			'text' => $this->language->get('text_account'),
-			'href' => $this->url->link('account/account', 'language=' . $this->config->get('config_language') . '&customer_token=' . $this->session->data['customer_token'])
+			'href' => $this->url->link('account/account')
 		];
 
 		$datab['breadcrumbs'][] = [
 			'text' => $this->language->get('heading_title'),
-			'href' => $this->url->link('account/payment_method', 'language=' . $this->config->get('config_language') . '&customer_token=' . $this->session->data['customer_token'])
+			'href' => $this->url->link('account/payment_method')
 		];
 		$data['breadcrumb'] = $this->load->view('common/breadcrumb', $datab);
 		if (isset($this->session->data['success'])) {
@@ -48,7 +48,7 @@ class PaymentMethod extends \Ventocart\System\Engine\Controller
 
 		$data['list'] = $this->getList();
 
-		$data['continue'] = $this->url->link('account/account', 'language=' . $this->config->get('config_language') . '&customer_token=' . $this->session->data['customer_token']);
+		$data['continue'] = $this->url->link('account/account');
 
 		$data['language'] = $this->config->get('config_language');
 
@@ -71,10 +71,10 @@ class PaymentMethod extends \Ventocart\System\Engine\Controller
 	{
 		$this->load->language('account/payment_method');
 
-		if (!$this->customer->isLogged() || (!isset($this->request->get['customer_token']) || !isset($this->session->data['customer_token']) || ($this->request->get['customer_token'] != $this->session->data['customer_token']))) {
-			$this->session->data['redirect'] = $this->url->link('account/payment_method', 'language=' . $this->config->get('config_language'));
+		if (!$this->customer->isLogged()) {
+			$this->session->data['redirect'] = $this->url->link('account/payment_method');
 
-			$this->response->redirect($this->url->link('account/login', 'language=' . $this->config->get('config_language')));
+			$this->response->redirect($this->url->link('account/login'));
 		}
 
 		$this->response->setOutput($this->getList());
@@ -94,8 +94,8 @@ class PaymentMethod extends \Ventocart\System\Engine\Controller
 		foreach ($results as $result) {
 			if ($this->config->get('payment_' . $result['code'] . '_status')) {
 				$this->load->model('extension/' . $result['extension'] . '/payment/' . $result['code']);
- 
-		 
+
+
 				try {
 					$payment_method_info = $this->{'model_extension_' . $result['extension'] . '_payment_' . $result['code']}->getStored();
 
@@ -108,7 +108,7 @@ class PaymentMethod extends \Ventocart\System\Engine\Controller
 								'date_expire' => $payment_method_info['date_expire'],
 								'type' => $payment_method_info['description'],
 								'image' => $payment_method_info['image'],
-								'delete' => $this->url->link('account/payment_method.delete', 'language=' . $this->config->get('config_language') . '&customer_token=' . $this->session->data['customer_token'] . '&code=' . $result['code'] . '&id=' . $payment_method_info['id'])
+								'delete' => $this->url->link('account/payment_method.delete', 'code=' . $result['code'] . '&id=' . $payment_method_info['id'])
 							];
 						} else {
 							// Multiple payment methods
@@ -117,17 +117,17 @@ class PaymentMethod extends \Ventocart\System\Engine\Controller
 									'id' => $info['id'],
 									'name' => $info['name'],
 									'date_expire' => $info['date_expire'],
-									'type' => $info['description'] . ' ****' .  $info['last_four'],
+									'type' => $info['description'] . ' ****' . $info['last_four'],
 									'image' => $info['image'],
-									'delete' => $this->url->link('account/payment_method.delete', 'language=' . $this->config->get('config_language') . '&customer_token=' . $this->session->data['customer_token'] . '&code=' . $result['code'] . '&id=' . $info['id'])
+									'delete' => $this->url->link('account/payment_method.delete', 'code=' . $result['code'] . '&id=' . $info['id'])
 								];
 							}
 						}
 					}
 				} catch (\Exception $e) {
-				 // Method not found, or an error occurred.
+					// Method not found, or an error occurred.
 				}
-			} 
+			}
 		}
 
 		return $this->load->view('account/payment_method_list', $data);
@@ -141,7 +141,7 @@ class PaymentMethod extends \Ventocart\System\Engine\Controller
 		$this->load->language('account/payment_method');
 
 		$json = [];
-	 
+
 		if (isset($this->request->get['code'])) {
 			$code = (string) $this->request->get['code'];
 		} else {
@@ -153,35 +153,35 @@ class PaymentMethod extends \Ventocart\System\Engine\Controller
 			$id = '';
 		}
 
-		if (!$this->customer->isLogged() || (!isset($this->request->get['customer_token']) || !isset($this->session->data['customer_token']) || ($this->request->get['customer_token'] != $this->session->data['customer_token']))) {
-			$this->session->data['redirect'] = $this->url->link('account/payment_method', 'language=' . $this->config->get('config_language'));
+		if (!$this->customer->isLogged()) {
+			$this->session->data['redirect'] = $this->url->link('account/payment_method');
 
-			$json['redirect'] = $this->url->link('account/login', 'language=' . $this->config->get('config_language'), true);
+			$json['redirect'] = $this->url->link('account/login', '', true);
 		}
-	 
+
 		if (!$json) {
-		 
-	 
+
+
 			$payment_method_info = $this->model_setting_extension->getExtensionByCode('payment', $code);
-		 
+
 			if (!$payment_method_info) {
 				$json['error'] = $this->language->get('error_payment_method');
 			}
 		}
-	 
+
 		if (!$json) {
 			$this->load->model('extension/' . $payment_method_info['extension'] . '/payment/' . $payment_method_info['code']);
 			$deleted = false;
 			try {
-				$deleted =  $this->{'model_extension_' . $payment_method_info['extension'] . '_payment_' . $payment_method_info['code']}->delete($id);
+				$deleted = $this->{'model_extension_' . $payment_method_info['extension'] . '_payment_' . $payment_method_info['code']}->delete($id);
 			} catch (\Exception $e) {
 				// Method not found, or an error occurred.
-			   }
-			   if ($deleted) {
-			$json['success'] = $this->language->get('text_success');
-			   } else {
+			}
+			if ($deleted) {
+				$json['success'] = $this->language->get('text_success');
+			} else {
 				$json['error'] = $this->language->get('text_error');
-			   }
+			}
 		}
 
 		$this->response->addHeader('Content-Type: application/json');
