@@ -160,7 +160,7 @@
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
-    <!-- Your custom script -->
+
     <script>
         $(document).ready(function () {
             var adminUsernameField = $("#adminUsername");
@@ -194,8 +194,6 @@
             $("#weburl").val(baseUrl)
             $("#installBtn").click(function (event) {
                 //$("#installBtn").attr('disabled', true);
-
-                // Simulate progress with a setInterval
 
                 install(1);
             });
@@ -254,7 +252,6 @@
 
                             //  $("#installBtn").attr('disabled', false);
                             break;
-                        // Add more cases for other possible statuses
                         case 'installing':
                             var progress = (response.page / response.total) * 100;
 

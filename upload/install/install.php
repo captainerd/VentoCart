@@ -36,33 +36,6 @@ function getTotalKeys(string $filename)
     return count($index);
 }
 
-function storeVentoCartDB(string $filename, array $data): void
-{
-    $binaryData = '';
-    $index = [];
-    $position = 0;
-    foreach ($data as $key => $value) {
-        $serialized = serialize($value);
-        $length = strlen($serialized);
-        $index[$key] = ['offset' => $position, 'length' => $length];
-        $binaryData .= $serialized;
-        $position += $length;
-    }
-    $Index = gzcompress(serialize($index), 1);
-    $Binary = gzcompress($binaryData, 1);
-    $indexSize = strlen($Index);
-    $binarySize = strlen($Binary);
-
-    $handle = fopen($filename . '.bin', 'wb');
-    if (!$handle) {
-        throw new Exception("Unable to open database file for writing.");
-    }
-    fwrite($handle, pack('N', $indexSize));
-    fwrite($handle, pack('N', $binarySize));
-    fwrite($handle, $Index);
-    fwrite($handle, $Binary);
-    fclose($handle);
-}
 
 function readVentoCartDBKey(string $filename, string $key)
 {
@@ -167,10 +140,6 @@ function setupConfigurations($appConfig, $adminConfig, $weburl, $host, $user, $p
     recursiveDeleteDirectory('../install');
 }
 
-
-
-
-
 // Check if it's an AJAX request
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['ajax'])) {
 
@@ -222,8 +191,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['ajax'])) {
         if ($dbConnection->connect_error) {
             throw new Exception("Connection failed: " . $dbConnection->connect_error);
         }
-
-        // Continue with your script if the connection is successful
 
     } catch (mysqli_sql_exception $e) {
         // Send JSON response for database connection error
