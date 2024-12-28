@@ -100,6 +100,10 @@ function executeSqlFile($dbConnection)
         'total' => $totalPages,
     ]);
 }
+function generateRandomString($length = 10)
+{
+    return substr(str_shuffle(str_repeat($x = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ', ceil($length / strlen($x)))), 1, $length);
+}
 
 function setupConfigurations($appConfig, $adminConfig, $weburl, $host, $user, $password, $database, $prefix, $getDirectory, $adminDir)
 {
@@ -108,6 +112,7 @@ function setupConfigurations($appConfig, $adminConfig, $weburl, $host, $user, $p
     //Set up front config
     $mainconfig = file_get_contents($appConfig);
     $weburl = rtrim($weburl, '/') . "/";
+    $serverSecret = generateRandomString(100);
 
     $mainconfig = setConfigValue($mainconfig, 'HTTP_SERVER', $weburl);
     $mainconfig = setConfigValue($mainconfig, 'DB_HOSTNAME', $host);
@@ -116,6 +121,8 @@ function setupConfigurations($appConfig, $adminConfig, $weburl, $host, $user, $p
     $mainconfig = setConfigValue($mainconfig, 'DB_DATABASE', $database);
     $mainconfig = setConfigValue($mainconfig, 'DB_PREFIX', $prefix . "_");
     $mainconfig = setConfigValue($mainconfig, 'DIR_VENTOCART', $getDirectory);
+
+    $mainconfig = setConfigValue($mainconfig, 'SERVER_SECRET', $serverSecret);
     $mainconfig = file_put_contents($appConfig, $mainconfig);
 
     //Set up admin config

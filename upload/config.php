@@ -40,6 +40,6 @@ define('CACHE_HOSTNAME', '127.0.0.1');
 define('CACHE_PORT', '6379');
 define('CACHE_PREFIX', DB_PREFIX);
 
-//  Server Secret, used to generate guest order tracking codes, you need to change it for privacy/security.
+//  Server Secret, used to generate guest order tracking codes, randomly generated at install
 
-define('SERVER_SECRET', 'SSjd3JFOGgvnttr333rffddFEJaovORITYUjd');
+define('SERVER_SECRET', 'this_will_be_generated');
