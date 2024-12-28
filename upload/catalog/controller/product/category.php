@@ -18,8 +18,9 @@ class Category extends \Ventocart\System\Engine\Controller
 		/* Product related */
 		$this->document->addLink('https://fonts.googleapis.com/css?family=Aldrich', 'stylesheet', 'text/css');
 		$this->document->addLink('/catalog/view/stylesheet/photoswipe.css', 'stylesheet', 'text/css');
-		$this->document->addLink('/catalog/view/stylesheet/splider.css', 'stylesheet', 'text/css');
-
+		$this->document->addLink('/catalog/view/stylesheet/splide/splide.min.css', 'stylesheet', 'text/css');
+		$this->document->addLink('/catalog/view/stylesheet/splide/themes/splide-vento.css', 'stylesheet', 'text/css');
+		$this->document->addScript("catalog/view/javascript/splide/splide.min.js");
 		$this->document->addScript("catalog/view/javascript/product.js");
 
 
