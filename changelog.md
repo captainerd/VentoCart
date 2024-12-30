@@ -5,8 +5,6 @@
     - Cache Preloading: Introduced a cache folder and an installation preloader to suppress initial warnings on fresh installations.
 
 ---
-
-This structure makes it clean and easy to understand while maintaining a professional tone. Let me know if you'd like tweaks!
 ## What's New in VentoCart v5.1.1.0
 
 1.  **Bug fixes**
