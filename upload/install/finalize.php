@@ -34,7 +34,7 @@
                                 <h4 class="alert-heading">Installation of VentoCart has been finished!</h4>
                                 <p>You can now visit the <a href="#" id="frontLink" class="alert-link">front</a> or <a
                                         href="#" id="adminLink" class="alert-link">admin panel</a>.</p>
-                                <p><strong>Remeber</strong> you can access admin by the url: /<span style="color: red"
+                                <p><strong>Remember</strong> you can access admin by the url: /<span style="color: red"
                                         id="adminAcess"></span>.</p>
                                 <p>Thank you for trying VentoCart.</p>
 
@@ -279,7 +279,14 @@
 
                                     // Set the front link
                                     $("#frontLink").attr("href", weburl);
-
+                                    fetch(weburl, {
+                                        method: 'GET',
+                                        mode: 'no-cors' // Use no-cors if the URL is on a different domain and doesn't allow CORS
+                                    }).then(response => {
+                                        console.log('URL preloaded successfully:', weburl);
+                                    }).catch(error => {
+                                        console.error('Error preloading the URL:', error);
+                                    });
                                     // Set the admin panel link
                                     $("#adminAcess").text($("#admindir").val())
                                     $("#adminLink").attr("href", weburl + $("#admindir").val());

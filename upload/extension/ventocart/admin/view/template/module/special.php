@@ -68,6 +68,7 @@
             <label for="input-autoplay" class="col-sm-2 col-form-label"><?= $entry_autoplay ?></label>
             <div class="col-sm-10">
               <div class="form-check form-switch  form-switch-lg">
+                <input type="hidden" name="autoplay" value="0">
                 <input type="checkbox" name="autoplay" id="input-autoplay" class="form-check-input" value="1"
                   <?= $autoplay ? 'checked' : '' ?>>
 
