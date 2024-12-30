@@ -3,6 +3,7 @@
 1.  **Bug Fixes**
     - Autoplay Input Handling: Added default zero (`0`) inputs for autoplay on modules to ensure "off" values are saved correctly in the database.
     - Cache Preloading: Introduced a cache folder and an installation preloader to suppress initial warnings on fresh installations.
+    - Updated version upgrade logic to use version_compare() for accurate detection of patch-level updates.
 
 ---
 ## What's New in VentoCart v5.1.1.0
