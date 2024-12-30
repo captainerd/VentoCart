@@ -47,11 +47,11 @@ class Upgrade extends \Ventocart\System\Engine\Controller
 		// Fetch latest version
 		$latestVersionUrl = 'https://raw.githubusercontent.com/captainerd/VentoCart/refs/heads/main/VERSION';
 		$data['latest_version'] = $this->fetchContent($latestVersionUrl);
-		$data['latest_version'] = (float) $data['latest_version'];
-		$versionNew = (float) $data['latest_version'];
-		$versionOld = (float) VERSION;
+		$data['latest_version'] = trim($data['latest_version']);
+		$versionNew = $data['latest_version'];
+		$versionOld = VERSION;
 
-		if ($versionNew > $versionOld) {
+		if (version_compare($versionNew, $versionOld, '>')) {
 			$data['upgrade'] = true;
 		}
 
