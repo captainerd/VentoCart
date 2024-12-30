@@ -34,20 +34,7 @@
                             </select>
                         </div>
                     </div>
-                    <div class="row mb-3">
-                        <label for="input-geo-zone" class="col-sm-2 col-form-label"><?= $entry_geo_zone ?></label>
-                        <div class="col-sm-10">
-                            <select name="payment_giftcard_geo_zone_id" id="input-geo-zone" class="form-select">
-                                <option value="0"><?= $text_all_zones ?></option>
-                                <?php foreach ($geo_zones as $geo_zone): ?>
-                                    <option value="<?= $geo_zone['geo_zone_id'] ?>" <?php if ($geo_zone['geo_zone_id'] == $payment_giftcard_geo_zone_id)
-                                          echo ' selected'; ?>>
-                                        <?= $geo_zone['name'] ?>
-                                    </option>
-                                <?php endforeach; ?>
-                            </select>
-                        </div>
-                    </div>
+
                     <div class="row mb-3">
                         <label class="col-sm-2 col-form-label"><?= $entry_status ?></label>
                         <div class="col-sm-10">

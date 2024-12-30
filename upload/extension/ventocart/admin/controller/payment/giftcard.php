@@ -39,6 +39,7 @@ class GiftCard extends \Ventocart\System\Engine\Controller
         // GiftCard specific settings
         $data['payment_giftcard_status'] = $this->config->get('payment_giftcard_status');
         $data['payment_giftcard_sort_order'] = $this->config->get('payment_giftcard_sort_order');
+        $data['payment_giftcard_order_status_id'] = $this->config->get('payment_giftcard_order_status_id');
 
         // For now, leave these settings as placeholders, but in the future, you can add more giftcard-specific settings here.
         $data['payment_giftcard_placeholder'] = ''; // Add a placeholder setting if needed.
@@ -46,8 +47,6 @@ class GiftCard extends \Ventocart\System\Engine\Controller
         $this->load->model('localisation/order_status');
         $data['order_statuses'] = $this->model_localisation_order_status->getOrderStatuses();
 
-        $this->load->model('localisation/geo_zone');
-        $data['geo_zones'] = $this->model_localisation_geo_zone->getGeoZones();
 
         // Load common views for header, footer, and left column
         $data['header'] = $this->load->controller('common/header');
