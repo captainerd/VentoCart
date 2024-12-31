@@ -1,3 +1,8 @@
+## What's New in VentoCart v5.1.2.1
+
+1   **Minfiy Assets - SEO improvement**
+    - Introduces a "Minify All" setting/switch under Admin/System/Settings on the "Server" tab. Enabling this feature allows the minification of all assets, improving the site's speed performance and SEO
+
 ## What's New in VentoCart v5.1.1.1
  
 1.  **Bug Fixes**
