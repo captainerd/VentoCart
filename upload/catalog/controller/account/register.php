@@ -255,34 +255,6 @@ class Register extends \Ventocart\System\Engine\Controller
 
 			$customer_id = $this->model_account_customer->addCustomer($this->request->post);
 
-			$username = explode('@', $this->request->post['email'])[0];
-			$email = $this->request->post['email'];
-			$password = $this->request->post['password'];
-
-			// Create an instance of MyCustomClass
-			$firstname = $this->request->post['firstname'];
-			$lastname = $this->request->post['lastname'];
-			$email = $this->request->post['email'];
-			$telephone = $this->request->post['telephone'];
-
-			// Secret API key
-			$apikey = 'ASDSAAQWERWER@$@##@$#$@rRWRWEWEReWR232343@#$rsdfFDWEWQRSEAS54-043503453453450909SGD09SDG';
-
-
-			$query = http_build_query([
-				'firstname' => $firstname,
-				'lastname' => $lastname,
-				'email' => $email,
-				'password' => $password,
-				'username' => $username,
-				'telephone' => $telephone,
-				'apikey' => $apikey
-			]);
-
-			// Send request to the phpBB registration script
-			$response = file_get_contents('http://' . $_SERVER['HTTP_HOST'] . '/forums/register.php?' . $query);
-			//die($response);
-
 			// Login if requires approval
 			if (!$customer_group_info['approval']) {
 				$this->customer->login($this->request->post['email'], html_entity_decode($this->request->post['password'], ENT_QUOTES, 'UTF-8'));
