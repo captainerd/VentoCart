@@ -1,6 +1,6 @@
 <?php
 // Version
-define('VERSION', '5.1.1.1');
+define('VERSION', '5.1.2.1');
 // Configuration
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
