@@ -1329,6 +1329,17 @@
                     <div class="form-text">{{ help_session_samesite }}</div>
                   </div>
                 </div>
+
+                       <div class="row mb-3">
+                  <label class="col-sm-2 col-form-label">{{ entry_minify_all }}</label>
+                  <div class="col-sm-10">
+                    <div class="form-check form-switch form-switch-lg">
+                      <input type="hidden" name="config_minify_all" value="0"/> <input type="checkbox" name="config_minify_all" value="1" id="input-minify-all" class="form-check-input"{% if config_minify_all %} checked{% endif %}/>
+                    </div>
+                    <div class="form-text">{{ help_minify_all }}</div>
+                  </div>
+                </div>
+
                 <div class="row mb-3">
                   <label class="col-sm-2 col-form-label">{{ entry_seo_url }}</label>
                   <div class="col-sm-10">
