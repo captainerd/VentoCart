@@ -67,10 +67,10 @@
 
                 <!-- Search Dropdown -->
                 <li class="nav-item dropdown">
-                    <a href="#" class="nav-link" id="searchDropdown" role="button" data-bs-toggle="dropdown"
-                        aria-expanded="false">
+                    <button aria-label="search" href="#" class="nav-link" id="searchDropdown" role="button"
+                        data-bs-toggle="dropdown" aria-expanded="false">
                         <i class="fas fa-search fa-lg"></i>
-                    </a>
+                    </button>
                     <ul class="dropdown-menu dropdown-menu-end p-3" style="min-width: 300px"
                         aria-labelledby="searchDropdown">
                         <?= $search ?>
@@ -79,7 +79,7 @@
                 <!-- Account Dropdown -->
                 <li class="nav-item dropdown">
                     <a href="#" class="nav-link  " id="accountDropdown" role="button" data-bs-toggle="dropdown"
-                        aria-expanded="false"> <i class="fas fa-user  fa-lg"></i>
+                        aria-label="<?= $text_account ?>" aria-expanded="false"> <i class="fas fa-user  fa-lg"></i>
                         <?= $this->e($text_account) ?>
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="accountDropdown">
@@ -100,7 +100,7 @@
             </ul>
         </div>
 
-        <button class="navbar-toggler shadow-none  navbar-button" type="button" style="margin: 0;"
+        <button class="navbar-toggler shadow-none  navbar-button" type="button" style="margin: 0;" aria-label="menu"
             data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar">
             <i class="fas fa-bars fa-lg"></i>
         </button>
@@ -110,7 +110,8 @@
                 class="img-fluid" style="width: 140px" />
         </a>
 
-        <button class="navbar-toggler  float-end ms-3  navbar-button shadow-none d-block" type="button"
+        <button aria-label="<?= $button_cart ?>"
+            class="navbar-toggler  float-end ms-3  navbar-button shadow-none d-block" type="button"
             data-bs-toggle="offcanvas" data-bs-target="#offcanvasCart" style="margin: 0;" aria-controls="offcanvasCart">
 
             <i class="fas fa-shopping-cart fa-lg"></i>

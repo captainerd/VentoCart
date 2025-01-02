@@ -782,7 +782,7 @@ ul.list-cart-drawer li {
 }
 
 footer {
-  background-color: #1f2a44;
+  background-color: #1d3a7f;
   padding: 30px 0;
   margin: 0;
   margin-top: 20px;
@@ -822,7 +822,7 @@ footer .list-unstyled li {
 }
 
 footer .list-unstyled a {
-  color: #b0c4de;
+  color: #ffffff;
   text-decoration: none;
   transition: color 0.3s ease;
   font-size: 14px;
@@ -841,7 +841,11 @@ footer hr {
 footer p {
   text-align: center;
   font-size: 14px;
-  color: #adb5bd;
+  color: #ffffff;
+}
+
+footer a {
+  color: #ffffff;
 }
 
 @media (max-width: 992px) {

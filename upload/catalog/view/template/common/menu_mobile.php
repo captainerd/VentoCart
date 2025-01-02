@@ -4,7 +4,7 @@
         <div class="offcanvas-title  mx-3">
             <h5 id="offcanvasNavbarLabel"><?= $text_menu ?></h5>
         </div>
-        <div class="currency pb-2 mx-3">
+        <div class="currency   mx-3">
             <?= $currency ?>
         </div>
         <div class="language pb-2  mx-3">
@@ -12,7 +12,7 @@
         </div>
         <!-- Search Dropdown -->
         <li class="nav-item list-unstyled  mx-3 pb-2 dropdown">
-            <a href="#" class="nav-link" id="searchDropdown" role="button" data-bs-toggle="dropdown"
+            <a href="#" class="nav-link" id="searchDropdowns" role="button" data-bs-toggle="dropdown"
                 aria-expanded="false">
                 <i class="fas fa-search fa-lg"></i>
             </a>
