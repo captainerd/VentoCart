@@ -110,69 +110,38 @@ class Loader
 	 */
 	public function model(string $route): void
 	{
-		// Sanitize the call
-
-
-		// Create a new key to store the model object
 		$key = 'model_' . str_replace('/', '_', $route);
 
-
 		if (!$this->registry->has($key)) {
-			// Converting a route path to a class name
-			$class = 'Ventocart\\' . $this->config->get('application') . '\Model\\' . str_replace(['_', '/'], ['', '\\'], ucwords($route, '_/'));
+			$className = 'Ventocart\\' . $this->config->get('application') . '\\Model\\' . str_replace(['_', '/'], ['', '\\'], ucwords($route, '_/'));
 
-			if (class_exists($class)) {
+			if (class_exists($className)) {
 				$proxy = new \Ventocart\System\Engine\Proxy();
+				$instance = new $className($this->registry);
+				$methods = get_class_methods($className);
 
-				foreach (get_class_methods($class) as $method) {
-					if ((substr($method, 0, 2) != '__') && is_callable($class, $method)) {
-						// https://wiki.php.net/rfc/variadics
-						$proxy->{$method} = function (&...$args) use ($route, $method) {
-							$route = $route . '/' . $method;
-
-							$trigger = $route;
-
-							// Trigger the pre events
+				foreach ($methods as $method) {
+					if (substr($method, 0, 2) != '__' && is_callable([$instance, $method])) {
+						$proxy->{$method} = function (&...$args) use ($route, $method, $instance) {
+							$trigger = $route . '/' . $method;
 							$this->event->trigger('model/' . $trigger . '/before', [&$route, &$args]);
-
-							// Find last `/` so we can remove and find the method
-							$pos = strrpos($route, '/');
-
-							$class = substr($route, 0, $pos);
-							$method = substr($route, $pos + 1);
-
-							// Create a new key to store the model object
-							$key = 'callback_' . str_replace('/', '_', $class);
-
-							if (!$this->registry->has($key)) {
-								// Initialize the class
-								$model = $this->factory->model($class);
-
-								// Store object
-								$this->registry->set($key, $model);
-							} else {
-								$model = $this->registry->get($key);
-							}
-
-							$callable = [$model, $method];
-
-							if (is_callable($callable)) {
-								$output = call_user_func_array($callable, $args);
-							} else {
-								throw new \Exception('Error: Could not call model/' . $route . '!');
-							}
-
-							// Trigger the post events
+							$output = call_user_func_array([$instance, $method], $args);
 							$this->event->trigger('model/' . $trigger . '/after', [&$route, &$args, &$output]);
-
 							return $output;
 						};
 					}
 				}
 
+				$proxy->__call = function ($method, $args) use ($instance) {
+					if (method_exists($instance, $method)) {
+						return call_user_func_array([$instance, $method], $args);
+					}
+					throw new \BadMethodCallException("Method $method not found in the model.");
+				};
+
 				$this->registry->set($key, $proxy);
 			} else {
-				throw new \Exception('Error: Could not load model ' . $class . '!');
+				throw new \Exception('Error: Could not load model ' . $className . '!');
 			}
 		}
 	}
