@@ -30,11 +30,9 @@ $_['action_pre_action'] = [
 	'startup/currency',
 	'startup/tax',
 	'startup/application',
-	'startup/extension',
 	'startup/startup',
 	'startup/marketing',
 	'startup/error',
-	'startup/event',
 	'startup/sass',
 	'startup/maintenance'
 ];

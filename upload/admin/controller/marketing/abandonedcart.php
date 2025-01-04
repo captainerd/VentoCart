@@ -288,7 +288,6 @@ class AbandonedCart extends \Ventocart\System\Engine\Controller
     public function sendNotifications($filter = []): int
     {
 
-
         $this->load->model('setting/setting');
 
         $this->load->model('marketing/abandonedcart');

@@ -15,7 +15,6 @@ class Cart extends \Ventocart\System\Engine\Controller
 
 		$this->load->language('actions/sale/cart');
 
-		//$this->event->trigger('model/giftcards/giftcard/processGiftCard/after', [&$route, &$args]);
 
 		$output['products'] = $this->cart->getProducts();
 
@@ -76,10 +75,11 @@ class Cart extends \Ventocart\System\Engine\Controller
 		} else {
 			$subscription_plan_id = 0;
 		}
-
-		$this->nload->model('catalog/product');
+		$this->bridge->kill();
+		$this->load->model('catalog/product');
 
 		$product_info = $this->model_catalog_product->getProduct($product_id);
+
 		$product_option_info = $this->model_catalog_product->getOptionsLegacy($product_id);
 
 		$empty_options = $option;

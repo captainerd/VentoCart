@@ -24,6 +24,7 @@ class Startup extends \Ventocart\System\Engine\Controller
 
 		foreach ($results as $result) {
 			if (substr($result['action'], 0, 8) == 'catalog/') {
+
 				$this->load->controller(substr($result['action'], 8));
 			}
 		}

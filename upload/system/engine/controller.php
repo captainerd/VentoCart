@@ -12,7 +12,8 @@ namespace Ventocart\System\Engine;
  *
  * @mixin \Ventocart\System\Engine\Registry
  */
-class Controller {
+class Controller
+{
 	/**
 	 * @var object|\Ventocart\System\Engine\Registry
 	 */
@@ -23,18 +24,20 @@ class Controller {
 	 *
 	 * @param object $registry
 	 */
-	public function __construct(\Ventocart\System\Engine\Registry $registry) {
+	public function __construct(\Ventocart\System\Engine\Registry $registry)
+	{
 		$this->registry = $registry;
 	}
 
 	/**
-     * __get
-     *
-     * @param string $key
-     *
-     * @return object
-     */
-	public function __get(string $key): object {
+	 * __get
+	 *
+	 * @param string $key
+	 *
+	 * @return object
+	 */
+	public function __get(string $key): object
+	{
 		if ($this->registry->has($key)) {
 			return $this->registry->get($key);
 		} else {
@@ -43,14 +46,15 @@ class Controller {
 	}
 
 	/**
-     * __set
-     *
-     * @param string $key
-     * @param object $value
-     *
-     * @return void
-     */
-	public function __set(string $key, object $value): void {
+	 * __set
+	 *
+	 * @param string $key
+	 * @param object $value
+	 *
+	 * @return void
+	 */
+	public function __set(string $key, object $value): void
+	{
 		$this->registry->set($key, $value);
 	}
 }

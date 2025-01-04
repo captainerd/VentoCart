@@ -391,7 +391,7 @@ class Confirm extends \Ventocart\System\Engine\Controller
 
 		$data = [];
 		$this->load->model('checkout/cart');
-
+		$this->load->model('setting/extension');
 		$status = ($this->customer->isLogged() || !$this->config->get('config_customer_price'));
 
 

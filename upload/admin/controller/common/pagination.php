@@ -5,13 +5,16 @@ namespace Ventocart\Admin\Controller\Common;
  *
  * @package Ventocart\Admin\Controller\Common
  */
-class Pagination extends \Ventocart\System\Engine\Controller {
+class Pagination extends \Ventocart\System\Engine\Controller
+{
 	/**
 	 * @param array $setting
 	 *
 	 * @return string
 	 */
-	public function index(array $setting): string {
+	public function index(array $setting): string
+	{
+
 		if (isset($setting['total'])) {
 			$total = $setting['total'];
 		} else {
@@ -19,19 +22,19 @@ class Pagination extends \Ventocart\System\Engine\Controller {
 		}
 
 		if (isset($setting['page']) && $setting['page'] > 0) {
-			$page = (int)$setting['page'];
+			$page = (int) $setting['page'];
 		} else {
 			$page = 1;
 		}
 
-		if (isset($setting['limit']) && (int)$setting['limit']) {
-			$limit = (int)$setting['limit'];
+		if (isset($setting['limit']) && (int) $setting['limit']) {
+			$limit = (int) $setting['limit'];
 		} else {
 			$limit = 10;
 		}
 
 		if (isset($setting['url'])) {
-			$url = str_replace('%7Bpage%7D', '{page}', (string)$setting['url']);
+			$url = str_replace('%7Bpage%7D', '{page}', (string) $setting['url']);
 		} else {
 			$url = '';
 		}

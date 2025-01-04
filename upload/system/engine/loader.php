@@ -19,6 +19,7 @@ class Loader
 	 * @var object|\Ventocart\System\Engine\Registry
 	 */
 	protected $registry;
+	protected $namespace;
 
 	/**
 	 * Constructor
@@ -28,6 +29,8 @@ class Loader
 	public function __construct(\Ventocart\System\Engine\Registry $registry)
 	{
 		$this->registry = $registry;
+
+		$this->namespace = strtolower(APPLICATION) . "/";
 	}
 
 	/**
@@ -69,37 +72,45 @@ class Loader
 	 *
 	 * @return mixed
 	 */
+
 	public function controller(string $route, ...$args)
 	{
-		// Sanitize the call
+		// Sanitize the route
 		$route = preg_replace('/[^a-zA-Z0-9_|\/\.]/', '', str_replace('|', '.', $route));
+		$key = 'controller_' . str_replace('/', '_', $route);
+		$method = 'index';
 
-		$trigger = $route;
+		// Check if the controller is already loaded in the registry
+		if (!$this->registry->has($key)) {
+			$className = 'Ventocart\\' . $this->config->get('application') . '\\Controller\\' . str_replace(['_', '/'], ['', '\\'], ucwords($route, '_/'));
+			$className = explode('.', $className);
+			$method = end($className);
 
-		// Trigger the pre events
-		$this->event->trigger('controller/' . $trigger . '/before', [&$route, &$args]);
-
-		// Keep the original trigger
-		$action = new \Ventocart\System\Engine\Action($route);
-
-		while ($action) {
-			// Execute action
-			$output = $action->execute($this->registry, $args);
-
-			// Make action a non-object so it's not infinitely looping
-			$action = '';
-
-			// Action object returned then we keep the loop going
-			if ($output instanceof \Ventocart\System\Engine\Action) {
-				$action = $output;
+			if (count($className) == 1) {
+				$method = 'index';
 			}
+			$className = $className[0];
+
+			$this->autoload($className);
+
+
+			if (class_exists($className)) {
+
+				$controller = new $className($this->registry);
+
+				// Wrap the controller instance with the ControllerWrapper
+				$wrappedController = new \Ventocart\System\Engine\Wrapper($controller, $route, $this->registry);
+
+				$this->registry->set($key, $wrappedController);
+			}
+		} else {
+			$wrappedController = $this->registry->get($key);
 		}
-
-		// Trigger the post events
-		$this->event->trigger('controller/' . $trigger . '/after', [&$route, &$args, &$output]);
-
-		return $output;
+		if (isset($wrappedController)) {
+			return $wrappedController->$method(...$args);
+		}
 	}
+
 
 	/**
 	 * Model
@@ -108,42 +119,33 @@ class Loader
 	 *
 	 * @return void
 	 */
-	public function model(string $route): void
+	public function model(string $route, $namespace = '')
 	{
 		$key = 'model_' . str_replace('/', '_', $route);
 
+		if (empty($namespace)) {
+			$namespace = $this->config->get('application');
+		}
+		// Check if the model is already loaded in the registry
 		if (!$this->registry->has($key)) {
-			$className = 'Ventocart\\' . $this->config->get('application') . '\\Model\\' . str_replace(['_', '/'], ['', '\\'], ucwords($route, '_/'));
+			$className = 'Ventocart\\' . $namespace . '\\Model\\' . str_replace(['_', '/'], ['', '\\'], ucwords($route, '_/'));
 
+			$this->autoload($className);
+			// Load the model if it exists
 			if (class_exists($className)) {
-				$proxy = new \Ventocart\System\Engine\Proxy();
 				$instance = new $className($this->registry);
-				$methods = get_class_methods($className);
+				// Wrap the instance with the ModelWrapper
+				$wrappedInstance = new \Ventocart\System\Engine\Wrapper($instance, $route, $this->registry);
 
-				foreach ($methods as $method) {
-					if (substr($method, 0, 2) != '__' && is_callable([$instance, $method])) {
-						$proxy->{$method} = function (&...$args) use ($route, $method, $instance) {
-							$trigger = $route . '/' . $method;
-							$this->event->trigger('model/' . $trigger . '/before', [&$route, &$args]);
-							$output = call_user_func_array([$instance, $method], $args);
-							$this->event->trigger('model/' . $trigger . '/after', [&$route, &$args, &$output]);
-							return $output;
-						};
-					}
-				}
-
-				$proxy->__call = function ($method, $args) use ($instance) {
-					if (method_exists($instance, $method)) {
-						return call_user_func_array([$instance, $method], $args);
-					}
-					throw new \BadMethodCallException("Method $method not found in the model.");
-				};
-
-				$this->registry->set($key, $proxy);
+				// Store the wrapped instance in the registry
+				$this->registry->set($key, $wrappedInstance);
 			} else {
 				throw new \Exception('Error: Could not load model ' . $className . '!');
 			}
 		}
+
+		// Retrieve and return the wrapped model instance
+		return $this->registry->get($key);
 	}
 
 	/**
@@ -159,23 +161,16 @@ class Loader
 	 */
 	public function view(string $route, array $data = [], string $code = ''): string
 	{
+
+		$this->registry->event->trigger($route . "/before", [&$data]);
 		// Sanitize the call
 		$route = preg_replace('/[^a-zA-Z0-9_\/]/', '', $route);
+		$language_keys = $this->language->all();
+		$data = array_merge($language_keys, $data);
 
-		$trigger = $route;
-
-		$output = '';
-
-		// Trigger the pre events
-		$this->event->trigger('view/' . $trigger . '/before', [&$route, &$data, &$code, &$output]);
-
-		if (!$output) {
-			// Make sure it's only the last event that returns an output if required.
-			$output = $this->template->render($route, $data, $code);
-		}
-
-		// Trigger the post events
-		$this->event->trigger('view/' . $trigger . '/after', [&$route, &$data, &$output]);
+		// Make sure it's only the last event that returns an output if required.
+		$output = $this->template->render($route, $data, $code);
+		$this->registry->event->trigger($route . "/after", [&$output]);
 
 		return $output;
 	}
@@ -194,15 +189,7 @@ class Loader
 		// Sanitize the call
 		$route = preg_replace('/[^a-zA-Z0-9_\-\/]/', '', $route);
 
-		$trigger = $route;
-
-		// Trigger the pre events
-		$this->event->trigger('language/' . $trigger . '/before', [&$route, &$prefix, &$code]);
-
 		$output = $this->language->load($route, $prefix, $code);
-
-		// Trigger the post events
-		$this->event->trigger('language/' . $trigger . '/after', [&$route, &$prefix, &$code, &$output]);
 
 		return $output;
 	}
@@ -247,15 +234,9 @@ class Loader
 		// Sanitize the call
 		$route = preg_replace('/[^a-zA-Z0-9_\-\/]/', '', $route);
 
-		$trigger = $route;
-
-		// Trigger the pre events
-		$this->event->trigger('config/' . $trigger . '/before', [&$route]);
 
 		$output = $this->config->load($route);
 
-		// Trigger the post events
-		$this->event->trigger('config/' . $trigger . '/after', [&$route, &$output]);
 
 		return $output;
 	}
@@ -300,7 +281,31 @@ class Loader
 
 		$bridge = new \Ventocart\System\Engine\Bridge($this->registry, $NameSpace);
 		$this->registry->set('bridge', $bridge);
-		;
+
 	}
+	private function autoload($classname)
+	{
+
+		if (class_exists($classname)) {
+			// Save processing
+			return;
+		}
+
+		// For extensions that are outside of psr4 or class expected path
+		if (strpos($classname, "\\Extension\\") !== false) {
+			$ext = explode("\\", $classname);
+			$view = strtolower(DIR_EXTENSION . $ext[4] . "/" . $ext[1] . "/view" . "/template/");
+			$language = strtolower(DIR_EXTENSION . $ext[4] . "/" . $ext[1] . "/language/");
+			$extension = strtolower($ext[3] . "/" . $ext[4]);
+			$this->template->addPath($extension, $view);
+			$this->language->addPath($extension, $language);
+			$file = DIR_EXTENSION . strtolower($ext[4] . "/" . $ext[1] . "/" . $ext[2] . "/" . preg_replace('~([a-z])([A-Z]|[0-9])~', '\\1_\\2', implode("/", array_slice($ext, 5)))) . ".php";
+			if (is_file($file)) {
+				require_once $file;
+			}
+
+		}
+	}
+
 
 }

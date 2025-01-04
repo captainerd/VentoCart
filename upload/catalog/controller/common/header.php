@@ -14,6 +14,7 @@ class Header extends \Ventocart\System\Engine\Controller
 	{
 		// Analytics
 		$data['analytics'] = [];
+		$this->load->language('common/header');
 
 		if (!$this->config->get('config_cookie_id') || (isset($this->request->cookie['policy']) && $this->request->cookie['policy'])) {
 			$this->load->model('setting/extension');
@@ -55,7 +56,7 @@ class Header extends \Ventocart\System\Engine\Controller
 			$data['logo'] = '';
 		}
 
-		$this->load->language('common/header');
+
 
 		// Wishlist
 		if ($this->customer->isLogged()) {

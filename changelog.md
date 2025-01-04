@@ -1,3 +1,26 @@
+## What's New in VentoCart v5.1.2.2
+
+### **1. Major Code Refactor**
+  
+- **Event System Overhaul**:  
+  Events are now stored as a flat PHP array, eliminating loops and unnecessary processing and db query.  
+  Key changes:
+  - **Priorities and Wildcards Removed**: Events are now case-sensitive.
+  - **Optimized Execution**: No processing occurs if an event doesn’t match the scope.
+  - Removed looping through extensions—autoload, extension paths are now **lazy-loaded** when needed.
+  - Loader class for handling models and controllers has been refactored.
+
+### **2. Performance Gains**
+  
+- Removed the need for two startup controllers: `event.php` and `extension.php`.  
+- Estimated performance gain: **20-30%** 
+
+### **3. Cautionary Note**
+  
+This version focuses entirely on internal refactoring and requires further testing.  
+⚠️ **Upgrade carefully**: No new functionality is introduced in this release.
+
+
 ## What's New in VentoCart v5.1.2.1
 
 1   **Minfiy Assets - SEO improvement**

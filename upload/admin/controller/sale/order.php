@@ -468,8 +468,10 @@ class Order extends \Ventocart\System\Engine\Controller
 		if (isset($this->request->get['order_id'])) {
 			$order_id = (int) $this->request->get['order_id'];
 			// Load the controller for the Order_id / Template must always send order_id param
+
 			$this->load->model('actions/sale/order');
 			$this->model_actions_sale_order->load();
+
 
 
 		} else {
@@ -1038,70 +1040,6 @@ class Order extends \Ventocart\System\Engine\Controller
 		// Additional tabs that are payment gateway specific
 		$data['tabs'] = [];
 
-		// Extension Order Tabs can are called here.
-		$this->load->model('setting/extension');
-
-		if (!empty($order_info['payment_method']['code'])) {
-			if (isset($order_info['payment_method']['code'])) {
-				$code = oc_substr($order_info['payment_method']['code'], 0, strpos($order_info['payment_method']['code'], '.'));
-			} else {
-				$code = '';
-			}
-
-			$extension_info = $this->model_setting_extension->getExtensionByCode('payment', $code);
-
-			if ($extension_info && $this->user->hasPermission('access', 'extension/' . $extension_info['extension'] . '/payment/' . $extension_info['code'])) {
-				$output = $this->load->controller('extension/' . $extension_info['extension'] . '/payment/' . $extension_info['code'] . '.order', $order_info);
-
-				if (!$output instanceof \Exception) {
-					$this->load->language('extension/' . $extension_info['extension'] . '/payment/' . $extension_info['code'], 'extension');
-
-					$data['tabs'][] = [
-						'code' => $extension_info['code'],
-						'title' => $this->language->get('extension_heading_title'),
-						'content' => $output
-					];
-				}
-			}
-		}
-
-		// Extension Order Tabs can are called here.
-		$this->load->model('setting/extension');
-
-		$extensions = $this->model_setting_extension->getExtensionsByType('fraud');
-
-		foreach ($extensions as $extension) {
-			if ($this->config->get('fraud_' . $extension['code'] . '_status')) {
-				$this->load->language('extension/' . $extension['extension'] . '/fraud/' . $extension['code'], 'extension');
-
-				$output = $this->load->controller('extension/' . $extension['extension'] . '/fraud/' . $extension['code'] . '.order');
-
-				if (!$output instanceof \Exception) {
-					$data['tabs'][] = [
-						'code' => $extension['extension'],
-						'title' => $this->language->get('extension_heading_title'),
-						'content' => $output
-					];
-				}
-			}
-		}
-
-		// Additional information
-		if (!empty($order_info)) {
-			$data['ip'] = $order_info['ip'];
-			$data['forwarded_ip'] = $order_info['forwarded_ip'];
-			$data['user_agent'] = $order_info['user_agent'];
-			$data['accept_language'] = $order_info['accept_language'];
-			$data['date_added'] = date($this->language->get('date_format_short'), strtotime($order_info['date_added']));
-			$data['date_modified'] = date($this->language->get('date_format_short'), strtotime($order_info['date_modified']));
-		} else {
-			$data['ip'] = '';
-			$data['forwarded_ip'] = '';
-			$data['user_agent'] = '';
-			$data['accept_language'] = '';
-			$data['date_added'] = date($this->language->get('date_format_short'), time());
-			$data['date_modified'] = date($this->language->get('date_format_short'), time());
-		}
 
 		// Histories
 		$data['history'] = $this->getHistory();

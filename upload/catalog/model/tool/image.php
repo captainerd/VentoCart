@@ -76,7 +76,7 @@ class Image extends \Ventocart\System\Engine\Model
 				}
 				// Convert to the selected format if necessary
 
-				$image->save(DIR_IMAGE . $image_new, $image_quality, $image_format);
+				$image->save(DIR_IMAGE . $image_new, (int) $image_quality, $image_format);
 
 			} else {
 				$image = new \Ventocart\System\Library\Image(DIR_IMAGE . $image_old);

@@ -274,8 +274,10 @@ class Order extends \Ventocart\System\Engine\Model
 
 	}
 
-	public function getOrder(int $order_id): array
+	public function getOrder($order_id): array
 	{
+
+
 		$order_query = $this->db->query("SELECT *, (SELECT `os`.`name` FROM `" . DB_PREFIX . "order_status` `os` WHERE `os`.`order_status_id` = `o`.`order_status_id` AND `os`.`language_id` = `o`.`language_id`) AS order_status FROM `" . DB_PREFIX . "order` `o` WHERE `o`.`order_id` = '" . (int) $order_id . "'");
 
 		if ($order_query->num_rows) {

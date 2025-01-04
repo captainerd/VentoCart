@@ -1,4 +1,5 @@
 <?php
+
 // Autoloader
 $autoloader = new \Ventocart\System\Engine\Autoloader();
 $autoloader->register('Ventocart\\' . APPLICATION, DIR_APPLICATION);
@@ -76,19 +77,6 @@ set_exception_handler(function (\Throwable $e) use ($log, $config): void {
 		exit();
 	}
 });
-
-// Event
-$event = new \Ventocart\System\Engine\Event($registry);
-$registry->set('event', $event);
-
-// Event Register
-if ($config->has('action_event')) {
-	foreach ($config->get('action_event') as $key => $value) {
-		foreach ($value as $priority => $action) {
-			$event->register($key, new \Ventocart\System\Engine\Action($action), $priority);
-		}
-	}
-}
 
 // Loader
 $loader = new \Ventocart\System\Engine\Loader($registry);
@@ -176,31 +164,21 @@ $registry->set('document', new \Ventocart\System\Library\Document());
 // Factory
 $registry->set('factory', new \Ventocart\System\Engine\Factory($registry));
 
+$event = new Ventocart\System\Engine\Event($registry);
+$registry->set('event', $event);
+
+
+
 $action = '';
 $args = [];
 $output = '';
 
-// Action error object to execute if any other actions cannot be executed.
-$error = new \Ventocart\System\Engine\Action($config->get('action_error'));
-
 // Pre Actions
 foreach ($config->get('action_pre_action') as $pre_action) {
-	$pre_action = new \Ventocart\System\Engine\Action($pre_action);
 
-	$result = $pre_action->execute($registry);
-
-	if ($result instanceof \Ventocart\System\Engine\Action) {
-		$action = $result;
-
-		break;
-	}
-
-	// If action cannot be executed, we return an action error object.
-	if ($result instanceof \Exception) {
-		echo "Error: " . $result->getMessage();
-	}
-
+	$loader->load->controller($pre_action);
 }
+
 
 // Route
 if (isset($request->get['route'])) {
@@ -209,40 +187,11 @@ if (isset($request->get['route'])) {
 	$route = (string) $config->get('action_default');
 }
 
-// Keep the original trigger
-$trigger = $route;
 
-// Trigger the pre events
-$event->trigger('controller/' . $trigger . '/before', [&$route, &$args]);
+$loader->load->controller($route);
 
-if (!$action) {
-	$action = new \Ventocart\System\Engine\Action($route);
-}
-
-// Dispatch
-while ($action) {
-	// Execute action
-	$output = $action->execute($registry, $args);
-
-	// Make action a non-object so it's not infinitely looping
-	$action = '';
-
-	// Action object returned then we keep the loop going
-	if ($output instanceof \Ventocart\System\Engine\Action) {
-		$action = $output;
-	}
-
-	// If action cannot be executed, we return the action error object.
-	if ($output instanceof \Exception) {
-		$action = $error;
-
-		// In case there is an error we don't want to infinitely keep calling the action error object.
-		$error = '';
-	}
-}
-
-// Trigger the post events
-$event->trigger('controller/' . $trigger . '/after', [&$route, &$args, &$output]);
 
 // Output
 $response->output();
+
+

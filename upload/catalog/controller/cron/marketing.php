@@ -20,10 +20,12 @@ class Marketing extends \Ventocart\System\Engine\Controller
     {
 
         // Initialize a bridge
+
         $this->load->bridge('Admin');
 
         // Sends nessesry notifications and updates analytics
         $this->load->controller('marketing/abandonedcart.sendNotifications');
+
 
         $this->log->write("Running abandoned cart cron...");
     }
