@@ -194,8 +194,9 @@ class Order extends \Ventocart\System\Engine\Model
 	 */
 	public function confirm(): array
 	{
-		$this->load->language('actions/sale/order');
 
+		$this->load->language('actions/sale/order');
+		$comment = $this->language->get('text_admin_order_edit');
 		$this->load->bridge('Catalog');
 		$json = [];
 
@@ -477,11 +478,11 @@ class Order extends \Ventocart\System\Engine\Model
 			} else {
 				$order_status_id = $this->config->get('config_order_status_id');
 			}
-			$comment = $this->bridgeLanguage->get('text_admin_order_edit');
+
 			$this->model_checkout_order->addHistory($json['order_id'], $order_status_id, $comment);
 
 			$this->bridge->kill();
-
+			$this->load->language('actions/sale/order');
 			$json['success'] = $this->language->get('text_success');
 
 			$json['points'] = $points;
@@ -566,6 +567,7 @@ class Order extends \Ventocart\System\Engine\Model
 		if (!$json) {
 			$this->model_checkout_order->addHistory((int) $this->request->post['order_id'], (int) $this->request->post['order_status_id'], (string) $this->request->post['comment'], (bool) $this->request->post['notify'], (bool) $this->request->post['override']);
 			$this->load->bridge->kill();
+			$this->load->language('sale/order');
 			$json['success'] = $this->language->get('text_success');
 		}
 

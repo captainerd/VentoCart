@@ -24,19 +24,15 @@ class Event
 
         // If there are listeners for the event
         if (!empty(($this->actions[$eventName]))) {
-
             foreach ($this->actions[$eventName] as $callback) {
-
-
                 $this->runController($callback['action'], $this->registry, ...$params);
-
-
             }
         }
     }
 
     public function runController(string $route, \Ventocart\System\Engine\Registry $registry, &$args)
     {
+
         // Sanitize route and determine method
         $route = preg_replace('/[^a-zA-Z0-9_|\/\.]/', '', $route);
         $pos = strrpos($route, '.');

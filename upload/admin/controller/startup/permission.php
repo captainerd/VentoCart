@@ -5,11 +5,13 @@ namespace Ventocart\Admin\Controller\Startup;
  *
  * @package Ventocart\Admin\Controller\Startup
  */
-class Permission extends \Ventocart\System\Engine\Controller {
+class Permission extends \Ventocart\System\Engine\Controller
+{
 	/**
 	 * @return object
 	 */
-	public function index(): ?object {
+	public function index(): ?object
+	{
 		if (isset($this->request->get['route'])) {
 			$pos = strrpos($this->request->get['route'], '.');
 
@@ -32,7 +34,7 @@ class Permission extends \Ventocart\System\Engine\Controller {
 			];
 
 			if (substr($route, 0, 4) !== 'api/' && !in_array($route, $ignore) && !$this->user->hasPermission('access', $route)) {
-				return new \Ventocart\System\Engine\Action('error/permission');
+				$this->load->controller('error/permission');
 			}
 		}
 

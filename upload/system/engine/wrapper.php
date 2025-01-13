@@ -29,33 +29,20 @@ class Wrapper
      */
     public function __call($method, $args)
     {
-
-        // Trigger the 'before' event
-        $this->triggerEvent('Before', $method, $args);
+        // Trigger the 'before' event  
+        $eventNameBefore = get_class($this->instance) . '\\' . $method . '\\Before';
+        $this->registry->event->trigger($eventNameBefore, [&$args]);
 
         // Delegate the method call to the actual instance
-        $output = call_user_func_array([$this->instance, $method], $args);
+        if (method_exists($this->instance, $method)) {
+            $output = call_user_func_array([$this->instance, $method], $args);
+        }
 
-        // Trigger the 'after' event
-        $this->triggerEvent('After', $method, $args, $output);
+        // Trigger the 'after' event 
+        $eventNameAfter = get_class($this->instance) . '\\' . $method . '\\After';
+        $this->registry->event->trigger($eventNameAfter, [&$args, &$output]);
 
         return $output;
     }
 
-
-    /**
-     * Trigger events before or after the method call.
-     */
-    private function triggerEvent(string $when, string $method, array $args, $output = null)
-    {
-
-        $eventName = get_class($this->instance) . '\\' . $method . '\\' . $when;
-        if ($when === 'Before') {
-
-            $this->registry->event->trigger($eventName, [&$args]);
-        } elseif ($when === 'After') {
-
-            $this->registry->event->trigger($eventName, [&$args, &$output]);
-        }
-    }
 }

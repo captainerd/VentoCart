@@ -1,0 +1,202 @@
+{{ header }}{{ column_left }}
+
+
+
+<div id="content">
+  <div class="page-header">
+    <div class="container-fluid">
+      <div class="float-end">
+        <button type="submit" form="form-language" formaction="{{ save }}" data-bs-toggle="tooltip"
+          title="{{ button_save }}" class="btn btn-primary"><i class="fa-solid fa-floppy-disk"></i></button>
+        <a href="{{ back }}" data-bs-toggle="tooltip" title="{{ button_back }}" class="btn btn-light"><i
+            class="fa-solid fa-reply"></i></a>
+      </div>
+      <h1>{{ heading_title }}</h1>
+      <ol class="breadcrumb">
+        {% for breadcrumb in breadcrumbs %}
+        <li class="breadcrumb-item"><a href="{{ breadcrumb.href }}">{{ breadcrumb.text }}</a></li>
+        {% endfor %}
+      </ol>
+    </div>
+  </div>
+
+
+  <div class="container-fluid">
+
+
+    <div class="card">
+      <div class="card-header"><i class="fa-solid fa-pencil"></i> {{ text_form }}</div>
+      <div class="card-body">
+        <form id="form-language" action="{{ save }}" method="post" data-oc-toggle="ajax">
+
+          {% if language_id == 0 %}
+          <div class="row mb-3">
+            <label class="col-sm-2 col-form-label">{{entry_country_flag}} <img style="width: 25px;" id="flag"
+                src="" /></label>
+            <div class="col-sm-10">
+              <input type="hidden" name="flag" id="input-flag" />
+              <select name="country" id="select-country" class="form-select">
+                <option>{{option_select_country}}</option>
+                {% for country in countries %}
+                <option value="{{ country['isoCountryCode'] }}" data-flag="{{ country['flag'] }}">
+                  {{ country['country'] }}
+                </option>
+                {% endfor %}
+              </select>
+            </div>
+          </div>
+          {% endif %}
+
+          <div class="row mb-3 {% if language_id == 0 %} required   {% endif %}">
+            <label for="input-name" class="col-sm-2 col-form-label">{{ entry_name }}</label>
+            <div class="col-sm-10">
+
+              {% if language_id == 0 %}
+              <!-- HTML Select for Languages -->
+              <input type="hidden" name="name" id="input-name" />
+              <select name="language" id="select-language" class="form-select">
+                <!-- Options will be populated dynamically using JavaScript -->
+              </select>
+              {% else %}
+              <label  class=" col-form-label">      {{ name }}</label>
+              <input type="hidden" name="name" value="{{ name }}" placeholder="{{ entry_name }}" id="input-name" class="form-control"/>
+              {% endif %}
+
+              <div id="error-name" class="invalid-feedback"></div>
+            </div>
+          </div>
+
+          <input type="hidden" name="code" value="{{ code }}" placeholder="{{ entry_code }}" id="input-code"
+          class="form-control" />
+          <input type="hidden" name="extension" value="{{ extension }}" id="input-extension" class="form-control"
+          readonly />
+          <input type="hidden" name="locale" value="{{ locale }}" placeholder="{{ entry_locale }}" id="input-locale"
+          class="form-control" />
+          
+
+          <div class="row mb-3">
+            <label class="col-sm-2 col-form-label">{{ entry_status }}</label>
+            <div class="col-sm-10">
+              <div class="form-check form-switch form-switch-lg">
+                <input type="hidden" name="status" value="0" />
+                <input type="checkbox" name="status" value="1" id="input-status" class="form-check-input" {% if status
+                  %} checked{% endif %} />
+              </div>
+              <div class="form-text">{{ help_status }}</div>
+            </div>
+          </div>
+
+
+
+          <div class="row mb-3">
+            <label for="input-sort-order" class="col-sm-2 col-form-label">{{ entry_sort_order }}</label>
+            <div class="col-sm-10">
+              <input type="text" name="sort_order" value="{{ sort_order }}" placeholder="{{ entry_sort_order }}"
+                id="input-sort-order" class="form-control" />
+            </div>
+          </div>
+
+          <input type="hidden" name="language_id" value="{{ language_id }}" id="input-language-id" />
+        </form>
+        <div class="row mb-3">
+         
+          <div class="col-sm-10">
+            <button type="button" id="translate" class="btn btn-primary">{{button_proceed_to_translate}}</button>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+
+
+  </div>
+</div>
+
+
+<script>
+  var countriesObject = {{ countries| json_encode | raw }};
+  $(document).ready(function () {
+
+
+    function populateLanguages(selectedCountry) {
+      var selectLanguage = $('#select-language');
+      selectLanguage.empty(); // Clear existing options
+
+      if (selectedCountry !== '--') {
+        var selectedCountryObject = countriesObject.find(function (country) {
+          return country.isoCountryCode === selectedCountry;
+        });
+
+        if (selectedCountryObject) {
+          $.each(selectedCountryObject.locales, function (index, locale) {
+            var option = $('<option>').val(locale.locale).text(locale.languageFullName);
+            selectLanguage.append(option);
+          });
+          if (selectedCountryObject.locales.length == 1) {
+
+            let formattedLanguage = selectedCountryObject.locales[0].locale.toLowerCase().replace(/_/g, '-');
+
+            // Set the formatted language as the value of the input
+            $("#input-code").val(formattedLanguage);
+
+            $("#input-locale").val(selectedCountryObject.locales[0].locale);
+            $("#input-name").val(selectedCountryObject.locales[0].languageFullName);
+          } else {
+            var option = $('<option selected value="0">').text('{{option_select_language}}');
+            selectLanguage.prepend(option);
+
+            $("#input-code").val('');
+            $("#input-locale").val('');
+          }
+        }
+      }
+    }
+
+    // Event listener for the country select using jQuery
+    $('#select-country').on('change', function () {
+      var selectedCountry = $(this).val();
+      let flag = $(this).find(":selected").data("flag");
+      console.log(flag);
+      $("#flag").attr('src', "/catalog/language/flags/" + flag);
+      $("#input-flag").val(flag);
+   
+      populateLanguages(selectedCountry);
+    });
+
+    // Event listener for the language select using jQuery
+    $('#select-language').on('change', function () {
+      var selectedLanguage = $(this).val();
+      // Perform actions based on the selected language
+      if (selectedLanguage == 0) {
+        $("#input-code").val('');
+        $("#input-locale").val('');
+        return;
+      }
+
+      let formattedLanguage = selectedLanguage.toLowerCase().replace(/_/g, '-');
+
+      // Set the formatted language as the value of the input
+      $("#input-code").val(formattedLanguage);
+      $("#input-locale").val(selectedLanguage);
+      $("#input-name").val($(this).find(":selected").text().trim())
+    });
+
+
+    $("#translate").click(function () {
+      if ($("#input-language-id").val() == 0) {
+        alert('Save the language first');
+        return;
+      }
+      // Construct the URL with the desired parameters
+      var userToken = "{{user_token}}";
+      var languageCode = $("#input-code").val();
+      var redirectUrl = "index.php?route=localisation/language.translate&user_token=" + userToken + "&code=" + languageCode + '&language_id=' + $("#input-language-id").val();
+
+      // Redirect to the specified URL
+      window.location.href = redirectUrl;
+    });
+
+  });
+</script>
+{{ footer }}

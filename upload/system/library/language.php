@@ -132,6 +132,7 @@ class Language
 			$_ = [];
 			$file = $this->directory . $code . '/' . $filename . '.php';
 			$namespace = '';
+
 			$parts = explode('/', $filename);
 
 			foreach ($parts as $part) {

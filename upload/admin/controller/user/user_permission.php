@@ -5,11 +5,13 @@ namespace Ventocart\Admin\Controller\User;
  *
  * @package Ventocart\Admin\Controller\User
  */
-class UserPermission extends \Ventocart\System\Engine\Controller {
+class UserPermission extends \Ventocart\System\Engine\Controller
+{
 	/**
 	 * @return void
 	 */
-	public function index(): void {
+	public function index(): void
+	{
 		$this->load->language('user/user_group');
 
 		$this->document->setTitle($this->language->get('heading_title'));
@@ -57,7 +59,8 @@ class UserPermission extends \Ventocart\System\Engine\Controller {
 	/**
 	 * @return void
 	 */
-	public function list(): void {
+	public function list(): void
+	{
 		$this->load->language('user/user_group');
 
 		$this->response->setOutput($this->getList());
@@ -66,21 +69,22 @@ class UserPermission extends \Ventocart\System\Engine\Controller {
 	/**
 	 * @return string
 	 */
-	protected function getList(): string {
+	protected function getList(): string
+	{
 		if (isset($this->request->get['sort'])) {
-			$sort = (string)$this->request->get['sort'];
+			$sort = (string) $this->request->get['sort'];
 		} else {
 			$sort = 'name';
 		}
 
 		if (isset($this->request->get['order'])) {
-			$order = (string)$this->request->get['order'];
+			$order = (string) $this->request->get['order'];
 		} else {
 			$order = 'ASC';
 		}
 
 		if (isset($this->request->get['page'])) {
-			$page = (int)$this->request->get['page'];
+			$page = (int) $this->request->get['page'];
 		} else {
 			$page = 1;
 		}
@@ -104,7 +108,7 @@ class UserPermission extends \Ventocart\System\Engine\Controller {
 		$data['user_groups'] = [];
 
 		$filter_data = [
-			'sort'  => $sort,
+			'sort' => $sort,
 			'order' => $order,
 			'start' => ($page - 1) * $this->config->get('config_pagination_admin'),
 			'limit' => $this->config->get('config_pagination_admin')
@@ -117,8 +121,8 @@ class UserPermission extends \Ventocart\System\Engine\Controller {
 		foreach ($results as $result) {
 			$data['user_groups'][] = [
 				'user_group_id' => $result['user_group_id'],
-				'name'          => $result['name'],
-				'edit'          => $this->url->link('user/user_permission.form', 'user_token=' . $this->session->data['user_token'] . '&user_group_id=' . $result['user_group_id'] . $url)
+				'name' => $result['name'],
+				'edit' => $this->url->link('user/user_permission.form', 'user_token=' . $this->session->data['user_token'] . '&user_group_id=' . $result['user_group_id'] . $url)
 			];
 		}
 
@@ -146,9 +150,9 @@ class UserPermission extends \Ventocart\System\Engine\Controller {
 
 		$data['pagination'] = $this->load->controller('common/pagination', [
 			'total' => $user_group_total,
-			'page'  => $page,
+			'page' => $page,
 			'limit' => $this->config->get('config_pagination_admin'),
-			'url'   => $this->url->link('user/user_permission.list', 'user_token=' . $this->session->data['user_token'] . $url . '&page={page}')
+			'url' => $this->url->link('user/user_permission.list', 'user_token=' . $this->session->data['user_token'] . $url . '&page={page}')
 		]);
 
 		$data['results'] = sprintf($this->language->get('text_pagination'), ($user_group_total) ? (($page - 1) * $this->config->get('config_pagination_admin')) + 1 : 0, ((($page - 1) * $this->config->get('config_pagination_admin')) > ($user_group_total - $this->config->get('config_pagination_admin'))) ? $user_group_total : ((($page - 1) * $this->config->get('config_pagination_admin')) + $this->config->get('config_pagination_admin')), $user_group_total, ceil($user_group_total / $this->config->get('config_pagination_admin')));
@@ -162,7 +166,8 @@ class UserPermission extends \Ventocart\System\Engine\Controller {
 	/**
 	 * @return void
 	 */
-	public function form(): void {
+	public function form(): void
+	{
 		$this->load->language('user/user_group');
 
 		$this->document->setTitle($this->language->get('heading_title'));
@@ -205,7 +210,7 @@ class UserPermission extends \Ventocart\System\Engine\Controller {
 		}
 
 		if (isset($this->request->get['user_group_id'])) {
-			$data['user_group_id'] = (int)$this->request->get['user_group_id'];
+			$data['user_group_id'] = (int) $this->request->get['user_group_id'];
 		} else {
 			$data['user_group_id'] = 0;
 		}
@@ -289,14 +294,6 @@ class UserPermission extends \Ventocart\System\Engine\Controller {
 
 		$data['extensions'] = [];
 
-		// Extension permissions
-		$results = glob(DIR_EXTENSION . '*/admin/controller/*/*.php');
-
-		foreach ($results as $result) {
-			$path = substr($result, strlen(DIR_EXTENSION));
-
-			$data['extensions'][] = 'extension/' . str_replace('admin/controller/', '', substr($path, 0, strrpos($path, '.')));
-		}
 
 		if (isset($user_group_info['permission']['access'])) {
 			$data['access'] = $user_group_info['permission']['access'];
@@ -322,7 +319,8 @@ class UserPermission extends \Ventocart\System\Engine\Controller {
 	/**
 	 * @return void
 	 */
-	public function save(): void {
+	public function save(): void
+	{
 		$this->load->language('user/user_group');
 
 		$json = [];
@@ -354,7 +352,8 @@ class UserPermission extends \Ventocart\System\Engine\Controller {
 	/**
 	 * @return void
 	 */
-	public function delete(): void {
+	public function delete(): void
+	{
 		$this->load->language('user/user_group');
 
 		$json = [];

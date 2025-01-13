@@ -5,7 +5,8 @@ namespace Ventocart\Admin\Controller\Startup;
  *
  * @package Ventocart\Admin\Controller\Startup
  */
-class Language extends \Ventocart\System\Engine\Controller {
+class Language extends \Ventocart\System\Engine\Controller
+{
 	/**
 	 * @var array
 	 */
@@ -14,9 +15,10 @@ class Language extends \Ventocart\System\Engine\Controller {
 	/**
 	 * @return void
 	 */
-	public function index(): void {
+	public function index(): void
+	{
 		if (isset($this->request->cookie['language'])) {
-			$code = (string)$this->request->cookie['language'];
+			$code = (string) $this->request->cookie['language'];
 		} else {
 			$code = $this->config->get('config_language_admin');
 		}
@@ -28,10 +30,7 @@ class Language extends \Ventocart\System\Engine\Controller {
 		if (isset(self::$languages[$code])) {
 			$language_info = self::$languages[$code];
 
-			// Language
-			if ($language_info['extension']) {
-				$this->language->addPath('extension/' . $language_info['extension'], DIR_EXTENSION . $language_info['extension'] . '/admin/language/');
-			}
+
 
 			// Set the config language_id key
 			$this->config->set('config_language_id', $language_info['language_id']);
@@ -51,7 +50,8 @@ class Language extends \Ventocart\System\Engine\Controller {
 	 *
 	 * @return void
 	 */
-	public function after(&$route, &$prefix, &$code, &$output): void {
+	public function after(&$route, &$prefix, &$code, &$output): void
+	{
 		if (!$code) {
 			$code = $this->config->get('config_language_admin');
 		}

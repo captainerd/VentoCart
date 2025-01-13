@@ -7,9 +7,7 @@ namespace Ventocart\Admin\Controller\Startup;
  */
 class Login extends \Ventocart\System\Engine\Controller
 {
-	/**
-	 * @return \Ventocart\System\Engine\Action
-	 */
+
 	public function index(): ?object
 	{
 

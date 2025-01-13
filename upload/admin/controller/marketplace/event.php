@@ -5,11 +5,13 @@ namespace Ventocart\Admin\Controller\Marketplace;
  *
  * @package Ventocart\Admin\Controller\Marketplace
  */
-class Event extends \Ventocart\System\Engine\Controller {
+class Event extends \Ventocart\System\Engine\Controller
+{
 	/**
 	 * @return void
 	 */
-	public function index(): void {
+	public function index(): void
+	{
 		$this->load->language('marketplace/event');
 
 		$this->document->setTitle($this->language->get('heading_title'));
@@ -56,7 +58,8 @@ class Event extends \Ventocart\System\Engine\Controller {
 	/**
 	 * @return void
 	 */
-	public function list(): void {
+	public function list(): void
+	{
 		$this->load->language('marketplace/event');
 
 		$this->response->setOutput($this->getList());
@@ -65,21 +68,22 @@ class Event extends \Ventocart\System\Engine\Controller {
 	/**
 	 * @return string
 	 */
-	public function getList(): string {
+	public function getList(): string
+	{
 		if (isset($this->request->get['sort'])) {
-			$sort = (string)$this->request->get['sort'];
+			$sort = (string) $this->request->get['sort'];
 		} else {
 			$sort = 'code';
 		}
 
 		if (isset($this->request->get['order'])) {
-			$order = (string)$this->request->get['order'];
+			$order = (string) $this->request->get['order'];
 		} else {
 			$order = 'ASC';
 		}
 
 		if (isset($this->request->get['page'])) {
-			$page = (int)$this->request->get['page'];
+			$page = (int) $this->request->get['page'];
 		} else {
 			$page = 1;
 		}
@@ -103,7 +107,7 @@ class Event extends \Ventocart\System\Engine\Controller {
 		$data['events'] = [];
 
 		$filter_data = [
-			'sort'  => $sort,
+			'sort' => $sort,
 			'order' => $order,
 			'start' => ($page - 1) * $this->config->get('config_pagination_admin'),
 			'limit' => $this->config->get('config_pagination_admin')
@@ -115,15 +119,15 @@ class Event extends \Ventocart\System\Engine\Controller {
 
 		foreach ($results as $result) {
 			$data['events'][] = [
-				'event_id'    => $result['event_id'],
-				'code'        => $result['code'],
+				'event_id' => $result['event_id'],
+				'code' => $result['code'],
 				'description' => $result['description'],
-				'trigger'     => $result['trigger'],
-				'action'      => $result['action'],
-				'status'      => $result['status'],
-				'sort_order'  => $result['sort_order'],
-				'enable'      => $this->url->link('marketplace/event.enable', 'user_token=' . $this->session->data['user_token'] . '&event_id=' . $result['event_id']),
-				'disable'     => $this->url->link('marketplace/event.disable', 'user_token=' . $this->session->data['user_token'] . '&event_id=' . $result['event_id'])
+				'trigger' => $result['trigger'],
+				'action' => $result['action'],
+				'status' => $result['status'],
+				'sort_order' => $result['sort_order'],
+				'enable' => $this->url->link('marketplace/event.enable', 'user_token=' . $this->session->data['user_token'] . '&event_id=' . $result['event_id']),
+				'disable' => $this->url->link('marketplace/event.disable', 'user_token=' . $this->session->data['user_token'] . '&event_id=' . $result['event_id'])
 			];
 		}
 
@@ -152,9 +156,9 @@ class Event extends \Ventocart\System\Engine\Controller {
 
 		$data['pagination'] = $this->load->controller('common/pagination', [
 			'total' => $event_total,
-			'page'  => $page,
+			'page' => $page,
 			'limit' => $this->config->get('config_pagination_admin'),
-			'url'   => $this->url->link('marketplace/event.list', 'user_token=' . $this->session->data['user_token'] . $url . '&page={page}')
+			'url' => $this->url->link('marketplace/event.list', 'user_token=' . $this->session->data['user_token'] . $url . '&page={page}')
 		]);
 
 		$data['results'] = sprintf($this->language->get('text_pagination'), ($event_total) ? (($page - 1) * $this->config->get('config_pagination_admin')) + 1 : 0, ((($page - 1) * $this->config->get('config_pagination_admin')) > ($event_total - $this->config->get('config_pagination_admin'))) ? $event_total : ((($page - 1) * $this->config->get('config_pagination_admin')) + $this->config->get('config_pagination_admin')), $event_total, ceil($event_total / $this->config->get('config_pagination_admin')));
@@ -168,13 +172,14 @@ class Event extends \Ventocart\System\Engine\Controller {
 	/**
 	 * @return void
 	 */
-	public function enable(): void {
+	public function enable(): void
+	{
 		$this->load->language('marketplace/event');
 
 		$json = [];
 
 		if (isset($this->request->get['event_id'])) {
-			$event_id = (int)$this->request->get['event_id'];
+			$event_id = (int) $this->request->get['event_id'];
 		} else {
 			$event_id = 0;
 		}
@@ -187,7 +192,7 @@ class Event extends \Ventocart\System\Engine\Controller {
 			$this->load->model('setting/event');
 
 			$this->model_setting_event->editStatus($event_id, 1);
-
+			sleep(3);
 			$json['success'] = $this->language->get('text_success');
 		}
 
@@ -198,13 +203,14 @@ class Event extends \Ventocart\System\Engine\Controller {
 	/**
 	 * @return void
 	 */
-	public function disable(): void {
+	public function disable(): void
+	{
 		$this->load->language('marketplace/event');
 
 		$json = [];
 
 		if (isset($this->request->get['event_id'])) {
-			$event_id = (int)$this->request->get['event_id'];
+			$event_id = (int) $this->request->get['event_id'];
 		} else {
 			$event_id = 0;
 		}
@@ -217,7 +223,7 @@ class Event extends \Ventocart\System\Engine\Controller {
 			$this->load->model('setting/event');
 
 			$this->model_setting_event->editStatus($event_id, 0);
-
+			sleep(3);
 			$json['success'] = $this->language->get('text_success');
 		}
 
@@ -228,13 +234,14 @@ class Event extends \Ventocart\System\Engine\Controller {
 	/**
 	 * @return void
 	 */
-	public function delete(): void {
+	public function delete(): void
+	{
 		$this->load->language('marketplace/event');
 
 		$json = [];
 
 		if (isset($this->request->post['selected'])) {
-			$selected = (array)$this->request->post['selected'];
+			$selected = (array) $this->request->post['selected'];
 		} else {
 			$selected = [];
 		}

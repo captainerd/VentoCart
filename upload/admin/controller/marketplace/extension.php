@@ -5,11 +5,13 @@ namespace Ventocart\Admin\Controller\Marketplace;
  *
  * @package Ventocart\Admin\Controller\Marketplace
  */
-class Extension extends \Ventocart\System\Engine\Controller {
+class Extension extends \Ventocart\System\Engine\Controller
+{
 	/**
 	 * @return void
 	 */
-	public function index(): void {
+	public function index(): void
+	{
 		$this->load->language('marketplace/extension');
 
 		$this->document->setTitle($this->language->get('heading_title'));
@@ -21,42 +23,36 @@ class Extension extends \Ventocart\System\Engine\Controller {
 			'href' => $this->url->link('common/dashboard', 'user_token=' . $this->session->data['user_token'])
 		];
 
-		$data['breadcrumbs'][] = [
-			'text' => $this->language->get('heading_title'),
-			'href' => $this->url->link('marketplace/extension', 'user_token=' . $this->session->data['user_token'])
-		];
+		// Use the  for the max file size
+		$data['error_upload_size'] = sprintf($this->language->get('error_file_size'), ini_get('upload_max_filesize'));
+
+		$data['config_file_max_size'] = ((int) preg_filter('/[^0-9]/', '', ini_get('upload_max_filesize')) * 1024 * 1024);
+
+		$data['upload'] = $this->url->link('tool/installer.upload', 'user_token=' . $this->session->data['user_token']);
+
 
 		if (isset($this->request->get['type'])) {
-			$data['type'] = $this->request->get['type'];
-		} else {
-			$data['type'] = '';
+			$data['which'] = $this->request->get['type'];
+			$this->request->get['nojs'] = '1';
 		}
-
+		if (isset($this->request->get['which'])) {
+			$data['which'] = $this->request->get['which'];
+		} else {
+			$data['which'] = '';
+		}
+		$data['which'] = $this->request->get['which'];
 		$data['categories'] = [];
 
 		$this->load->model('setting/extension');
 
-		$files = glob(DIR_APPLICATION . 'controller/extension/*.php');
 
-		foreach ($files as $file) {
-			$extension = basename($file, '.php');
+		$this->load->model('marketplace/extension');
+		$data['categories'] = $this->model_marketplace_extension->getCategories();
 
-			$this->load->language('extension/' . $extension, $extension);
+		if (isset($this->request->get['which'])) {
 
-			if ($this->user->hasPermission('access', 'extension/' . $extension)) {
-				$data['categories'][] = [
-					'code' => $extension,
-					'text' => $this->language->get($extension . '_heading_title') . ' (' . count(glob(DIR_EXTENSION . '*/admin/controller/' . $extension . '/*.php')) . ')',
-					'href' => $this->url->link('extension/' . $extension, 'user_token=' . $this->session->data['user_token'])
-				];
-			}
-		}
+			$data['extension'] = $this->load->controller('marketplace/loadlists.getList', $this->request->get['which']);
 
-		if (isset($this->request->get['type'])) {
-			$data['extension'] = $this->load->controller('extension/' . basename($this->request->get['type']) . '.getList');
- 
-		} elseif ($data['categories']) {
-			$data['extension'] = $this->load->controller('extension/' . $data['categories'][0]['code'] . '.getList');
 		} else {
 			$data['extension'] = '';
 		}
@@ -66,7 +62,11 @@ class Extension extends \Ventocart\System\Engine\Controller {
 		$data['header'] = $this->load->controller('common/header');
 		$data['column_left'] = $this->load->controller('common/column_left');
 		$data['footer'] = $this->load->controller('common/footer');
+		if (!isset($this->request->get['nojs'])) {
+			$this->response->setOutput($data['extension']);
+		} else {
 
-		$this->response->setOutput($this->load->view('marketplace/extension', $data));
+			$this->response->setOutput($this->load->view('marketplace/extension', $data));
+		}
 	}
 }

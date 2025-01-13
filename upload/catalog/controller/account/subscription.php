@@ -225,9 +225,6 @@ class Subscription extends \Ventocart\System\Engine\Controller
 		return $this->load->view('account/subscription_list', $data);
 	}
 
-	/**
-	 * @return object|\Ventocart\System\Engine\Action|null
-	 */
 	public function info(): ?object
 	{
 		$this->load->language('account/subscription');
@@ -540,7 +537,8 @@ class Subscription extends \Ventocart\System\Engine\Controller
 
 			$this->response->setOutput($this->load->view('account/subscription_info', $data));
 		} else {
-			return new \Ventocart\System\Engine\Action('error/not_found');
+			$this->request->get['route'] = 'error/not_found';
+			return $this->load->controller('error/not_found');
 		}
 
 		return null;

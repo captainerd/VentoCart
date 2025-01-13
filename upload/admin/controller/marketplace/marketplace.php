@@ -5,59 +5,61 @@ namespace Ventocart\Admin\Controller\Marketplace;
  *
  * @package Ventocart\Admin\Controller\Marketplace
  */
-class Marketplace extends \Ventocart\System\Engine\Controller {
+class Marketplace extends \Ventocart\System\Engine\Controller
+{
 	/**
 	 * @return void
 	 */
-	public function index(): void {
+	public function index(): void
+	{
 		$this->load->language('marketplace/marketplace');
 
 		$this->document->setTitle($this->language->get('heading_title'));
 
 		if (isset($this->request->get['filter_search'])) {
-			$filter_search = (string)$this->request->get['filter_search'];
+			$filter_search = (string) $this->request->get['filter_search'];
 		} else {
 			$filter_search = '';
 		}
 
 		if (isset($this->request->get['filter_category'])) {
-			$filter_category = (string)$this->request->get['filter_category'];
+			$filter_category = (string) $this->request->get['filter_category'];
 		} else {
 			$filter_category = '';
 		}
 
 		if (isset($this->request->get['filter_license'])) {
-			$filter_license = (string)$this->request->get['filter_license'];
+			$filter_license = (string) $this->request->get['filter_license'];
 		} else {
 			$filter_license = '';
 		}
 
 		if (isset($this->request->get['filter_rating'])) {
-			$filter_rating = (int)$this->request->get['filter_rating'];
+			$filter_rating = (int) $this->request->get['filter_rating'];
 		} else {
 			$filter_rating = '';
 		}
 
 		if (isset($this->request->get['filter_member_type'])) {
-			$filter_member_type = (string)$this->request->get['filter_member_type'];
+			$filter_member_type = (string) $this->request->get['filter_member_type'];
 		} else {
 			$filter_member_type = '';
 		}
 
 		if (isset($this->request->get['filter_member'])) {
-			$filter_member = (string)$this->request->get['filter_member'];
+			$filter_member = (string) $this->request->get['filter_member'];
 		} else {
 			$filter_member = '';
 		}
 
 		if (isset($this->request->get['sort'])) {
-			$sort = (string)$this->request->get['sort'];
+			$sort = (string) $this->request->get['sort'];
 		} else {
 			$sort = 'date_modified';
 		}
 
 		if (isset($this->request->get['page'])) {
-			$page = (int)$this->request->get['page'];
+			$page = (int) $this->request->get['page'];
 		} else {
 			$page = 1;
 		}
@@ -119,7 +121,7 @@ class Marketplace extends \Ventocart\System\Engine\Controller {
 
 		$signature = base64_encode(hash_hmac('sha1', $string, $this->config->get('ventocart_secret'), 1));
 
-		$url  = '&username=' . urlencode($this->config->get('ventocart_username'));
+		$url = '&username=' . urlencode($this->config->get('ventocart_username'));
 		$url .= '&domain=' . $this->request->server['HTTP_HOST'];
 		$url .= '&version=' . VERSION;
 		$url .= '&time=' . $time;
@@ -174,7 +176,7 @@ class Marketplace extends \Ventocart\System\Engine\Controller {
 		$response_info = json_decode($response, true);
 
 		if (isset($response_info['extension_total'])) {
-			$extension_total = (int)$response_info['extension_total'];
+			$extension_total = (int) $response_info['extension_total'];
 		} else {
 			$extension_total = 0;
 		}
@@ -218,14 +220,14 @@ class Marketplace extends \Ventocart\System\Engine\Controller {
 		if ($page == 1 && isset($response_info['promotions'])) {
 			foreach ($response_info['promotions'] as $result) {
 				$data['promotions'][] = [
-					'name'         => $result['name'],
-					'description'  => $result['description'],
-					'image'        => $result['image'],
-					'license'      => $result['license'],
-					'price'        => $result['price'],
-					'rating'       => $result['rating'],
+					'name' => $result['name'],
+					'description' => $result['description'],
+					'image' => $result['image'],
+					'license' => $result['license'],
+					'price' => $result['price'],
+					'rating' => $result['rating'],
 					'rating_total' => $result['rating_total'],
-					'href'         => $this->url->link('marketplace/marketplace.info', 'user_token=' . $this->session->data['user_token'] . '&extension_id=' . $result['extension_id'] . $url)
+					'href' => $this->url->link('marketplace/marketplace.info', 'user_token=' . $this->session->data['user_token'] . '&extension_id=' . $result['extension_id'] . $url)
 				];
 			}
 		}
@@ -235,14 +237,14 @@ class Marketplace extends \Ventocart\System\Engine\Controller {
 		if (isset($response_info['extensions'])) {
 			foreach ($response_info['extensions'] as $result) {
 				$data['extensions'][] = [
-					'name'         => $result['name'],
-					'description'  => $result['description'],
-					'image'        => $result['image'],
-					'license'      => $result['license'],
-					'price'        => $result['price'],
-					'rating'       => $result['rating'],
+					'name' => $result['name'],
+					'description' => $result['description'],
+					'image' => $result['image'],
+					'license' => $result['license'],
+					'price' => $result['price'],
+					'rating' => $result['rating'],
 					'rating_total' => $result['rating_total'],
-					'href'         => $this->url->link('marketplace/marketplace.info', 'user_token=' . $this->session->data['user_token'] . '&extension_id=' . $result['extension_id'] . $url)
+					'href' => $this->url->link('marketplace/marketplace.info', 'user_token=' . $this->session->data['user_token'] . '&extension_id=' . $result['extension_id'] . $url)
 				];
 			}
 		}
@@ -287,33 +289,33 @@ class Marketplace extends \Ventocart\System\Engine\Controller {
 		$data['categories'] = [];
 
 		$data['categories'][] = [
-			'text'  => $this->language->get('text_all'),
+			'text' => $this->language->get('text_all'),
 			'value' => '',
-			'href'  => $this->url->link('marketplace/marketplace', 'user_token=' . $this->session->data['user_token'] . $url)
+			'href' => $this->url->link('marketplace/marketplace', 'user_token=' . $this->session->data['user_token'] . $url)
 		];
 
 		$data['categories'][] = [
-			'text'  => $this->language->get('text_theme'),
+			'text' => $this->language->get('text_theme'),
 			'value' => 'theme',
-			'href'  => $this->url->link('marketplace/marketplace', 'user_token=' . $this->session->data['user_token'] . '&filter_category=theme' . $url)
+			'href' => $this->url->link('marketplace/marketplace', 'user_token=' . $this->session->data['user_token'] . '&filter_category=theme' . $url)
 		];
 
 		$data['categories'][] = [
-			'text'  => $this->language->get('text_marketplace'),
+			'text' => $this->language->get('text_marketplace'),
 			'value' => 'marketplace',
-			'href'  => $this->url->link('marketplace/marketplace', 'user_token=' . $this->session->data['user_token'] . '&filter_category=marketplace' . $url)
+			'href' => $this->url->link('marketplace/marketplace', 'user_token=' . $this->session->data['user_token'] . '&filter_category=marketplace' . $url)
 		];
 
 		$data['categories'][] = [
-			'text'  => $this->language->get('text_language'),
+			'text' => $this->language->get('text_language'),
 			'value' => 'language',
-			'href'  => $this->url->link('marketplace/marketplace', 'user_token=' . $this->session->data['user_token'] . '&filter_category=language' . $url)
+			'href' => $this->url->link('marketplace/marketplace', 'user_token=' . $this->session->data['user_token'] . '&filter_category=language' . $url)
 		];
 
 		$data['categories'][] = [
-			'text'  => $this->language->get('text_payment'),
+			'text' => $this->language->get('text_payment'),
 			'value' => 'payment',
-			'href'  => $this->url->link('marketplace/marketplace', 'user_token=' . $this->session->data['user_token'] . '&filter_category=payment' . $url)
+			'href' => $this->url->link('marketplace/marketplace', 'user_token=' . $this->session->data['user_token'] . '&filter_category=payment' . $url)
 		];
 
 		$data['categories'][] = [
@@ -323,33 +325,33 @@ class Marketplace extends \Ventocart\System\Engine\Controller {
 		];
 
 		$data['categories'][] = [
-			'text'  => $this->language->get('text_module'),
+			'text' => $this->language->get('text_module'),
 			'value' => 'module',
-			'href'  => $this->url->link('marketplace/marketplace', 'user_token=' . $this->session->data['user_token'] . '&filter_category=module' . $url)
+			'href' => $this->url->link('marketplace/marketplace', 'user_token=' . $this->session->data['user_token'] . '&filter_category=module' . $url)
 		];
 
 		$data['categories'][] = [
-			'text'  => $this->language->get('text_total'),
+			'text' => $this->language->get('text_total'),
 			'value' => 'total',
-			'href'  => $this->url->link('marketplace/marketplace', 'user_token=' . $this->session->data['user_token'] . '&filter_category=total' . $url)
+			'href' => $this->url->link('marketplace/marketplace', 'user_token=' . $this->session->data['user_token'] . '&filter_category=total' . $url)
 		];
 
 		$data['categories'][] = [
-			'text'  => $this->language->get('text_feed'),
+			'text' => $this->language->get('text_feed'),
 			'value' => 'feed',
-			'href'  => $this->url->link('marketplace/marketplace', 'user_token=' . $this->session->data['user_token'] . '&filter_category=feed' . $url)
+			'href' => $this->url->link('marketplace/marketplace', 'user_token=' . $this->session->data['user_token'] . '&filter_category=feed' . $url)
 		];
 
 		$data['categories'][] = [
-			'text'  => $this->language->get('text_report'),
+			'text' => $this->language->get('text_report'),
 			'value' => 'report',
-			'href'  => $this->url->link('marketplace/marketplace', 'user_token=' . $this->session->data['user_token'] . '&filter_category=report' . $url)
+			'href' => $this->url->link('marketplace/marketplace', 'user_token=' . $this->session->data['user_token'] . '&filter_category=report' . $url)
 		];
 
 		$data['categories'][] = [
-			'text'  => $this->language->get('text_other'),
+			'text' => $this->language->get('text_other'),
 			'value' => 'other',
-			'href'  => $this->url->link('marketplace/marketplace', 'user_token=' . $this->session->data['user_token'] . '&filter_category=other' . $url)
+			'href' => $this->url->link('marketplace/marketplace', 'user_token=' . $this->session->data['user_token'] . '&filter_category=other' . $url)
 		];
 
 		// Licenses
@@ -386,33 +388,33 @@ class Marketplace extends \Ventocart\System\Engine\Controller {
 		$data['licenses'] = [];
 
 		$data['licenses'][] = [
-			'text'  => $this->language->get('text_all'),
+			'text' => $this->language->get('text_all'),
 			'value' => '',
-			'href'  => $this->url->link('marketplace/marketplace', 'user_token=' . $this->session->data['user_token'] . $url)
+			'href' => $this->url->link('marketplace/marketplace', 'user_token=' . $this->session->data['user_token'] . $url)
 		];
 
 		$data['licenses'][] = [
-			'text'  => $this->language->get('text_recommended'),
+			'text' => $this->language->get('text_recommended'),
 			'value' => 'recommended',
-			'href'  => $this->url->link('marketplace/marketplace', 'user_token=' . $this->session->data['user_token'] . '&filter_license=recommended' . $url)
+			'href' => $this->url->link('marketplace/marketplace', 'user_token=' . $this->session->data['user_token'] . '&filter_license=recommended' . $url)
 		];
 
 		$data['licenses'][] = [
-			'text'  => $this->language->get('text_free'),
+			'text' => $this->language->get('text_free'),
 			'value' => 'free',
-			'href'  => $this->url->link('marketplace/marketplace', 'user_token=' . $this->session->data['user_token'] . '&filter_license=free' . $url)
+			'href' => $this->url->link('marketplace/marketplace', 'user_token=' . $this->session->data['user_token'] . '&filter_license=free' . $url)
 		];
 
 		$data['licenses'][] = [
-			'text'  => $this->language->get('text_paid'),
+			'text' => $this->language->get('text_paid'),
 			'value' => 'paid',
-			'href'  => $this->url->link('marketplace/marketplace', 'user_token=' . $this->session->data['user_token'] . '&filter_license=paid' . $url)
+			'href' => $this->url->link('marketplace/marketplace', 'user_token=' . $this->session->data['user_token'] . '&filter_license=paid' . $url)
 		];
 
 		$data['licenses'][] = [
-			'text'  => $this->language->get('text_purchased'),
+			'text' => $this->language->get('text_purchased'),
 			'value' => 'purchased',
-			'href'  => $this->url->link('marketplace/marketplace', 'user_token=' . $this->session->data['user_token'] . '&filter_license=purchased' . $url)
+			'href' => $this->url->link('marketplace/marketplace', 'user_token=' . $this->session->data['user_token'] . '&filter_license=purchased' . $url)
 		];
 
 		// Sort
@@ -445,33 +447,33 @@ class Marketplace extends \Ventocart\System\Engine\Controller {
 		$data['sorts'] = [];
 
 		$data['sorts'][] = [
-			'text'  => $this->language->get('text_date_modified'),
+			'text' => $this->language->get('text_date_modified'),
 			'value' => 'date_modified',
-			'href'  => $this->url->link('marketplace/marketplace', 'user_token=' . $this->session->data['user_token'] . $url . '&sort=date_modified')
+			'href' => $this->url->link('marketplace/marketplace', 'user_token=' . $this->session->data['user_token'] . $url . '&sort=date_modified')
 		];
 
 		$data['sorts'][] = [
-			'text'  => $this->language->get('text_date_added'),
+			'text' => $this->language->get('text_date_added'),
 			'value' => 'date_added',
-			'href'  => $this->url->link('marketplace/marketplace', 'user_token=' . $this->session->data['user_token'] . $url . '&sort=date_added')
+			'href' => $this->url->link('marketplace/marketplace', 'user_token=' . $this->session->data['user_token'] . $url . '&sort=date_added')
 		];
 
 		$data['sorts'][] = [
-			'text'  => $this->language->get('text_rating'),
+			'text' => $this->language->get('text_rating'),
 			'value' => 'rating',
-			'href'  => $this->url->link('marketplace/marketplace', 'user_token=' . $this->session->data['user_token'] . $url . '&sort=rating')
+			'href' => $this->url->link('marketplace/marketplace', 'user_token=' . $this->session->data['user_token'] . $url . '&sort=rating')
 		];
 
 		$data['sorts'][] = [
-			'text'  => $this->language->get('text_name'),
+			'text' => $this->language->get('text_name'),
 			'value' => 'name',
-			'href'  => $this->url->link('marketplace/marketplace', 'user_token=' . $this->session->data['user_token'] . $url . '&sort=name')
+			'href' => $this->url->link('marketplace/marketplace', 'user_token=' . $this->session->data['user_token'] . $url . '&sort=name')
 		];
 
 		$data['sorts'][] = [
-			'text'  => $this->language->get('text_price'),
+			'text' => $this->language->get('text_price'),
 			'value' => 'price',
-			'href'  => $this->url->link('marketplace/marketplace', 'user_token=' . $this->session->data['user_token'] . $url . '&sort=price')
+			'href' => $this->url->link('marketplace/marketplace', 'user_token=' . $this->session->data['user_token'] . $url . '&sort=price')
 		];
 
 		// Pagination
@@ -507,9 +509,9 @@ class Marketplace extends \Ventocart\System\Engine\Controller {
 
 		$data['pagination'] = $this->load->controller('common/pagination', [
 			'total' => $extension_total,
-			'page'  => $page,
+			'page' => $page,
 			'limit' => 12,
-			'url'   => $this->url->link('marketplace/marketplace', 'user_token=' . $this->session->data['user_token'] . $url . '&page={page}')
+			'url' => $this->url->link('marketplace/marketplace', 'user_token=' . $this->session->data['user_token'] . $url . '&page={page}')
 		]);
 
 		$data['filter_search'] = $filter_search;
@@ -528,12 +530,10 @@ class Marketplace extends \Ventocart\System\Engine\Controller {
 		$this->response->setOutput($this->load->view('marketplace/marketplace_list', $data));
 	}
 
-	/**
-	 * @return object|\Ventocart\System\Engine\Action|null
-	 */
-	public function info(): ?object {
+	public function info(): ?object
+	{
 		if (isset($this->request->get['extension_id'])) {
-			$extension_id = (int)$this->request->get['extension_id'];
+			$extension_id = (int) $this->request->get['extension_id'];
 		} else {
 			$extension_id = 0;
 		}
@@ -550,7 +550,7 @@ class Marketplace extends \Ventocart\System\Engine\Controller {
 
 		$signature = base64_encode(hash_hmac('sha1', $string, $this->config->get('ventocart_secret'), 1));
 
-		$url  = '&username=' . urlencode($this->config->get('ventocart_username'));
+		$url = '&username=' . urlencode($this->config->get('ventocart_username'));
 		$url .= '&domain=' . $this->request->server['HTTP_HOST'];
 		$url .= '&version=' . VERSION;
 		$url .= '&extension_id=' . $extension_id;
@@ -630,7 +630,7 @@ class Marketplace extends \Ventocart\System\Engine\Controller {
 
 			$data['banner'] = $response_info['banner'];
 
-			$data['extension_id'] = (int)$this->request->get['extension_id'];
+			$data['extension_id'] = (int) $this->request->get['extension_id'];
 			$data['name'] = $response_info['name'];
 			$data['description'] = $response_info['description'];
 			$data['documentation'] = $response_info['documentation'];
@@ -692,18 +692,21 @@ class Marketplace extends \Ventocart\System\Engine\Controller {
 
 			return null;
 		} else {
-			return new \Ventocart\System\Engine\Action('error/not_found');
+			$this->request->get['route'] = 'error/not_found';
+			return $this->load->controller('error/not_found');
+
 		}
 	}
 
 	/**
 	 * @return void
 	 */
-	public function extension(): void {
+	public function extension(): void
+	{
 		$this->load->language('marketplace/marketplace');
 
 		if (isset($this->request->get['extension_id'])) {
-			$extension_id = (int)$this->request->get['extension_id'];
+			$extension_id = (int) $this->request->get['extension_id'];
 		} else {
 			$extension_id = 0;
 		}
@@ -716,8 +719,8 @@ class Marketplace extends \Ventocart\System\Engine\Controller {
 			$results = $this->session->data['extension_download'][$extension_id];
 
 			foreach ($results as $result) {
-				if (substr($result['filename'], -10) == '.ocmod.zip') {
-					$code = basename($result['filename'], '.ocmod.zip');
+				if (substr($result['filename'], -10) == '.vemod.zip') {
+					$code = basename($result['filename'], '.vemod.zip');
 
 					$install_info = $this->model_setting_extension->getInstallByCode($code);
 
@@ -728,7 +731,7 @@ class Marketplace extends \Ventocart\System\Engine\Controller {
 						$download = '';
 					}
 
-			 		// Install
+					// Install
 					if ($install_info && !$install_info['status']) {
 						$install = $this->url->link('marketplace/installer.install', 'user_token=' . $this->session->data['user_token'] . '&extension_install_id=' . $install_info['extension_install_id']);
 					} else {
@@ -750,12 +753,12 @@ class Marketplace extends \Ventocart\System\Engine\Controller {
 					}
 
 					$data['downloads'][] = [
-						'name'       => $result['name'],
+						'name' => $result['name'],
 						'date_added' => date($this->language->get('date_format_short'), strtotime($result['date_added'])),
-						'download'   => $download,
-						'install'    => $install,
-						'uninstall'  => $uninstall,
-						'delete'     => $delete
+						'download' => $download,
+						'install' => $install,
+						'uninstall' => $uninstall,
+						'delete' => $delete
 					];
 				}
 			}
@@ -767,13 +770,14 @@ class Marketplace extends \Ventocart\System\Engine\Controller {
 	/**
 	 * @return void
 	 */
-	public function purchase(): void {
+	public function purchase(): void
+	{
 		$this->load->language('marketplace/marketplace');
 
 		$json = [];
 
 		if (isset($this->request->get['extension_id'])) {
-			$extension_id = (int)$this->request->get['extension_id'];
+			$extension_id = (int) $this->request->get['extension_id'];
 		} else {
 			$extension_id = 0;
 		}
@@ -804,7 +808,7 @@ class Marketplace extends \Ventocart\System\Engine\Controller {
 
 			$signature = base64_encode(hash_hmac('sha1', $string, $this->config->get('ventocart_secret'), 1));
 
-			$url  = '&username=' . urlencode($this->config->get('ventocart_username'));
+			$url = '&username=' . urlencode($this->config->get('ventocart_username'));
 			$url .= '&domain=' . $this->request->server['HTTP_HOST'];
 			$url .= '&version=' . urlencode(VERSION);
 			$url .= '&extension_id=' . $extension_id;
@@ -849,19 +853,20 @@ class Marketplace extends \Ventocart\System\Engine\Controller {
 	/**
 	 * @return void
 	 */
-	public function download(): void {
+	public function download(): void
+	{
 		$this->load->language('marketplace/marketplace');
 
 		$json = [];
 
 		if (isset($this->request->get['extension_id'])) {
-			$extension_id = (int)$this->request->get['extension_id'];
+			$extension_id = (int) $this->request->get['extension_id'];
 		} else {
 			$extension_id = 0;
 		}
 
 		if (isset($this->request->get['extension_download_id'])) {
-			$extension_download_id = (int)$this->request->get['extension_download_id'];
+			$extension_download_id = (int) $this->request->get['extension_download_id'];
 		} else {
 			$extension_download_id = 0;
 		}
@@ -874,7 +879,7 @@ class Marketplace extends \Ventocart\System\Engine\Controller {
 			$time = time();
 
 			// We create a hash from the data in a similar method to how amazon does things.
-			$string  = 'api/marketplace/download' . "\n";
+			$string = 'api/marketplace/download' . "\n";
 			$string .= $this->config->get('ventocart_username') . "\n";
 			$string .= $this->request->server['HTTP_HOST'] . "\n";
 			$string .= VERSION . "\n";
@@ -884,7 +889,7 @@ class Marketplace extends \Ventocart\System\Engine\Controller {
 
 			$signature = base64_encode(hash_hmac('sha1', $string, $this->config->get('ventocart_secret'), 1));
 
-			$url  = '&username=' . urlencode($this->config->get('ventocart_username'));
+			$url = '&username=' . urlencode($this->config->get('ventocart_username'));
 			$url .= '&domain=' . $this->request->server['HTTP_HOST'];
 			$url .= '&version=' . urlencode(VERSION);
 			$url .= '&extension_id=' . $extension_id;
@@ -906,7 +911,7 @@ class Marketplace extends \Ventocart\System\Engine\Controller {
 			curl_close($curl);
 
 			if (isset($response_info['download'])) {
-				if (substr($response_info['filename'], -10) == '.ocmod.zip') {
+				if (substr($response_info['filename'], -10) == '.vemod.zip') {
 					$handle = fopen(DIR_STORAGE . 'marketplace/' . $response_info['filename'], 'w');
 
 					$download = file_get_contents($response_info['download']);
@@ -916,14 +921,14 @@ class Marketplace extends \Ventocart\System\Engine\Controller {
 					fclose($handle);
 
 					$extension_data = [
-						'extension_id'          => $extension_id,
+						'extension_id' => $extension_id,
 						'extension_download_id' => $extension_download_id,
-						'name'                  => $response_info['name'],
-						'description'           => isset($response_info['description']) ? $response_info['description'] : '',
-						'code' 				    => basename($response_info['filename'], '.ocmod.zip'),
-						'author'                => $response_info['author'],
-						'version'               => $response_info['version'],
-						'link' 					=> VENTOCART_SERVER . 'index.php?route=marketplace/extension.info&extension_id=' . $extension_id
+						'name' => $response_info['name'],
+						'description' => isset($response_info['description']) ? $response_info['description'] : '',
+						'code' => basename($response_info['filename'], '.vemod.zip'),
+						'author' => $response_info['author'],
+						'version' => $response_info['version'],
+						'link' => VENTOCART_SERVER . 'index.php?route=marketplace/extension.info&extension_id=' . $extension_id
 					];
 
 					$this->load->model('setting/extension');
@@ -948,19 +953,20 @@ class Marketplace extends \Ventocart\System\Engine\Controller {
 	/**
 	 * @return void
 	 */
-	public function addComment(): void {
+	public function addComment(): void
+	{
 		$this->load->language('marketplace/marketplace');
 
 		$json = [];
 
 		if (isset($this->request->get['extension_id'])) {
-			$extension_id = (int)$this->request->get['extension_id'];
+			$extension_id = (int) $this->request->get['extension_id'];
 		} else {
 			$extension_id = 0;
 		}
 
 		if (isset($this->request->get['parent_id'])) {
-			$parent_id = (int)$this->request->get['parent_id'];
+			$parent_id = (int) $this->request->get['parent_id'];
 		} else {
 			$parent_id = 0;
 		}
@@ -988,7 +994,7 @@ class Marketplace extends \Ventocart\System\Engine\Controller {
 
 			$signature = base64_encode(hash_hmac('sha1', $string, $this->config->get('ventocart_secret'), 1));
 
-			$url  = '&username=' . $this->config->get('ventocart_username');
+			$url = '&username=' . $this->config->get('ventocart_username');
 			$url .= '&domain=' . $this->request->server['HTTP_HOST'];
 			$url .= '&version=' . VERSION;
 			$url .= '&extension_id=' . $extension_id;
@@ -1027,17 +1033,18 @@ class Marketplace extends \Ventocart\System\Engine\Controller {
 	/**
 	 * @return void
 	 */
-	public function comment(): void {
+	public function comment(): void
+	{
 		$this->load->language('marketplace/marketplace');
 
 		if (isset($this->request->get['extension_id'])) {
-			$extension_id = (int)$this->request->get['extension_id'];
+			$extension_id = (int) $this->request->get['extension_id'];
 		} else {
 			$extension_id = 0;
 		}
 
 		if (isset($this->request->get['page'])) {
-			$page = (int)$this->request->get['page'];
+			$page = (int) $this->request->get['page'];
 		} else {
 			$page = 1;
 		}
@@ -1072,14 +1079,14 @@ class Marketplace extends \Ventocart\System\Engine\Controller {
 
 				$data['comments'][] = [
 					'extension_comment_id' => $result['extension_comment_id'],
-					'member'               => $result['member'],
-					'image'                => $result['image'],
-					'comment'              => $result['comment'],
-					'date_added'           => $result['date_added'],
-					'reply'                => $result['reply'],
-					'add'                  => $this->url->link('marketplace/marketplace.addcomment', 'user_token=' . $this->session->data['user_token'] . '&extension_id=' . $extension_id . '&parent_id=' . $result['extension_comment_id']),
-					'refresh'              => $this->url->link('marketplace/marketplace.reply', 'user_token=' . $this->session->data['user_token'] . '&extension_id=' . $extension_id . '&parent_id=' . $result['extension_comment_id'] . '&page=1'),
-					'next'                 => $next
+					'member' => $result['member'],
+					'image' => $result['image'],
+					'comment' => $result['comment'],
+					'date_added' => $result['date_added'],
+					'reply' => $result['reply'],
+					'add' => $this->url->link('marketplace/marketplace.addcomment', 'user_token=' . $this->session->data['user_token'] . '&extension_id=' . $extension_id . '&parent_id=' . $result['extension_comment_id']),
+					'refresh' => $this->url->link('marketplace/marketplace.reply', 'user_token=' . $this->session->data['user_token'] . '&extension_id=' . $extension_id . '&parent_id=' . $result['extension_comment_id'] . '&page=1'),
+					'next' => $next
 				];
 			}
 		}
@@ -1088,9 +1095,9 @@ class Marketplace extends \Ventocart\System\Engine\Controller {
 
 		$data['pagination'] = $this->load->controller('common/pagination', [
 			'total' => $comment_total,
-			'page'  => $page,
+			'page' => $page,
 			'limit' => 20,
-			'url'   => $this->url->link('marketplace/marketplace.comment', 'user_token=' . $this->session->data['user_token'] . '&extension_id=' . $extension_id . '&page={page}')
+			'url' => $this->url->link('marketplace/marketplace.comment', 'user_token=' . $this->session->data['user_token'] . '&extension_id=' . $extension_id . '&page={page}')
 		]);
 
 		$data['refresh'] = $this->url->link('marketplace/marketplace.comment', 'user_token=' . $this->session->data['user_token'] . '&extension_id=' . $extension_id . '&page=' . $page);
@@ -1101,23 +1108,24 @@ class Marketplace extends \Ventocart\System\Engine\Controller {
 	/**
 	 * @return void
 	 */
-	public function reply(): void {
+	public function reply(): void
+	{
 		$this->load->language('marketplace/marketplace');
 
 		if (isset($this->request->get['extension_id'])) {
-			$extension_id = (int)$this->request->get['extension_id'];
+			$extension_id = (int) $this->request->get['extension_id'];
 		} else {
 			$extension_id = 0;
 		}
 
 		if (isset($this->request->get['parent_id'])) {
-			$parent_id = (int)$this->request->get['parent_id'];
+			$parent_id = (int) $this->request->get['parent_id'];
 		} else {
 			$parent_id = 0;
 		}
 
 		if (isset($this->request->get['page'])) {
-			$page = (int)$this->request->get['page'];
+			$page = (int) $this->request->get['page'];
 		} else {
 			$page = 1;
 		}
@@ -1147,10 +1155,10 @@ class Marketplace extends \Ventocart\System\Engine\Controller {
 			foreach ($results as $result) {
 				$data['replies'][] = [
 					'extension_comment_id' => $result['extension_comment_id'],
-					'member'               => $result['member'],
-					'image'                => $result['image'],
-					'comment'              => $result['comment'],
-					'date_added'           => $result['date_added']
+					'member' => $result['member'],
+					'image' => $result['image'],
+					'comment' => $result['comment'],
+					'date_added' => $result['date_added']
 				];
 			}
 		}

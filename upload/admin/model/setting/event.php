@@ -12,38 +12,40 @@ class Event extends \Ventocart\System\Engine\Model
 	 * Path to the events cache file
 	 */
 	const EVENTS_CACHE_FILE = DIR_STORAGE . 'events.php';
-
 	/**
-	 * Add a new event.
+	 * Add a new event to the events cache.
 	 *
-	 * @param array $data
-	 * @return int
+	 * @param string $code The unique code for the event.
+	 * @param string $description A brief description of the event.
+	 * @param string $trigger The event trigger path.
+	 * @param string $action The action to be performed when the event is triggered.
+	 * @param bool $status The status of the event (active or inactive).
+	 * @param int $sort_order The sort order of the event.
+	 * @return int The ID of the newly created event.
 	 */
-	public function addEvent(array $data): int
+	public function addEvent(string $code, string $description, string $trigger, string $action, bool $status, int $sort_order): int
 	{
-		// Load current events from the cache file
-		$events = $this->getEvents();
+		$events = $this->deleteEventByCode($code);
+
+
+		$sanitizedPath = preg_replace('/[^a-zA-Z0-9_\/]/', '', $trigger);
+
+		$keytrigger = 'Ventocart\\' . str_replace(['_', '/'], ['', '\\'], ucwords($sanitizedPath, '_/'));
 
 		// Generate a new event ID (based on the next available integer)
 		$event_id = count($events) + 1;
 
-		// Get the trigger key from the event data
-		$trigger = $data['trigger'];
 
-		// If no events exist for this trigger, initialize it as an array
-		if (!isset($events[$trigger])) {
-			$events[$trigger] = [];
-		}
 
 		// Add the new event to the corresponding trigger
-		$events[$trigger][] = [
+		$events[$keytrigger][] = [
 			'event_id' => $event_id,
-			'code' => $data['code'],
-			'description' => $data['description'],
-			'trigger' => $data['trigger'],
-			'action' => $data['action'],
-			'status' => $data['status'],
-			'sort_order' => $data['sort_order'],
+			'code' => $code,
+			'description' => $description,
+			'trigger' => $trigger,
+			'action' => $action,
+			'status' => $status ? 1 : 0, // Convert boolean to integer (1 or 0)
+			'sort_order' => $sort_order,
 		];
 
 		// Save the updated events array to the cache file
@@ -61,7 +63,7 @@ class Event extends \Ventocart\System\Engine\Model
 	public function deleteEvent(int $event_id): void
 	{
 		// Load current events from the cache file
-		$events = $this->getEvents();
+		$events = include self::EVENTS_CACHE_FILE;
 
 		// Iterate over each trigger to find and remove the event by ID
 		foreach ($events as $trigger => &$triggerEvents) {
@@ -83,23 +85,30 @@ class Event extends \Ventocart\System\Engine\Model
 	 * @param string $code
 	 * @return void
 	 */
-	public function deleteEventByCode(string $code): void
+	public function deleteEventByCode(string $code): array
 	{
+
 		// Load current events from the cache file
-		$events = $this->getEvents();
+		$events = include self::EVENTS_CACHE_FILE;
 
 		// Iterate over each trigger to find and remove the event by code
 		foreach ($events as $trigger => &$triggerEvents) {
-			foreach ($triggerEvents as $index => $event) {
+			foreach ($triggerEvents as $index => &$event) {
 				if ($event['code'] === $code) {
+
 					unset($triggerEvents[$index]);
-					break 2; // Break out of both loops once the event is found and deleted
+					if (count($triggerEvents) == 0) {
+						unset($events[$trigger]);
+					}
+
 				}
 			}
 		}
 
 		// Save the updated events array to the cache file
 		$this->saveEvents($events);
+		return $events;
+
 	}
 
 	/**
@@ -111,14 +120,16 @@ class Event extends \Ventocart\System\Engine\Model
 	 */
 	public function editStatus(int $event_id, bool $status): void
 	{
+
 		// Load current events from the cache file
-		$events = $this->getEvents();
+		$events = include self::EVENTS_CACHE_FILE;
 
 		// Iterate over each trigger to find the event by ID and update its status
 		foreach ($events as $trigger => &$triggerEvents) {
 			foreach ($triggerEvents as &$event) {
-				if ($event['event_id'] === $event_id) {
+				if ($event['event_id'] == $event_id) {
 					$event['status'] = $status;
+
 					break 2; // Break out of both loops once the event is found and updated
 				}
 			}
@@ -138,7 +149,7 @@ class Event extends \Ventocart\System\Engine\Model
 	public function editStatusByCode(string $code, bool $status): void
 	{
 		// Load current events from the cache file
-		$events = $this->getEvents();
+		$events = include self::EVENTS_CACHE_FILE;
 
 		// Iterate over each trigger to find the event by code and update its status
 		foreach ($events as $trigger => &$triggerEvents) {
@@ -152,6 +163,7 @@ class Event extends \Ventocart\System\Engine\Model
 
 		// Save the updated events array to the cache file
 		$this->saveEvents($events);
+
 	}
 
 	/**
@@ -282,5 +294,6 @@ class Event extends \Ventocart\System\Engine\Model
 			self::EVENTS_CACHE_FILE,
 			"<?php\n\nreturn " . var_export($events, true) . ";\n"
 		);
+
 	}
 }

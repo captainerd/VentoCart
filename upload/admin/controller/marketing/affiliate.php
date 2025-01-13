@@ -5,11 +5,13 @@ namespace Ventocart\Admin\Controller\Marketing;
  *
  * @package Ventocart\Admin\Controller\Marketing
  */
-class Affiliate extends \Ventocart\System\Engine\Controller {
+class Affiliate extends \Ventocart\System\Engine\Controller
+{
 	/**
 	 * @return void
 	 */
-	public function index(): void {
+	public function index(): void
+	{
 		$this->load->language('marketing/affiliate');
 
 		$this->document->setTitle($this->language->get('heading_title'));
@@ -27,7 +29,7 @@ class Affiliate extends \Ventocart\System\Engine\Controller {
 		}
 
 		if (isset($this->request->get['filter_payment_method'])) {
-			$filter_payment_method = (string)$this->request->get['filter_payment_method'];
+			$filter_payment_method = (string) $this->request->get['filter_payment_method'];
 		} else {
 			$filter_payment_method = '';
 		}
@@ -57,7 +59,7 @@ class Affiliate extends \Ventocart\System\Engine\Controller {
 		}
 
 		if (isset($this->request->get['limit'])) {
-			$limit = (int)$this->request->get['limit'];
+			$limit = (int) $this->request->get['limit'];
 		} else {
 			$limit = $this->config->get('config_pagination');
 		}
@@ -130,44 +132,44 @@ class Affiliate extends \Ventocart\System\Engine\Controller {
 		$data['payment_methods'] = [];
 
 		$data['payment_methods'][] = [
-			'text'  => $this->language->get('text_cheque'),
+			'text' => $this->language->get('text_cheque'),
 			'value' => 'cheque'
 		];
 
 		$data['payment_methods'][] = [
-			'text'  => $this->language->get('text_paypal'),
+			'text' => $this->language->get('text_paypal'),
 			'value' => 'paypal'
 		];
 
 		$data['payment_methods'][] = [
-			'text'  => $this->language->get('text_bank'),
+			'text' => $this->language->get('text_bank'),
 			'value' => 'bank'
 		];
 
 		$data['limits'] = [];
 
 		$data['limits'][] = [
-			'text'  => $this->config->get('config_pagination'),
+			'text' => $this->config->get('config_pagination'),
 			'value' => $this->config->get('config_pagination')
 		];
 
 		$data['limits'][] = [
-			'text'  => 100,
+			'text' => 100,
 			'value' => 100
 		];
 
 		$data['limits'][] = [
-			'text'  => 200,
+			'text' => 200,
 			'value' => 200
 		];
 
 		$data['limits'][] = [
-			'text'  => 400,
+			'text' => 400,
 			'value' => 400
 		];
 
 		$data['limits'][] = [
-			'text'  => 800,
+			'text' => 800,
 			'value' => 800
 		];
 
@@ -195,7 +197,8 @@ class Affiliate extends \Ventocart\System\Engine\Controller {
 	/**
 	 * @return void
 	 */
-	public function list(): void {
+	public function list(): void
+	{
 		$this->load->language('marketing/affiliate');
 
 		$this->response->setOutput($this->getList());
@@ -204,21 +207,22 @@ class Affiliate extends \Ventocart\System\Engine\Controller {
 	/**
 	 * @return string
 	 */
-	protected function getList(): string {
+	protected function getList(): string
+	{
 		if (isset($this->request->get['filter_customer'])) {
-			$filter_customer = (string)$this->request->get['filter_customer'];
+			$filter_customer = (string) $this->request->get['filter_customer'];
 		} else {
 			$filter_customer = '';
 		}
 
 		if (isset($this->request->get['filter_tracking'])) {
-			$filter_tracking = (string)$this->request->get['filter_tracking'];
+			$filter_tracking = (string) $this->request->get['filter_tracking'];
 		} else {
 			$filter_tracking = '';
 		}
 
 		if (isset($this->request->get['filter_payment_method'])) {
-			$filter_payment_method = (string)$this->request->get['filter_payment_method'];
+			$filter_payment_method = (string) $this->request->get['filter_payment_method'];
 		} else {
 			$filter_payment_method = '';
 		}
@@ -230,13 +234,13 @@ class Affiliate extends \Ventocart\System\Engine\Controller {
 		}
 
 		if (isset($this->request->get['filter_date_from'])) {
-			$filter_date_from = (string)$this->request->get['filter_date_from'];
+			$filter_date_from = (string) $this->request->get['filter_date_from'];
 		} else {
 			$filter_date_from = '';
 		}
 
 		if (isset($this->request->get['filter_date_to'])) {
-			$filter_date_to = (string)$this->request->get['filter_date_to'];
+			$filter_date_to = (string) $this->request->get['filter_date_to'];
 		} else {
 			$filter_date_to = '';
 		}
@@ -248,25 +252,25 @@ class Affiliate extends \Ventocart\System\Engine\Controller {
 		}
 
 		if (isset($this->request->get['sort'])) {
-			$sort = (string)$this->request->get['sort'];
+			$sort = (string) $this->request->get['sort'];
 		} else {
 			$sort = 'name';
 		}
 
 		if (isset($this->request->get['order'])) {
-			$order = (string)$this->request->get['order'];
+			$order = (string) $this->request->get['order'];
 		} else {
 			$order = 'ASC';
 		}
 
 		if (isset($this->request->get['page'])) {
-			$page = (int)$this->request->get['page'];
+			$page = (int) $this->request->get['page'];
 		} else {
 			$page = 1;
 		}
 
 		if (isset($this->request->get['limit'])) {
-			$limit = (int)$this->request->get['limit'];
+			$limit = (int) $this->request->get['limit'];
 		} else {
 			$limit = $this->config->get('config_pagination');
 		}
@@ -322,17 +326,17 @@ class Affiliate extends \Ventocart\System\Engine\Controller {
 		$data['affiliates'] = [];
 
 		$filter_data = [
-			'filter_name'           => $filter_customer,
-			'filter_tracking'       => $filter_tracking,
+			'filter_name' => $filter_customer,
+			'filter_tracking' => $filter_tracking,
 			'filter_payment_method' => $filter_payment_method,
-			'filter_commission'     => $filter_commission,
-			'filter_date_from'      => $filter_date_from,
-			'filter_date_to'        => $filter_date_to,
-			'filter_status'         => $filter_status,
-			'sort'                  => $sort,
-			'order'                 => $order,
-			'start'                 => ($page - 1) * $limit,
-			'limit'                 => $limit
+			'filter_commission' => $filter_commission,
+			'filter_date_from' => $filter_date_from,
+			'filter_date_to' => $filter_date_to,
+			'filter_status' => $filter_status,
+			'sort' => $sort,
+			'order' => $order,
+			'start' => ($page - 1) * $limit,
+			'limit' => $limit
 		];
 
 		$this->load->model('marketing/affiliate');
@@ -342,14 +346,14 @@ class Affiliate extends \Ventocart\System\Engine\Controller {
 		foreach ($results as $result) {
 			$data['affiliates'][] = [
 				'customer_id' => $result['customer_id'],
-				'name'        => $result['name'],
-				'tracking'    => $result['tracking'],
-				'commission'  => $result['commission'],
-				'balance'     => $this->currency->format($result['balance'], $this->config->get('config_currency')),
-				'status'      => $result['status'],
-				'date_added'  => date($this->language->get('date_format_short'), strtotime($result['date_added'])),
-				'customer'    => $this->url->link('customer/customer.form', 'user_token=' . $this->session->data['user_token'] . '&customer_id=' . $result['customer_id']),
-				'edit'        => $this->url->link('marketing/affiliate.form', 'user_token=' . $this->session->data['user_token'] . '&customer_id=' . $result['customer_id'] . $url)
+				'name' => $result['name'],
+				'tracking' => $result['tracking'],
+				'commission' => $result['commission'],
+				'balance' => $this->currency->format($result['balance'], $this->config->get('config_currency')),
+				'status' => $result['status'],
+				'date_added' => date($this->language->get('date_format_short'), strtotime($result['date_added'])),
+				'customer' => $this->url->link('customer/customer.form', 'user_token=' . $this->session->data['user_token'] . '&customer_id=' . $result['customer_id']),
+				'edit' => $this->url->link('marketing/affiliate.form', 'user_token=' . $this->session->data['user_token'] . '&customer_id=' . $result['customer_id'] . $url)
 			];
 		}
 
@@ -444,9 +448,9 @@ class Affiliate extends \Ventocart\System\Engine\Controller {
 
 		$data['pagination'] = $this->load->controller('common/pagination', [
 			'total' => $affiliate_total,
-			'page'  => $page,
+			'page' => $page,
 			'limit' => $this->config->get('config_pagination_admin'),
-			'url'   => $this->url->link('marketing/affiliate.list', 'user_token=' . $this->session->data['user_token'] . $url . '&page={page}')
+			'url' => $this->url->link('marketing/affiliate.list', 'user_token=' . $this->session->data['user_token'] . $url . '&page={page}')
 		]);
 
 		$data['results'] = sprintf($this->language->get('text_pagination'), ($affiliate_total) ? (($page - 1) * $limit) + 1 : 0, ((($page - 1) * $limit) > ($affiliate_total - $limit)) ? $affiliate_total : ((($page - 1) * $limit) + $limit), $affiliate_total, ceil($affiliate_total / $limit));
@@ -461,7 +465,8 @@ class Affiliate extends \Ventocart\System\Engine\Controller {
 	/**
 	 * @return void
 	 */
-	public function form(): void {
+	public function form(): void
+	{
 		$this->load->language('marketing/affiliate');
 
 		$this->document->setTitle($this->language->get('heading_title'));
@@ -470,7 +475,7 @@ class Affiliate extends \Ventocart\System\Engine\Controller {
 
 		$data['error_upload_size'] = sprintf($this->language->get('error_upload_size'), $this->config->get('config_file_max_size'));
 
-		$data['config_file_max_size'] = ((int)$this->config->get('config_file_max_size') * 1024 * 1024);
+		$data['config_file_max_size'] = ((int) $this->config->get('config_file_max_size') * 1024 * 1024);
 
 		$url = '';
 
@@ -542,7 +547,7 @@ class Affiliate extends \Ventocart\System\Engine\Controller {
 		}
 
 		if (isset($this->request->get['customer_id'])) {
-			$data['customer_id'] = (int)$this->request->get['customer_id'];
+			$data['customer_id'] = (int) $this->request->get['customer_id'];
 		} else {
 			$data['customer_id'] = 0;
 		}
@@ -647,8 +652,8 @@ class Affiliate extends \Ventocart\System\Engine\Controller {
 
 		$filter_data = [
 			'filter_location' => 'affiliate',
-			'sort'            => 'cf.sort_order',
-			'order'           => 'ASC'
+			'sort' => 'cf.sort_order',
+			'order' => 'ASC'
 		];
 
 		// Custom Fields
@@ -658,13 +663,13 @@ class Affiliate extends \Ventocart\System\Engine\Controller {
 
 		foreach ($custom_fields as $custom_field) {
 			$data['custom_fields'][] = [
-				'custom_field_id'    => $custom_field['custom_field_id'],
+				'custom_field_id' => $custom_field['custom_field_id'],
 				'custom_field_value' => $this->model_customer_custom_field->getValues($custom_field['custom_field_id']),
-				'name'               => $custom_field['name'],
-				'value'              => $custom_field['value'],
-				'type'               => $custom_field['type'],
-				'location'           => $custom_field['location'],
-				'sort_order'         => $custom_field['sort_order']
+				'name' => $custom_field['name'],
+				'value' => $custom_field['value'],
+				'type' => $custom_field['type'],
+				'location' => $custom_field['location'],
+				'sort_order' => $custom_field['sort_order']
 			];
 		}
 
@@ -690,7 +695,8 @@ class Affiliate extends \Ventocart\System\Engine\Controller {
 	/**
 	 * @return void
 	 */
-	public function save(): void {
+	public function save(): void
+	{
 		$this->load->language('marketing/affiliate');
 
 		$json = [];
@@ -701,7 +707,7 @@ class Affiliate extends \Ventocart\System\Engine\Controller {
 
 		$this->load->model('customer/customer');
 
-		$customer_info = $this->model_customer_customer->getCustomer((int)$this->request->post['customer_id']);
+		$customer_info = $this->model_customer_customer->getCustomer((int) $this->request->post['customer_id']);
 
 		if (!$customer_info) {
 			$json['error']['customer'] = $this->language->get('error_customer');
@@ -710,7 +716,7 @@ class Affiliate extends \Ventocart\System\Engine\Controller {
 		// Check to see if customer is already a affiliate
 		$this->load->model('marketing/affiliate');
 
-		$affiliate_info = $this->model_marketing_affiliate->getAffiliate((int)$this->request->post['customer_id']);
+		$affiliate_info = $this->model_marketing_affiliate->getAffiliate((int) $this->request->post['customer_id']);
 
 		if ($affiliate_info && (!isset($this->request->post['customer_id']) || ($this->request->post['customer_id'] != $affiliate_info['customer_id']))) {
 			$json['error']['warning'] = $this->language->get('error_already');
@@ -750,9 +756,9 @@ class Affiliate extends \Ventocart\System\Engine\Controller {
 			$this->load->model('customer/custom_field');
 
 			$filter_data = [
-				'filter_location'          => 'account',
+				'filter_location' => 'account',
 				'filter_customer_group_id' => $this->request->post['customer_group_id'],
-				'filter_status'            => 1
+				'filter_status' => 1
 			];
 
 			$custom_fields = $this->model_customer_custom_field->getCustomFields(['filter_customer_group_id' => $customer_info['customer_group_id']]);
@@ -790,7 +796,8 @@ class Affiliate extends \Ventocart\System\Engine\Controller {
 	/**
 	 * @return void
 	 */
-	public function delete(): void {
+	public function delete(): void
+	{
 		$this->load->language('marketing/affiliate');
 
 		$json = [];
@@ -822,7 +829,8 @@ class Affiliate extends \Ventocart\System\Engine\Controller {
 	/**
 	 * @return void
 	 */
-	public function calculate(): void {
+	public function calculate(): void
+	{
 		$this->load->language('marketing/affiliate');
 
 		$json = [];
@@ -848,10 +856,9 @@ class Affiliate extends \Ventocart\System\Engine\Controller {
 		$this->response->setOutput(json_encode($json));
 	}
 
-	/**
-	 * @return \Ventocart\System\Engine\Action|void
-	 */
-	public function csv() {
+
+	public function csv()
+	{
 		$this->load->language('marketing/affiliate');
 
 		if (isset($this->request->post['selected'])) {
@@ -868,7 +875,7 @@ class Affiliate extends \Ventocart\System\Engine\Controller {
 			foreach ($selected as $customer_id) {
 				$affiliate_info = $this->model_marketing_affiliate->getAffiliate($customer_id);
 
-				if ($affiliate_info && $affiliate_info['status'] && (float)$affiliate_info['balance'] > 0) {
+				if ($affiliate_info && $affiliate_info['status'] && (float) $affiliate_info['balance'] > 0) {
 					$balance = $this->currency->format($affiliate_info['balance'], $this->config->get('config_currency'), 1.00000000, false);
 
 					if ($affiliate_info['payment_method'] == 'cheque') {
@@ -894,19 +901,22 @@ class Affiliate extends \Ventocart\System\Engine\Controller {
 				header('Content-Disposition: attachment; filename=payout-' . date('d-m-Y') . '.csv"');
 				header('Content-Length: ' . strlen($csv));
 
-				print($csv);
+				print ($csv);
 			} else {
 				exit('Error: Headers already sent out!');
 			}
 		} else {
-			return new \Ventocart\System\Engine\Action('error/permission');
+			$this->request->get['route'] = 'error/permission';
+			return $this->load->controller('error/permission');
+
 		}
 	}
 
 	/**
 	 * @return void
 	 */
-	public function complete(): void {
+	public function complete(): void
+	{
 		$this->load->language('marketing/affiliate');
 
 		$json = [];
@@ -928,7 +938,7 @@ class Affiliate extends \Ventocart\System\Engine\Controller {
 			foreach ($selected as $customer_id) {
 				$affiliate_info = $this->model_marketing_affiliate->getAffiliate($customer_id);
 
-				if ($affiliate_info && $affiliate_info['status'] && (float)$affiliate_info['balance'] > 0) {
+				if ($affiliate_info && $affiliate_info['status'] && (float) $affiliate_info['balance'] > 0) {
 					$this->model_customer_customer->addTransaction($affiliate_info['customer_id'], $this->language->get('text_payment_' . $affiliate_info['payment_method']), -$affiliate_info['balance']);
 
 					$this->model_marketing_affiliate->editBalance($affiliate_info['customer_id'], 0);
@@ -945,7 +955,8 @@ class Affiliate extends \Ventocart\System\Engine\Controller {
 	/**
 	 * @return void
 	 */
-	public function report(): void {
+	public function report(): void
+	{
 		$this->load->language('marketing/affiliate');
 
 		$this->response->setOutput($this->getReport());
@@ -954,15 +965,16 @@ class Affiliate extends \Ventocart\System\Engine\Controller {
 	/**
 	 * @return string
 	 */
-	private function getReport(): string {
+	private function getReport(): string
+	{
 		if (isset($this->request->get['customer_id'])) {
-			$customer_id = (int)$this->request->get['customer_id'];
+			$customer_id = (int) $this->request->get['customer_id'];
 		} else {
 			$customer_id = 0;
 		}
 
 		if (isset($this->request->get['page']) && $this->request->get['route'] == 'marketing/affiliate.report') {
-			$page = (int)$this->request->get['page'];
+			$page = (int) $this->request->get['page'];
 		} else {
 			$page = 1;
 		}
@@ -989,12 +1001,12 @@ class Affiliate extends \Ventocart\System\Engine\Controller {
 			}
 
 			$data['reports'][] = [
-				'ip'         => $result['ip'],
-				'account'    => $this->model_customer_customer->getTotalCustomersByIp($result['ip']),
-				'store'      => $store,
-				'country'    => $result['country'],
+				'ip' => $result['ip'],
+				'account' => $this->model_customer_customer->getTotalCustomersByIp($result['ip']),
+				'store' => $store,
+				'country' => $result['country'],
 				'date_added' => date($this->language->get('datetime_format'), strtotime($result['date_added'])),
-				'filter_ip'  => $this->url->link('customer/customer', 'user_token=' . $this->session->data['user_token'] . '&filter_ip=' . $result['ip'])
+				'filter_ip' => $this->url->link('customer/customer', 'user_token=' . $this->session->data['user_token'] . '&filter_ip=' . $result['ip'])
 			];
 		}
 
@@ -1002,9 +1014,9 @@ class Affiliate extends \Ventocart\System\Engine\Controller {
 
 		$data['pagination'] = $this->load->controller('common/pagination', [
 			'total' => $report_total,
-			'page'  => $page,
+			'page' => $page,
 			'limit' => $limit,
-			'url'   => $this->url->link('marketing/affiliate.report', 'user_token=' . $this->session->data['user_token'] . '&customer_id=' . $customer_id . '&page={page}')
+			'url' => $this->url->link('marketing/affiliate.report', 'user_token=' . $this->session->data['user_token'] . '&customer_id=' . $customer_id . '&page={page}')
 		]);
 
 		$data['results'] = sprintf($this->language->get('text_pagination'), ($report_total) ? (($page - 1) * $limit) + 1 : 0, ((($page - 1) * $limit) > ($report_total - $limit)) ? $report_total : ((($page - 1) * $limit) + $limit), $report_total, ceil($report_total / $limit));
@@ -1015,7 +1027,8 @@ class Affiliate extends \Ventocart\System\Engine\Controller {
 	/**
 	 * @return void
 	 */
-	public function autocomplete(): void {
+	public function autocomplete(): void
+	{
 		$json = [];
 
 		if (isset($this->request->get['filter_name'])) {
@@ -1031,10 +1044,10 @@ class Affiliate extends \Ventocart\System\Engine\Controller {
 		}
 
 		$filter_data = [
-			'filter_name'  => $filter_name,
+			'filter_name' => $filter_name,
 			'filter_email' => $filter_email,
-			'start'        => 0,
-			'limit'        => 5
+			'start' => 0,
+			'limit' => 5
 		];
 
 		$this->load->model('marketing/affiliate');
@@ -1044,8 +1057,8 @@ class Affiliate extends \Ventocart\System\Engine\Controller {
 		foreach ($results as $result) {
 			$json[] = [
 				'customer_id' => $result['customer_id'],
-				'name'        => strip_tags(html_entity_decode($result['name'], ENT_QUOTES, 'UTF-8')),
-				'email'       => $result['email']
+				'name' => strip_tags(html_entity_decode($result['name'], ENT_QUOTES, 'UTF-8')),
+				'email' => $result['email']
 			];
 		}
 

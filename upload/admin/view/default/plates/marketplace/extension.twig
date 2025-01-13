@@ -1,0 +1,288 @@
+{{ header }}{{ column_left }}
+<div id="content">
+  <div class="page-header">
+    <div class="container-fluid">
+      <h1>{{ heading_title }}</h1>
+
+                <div class="float-end"><button type="button" id="button-upload" data-bs-toggle="tooltip" title="{{ button_upload }}" class="btn btn-primary"> <i class="fa-solid fa-upload"></i> {{ button_upload }} </button></div>
+      <ol class="breadcrumb">
+        {% for breadcrumb in breadcrumbs %}
+          <li class="breadcrumb-item"><a href="{{ breadcrumb.href }}">{{ breadcrumb.text }}</a></li>
+        {% endfor %}
+      </ol>
+    </div>
+  </div>
+  <div class="container-fluid">
+    <div class="card">
+
+    
+      <div class="card-header"><i class="fa-solid fa-puzzle-piece"></i> {{ text_list }} </div>
+      <div class="card-body">
+      
+            {% if which != 'theme' %}
+        <fieldset>
+          <legend>{{ text_type }}</legend>
+          <div class="card bg-light">
+            <div class="card-body">
+       
+              <div class="input-group">
+                <select name="type" id="input-type" class="form-select">
+                  {% for category in categories %}
+                    <option value="{{ category.href }}"{% if which == category.code %} selected{% endif %}>{{ category.text }}</option>
+                  {% endfor %}
+                </select>
+                <div class="input-group-text"><i class="fa-solid fa-filter"></i>&nbsp;{{ text_filter }}</div>
+              </div>
+            
+            </div>
+          </div>
+        </fieldset>
+           {% endif %}
+             
+        <div id="extension">{{ extension }}</div>
+ 
+     
+      </div>
+        
+    </div>
+  </div>
+</div>
+<script ><!--
+$('#input-type').on('change', function () {
+    $.ajax({
+        url: $(this).val(),
+        dataType: 'html',
+        beforeSend: function () {
+            $('.fa-filter').addClass('fa-circle-notch fa-spin');
+            $('.fa-filter').removeClass('fa-filter');
+            $('#input-type').prop('disabled', true);
+        },
+        complete: function () {
+            $('.fa-circle-notch').addClass('fa-filter');
+            $('.fa-circle-notch').removeClass('fa-circle-notch fa-spin');
+            $('#input-type').prop('disabled', false);
+        },
+        success: function (html) {
+            $('#extension').html(html);
+        },
+        error: function (xhr, ajaxOptions, thrownError) {
+            //x console.log(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+        }
+    });
+});
+
+// Download promotion extension
+$('#extension').on('click', '#recommended .btn-primary', function (e) {
+    e.preventDefault();
+
+    var element = this;
+
+    $.ajax({
+        url: $(element).attr('value'),
+        dataType: 'json',
+        beforeSend: function () {
+            $(element).button('loading');
+        },
+        complete: function () {
+            $(element).button('reset');
+        },
+        success: function (json) {
+            $('.alert-dismissible').remove();
+
+            if (json['error']) {
+                $('#extension').before('<div class="alert alert-danger alert-dismissible"><i class="fa-solid fa-circle-exclamation"></i> ' + json['error'] + ' <button type="button" class="btn-close" data-bs-dismiss="alert"></button></div></div>');
+            }
+
+            if (json['success']) {
+                $('#extension').before('<div class="alert alert-success alert-dismissible"><i class="fa-solid fa-check-circle"></i> ' + json['success'] + '  <button type="button" class="btn-close" data-bs-dismiss="alert"></button></div>');
+   
+                // Manually build the url so no need to refresh extensions and can trigger install
+                // Once the extension is downloaded we trigger the installer
+                $(element).parent().find('.dropdown-menu').html('<a href="index.php?route=marketplace/installer.install&user_token={{ user_token }}&extension_install_id=' + json['extension_install_id'] + '" class="dropdown-item"><i class="fa-solid fa-plus-circle fa-fw"></i> {{ text_install }}</a> <a href="index.php?route=marketplace/installer.delete&user_token={{ user_token }}&extension_install_id=' + json['extension_install_id'] + '" class="dropdown-item"><i class="fa-regular fa-trash-can fa-fw"></i> {{ text_delete }}</a>');
+
+                $(element).parent().find('.dropdown-item:first').trigger('click');
+            }
+        },
+        error: function (xhr, ajaxOptions, thrownError) {
+            //x console.log(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+
+            $(element).button('reset');
+        }
+    });
+});
+
+// Download dropdown
+$('#extension').on('click', '.dropdown-item', function (e) {
+    e.preventDefault();
+
+    var element = this;
+
+    $.ajax({
+        url: $(element).attr('href'),
+        dataType: 'json',
+        success: function (json) {
+            $('.alert-dismissible').remove();
+
+            if (json['error']) {
+                $('#extension').before('<div class="alert alert-danger alert-dismissible"><i class="fa-solid fa-circle-exclamation"></i> ' + json['error'] + ' <button type="button" class="btn-close" data-bs-dismiss="alert"></button></div></div>');
+            }
+
+            if (json['success']) {
+                $('#extension').before('<div class="alert alert-success alert-dismissible"><i class="fa-solid fa-check-circle"></i> ' + json['success'] + '  <button type="button" class="btn-close" data-bs-dismiss="alert"></button></div>');
+
+                $('#extension').load($('#input-type').val());
+            }
+        },
+        error: function (xhr, ajaxOptions, thrownError) {
+            //x console.log(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+        }
+    });
+});
+
+// Install
+$('#extension').on('click', '.btn-success', function (e) {
+    e.preventDefault();
+
+    var element = this;
+
+    $.ajax({
+        url: $(element).attr('href'),
+        dataType: 'json',
+        beforeSend: function () {
+            $(element).button('loading');
+        },
+        complete: function () {
+            $(element).button('loading');
+        },
+        success: function (json) {
+         
+            $('.alert-dismissible').remove();
+
+            if (json['error']) {
+                $('#alert').prepend('<div class="alert alert-danger alert-dismissible"><i class="fa-solid fa-circle-exclamation"></i> ' + json['error'] + ' <button type="button" class="btn-close" data-bs-dismiss="alert"></button></div>');
+            }
+
+            if (json['success']) {
+                $('#alert').prepend('<div class="alert alert-success alert-dismissible"><i class="fa-solid fa-check-circle"></i> ' + json['success'] + ' <button type="button" class="btn-close" data-bs-dismiss="alert"></button></div>');
+        if (window.location.href.indexOf('which=theme') !== -1) {
+    // If 'which=theme' is present, load the extension
+    $('#extension').load('index.php?route=marketplace/extension&which=theme&user_token={{ user_token }}');
+  }
+
+        
+                $('#input-type').trigger('change');
+            }
+        },
+        error: function (xhr, ajaxOptions, thrownError) {
+            //x console.log(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+        }
+    });
+});
+
+// Uninstall / Delete
+$('#extension').on('click', '.btn-danger, .btn-outline-danger', function (e) {
+    e.preventDefault();
+
+    if (confirm('{{ text_confirm }}')) {
+        var element = this;
+
+        $.ajax({
+            url: $(element).attr('href'),
+            dataType: 'json',
+            beforeSend: function () {
+                $(element).button('loading');
+            },
+            complete: function () {
+                $(element).button('reset');
+            },
+            success: function (json) {
+                $('.alert-dismissible').remove();
+
+                if (json['error']) {
+                    $('#alert').prepend('<div class="alert alert-danger alert-dismissible"><i class="fa-solid fa-circle-exclamation"></i> ' + json['error'] + ' <button type="button" class="btn-close" data-bs-dismiss="alert"></button></div>');
+                }
+
+                if (json['success']) {
+                    $('#alert').prepend('<div class="alert alert-success alert-dismissible"><i class="fa-solid fa-check-circle"></i> ' + json['success'] + ' <button type="button" class="btn-close" data-bs-dismiss="alert"></button></div>');
+
+                    $('#input-type').trigger('change');
+                }
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                //x console.log(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+            }
+        });
+    }
+});
+
+ $('#button-upload').on('click', function () {
+    var element = this;
+
+    if (!$('#button-upload').prop('disabled')) {
+        $('#form-upload').remove();
+
+        $('body').prepend('<form enctype="multipart/form-data" id="form-upload" style="display: none;"><input type="file" name="file"/></form>');
+
+        $('#form-upload input[name=\'file\']').trigger('click');
+
+        $('#form-upload input[name=\'file\']').on('change', function () {
+            if ((this.files[0].size / 1024) > {{ config_file_max_size }}) {
+                $(this).val('');
+
+                alert('{{ error_upload_size }}');
+            }
+
+            if (!this.files[0].name.endsWith('.vemod.zip') && !this.files[0].name.endsWith('.vetheme.zip')) {
+                $(this).val('');
+
+                alert('{{ error_filetype }}');
+            }
+        });
+
+        if (typeof timer != 'undefined') {
+            clearInterval(timer);
+        }
+
+        timer = setInterval(function () {
+            if ($('#form-upload input[name=\'file\']').val() !== '') {
+                clearInterval(timer);
+
+                $.ajax({
+                    url: 'index.php?route=marketplace/installer.upload&user_token={{ user_token }}&install=1',
+                    type: 'post',
+                    data: new FormData($('#form-upload')[0]),
+                    dataType: 'json',
+                    cache: false,
+                    contentType: false,
+                    processData: false,
+                    beforeSend: function () {
+                        $(element).button('loading');
+                    },
+                    complete: function () {
+                        $(element).button('reset');
+                    },
+                    success: function (json) {
+                        if (json['error']) {
+                            $('#alert').prepend('<div class="alert alert-danger alert-dismissible"><i class="fa-solid fa-circle-exclamation"></i> ' + json['error'] + ' <button type="button" class="btn-close" data-bs-dismiss="alert"></button></div>');
+                        }
+
+                        if (json['success']) {
+                            $('#alert').prepend('<div class="alert alert-success alert-dismissible"><i class="fa-solid fa-check-circle"></i> ' + json['success'] + ' <button type="button" class="btn-close" data-bs-dismiss="alert"></button></div>');
+
+                            $('#extension').load('index.php?route=marketplace/installer.list&user_token={{ user_token }}');
+                            setTimeout(function() {
+                          location.reload(); // This will reload the current page
+                            }, 3000); 
+                        }
+                    },
+                    error: function (xhr, ajaxOptions, thrownError) {
+                        //x console.log(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+                    }
+                });
+            }
+        }, 500);
+    }
+});
+
+//--></script>
+{{ footer }}

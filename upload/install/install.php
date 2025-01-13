@@ -144,6 +144,8 @@ function setupConfigurations($appConfig, $adminConfig, $weburl, $host, $user, $p
     //rename admin directory
     recursiveRenameDirectory("../admin", "../" . $adminDir);
     sleep(2);
+    unlink('../index.php');
+    rename('../index.php.bak', '../index.php');
     recursiveDeleteDirectory('../install');
 }
 

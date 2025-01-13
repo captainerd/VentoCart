@@ -106,11 +106,9 @@ class Order extends \Ventocart\System\Engine\Controller
 		$this->response->setOutput($this->load->view('account/order_list', $data));
 	}
 
-	/**
-	 * @return object|\Ventocart\System\Engine\Action|null
-	 */
 	public function info(): ?object
 	{
+
 		$this->load->language('account/order');
 
 		if (isset($this->request->get['order_id'])) {
@@ -389,7 +387,7 @@ class Order extends \Ventocart\System\Engine\Controller
 			$data['comment'] = nl2br($order_info['comment']);
 
 			// History
-			$data['history'] = $this->getHistory($order_info['order_id']);
+			$data['history'] = $this->getHistory();
 
 			$data['continue'] = $this->url->link('account/order');
 
@@ -404,11 +402,10 @@ class Order extends \Ventocart\System\Engine\Controller
 
 			return null;
 		} else {
-			if (isset($this->session->data['grand_order_access'])) {
-				$this->session->data['grand_order_access'] = false;
-				return new \Ventocart\System\Engine\Action('guest/order');
-			}
-			return new \Ventocart\System\Engine\Action('error/not_found');
+
+			$this->request->get['route'] = 'error/not_found';
+			return $this->load->controller('error/not_found');
+
 		}
 	}
 

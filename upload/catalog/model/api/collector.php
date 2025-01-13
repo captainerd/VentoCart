@@ -88,11 +88,7 @@ class Collector extends \Ventocart\System\Engine\Model
 
 
 
-    //  $this->event->register('view/*/before', new \Ventocart\System\Engine\Action('api/home.onView')); 
-//   public function onView(&$route, &$data, &$code, &$output)
-//  {
-//       $this->viewCollection[$route] = $data;
-//   }
+
 
 
 

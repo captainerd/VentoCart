@@ -5,19 +5,19 @@ namespace Ventocart\Admin\Controller\Startup;
  *
  * @package Ventocart\Admin\Controller\Startup
  */
-class Authorize extends \Ventocart\System\Engine\Controller {
-	/**
-	 * @return object|\Ventocart\System\Engine\Action|null
-	 */
-	public function index(): ?object {
+class Authorize extends \Ventocart\System\Engine\Controller
+{
+
+	public function index(): ?object
+	{
 		if (isset($this->request->get['route'])) {
-			$route = (string)$this->request->get['route'];
+			$route = (string) $this->request->get['route'];
 		} else {
 			$route = '';
 		}
 
 		if (isset($this->request->cookie['authorize'])) {
-			$token = (string)$this->request->cookie['authorize'];
+			$token = (string) $this->request->cookie['authorize'];
 		} else {
 			$token = '';
 		}
@@ -42,11 +42,15 @@ class Authorize extends \Ventocart\System\Engine\Controller {
 			$token_info = $this->model_user_user->getAuthorizeByToken($this->user->getId(), $token);
 
 			if (!$token_info || !$token_info['status'] && $token_info['attempts'] <= 2) {
-				return new \Ventocart\System\Engine\Action('common/authorize');
+				$this->request->get['route'] = 'common/authorize';
+				return $this->load->controller('common/authorize');
+
 			}
 
 			if ($token_info && !$token_info['status'] && $token_info['attempts'] > 2) {
-				return new \Ventocart\System\Engine\Action('common/authorize.unlock');
+				$this->request->get['route'] = 'common/authorize.unlock';
+				return $this->load->controller('common/authorize.unlock');
+
 			}
 		}
 

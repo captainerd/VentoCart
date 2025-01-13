@@ -56,7 +56,8 @@ class Information extends \Ventocart\System\Engine\Controller
 
 			$this->response->setOutput($this->load->view('information/information', $data));
 		} else {
-			return new \Ventocart\System\Engine\Action('error/not_found');
+			$this->request->get['route'] = 'error/not_found';
+			return $this->load->controller('error/not_found');
 		}
 
 		return null;

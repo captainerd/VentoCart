@@ -1,0 +1,18 @@
+<?php
+// Version
+
+ini_set('short_open_tag', 'On');
+define('VERSION', '6.0.0.1');
+
+// Configuration
+if (is_file('config.php')) {
+	require_once('config.php');
+}
+
+
+
+// Startup
+require_once(DIR_SYSTEM . 'startup.php');
+
+// Framework
+require_once(DIR_SYSTEM . 'framework.php');

@@ -11,11 +11,12 @@ class GiftCard extends \Ventocart\System\Engine\Controller
     public function index(string &$route, array &$args, &$output): void
     {
 
+
         // Load the language file for GiftCard email template
         $this->load->language('mail/giftcard');
 
         // Extract the first argument (which should be the array of gift cards)
-        $giftcard_data = $args[0];
+        $giftcard_data = $output;
         $store_info = $giftcard_data['store_info'];
         unset($giftcard_data['store_info']);
 

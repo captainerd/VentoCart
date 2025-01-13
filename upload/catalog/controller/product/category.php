@@ -7,21 +7,13 @@ namespace Ventocart\Catalog\Controller\Product;
  */
 class Category extends \Ventocart\System\Engine\Controller
 {
-	/**
-	 * @return object|\Ventocart\System\Engine\Action|null
-	 */
+
 	public function index(): ?object
 	{
 		$this->load->language('product/category');
 
 
 		/* Product related */
-		$this->document->addLink('https://fonts.googleapis.com/css?family=Aldrich', 'stylesheet', 'text/css');
-		$this->document->addLink('/catalog/view/stylesheet/photoswipe.css', 'stylesheet', 'text/css');
-		$this->document->addLink('/catalog/view/stylesheet/splide/splide.min.css', 'stylesheet', 'text/css');
-		$this->document->addLink('/catalog/view/stylesheet/splide/themes/splide-vento.css', 'stylesheet', 'text/css');
-		$this->document->addScript("catalog/view/javascript/splide/splide.min.js");
-		$this->document->addScript("catalog/view/javascript/product.js");
 
 
 
@@ -482,7 +474,8 @@ class Category extends \Ventocart\System\Engine\Controller
 			$this->response->setOutput($this->load->view('product/category', $data));
 
 		} else {
-			return new \Ventocart\System\Engine\Action('error/not_found');
+			$this->request->get['route'] = 'error/not_found';
+			return $this->load->controller('error/not_found');
 		}
 
 		return null;

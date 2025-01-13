@@ -343,11 +343,9 @@ class Language extends \Ventocart\System\Engine\Controller
 			$catalogFiles = $this->getPhpFiles($catalogDir);
 			$adminFiles = $this->getPhpFiles($adminDir);
 
-			// Search for PHP files in the extension directories
-			$extensionFiles = $this->getExtensionPhpFiles($langCode);
 
 			// Merge all files into one array
-			$allFiles = array_merge($catalogFiles, $adminFiles, $extensionFiles);
+			$allFiles = array_merge($catalogFiles, $adminFiles);
 			$id_file = 0;
 
 			$filef = "";
@@ -531,11 +529,9 @@ class Language extends \Ventocart\System\Engine\Controller
 			$catalogFiles = $this->getPhpFiles($catalogDir);
 			$adminFiles = $this->getPhpFiles($adminDir);
 
-			// Search for PHP files in the extension directories
-			$extensionFiles = $this->getExtensionPhpFiles($langCode);
 
 			// Merge all files into one array
-			$allFiles = array_merge($catalogFiles, $adminFiles, $extensionFiles);
+			$allFiles = array_merge($catalogFiles, $adminFiles);
 
 		}
 		if ($part == "front") {
@@ -544,9 +540,7 @@ class Language extends \Ventocart\System\Engine\Controller
 		if ($part == "admin") {
 			$allFiles = $this->getPhpFiles($adminDir);
 		}
-		if ($part == "extensions") {
-			$allFiles = $this->getExtensionPhpFiles($langCode);
-		}
+
 
 		$id_file = 0;
 
@@ -653,11 +647,9 @@ class Language extends \Ventocart\System\Engine\Controller
 		$catalogFiles = $this->getPhpFiles($catalogDir);
 		$adminFiles = $this->getPhpFiles($adminDir);
 
-		// Search for PHP files in the extension directories
-		$extensionFiles = $this->getExtensionPhpFiles($langCode);
 
 		// Merge all files into one array
-		$allFiles = array_merge($catalogFiles, $adminFiles, $extensionFiles);
+		$allFiles = array_merge($catalogFiles, $adminFiles);
 		$filesWithHash = [];
 		foreach ($allFiles as $file) {
 			$filesWithHash[] = [
@@ -698,29 +690,7 @@ class Language extends \Ventocart\System\Engine\Controller
 		return $phpFiles;
 	}
 
-	/**
-	 * Get PHP files in extension directories
-	 *
-	 * @param string $langCode
-	 * @return array
-	 */
-	private function getExtensionPhpFiles(string $langCode): array
-	{
-		$phpFiles = [];
 
-		$contents = scandir(DIR_EXTENSION);
-		$contents = array_diff($contents, array('.', '..'));
-
-		foreach ($contents as $item) {
-			$extensionAdminDir = DIR_EXTENSION . $item . "/admin/language/";
-			$extensionCatalogDir = DIR_EXTENSION . $item . "/catalog/language/";
-
-			$phpFiles = array_merge($phpFiles, $this->getPhpFiles($extensionAdminDir . $langCode));
-			$phpFiles = array_merge($phpFiles, $this->getPhpFiles($extensionCatalogDir . $langCode));
-		}
-
-		return $phpFiles;
-	}
 
 
 	/**
@@ -828,26 +798,7 @@ class Language extends \Ventocart\System\Engine\Controller
 		if (!empty($language_info)) {
 			$data['code'] = $language_info['code'];
 
-			//create language files for newly installed extensions
-			$contents = scandir(DIR_EXTENSION);
-			$contents = array_diff($contents, array('.', '..'));
-			foreach ($contents as $item) {
 
-
-				$defaultLang = DIR_EXTENSION . $item . "/admin/language/en-gb";
-				$targetLang = DIR_EXTENSION . $item . "/admin/language/" . $language_info['code'];
-
-				if (realpath($defaultLang) && is_dir($defaultLang) && filetype($defaultLang) === 'dir' && !is_dir($targetLang)) {
-					$this->recursiveCopy($defaultLang, $targetLang);
-				}
-				$defaultLang = DIR_EXTENSION . $item . "/catalog/language/en-gb";
-				$targetLang = DIR_EXTENSION . $item . "/catalog/language/" . $language_info['code'];
-
-				if (realpath($defaultLang) && is_dir($defaultLang) && filetype($defaultLang) === 'dir' && !is_dir($targetLang)) {
-					$this->recursiveCopy($defaultLang, $targetLang);
-				}
-
-			}
 
 		} else {
 			$data['code'] = '';
@@ -859,11 +810,7 @@ class Language extends \Ventocart\System\Engine\Controller
 			$data['locale'] = '';
 		}
 
-		if (!empty($language_info)) {
-			$data['extension'] = $language_info['extension'];
-		} else {
-			$data['extension'] = '';
-		}
+
 
 		if (!empty($language_info)) {
 			$data['sort_order'] = $language_info['sort_order'];
@@ -938,28 +885,6 @@ class Language extends \Ventocart\System\Engine\Controller
 				$this->recursiveCopy(DIR_CATALOG . "language/en-gb", $catalogDir);
 				$this->recursiveCopy(DIR_APPLICATION . "language/en-gb", $adminDir);
 
-
-				$contents = scandir(DIR_EXTENSION);
-				$contents = array_diff($contents, array('.', '..'));
-				foreach ($contents as $item) {
-
-
-					$defaultLang = DIR_EXTENSION . $item . "/admin/language/en-gb";
-					$targetLang = DIR_EXTENSION . $item . "/admin/language/" . $langCode;
-
-					if (realpath($defaultLang) && is_dir($defaultLang) && filetype($defaultLang) === 'dir' && !is_dir($targetLang)) {
-						$this->recursiveDelete($targetLang);
-						$this->recursiveCopy($defaultLang, $targetLang);
-					}
-					$defaultLang = DIR_EXTENSION . $item . "/catalog/language/en-gb";
-					$targetLang = DIR_EXTENSION . $item . "/catalog/language/" . $langCode;
-
-					if (realpath($defaultLang) && is_dir($defaultLang) && filetype($defaultLang) === 'dir' && !is_dir($targetLang)) {
-						$this->recursiveDelete($targetLang);
-						$this->recursiveCopy($defaultLang, $targetLang);
-					}
-
-				}
 
 				unlink($adminDir . "/en-gb.png");
 				unlink($catalogDir . "/en-gb.png");
@@ -1041,28 +966,6 @@ class Language extends \Ventocart\System\Engine\Controller
 
 				$this->recursiveDelete($adminDir);
 				$this->recursiveDelete($catalogDir);
-
-
-
-				$contents = scandir(DIR_EXTENSION);
-				$contents = array_diff($contents, array('.', '..'));
-				foreach ($contents as $item) {
-
-
-
-					$targetLang = DIR_EXTENSION . $item . "/admin/language/" . $language_info['code'];
-
-					if (realpath($targetLang) && is_dir($targetLang)) {
-						$this->recursiveDelete($targetLang);
-					}
-
-					$targetLang = DIR_EXTENSION . $item . "/catalog/language/" . $language_info['code'];
-
-					if (realpath($targetLang) && is_dir($targetLang)) {
-						$this->recursiveDelete($targetLang);
-					}
-
-				}
 
 
 			}

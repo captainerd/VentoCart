@@ -174,7 +174,7 @@ class GiftCard extends \Ventocart\System\Engine\Model
      */
 
 
-    public function processGiftCard(&$order_product): void
+    public function processGiftCard($order_product): array
     {
 
         // Initialize an empty array to store gift card details
@@ -256,7 +256,7 @@ class GiftCard extends \Ventocart\System\Engine\Model
         }
         $giftcards['store_info'] = $store_info;
         // Return the array of gift cards to event handler for mailing
-        $order_product = $giftcards;
+        return $giftcards;
     }
 
 

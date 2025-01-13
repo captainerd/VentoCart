@@ -7,9 +7,7 @@ namespace Ventocart\Catalog\Controller\Information;
  */
 class Gdpr extends \Ventocart\System\Engine\Controller
 {
-	/**
-	 * @return object|\Ventocart\System\Engine\Action|null
-	 */
+
 	public function index(): ?object
 	{
 		$this->load->model('catalog/information');
@@ -56,7 +54,8 @@ class Gdpr extends \Ventocart\System\Engine\Controller
 
 			return null;
 		} else {
-			return new \Ventocart\System\Engine\Action('error/not_found');
+			$this->request->get['route'] = 'error/not_found';
+			return $this->load->controller('error/not_found');
 		}
 	}
 
@@ -146,9 +145,7 @@ class Gdpr extends \Ventocart\System\Engine\Controller
 		$this->response->setOutput(json_encode($json));
 	}
 
-	/**
-	 * @return object|\Ventocart\System\Engine\Action|null
-	 */
+
 	public function success(): ?object
 	{
 		if (isset($this->request->get['code'])) {
@@ -204,7 +201,8 @@ class Gdpr extends \Ventocart\System\Engine\Controller
 
 			return null;
 		} else {
-			return new \Ventocart\System\Engine\Action('error/not_found');
+			$this->request->get['route'] = 'error/not_found';
+			return $this->load->controller('error/not_found');
 		}
 	}
 }

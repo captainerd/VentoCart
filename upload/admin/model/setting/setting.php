@@ -110,4 +110,41 @@ class Setting extends \Ventocart\System\Engine\Model
 			$this->db->query("UPDATE `" . DB_PREFIX . "setting` SET `value` = '" . $this->db->escape(json_encode($value)) . "', `serialized` = '1' WHERE `code` = '" . $this->db->escape($code) . "' AND `key` = '" . $this->db->escape($key) . "' AND `store_id` = '" . (int) $store_id . "'");
 		}
 	}
+
+	/**
+	 * Updates a specific `define()` value in the config
+	 *
+	 * @param string $key       The name of the constant to update.
+	 * @param string $newValue  The new value to set for the constant.
+	 * @return bool             True on success, false on failure.
+	 */
+	function updateConfig($key, $newValue)
+	{
+		$filePath = DIR_VENTOCART . "config.php";
+		// Ensure the file exists and is writable
+		if (!is_writable($filePath)) {
+			throw new \Exception("File does not exist or is not writable: $filePath");
+		}
+
+		// Read the file into a string
+		$content = file_get_contents($filePath);
+
+		// Match the define pattern
+		$pattern = '/define\s*\(\s*[\'"]' . preg_quote($key, '/') . '[\'"]\s*,\s*[\'"](.*?)[\'"]\s*\)\s*;/';
+		if (!preg_match($pattern, $content)) {
+			throw new \Exception("Constant $key not found in file: $filePath");
+		}
+
+		// Replace the old value with the new value
+		$replacement = "define('$key', '" . addslashes($newValue) . "');";
+		$updatedContent = preg_replace($pattern, $replacement, $content);
+
+		// Write the updated content back to the file
+		if (file_put_contents($filePath, $updatedContent) === false) {
+			throw new \Exception("Failed to write updated content to file: $filePath");
+		}
+
+		return true;
+	}
+
 }

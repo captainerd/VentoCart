@@ -13,7 +13,6 @@ require_once(DIR_SYSTEM . 'startup.php');
 // Autoloader
 $autoloader = new \Ventocart\System\Engine\Autoloader();
 $autoloader->register('Ventocart\\Catalog', DIR_APPLICATION);
-$autoloader->register('Ventocart\Extension', DIR_EXTENSION);
 $autoloader->register('Ventocart\System', DIR_SYSTEM);
 
 require_once(DIR_SYSTEM . 'vendor.php');
@@ -43,7 +42,7 @@ $log = new \Ventocart\System\Library\Log($config->get('error_filename'));
 $registry->set('log', $log);
 
 // Error Handler
-set_error_handler(function(string $code, string $message, string $file, string $line) use ($log, $config) {
+set_error_handler(function (string $code, string $message, string $file, string $line) use ($log, $config) {
 	// error suppressed with @
 	if (@error_reporting() === 0) {
 		return false;
@@ -82,7 +81,7 @@ set_error_handler(function(string $code, string $message, string $file, string $
 });
 
 // Exception Handler
-set_exception_handler(function(\Throwable $e) use ($log, $config): void  {
+set_exception_handler(function (\Throwable $e) use ($log, $config): void {
 	if ($config->get('error_log')) {
 		$log->write(get_class($e) . ':  ' . $e->getMessage() . ' in ' . $e->getFile() . ' on line ' . $e->getLine());
 	}
@@ -95,19 +94,8 @@ set_exception_handler(function(\Throwable $e) use ($log, $config): void  {
 	}
 });
 
-// Event
-$event = new \Ventocart\System\Engine\Event($registry);
+$event = new Ventocart\System\Engine\Event($registry);
 $registry->set('event', $event);
-
-// Event Register
-if ($config->has('action_event')) {
-	foreach ($config->get('action_event') as $key => $value) {
-		foreach ($value as $priority => $action) {
-			$event->register($key, new \Ventocart\System\Engine\Action($action), $priority);
-		}
-	}
-}
-
 // Loader
 $loader = new \Ventocart\System\Engine\Loader($registry);
 $registry->set('load', $loader);
@@ -144,10 +132,10 @@ if ($config->get('session_autostart')) {
 
 	// Require higher security for session cookies
 	$option = [
-		'expires'  => 0,
-		'path'     => $config->get('session_path'),
-		'domain'   => $config->get('session_domain'),
-		'secure'   => $request->server['HTTPS'],
+		'expires' => 0,
+		'path' => $config->get('session_path'),
+		'domain' => $config->get('session_domain'),
+		'secure' => $request->server['HTTPS'],
 		'httponly' => false,
 		'SameSite' => $config->get('session_samesite')
 	];

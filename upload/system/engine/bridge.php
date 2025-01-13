@@ -32,17 +32,27 @@ class Bridge extends \Ventocart\System\Engine\Model
         $this->namespace = $this->config->get('application');
         $this->config->set('application', $namespace);
 
-        $this->registry->set('bridgeLive', $this);
-
         if ($namespace == "Admin") {
             $this->applicationDir = rtrim($this->getAdminPath(), '/') . '/';
         } else {
+
             $this->applicationDir = DIR_CATALOG;
+            $registry->template->addPath(DIR_VENTOCART . "themes/default/plates/");
         }
 
         $this->autoloader->register('Ventocart\\' . $namespace, $this->applicationDir);
 
-        $this->registry->set('bridgeLanguage', $this->registry->get('language'));
+        if (isset($this->request->cookie['language'])) {
+            $code = (string) $this->request->cookie['language'];
+        } else {
+            $code = $this->config->get('config_language_admin');
+        }
+
+        $language = new \Ventocart\System\Library\Language($code);
+
+        $language->addPath($this->applicationDir . str_replace(DIR_APPLICATION, '', DIR_LANGUAGE));
+        $registry->set('language', $language);
+        $this->load->language('default');
 
         if ($this->savesetting) {
             $this->load->model('setting/setting');
@@ -58,7 +68,17 @@ class Bridge extends \Ventocart\System\Engine\Model
      */
     public function kill()
     {
+        if (isset($this->request->cookie['language'])) {
+            $code = (string) $this->request->cookie['language'];
+        } else {
+            $code = $this->config->get('config_language_admin');
+        }
+        $language = new \Ventocart\System\Library\Language($code);
+        $language->addPath(DIR_LANGUAGE);
+        $this->registry->template->addPath(DIR_TEMPLATE . "default/plates/");
+        $this->registry->set('language', $language);
         $this->config->set('application', $this->namespace);
+        $this->load->language('default');
     }
 
 

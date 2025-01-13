@@ -100,8 +100,8 @@ class Footer extends \Ventocart\System\Engine\Controller
 
 			$this->model_tool_online->addOnline($ip, $this->customer->getId(), $url, $referer);
 		}
+		$data['theme_name'] = THEME_NAME;
 
-		$data['cssframework'] = 'catalog/view/javascript/bootstrap/js/bootstrap.bundle.min.js';
 
 		$data['scripts'] = $this->document->getScripts('footer');
 

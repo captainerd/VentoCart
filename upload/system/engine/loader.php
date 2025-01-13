@@ -1,11 +1,5 @@
 <?php
-/**
- * @package        VentoCart
- * @author         Daniel Kerr
- * @copyright      Copyright (c) 2005 - 2022, VentoCart, Ltd. (https://www.ventocart.com/)
- * @license        https://opensource.org/licenses/GPL-3.0
- * @link           https://www.ventocart.com
- */
+
 namespace Ventocart\System\Engine;
 
 /**
@@ -90,10 +84,6 @@ class Loader
 				$method = 'index';
 			}
 			$className = $className[0];
-
-			$this->autoload($className);
-
-
 			if (class_exists($className)) {
 
 				$controller = new $className($this->registry);
@@ -130,7 +120,6 @@ class Loader
 		if (!$this->registry->has($key)) {
 			$className = 'Ventocart\\' . $namespace . '\\Model\\' . str_replace(['_', '/'], ['', '\\'], ucwords($route, '_/'));
 
-			$this->autoload($className);
 			// Load the model if it exists
 			if (class_exists($className)) {
 				$instance = new $className($this->registry);
@@ -162,14 +151,15 @@ class Loader
 	public function view(string $route, array $data = [], string $code = ''): string
 	{
 
+
 		$this->registry->event->trigger($route . "/before", [&$data]);
 		// Sanitize the call
 		$route = preg_replace('/[^a-zA-Z0-9_\/]/', '', $route);
 		$language_keys = $this->language->all();
 		$data = array_merge($language_keys, $data);
 
-		// Make sure it's only the last event that returns an output if required.
 		$output = $this->template->render($route, $data, $code);
+
 		$this->registry->event->trigger($route . "/after", [&$output]);
 
 		return $output;
@@ -188,6 +178,9 @@ class Loader
 	{
 		// Sanitize the call
 		$route = preg_replace('/[^a-zA-Z0-9_\-\/]/', '', $route);
+		if (empty($code)) {
+			$code = $this->config->get('config_language');
+		}
 
 		$output = $this->language->load($route, $prefix, $code);
 
@@ -254,12 +247,6 @@ class Loader
 
 		if (!str_starts_with($route, 'extension/')) {
 			$file = DIR_SYSTEM . 'helper/' . $route . '.php';
-		} else {
-			$parts = explode('/', substr($route, 10));
-
-			$code = array_shift($parts);
-
-			$file = DIR_EXTENSION . $code . '/system/helper/' . implode('/', $parts) . '.php';
 		}
 
 		if (is_file($file)) {
@@ -283,29 +270,7 @@ class Loader
 		$this->registry->set('bridge', $bridge);
 
 	}
-	private function autoload($classname)
-	{
 
-		if (class_exists($classname)) {
-			// Save processing
-			return;
-		}
-
-		// For extensions that are outside of psr4 or class expected path
-		if (strpos($classname, "\\Extension\\") !== false) {
-			$ext = explode("\\", $classname);
-			$view = strtolower(DIR_EXTENSION . $ext[4] . "/" . $ext[1] . "/view" . "/template/");
-			$language = strtolower(DIR_EXTENSION . $ext[4] . "/" . $ext[1] . "/language/");
-			$extension = strtolower($ext[3] . "/" . $ext[4]);
-			$this->template->addPath($extension, $view);
-			$this->language->addPath($extension, $language);
-			$file = DIR_EXTENSION . strtolower($ext[4] . "/" . $ext[1] . "/" . $ext[2] . "/" . preg_replace('~([a-z])([A-Z]|[0-9])~', '\\1_\\2', implode("/", array_slice($ext, 5)))) . ".php";
-			if (is_file($file)) {
-				require_once $file;
-			}
-
-		}
-	}
 
 
 }

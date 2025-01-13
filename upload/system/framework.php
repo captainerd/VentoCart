@@ -147,7 +147,9 @@ $registry->set('cache', new \Ventocart\System\Library\Cache($config->get('cache_
 // Template
 $template = new \Ventocart\System\Library\Template($config->get('template_engine'));
 $registry->set('template', $template);
-$template->addPath(DIR_TEMPLATE);
+
+$template->addPath(DIR_TEMPLATE . "default/plates/");
+
 
 // Language
 $language = new \Ventocart\System\Library\Language($config->get('language_code'));
@@ -174,6 +176,7 @@ $args = [];
 $output = '';
 
 // Pre Actions
+
 foreach ($config->get('action_pre_action') as $pre_action) {
 
 	$loader->load->controller($pre_action);

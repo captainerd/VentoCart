@@ -177,23 +177,17 @@ class ColumnLeft extends \Ventocart\System\Engine\Controller
 				];
 			}
 
-
-			$files = glob(DIR_APPLICATION . 'controller/extension/*.php');
+			$this->load->model('marketplace/extension');
+			$extcategories = $this->model_marketplace_extension->getCategories();
 			$extChild = [];
-			foreach ($files as $file) {
-				$extension = basename($file, '.php');
 
-				$this->load->language('extension/' . $extension, $extension);
-
-				if ($this->user->hasPermission('access', 'extension/' . $extension)) {
-					$extChild[] = [
-						'code' => $extension,
-						'name' => $this->language->get($extension . '_heading_title') . ' (' . count(glob(DIR_EXTENSION . '*/admin/controller/' . $extension . '/*.php')) . ')',
-						'href' => $this->url->link('marketplace/extension&' . 'user_token=' . $this->session->data['user_token'] . '&type=' . $extension),
-					];
-				}
+			foreach ($extcategories as $category) {
+				$extChild[] = [
+					'code' => $category['code'],
+					'name' => $category['text'],
+					'href' => $category['href'] . "&nojs=1"
+				];
 			}
-
 			if ($this->user->hasPermission('access', 'marketplace/extension')) {
 				$data['menus'][] = [
 					'name' => $this->language->get('text_extension'),
@@ -204,16 +198,7 @@ class ColumnLeft extends \Ventocart\System\Engine\Controller
 
 			// Extension Settings
 			$marketplace = [];
-			/*
-															if ($this->user->hasPermission('access', 'marketplace/marketplace')) {
-																$marketplace[] = [
-																	'name'	   => $this->language->get('text_marketplace'),
-																	'href'     => $this->url->link('marketplace/marketplace', 'user_token=' . $this->session->data['user_token']),
-																	'children' => []
-																];
-															}
 
-													 */
 
 			if ($this->user->hasPermission('access', 'marketplace/installer')) {
 				$marketplace[] = [
@@ -223,13 +208,7 @@ class ColumnLeft extends \Ventocart\System\Engine\Controller
 				];
 			}
 
-			if ($this->user->hasPermission('access', 'marketplace/modification')) {
-				$marketplace[] = [
-					'name' => $this->language->get('text_modification'),
-					'href' => $this->url->link('marketplace/modification', 'user_token=' . $this->session->data['user_token']),
-					'children' => []
-				];
-			}
+
 
 			if ($this->user->hasPermission('access', 'marketplace/startup')) {
 				$marketplace[] = [
@@ -293,6 +272,17 @@ class ColumnLeft extends \Ventocart\System\Engine\Controller
 					'children' => []
 				];
 			}
+
+			if ($this->user->hasPermission('access', 'extension/theme')) {
+				$design[] = [
+					'name' => $this->language->get('text_themes'),
+					'href' => $this->url->link('marketplace/extension&which=theme', 'user_token=' . $this->session->data['user_token'] . '&nojs=1'),
+					'children' => []
+				];
+			}
+
+
+
 
 			if ($this->user->hasPermission('access', 'design/theme')) {
 				$design[] = [

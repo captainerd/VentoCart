@@ -64,10 +64,8 @@ class Manufacturer extends \Ventocart\System\Engine\Controller
 		$this->response->setOutput($this->load->view('product/manufacturer_list', $data));
 	}
 
-	/**
-	 * @return object|\Ventocart\System\Engine\Action|null
-	 */
-	public function info(): ?\Ventocart\System\Engine\Action
+
+	public function info()
 	{
 		$this->load->language('product/manufacturer');
 
@@ -354,7 +352,8 @@ class Manufacturer extends \Ventocart\System\Engine\Controller
 
 			$this->response->setOutput($this->load->view('product/manufacturer_info', $data));
 		} else {
-			return new \Ventocart\System\Engine\Action('error/not_found');
+			$this->request->get['route'] = 'error/not_found';
+			return $this->load->controller('error/not_found');
 		}
 
 		return null;

@@ -8,7 +8,7 @@ class Checkout extends \Ventocart\System\Engine\Controller
 
         $this->document->addStyle('https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css');
         $this->document->addScript('https://code.jquery.com/ui/1.12.1/jquery-ui.min.js');
-        $this->document->addScript('catalog/view/javascript/checkout.js');
+        $this->document->addScript('/themes/default/assets/core/js/checkout.js');
 
         // Validate cart has products and has stock.
         if ((!$this->cart->hasProducts()) || (!$this->cart->hasStock() && !$this->config->get('config_stock_checkout'))) {

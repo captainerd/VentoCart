@@ -462,7 +462,6 @@ class Order extends \Ventocart\System\Engine\Controller
 	public function info(): void
 	{
 
-		$this->load->language('sale/order');
 
 		$this->cart->clear();
 		if (isset($this->request->get['order_id'])) {
@@ -477,6 +476,7 @@ class Order extends \Ventocart\System\Engine\Controller
 		} else {
 			$order_id = 0;
 		}
+		$this->load->language('sale/order');
 
 		$this->document->setTitle($this->language->get('heading_title'));
 
@@ -1012,6 +1012,11 @@ class Order extends \Ventocart\System\Engine\Controller
 			$data['comment'] = '';
 		}
 
+		$data['ip'] = $order_info['ip'];
+		$data['user_agent'] = $order_info['user_agent'];
+		$data['accept_language'] = $order_info['accept_language'];
+		$data['date_added'] = date($this->language->get('date_format_short'), strtotime($order_info['date_added']));
+
 		// Totals
 		$data['order_totals'] = [];
 
@@ -1493,13 +1498,15 @@ class Order extends \Ventocart\System\Engine\Controller
 
 	public function history(): void
 	{
-		$this->load->language('sale/order');
+
 
 		$this->response->setOutput($this->getHistory());
 	}
 
 	public function getHistory(): string
 	{
+
+
 		if (isset($this->request->get['order_id'])) {
 			$order_id = (int) $this->request->get['order_id'];
 		} else {

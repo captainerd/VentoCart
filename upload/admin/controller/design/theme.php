@@ -5,11 +5,13 @@ namespace Ventocart\Admin\Controller\Design;
  *
  * @package Ventocart\Admin\Controller\Design
  */
-class Theme extends \Ventocart\System\Engine\Controller {
+class Theme extends \Ventocart\System\Engine\Controller
+{
 	/**
 	 * @return void
 	 */
-	public function index(): void {
+	public function index(): void
+	{
 		$this->load->language('design/theme');
 
 		$this->document->setTitle($this->language->get('heading_title'));
@@ -30,12 +32,18 @@ class Theme extends \Ventocart\System\Engine\Controller {
 
 		$this->load->model('setting/store');
 
-		$results = $this->model_setting_store->getStores();
+		$results = glob(DIR_VENTOCART . "themes/*");
+		$themes = [];
 
 		foreach ($results as $result) {
-			$data['stores'][] = [
-				'store_id' => $result['store_id'],
-				'name'     => $result['name']
+			$themes[] = str_replace(DIR_VENTOCART . "themes/", '', $result);
+		}
+
+		foreach ($themes as $result) {
+			$data['themes'][] = [
+				'theme_id' => $result,
+				'default' => $this->config->get('config_theme') == $result ? true : false,
+				'name' => $result == 'basic' ? 'Default' : ucfirst(lcfirst(ucwords(str_replace('_', ' ', $result))))
 			];
 		}
 
@@ -48,89 +56,37 @@ class Theme extends \Ventocart\System\Engine\Controller {
 		$this->response->setOutput($this->load->view('design/theme', $data));
 	}
 
-	/**
-	 * @return void
-	 */
-	public function history(): void {
-		$this->load->language('design/theme');
 
-		if (isset($this->request->get['page'])) {
-			$page = (int)$this->request->get['page'];
-		} else {
-			$page = 1;
-		}
-
-		$limit = 10;
-
-		$data['histories'] = [];
-
-		$this->load->model('design/theme');
-		$this->load->model('setting/store');
-
-		$results = $this->model_design_theme->getThemes(($page - 1) * $limit, $limit);
-
-		foreach ($results as $result) {
-			$store_info = $this->model_setting_store->getStore($result['store_id']);
-
-			if ($store_info) {
-				$store = $store_info['name'];
-			} else {
-				$store = '';
-			}
-
-			$data['histories'][] = [
-				'store_id'   => $result['store_id'],
-				'store'      => ($result['store_id'] ? $store : $this->language->get('text_default')),
-				'route'      => $result['route'],
-				'date_added' => date($this->language->get('date_format_short'), strtotime($result['date_added'])),
-				'edit'       => $this->url->link('design/theme.template', 'user_token=' . $this->session->data['user_token']),
-				'delete'     => $this->url->link('design/theme.delete', 'user_token=' . $this->session->data['user_token'] . '&theme_id=' . $result['theme_id'])
-			];
-		}
-
-		$history_total = $this->model_design_theme->getTotalThemes();
-
-		$data['pagination'] = $this->load->controller('common/pagination', [
-			'total' => $history_total,
-			'page'  => $page,
-			'limit' => $limit,
-			'url'   => $this->url->link('design/theme.history', 'user_token=' . $this->session->data['user_token'] . '&page={page}')
-		]);
-
-		$data['results'] = sprintf($this->language->get('text_pagination'), ($history_total) ? (($page - 1) * $limit) + 1 : 0, ((($page - 1) * $limit) > ($history_total - $limit)) ? $history_total : ((($page - 1) * $limit) + $limit), $history_total, ceil($history_total / $limit));
-
-		$this->response->setOutput($this->load->view('design/theme_history', $data));
-	}
 
 	/**
 	 * @return void
 	 */
-	public function path(): void {
+	public function path(): void
+	{
 		$this->load->language('design/theme');
 
 		$json = [];
 
-		if (isset($this->request->get['store_id'])) {
-			$store_id = (int)$this->request->get['store_id'];
-		} else {
-			$store_id = 0;
-		}
 
 		if (isset($this->request->get['path'])) {
 			$path = $this->request->get['path'];
 		} else {
 			$path = '';
 		}
-
+		if (isset($this->request->get['theme_id'])) {
+			$theme_id = $this->request->get['theme_id'];
+		} else {
+			$theme_id = 'default';
+		}
 		// Default templates
 		$json['directory'] = [];
 		$json['file'] = [];
 
-		$directory = DIR_CATALOG . 'view/template';
+		$directory = DIR_VENTOCART . 'themes/' . $theme_id;
 
 		if (substr(str_replace('\\', '/', realpath($directory . '/' . $path)), 0, strlen($directory)) == $directory) {
 			// We grab the files from the default template directory
-			$files = glob(rtrim(DIR_CATALOG . 'view/template/' . $path, '/') . '/*');
+			$files = glob(rtrim(DIR_VENTOCART . 'themes/' . $theme_id . '/' . $path, '/') . '/*');
 
 			foreach ($files as $file) {
 				if (is_dir($file)) {
@@ -150,76 +106,10 @@ class Theme extends \Ventocart\System\Engine\Controller {
 		}
 
 		if (!$path) {
-			$json['directory'][] = [
-				'name' => $this->language->get('text_extension'),
-				'path' => 'extension',
-			];
+
 		}
 
-		// Extension templates
-		$json['extension'] = [];
 
-		// List all the extensions
-		if ($path == 'extension') {
-			$directories = glob(DIR_EXTENSION . '*', GLOB_ONLYDIR);
-
-			foreach ($directories as $directory) {
-				$json['extension']['directory'][] = [
-					'name' => basename($directory),
-					'path' => 'extension/' . basename($directory)
-				];
-			}
-		}
-
-		// List extension sub directories directories
-		if (substr($path, 0, 10) == 'extension/') {
-			$route = '';
-
-			$part = explode('/', $path);
-
-			$extension = $part[1];
-
-			unset($part[0]);
-			unset($part[1]);
-
-			if (isset($part[2])) {
-				$route = implode('/', $part);
-			}
-
-			$safe = true;
-
-			if (substr(str_replace('\\', '/', realpath(DIR_EXTENSION . $extension)), 0, strlen(DIR_EXTENSION)) != DIR_EXTENSION) {
-				$safe = false;
-			}
-
-			$directory = DIR_EXTENSION . $extension . '/catalog/view/template';
-
-			if (substr(str_replace('\\', '/', realpath($directory . '/' . $route)), 0, strlen($directory)) != $directory) {
-				$safe = false;
-			}
-
-			if ($safe) {
-				$files = glob(rtrim(DIR_EXTENSION . $extension . '/catalog/view/template/' . $route, '/') . '/*');
-
-				sort($files);
-
-				foreach ($files as $file) {
-					if (is_dir($file)) {
-						$json['extension']['directory'][] = [
-							'name' => basename($file),
-							'path' => $path . '/' . basename($file)
-						];
-					}
-
-					if (is_file($file)) {
-						$json['extension']['file'][] = [
-							'name' => basename($file),
-							'path' => $path . '/' . basename($file)
-						];
-					}
-				}
-			}
-		}
 
 		if ($path) {
 			$json['back'] = [
@@ -235,15 +125,16 @@ class Theme extends \Ventocart\System\Engine\Controller {
 	/**
 	 * @return void
 	 */
-	public function template(): void {
+	public function template(): void
+	{
 		$this->load->language('design/theme');
 
 		$json = [];
 
-		if (isset($this->request->get['store_id'])) {
-			$store_id = (int)$this->request->get['store_id'];
+		if (isset($this->request->get['theme_id'])) {
+			$theme_id = $this->request->get['theme_id'];
 		} else {
-			$store_id = 0;
+			$theme_id = 'default';
 		}
 
 		if (isset($this->request->get['path'])) {
@@ -253,48 +144,12 @@ class Theme extends \Ventocart\System\Engine\Controller {
 		}
 
 		// Default template load
-		$directory = DIR_CATALOG . 'view/template';
+		$directory = DIR_VENTOCART . 'themes/' . $theme_id;
 
 		if (is_file($directory . '/' . $path) && (substr(str_replace('\\', '/', realpath($directory . '/' . $path)), 0, strlen($directory)) == $directory)) {
-			$json['code'] = file_get_contents(DIR_CATALOG . 'view/template/' . $path);
+			$json['code'] = file_get_contents(DIR_VENTOCART . 'themes/' . $theme_id . "/" . $path);
 		}
 
-		// Extension template load
-		if (substr($path, 0, 10) == 'extension/') {
-			$part = explode('/', $path);
-
-			$extension = $part[1];
-
-			unset($part[0]);
-			unset($part[1]);
-
-			$route = implode('/', $part);
-
-			$safe = true;
-
-			if (substr(str_replace('\\', '/', realpath(DIR_EXTENSION . $extension)), 0, strlen(DIR_EXTENSION)) != DIR_EXTENSION) {
-				$safe = false;
-			}
-
-			$directory = DIR_EXTENSION . $extension . '/catalog/view/template';
-
-			if (substr(str_replace('\\', '/', realpath($directory . '/' . $route)), 0, strlen($directory)) != $directory) {
-				$safe = false;
-			}
-
-			if ($safe && is_file($directory . '/' . $route)) {
-				$json['code'] = file_get_contents($directory . '/' . $route);
-			}
-		}
-
-		// Custom template load
-		$this->load->model('design/theme');
-
-		$theme_info = $this->model_design_theme->getTheme($store_id, $path);
-
-		if ($theme_info) {
-			$json['code'] = html_entity_decode($theme_info['code']);
-		}
 
 		$this->response->addHeader('Content-Type: application/json');
 		$this->response->setOutput(json_encode($json));
@@ -303,114 +158,25 @@ class Theme extends \Ventocart\System\Engine\Controller {
 	/**
 	 * @return void
 	 */
-	public function save(): void {
-		$this->load->language('design/theme');
-
-		$json = [];
-
-		if (isset($this->request->get['store_id'])) {
-			$store_id = (int)$this->request->get['store_id'];
-		} else {
-			$store_id = 0;
-		}
-
-		if (isset($this->request->get['path'])) {
-			$path = $this->request->get['path'];
-		} else {
-			$path = '';
-		}
-
-		// Check user has permission
-		if (!$this->user->hasPermission('modify', 'design/theme')) {
-			$json['error'] = $this->language->get('error_permission');
-		}
-
- 
-
-		if (!$json) {
-			$this->load->model('design/theme');
-
-			$pos = strpos($path, '.');
-
-			$this->model_design_theme->editTheme($store_id, ($pos !== false) ? substr($path, 0, $pos) : $path, $this->request->post['code']);
-
-			$json['success'] = $this->language->get('text_success');
-		}
-
-		$this->response->addHeader('Content-Type: application/json');
-		$this->response->setOutput(json_encode($json));
-	}
-
-	/**
-	 * @return void
-	 */
-	public function reset(): void {
-		$json = [];
-
-		if (isset($this->request->get['store_id'])) {
-			$store_id = (int)$this->request->get['store_id'];
-		} else {
-			$store_id = 0;
-		}
-
-		if (isset($this->request->get['path'])) {
-			$path = $this->request->get['path'];
-		} else {
-			$path = '';
-		}
-
-		$directory = DIR_CATALOG . 'view/template';
-
-		if (is_file($directory . '/' . $path) && (substr(str_replace('\\', '/', realpath($directory . '/' . $path)), 0, strlen($directory)) == $directory)) {
-			$json['code'] = file_get_contents(DIR_CATALOG . 'view/template/' . $path);
-		}
-
-		// Extension template load
-		if (substr($path, 0, 10) == 'extension/') {
-			$part = explode('/', $path);
-
-			$extension = $part[1];
-
-			unset($part[0]);
-			unset($part[1]);
-
-			$route = implode('/', $part);
-
-			$safe = true;
-
-			if (substr(str_replace('\\', '/', realpath(DIR_EXTENSION . $extension)), 0, strlen(DIR_EXTENSION)) != DIR_EXTENSION) {
-				$safe = false;
-			}
-
-			$directory = DIR_EXTENSION . $extension . '/catalog/view/template';
-
-			if (substr(str_replace('\\', '/', realpath($directory . '/' . $route)), 0, strlen($directory)) != $directory) {
-				$safe = false;
-			}
-
-			if ($safe && is_file($directory . '/' . $route)) {
-				$json['code'] = file_get_contents($directory . '/' . $route);
-			}
-		}
-
-		$this->response->addHeader('Content-Type: application/json');
-		$this->response->setOutput(json_encode($json));
-	}
-
-	/**
-	 * @return void
-	 */
-	public function delete(): void {
+	public function save(): void
+	{
 		$this->load->language('design/theme');
 
 		$json = [];
 
 		if (isset($this->request->get['theme_id'])) {
-			$theme_id = (int)$this->request->get['theme_id'];
+			$theme_id = $this->request->get['theme_id'];
 		} else {
-			$theme_id = 0;
+			$theme_id = 'default';
 		}
 
+		if (isset($this->request->get['path'])) {
+			$path = $this->request->get['path'];
+		} else {
+			$path = '';
+		}
+		$code = $this->request->post['code'];
+		$code = html_entity_decode($code);
 		// Check user has permission
 		if (!$this->user->hasPermission('modify', 'design/theme')) {
 			$json['error'] = $this->language->get('error_permission');
@@ -419,12 +185,16 @@ class Theme extends \Ventocart\System\Engine\Controller {
 		if (!$json) {
 			$this->load->model('design/theme');
 
-			$this->model_design_theme->deleteTheme($theme_id);
-
+			$pos = strpos($path, '.');
+			$file = DIR_VENTOCART . 'themes/' . $theme_id . $path;
+			file_put_contents($file, $code);
 			$json['success'] = $this->language->get('text_success');
 		}
 
 		$this->response->addHeader('Content-Type: application/json');
 		$this->response->setOutput(json_encode($json));
 	}
+
+
+
 }

@@ -53,6 +53,7 @@ class Plates
 	 */
 	public function addPath(string $namespace, string $directory = ''): void
 	{
+
 		if (!$directory) {
 			$this->directory = $namespace;
 		} else {
@@ -72,6 +73,8 @@ class Plates
 	public function render(string $filename, array $data = [], string $code = ''): string
 	{
 
+
+
 		$file = $this->directory . $filename;
 		$namespace = '';
 
@@ -85,12 +88,20 @@ class Plates
 			}
 
 			if (isset($this->path[$namespace])) {
+
 				$file = $this->path[$namespace] . substr($filename, strlen($namespace) + 1);
 			}
 		}
 
 
 		$file = substr($file, strlen($this->root) + 1);
+
+		// Fail over to default theme if theme has not that file
+
+		if (defined('THEME_NAME') && THEME_NAME != 'default' && !file_exists(DIR_VENTOCART . '/' . $file . '.php') && file_exists(DIR_VENTOCART . '/' . str_replace(THEME_NAME, 'default', $file) . '.php')) {
+			$file = str_replace(THEME_NAME, 'default', $file);
+		}
+
 
 		//If Plates Template file doesn't exists call fail over to twig
 		if (!file_exists(DIR_VENTOCART . '/' . $file . '.php')) {

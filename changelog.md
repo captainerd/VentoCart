@@ -1,3 +1,36 @@
+## What's New in VentoCart v6.0.0.1
+
+### ***v6 Major Release***
+- **Core Refactor and Structure Overhaul**: 
+  The VentoCart platform undergoes significant improvements, leading to a version jump to 6.0. This release involves extensive refactoring, streamlining the internal structure for better performance and scalability.
+  
+- **New Event System**:
+  The event system has been redesigned and optimized, enhancing the overall speed 
+
+- **Removal of /Extension Directory**: 
+  The `/Extension` directory has been removed to allow for PSR-4 path matching and to reduce string processing overhead. This change reverts the system to an OpenCart 3-style structure.
+
+- **Extension 'Extract/Download' Buttons**:
+  New functionality has been added, allowing developers and users to easily extract and download extension files as zip archives. This makes updating, testing, and extracting files much more straightforward.
+
+- **Theme Management Overhaul**:
+  - **New Theme Location**: Themes are now located in `/themes/name`, making it simpler to manage.
+  - **Decoupling of Themes from Extensions**: Themes no longer need to be bundled with extensions. Now, custom themes can be standalone and only contain the necessary files (no classes, extensions, or install.json required in the zip).
+  
+- **Theme Management Interface**:
+  Themes now have their own menu in the Admin panel under **/Admin/Design/Theme**, giving administrators more control over theme customization.
+
+- **Theme Editor**:
+  The new Theme Editor allows for editing of assets, including `.css` and `.js` files directly from the Admin panel. This feature enhances flexibility and ease of use for front-end adjustments.
+
+- **Core Framework Optimization**:
+  Continued work on debugging and optimizing the core framework, improving the loading of controllers, models, and event handling.
+
+- **Performance Improvements**:
+  This version focuses on boosting performance, optimizing web vitals, and improving SEO.
+
+---
+
 ## What's New in VentoCart v5.1.2.2
 
 ### **1. Major Code Refactor**

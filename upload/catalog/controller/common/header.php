@@ -36,13 +36,8 @@ class Header extends \Ventocart\System\Engine\Controller
 		$data['description'] = $this->document->getDescription();
 		$data['keywords'] = $this->document->getKeywords();
 
-		// Hard coding css so they can be replaced via the event's system.
-		$data['cssframework'] = 'catalog/view/stylesheet/bootstrap.css';
-		$data['icons'] = 'catalog/view/stylesheet/fonts/fontawesome/css/all.min.css';
-		$data['stylesheet'] = 'catalog/view/stylesheet/stylesheet.css';
 
-		// Hard coding scripts so they can be replaced via the event's system.
-		$data['jquery'] = 'catalog/view/javascript/jquery/jquery-3.7.1.min.js';
+		$data['theme_name'] = THEME_NAME;
 
 		$data['links'] = $this->document->getLinks();
 		$data['styles'] = $this->document->getStyles();

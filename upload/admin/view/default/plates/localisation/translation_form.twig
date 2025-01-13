@@ -1,0 +1,290 @@
+{{ header }}
+{{ column_left }}
+
+<div id="content">
+    <div class="page-header">
+        <div class="container-fluid">
+            <div class="float-end">
+
+                <a href="{{ back }}" data-bs-toggle="tooltip" title="{{ button_back }}" class="btn btn-light"><i
+                        class="fa-solid fa-reply"></i></a>
+            </div>
+            <h1>{{ heading_title }}</h1>
+            <ol class="breadcrumb">
+                {% for breadcrumb in breadcrumbs %}
+                <li class="breadcrumb-item"><a href="{{ breadcrumb.href }}">{{ breadcrumb.text }}</a></li>
+                {% endfor %}
+            </ol>
+        </div>
+    </div>
+
+
+    <div class="container-fluid">
+
+
+        <div id="content">
+            <div class="container-fluid mt-3">
+
+
+                <div class="accordion" id="accordion1">
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="headingOne">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                <strong> <i class="fas fa-book"></i>
+
+                                    {{text_language_file_editor}} </strong>
+                            </button>
+                        </h2>
+                        <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne"
+                            data-bs-parent="#accordion1">
+                            <div class="accordion-body">
+
+
+
+                                <div class="card">
+                                    <div class="card-header"><i
+                                            class="fa-solid fa-pencil"></i>{{text_translation_editor}}</div>
+                                    <div class="card-body">
+
+
+                                        <div class="row">
+                                            <div class="col">
+                                                <label for="fileSelect" class="form-label">{{entry_select_file}}</label>
+                                                <select id="fileSelect" class="form-select">
+                                                    <option value="0">{{option_select_file}}</option>
+                                                    {% for file in files %}
+                                                    <option value="{{ file.file }}|{{ file.hash }}">{{ file.file }}
+                                                    </option>
+                                                    {% endfor %}
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <div class="row mt-3">
+                                            <div class="col">
+                                                <label for="fileContent"
+                                                    class="form-label">{{text_file_content}}</label>
+                                                <textarea id="fileContent" class="form-control" rows="30"></textarea>
+                                            </div>
+                                        </div>
+
+                                        <div class="row mt-3">
+                                            <div class="col-md-6">
+                                                <button id="saveButton" class="btn btn-primary"
+                                                    onclick="saveFileContent()">{{button_save_file}}</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="headingTwo">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                <strong> <i class="fas fa-sync"></i>
+                                    {{text_bulk_translate_file}}</strong>
+                            </button>
+                        </h2>
+                        <div id="collapseTwo" class="accordion-collapse show" aria-labelledby="headingTwo"
+                            data-bs-parent="#accordion1">
+                            <div class="accordion-body">
+
+                                <div class="card">
+                                    <div class="card-header"><i class="fa-solid fa-pencil"></i>{{bulk_translation}}
+                                    </div>
+                                    <div class="card-body">
+
+                                        <div class="alert alert-warning">
+                                            <i class="fas fa-info-circle"></i>
+                                            {{info_translation}}
+                                        </div>
+
+                                        <div class="alert alert-danger">
+                                            <i class="fas fa-exclamation-circle"></i>
+                                            {{info_backup_export}}
+
+                                        </div>
+
+
+                                        <div class="row mb-3">
+                                            <div class="col-sm-2">
+                                                <label class="form-check-label mb-2"
+                                                    for=""><strong>{{text_download}}</strong></label>
+                                                <div class="form-check">
+                                                    <input class="form-check-input" value="admin" type="radio"
+                                                        name="option-part" id="adminOnly">
+                                                    <label class="form-check-label"
+                                                        for="adminOnly">{{text_admin_only}}</label>
+                                                </div>
+                                                <div class="form-check">
+                                                    <input class="form-check-input" value="front" type="radio"
+                                                        name="option-part" id="frontOnly">
+                                                    <label class="form-check-label"
+                                                        for="frontOnly">{{text_front_only}}</label>
+                                                </div>
+                                              
+                                                <div class="form-check">
+                                                    <input class="form-check-input" value="everything" type="radio"
+                                                        name="option-part" id="everything" checked>
+                                                    <label class="form-check-label"
+                                                        for="everything">{{text_everything}}</label>
+                                                </div>
+                                            </div>
+
+
+                                            <div class="col-sm-2">
+                                                <label class="form-check-label mb-2"
+                                                    for=""><strong>Format:</strong></label>
+                                                <div class="form-check">
+                                                    <input class="form-check-input" value="numeric" type="radio"
+                                                        name="option-type" id="option-type-numeric">
+                                                    <label class="form-check-label"
+                                                        for="option-type-numeric">Numeric keys</label>
+                                                </div> 
+                                                <div class="form-check">
+                                                    <input class="form-check-input" checked value="variable" type="radio"
+                                                        name="option-type" id="option-type-var">
+                                                    <label class="form-check-label"
+                                                        for="option-type-var">Variable keys</label>
+                                                </div>
+                                            
+                                            
+                                            </div>
+
+
+                                        </div>
+                                        <div class="row mb-3">
+                                            <div class="col-sm-2">
+                                                <button type="button" id="download"
+                                                    class="btn btn-primary">{{button_download_file}}</button>
+                                            </div>
+                                            <div class="col-sm-5">
+                                                <div class="input-group">
+                                                    <label class="input-group-btn">
+                                                        <span class="btn btn-secondary">
+                                                            {{text_import_translated}} <input id="fileInput" type="file"
+                                                                style="display: none;">
+                                                        </span>
+                                                    </label>
+                                                    <input type="text" class="form-control" readonly>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+</div>
+<script>
+    $(document).ready(function () {
+        $('#fileSelect').change(function () {
+            var selectedFile = $("#fileSelect").val();
+
+            $("#fileContent").val('');
+            if (selectedFile == 0) return;
+            // AJAX call to retrieve file content
+            $.ajax({
+                url: 'index.php?route=localisation/language.loadTranslation&user_token={{user_token}}&code={{code}}',
+                method: 'POST',
+                data: { file: selectedFile },
+                dataType: 'json',
+                success: function (response) {
+                    $("#fileContent").val(response.contents);
+                },
+                error: function () {
+                    alert('Error loading file content.');
+                }
+            });
+        });
+
+        $('#saveButton').click(function () {
+            var selectedFile = $("#fileSelect").val();
+            var newContent = $("#fileContent").val();
+            if (selectedFile == 0) return;
+            // AJAX call to save file content
+            $.ajax({
+                url: 'index.php?route=localisation/language.saveTranslation&user_token={{user_token}}&code={{code}}',
+                method: 'POST',
+                dataType: 'json',
+                data: { file: selectedFile, content: newContent },
+                success: function (response) {
+                    $('#alert').prepend('<div class="alert alertsp2 alert-success alert-dismissible"><i class="fa-solid fa-circle-check"></i> ' + response.message + ' <button type="button" class="btn-close" data-bs-dismiss="alert"></button></div>');
+                
+                setTimeout(() => {
+                  $('.alertsp2').alert('close');
+                }, 5500);
+                },
+                error: function () {
+                    alert('Error saving file content, Check for syntax Errors.');
+                }
+            });
+        });
+
+        $("#download").click(function () {
+
+            window.open('index.php?route=localisation/language.downloadFile&user_token={{user_token}}&code={{code}}&part=' + $('input[name="option-part"]:checked').val() + '&type=' +  $('input[name="option-type"]:checked').val(), '_blank');
+        });
+
+        $('#fileInput').change(function () {
+            uploadFile();
+        });
+
+        // Function to handle file upload
+        function uploadFile() {
+            var fileInput = document.getElementById('fileInput');
+            var fileNameDisplay = document.getElementById('fileName');
+
+            // Check if a file is selected
+            if (fileInput.files.length > 0) {
+                var file = fileInput.files[0];
+                var formData = new FormData();
+
+                formData.append('file', file);
+
+                // Perform AJAX request to handle file upload
+                $.ajax({
+                    url: 'index.php?route=localisation/language.importFile&user_token={{user_token}}&code={{code}}' + '&type=' +  $('input[name="option-type"]:checked').val(),
+                    type: 'POST',
+                    data: formData,
+                    contentType: false,
+                    processData: false,
+                    dataType: 'json',
+                    success: function (response) {
+                        // Handle the response after successful upload
+                    
+     $('#alert').prepend('<div class="alert alertsp2 alert-success alert-dismissible"><i class="fa-solid fa-circle-check"></i> ' + response.message + ' <button type="button" class="btn-close" data-bs-dismiss="alert"></button></div>');
+                
+                setTimeout(() => {
+                  $('.alertsp2').alert('close');
+                }, 5500);
+
+                        console.log('File uploaded successfully:', response.message);
+                    },
+                    error: function (error) {
+                        // Handle the error
+                        console.error('Error uploading file:', error);
+                    }
+                });
+
+                // Display the selected file name
+                fileNameDisplay.value = file.name;
+            }
+        }
+    });
+
+
+
+</script>
+{{footer}}

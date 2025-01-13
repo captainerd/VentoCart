@@ -1,7 +1,9 @@
 <?php
 namespace Ventocart\Admin\Controller\Customer;
-class Customer extends \Ventocart\System\Engine\Controller {
-	public function index(): void {
+class Customer extends \Ventocart\System\Engine\Controller
+{
+	public function index(): void
+	{
 		$this->load->language('customer/customer');
 
 		$this->document->setTitle($this->language->get('heading_title'));
@@ -19,7 +21,7 @@ class Customer extends \Ventocart\System\Engine\Controller {
 		}
 
 		if (isset($this->request->get['filter_customer_group_id'])) {
-			$filter_customer_group_id = (int)$this->request->get['filter_customer_group_id'];
+			$filter_customer_group_id = (int) $this->request->get['filter_customer_group_id'];
 		} else {
 			$filter_customer_group_id = '';
 		}
@@ -128,13 +130,15 @@ class Customer extends \Ventocart\System\Engine\Controller {
 		$this->response->setOutput($this->load->view('customer/customer', $data));
 	}
 
-	public function list(): void {
+	public function list(): void
+	{
 		$this->load->language('customer/customer');
 
 		$this->response->setOutput($this->getList());
 	}
 
-	protected function getList(): string {
+	protected function getList(): string
+	{
 		if (isset($this->request->get['filter_name'])) {
 			$filter_name = $this->request->get['filter_name'];
 		} else {
@@ -148,7 +152,7 @@ class Customer extends \Ventocart\System\Engine\Controller {
 		}
 
 		if (isset($this->request->get['filter_customer_group_id'])) {
-			$filter_customer_group_id = (int)$this->request->get['filter_customer_group_id'];
+			$filter_customer_group_id = (int) $this->request->get['filter_customer_group_id'];
 		} else {
 			$filter_customer_group_id = '';
 		}
@@ -190,7 +194,7 @@ class Customer extends \Ventocart\System\Engine\Controller {
 		}
 
 		if (isset($this->request->get['page'])) {
-			$page = (int)$this->request->get['page'];
+			$page = (int) $this->request->get['page'];
 		} else {
 			$page = 1;
 		}
@@ -246,17 +250,17 @@ class Customer extends \Ventocart\System\Engine\Controller {
 		$data['customers'] = [];
 
 		$filter_data = [
-			'filter_name'              => $filter_name,
-			'filter_email'             => $filter_email,
+			'filter_name' => $filter_name,
+			'filter_email' => $filter_email,
 			'filter_customer_group_id' => $filter_customer_group_id,
-			'filter_status'            => $filter_status,
-			'filter_ip'                => $filter_ip,
-			'filter_date_from'         => $filter_date_from,
-			'filter_date_to'           => $filter_date_to,
-			'sort'                     => $sort,
-			'order'                    => $order,
-			'start'                    => ($page - 1) * $this->config->get('config_pagination_admin'),
-			'limit'                    => $this->config->get('config_pagination_admin')
+			'filter_status' => $filter_status,
+			'filter_ip' => $filter_ip,
+			'filter_date_from' => $filter_date_from,
+			'filter_date_to' => $filter_date_to,
+			'sort' => $sort,
+			'order' => $order,
+			'start' => ($page - 1) * $this->config->get('config_pagination_admin'),
+			'limit' => $this->config->get('config_pagination_admin')
 		];
 
 		$this->load->model('customer/customer');
@@ -278,29 +282,29 @@ class Customer extends \Ventocart\System\Engine\Controller {
 
 			$store_data[] = [
 				'store_id' => 0,
-				'name'     => $this->config->get('config_name'),
-				'href'     => $this->url->link('customer/customer.login', 'user_token=' . $this->session->data['user_token'] . '&customer_id=' . $result['customer_id'] . '&store_id=0')
+				'name' => $this->config->get('config_name'),
+				'href' => $this->url->link('customer/customer.login', 'user_token=' . $this->session->data['user_token'] . '&customer_id=' . $result['customer_id'] . '&store_id=0')
 			];
 
 			foreach ($stores as $store) {
 				$store_data[] = [
 					'store_id' => $store['store_id'],
-					'name'     => $store['name'],
-					'href'     => $this->url->link('customer/customer.login', 'user_token=' . $this->session->data['user_token'] . '&customer_id=' . $result['customer_id'] . '&store_id=' . $store['store_id'])
+					'name' => $store['name'],
+					'href' => $this->url->link('customer/customer.login', 'user_token=' . $this->session->data['user_token'] . '&customer_id=' . $result['customer_id'] . '&store_id=' . $store['store_id'])
 				];
 			}
 
 			$data['customers'][] = [
-				'customer_id'    => $result['customer_id'],
-				'name'           => $result['name'],
-				'email'          => $result['email'],
-				'store_id'       => $result['store_id'],
+				'customer_id' => $result['customer_id'],
+				'name' => $result['name'],
+				'email' => $result['email'],
+				'store_id' => $result['store_id'],
 				'customer_group' => $result['customer_group'],
-				'status'         => ($result['status'] ? $this->language->get('text_enabled') : $this->language->get('text_disabled')),
-				'date_added'     => date($this->language->get('date_format_short'), strtotime($result['date_added'])),
-				'unlock'         => $unlock,
-				'store'          => $store_data,
-				'edit'           => $this->url->link('customer/customer.form', 'user_token=' . $this->session->data['user_token'] . '&customer_id=' . $result['customer_id'] . $url)
+				'status' => ($result['status'] ? $this->language->get('text_enabled') : $this->language->get('text_disabled')),
+				'date_added' => date($this->language->get('date_format_short'), strtotime($result['date_added'])),
+				'unlock' => $unlock,
+				'store' => $store_data,
+				'edit' => $this->url->link('customer/customer.form', 'user_token=' . $this->session->data['user_token'] . '&customer_id=' . $result['customer_id'] . $url)
 			];
 		}
 
@@ -390,9 +394,9 @@ class Customer extends \Ventocart\System\Engine\Controller {
 
 		$data['pagination'] = $this->load->controller('common/pagination', [
 			'total' => $customer_total,
-			'page'  => $page,
+			'page' => $page,
 			'limit' => $this->config->get('config_pagination_admin'),
-			'url'   => $this->url->link('customer/customer.list', 'user_token=' . $this->session->data['user_token'] . $url . '&page={page}')
+			'url' => $this->url->link('customer/customer.list', 'user_token=' . $this->session->data['user_token'] . $url . '&page={page}')
 		]);
 
 		$data['results'] = sprintf($this->language->get('text_pagination'), ($customer_total) ? (($page - 1) * $this->config->get('config_pagination_admin')) + 1 : 0, ((($page - 1) * $this->config->get('config_pagination_admin')) > ($customer_total - $this->config->get('config_pagination_admin'))) ? $customer_total : ((($page - 1) * $this->config->get('config_pagination_admin')) + $this->config->get('config_pagination_admin')), $customer_total, ceil($customer_total / $this->config->get('config_pagination_admin')));
@@ -403,7 +407,8 @@ class Customer extends \Ventocart\System\Engine\Controller {
 		return $this->load->view('customer/customer_list', $data);
 	}
 
-	public function form(): void {
+	public function form(): void
+	{
 		$this->load->language('customer/customer');
 
 		$this->document->setTitle($this->language->get('heading_title'));
@@ -412,7 +417,7 @@ class Customer extends \Ventocart\System\Engine\Controller {
 
 		$data['error_upload_size'] = sprintf($this->language->get('error_upload_size'), $this->config->get('config_file_max_size'));
 
-		$data['config_file_max_size'] = ((int)$this->config->get('config_file_max_size') * 1024 * 1024);
+		$data['config_file_max_size'] = ((int) $this->config->get('config_file_max_size') * 1024 * 1024);
 		$data['config_telephone_required'] = $this->config->get('config_telephone_required');
 
 		$url = '';
@@ -482,11 +487,11 @@ class Customer extends \Ventocart\System\Engine\Controller {
 		if (isset($this->request->get['customer_id'])) {
 			$this->load->model('customer/customer');
 
-			$customer_info = $this->model_customer_customer->getCustomer((int)$this->request->get['customer_id']);
+			$customer_info = $this->model_customer_customer->getCustomer((int) $this->request->get['customer_id']);
 		}
 
 		if (isset($this->request->get['customer_id'])) {
-			$data['customer_id'] = (int)$this->request->get['customer_id'];
+			$data['customer_id'] = (int) $this->request->get['customer_id'];
 		} else {
 			$data['customer_id'] = 0;
 		}
@@ -497,7 +502,7 @@ class Customer extends \Ventocart\System\Engine\Controller {
 
 		$data['stores'][] = [
 			'store_id' => 0,
-			'name'     => $this->language->get('text_default')
+			'name' => $this->language->get('text_default')
 		];
 
 		$stores = $this->model_setting_store->getStores();
@@ -505,7 +510,7 @@ class Customer extends \Ventocart\System\Engine\Controller {
 		foreach ($stores as $store) {
 			$data['stores'][] = [
 				'store_id' => $store['store_id'],
-				'name'     => $store['name']
+				'name' => $store['name']
 			];
 		}
 
@@ -555,7 +560,7 @@ class Customer extends \Ventocart\System\Engine\Controller {
 		$data['custom_fields'] = [];
 
 		$filter_data = [
-			'sort'  => 'cf.sort_order',
+			'sort' => 'cf.sort_order',
 			'order' => 'ASC'
 		];
 
@@ -564,13 +569,13 @@ class Customer extends \Ventocart\System\Engine\Controller {
 		foreach ($custom_fields as $custom_field) {
 			if ($custom_field['status']) {
 				$data['custom_fields'][] = [
-					'custom_field_id'    => $custom_field['custom_field_id'],
+					'custom_field_id' => $custom_field['custom_field_id'],
 					'custom_field_value' => $this->model_customer_custom_field->getValues($custom_field['custom_field_id']),
-					'name'               => $custom_field['name'],
-					'value'              => $custom_field['value'],
-					'type'               => $custom_field['type'],
-					'location'           => $custom_field['location'],
-					'sort_order'         => $custom_field['sort_order']
+					'name' => $custom_field['name'],
+					'value' => $custom_field['value'],
+					'type' => $custom_field['type'],
+					'location' => $custom_field['location'],
+					'sort_order' => $custom_field['sort_order']
 				];
 			}
 		}
@@ -607,7 +612,7 @@ class Customer extends \Ventocart\System\Engine\Controller {
 		$data['countries'] = $this->model_localisation_country->getCountries();
 
 		if (isset($this->request->get['customer_id'])) {
-			$data['addresses'] = $this->model_customer_customer->getAddresses((int)$this->request->get['customer_id']);
+			$data['addresses'] = $this->model_customer_customer->getAddresses((int) $this->request->get['customer_id']);
 		} else {
 			$data['addresses'] = [];
 		}
@@ -626,7 +631,8 @@ class Customer extends \Ventocart\System\Engine\Controller {
 		$this->response->setOutput($this->load->view('customer/customer_form', $data));
 	}
 
-	public function save(): void {
+	public function save(): void
+	{
 		$this->load->language('customer/customer');
 
 		$json = [];
@@ -755,7 +761,8 @@ class Customer extends \Ventocart\System\Engine\Controller {
 		$this->response->setOutput(json_encode($json));
 	}
 
-	public function unlock(): void {
+	public function unlock(): void
+	{
 		$this->load->language('customer/customer');
 
 		$json = [];
@@ -780,7 +787,8 @@ class Customer extends \Ventocart\System\Engine\Controller {
 		$this->response->setOutput(json_encode($json));
 	}
 
-	public function delete(): void {
+	public function delete(): void
+	{
 		$this->load->language('customer/customer');
 
 		$json = [];
@@ -809,9 +817,10 @@ class Customer extends \Ventocart\System\Engine\Controller {
 		$this->response->setOutput(json_encode($json));
 	}
 
-	public function login(): object|null {
+	public function login(): object|null
+	{
 		if (isset($this->request->get['customer_id'])) {
-			$customer_id = (int)$this->request->get['customer_id'];
+			$customer_id = (int) $this->request->get['customer_id'];
 		} else {
 			$customer_id = 0;
 		}
@@ -827,7 +836,7 @@ class Customer extends \Ventocart\System\Engine\Controller {
 			$this->model_customer_customer->editToken($customer_id, $token);
 
 			if (isset($this->request->get['store_id'])) {
-				$store_id = (int)$this->request->get['store_id'];
+				$store_id = (int) $this->request->get['store_id'];
 			} else {
 				$store_id = 0;
 			}
@@ -837,32 +846,35 @@ class Customer extends \Ventocart\System\Engine\Controller {
 			$store_info = $this->model_setting_store->getStore($store_id);
 
 			if ($store_info) {
-				$this->response->redirect($store_info['url'] . 'index.php?route=account/login.token&email=' . urlencode($customer_info['email']). '&login_token=' . $token);
+				$this->response->redirect($store_info['url'] . 'index.php?route=account/login.token&email=' . urlencode($customer_info['email']) . '&login_token=' . $token);
 			} else {
 				$this->response->redirect(HTTP_CATALOG . 'index.php?route=account/login.token&email=' . urlencode($customer_info['email']) . '&login_token=' . $token);
 			}
 
 			return null;
 		} else {
-			return new \Ventocart\System\Engine\Action('error/not_found');
+			$this->request->get['route'] = 'error/not_found';
+			return $this->load->controller('error/not_found');
 		}
 	}
 
-	public function payment(): void {
+	public function payment(): void
+	{
 		$this->load->language('customer/customer');
 
 		//$this->response->setOutput($this->getPayment());
 	}
 
-	private function getPayment(): string {
+	private function getPayment(): string
+	{
 		if (isset($this->request->get['customer_id'])) {
-			$customer_id = (int)$this->request->get['customer_id'];
+			$customer_id = (int) $this->request->get['customer_id'];
 		} else {
 			$customer_id = 0;
 		}
 
 		if (isset($this->request->get['page']) && $this->request->get['route'] == 'customer/customer.payment') {
-			$page = (int)$this->request->get['page'];
+			$page = (int) $this->request->get['page'];
 		} else {
 			$page = 1;
 		}
@@ -884,12 +896,12 @@ class Customer extends \Ventocart\System\Engine\Controller {
 
 			$data['payment_methods'][] = [
 				'customer_payment_id' => $result['customer_payment_id'],
-				'name'                => $result['name'],
-				'image'               => $image,
-				'type'                => $result['type'],
-				'status'              => $result['status'],
-				'date_expire'         => date($this->language->get('date_format_short'), strtotime($result['date_expire'])),
-				'delete'              => $this->url->link('customer/customer.deletePayment', 'user_token=' . $this->session->data['user_token'] . '&customer_payment_id=' . $result['customer_payment_id'])
+				'name' => $result['name'],
+				'image' => $image,
+				'type' => $result['type'],
+				'status' => $result['status'],
+				'date_expire' => date($this->language->get('date_format_short'), strtotime($result['date_expire'])),
+				'delete' => $this->url->link('customer/customer.deletePayment', 'user_token=' . $this->session->data['user_token'] . '&customer_payment_id=' . $result['customer_payment_id'])
 			];
 		}
 
@@ -897,9 +909,9 @@ class Customer extends \Ventocart\System\Engine\Controller {
 
 		$data['pagination'] = $this->load->controller('common/pagination', [
 			'total' => $payment_total,
-			'page'  => $page,
+			'page' => $page,
 			'limit' => $limit,
-			'url'   => $this->url->link('customer/customer.payment', 'user_token=' . $this->session->data['user_token'] . '&customer_id=' . $customer_id . '&page={page}')
+			'url' => $this->url->link('customer/customer.payment', 'user_token=' . $this->session->data['user_token'] . '&customer_id=' . $customer_id . '&page={page}')
 		]);
 
 		$data['results'] = sprintf($this->language->get('text_pagination'), ($payment_total) ? (($page - 1) * $limit) + 1 : 0, ((($page - 1) * $limit) > ($payment_total - $limit)) ? $payment_total : ((($page - 1) * $limit) + $limit), $payment_total, ceil($payment_total / $limit));
@@ -907,13 +919,14 @@ class Customer extends \Ventocart\System\Engine\Controller {
 		return $this->load->view('customer/customer_payment', $data);
 	}
 
-	public function deletePayment(): void {
+	public function deletePayment(): void
+	{
 		$this->load->language('customer/customer');
 
 		$json = [];
 
 		if (isset($this->request->get['customer_payment_id'])) {
-			$customer_payment_id = (int)$this->request->get['customer_payment_id'];
+			$customer_payment_id = (int) $this->request->get['customer_payment_id'];
 		} else {
 			$customer_payment_id = 0;
 		}
@@ -934,21 +947,23 @@ class Customer extends \Ventocart\System\Engine\Controller {
 		$this->response->setOutput(json_encode($json));
 	}
 
-	public function history(): void {
+	public function history(): void
+	{
 		$this->load->language('customer/customer');
 
 		$this->response->setOutput($this->getHistory());
 	}
 
-	public function getHistory(): string {
+	public function getHistory(): string
+	{
 		if (isset($this->request->get['customer_id'])) {
-			$customer_id = (int)$this->request->get['customer_id'];
+			$customer_id = (int) $this->request->get['customer_id'];
 		} else {
 			$customer_id = 0;
 		}
 
 		if (isset($this->request->get['page']) && $this->request->get['route'] == 'customer/customer.history') {
-			$page = (int)$this->request->get['page'];
+			$page = (int) $this->request->get['page'];
 		} else {
 			$page = 1;
 		}
@@ -963,7 +978,7 @@ class Customer extends \Ventocart\System\Engine\Controller {
 
 		foreach ($results as $result) {
 			$data['histories'][] = [
-				'comment'    => nl2br($result['comment']),
+				'comment' => nl2br($result['comment']),
 				'date_added' => date($this->language->get('date_format_short'), strtotime($result['date_added']))
 			];
 		}
@@ -972,9 +987,9 @@ class Customer extends \Ventocart\System\Engine\Controller {
 
 		$data['pagination'] = $this->load->controller('common/pagination', [
 			'total' => $history_total,
-			'page'  => $page,
+			'page' => $page,
 			'limit' => $limit,
-			'url'   => $this->url->link('customer/customer.history', 'user_token=' . $this->session->data['user_token'] . '&customer_id=' . $customer_id . '&page={page}')
+			'url' => $this->url->link('customer/customer.history', 'user_token=' . $this->session->data['user_token'] . '&customer_id=' . $customer_id . '&page={page}')
 		]);
 
 		$data['results'] = sprintf($this->language->get('text_pagination'), ($history_total) ? (($page - 1) * $limit) + 1 : 0, ((($page - 1) * $limit) > ($history_total - $limit)) ? $history_total : ((($page - 1) * $limit) + $limit), $history_total, ceil($history_total / $limit));
@@ -982,13 +997,14 @@ class Customer extends \Ventocart\System\Engine\Controller {
 		return $this->load->view('customer/customer_history', $data);
 	}
 
-	public function addHistory(): void {
+	public function addHistory(): void
+	{
 		$this->load->language('customer/customer');
 
 		$json = [];
 
 		if (isset($this->request->get['customer_id'])) {
-			$customer_id = (int)$this->request->get['customer_id'];
+			$customer_id = (int) $this->request->get['customer_id'];
 		} else {
 			$customer_id = 0;
 		}
@@ -1009,21 +1025,23 @@ class Customer extends \Ventocart\System\Engine\Controller {
 		$this->response->setOutput(json_encode($json));
 	}
 
-	public function transaction(): void {
+	public function transaction(): void
+	{
 		$this->load->language('customer/customer');
 
 		$this->response->setOutput($this->getTransaction());
 	}
 
-	public function getTransaction(): string {
+	public function getTransaction(): string
+	{
 		if (isset($this->request->get['customer_id'])) {
-			$customer_id = (int)$this->request->get['customer_id'];
+			$customer_id = (int) $this->request->get['customer_id'];
 		} else {
 			$customer_id = 0;
 		}
 
 		if (isset($this->request->get['page']) && $this->request->get['route'] == 'customer/customer.transaction') {
-			$page = (int)$this->request->get['page'];
+			$page = (int) $this->request->get['page'];
 		} else {
 			$page = 1;
 		}
@@ -1038,9 +1056,9 @@ class Customer extends \Ventocart\System\Engine\Controller {
 
 		foreach ($results as $result) {
 			$data['transactions'][] = [
-				'amount'      => $this->currency->format($result['amount'], $this->config->get('config_currency')),
+				'amount' => $this->currency->format($result['amount'], $this->config->get('config_currency')),
 				'description' => $result['description'],
-				'date_added'  => date($this->language->get('date_format_short'), strtotime($result['date_added']))
+				'date_added' => date($this->language->get('date_format_short'), strtotime($result['date_added']))
 			];
 		}
 
@@ -1050,9 +1068,9 @@ class Customer extends \Ventocart\System\Engine\Controller {
 
 		$data['pagination'] = $this->load->controller('common/pagination', [
 			'total' => $transaction_total,
-			'page'  => $page,
+			'page' => $page,
 			'limit' => $limit,
-			'url'   => $this->url->link('customer/customer.transaction', 'user_token=' . $this->session->data['user_token'] . '&customer_id=' . $customer_id . '&page={page}')
+			'url' => $this->url->link('customer/customer.transaction', 'user_token=' . $this->session->data['user_token'] . '&customer_id=' . $customer_id . '&page={page}')
 		]);
 
 		$data['results'] = sprintf($this->language->get('text_pagination'), ($transaction_total) ? (($page - 1) * $limit) + 1 : 0, ((($page - 1) * $limit) > ($transaction_total - $limit)) ? $transaction_total : ((($page - 1) * $limit) + $limit), $transaction_total, ceil($transaction_total / $limit));
@@ -1060,13 +1078,14 @@ class Customer extends \Ventocart\System\Engine\Controller {
 		return $this->load->view('customer/customer_transaction', $data);
 	}
 
-	public function addTransaction(): void {
+	public function addTransaction(): void
+	{
 		$this->load->language('customer/customer');
 
 		$json = [];
 
 		if (isset($this->request->get['customer_id'])) {
-			$customer_id = (int)$this->request->get['customer_id'];
+			$customer_id = (int) $this->request->get['customer_id'];
 		} else {
 			$customer_id = 0;
 		}
@@ -1086,7 +1105,7 @@ class Customer extends \Ventocart\System\Engine\Controller {
 		if (!$json) {
 			$this->load->model('customer/customer');
 
-			$this->model_customer_customer->addTransaction($customer_id, (string)$this->request->post['description'], (float)$this->request->post['amount']);
+			$this->model_customer_customer->addTransaction($customer_id, (string) $this->request->post['description'], (float) $this->request->post['amount']);
 
 			$json['success'] = $this->language->get('text_success');
 		}
@@ -1095,21 +1114,23 @@ class Customer extends \Ventocart\System\Engine\Controller {
 		$this->response->setOutput(json_encode($json));
 	}
 
-	public function reward(): void {
+	public function reward(): void
+	{
 		$this->load->language('customer/customer');
 
 		$this->response->setOutput($this->getReward());
 	}
 
-	public function getReward(): string {
+	public function getReward(): string
+	{
 		if (isset($this->request->get['customer_id'])) {
-			$customer_id = (int)$this->request->get['customer_id'];
+			$customer_id = (int) $this->request->get['customer_id'];
 		} else {
 			$customer_id = 0;
 		}
 
 		if (isset($this->request->get['page']) && $this->request->get['route'] == 'customer/customer.reward') {
-			$page = (int)$this->request->get['page'];
+			$page = (int) $this->request->get['page'];
 		} else {
 			$page = 1;
 		}
@@ -1124,9 +1145,9 @@ class Customer extends \Ventocart\System\Engine\Controller {
 
 		foreach ($results as $result) {
 			$data['rewards'][] = [
-				'points'      => $result['points'],
+				'points' => $result['points'],
 				'description' => $result['description'],
-				'date_added'  => date($this->language->get('date_format_short'), strtotime($result['date_added']))
+				'date_added' => date($this->language->get('date_format_short'), strtotime($result['date_added']))
 			];
 		}
 
@@ -1136,9 +1157,9 @@ class Customer extends \Ventocart\System\Engine\Controller {
 
 		$data['pagination'] = $this->load->controller('common/pagination', [
 			'total' => $reward_total,
-			'page'  => $page,
+			'page' => $page,
 			'limit' => $limit,
-			'url'   => $this->url->link('customer/customer.reward', 'user_token=' . $this->session->data['user_token'] . '&customer_id=' . $customer_id . '&page={page}')
+			'url' => $this->url->link('customer/customer.reward', 'user_token=' . $this->session->data['user_token'] . '&customer_id=' . $customer_id . '&page={page}')
 		]);
 
 		$data['results'] = sprintf($this->language->get('text_pagination'), ($reward_total) ? (($page - 1) * $limit) + 1 : 0, ((($page - 1) * $limit) > ($reward_total - $limit)) ? $reward_total : ((($page - 1) * $limit) + $limit), $reward_total, ceil($reward_total / $limit));
@@ -1146,13 +1167,14 @@ class Customer extends \Ventocart\System\Engine\Controller {
 		return $this->load->view('customer/customer_reward', $data);
 	}
 
-	public function addReward(): void {
+	public function addReward(): void
+	{
 		$this->load->language('customer/customer');
 
 		$json = [];
 
 		if (isset($this->request->get['customer_id'])) {
-			$customer_id = (int)$this->request->get['customer_id'];
+			$customer_id = (int) $this->request->get['customer_id'];
 		} else {
 			$customer_id = 0;
 		}
@@ -1172,7 +1194,7 @@ class Customer extends \Ventocart\System\Engine\Controller {
 		if (!$json) {
 			$this->load->model('customer/customer');
 
-			$this->model_customer_customer->addReward($customer_id, (string)$this->request->post['description'], (int)$this->request->post['points']);
+			$this->model_customer_customer->addReward($customer_id, (string) $this->request->post['description'], (int) $this->request->post['points']);
 
 			$json['success'] = $this->language->get('text_success');
 		}
@@ -1181,21 +1203,23 @@ class Customer extends \Ventocart\System\Engine\Controller {
 		$this->response->setOutput(json_encode($json));
 	}
 
-	public function ip(): void {
+	public function ip(): void
+	{
 		$this->load->language('customer/customer');
 
 		$this->response->setOutput($this->getIp());
 	}
 
-	public function getIp(): string {
+	public function getIp(): string
+	{
 		if (isset($this->request->get['customer_id'])) {
-			$customer_id = (int)$this->request->get['customer_id'];
+			$customer_id = (int) $this->request->get['customer_id'];
 		} else {
 			$customer_id = 0;
 		}
 
 		if (isset($this->request->get['page']) && $this->request->get['route'] == 'customer/customer.ip') {
-			$page = (int)$this->request->get['page'];
+			$page = (int) $this->request->get['page'];
 		} else {
 			$page = 1;
 		}
@@ -1221,12 +1245,12 @@ class Customer extends \Ventocart\System\Engine\Controller {
 			}
 
 			$data['ips'][] = [
-				'ip'         => $result['ip'],
-				'account'    => $this->model_customer_customer->getTotalCustomersByIp($result['ip']),
-				'store'      => $store,
-				'country'    => $result['country'],
+				'ip' => $result['ip'],
+				'account' => $this->model_customer_customer->getTotalCustomersByIp($result['ip']),
+				'store' => $store,
+				'country' => $result['country'],
 				'date_added' => date($this->language->get('datetime_format'), strtotime($result['date_added'])),
-				'filter_ip'  => $this->url->link('customer/customer', 'user_token=' . $this->session->data['user_token'] . '&filter_ip=' . $result['ip'])
+				'filter_ip' => $this->url->link('customer/customer', 'user_token=' . $this->session->data['user_token'] . '&filter_ip=' . $result['ip'])
 			];
 		}
 
@@ -1234,9 +1258,9 @@ class Customer extends \Ventocart\System\Engine\Controller {
 
 		$data['pagination'] = $this->load->controller('common/pagination', [
 			'total' => $ip_total,
-			'page'  => $page,
+			'page' => $page,
 			'limit' => $limit,
-			'url'   => $this->url->link('customer/customer.ip', 'user_token=' . $this->session->data['user_token'] . '&customer_id=' . $customer_id . '&page={page}')
+			'url' => $this->url->link('customer/customer.ip', 'user_token=' . $this->session->data['user_token'] . '&customer_id=' . $customer_id . '&page={page}')
 		]);
 
 		$data['results'] = sprintf($this->language->get('text_pagination'), ($ip_total) ? (($page - 1) * $limit) + 1 : 0, ((($page - 1) * $limit) > ($ip_total - $limit)) ? $ip_total : ((($page - 1) * $limit) + $limit), $ip_total, ceil($ip_total / $limit));
@@ -1244,7 +1268,8 @@ class Customer extends \Ventocart\System\Engine\Controller {
 		return $this->load->view('customer/customer_ip', $data);
 	}
 
-	public function autocomplete(): void {
+	public function autocomplete(): void
+	{
 		$json = [];
 
 		if (isset($this->request->get['filter_name']) || isset($this->request->get['filter_email'])) {
@@ -1261,10 +1286,10 @@ class Customer extends \Ventocart\System\Engine\Controller {
 			}
 
 			$filter_data = [
-				'filter_name'      => $filter_name,
-				'filter_email'     => $filter_email,
-				'start'            => 0,
-				'limit'            => 5
+				'filter_name' => $filter_name,
+				'filter_email' => $filter_email,
+				'start' => 0,
+				'limit' => 5
 			];
 
 			$this->load->model('customer/customer');
@@ -1273,16 +1298,16 @@ class Customer extends \Ventocart\System\Engine\Controller {
 
 			foreach ($results as $result) {
 				$json[] = [
-					'customer_id'       => $result['customer_id'],
+					'customer_id' => $result['customer_id'],
 					'customer_group_id' => $result['customer_group_id'],
-					'name'              => strip_tags(html_entity_decode($result['name'], ENT_QUOTES, 'UTF-8')),
-					'customer_group'    => $result['customer_group'],
-					'firstname'         => $result['firstname'],
-					'lastname'          => $result['lastname'],
-					'email'             => $result['email'],
-					'telephone'         => $result['telephone'],
-					'custom_field'      => json_decode($result['custom_field'], true),
-					'address'           => $this->model_customer_customer->getAddresses($result['customer_id'])
+					'name' => strip_tags(html_entity_decode($result['name'], ENT_QUOTES, 'UTF-8')),
+					'customer_group' => $result['customer_group'],
+					'firstname' => $result['firstname'],
+					'lastname' => $result['lastname'],
+					'email' => $result['email'],
+					'telephone' => $result['telephone'],
+					'custom_field' => json_decode($result['custom_field'], true),
+					'address' => $this->model_customer_customer->getAddresses($result['customer_id'])
 				];
 			}
 		}
@@ -1299,13 +1324,14 @@ class Customer extends \Ventocart\System\Engine\Controller {
 		$this->response->setOutput(json_encode($json));
 	}
 
-	public function address(): void {
+	public function address(): void
+	{
 		$this->load->language('customer/customer');
 
 		$json = [];
 
 		if (isset($this->request->get['address_id'])) {
-			$address_id = (int)$this->request->get['address_id'];
+			$address_id = (int) $this->request->get['address_id'];
 		} else {
 			$address_id = 0;
 		}
@@ -1326,12 +1352,13 @@ class Customer extends \Ventocart\System\Engine\Controller {
 		$this->response->setOutput(json_encode($json));
 	}
 
-	public function customfield(): void {
+	public function customfield(): void
+	{
 		$json = [];
 
 		// Customer Group
 		if (isset($this->request->get['customer_group_id'])) {
-			$customer_group_id = (int)$this->request->get['customer_group_id'];
+			$customer_group_id = (int) $this->request->get['customer_group_id'];
 		} else {
 			$customer_group_id = $this->config->get('config_customer_group_id');
 		}
@@ -1343,7 +1370,7 @@ class Customer extends \Ventocart\System\Engine\Controller {
 		foreach ($custom_fields as $custom_field) {
 			$json[] = [
 				'custom_field_id' => $custom_field['custom_field_id'],
-				'required'        => empty($custom_field['required']) || $custom_field['required'] == 0 ? false : true
+				'required' => empty($custom_field['required']) || $custom_field['required'] == 0 ? false : true
 			];
 		}
 

@@ -5,11 +5,13 @@ namespace Ventocart\Admin\Controller\Design;
  *
  * @package Ventocart\Admin\Controller\Design
  */
-class Translation extends \Ventocart\System\Engine\Controller {
+class Translation extends \Ventocart\System\Engine\Controller
+{
 	/**
 	 * @return void
 	 */
-	public function index(): void {
+	public function index(): void
+	{
 		$this->load->language('design/translation');
 
 		$this->document->setTitle($this->language->get('heading_title'));
@@ -57,7 +59,8 @@ class Translation extends \Ventocart\System\Engine\Controller {
 	/**
 	 * @return void
 	 */
-	public function list(): void {
+	public function list(): void
+	{
 		$this->load->language('design/translation');
 
 		$this->response->setOutput($this->getList());
@@ -66,21 +69,22 @@ class Translation extends \Ventocart\System\Engine\Controller {
 	/**
 	 * @return string
 	 */
-	protected function getList(): string {
+	protected function getList(): string
+	{
 		if (isset($this->request->get['sort'])) {
-			$sort = (string)$this->request->get['sort'];
+			$sort = (string) $this->request->get['sort'];
 		} else {
 			$sort = 'store';
 		}
 
 		if (isset($this->request->get['order'])) {
-			$order = (string)$this->request->get['order'];
+			$order = (string) $this->request->get['order'];
 		} else {
 			$order = 'ASC';
 		}
 
 		if (isset($this->request->get['page'])) {
-			$page = (int)$this->request->get['page'];
+			$page = (int) $this->request->get['page'];
 		} else {
 			$page = 1;
 		}
@@ -106,7 +110,7 @@ class Translation extends \Ventocart\System\Engine\Controller {
 		$data['translations'] = [];
 
 		$filter_data = [
-			'sort'  => $sort,
+			'sort' => $sort,
 			'order' => $order,
 			'start' => ($page - 1) * $this->config->get('config_pagination_admin'),
 			'limit' => $this->config->get('config_pagination_admin')
@@ -129,13 +133,13 @@ class Translation extends \Ventocart\System\Engine\Controller {
 
 			$data['translations'][] = [
 				'translation_id' => $result['translation_id'],
-				'store'          => ($result['store_id'] ? $result['store'] : $this->language->get('text_default')),
-				'route'          => $result['route'],
-				'image'          => $image,
-				'language'       => $code,
-				'key'            => $result['key'],
-				'value'          => $result['value'],
-				'edit'           => $this->url->link('design/translation.form', 'user_token=' . $this->session->data['user_token'] . '&translation_id=' . $result['translation_id'])
+				'store' => ($result['store_id'] ? $result['store'] : $this->language->get('text_default')),
+				'route' => $result['route'],
+				'image' => $image,
+				'language' => $code,
+				'key' => $result['key'],
+				'value' => $result['value'],
+				'edit' => $this->url->link('design/translation.form', 'user_token=' . $this->session->data['user_token'] . '&translation_id=' . $result['translation_id'])
 			];
 		}
 
@@ -157,9 +161,9 @@ class Translation extends \Ventocart\System\Engine\Controller {
 
 		$data['pagination'] = $this->load->controller('common/pagination', [
 			'total' => $translation_total,
-			'page'  => $page,
+			'page' => $page,
 			'limit' => $this->config->get('config_pagination_admin'),
-			'url'   => $this->url->link('design/translation.list', 'user_token=' . $this->session->data['user_token'] . $url . '&page={page}')
+			'url' => $this->url->link('design/translation.list', 'user_token=' . $this->session->data['user_token'] . $url . '&page={page}')
 		]);
 
 		$data['results'] = sprintf($this->language->get('text_pagination'), ($translation_total) ? (($page - 1) * $this->config->get('config_pagination_admin')) + 1 : 0, ((($page - 1) * $this->config->get('config_pagination_admin')) > ($translation_total - $this->config->get('config_pagination_admin'))) ? $translation_total : ((($page - 1) * $this->config->get('config_pagination_admin')) + $this->config->get('config_pagination_admin')), $translation_total, ceil($translation_total / $this->config->get('config_pagination_admin')));
@@ -173,7 +177,8 @@ class Translation extends \Ventocart\System\Engine\Controller {
 	/**
 	 * @return void
 	 */
-	public function form(): void {
+	public function form(): void
+	{
 		$this->load->language('design/translation');
 
 		$this->document->setTitle($this->language->get('heading_title'));
@@ -216,7 +221,7 @@ class Translation extends \Ventocart\System\Engine\Controller {
 		}
 
 		if (isset($this->request->get['translation_id'])) {
-			$data['translation_id'] = (int)$this->request->get['translation_id'];
+			$data['translation_id'] = (int) $this->request->get['translation_id'];
 		} else {
 			$data['translation_id'] = 0;
 		}
@@ -271,7 +276,8 @@ class Translation extends \Ventocart\System\Engine\Controller {
 	/**
 	 * @return void
 	 */
-	public function save(): void {
+	public function save(): void
+	{
 		$this->load->language('design/translation');
 
 		$json = [];
@@ -303,7 +309,8 @@ class Translation extends \Ventocart\System\Engine\Controller {
 	/**
 	 * @return void
 	 */
-	public function delete(): void {
+	public function delete(): void
+	{
 		$this->load->language('design/translation');
 
 		$json = [];
@@ -335,13 +342,14 @@ class Translation extends \Ventocart\System\Engine\Controller {
 	/**
 	 * @return void
 	 */
-	public function path(): void {
+	public function path(): void
+	{
 		$this->load->language('design/translation');
 
 		$json = [];
 
 		if (isset($this->request->get['language_id'])) {
-			$language_id = (int)$this->request->get['language_id'];
+			$language_id = (int) $this->request->get['language_id'];
 		} else {
 			$language_id = 0;
 		}
@@ -356,7 +364,7 @@ class Translation extends \Ventocart\System\Engine\Controller {
 			while (count($path) != 0) {
 				$next = array_shift($path);
 
-				foreach ((array)glob($next . '/*') as $file) {
+				foreach ((array) glob($next . '/*') as $file) {
 					if (is_dir($file)) {
 						$path[] = $file;
 					}
@@ -367,29 +375,7 @@ class Translation extends \Ventocart\System\Engine\Controller {
 				}
 			}
 
-			$path = glob(DIR_EXTENSION . '*/catalog/language/' . $language_info['code'] . '/*');
 
-			while (count($path) != 0) {
-				$next = array_shift($path);
-
-				foreach ((array)glob($next . '/*') as $file) {
-					if (is_dir($file)) {
-						$path[] = $file;
-					}
-
-					if (substr($file, -4) == '.php') {
-						$new_path = substr($file, strlen(DIR_EXTENSION));
-
-						$code = substr($new_path, 0, strpos($new_path, '/'));
-
-						$length = strlen(DIR_EXTENSION . $code . '/catalog/language/' . $language_info['code'] . '/');
-
-						$route = substr(substr($file, $length), 0, -4);
-
-						$json[] = 'extension/' . $code . '/' . $route;
-					}
-				}
-			}
 		}
 
 		$this->response->addHeader('Content-Type: application/json');
@@ -399,19 +385,20 @@ class Translation extends \Ventocart\System\Engine\Controller {
 	/**
 	 * @return void
 	 */
-	public function translation(): void {
+	public function translation(): void
+	{
 		$this->load->language('design/translation');
 
 		$json = [];
 
 		if (isset($this->request->get['store_id'])) {
-			$store_id = (int)$this->request->get['store_id'];
+			$store_id = (int) $this->request->get['store_id'];
 		} else {
 			$store_id = 0;
 		}
 
 		if (isset($this->request->get['language_id'])) {
-			$language_id = (int)$this->request->get['language_id'];
+			$language_id = (int) $this->request->get['language_id'];
 		} else {
 			$language_id = 0;
 		}
@@ -430,14 +417,6 @@ class Translation extends \Ventocart\System\Engine\Controller {
 
 		if ($part[0] != 'extension') {
 			$directory = DIR_CATALOG . 'language/';
-		} else {
-			$directory = DIR_EXTENSION . $part[1] . '/catalog/language/';
-
-			array_shift($part);
-			// Don't remove. Required for extension route.
-			array_shift($part);
-
-			$route = implode('/', $part);
 		}
 
 		if ($language_info && is_file($directory . $language_info['code'] . '/' . $route . '.php') && substr(str_replace('\\', '/', realpath($directory . $language_info['code'] . '/' . $route . '.php')), 0, strlen($directory)) == str_replace('\\', '/', $directory)) {
@@ -447,7 +426,7 @@ class Translation extends \Ventocart\System\Engine\Controller {
 
 			foreach ($_ as $key => $value) {
 				$json[] = [
-					'key'   => $key,
+					'key' => $key,
 					'value' => $value
 				];
 			}
