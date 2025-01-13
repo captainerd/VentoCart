@@ -80,16 +80,19 @@ class Loader
 
 			if (class_exists($className)) {
 
-				// Wrap the controller instance with the ControllerWrapper
-				$wrappedController = new \Ventocart\System\Engine\Wrapper(new $className($this->registry), $route, $this->registry);
-
-				$this->registry->set($key, $wrappedController);
+				$controller = new $className($this->registry);
+				$this->registry->set($key, $controller);
 			}
 		} else {
-			$wrappedController = $this->registry->get($key);
+			$controller = $this->registry->get($key);
+			$className = get_class($controller);
 		}
-		if (isset($wrappedController)) {
-			return $wrappedController->$method(...$args);
+		if (isset($controller)) {
+
+			$this->registry->event->trigger($className . '\\' . $method . '\\Before', [&$args]);
+			$output = $controller->$method(...$args);
+			$this->registry->event->trigger($className . '\\' . $method . '\\After', [&$args]);
+			return $output;
 		}
 	}
 
