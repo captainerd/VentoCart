@@ -59,8 +59,6 @@ class Loader
 	/**
 	 * Controller
 	 *
-	 * https://wiki.php.net/rfc/variadics
-	 *
 	 * @param string $route
 	 * @param mixed  $args
 	 *
