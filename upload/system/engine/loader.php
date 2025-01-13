@@ -69,27 +69,21 @@ class Loader
 
 	public function controller(string $route, ...$args)
 	{
-		// Sanitize the route
-		$route = preg_replace('/[^a-zA-Z0-9_|\/\.]/', '', str_replace('|', '.', $route));
-		$key = 'controller_' . str_replace('/', '_', $route);
+
+		$key = 'controller_' . $route;
 		$method = 'index';
 
 		// Check if the controller is already loaded in the registry
 		if (!$this->registry->has($key)) {
 			$className = 'Ventocart\\' . $this->config->get('application') . '\\Controller\\' . str_replace(['_', '/'], ['', '\\'], ucwords($route, '_/'));
-			$className = explode('.', $className);
-			$method = end($className);
-
-			if (count($className) == 1) {
-				$method = 'index';
+			if (strpos($className, '.') !== false) {
+				[$className, $method] = explode('.', $className, 2);
 			}
-			$className = $className[0];
+
 			if (class_exists($className)) {
 
-				$controller = new $className($this->registry);
-
 				// Wrap the controller instance with the ControllerWrapper
-				$wrappedController = new \Ventocart\System\Engine\Wrapper($controller, $route, $this->registry);
+				$wrappedController = new \Ventocart\System\Engine\Wrapper(new $className($this->registry), $route, $this->registry);
 
 				$this->registry->set($key, $wrappedController);
 			}
@@ -113,16 +107,15 @@ class Loader
 	{
 		$key = 'model_' . str_replace('/', '_', $route);
 
-
 		// Check if the model is already loaded in the registry
 		if (!$this->registry->has($key)) {
 			$className = 'Ventocart\\' . $this->config->get('application') . '\\Model\\' . str_replace(['_', '/'], ['', '\\'], ucwords($route, '_/'));
 
 			// Load the model if it exists
 			if (class_exists($className)) {
-				$instance = new $className($this->registry);
+
 				// Wrap the instance with the ModelWrapper
-				$wrappedInstance = new \Ventocart\System\Engine\Wrapper($instance, $route, $this->registry);
+				$wrappedInstance = new \Ventocart\System\Engine\Wrapper(new $className($this->registry), $route, $this->registry);
 
 				// Store the wrapped instance in the registry
 				$this->registry->set($key, $wrappedInstance);
@@ -149,14 +142,9 @@ class Loader
 	public function view(string $route, array $data = [], string $code = ''): string
 	{
 
-
 		$this->registry->event->trigger($route . "/before", [&$data]);
-		// Sanitize the call
-		$route = preg_replace('/[^a-zA-Z0-9_\/]/', '', $route);
-		$language_keys = $this->language->all();
-		$data = array_merge($language_keys, $data);
 
-		$output = $this->template->render($route, $data, $code);
+		$output = $this->template->render($route, array_merge($this->language->all(), $data), $code);
 
 		$this->registry->event->trigger($route . "/after", [&$output]);
 
@@ -174,8 +162,7 @@ class Loader
 	 */
 	public function language(string $route, string $prefix = '', string $code = ''): array
 	{
-		// Sanitize the call
-		$route = preg_replace('/[^a-zA-Z0-9_\-\/]/', '', $route);
+
 		if (empty($code)) {
 			$code = $this->config->get('config_language');
 		}
@@ -194,11 +181,8 @@ class Loader
 	 */
 	public function library(string $route, &...$args): object
 	{
-		// Sanitize the call
-		$route = preg_replace('/[^a-zA-Z0-9_\/]/', '', $route);
-
 		// Create a new key to store the model object
-		$key = 'library_' . str_replace('/', '_', $route);
+		$key = 'library_' . $route;
 
 		if (!$this->registry->has($key)) {
 			// Initialize the class
@@ -222,13 +206,8 @@ class Loader
 	 */
 	public function config(string $route): array
 	{
-		// Sanitize the call
-		$route = preg_replace('/[^a-zA-Z0-9_\-\/]/', '', $route);
-
 
 		$output = $this->config->load($route);
-
-
 		return $output;
 	}
 
@@ -241,7 +220,6 @@ class Loader
 	 */
 	public function helper(string $route): void
 	{
-		$route = preg_replace('/[^a-zA-Z0-9_\/]/', '', $route);
 
 		if (!str_starts_with($route, 'extension/')) {
 			$file = DIR_SYSTEM . 'helper/' . $route . '.php';

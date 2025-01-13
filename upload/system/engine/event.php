@@ -45,7 +45,7 @@ class Event
         }
 
         // Generate registry key and retrieve or initialize the controller
-        $key = 'controller_' . str_replace('/', '_', $route);
+        $key = 'controller_' . $route;
 
         try {
             // Get or create the controller
