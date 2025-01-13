@@ -12,14 +12,14 @@
                     <tbody>
                         <?php if ($invoice_no): ?>
                             <tr>
-                                <th style="width: 265px;" class="text-start custom-th"><?= $this->e($text_invoice_no) ?>
+                                <th style="width: 265px;" class="text-start custom-th"><?= $text_invoice_no ?>
                                 </th>
-                                <td class="custom-td"><?= $this->e($invoice_no) ?></td>
+                                <td class="custom-td"><?= $invoice_no ?></td>
                             </tr>
                         <?php endif; ?>
                         <tr>
-                            <th style="width: 265px;" class="text-start custom-th"><?= $this->e($text_order_id) ?></th>
-                            <td class="custom-td">#<?= $this->e($order_id) ?></td>
+                            <th style="width: 265px;" class="text-start custom-th"><?= $column_order_id ?></th>
+                            <td class="custom-td">#<?= $order_id ?></td>
                         </tr>
                         <tr>
                             <th class="text-start custom-th"><?= $this->e($text_order_status) ?></th>
