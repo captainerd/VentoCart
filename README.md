@@ -26,6 +26,10 @@ and subscription payment options.
 - **TinyMC Editor** Drag and drop or copy paste images on the editor, auto-uploaded to your server.
 - **Much more:** Visit our project website to learn more about VentoCart and try out our demo. Experience the future of e-commerce with VentoCart.
 
+## Chrome LightHouse:
+![image](https://github.com/user-attachments/assets/46187546-caf6-4c7a-ba04-19399a6204f0)
+
+
 ## Screen-shots:
 
 - **Abandoned Carts ** Provides detailed analytics on cart activity and allows you to browse and review customer carts with a tracking system for cart recoveries via mail
