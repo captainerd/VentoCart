@@ -109,16 +109,14 @@ class Loader
 	 *
 	 * @return void
 	 */
-	public function model(string $route, $namespace = '')
+	public function model(string $route)
 	{
 		$key = 'model_' . str_replace('/', '_', $route);
 
-		if (empty($namespace)) {
-			$namespace = $this->config->get('application');
-		}
+
 		// Check if the model is already loaded in the registry
 		if (!$this->registry->has($key)) {
-			$className = 'Ventocart\\' . $namespace . '\\Model\\' . str_replace(['_', '/'], ['', '\\'], ucwords($route, '_/'));
+			$className = 'Ventocart\\' . $this->config->get('application') . '\\Model\\' . str_replace(['_', '/'], ['', '\\'], ucwords($route, '_/'));
 
 			// Load the model if it exists
 			if (class_exists($className)) {
