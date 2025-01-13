@@ -143,11 +143,7 @@ class Loader
 	public function view(string $route, array $data = [], string $code = ''): string
 	{
 
-		$this->registry->event->trigger($route . "/before", [&$data]);
-
 		$output = $this->template->render($route, array_merge($this->language->all(), $data), $code);
-
-		$this->registry->event->trigger($route . "/after", [&$output]);
 
 		return $output;
 	}
