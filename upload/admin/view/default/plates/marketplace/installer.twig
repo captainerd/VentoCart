@@ -60,11 +60,7 @@ $('#button-upload').on('click', function () {
                 alert('{{ error_upload_size }}');
             }
 
-            if (!this.files[0].name.endsWith('.vemod.zip') && !this.files[0].name.endsWith('.vetheme.zip')) {
-                $(this).val('');
-
-                alert('{{ error_filetype }}');
-            }
+           
         });
 
         if (typeof timer != 'undefined') {
