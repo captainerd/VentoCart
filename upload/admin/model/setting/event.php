@@ -27,15 +27,10 @@ class Event extends \Ventocart\System\Engine\Model
 	{
 		$events = $this->deleteEventByCode($code);
 
-
-		$sanitizedPath = preg_replace('/[^a-zA-Z0-9_\/]/', '', $trigger);
-
-		$keytrigger = 'Ventocart\\' . str_replace(['_', '/'], ['', '\\'], ucwords($sanitizedPath, '_/'));
+		$keytrigger = ucfirst($trigger);
 
 		// Generate a new event ID (based on the next available integer)
-		$event_id = count($events) + 1;
-
-
+		$event_id = $this->countEventIds($events) + 1;
 
 		// Add the new event to the corresponding trigger
 		$events[$keytrigger][] = [
@@ -128,6 +123,7 @@ class Event extends \Ventocart\System\Engine\Model
 		foreach ($events as $trigger => &$triggerEvents) {
 			foreach ($triggerEvents as &$event) {
 				if ($event['event_id'] == $event_id) {
+
 					$event['status'] = $status;
 
 					break 2; // Break out of both loops once the event is found and updated
@@ -150,6 +146,7 @@ class Event extends \Ventocart\System\Engine\Model
 	{
 		// Load current events from the cache file
 		$events = include self::EVENTS_CACHE_FILE;
+
 
 		// Iterate over each trigger to find the event by code and update its status
 		foreach ($events as $trigger => &$triggerEvents) {
@@ -295,5 +292,23 @@ class Event extends \Ventocart\System\Engine\Model
 			"<?php\n\nreturn " . var_export($events, true) . ";\n"
 		);
 
+	}
+
+	private function countEventIds(array $collection): int
+	{
+		$count = 0;
+
+		foreach ($collection as $item) {
+			if (is_array($item)) {
+				// Check if 'event_id' exists in the current array
+				if (isset($item['event_id'])) {
+					$count++;
+				}
+				// Recurse into sub-array
+				$count += $this->countEventIds($item);
+			}
+		}
+
+		return $count;
 	}
 }

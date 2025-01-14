@@ -13,6 +13,32 @@ class Event
 
     }
 
+    public function register($trigger, $code, $action)
+    {
+        $this->actions[$trigger][] = array(
+            'event_id' => 0,
+            'code' => $code,
+            'description' => '',
+            'trigger' => $trigger,
+            'action' => $action,
+            'status' => true,
+            'sort_order' => 5,
+        );
+    }
+    public function unregister($code)
+    {
+        foreach ($this->actions as $trigger => &$events) {
+            foreach ($events as $index => $event) {
+                if (isset($event['code']) && $event['code'] === $code) {
+                    unset($events[$index]); // Remove the event with matching code
+                }
+            }
+
+            // Reindex array to ensure consistency
+            $events = array_values($events);
+        }
+    }
+
     /**
      * Trigger an event and call all associated listeners
      * 
@@ -25,7 +51,9 @@ class Event
         // If there are listeners for the event
         if (!empty(($this->actions[$eventName]))) {
             foreach ($this->actions[$eventName] as $callback) {
-                $this->runController($callback['action'], $this->registry, ...$params);
+                if ($callback['status']) {
+                    $this->runController($callback['action'], $this->registry, ...$params);
+                }
             }
         }
     }
