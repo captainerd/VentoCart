@@ -146,7 +146,7 @@ class Loader
 
 		$this->registry->event->trigger($this->config->get('application') . '/view/' . $route . '/before', [&$data]);
 		$output = $this->template->render($route, array_merge($this->language->all(), $data), $code);
-		$this->registry->event->trigger($this->config->get('application') . '/view/' . $route . '/before', [&$args, &$output]);
+		$this->registry->event->trigger($this->config->get('application') . '/view/' . $route . '/after', [&$args, &$output]);
 		return $output;
 	}
 
