@@ -23,8 +23,19 @@ class Event extends \Ventocart\System\Engine\Model
 	 * @param int $sort_order The sort order of the event.
 	 * @return int The ID of the newly created event.
 	 */
-	public function addEvent(string $code, string $description, string $trigger, string $action, bool $status, int $sort_order): int
+	public function addEvent(mixed $code, string $description = '', string $trigger = '', string $action = '', bool $status = true, int $sort_order = 0): int
 	{
+
+
+		if (is_array($code)) {
+			$description = $code['description'];
+			$trigger = $code['trigger'];
+			$action = $code['action'];
+			$status = $code['status'];
+			$sort_order = $code['sort_order'];
+			$code = $code['code'];
+
+		}
 		$events = $this->deleteEventByCode($code);
 
 		$keytrigger = ucfirst($trigger);
