@@ -23,7 +23,6 @@ $_['session_engine'] = 'PhpSession'; // db, file, redis, or PhpSession
 // Actions
 $_['action_pre_action'] = [
 	'startup/application',
-	'startup/language',
 	'startup/error',
 ];
 

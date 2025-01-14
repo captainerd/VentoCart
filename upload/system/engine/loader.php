@@ -85,7 +85,6 @@ class Loader
 			}
 		} else {
 			$controller = $this->registry->get($key);
-			$className = get_class($controller);
 		}
 		if (isset($controller)) {
 
@@ -93,6 +92,8 @@ class Loader
 			$output = $controller->$method(...$args);
 			$this->registry->event->trigger($this->config->get('application') . '/controller/' . $route . '/after', [&$args, &$output]);
 			return $output;
+		} else {
+			return $this->controller('error/not_found');
 		}
 	}
 
