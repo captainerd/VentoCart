@@ -5,6 +5,8 @@ and modern e-commerce capabilities. With a focus on cutting-edge features, Vento
 architecture, a premium default theme, and integrated PayPal and Stripe support for secure payments, including client card saving 
 and subscription payment options.
 
+As of now, it supports importing oc4 and oc3 Extensions, classes, file paths, and load paths are automatically converted, oc3 will need some manual porting.
+
  
 **Contribute to VentoCart!**
 
