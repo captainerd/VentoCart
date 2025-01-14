@@ -116,7 +116,7 @@ class Upgrade extends \Ventocart\System\Engine\Controller
 		$commits = json_decode($response, true);
 
 		if (!empty($commits)) {
-			$creationCommit = end($commits);
+			$creationCommit = $commits[0];
 			return $creationCommit['commit']['author']['date'] ?? '';
 		}
 
