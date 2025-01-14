@@ -30,7 +30,7 @@ class Wrapper
     public function __call($method, $args)
     {
         // Trigger the 'before' event  
-        $eventNameBefore = get_class($this->instance) . '\\' . $method . '\\Before';
+        $eventNameBefore = $this->registry->config->get('application') . '/model/' . $this->route . '/' . $method . '/before';
         $this->registry->event->trigger($eventNameBefore, [&$args]);
 
         // Delegate the method call to the actual instance
@@ -39,7 +39,7 @@ class Wrapper
         }
 
         // Trigger the 'after' event 
-        $eventNameAfter = get_class($this->instance) . '\\' . $method . '\\After';
+        $eventNameAfter = $this->registry->config->get('application') . '/model/' . $this->route . '/' . $method . '/after';
         $this->registry->event->trigger($eventNameAfter, [&$args, &$output]);
 
         return $output;

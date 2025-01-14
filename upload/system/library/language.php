@@ -131,21 +131,7 @@ class Language
 		if (!isset($this->cache[$code][$filename])) {
 			$_ = [];
 			$file = $this->directory . $code . '/' . $filename . '.php';
-			$namespace = '';
 
-			$parts = explode('/', $filename);
-
-			foreach ($parts as $part) {
-				if (!$namespace) {
-					$namespace .= $part;
-				} else {
-					$namespace .= '/' . $part;
-				}
-
-				if (isset($this->path[$namespace])) {
-					$file = $this->path[$namespace] . $code . substr($filename, strlen($namespace)) . '.php';
-				}
-			}
 
 			if (is_file($file)) {
 				require($file);
