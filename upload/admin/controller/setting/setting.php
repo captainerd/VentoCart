@@ -725,7 +725,7 @@ class Setting extends \Ventocart\System\Engine\Controller
 		foreach ($iterator as $file) {
 
 
-			if (strpos($file->getPath(), '/view/') !== false && in_array($file->getExtension(), ['css', 'js'])) {
+			if (strpos($file->getPath(), '/assets/') !== false || strpos($file->getPath(), '/view/') !== false && in_array($file->getExtension(), ['css', 'js'])) {
 				if ($mode === 'minify') {
 					$assets[] = $file->getPathname();
 				} elseif ($mode === 'restore' && file_exists($file->getPathname() . '_unminified')) {
@@ -740,7 +740,10 @@ class Setting extends \Ventocart\System\Engine\Controller
 	{
 
 		$extension = pathinfo($filePath, PATHINFO_EXTENSION);
-		if ($action === 'minify') {
+		if ($action === 'minify' && file_exists($filePath) && is_file($filePath)) {
+			if (strpos($filePath, "_unminified") !== false) {
+				return;
+			}
 			$unminifiedPath = $filePath . '_unminified';
 			if (!file_exists($unminifiedPath)) {
 				rename($filePath, $unminifiedPath);
