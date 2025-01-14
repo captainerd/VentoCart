@@ -14,8 +14,11 @@ Did you find a bug? Don’t just ignore it! Open a bug report on the repo – yo
 
 Are you a developer who fixed a bug, refactored some messy code, or used the Twig converter tool to switch to Plates? Don't keep those improvements to yourself! Submit a pull request and help make VentoCart even better. Your contributions are incredibly valuable, and together we can make this platform stronger than ever!
  
- 
 ## Key Features:
+- **SEO and Optimizations::**  Extensive SEO and core framework optimizations to increase web vitals and performance, consistent image formats/conversions, Canonical URLs, and more.
+- **Easy Multilang Translations::** One .TXT export/import language file to translate effortlessly manually or with AI.
+- **AutoFilters Category::** Per product option, variation, manufacturer, etc.
+- **One Page Checkout::** Interactive one-page checkout theme by default.
 - **Product Modules::** Includes features like "Usually Bought Together With...", "More in that Category..", "Most Popular Products", Product Lists and more.
 - **Headless Architecture:** Build modern frontends or mobile apps using our robust Web API and ReactJS app-template with TailwindCSS. [Visit here the ReactJS front Repo](https://github.com/captainerd/ReactVento)
 - **Variation System:** Easily manage product options and set price differences for combinations like color and size.
@@ -23,7 +26,6 @@ Are you a developer who fixed a bug, refactored some messy code, or used the Twi
 - **Modern Marketing Tools:** Enhanced newsletter features, sleek email templates, and legal unsubscribe links.
 - **Drag and Drop Functionality:** Effortlessly organize categories, images, and more with intuitive drag-and-drop capabilities.
 - **Mass Image Management & Video Support:** Easily add, crop, and manage product media for a polished storefront.
-- **Advanced Installer:** Streamlined installation with progress tracking and efficient binary processing.
 - **Premium Default Template:** Fully redesigned for real-world use with a mobile-first approach and 3-level category menus.
 - **Drag and Drop Functionality:** Effortlessly organize elements such as pictures, categories, and more with intuitive drag-and-drop capabilities.
 - **Mass Image Management:** Streamline the process of adding and managing product images efficiently.
