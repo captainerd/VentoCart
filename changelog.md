@@ -1,3 +1,11 @@
+## What's New in VentoCart v6.0.0.2
+- **Installer bug fix**:
+   Fixed bug that didn't allow installation of extensions
+
+- **Event bug fix**:
+   Fixed bug that didn't allow event deactivation
+   Switched events to be route-key based
+
 ## What's New in VentoCart v6.0.0.1
 
 ### ***v6 Major Release***
