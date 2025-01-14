@@ -89,9 +89,9 @@ class Loader
 		}
 		if (isset($controller)) {
 
-			$this->registry->event->trigger($className . '\\' . $method . '\\Before', [&$args]);
+			$this->registry->event->trigger($this->config->get('application') . '/controller/' . $route . '/before', [&$args]);
 			$output = $controller->$method(...$args);
-			$this->registry->event->trigger($className . '\\' . $method . '\\After', [&$args]);
+			$this->registry->event->trigger($this->config->get('application') . '/controller/' . $route . '/after', [&$args, &$output]);
 			return $output;
 		}
 	}
@@ -143,8 +143,10 @@ class Loader
 	public function view(string $route, array $data = [], string $code = ''): string
 	{
 
-		$output = $this->template->render($route, array_merge($this->language->all(), $data), $code);
 
+		$this->registry->event->trigger($this->config->get('application') . '/view/' . $route . '/before', [&$data]);
+		$output = $this->template->render($route, array_merge($this->language->all(), $data), $code);
+		$this->registry->event->trigger($this->config->get('application') . '/view/' . $route . '/before', [&$args, &$output]);
 		return $output;
 	}
 
@@ -164,9 +166,9 @@ class Loader
 			$code = $this->config->get('config_language');
 		}
 
-		$output = $this->language->load($route, $prefix, $code);
+		return $this->language->load($route, $prefix, $code);
 
-		return $output;
+
 	}
 
 	/**
