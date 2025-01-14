@@ -54,8 +54,8 @@ class Installer extends \Ventocart\System\Engine\Controller
 
 
 	/* 
-																								  Extracts an theme out into a zip file
-																								  */
+																																															Extracts an theme out into a zip file
+																																															*/
 
 	public function downloadTheme(): void
 	{
@@ -108,8 +108,8 @@ class Installer extends \Ventocart\System\Engine\Controller
 		}
 	}
 	/* 
-																											  Extracts an extension out into a zip file
-																										*/
+																																																		Extracts an extension out into a zip file
+																																																  */
 	public function download(): void
 	{
 		$code = $this->request->get['code'];
@@ -532,7 +532,7 @@ class Installer extends \Ventocart\System\Engine\Controller
 			}
 
 			$admin_path = rtrim(str_replace(DIR_VENTOCART, '', DIR_APPLICATION), '/');
-			$extension_code = $extension_install_info['code'];
+
 
 		} else {
 			$json['error'] = $this->language->get('error_extension');
@@ -585,9 +585,10 @@ class Installer extends \Ventocart\System\Engine\Controller
 							continue;
 						}
 
-						// Handle /admin/ replacement dynamically
-						if (strpos($source, 'admin/') === 0) {
-							$source = $admin_path . substr($source, 5);
+
+						if (substr(ltrim(trim($source), '/'), 0, 5) == "admin") {
+
+							$source = $admin_path . substr(ltrim(trim($source), '/'), 5);
 						}
 
 						// Target path in Ventocart structure
