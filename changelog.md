@@ -1,3 +1,16 @@
+## What's New in VentoCart v6.1.0.2
+
+- **Marketplace Refinements**:
+  - **Backward Compatibility**: For OpenCart extensions for OC4, OC3, and OC2 versions.
+  - Extensions are automatically installed into the correct VentoCart file structure. Additionally, the installer modifies or adds class namespaces where necessary, 
+    adjusts loading paths, and applies other small tweaks when dealing with older extension versions. That update cuts the porting time down by a lot.
+  - OC4 extensions should work out of the box, OC3 and OC2 would still require some manual work to fully port.
+
+- **Various bug fixes**:
+  - Added to the loader not found page when a route is unknown.
+
+---
+
 ## What's New in VentoCart v6.0.0.2
 - **Installer bug fix**:
    Fixed bug that didn't allow installation of extensions
