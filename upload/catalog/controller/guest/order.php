@@ -15,7 +15,7 @@ class Order extends \Ventocart\System\Engine\Controller
         $this->load->language('guest/order');
 
         $this->document->setTitle($this->language->get('heading_title'));
-
+        $data['text_no_results'] = $this->language->get('text_no_results');
 
         $datab['breadcrumbs'] = [];
 
