@@ -32,7 +32,7 @@ class Extension extends \Ventocart\System\Engine\Controller
 
 
 		if (isset($this->request->get['type'])) {
-			$data['which'] = $this->request->get['type'];
+			$this->request->get['which'] = $this->request->get['type'];
 			$this->request->get['nojs'] = '1';
 		}
 		if (isset($this->request->get['which'])) {
@@ -40,7 +40,7 @@ class Extension extends \Ventocart\System\Engine\Controller
 		} else {
 			$data['which'] = '';
 		}
-		$data['which'] = $this->request->get['which'];
+		isset($this->request->get['which']) ? $data['which'] = $this->request->get['which'] : '';
 		$data['categories'] = [];
 
 		$this->load->model('setting/extension');

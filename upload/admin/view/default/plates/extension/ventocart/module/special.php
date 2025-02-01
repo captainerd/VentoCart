@@ -3,10 +3,10 @@
   <div class="page-header">
     <div class="container-fluid">
       <div class="float-end">
-        <button type="submit" form="form-module" data-bs-toggle="tooltip" title="<?= $this->e($button_save) ?>"
+        <button type="submit" form="form-module" data-bs-toggle="tooltip" title="<?= $button_save ?>"
           class="btn btn-primary"><i class="fa-solid fa-save"></i></button>
-        <a href="<?= $this->e($back) ?>" data-bs-toggle="tooltip" title="<?= $this->e($button_back) ?>"
-          class="btn btn-light"><i class="fa-solid fa-reply"></i></a>
+        <a href="<?= $back ?>" data-bs-toggle="tooltip" title="<?= $button_back ?>" class="btn btn-light"><i
+            class="fa-solid fa-reply"></i></a>
       </div>
       <h1><?= $this->e($heading_title) ?></h1>
       <ol class="breadcrumb">

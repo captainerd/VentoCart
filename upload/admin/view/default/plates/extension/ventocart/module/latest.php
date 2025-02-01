@@ -3,10 +3,10 @@
   <div class="page-header">
     <div class="container-fluid">
       <div class="float-end">
-        <button type="submit" form="form-module" data-bs-toggle="tooltip" title="<?= $this->e($button_save) ?>"
+        <button type="submit" form="form-module" data-bs-toggle="tooltip" title="<?= $button_save ?>"
           class="btn btn-primary"><i class="fa-solid fa-save"></i></button>
-        <a href="<?= $this->e($back) ?>" data-bs-toggle="tooltip" title="<?= $this->e($button_back) ?>"
-          class="btn btn-light"><i class="fa-solid fa-reply"></i></a>
+        <a href="<?= $back ?>" data-bs-toggle="tooltip" title="<?= $button_back ?>" class="btn btn-light"><i
+            class="fa-solid fa-reply"></i></a>
       </div>
       <h1><?= $this->e($heading_title) ?></h1>
       <ol class="breadcrumb">
@@ -68,6 +68,7 @@
             <label for="input-autoplay" class="col-sm-2 col-form-label"><?= $entry_autoplay ?></label>
             <div class="col-sm-10">
               <div class="form-check form-switch  form-switch-lg">
+                <input type="hidden" name="autoplay" value="0">
                 <input type="checkbox" name="autoplay" id="input-autoplay" class="form-check-input" value="1"
                   <?= $autoplay ? 'checked' : '' ?>>
 

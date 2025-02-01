@@ -54,8 +54,8 @@ class Installer extends \Ventocart\System\Engine\Controller
 
 
 	/* 
-																																																																																																																																																																																																																																																																																																			  Extracts an theme out into a zip file
-																																																																																																																																																																																																																																																																																																			  */
+																																																																																																																																																																																																																																																																																																								   Extracts an theme out into a zip file
+																																																																																																																																																																																																																																																																																																								   */
 
 	public function downloadTheme(): void
 	{
@@ -108,8 +108,8 @@ class Installer extends \Ventocart\System\Engine\Controller
 		}
 	}
 	/* 
-																																																																																																																																																																																																																																																																																																						  Extracts an extension out into a zip file
-																																																																																																																																																																																																																																																																																																					*/
+																																																																																																																																																																																																																																																																																																											   Extracts an extension out into a zip file
+																																																																																																																																																																																																																																																																																																										 */
 	public function download(): void
 	{
 		$code = $this->request->get['code'];
@@ -792,7 +792,7 @@ class Installer extends \Ventocart\System\Engine\Controller
 					$replacement2 = 'themes/default/assets/extension/$1/$2';
 					$content = preg_replace($pattern2, $replacement2, $content);
 
-					$content = str_ireplace($code, $code, $content);
+					//$content = str_ireplace($code, ucfirst($code), $content);
 					$content = str_replace('catalog/view/javascript/', 'themes/default/assets/core/js/', $content);
 					$content = str_replace('catalog/view/stylesheet/', 'themes/default/assets/core/css/', $content);
 					file_put_contents($file, $content);

@@ -1,3 +1,30 @@
+## What's New in VentoCart v6.1.0.3
+
+- **Extension Installer**:
+   - Fixed a bug in sanitizeExtension() at installer, that was replacing class name casing in extension leading to wrong class names with newly installed exts.
+
+- **Wallet Integration**:
+   - Added button rendering for Apple Pay, Google Pay, and other wallets supported by Stripe.
+
+- **Admin Panel**:
+   - Fixed HTML installation error in the admin/module section.
+   - Fixed 'back' button functionality in admin/modules due to incorrect application of `e->escape()` added during the Twig to Plates conversion.
+
+- **CMS & Template Fixes**:
+   - Fixed Template/Default/CMS Carousel module, which was causing posts to break underneath each other.
+
+- **User Interface**:
+   - Fixed links for forum/documentation in the Admin/Dashboard/Profile dropdown menu.
+
+- **Installation Issues**:
+   - Fixed installation block when MySQL strict mode was enabled due to the 00-00-00 date format in product specials.
+
+---
+
+**Special Thanks**:  
+Many of these fixes were reported and tested by **David Brooks**, whose contributions helped improve the stability and functionality of this release.
+
+---
 ## What's New in VentoCart v6.1.0.2
 
 - **Marketplace Refinements**:

@@ -6,7 +6,7 @@
     ?>
     <section class="splide splide-<?= $className ?>" aria-label="Blog Articles">
       <div class="splide__track">
-        <ul class="splide__list row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-xl-4">
+        <ul class="splide__list  ">
 
           <?php foreach ($articles as $article): ?>
             <li class="splide__slide">

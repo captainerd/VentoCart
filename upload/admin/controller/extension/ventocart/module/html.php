@@ -5,16 +5,19 @@ namespace Ventocart\Admin\Controller\Extension\Ventocart\Module;
  *
  * @package Ventocart\Admin\Controller\Extension\Ventocart\Module
  */
-class HTML extends \Ventocart\System\Engine\Controller {
+class HTML extends \Ventocart\System\Engine\Controller
+{
 	/**
 	 * @return void
 	 */
-	public function index(): void {
+	public function index(): void
+	{
 		$this->load->language('extension/ventocart/module/html');
 
 		$this->document->setTitle($this->language->get('heading_title'));
-		
-		$this->document->addScript('view/javascript/tinymce/tinymce.min.js');;
+
+		$this->document->addScript('view/javascript/tinymce/tinymce.min.js');
+		;
 
 		$data['breadcrumbs'] = [];
 
@@ -75,9 +78,9 @@ class HTML extends \Ventocart\System\Engine\Controller {
 		} else {
 			$data['status'] = '';
 		}
-		
+
 		if (isset($this->request->get['module_id'])) {
-			$data['module_id'] = (int)$this->request->get['module_id'];
+			$data['module_id'] = (int) $this->request->get['module_id'];
 		} else {
 			$data['module_id'] = 0;
 		}
@@ -92,7 +95,8 @@ class HTML extends \Ventocart\System\Engine\Controller {
 	/**
 	 * @return void
 	 */
-	public function save(): void {
+	public function save(): void
+	{
 		$this->load->language('extension/ventocart/module/html');
 
 		$json = [];
@@ -119,5 +123,13 @@ class HTML extends \Ventocart\System\Engine\Controller {
 
 		$this->response->addHeader('Content-Type: application/json');
 		$this->response->setOutput(json_encode($json));
+	}
+	public function install(): void
+	{
+		// Dummy install to avoid throwing error 
+	}
+	public function uninstall(): void
+	{
+		// Dummy uninstall to avoid throwing error 
 	}
 }
