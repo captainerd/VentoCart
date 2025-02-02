@@ -292,13 +292,7 @@ class ColumnLeft extends \Ventocart\System\Engine\Controller
 				];
 			}
 
-			if ($this->user->hasPermission('access', 'design/translation')) {
-				$design[] = [
-					'name' => $this->language->get('text_language_editor'),
-					'href' => $this->url->link('design/translation', 'user_token=' . $this->session->data['user_token']),
-					'children' => []
-				];
-			}
+
 
 			if ($this->user->hasPermission('access', 'design/banner')) {
 				$design[] = [

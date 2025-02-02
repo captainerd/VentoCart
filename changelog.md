@@ -4,6 +4,7 @@
 - **Theme Editor Bugfix** Fixed a bug where it wouldn't allow a custom them to get saved by the editor. 
 - **Menu in Cart page** The front/cart menu no longer appears twice.
 - **Upgrade Tool Improvement!** It now **auto-sets `index.php.bak` as `index.php`**, saving you from an extra step, (one last time to replace it manually) 
+- **Removed Design/Translation** The sql-based OC legacy way of replacing language keys has been removed in favor of the new language tools at system/localization/languages
 
 ---
 Again thanks to **David Brooks** for providing testing and suggestions. 
