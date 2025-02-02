@@ -150,8 +150,8 @@ class Extension extends \Ventocart\System\Engine\Model
                 ];
             }
         }
-        // Iterate over the array to find duplicates
 
+        $data['text_layout'] = sprintf($this->language->get('text_layout'), $this->url->link('design/layout', 'user_token=' . $this->session->data['user_token']));
 
         // Reindex the array to maintain proper keys after removing elements
         $data['extensions'] = array_values($data['extensions']);
