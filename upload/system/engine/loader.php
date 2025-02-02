@@ -67,11 +67,9 @@ class Loader
 
 	public function controller(string $route, ...$args)
 	{
-
 		$key = 'controller_' . $route;
 		$method = 'index';
 
-		// Check if the controller is already loaded in the registry
 		if (!$this->registry->has($key)) {
 			$className = 'Ventocart\\' . $this->config->get('application') . '\\Controller\\' . str_replace(['_', '/'], ['', '\\'], ucwords($route, '_/'));
 			if (strpos($className, '.') !== false) {
@@ -79,23 +77,30 @@ class Loader
 			}
 
 			if (class_exists($className)) {
-
 				$controller = new $className($this->registry);
 				$this->registry->set($key, $controller);
+			} else {
+				// If class doesn't exist, throw an exception (let parent decide)
+				throw new Exception("Controller class not found: $className");
 			}
 		} else {
 			$controller = $this->registry->get($key);
 		}
+
 		if (isset($controller)) {
+			if (!method_exists($controller, $method)) {
+				throw new \Exception("Method '$method' not found in controller '$className'");
+			}
 
 			$this->registry->event->trigger($this->config->get('application') . '/controller/' . $route . '/before', [&$args]);
 			$output = $controller->$method(...$args);
 			$this->registry->event->trigger($this->config->get('application') . '/controller/' . $route . '/after', [&$args, &$output]);
 			return $output;
-		} else {
-			return $this->controller('error/not_found');
 		}
+
+		return $this->controller('error/not_found');
 	}
+
 
 
 	/**

@@ -1,3 +1,18 @@
+## What's New in VentoCart v6.1.0.5
+
+- **GDPR Module Integration** 
+  Replaced the legacy OpenCart simple cookie notice, which had no functionality regarding cookie management, with an advanced GDPR module. This new module provides full user control over cookie acceptance and allows admins to configure options and customize messages via **Admin > Extensions > Modules > GDPR Notice**. it affects setting cookies from "Google Analytics" and "JavaScript Tags" modules as well for abandoned cart guest tracking
+
+  To ensure your own custom code is also legally compliant, you can check if `$this->request->cookie['accept-tracking']` is set and verify that the module is enabled by checking if `$this->config->get('module_gdpr_status')` is set to `true`.
+
+- **Code Refinements** 
+  Removed unused variables in `marketplace/loadlists` and converted the `option_filter` from Twig to Plates for better performance and maintainability.
+
+- **Bug Fixes** 
+  Added exception handling to the loader/controller, allowing parent classes to decide whether to throw an error or handle non-existent methods silently. This fix improves the handling of `install()`/`uninstall()` methods when not required or missing in modules and extensions.
+
+---
+ 
 ## What's New in VentoCart v6.1.0.4  
 
 - **Theme Editor** The minus icon `[ - ]` in **Admin → Theme Editor** now actually closes tabs instead of just looking pretty. 

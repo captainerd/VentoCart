@@ -1063,3 +1063,17 @@ footer a {
   min-height: 36px;
   line-height: 36px;
 }
+
+.cookie-gdpr-notice a {
+  color: #FFD700;
+  text-decoration: none;
+
+}
+
+
+.cookie-gdpr-notice a:hover {
+  color: #FF8C00;
+
+  text-decoration: underline;
+
+}

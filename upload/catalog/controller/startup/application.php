@@ -57,6 +57,11 @@ class Application extends \Ventocart\System\Engine\Controller
 		// Session changing tracking to update guest subscribers (synch old cart items, abandoned cart etc, features)
 		if (!$this->customer->isLogged()) {
 
+			if ($this->config->get('module_gdpr_status') && !isset($this->request->cookie['accept-tracking'])) {
+
+				return;
+			}
+
 			if (isset($this->request->cookie['guest']) && $this->request->cookie['guest'] != $this->session->getId()) {
 
 				$oldSession = $this->request->cookie['guest'];

@@ -198,9 +198,12 @@ class Extension extends \Ventocart\System\Engine\Model
             $this->model_user_user_group->addPermission($this->user->getGroupId(), 'access', 'extension/' . $extension . "/$extensionType/" . $code);
             $this->model_user_user_group->addPermission($this->user->getGroupId(), 'modify', 'extension/' . $extension . "/$extensionType/" . $code);
 
-            // Call install method if it exists
-            $this->load->controller('extension/' . $extension . "/$extensionType/" . $code . '.install');
 
+            try {
+                $this->load->controller('extension/' . $this->request->get['extension'] . "/$extensionType/" . $this->request->get['code'] . '.install');
+            } catch (\Exception $e) {
+                // Silently fail without throwing an exception
+            }
             $json['success'] = $this->language->get('text_success');
         }
 
@@ -228,8 +231,13 @@ class Extension extends \Ventocart\System\Engine\Model
 
             $this->model_setting_extension->uninstall($extensionType, $this->request->get['code']);
 
-            // Call uninstall method if it exists
-            $this->load->controller('extension/' . $this->request->get['extension'] . "/$extensionType/" . $this->request->get['code'] . '.uninstall');
+            try {
+                $this->load->controller('extension/' . $this->request->get['extension'] . "/$extensionType/" . $this->request->get['code'] . '.uninstall');
+            } catch (\Exception $e) {
+                // Silently fail without throwing an exception
+            }
+
+
 
             $json['success'] = $this->language->get('text_success');
         }

@@ -11,13 +11,20 @@ class JavaScriptTags extends \Ventocart\System\Engine\Controller
 	/**
 	 * @return string
 	 */
-	public function index(): string {
-		$myTag =  $this->model_setting_setting->getValue('analytics_javascript_tags_tag',$this->config->get('config_store_id') );
+	public function index(): string
+	{
 
-		return  $myTag;
+		if ($this->config->get('module_gdpr_status') && !isset($this->request->cookie['accept-tracking'])) {
+			return '';
+		}
+
+
+		$myTag = $this->model_setting_setting->getValue('analytics_javascript_tags_tag', $this->config->get('config_store_id'));
+
+		return $myTag;
 	}
- 
 
- 
-	
+
+
+
 }

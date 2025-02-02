@@ -104,8 +104,13 @@ class Footer extends \Ventocart\System\Engine\Controller
 
 
 		$data['scripts'] = $this->document->getScripts('footer');
+		if ($this->config->get('module_gdpr_status')) {
 
-		$data['cookie'] = $this->load->controller('common/cookie');
+			$data['cookie'] = $this->load->controller('extension/ventocart/module/gdpr');
+
+		} else {
+			$data['cookie'] = '';
+		}
 
 		return $this->load->view('common/footer', $data);
 	}

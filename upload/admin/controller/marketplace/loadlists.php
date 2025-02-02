@@ -89,7 +89,7 @@ class Loadlists extends \Ventocart\System\Engine\Controller
 		}
 		$this->load->model('setting/setting');
 		$this->model_setting_setting->updateConfig('THEME_NAME', $codecf);
-		$cong = $this->config->get('config');
+
 		$json['success'] = $this->language->get('text_success');
 
 		$this->model_setting_setting->editValue('config', 'config_theme', $code);
