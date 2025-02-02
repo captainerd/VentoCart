@@ -55,20 +55,10 @@ class Cart extends \Ventocart\System\Engine\Controller
 
 			$data['list'] = $this->getList();
 
-			$data['modules'] = [];
 
-			$this->load->model('setting/extension');
 
-			$extensions = $this->model_setting_extension->getExtensionsByType('total');
-
-			foreach ($extensions as $extension) {
-				$result = $this->load->controller('extension/' . $extension['extension'] . '/total/' . $extension['code']);
-
-				if (!$result instanceof \Exception) {
-					$data['modules'][] = $result;
-				}
-			}
-
+			$data['footer'] = $this->load->controller('common/footer');
+			$data['header'] = $this->load->controller('common/header');
 			$data['continue'] = $this->url->link('common/home');
 			$data['checkout'] = $this->url->link('checkout/checkout');
 			$data['language'] = $this->config->get('config_language');
@@ -77,8 +67,7 @@ class Cart extends \Ventocart\System\Engine\Controller
 			$data['column_right'] = $this->load->controller('common/column_right');
 			$data['content_top'] = $this->load->controller('common/content_top');
 			$data['content_bottom'] = $this->load->controller('common/content_bottom');
-			$data['footer'] = $this->load->controller('common/footer');
-			$data['header'] = $this->load->controller('common/header');
+
 
 			$this->response->setOutput($this->load->view('checkout/cart', $data));
 		} else {

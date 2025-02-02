@@ -186,7 +186,7 @@ $('#path').on('click', 'a.file', function (e) {
                     $('#code').show();
                     $('#recent').hide();
 
-                    $('.nav-tabs').append('<li class="nav-item"><a href="#tab-' + tab_id + '" data-bs-toggle="tab" class="nav-link">' + $(element).attr('href').split('/').join(' / ') + '&nbsp;&nbsp;<i class="fa-solid fa-minus-circle"></i></a></li>');
+                    $('.nav-tabs').append('<li class="nav-item"><a href="#tab-' + tab_id + '" data-bs-toggle="tab" class="nav-link tab-top">' + $(element).attr('href').split('/').join(' / ') + '&nbsp;&nbsp;<i class="fa-solid fa-minus-circle"></i></a></li>');
 
                     html = '<div class="tab-pane" id="tab-' + tab_id + '">';
                     html += '  <textarea name="code" id="input-code-'  +  tab_id + '" rows="10" class="form-control"></textarea>';
@@ -222,6 +222,22 @@ $('#path').on('click', 'a.file', function (e) {
         });
     } else {
         $('.nav-tabs a[href=\'#tab-' + tab_id + '\']').tab('show');
+    }
+});
+$(document).on('click', '.tab-top i.fa-minus-circle', function (e) {
+    e.preventDefault();
+    
+    var tabItem = $(this).closest('.nav-item'); // The tab <li> element
+    var tabLink = tabItem.find('a'); // The anchor inside the tab
+    var tabId = tabLink.attr('href'); // Get the tab ID, e.g., "#tab-123"
+
+    // Remove the tab and its content
+    tabItem.remove();
+    $(tabId).remove();
+
+    // If the removed tab was active, show the previous tab
+    if (tabLink.hasClass('active')) {
+        $('.nav-tabs .nav-link:last').tab('show');
     }
 });
 

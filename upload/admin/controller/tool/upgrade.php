@@ -261,6 +261,10 @@ class Upgrade extends \Ventocart\System\Engine\Controller
 				$this->deleteDirectory($installDir);
 			}
 
+			// Replace install index with real index
+			unlink(DIR_VENTOCART . "index.php");
+			rename(DIR_VENTOCART . "index.php.bak", DIR_VENTOCART . "index.php");
+
 			// Return success response
 			if (empty($json['error'])) {
 				$json['text'] = $this->language->get('text_patch');

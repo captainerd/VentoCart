@@ -186,7 +186,7 @@ class Theme extends \Ventocart\System\Engine\Controller
 			$this->load->model('design/theme');
 
 			$pos = strpos($path, '.');
-			$file = DIR_VENTOCART . 'themes/' . $theme_id . $path;
+			$file = DIR_VENTOCART . 'themes/' . $theme_id . "/" . $path;
 			file_put_contents($file, $code);
 			$json['success'] = $this->language->get('text_success');
 		}
