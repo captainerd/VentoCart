@@ -179,7 +179,7 @@ class Extension extends \Ventocart\System\Engine\Model
             $code = '';
         }
 
-        if (!$this->user->hasPermission('modify', "extension/$extensionType")) {
+        if (!$this->user->hasPermission('modify', $extensionType)) {
             $json['error'] = $this->language->get('error_permission');
         }
 
@@ -222,7 +222,7 @@ class Extension extends \Ventocart\System\Engine\Model
 
         $json = [];
 
-        if (!$this->user->hasPermission('modify', "extension/$extensionType")) {
+        if (!$this->user->hasPermission('modify', $extensionType)) {
             $json['error'] = $this->language->get('error_permission');
         }
 
