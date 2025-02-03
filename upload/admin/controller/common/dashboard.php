@@ -5,22 +5,31 @@ namespace Ventocart\Admin\Controller\Common;
  *
  * @package Ventocart\Admin\Controller\Common
  */
-class Dashboard extends \Ventocart\System\Engine\Controller {
+class Dashboard extends \Ventocart\System\Engine\Controller
+{
 	/**
 	 * @return void
 	 */
-	public function index(): void {
+	public function index(): void
+	{
 		$this->load->language('common/dashboard');
 
 		$this->document->setTitle($this->language->get('heading_title'));
 
 		$data['breadcrumbs'] = [];
 		$data['new_version'] = false;
-		$currVersion = file_get_contents('https://raw.githubusercontent.com/captainerd/VentoCart/main/VERSION');
+		$domain = 'raw.githubusercontent.com';
+		$currVersion = 'offline';
+
+		// Check if the domain is resolvable
+		if (checkdnsrr($domain, 'A') || checkdnsrr($domain, 'AAAA')) {
+			$url = 'https://raw.githubusercontent.com/captainerd/VentoCart/main/VERSION';
+			$currVersion = @file_get_contents($url) ?: 'offline'; // Fallback to "offline" if fetching fails
+		}
 		$currVersion = trim($currVersion);
 		if (VERSION != $currVersion) {
 			$data['installed_version'] = VERSION;
-	     $data['new_version'] = $currVersion;
+			$data['new_version'] = $currVersion;
 		}
 		$data['breadcrumbs'][] = [
 			'text' => $this->language->get('text_home'),
@@ -48,10 +57,10 @@ class Dashboard extends \Ventocart\System\Engine\Controller {
 				//if (!$output instanceof \Exception) {
 				if ($output) {
 					$dashboards[] = [
-						'code'       => $extension['code'],
-						'width'      => $this->config->get('dashboard_' . $extension['code'] . '_width'),
+						'code' => $extension['code'],
+						'width' => $this->config->get('dashboard_' . $extension['code'] . '_width'),
 						'sort_order' => $this->config->get('dashboard_' . $extension['code'] . '_sort_order'),
-						'output'     => $output
+						'output' => $output
 					];
 				}
 			}
