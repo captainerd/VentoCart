@@ -292,7 +292,22 @@ class UserPermission extends \Ventocart\System\Engine\Controller
 			}
 		}
 
-		$data['extensions'] = [];
+
+		$data['extensions'] = [
+			"analytics",
+			"currency",
+			"feed",
+			"module",
+			"report",
+			"captcha",
+			"dashboard",
+			"fraud",
+			"payment",
+			"shipping",
+			"total",
+			"marketing",
+			"importers"
+		];
 
 
 		if (isset($user_group_info['permission']['access'])) {

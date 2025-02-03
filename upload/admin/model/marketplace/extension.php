@@ -274,7 +274,7 @@ class Extension extends \Ventocart\System\Engine\Model
 
             $this->load->language('extension/' . $extension, $extension);
 
-            if ($this->user->hasPermission('access', 'extension/' . $extension)) {
+            if ($this->user->hasPermission('access', $extension)) {
 
                 $controllerFiles = count(glob(DIR_APPLICATION . 'controller/extension/*/' . $extension . '/*.php'));
 
@@ -283,7 +283,9 @@ class Extension extends \Ventocart\System\Engine\Model
                     'text' => $this->language->get($extension . '_heading_title') . ' (' . $controllerFiles . ')',
                     'href' => $this->url->link('marketplace/extension&which=' . $extension, 'user_token=' . $this->session->data['user_token'])
                 ];
+
             }
+
         }
         return $data['categories'];
     }

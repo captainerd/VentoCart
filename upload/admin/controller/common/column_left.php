@@ -183,6 +183,7 @@ class ColumnLeft extends \Ventocart\System\Engine\Controller
 
 			foreach ($extcategories as $category) {
 				$extChild[] = [
+
 					'code' => $category['code'],
 					'name' => $category['text'],
 					'href' => $category['href'] . "&nojs=1"
@@ -190,6 +191,7 @@ class ColumnLeft extends \Ventocart\System\Engine\Controller
 			}
 			if ($this->user->hasPermission('access', 'marketplace/extension')) {
 				$data['menus'][] = [
+					'id' => 'menu-extensions',
 					'name' => $this->language->get('text_extension'),
 					'icon' => 'fa fa-cubes',
 					'children' => $extChild

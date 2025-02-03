@@ -1,3 +1,9 @@
+## What's New in VentoCart v6.1.0.6
+
+- **BugFix Ext Permissions** 
+  Fixed extension category permissions getting lost after saving them in User Group, ~ Another quick fix thanks to David Brook's testing
+
+
 ## What's New in VentoCart v6.1.0.5
 
 - **GDPR Module Integration** 
