@@ -4,15 +4,13 @@ class Cart extends \Ventocart\System\Engine\Controller
 {
 	public function index(): void
 	{
-
-
+		// Load commons
 		$data['column_left'] = $this->load->controller('common/column_left');
 		$data['column_right'] = $this->load->controller('common/column_right');
 		$data['content_top'] = $this->load->controller('common/content_top');
 		$data['content_bottom'] = $this->load->controller('common/content_bottom');
 		$data['footer'] = $this->load->controller('common/footer');
 		$data['header'] = $this->load->controller('common/header');
-
 
 		$this->load->language('checkout/cart');
 
@@ -64,24 +62,15 @@ class Cart extends \Ventocart\System\Engine\Controller
 
 			$data['list'] = $this->getList();
 
-
-
-
 			$data['continue'] = $this->url->link('common/home');
 			$data['checkout'] = $this->url->link('checkout/checkout');
 			$data['language'] = $this->config->get('config_language');
-
-
-
 
 			$this->response->setOutput($this->load->view('checkout/cart', $data));
 		} else {
 			$data['text_error'] = $this->language->get('text_no_results');
 
 			$data['continue'] = $this->url->link('common/home');
-
-
-
 
 			$this->response->setOutput($this->load->view('error/not_found', $data));
 		}
