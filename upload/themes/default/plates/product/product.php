@@ -52,7 +52,7 @@
 
         <?php if ($thumb || $images): ?>
           <div class="col-sm-5">
-            <div   class="image imageGallery">
+            <div   class="image ">
               <div   class="img-zoom-container picview-container"  style="max-height: <?=$picont_width?>px;" id="mainpic"> 
  
           
@@ -100,7 +100,7 @@ $isVideo = in_array($popupExtension, $videoExtensions);
                
                 <section
  
-  class="productThumb splide slider-container mt-3"
+  class="productThumb imageGallery splide slider-container mt-3"
   aria-label="The carousel with thumbnails. Selecting a thumbnail will change the Beautiful Gallery carousel."
 >  
 <div class="splide__track">
@@ -659,11 +659,18 @@ document.getElementById("coundown").innerHTML =
             pswpModule: () => import('/themes/default/assets/core/js/photoswipe.esm.min.js'),
             wheelToZoom: true
         });
+        const lightbox2 = new PhotoSwipeLightbox({
+            gallery: '.picview-container',
+            children: 'a',
+            pswpModule: () => import('/themes/default/assets/core/js/photoswipe.esm.min.js'),
+            wheelToZoom: true
+        });
         const videoPlugin = new PhotoSwipeVideoPlugin(lightbox, {
         // options
         });
    
         lightbox.init();
+        lightbox2.init();
        // call variation build up 
        window.productInit();
 
