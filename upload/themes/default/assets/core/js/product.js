@@ -164,13 +164,22 @@ function productInit() {
             });
             $(this).addClass('slider-selected');
         });
-
+        var index = 0;
         $(".slider-container img").mouseover(function () {
             var newSrc = $(this).attr("src");
+            index = $(this).closest(".slider-container").find("img").index(this);
             newSrc = newSrc.replace(/(\d+)x(\d+)(?=\D*$)/i, window.picontWidth + 'x' + window.picontHeight);
             placeinImage(newSrc);
         });
 
+
+        $(".magnifyglass").on("click", function (event) {
+            event.preventDefault(); // Cancel the original click action
+
+            window.lightbox.loadAndOpen(index, {
+                gallery: document.querySelector('.imageGallery')
+            });
+        });
 
 
         //Display the thumbnail option in the main picture view area
@@ -602,5 +611,8 @@ function productInit() {
     }
 
 };
+
+
+
 
 

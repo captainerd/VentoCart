@@ -275,6 +275,7 @@ a {
 .menu-vento .navbar-nav .nav-item.dropdown:hover .dropdown-menu {
   display: block;
   opacity: 1;
+  position: absolute;
   transition: opacity 0.3s ease;
 }
 

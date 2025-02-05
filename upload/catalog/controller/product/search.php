@@ -12,6 +12,14 @@ class Search extends \Ventocart\System\Engine\Controller
 	 */
 	public function index(): void
 	{
+		// Load Commons
+		$data['column_left'] = $this->load->controller('common/column_left');
+		$data['column_right'] = $this->load->controller('common/column_right');
+		$data['content_top'] = $this->load->controller('common/content_top');
+		$data['content_bottom'] = $this->load->controller('common/content_bottom');
+		$data['footer'] = $this->load->controller('common/footer');
+		$data['header'] = $this->load->controller('common/header');
+
 		$this->load->language('product/search');
 
 		if (isset($this->request->get['search'])) {
@@ -456,12 +464,7 @@ class Search extends \Ventocart\System\Engine\Controller
 
 		$data['language'] = $this->config->get('config_language');
 
-		$data['column_left'] = $this->load->controller('common/column_left');
-		$data['column_right'] = $this->load->controller('common/column_right');
-		$data['content_top'] = $this->load->controller('common/content_top');
-		$data['content_bottom'] = $this->load->controller('common/content_bottom');
-		$data['footer'] = $this->load->controller('common/footer');
-		$data['header'] = $this->load->controller('common/header');
+
 
 		$this->response->setOutput($this->load->view('product/search', $data));
 	}

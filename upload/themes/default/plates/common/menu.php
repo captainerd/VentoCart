@@ -68,7 +68,7 @@
                 <!-- Search Dropdown -->
                 <li class="nav-item dropdown">
                     <button aria-label="search" href="#" class="nav-link" id="searchDropdown" role="button"
-                        data-bs-toggle="dropdown" aria-expanded="false">
+                        aria-expanded="false">
                         <i class="fas fa-search fa-lg"></i>
                     </button>
                     <ul class="dropdown-menu dropdown-menu-end p-3" style="min-width: 300px"

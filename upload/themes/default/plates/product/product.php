@@ -659,30 +659,16 @@ document.getElementById("coundown").innerHTML =
             pswpModule: () => import('/themes/default/assets/core/js/photoswipe.esm.min.js'),
             wheelToZoom: true
         });
-        const lightbox2 = new PhotoSwipeLightbox({
-            gallery: '.picview-container',
-            children: 'a',
-            pswpModule: () => import('/themes/default/assets/core/js/photoswipe.esm.min.js'),
-            wheelToZoom: true
-        });
+    
         const videoPlugin = new PhotoSwipeVideoPlugin(lightbox, {
         // options
         });
    
         lightbox.init();
-        lightbox2.init();
+        window.lightbox = lightbox;
+        
        // call variation build up 
        window.productInit();
-
- 
-
-
-
-
-
-
-
-
 
           </script>
 
