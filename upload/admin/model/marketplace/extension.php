@@ -158,14 +158,21 @@ class Extension extends \Ventocart\System\Engine\Model
 
         // Reindex the array to maintain proper keys after removing elements
         $data['extensions'] = array_values($data['extensions']);
-        if ($extensionType == "marketing" || $extensionType == "importers") {
-            $extensionType = "other";
-        }
 
-        return $this->load->view("extension/$extensionType", $data);
+
+        return $this->loadExtView($extensionType, $data);
     }
 
+    private function loadExtView($extensionType, $data)
+    {
+        $commonExtViews = ['analytics', 'captcha', 'currency', 'feed', 'fraud', 'language', 'marketing', 'marketplace', 'other', 'importers'];
 
+        if (in_array($extensionType, $commonExtViews)) {
+            return $this->load->view("extension/basic", $data);
+        } else {
+            return $this->load->view("extension/$extensionType", $data);
+        }
+    }
 
     public function install($extensionType): array
     {
