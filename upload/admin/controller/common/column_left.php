@@ -275,7 +275,7 @@ class ColumnLeft extends \Ventocart\System\Engine\Controller
 				];
 			}
 
-			if ($this->user->hasPermission('access', 'extension/theme')) {
+			if ($this->user->hasPermission('access', 'design/theme')) {
 				$design[] = [
 					'name' => $this->language->get('text_themes'),
 					'href' => $this->url->link('marketplace/extension&which=theme', 'user_token=' . $this->session->data['user_token'] . '&nojs=1'),

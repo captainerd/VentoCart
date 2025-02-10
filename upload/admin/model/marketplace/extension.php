@@ -12,7 +12,10 @@ class Extension extends \Ventocart\System\Engine\Model
 
     public function getList($extensionType): string
     {
-        $this->load->language("extension/$extensionType");
+
+        $commonExtLanguage = ['analytics', 'captcha', 'currency', 'feed', 'fraud', 'language', 'marketing', 'marketplace', 'other'];
+
+        $this->loadExtLanguage($extensionType);
 
         // Promotion
         $data['promotion'] = $this->load->controller('marketplace/promotion');
@@ -155,6 +158,9 @@ class Extension extends \Ventocart\System\Engine\Model
 
         // Reindex the array to maintain proper keys after removing elements
         $data['extensions'] = array_values($data['extensions']);
+        if ($extensionType == "marketing" || $extensionType == "importers") {
+            $extensionType = "other";
+        }
 
         return $this->load->view("extension/$extensionType", $data);
     }
@@ -272,7 +278,7 @@ class Extension extends \Ventocart\System\Engine\Model
         foreach ($names as $extension) {
 
 
-            $this->load->language('extension/' . $extension, $extension);
+            $this->loadExtLanguage($extension, $extension);
 
             if ($this->user->hasPermission('access', $extension)) {
 
@@ -288,6 +294,36 @@ class Extension extends \Ventocart\System\Engine\Model
 
         }
         return $data['categories'];
+    }
+
+
+    private function loadExtLanguage($extension, $prefix = "")
+    {
+        $commonExtLanguage = ['analytics', 'captcha', 'currency', 'feed', 'fraud', 'language', 'marketing', 'marketplace', 'other', 'importers'];
+
+        if (!in_array($extension, $commonExtLanguage)) {
+            $this->load->language("extension/$extension", $prefix);
+        } else {
+            $this->load->language("extension/basic");
+            // Heading
+            $extensiontxt = ucfirst(trim($extension));
+            $this->language->set($extension . '_heading_title', sprintf($this->language->get('heading_title'), $extensiontxt));
+            $this->language->set('heading_title', sprintf($this->language->get('heading_title'), $extensiontxt));
+
+            // Text
+            $this->language->set('text_success', sprintf($this->language->get('text_success'), $extensiontxt));
+            $this->language->set('text_list', sprintf($this->language->get('text_list'), $extensiontxt));
+
+            // Column
+            $this->language->set('column_name', sprintf($this->language->get('column_name'), $extensiontxt));
+            $this->language->set('column_status', $this->language->get('column_status'));
+            $this->language->set('column_action', $this->language->get('column_action'));
+
+            // Error
+            $this->language->set('error_permission', sprintf($this->language->get('error_permission'), $extensiontxt));
+            $this->language->set('error_extension', sprintf($this->language->get('error_extension'), $extensiontxt));
+        }
+
     }
 
 }
