@@ -146,6 +146,10 @@ function setupConfigurations($appConfig, $adminConfig, $weburl, $host, $user, $p
     sleep(2);
     unlink('../index.php');
     rename('../index.php.bak', '../index.php');
+    chmod('../index.php', 0644);
+    if (function_exists('opcache_reset')) {
+        opcache_reset();
+    }
     recursiveDeleteDirectory('../install');
 }
 
