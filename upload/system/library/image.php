@@ -204,6 +204,7 @@ class Image
 	 */
 	public function resize(int $width = 0, int $height = 0, string $default = ''): void
 	{
+
 		if (!$this->width || !$this->height) {
 			return;
 		}
@@ -237,11 +238,12 @@ class Image
 		if ($scale == 1 && $scale_h == $scale_w && ($this->mime != 'image/png' || $this->mime != 'image/webp')) {
 			return;
 		}
-
-		$new_width = (int) ($this->width * $scale);
-		$new_height = (int) ($this->height * $scale);
-		$xpos = (int) (($width - $new_width) / 2);
-		$ypos = (int) (($height - $new_height) / 2);
+		$width = (int) round($width);
+		$height = (int) round($height);
+		$new_width = (int) round($this->width * $scale);
+		$new_height = (int) round($this->height * $scale);
+		$xpos = (int) round(($width - $new_width) / 2);
+		$ypos = (int) round(($height - $new_height) / 2);
 
 		$image_old = $this->image;
 		$this->image = imagecreatetruecolor($width, $height);
