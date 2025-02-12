@@ -147,15 +147,16 @@ $(document).ready(function () {
 });
 
 $(document).ready(function () {
-    // Currency
-    $('#form-currency .dropdown-item').on('click', function (e) {
+
+    // currency
+    $('.form-currency .dropdown-item').on('click', function (e) {
         e.preventDefault();
 
-        $('#form-currency input[name=\'code\']').val($(this).attr('href'));
+        $(this).closest('.form-currency').find('input[name="code"]').val($(this).attr('href'));
 
-        $('#form-currency').submit();
+        // Submit the closest form-currency form
+        $(this).closest('.form-currency').submit();
     });
-
     // Search
     $('#search input[name=\'search\']').parent().find('button').on('click', function () {
         var url = $('base').attr('href') + 'index.php?route=product/search&language=' + $(this).attr('data-lang');
