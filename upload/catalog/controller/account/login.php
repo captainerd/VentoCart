@@ -148,6 +148,7 @@ class Login extends \Ventocart\System\Engine\Controller
 
 		}
 
+
 		if (!$json) {
 			// Check how many login attempts have been made.
 			$this->load->model('account/customer');

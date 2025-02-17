@@ -17,6 +17,7 @@ class Register extends \Ventocart\System\Engine\Controller
 			$this->response->redirect($this->url->link('account/account'));
 		}
 
+
 		$this->load->language('account/register');
 
 		$this->document->setTitle($this->language->get('heading_title'));

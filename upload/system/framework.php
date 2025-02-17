@@ -148,7 +148,7 @@ $registry->set('cache', new \Ventocart\System\Library\Cache($config->get('cache_
 $template = new \Ventocart\System\Library\Template($config->get('template_engine'));
 $registry->set('template', $template);
 
-$template->addPath(DIR_TEMPLATE . "default/plates/");
+$template->addPath(DIR_TEMPLATE . "/plates/");
 
 
 // Language

@@ -12,6 +12,15 @@ class Order extends \Ventocart\System\Engine\Controller
 	 */
 	public function index(): void
 	{
+
+
+		$data['column_left'] = $this->load->controller('common/column_left');
+		$data['column_right'] = $this->load->controller('common/column_right');
+		$data['content_top'] = $this->load->controller('common/content_top');
+		$data['content_bottom'] = $this->load->controller('common/content_bottom');
+		$data['footer'] = $this->load->controller('common/footer');
+		$data['header'] = $this->load->controller('common/header');
+
 		$this->load->language('account/order');
 
 		if (isset($this->request->get['page'])) {
@@ -96,12 +105,6 @@ class Order extends \Ventocart\System\Engine\Controller
 
 		$data['continue'] = $this->url->link('account/account');
 
-		$data['column_left'] = $this->load->controller('common/column_left');
-		$data['column_right'] = $this->load->controller('common/column_right');
-		$data['content_top'] = $this->load->controller('common/content_top');
-		$data['content_bottom'] = $this->load->controller('common/content_bottom');
-		$data['footer'] = $this->load->controller('common/footer');
-		$data['header'] = $this->load->controller('common/header');
 
 		$this->response->setOutput($this->load->view('account/order_list', $data));
 	}

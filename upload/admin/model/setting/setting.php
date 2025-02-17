@@ -118,7 +118,7 @@ class Setting extends \Ventocart\System\Engine\Model
 	 * @param string $newValue  The new value to set for the constant.
 	 * @return bool             True on success, false on failure.
 	 */
-	function updateConfig($key, $newValue)
+	public function updateConfig($key, $newValue)
 	{
 		$filePath = DIR_VENTOCART . "config.php";
 		// Ensure the file exists and is writable
@@ -145,6 +145,26 @@ class Setting extends \Ventocart\System\Engine\Model
 		}
 
 		return true;
+	}
+	public function getConfigValue($key)
+	{
+		$filePath = DIR_VENTOCART . "config.php";
+
+		// Ensure the file exists and is readable
+		if (!is_readable($filePath)) {
+			throw new \Exception("File does not exist or is not readable: $filePath");
+		}
+
+		// Read the file into a string
+		$content = file_get_contents($filePath);
+
+		// Match the define pattern
+		$pattern = '/define\s*\(\s*[\'"]' . preg_quote($key, '/') . '[\'"]\s*,\s*[\'"](.*?)[\'"]\s*\)\s*;/';
+		if (preg_match($pattern, $content, $matches)) {
+			return stripslashes($matches[1]); // Return the value without escaping
+		} else {
+			throw new \Exception("Constant $key not found in file: $filePath");
+		}
 	}
 
 }

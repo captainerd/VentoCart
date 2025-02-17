@@ -294,6 +294,13 @@ class ColumnLeft extends \Ventocart\System\Engine\Controller
 				];
 			}
 
+			if ($this->user->hasPermission('access', 'design/theme')) {
+				$design[] = [
+					'name' => $this->language->get('text_footer_links'),
+					'href' => $this->url->link('design/footer', 'user_token=' . $this->session->data['user_token']),
+					'children' => []
+				];
+			}
 
 
 			if ($this->user->hasPermission('access', 'design/banner')) {

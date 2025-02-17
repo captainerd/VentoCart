@@ -81,7 +81,7 @@ class Loader
 				$this->registry->set($key, $controller);
 			} else {
 				// If class doesn't exist, throw an exception (let parent decide)
-				throw new Exception("Controller class not found: $className");
+				throw new \Exception("Controller class not found: $className");
 			}
 		} else {
 			$controller = $this->registry->get($key);

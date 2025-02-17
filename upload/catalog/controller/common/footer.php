@@ -16,28 +16,9 @@ class Footer extends \Ventocart\System\Engine\Controller
 
 		$this->load->model('cms/article');
 
-		$article_total = $this->model_cms_article->getTotalArticles();
+		$data['blog'] = $this->model_cms_article->getTotalArticles();
 
-		if ($article_total) {
-			$data['blog'] = $this->url->link('cms/blog');
-		} else {
-			$data['blog'] = '';
-		}
 
-		$data['informations'] = [];
-
-		$this->load->model('catalog/information');
-
-		$results = $this->model_catalog_information->getInformations();
-
-		foreach ($results as $result) {
-			if ($result['bottom']) {
-				$data['informations'][] = [
-					'title' => $result['title'],
-					'href' => $this->url->link('information/information' . '&information_id=' . $result['information_id'])
-				];
-			}
-		}
 
 		$data['contact'] = $this->url->link('information/contact');
 		$data['return'] = $this->url->link('account/returns.add');
@@ -65,13 +46,7 @@ class Footer extends \Ventocart\System\Engine\Controller
 
 			$data['guestorder'] = false;
 		}
-		$data['special'] = $this->url->link('product/special');
-		$data['account'] = $this->url->link('account/account');
-		$data['order'] = $this->url->link('account/order');
-		$data['wishlist'] = $this->url->link('account/wishlist');
-		$data['newsletter'] = $this->url->link('guest/newsletter');
-		$data['giftcards'] = $this->url->link('giftcards/giftcard');
-
+		$data['url'] = $this->url;
 		$data['powered'] = sprintf($this->language->get('text_powered'), $this->config->get('config_name'), date('Y', time()));
 
 		// Who's Online

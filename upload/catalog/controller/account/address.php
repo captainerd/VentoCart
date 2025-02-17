@@ -142,6 +142,17 @@ class Address extends \Ventocart\System\Engine\Controller
 	 */
 	public function form(): void
 	{
+
+
+
+		$data['column_left'] = $this->load->controller('common/column_left');
+		$data['column_right'] = $this->load->controller('common/column_right');
+		$data['content_top'] = $this->load->controller('common/content_top');
+		$data['content_bottom'] = $this->load->controller('common/content_bottom');
+		$data['footer'] = $this->load->controller('common/footer');
+		$data['header'] = $this->load->controller('common/header');
+
+
 		$this->load->language('account/address');
 
 		if (!$this->customer->isLogged()) {
@@ -283,17 +294,10 @@ class Address extends \Ventocart\System\Engine\Controller
 		} else {
 			$data['default'] = false;
 		}
-
 		$data['back'] = $this->url->link('account/address');
 		$data['breadcrumb'] = $this->load->view('common/breadcrumb', $datab);
 		$data['language'] = $this->config->get('config_language');
 
-		$data['column_left'] = $this->load->controller('common/column_left');
-		$data['column_right'] = $this->load->controller('common/column_right');
-		$data['content_top'] = $this->load->controller('common/content_top');
-		$data['content_bottom'] = $this->load->controller('common/content_bottom');
-		$data['footer'] = $this->load->controller('common/footer');
-		$data['header'] = $this->load->controller('common/header');
 
 		$this->response->setOutput($this->load->view('account/address_form', $data));
 	}

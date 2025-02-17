@@ -5,7 +5,8 @@ namespace Ventocart\System\Library\Cart;
  *
  * @package Ventocart\System\Library\Cart
  */
-class User {
+class User
+{
 	/**
 	 * @var object
 	 */
@@ -48,17 +49,18 @@ class User {
 	private array $permission = [];
 
 	/**
-     * Constructor
-     *
-     * @param object $registry
-     */
-	public function __construct(\Ventocart\System\Engine\Registry $registry) {
+	 * Constructor
+	 *
+	 * @param object $registry
+	 */
+	public function __construct(\Ventocart\System\Engine\Registry $registry)
+	{
 		$this->db = $registry->get('db');
 		$this->request = $registry->get('request');
 		$this->session = $registry->get('session');
 
 		if (isset($this->session->data['user_id'])) {
-			$user_query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "user` WHERE `user_id` = '" . (int)$this->session->data['user_id'] . "' AND `status` = '1'");
+			$user_query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "user` WHERE `user_id` = '" . (int) $this->session->data['user_id'] . "' AND `status` = '1'");
 
 			if ($user_query->num_rows) {
 				$this->user_id = $user_query->row['user_id'];
@@ -68,9 +70,9 @@ class User {
 				$this->email = $user_query->row['email'];
 				$this->user_group_id = $user_query->row['user_group_id'];
 
-				$this->db->query("UPDATE `" . DB_PREFIX . "user` SET `ip` = '" . $this->db->escape($this->request->server['REMOTE_ADDR']) . "' WHERE `user_id` = '" . (int)$this->session->data['user_id'] . "'");
+				$this->db->query("UPDATE `" . DB_PREFIX . "user` SET `ip` = '" . $this->db->escape($this->request->server['REMOTE_ADDR']) . "' WHERE `user_id` = '" . (int) $this->session->data['user_id'] . "'");
 
-				$user_group_query = $this->db->query("SELECT `permission` FROM `" . DB_PREFIX . "user_group` WHERE `user_group_id` = '" . (int)$user_query->row['user_group_id'] . "'");
+				$user_group_query = $this->db->query("SELECT `permission` FROM `" . DB_PREFIX . "user_group` WHERE `user_group_id` = '" . (int) $user_query->row['user_group_id'] . "'");
 
 				$permissions = json_decode($user_group_query->row['permission'], true);
 
@@ -84,16 +86,17 @@ class User {
 			}
 		}
 	}
-	
+
 	/**
-     * Login
-     *
-     * @param string $username
-     * @param string $password
-     *
-     * @return bool
-     */
-	public function login(string $username, string $password): bool {
+	 * Login
+	 *
+	 * @param string $username
+	 * @param string $password
+	 *
+	 * @return bool
+	 */
+	public function login(string $username, string $password): bool
+	{
 		$user_query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "user` WHERE `username` = '" . $this->db->escape($username) . "' AND `status` = '1'");
 
 		if ($user_query->num_rows) {
@@ -108,7 +111,7 @@ class User {
 			}
 
 			if ($rehash) {
-				$this->db->query("UPDATE `" . DB_PREFIX . "user` SET `password` = '" . $this->db->escape(password_hash($password, PASSWORD_DEFAULT)) . "' WHERE `user_id` = '" . (int)$user_query->row['user_id'] . "'");
+				$this->db->query("UPDATE `" . DB_PREFIX . "user` SET `password` = '" . $this->db->escape(password_hash($password, PASSWORD_DEFAULT)) . "' WHERE `user_id` = '" . (int) $user_query->row['user_id'] . "'");
 			}
 
 			$this->session->data['user_id'] = $user_query->row['user_id'];
@@ -120,7 +123,7 @@ class User {
 			$this->email = $user_query->row['email'];
 			$this->user_group_id = $user_query->row['user_group_id'];
 
-			$user_group_query = $this->db->query("SELECT `permission` FROM `" . DB_PREFIX . "user_group` WHERE `user_group_id` = '" . (int)$user_query->row['user_group_id'] . "'");
+			$user_group_query = $this->db->query("SELECT `permission` FROM `" . DB_PREFIX . "user_group` WHERE `user_group_id` = '" . (int) $user_query->row['user_group_id'] . "'");
 
 			$permissions = json_decode($user_group_query->row['permission'], true);
 
@@ -135,13 +138,14 @@ class User {
 			return false;
 		}
 	}
-	
+
 	/**
-     * Logout
-     *
-     * @return void
-     */
-	public function logout(): void {
+	 * Logout
+	 *
+	 * @return void
+	 */
+	public function logout(): void
+	{
 		unset($this->session->data['user_id']);
 
 		$this->user_id = 0;
@@ -151,83 +155,91 @@ class User {
 		$this->email = '';
 		$this->user_group_id = 0;
 	}
-	
+
 	/**
-     * hasPermission
-     *
-     * @param string $key
-     * @param string $value
-     *
-     * @return bool
-     */
-	public function hasPermission(string $key, string $value): bool {
+	 * hasPermission
+	 *
+	 * @param string $key
+	 * @param string $value
+	 *
+	 * @return bool
+	 */
+	public function hasPermission(string $key, string $value): bool
+	{
 		if (isset($this->permission[$key])) {
 			return in_array($value, $this->permission[$key]);
 		} else {
 			return false;
 		}
 	}
-	
+
 	/**
-     * isLogged
-     *
-     * @return bool
-     */
-	public function isLogged(): bool {
+	 * isLogged
+	 *
+	 * @return bool
+	 */
+	public function isLogged(): bool
+	{
 		return $this->user_id ? true : false;
 	}
-	
+
 	/**
-     * getId
-     *
-     * @return int
-     */
-	public function getId(): int {
+	 * getId
+	 *
+	 * @return int
+	 */
+	public function getId(): int
+	{
 		return $this->user_id;
 	}
 
 	/**
-     * getUserName
-     *
-     * @return string
-     */
-	public function getUserName(): string {
+	 * getUserName
+	 *
+	 * @return string
+	 */
+	public function getUserName(): string
+	{
 		return $this->username;
 	}
 
 	/**
-     * getFirstName
-     *
-     * @return string
-     */
-	public function getFirstName(): string {
+	 * getFirstName
+	 *
+	 * @return string
+	 */
+	public function getFirstName(): string
+	{
 		return $this->firstname;
 	}
 
 	/**
-     * getLastName
-     *
-     * @return string
-     */
-	public function getLastName(): string {
+	 * getLastName
+	 *
+	 * @return string
+	 */
+	public function getLastName(): string
+	{
 		return $this->lastname;
 	}
 
 	/**
-     * getEmail
-     *
-     * @return string
-     */
-	public function getEmail(): string {
+	 * getEmail
+	 *
+	 * @return string
+	 */
+	public function getEmail(): string
+	{
 		return $this->email;
 	}
 
 	/**
-     * getGroupId
-     *
-     * @return int
-     */
-	public function getGroupId(): int {
+	 * getGroupId
+	 *
+	 * @return int
+	 */
+	public function getGroupId(): int
+	{
 		return $this->user_group_id;
 	}
 }

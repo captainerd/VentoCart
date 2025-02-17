@@ -5,7 +5,7 @@
         <?php
         $className = 'module-splide' . rand(1000, 9999);
         ?>
-        <section class="splide splide-<?= $className ?>" aria-label="Beautiful Images">
+        <section class="splide splide-<?= $className ?>" aria-label="<?= $heading_title ?>">
             <div class="splide__track">
                 <ul class="splide__list">
 

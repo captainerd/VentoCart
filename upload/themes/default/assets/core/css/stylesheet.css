@@ -256,6 +256,8 @@ a {
   }
 }
 
+
+
 /* Navbar links */
 .menu-vento .navbar-nav .nav-item .nav-link {
   font-size: 14px;
@@ -283,16 +285,6 @@ a {
   white-space: nowrap;
 }
 
-/* Dropdown menu styles */
-.menu-vento .navbar-nav .nav-item .dropdown-menu {
-  background-color: #ffffff;
-  border-radius: 8px;
-  color: black;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-
-  display: none;
-  /* Hide by default */
-}
 
 .menu-vento .navbar-nav .nav-item .dropdown-menu a {
   padding: 15px;

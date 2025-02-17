@@ -76,7 +76,7 @@ class Basic extends \Ventocart\System\Engine\Controller
 		$captchaText = $this->session->data['captcha'];
 
 		$font_size = 30; // Adjusted font size
-		$font_path = DIR_APPLICATION . 'themes/default/assets/extension/ventocart/fonts/zonaarmada.ttf'; // Replace with the actual path to your TrueType font file
+		$font_path = DIR_VENTOCART . 'themes/default/assets/extension/ventocart/fonts/zonaarmada.ttf'; // Replace with the actual path to your TrueType font file
 
 		imagettftext($image, $font_size, 0, 10, 0 + $font_size, $black, $font_path, $captchaText);
 

@@ -2,7 +2,7 @@
 // Version
 
 ini_set('short_open_tag', 'On');
-define('VERSION', '6.1.0.6');
+define('VERSION', '6.1.0.7');
 
 // Configuration
 if (is_file('config.php')) {

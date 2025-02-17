@@ -13,7 +13,6 @@ class Application extends \Ventocart\System\Engine\Controller
 	public function index(): void
 	{
 		$this->setting();
-		$this->maintenance();
 		$this->session();
 		$this->language();
 		$this->seo_url();
@@ -31,7 +30,7 @@ class Application extends \Ventocart\System\Engine\Controller
 
 		// Cart
 		$this->registry->set('cart', new \Ventocart\System\Library\Cart\Cart($this->registry));
-
+		$this->maintenance();
 	}
 
 
@@ -171,23 +170,11 @@ class Application extends \Ventocart\System\Engine\Controller
 	{
 		if ($this->config->get('config_maintenance')) {
 			// Route
-			if (isset($this->request->get['route'])) {
-				$route = $this->request->get['route'];
-			} else {
-				$route = $this->config->get('action_default');
-			}
 
-			$ignore = [
-				'common/language/language',
-				'common/currency/currency'
-			];
+			$this->request->get['route'] = 'common/maintenance';
 
-			// Show site if logged in as admin
-			$user = new \Ventocart\System\Library\Cart\User($this->registry);
 
-			if (substr($route, 0, 3) != 'api' && !in_array($route, $ignore) && !$user->isLogged()) {
-				$this->load->controller('common/maintenance');
-			}
+
 		}
 
 		return null;
@@ -470,17 +457,26 @@ class Application extends \Ventocart\System\Engine\Controller
 		// Parse the query into its separate parts
 		$parts = explode('&', $url_info['query']);
 
+
 		foreach ($parts as $part) {
-			[$key, $value] = explode('=', $part);
 
-			$result = $this->model_design_seo_url->getSeoUrlByKeyValue((string) $key, (string) $value);
+			$pair = explode('=', $part);
 
-			if ($result) {
-				$paths[] = $result;
+			// Check if both key and value exist
+			if (count($pair) === 2) {
+				[$key, $value] = $pair;
 
-				unset($query[$key]);
+				$result = $this->model_design_seo_url->getSeoUrlByKeyValue((string) $key, (string) $value);
+
+				if ($result) {
+					$paths[] = $result;
+
+					unset($query[$key]);
+				}
 			}
 		}
+
+
 
 		$sort_order = [];
 

@@ -92,7 +92,7 @@ class Loadlists extends \Ventocart\System\Engine\Controller
 
 		$json['success'] = $this->language->get('text_success');
 
-		$this->model_setting_setting->editValue('config', 'config_theme', $code);
+
 		$this->response->addHeader('Content-Type: application/json');
 		$this->response->setOutput(json_encode($json));
 	}

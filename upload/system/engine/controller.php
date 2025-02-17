@@ -55,6 +55,6 @@ class Controller
 	 */
 	public function __set(string $key, object $value): void
 	{
-		$this->registry->set($key, $value);
+		$this->data[$key] = $value;
 	}
 }

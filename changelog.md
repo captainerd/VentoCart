@@ -1,3 +1,58 @@
+## What's New in VentoCart v6.1.0.7
+
+**Upgrade Instructions:** 
+To upgrade from version 6.1.0.6 to 6.1.0.7, you need to manually edit the `admin/config.php` file. Update the constant for the view directory to:
+
+```php
+define('DIR_TEMPLATE', DIR_APPLICATION . 'view/default/');
+```
+
+### Key Changes:
+
+- **Theme Enhancements:**
+  - Fixed issue where top menu links were unclickable when they had no child/submenus.
+  - Improved the desktop menu, making it tappable on touchscreens to expand submenus.
+  - Corrected the currency menu functionality to ensure the selected currency switches properly.
+  - Resolved issues with repeated heading titles and language mix-ups when modules were attached.
+  - Added phone country code autocomplete functionality to **My Account/Add Address** to improve user experience.
+ 
+- **Maintenance Mode:**
+  - Fixed bug preventing the proper activation and usage of maintenance mode.
+
+- **Fresh Install Fixes:**
+  - Resolved blank index page issue on fresh installations by clearing the opcache and adjusting permissions for the newly moved `index.php`.
+
+- **Admin:**
+  - Corrected the issue when switching themes back and forth, ensuring settings are retained properly.
+
+- **Image Library:**
+  - Fixed issue where images were missing on the first load due to caching problems, particularly observed in CMS articles.
+
+- **SEO URL:**
+  - Resolved an issue with SEO URL processing that was preventing redirection on login when SEO URLs were enabled.
+
+- **Captcha:**
+  - Fixed the captcha display issue that was mixing the "checkout" and "register" pages.
+  - Ensured captcha font loads correctly.
+
+- **New Feature - Footer Links Management:**
+  - Added a new admin feature to manage footer links easily via drag-and-drop. Navigate to **Admin > Design > Footer Links** to reorganize links.
+
+---
+
+### Additional Notes:
+
+- **Bug Reporting:** 
+  If you encounter any bugs, please report them on our [GitHub Issues page](https://github.com/captainerd/VentoCart/issues), or contact support via email at **support@ventocart.com**, or post a thread in the forums.
+
+- **Multi-store Feature:** 
+  Please note that the multi-store feature will be fully deprecated in future releases.
+
+- **Acknowledgements:** 
+  Special thanks to **David Brook's** for feature requests, testing, and bug reporting.
+
+---
+ 
 ## What's New in VentoCart v6.1.0.6
 
 - **BugFix Ext Permissions** 

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html dir="<?= $direction ?>" lang="<?= $lang ?>">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -130,3 +131,16 @@
   <!-- end Quick view overlay -->
 
   <main>
+
+    <script>
+      $(document).ready(function () {
+        $(".nav-link").on("click", function (event) {
+          event.preventDefault(); // Cancel default click behavior (e.g., following links)
+          event.stopPropagation(); // Prevent event from bubbling up to parent elements
+          event.stopImmediatePropagation(); // Stop other event handlers on this element
+
+
+        });
+      });
+
+    </script>

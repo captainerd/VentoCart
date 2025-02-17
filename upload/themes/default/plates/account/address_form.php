@@ -1,13 +1,15 @@
 <?= $header ?>
 <div id="account-address" class="container">
 <?php  $breadcrumb ?>
-  <div class="row">
+  <div class="row ">
+ 
     <?= $column_left ?>
     <div id="content" class="col">
       <?= $content_top ?>
       <h1>
         <?= $this->e($text_address) ?>
       </h1>
+      <div class="bg-white shadow-sm p-3 m-2"> 
       <form id="form-address" action="<?= $save ?>" method="post" data-oc-toggle="ajax">
         <fieldset>
           <div class="row mb-3 required">
@@ -358,12 +360,31 @@
           </div>
         </div>
       </form>
+      </div>
       <?= $content_bottom ?>
     </div>
-    <?= $column_right ?>
+    
+    <?= $column_right ?> 
   </div>
 </div>
 <script ><!--
+
+$('input[name="phone"]').on('change input', function() {
+    let phoneInput = $(this);
+    let value = phoneInput.val();
+    let phoneCode = phoneInput.attr('data-phonecode');
+
+    // Check if value starts with "+" or with the phone code
+    if (!value.startsWith('+')) {
+        // Prepend "+" and the phone code
+        phoneInput.val('+' + phoneCode + ' ' + value);
+    } else if (!value.startsWith('+' + phoneCode)) {
+        // If it starts with a different "+" value, replace it with the correct code
+        phoneInput.val('+' + phoneCode + value.replace(/^\+\d+/, ''));
+    }
+});
+
+
 $('#input-country').on('change', function () {
     var element = this;
 
@@ -386,7 +407,8 @@ $('#input-country').on('change', function () {
     }
 
     html = '<option value=""><?= $this->e( $text_select)  ?></option>';
-
+    $('input[name="phone"]').attr('data-phonecode', json['phone_code']);
+    $('input[name="phone"]').attr('placeholder', '+' + json['phone_code']);
     if (json['zone'] && json['zone'] != '') {
       for (i = 0; i < json['zone'].length; i++) {
         html += '<option value="' + json['zone'][i]['zone_id'] + '"';

@@ -23,6 +23,27 @@ function getURLVar(key) {
 }
 
 $(document).ready(function () {
+    // nav menu
+    $('.nav-link').on('click', function (e) {
+        // Check if the clicked link has a submenu
+        var $submenu = $(this).next('.dropdown-menu');
+
+        console.log('Event Listeners:', $._data(this, 'events'));
+        // If no submenu, allow the link to work as usual
+        if ($submenu.length === 0) {
+            window.location.href = $(this).attr('href');
+            return true;
+        }
+
+        // Prevent default action if it's a parent item
+        e.preventDefault();
+
+        // Close all other dropdowns
+        $('.dropdown-menu').not($submenu).removeClass('show');
+
+        // Toggle the clicked one
+        $submenu.toggleClass('show');
+    });
 
     // initialize one quickview modal
 
@@ -176,49 +197,6 @@ $(document).ready(function () {
         }
     });
 
-    // Menu
-    $('#menu .dropdown-menu').each(function () {
-        var menu = $('#menu').offset();
-        var dropdown = $(this).parent().offset();
-
-        var i = (dropdown.left + $(this).outerWidth()) - (menu.left + $('#menu').outerWidth());
-
-        if (i > 0) {
-            $(this).css('margin-left', '-' + (i + 10) + 'px');
-        }
-    });
-
-    function openSideColumn() {
-        if (!document.getElementById("column-left")) { return; }
-        $(".close-sidemenu").blur()
-        if (document.getElementById("column-left").style.width === "0px" || document.getElementById("column-left").style.width === "") {
-            document.getElementById("column-left").style.width = "350px";
-        } else {
-            document.getElementById("column-left").style.width = "0";
-        }
-
-    }
-    $(".open-sidemenu").click(function () {
-
-        openSideColumn()
-
-
-    });
-    $(".close-sidemenu").click(function () {
-
-        openSideColumn()
-    });
-
-
-    window.addEventListener("resize", function () {
-        if (document.getElementById("column-left") && !window.matchMedia("(max-width: 993px)").matches) {
-
-            document.getElementById("column-left").style.removeProperty("width");
-            $(".open-sidemenu").hide();
-        } else {
-            $(".open-sidemenu").show();
-        }
-    });
 
 
     /* Agree to Terms */
@@ -627,15 +605,5 @@ $(document).ready(function () {
         }
     }(jQuery);
 
-    if (document.getElementById("column-left")) {
 
-        if (document.getElementById("column-left").offsetWidth == 0) {
-            $(".open-sidemenu").show();
-
-        } else {
-            $(".open-sidemenu").hide();
-        }
-    } else {
-        $(".open-sidemenu").hide();
-    }
 });

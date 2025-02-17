@@ -76,6 +76,7 @@ class Plates
 
 
 		$file = $this->directory . $filename;
+
 		$namespace = '';
 
 		$parts = explode('/', $filename);
@@ -96,15 +97,16 @@ class Plates
 
 		$file = substr($file, strlen($this->root) + 1);
 
-		// Fail over to default theme if theme has not that file
+
 
 		if (defined('THEME_NAME') && THEME_NAME != 'default' && !file_exists(DIR_VENTOCART . '/' . $file . '.php') && file_exists(DIR_VENTOCART . '/' . str_replace(THEME_NAME, 'default', $file) . '.php')) {
 			$file = str_replace(THEME_NAME, 'default', $file);
 		}
 
-
 		//If Plates Template file doesn't exists call fail over to twig
 		if (!file_exists(DIR_VENTOCART . '/' . $file . '.php')) {
+			// Fail over to default theme if theme has not that file
+
 
 			if ($code) {
 				// render from modified template code

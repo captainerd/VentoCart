@@ -5,11 +5,13 @@ namespace Ventocart\Catalog\Controller\Common;
  *
  * @package Ventocart\Catalog\Controller\Common
  */
-class Maintenance extends \Ventocart\System\Engine\Controller {
+class Maintenance extends \Ventocart\System\Engine\Controller
+{
 	/**
 	 * @return void
 	 */
-	public function index(): void {
+	public function index(): void
+	{
 		$this->load->language('common/maintenance');
 
 		$this->document->setTitle($this->language->get('heading_title'));

@@ -52,7 +52,7 @@ class Extension extends \Ventocart\System\Engine\Model
             // Loop through theme directories and compare with the installed ones
             foreach ($themeDirs as $themeDir) {
                 $themeCode = basename($themeDir);
-
+                $this->load->model('setting/setting');
 
                 $data['extensions'][] = [
                     'name' => ucfirst(lcfirst(ucwords(str_replace('_', ' ', $themeCode)))),
@@ -61,7 +61,7 @@ class Extension extends \Ventocart\System\Engine\Model
                     'uninstall' => '',
                     'download' => $this->url->link('marketplace/installer.downloadTheme', 'user_token=' . $this->session->data['user_token'] . '&code=' . $themeCode),
                     'installed' => 0,
-                    'default' => $this->config->get('config_theme') == $themeCode ? 1 : 0,
+                    'default' => $this->model_setting_setting->getConfigValue('THEME_NAME') == $themeCode ? 1 : 0,
                     'dirtheme' => 1,
                     'setdefault' => $this->url->link("marketplace/loadlists.settheme", 'user_token=' . $this->session->data['user_token'] . '&code=' . $themeCode),
                     'code' => $themeCode,

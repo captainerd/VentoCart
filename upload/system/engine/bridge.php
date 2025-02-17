@@ -75,7 +75,7 @@ class Bridge extends \Ventocart\System\Engine\Model
         }
         $language = new \Ventocart\System\Library\Language($code);
         $language->addPath(DIR_LANGUAGE);
-        $this->registry->template->addPath(DIR_TEMPLATE . "default/plates/");
+        $this->registry->template->addPath(DIR_TEMPLATE . "/plates/");
         $this->registry->set('language', $language);
         $this->config->set('application', $this->namespace);
         $this->load->language('default');

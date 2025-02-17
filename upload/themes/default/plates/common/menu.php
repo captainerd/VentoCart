@@ -9,7 +9,7 @@
                     <?php foreach ($categories as $category): ?>
                         <?php if (!empty($category['children'])): ?>
                             <li class="nav-item dropdown">
-                                <a href="<?= $category['href'] ?>" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
+                                <a href="<?= $category['href'] ?>" class="nav-link dropdown-toggle">
                                     <?= $category['name'] ?>
                                 </a>
                                 <ul class="dropdown-menu">
@@ -28,7 +28,7 @@
                                                         <!-- Check if grandchild has children (grand-grandchildren) -->
                                                         <?php if (!empty($grandChild['children'])): ?>
                                                             <li class="dropdown-submenu">
-                                                                <a class="dropdown-item" href="#" data-bs-toggle="dropdown">
+                                                                <a class="dropdown-item" href="#">
                                                                     <?php if (count($categories) / 2 > $childKey): ?>
                                                                         «
                                                                     <?php endif; ?>
@@ -67,7 +67,7 @@
 
                 <!-- Search Dropdown -->
                 <li class="nav-item dropdown">
-                    <button aria-label="search" href="#" class="nav-link" id="searchDropdown" role="button"
+                    <button aria-label="search" class="nav-link" id="searchDropdown" role="button"
                         aria-expanded="false">
                         <i class="fas fa-search fa-lg"></i>
                     </button>
@@ -76,6 +76,7 @@
                         <?= $search ?>
                     </ul>
                 </li>
+
                 <!-- Account Dropdown -->
                 <li class="nav-item dropdown">
                     <a href="#" class="nav-link  " id="accountDropdown" role="button" data-bs-toggle="dropdown"
