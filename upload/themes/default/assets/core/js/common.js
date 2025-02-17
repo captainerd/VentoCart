@@ -25,10 +25,15 @@ function getURLVar(key) {
 $(document).ready(function () {
     // nav menu
     $('.nav-link').on('click', function (e) {
-        // Check if the clicked link has a submenu
         var $submenu = $(this).next('.dropdown-menu');
+        var $parentUl = $(this).closest('ul'); // Find the closest <ul> parent
 
-        console.log('Event Listeners:', $._data(this, 'events'));
+        // Check if the <ul> has the 'nav-tabs' class
+        if ($parentUl.hasClass('nav-tabs')) {
+            e.preventDefault(); // Prevent link redirect if parent <ul> has 'nav-tabs'
+            return false; // Ensure no further action occurs
+        }
+
         // If no submenu, allow the link to work as usual
         if ($submenu.length === 0) {
             window.location.href = $(this).attr('href');
