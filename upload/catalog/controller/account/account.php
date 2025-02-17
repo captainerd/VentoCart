@@ -21,7 +21,12 @@ class Account extends \Ventocart\System\Engine\Controller
 		}
 
 		$this->document->setTitle($this->language->get('heading_title'));
-
+		$data['column_left'] = $this->load->controller('common/column_left');
+		$data['column_right'] = $this->load->controller('common/column_right');
+		$data['content_top'] = $this->load->controller('common/content_top');
+		$data['content_bottom'] = $this->load->controller('common/content_bottom');
+		$data['footer'] = $this->load->controller('common/footer');
+		$data['header'] = $this->load->controller('common/header');
 		$datab['breadcrumbs'] = [];
 
 		$datab['breadcrumbs'][] = [
@@ -44,6 +49,11 @@ class Account extends \Ventocart\System\Engine\Controller
 			$data['success'] = '';
 		}
 
+		$this->load->model('account/wishlist');
+		$results = $this->model_account_wishlist->getWishlist();
+
+		$results = $this->model_account_wishlist->getWishlist();
+		$data['text_wishlist'] = sprintf($this->language->get('text_wishlist'), count($results));
 		$data['edit'] = $this->url->link('account/edit');
 		$data['password'] = $this->url->link('account/password');
 		$data['address'] = $this->url->link('account/address');
@@ -81,12 +91,7 @@ class Account extends \Ventocart\System\Engine\Controller
 			$data['affiliate'] = '';
 		}
 
-		$data['column_left'] = $this->load->controller('common/column_left');
-		$data['column_right'] = $this->load->controller('common/column_right');
-		$data['content_top'] = $this->load->controller('common/content_top');
-		$data['content_bottom'] = $this->load->controller('common/content_bottom');
-		$data['footer'] = $this->load->controller('common/footer');
-		$data['header'] = $this->load->controller('common/header');
+
 
 		$this->response->setOutput($this->load->view('account/account', $data));
 	}
