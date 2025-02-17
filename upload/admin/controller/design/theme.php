@@ -67,7 +67,6 @@ class Theme extends \Ventocart\System\Engine\Controller
 
 		$json = [];
 
-
 		if (isset($this->request->get['path'])) {
 			$path = $this->request->get['path'];
 		} else {
@@ -89,6 +88,11 @@ class Theme extends \Ventocart\System\Engine\Controller
 			$files = glob(rtrim(DIR_VENTOCART . 'themes/' . $theme_id . '/' . $path, '/') . '/*');
 
 			foreach ($files as $file) {
+				// Skip files that end with .min.css or .map
+				if (is_file($file) && (preg_match('/\.(d\.ts|esm\.js|bundle\.js|min\.js|min\.css|map)$/i', basename($file)))) {
+					continue;
+				}
+
 				if (is_dir($file)) {
 					$json['directory'][] = [
 						'name' => basename($file),
@@ -106,10 +110,8 @@ class Theme extends \Ventocart\System\Engine\Controller
 		}
 
 		if (!$path) {
-
+			// Optional handling for when $path is empty
 		}
-
-
 
 		if ($path) {
 			$json['back'] = [
@@ -121,6 +123,7 @@ class Theme extends \Ventocart\System\Engine\Controller
 		$this->response->addHeader('Content-Type: application/json');
 		$this->response->setOutput(json_encode($json));
 	}
+
 
 	/**
 	 * @return void
