@@ -15,7 +15,7 @@ define('DIR_SYSTEM', DIR_VENTOCART . 'system/');
 define('DIR_STORAGE', DIR_SYSTEM . 'storage/');
 define('DIR_LANGUAGE', DIR_APPLICATION . 'language/');
 define('THEME_NAME', 'default');
-define('DIR_TEMPLATE', DIR_VENTOCART . 'themes/');
+define('DIR_TEMPLATE', DIR_VENTOCART . 'themes/' . THEME_NAME . "/");
 define('DIR_CONFIG', DIR_SYSTEM . 'config/');
 define('DIR_CACHE', DIR_STORAGE . 'cache/');
 define('DIR_DOWNLOAD', DIR_STORAGE . 'download/');
