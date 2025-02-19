@@ -35,7 +35,7 @@ $_['text_month_ago'] = '%s month ago';
 $_['text_months_ago'] = '%s months ago';
 $_['text_year_ago'] = '%s year ago';
 $_['text_years_ago'] = '%s years ago';
-$_['text_powered'] = 'Powered by VentoCart';
+$_['text_powered'] = '%s © %s. All rights reserved. Powered by <a href="https://ventocart.com/">VentoCart</a>';
 // Buttons
 $_['button_address_add'] = 'Add Address';
 $_['button_back'] = 'Back';
