@@ -211,6 +211,10 @@ class Product extends \Ventocart\System\Engine\Model
 			$sql .= " INNER JOIN `" . DB_PREFIX . "manufacturer` `m` ON (`p`.`manufacturer_id` = `m`.`manufacturer_id` AND `m`.`manufacturer_id` IN (" . $data['filter_manufacturer_id'] . "))";
 		}
 
+		// Price filter
+		if (!empty($data['filter_price_min']) && !empty($data['filter_price_max'])) {
+			$sql .= " AND p.price BETWEEN " . (float) $data['filter_price_min'] . " AND " . (float) $data['filter_price_max'];
+		}
 
 
 		// Availability filter

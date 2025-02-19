@@ -29,6 +29,18 @@ class Category extends \Ventocart\System\Engine\Controller
 		$page = isset($this->request->get['page']) ? (int) $this->request->get['page'] : 1;
 		$limit = isset($this->request->get['limit']) && (int) $this->request->get['limit'] ? (int) $this->request->get['limit'] : $this->config->get('config_pagination');
 
+		$minPrice = null;
+		$maxPrice = null;
+
+		if (isset($this->request->get['pricerange'])) {
+			$priceRange = explode('-', $this->request->get['pricerange']);
+
+			if (count($priceRange) == 2) {
+				$minPrice = (float) $priceRange[0];
+				$maxPrice = (float) $priceRange[1];
+
+			}
+		}
 
 		$parts = explode('_', $path);
 
@@ -203,6 +215,8 @@ class Category extends \Ventocart\System\Engine\Controller
 				'filter_sub_category' => false,
 				'filter_filter' => $filter,
 				'filter_option' => $filter_option,
+				'filter_price_min' => $minPrice,
+				'filter_price_max' => $maxPrice,
 				'filter_manufacturer_id' => $filter_manufacturer_id,
 				'filter_availability' => $filter_availability,
 				'filter_attribute' => $filter_attribute,
