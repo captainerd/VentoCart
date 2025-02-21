@@ -212,8 +212,13 @@ class Product extends \Ventocart\System\Engine\Model
 		}
 
 		// Price filter
+
 		if (!empty($data['filter_price_min']) && !empty($data['filter_price_max'])) {
 			$sql .= " AND p.price BETWEEN " . (float) $data['filter_price_min'] . " AND " . (float) $data['filter_price_max'];
+		} elseif (!empty($data['filter_price_min'])) {
+			$sql .= " AND p.price > " . (float) $data['filter_price_min'];
+		} elseif (!empty($data['filter_price_max'])) {
+			$sql .= " AND p.price < " . (float) $data['filter_price_max'];
 		}
 
 

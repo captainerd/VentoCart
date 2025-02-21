@@ -37,9 +37,9 @@
             urlParams.delete('pricerange');
 
             // Add new price filter if both values exist
-            if (minPrice !== '' && maxPrice !== '') {
-                urlParams.set('pricerange', minPrice + '-' + maxPrice);
-            }
+
+            urlParams.set('pricerange', minPrice + '-' + maxPrice);
+
 
             // Construct the new URL
             let newUrl = window.location.pathname + '?' + decodeURIComponent(urlParams.toString());

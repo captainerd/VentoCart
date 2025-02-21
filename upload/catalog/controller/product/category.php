@@ -34,12 +34,8 @@ class Category extends \Ventocart\System\Engine\Controller
 
 		if (isset($this->request->get['pricerange'])) {
 			$priceRange = explode('-', $this->request->get['pricerange']);
-
-			if (count($priceRange) == 2) {
-				$minPrice = (float) $priceRange[0];
-				$maxPrice = (float) $priceRange[1];
-
-			}
+			$minPrice = (float) $priceRange[0];
+			$maxPrice = (float) $priceRange[1];
 		}
 
 		$parts = explode('_', $path);
