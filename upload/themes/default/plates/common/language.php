@@ -1,6 +1,6 @@
 <?php if (count($languages) > 1): ?>
   <div class="nav-item dropdown">
-    <div style="cursor: pointer;" data-bs-toggle="dropdown">
+    <div style="cursor: pointer;">
       <?php foreach ($languages as $language): ?>
         <?php if ($this->e($language['code']) == $this->e($code)): ?>
           <img style="width: 20px; height: 20px;" src="<?= $this->e($language['image']) ?>"

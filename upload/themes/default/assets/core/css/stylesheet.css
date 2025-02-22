@@ -1070,3 +1070,30 @@ footer a {
   text-decoration: underline;
 
 }
+
+.search-container {
+  position: relative;
+}
+
+.search-suggestions {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  background: white;
+  border: 1px solid #ccc;
+  display: none;
+  list-style: none;
+  padding: 4px;
+  margin: 0;
+  z-index: 1000;
+}
+
+.search-suggestions li {
+  padding: 8px;
+  cursor: pointer;
+}
+
+.search-suggestions li:hover {
+  background: #f0f0f0;
+}

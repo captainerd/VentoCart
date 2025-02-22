@@ -221,6 +221,10 @@ class Product extends \Ventocart\System\Engine\Model
 			$sql .= " AND p.price < " . (float) $data['filter_price_max'];
 		}
 
+		// 🔹 Name Filter (Partial Match)
+		if (!empty($data['filter_name'])) {
+			$sql .= " AND `pd`.`name` LIKE '%" . $this->db->escape($data['filter_name']) . "%'";
+		}
 
 		// Availability filter
 

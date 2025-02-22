@@ -21,6 +21,100 @@ function getURLVar(key) {
         }
     }
 }
+// Search Autocomplete
+
+$(document).ready(function () {
+    class AutocompleteSearch {
+        constructor(inputSelector) {
+            this.input = $(inputSelector);
+            this.suggestionsList = this.input.siblings('.search-suggestions');
+            this.timer = null;
+            this.selectedIndex = -1;
+            this.limit = 5;
+            this.bindEvents();
+        }
+
+        bindEvents() {
+            this.input.on('keyup', (e) => this.handleKeyUp(e));
+            this.suggestionsList.on('click', 'li', (e) => this.handleSuggestionClick(e));
+            $(document).on('click', (e) => this.handleDocumentClick(e));
+            this.input.on('keydown', (e) => this.handleKeyDown(e));
+        }
+
+        handleKeyUp(e) {
+            let query = this.input.val().trim();
+
+            // Ignore navigation keys (up, down, enter)
+            if ([38, 40, 13].includes(e.keyCode)) return;
+
+            clearTimeout(this.timer);
+            if (query.length >= 2) {
+                this.timer = setTimeout(() => this.fetchSuggestions(query), 300);
+            } else {
+                this.suggestionsList.hide();
+            }
+        }
+
+        handleKeyDown(e) {
+            const items = this.suggestionsList.find('li');
+            if (!items.length) return;
+
+            if (e.keyCode === 40) { // Down arrow
+                this.selectedIndex = (this.selectedIndex + 1) % items.length;
+            } else if (e.keyCode === 38) { // Up arrow
+                this.selectedIndex = (this.selectedIndex - 1 + items.length) % items.length;
+            } else if (e.keyCode === 13 && this.selectedIndex !== -1) { // Enter
+                window.location.href = $(items[this.selectedIndex]).data('url');
+            }
+
+            items.removeClass('active');
+            $(items[this.selectedIndex]).addClass('active');
+        }
+
+        handleSuggestionClick(e) {
+            const url = $(e.target).data('url');
+            window.location.href = url;
+        }
+
+        handleDocumentClick(e) {
+            if (!$(e.target).closest('.search-container').length) {
+                this.suggestionsList.hide();
+            }
+        }
+
+        fetchSuggestions(query) {
+            $.ajax({
+                url: '/index.php?route=product/category.autocomplete',
+                type: 'GET',
+                data: { filter_name: query, limit: this.limit },
+                dataType: 'json',
+                success: (data) => this.renderSuggestions(data)
+            });
+        }
+
+        renderSuggestions(data) {
+            this.suggestionsList.empty().show();
+            if (data.length) {
+                data.forEach(product => {
+                    this.suggestionsList.append(`
+                    <li data-url="/index.php?route=product/product&product_id=${product.product_id}">
+                     ${product.name} 
+                    </li>
+                `);
+                });
+            } else {
+                this.suggestionsList.append('<span>' + data.message + '</span>');
+            }
+        }
+    }
+
+    // Initialize the autocomplete search
+    $('.search-input').each(function () {
+        new AutocompleteSearch(this);
+    });
+});
+
+
 
 $(document).ready(function () {
     // nav menu
