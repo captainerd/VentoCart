@@ -3,25 +3,24 @@
   <div class="page-header">
     <div class="container-fluid">
       <div class="float-end">
-        <button type="submit" form="form-module" data-bs-toggle="tooltip" title="<?= $this->e($button_save) ?>"
+        <button type="submit" form="form-module" data-bs-toggle="tooltip" title="<?= $button_save ?>"
           class="btn btn-primary"><i class="fa-solid fa-save"></i></button>
-        <a href="<?= $this->e($back) ?>" data-bs-toggle="tooltip" title="<?= $this->e($button_back) ?>"
-          class="btn btn-light"><i class="fa-solid fa-reply"></i></a>
+        <a href="<?= $back ?>" data-bs-toggle="tooltip" title="<?= $button_back ?>" class="btn btn-light"><i
+            class="fa-solid fa-reply"></i></a>
       </div>
-      <h1><?= $this->e($heading_title) ?></h1>
+      <h1><?= $heading_title ?></h1>
       <ol class="breadcrumb">
         <?php foreach ($breadcrumbs as $breadcrumb): ?>
-          <li class="breadcrumb-item"><a
-              href="<?= $this->e($breadcrumb['href']) ?>"><?= $this->e($breadcrumb['text']) ?></a></li>
+          <li class="breadcrumb-item"><a href="<?= $breadcrumb['href'] ?>"><?= $breadcrumb['text'] ?></a></li>
         <?php endforeach; ?>
       </ol>
     </div>
   </div>
   <div class="container-fluid">
     <div class="card">
-      <div class="card-header"><i class="fa-solid fa-pencil"></i> <?= $this->e($text_edit) ?></div>
+      <div class="card-header"><i class="fa-solid fa-pencil"></i> <?= $text_edit ?></div>
       <div class="card-body">
-        <form id="form-module" action="<?= $this->e($save) ?>" method="post" data-oc-toggle="ajax">
+        <form id="form-module" action="<?= $save ?>" method="post" data-oc-toggle="ajax">
           <div class="row mb-3">
             <label for="input-name" class="col-sm-2 col-form-label"><?= $this->e($entry_name) ?></label>
             <div class="col-sm-10">
