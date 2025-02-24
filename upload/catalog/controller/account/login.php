@@ -173,7 +173,7 @@ class Login extends \Ventocart\System\Engine\Controller
 
 		if (!$json) {
 			// Add customer details into session
-			$this->session->data = [];
+
 			$this->session->data['customer'] = [
 				'customer_id' => $customer_info['customer_id'],
 				'customer_group_id' => $customer_info['customer_group_id'],
@@ -189,7 +189,8 @@ class Login extends \Ventocart\System\Engine\Controller
 			unset($this->session->data['shipping_methods']);
 			unset($this->session->data['payment_method']);
 			unset($this->session->data['payment_methods']);
-
+			unset($this->session->data['payment_address']);
+			unset($this->session->data['shipping_address']);
 			// Wishlist
 			if (isset($this->session->data['wishlist']) && is_array($this->session->data['wishlist'])) {
 				$this->load->model('account/wishlist');
