@@ -22,7 +22,7 @@ class GiftCard extends \Ventocart\System\Engine\Controller
 
         // Store specfics
         $store_url = $store_info['url'];
-        $setting = $this->model_setting_setting->getSetting('config', $store_info['store_id']);
+        $setting = $this->model_setting_setting->getSetting('config');
         $store_email = isset($setting['config_email']) ? $setting['config_email'] : $this->config->get('config_email');
         $logo = isset($setting['config_logo']) ? $setting['config_logo'] : $this->config->get('config_logo');
         $store_logo = $store_url . 'image/' . html_entity_decode($logo, ENT_QUOTES, 'UTF-8');

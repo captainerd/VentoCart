@@ -278,32 +278,16 @@ class Customer extends \Ventocart\System\Engine\Controller
 				$unlock = '';
 			}
 
-			$store_data = [];
 
-			$store_data[] = [
-				'store_id' => 0,
-				'name' => $this->config->get('config_name'),
-				'href' => $this->url->link('customer/customer.login', 'user_token=' . $this->session->data['user_token'] . '&customer_id=' . $result['customer_id'] . '&store_id=0')
-			];
-
-			foreach ($stores as $store) {
-				$store_data[] = [
-					'store_id' => $store['store_id'],
-					'name' => $store['name'],
-					'href' => $this->url->link('customer/customer.login', 'user_token=' . $this->session->data['user_token'] . '&customer_id=' . $result['customer_id'] . '&store_id=' . $store['store_id'])
-				];
-			}
 
 			$data['customers'][] = [
 				'customer_id' => $result['customer_id'],
 				'name' => $result['name'],
 				'email' => $result['email'],
-				'store_id' => $result['store_id'],
 				'customer_group' => $result['customer_group'],
 				'status' => ($result['status'] ? $this->language->get('text_enabled') : $this->language->get('text_disabled')),
 				'date_added' => date($this->language->get('date_format_short'), strtotime($result['date_added'])),
 				'unlock' => $unlock,
-				'store' => $store_data,
 				'edit' => $this->url->link('customer/customer.form', 'user_token=' . $this->session->data['user_token'] . '&customer_id=' . $result['customer_id'] . $url)
 			];
 		}
@@ -496,29 +480,8 @@ class Customer extends \Ventocart\System\Engine\Controller
 			$data['customer_id'] = 0;
 		}
 
-		$this->load->model('setting/store');
 
-		$data['stores'] = [];
 
-		$data['stores'][] = [
-			'store_id' => 0,
-			'name' => $this->language->get('text_default')
-		];
-
-		$stores = $this->model_setting_store->getStores();
-
-		foreach ($stores as $store) {
-			$data['stores'][] = [
-				'store_id' => $store['store_id'],
-				'name' => $store['name']
-			];
-		}
-
-		if (!empty($customer_info)) {
-			$data['store_id'] = $customer_info['store_id'];
-		} else {
-			$data['store_id'] = [0];
-		}
 
 		$this->load->model('customer/customer_group');
 
@@ -835,21 +798,10 @@ class Customer extends \Ventocart\System\Engine\Controller
 
 			$this->model_customer_customer->editToken($customer_id, $token);
 
-			if (isset($this->request->get['store_id'])) {
-				$store_id = (int) $this->request->get['store_id'];
-			} else {
-				$store_id = 0;
-			}
 
-			$this->load->model('setting/store');
 
-			$store_info = $this->model_setting_store->getStore($store_id);
+			$this->response->redirect(HTTP_CATALOG . 'index.php?route=account/login.token&email=' . urlencode($customer_info['email']) . '&login_token=' . $token);
 
-			if ($store_info) {
-				$this->response->redirect($store_info['url'] . 'index.php?route=account/login.token&email=' . urlencode($customer_info['email']) . '&login_token=' . $token);
-			} else {
-				$this->response->redirect(HTTP_CATALOG . 'index.php?route=account/login.token&email=' . urlencode($customer_info['email']) . '&login_token=' . $token);
-			}
 
 			return null;
 		} else {
@@ -1234,20 +1186,11 @@ class Customer extends \Ventocart\System\Engine\Controller
 		$results = $this->model_customer_customer->getIps($customer_id, ($page - 1) * $limit, $limit);
 
 		foreach ($results as $result) {
-			$store_info = $this->model_setting_store->getStore($result['store_id']);
 
-			if ($store_info) {
-				$store = $store_info['name'];
-			} elseif (!$result['store_id']) {
-				$store = $this->config->get('config_name');
-			} else {
-				$store = '';
-			}
 
 			$data['ips'][] = [
 				'ip' => $result['ip'],
 				'account' => $this->model_customer_customer->getTotalCustomersByIp($result['ip']),
-				'store' => $store,
 				'country' => $result['country'],
 				'date_added' => date($this->language->get('datetime_format'), strtotime($result['date_added'])),
 				'filter_ip' => $this->url->link('customer/customer', 'user_token=' . $this->session->data['user_token'] . '&filter_ip=' . $result['ip'])

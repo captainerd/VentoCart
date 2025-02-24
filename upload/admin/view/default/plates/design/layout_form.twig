@@ -41,7 +41,7 @@
             <table id="route" class="table table-bordered table-hover">
               <thead>
                 <tr>
-                  <td class="text-start">{{ entry_store }}</td>
+              
                   <td class="text-start">{{ entry_route }}</td>
                   <td></td>
                 </tr>
@@ -50,12 +50,7 @@
                 {% set route_row = 0 %}
                 {% for layout_route in layout_routes %}
                   <tr id="route-row-{{ route_row }}">
-                    <td class="text-start"><select name="layout_route[{{ route_row }}][store_id]" class="form-select">
-                        <option value="0">{{ text_default }}</option>
-                        {% for store in stores %}
-                          <option value="{{ store.store_id }}"{% if store.store_id == layout_route.store_id %} selected{% endif %}>{{ store.name }}</option>
-                        {% endfor %}
-                      </select></td>
+                    
                     <td class="text-start"><input type="text" name="layout_route[{{ route_row }}][route]" value="{{ layout_route.route }}" placeholder="{{ entry_route|escape('js') }}" class="form-control"/></td>
                     <td class="text-end"><button type="button" onclick="$('#route-row-{{ route_row }}').remove();" data-bs-toggle="tooltip" title="{{ button_remove|escape('js') }}" class="btn btn-danger"><i class="fa-solid fa-minus-circle"></i></button></td>
                   </tr>
@@ -261,12 +256,7 @@ var route_row = {{ route_row }};
 
 function addRoute() {
     html = '<tr id="route-row-' + route_row + '">';
-    html += '  <td class="text-start"><select name="layout_route[' + route_row + '][store_id]" class="form-select">';
-    html += '  <option value="0">{{ text_default|escape('js') }}</option>';
-  {% for store in stores %}
-    html += '<option value="{{ store.store_id }}">{{ store.name|escape('js') }}</option>';
-  {% endfor %}
-    html += '  </select></td>';
+ 
     html += '  <td class="text-start"><input type="text" name="layout_route[' + route_row + '][route]" value="" placeholder="{{ entry_route|escape('js') }}" class="form-control"/></td>';
     html += '  <td class="text-end"><button type="button" onclick="$(\'#route-row-' + route_row + '\').remove();" data-bs-toggle="tooltip" title="{{ button_remove|escape('js') }}" class="btn btn-danger"><i class="fa-solid fa-minus-circle"></i></button></td>';
     html += '</tr>';

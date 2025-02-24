@@ -876,30 +876,7 @@ class Product extends \Ventocart\System\Engine\Controller
 			}
 		}
 
-		// Stores
-		$this->load->model('setting/store');
 
-		$data['stores'] = [];
-
-		$data['stores'][] = [
-			'store_id' => 0,
-			'name' => $this->language->get('text_default')
-		];
-
-		$stores = $this->model_setting_store->getStores();
-
-		foreach ($stores as $store) {
-			$data['stores'][] = [
-				'store_id' => $store['store_id'],
-				'name' => $store['name']
-			];
-		}
-
-		if ($product_id) {
-			$data['product_store'] = $this->model_catalog_product->getStores($product_id);
-		} else {
-			$data['product_store'] = [0];
-		}
 
 		// Downloads
 		$this->load->model('catalog/download');
@@ -1145,19 +1122,19 @@ class Product extends \Ventocart\System\Engine\Controller
 			$json['error']['sku'] = $this->language->get('error_sku_not_unique');
 		}
 
-		foreach ($this->request->post['product_seo_url'] as $seo) {
-			foreach ($seo as $language_id => $seowt) {
-				if (strlen($seowt) < 1) {
+		foreach ($this->request->post['product_seo_url'] as $language_id => $seowt) {
 
-					$json['error']['seo'] = $this->language->get('error_keyword');
-				} else {
-					foreach ($this->request->post['product_store'] as $store_id) {
-						$seoProtect = $this->model_catalog_product->SEOKeywordExists($this->request->post['product_id'], $store_id, $language_id, $seowt);
-						if ($seoProtect) {
-							$json['error']['seo'] = $this->language->get('error_keyword_exists');
-						}
-					}
+			if (strlen($seowt) < 1) {
+
+				$json['error']['seo'] = $this->language->get('error_keyword');
+			} else {
+
+				$seoProtect = $this->model_catalog_product->SEOKeywordExists($this->request->post['product_id'], $language_id, $seowt);
+				if ($seoProtect) {
+					$json['error']['seo'] = $this->language->get('error_keyword_exists');
 				}
+
+
 
 			}
 		}
@@ -1282,19 +1259,11 @@ class Product extends \Ventocart\System\Engine\Controller
 		$results = $this->model_catalog_product->getReports($product_id, ($page - 1) * $limit, $limit);
 
 		foreach ($results as $result) {
-			$store_info = $this->model_setting_store->getStore($result['store_id']);
 
-			if ($store_info) {
-				$store = $store_info['name'];
-			} elseif (!$result['store_id']) {
-				$store = $this->config->get('config_name');
-			} else {
-				$store = '';
-			}
+
 
 			$data['reports'][] = [
 				'ip' => $result['ip'],
-				'store' => $store,
 				'country' => $result['country'],
 				'date_added' => date($this->language->get('datetime_format'), strtotime($result['date_added']))
 			];

@@ -145,7 +145,7 @@ class Language
 		if ($prefix) {
 			foreach ($_ as $key => $value) {
 				$_[$prefix . '_' . $key] = $value;
-				unset($_[$key]);
+
 			}
 		}
 

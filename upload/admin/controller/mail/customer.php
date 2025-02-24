@@ -5,7 +5,8 @@ namespace Ventocart\Admin\Controller\Mail;
  *
  * @package Ventocart\Admin\Controller\Mail
  */
-class Customer extends \Ventocart\System\Engine\Controller {
+class Customer extends \Ventocart\System\Engine\Controller
+{
 	/**
 	 * @param string $route
 	 * @param array  $args
@@ -14,9 +15,10 @@ class Customer extends \Ventocart\System\Engine\Controller {
 	 * @return void
 	 * @throws \Exception
 	 */
-	public function approve(string &$route, array &$args, &$output): void {
+	public function approve(string &$route, array &$args, &$output): void
+	{
 		if (isset($args[0])) {
-			$customer_id = (int)$args[0];
+			$customer_id = (int) $args[0];
 		} else {
 			$customer_id = 0;
 		}
@@ -26,21 +28,11 @@ class Customer extends \Ventocart\System\Engine\Controller {
 		$customer_info = $this->model_customer_customer->getCustomer($customer_id);
 
 		if ($customer_info) {
-			$this->load->model('setting/store');
 
-			$store_info = $this->model_setting_store->getStore($customer_info['store_id']);
+			$store_logo = html_entity_decode($this->config->get('config_logo'), ENT_QUOTES, 'UTF-8');
+			$store_name = html_entity_decode($this->config->get('config_name'), ENT_QUOTES, 'UTF-8');
+			$store_url = HTTP_CATALOG;
 
-			if ($store_info) {
-				$this->load->model('setting/setting');
-
-				$store_logo = html_entity_decode($this->model_setting_setting->getValue('config_logo', $store_info['store_id']), ENT_QUOTES, 'UTF-8');
-				$store_name = html_entity_decode($store_info['name'], ENT_QUOTES, 'UTF-8');
-				$store_url = $store_info['url'];
-			} else {
-				$store_logo = html_entity_decode($this->config->get('config_logo'), ENT_QUOTES, 'UTF-8');
-				$store_name = html_entity_decode($this->config->get('config_name'), ENT_QUOTES, 'UTF-8');
-				$store_url = HTTP_CATALOG;
-			}
 
 			$this->load->model('localisation/language');
 
@@ -82,12 +74,12 @@ class Customer extends \Ventocart\System\Engine\Controller {
 
 			if ($this->config->get('config_mail_engine')) {
 				$mail_option = [
-					'parameter'     => $this->config->get('config_mail_parameter'),
+					'parameter' => $this->config->get('config_mail_parameter'),
 					'smtp_hostname' => $this->config->get('config_mail_smtp_hostname'),
 					'smtp_username' => $this->config->get('config_mail_smtp_username'),
 					'smtp_password' => html_entity_decode($this->config->get('config_mail_smtp_password'), ENT_QUOTES, 'UTF-8'),
-					'smtp_port'     => $this->config->get('config_mail_smtp_port'),
-					'smtp_timeout'  => $this->config->get('config_mail_smtp_timeout')
+					'smtp_port' => $this->config->get('config_mail_smtp_port'),
+					'smtp_timeout' => $this->config->get('config_mail_smtp_timeout')
 				];
 
 				$mail = new \Ventocart\System\Library\Mail($this->config->get('config_mail_engine'), $mail_option);
@@ -109,9 +101,10 @@ class Customer extends \Ventocart\System\Engine\Controller {
 	 * @return void
 	 * @throws \Exception
 	 */
-	public function deny(string &$route, array &$args, &$output): void {
+	public function deny(string &$route, array &$args, &$output): void
+	{
 		if (isset($args[0])) {
-			$customer_id = (int)$args[0];
+			$customer_id = (int) $args[0];
 		} else {
 			$customer_id = 0;
 		}
@@ -121,21 +114,11 @@ class Customer extends \Ventocart\System\Engine\Controller {
 		$customer_info = $this->model_customer_customer->getCustomer($customer_id);
 
 		if ($customer_info) {
-			$this->load->model('setting/store');
 
-			$store_info = $this->model_setting_store->getStore($customer_info['store_id']);
+			$store_logo = html_entity_decode($this->config->get('config_logo'), ENT_QUOTES, 'UTF-8');
+			$store_name = html_entity_decode($this->config->get('config_name'), ENT_QUOTES, 'UTF-8');
+			$store_url = HTTP_CATALOG;
 
-			if ($store_info) {
-				$this->load->model('setting/setting');
-
-				$store_logo = html_entity_decode($this->model_setting_setting->getValue('config_logo', $customer_info['store_id']), ENT_QUOTES, 'UTF-8');
-				$store_name = html_entity_decode($store_info['name'], ENT_QUOTES, 'UTF-8');
-				$store_url = $store_info['url'];
-			} else {
-				$store_logo = html_entity_decode($this->config->get('config_logo'), ENT_QUOTES, 'UTF-8');
-				$store_name = html_entity_decode($this->config->get('config_name'), ENT_QUOTES, 'UTF-8');
-				$store_url = HTTP_CATALOG;
-			}
 
 			$this->load->model('localisation/language');
 
@@ -177,12 +160,12 @@ class Customer extends \Ventocart\System\Engine\Controller {
 
 			if ($this->config->get('config_mail_engine')) {
 				$mail_option = [
-					'parameter'     => $this->config->get('config_mail_parameter'),
+					'parameter' => $this->config->get('config_mail_parameter'),
 					'smtp_hostname' => $this->config->get('config_mail_smtp_hostname'),
 					'smtp_username' => $this->config->get('config_mail_smtp_username'),
 					'smtp_password' => html_entity_decode($this->config->get('config_mail_smtp_password'), ENT_QUOTES, 'UTF-8'),
-					'smtp_port'     => $this->config->get('config_mail_smtp_port'),
-					'smtp_timeout'  => $this->config->get('config_mail_smtp_timeout')
+					'smtp_port' => $this->config->get('config_mail_smtp_port'),
+					'smtp_timeout' => $this->config->get('config_mail_smtp_timeout')
 				];
 
 				$mail = new \Ventocart\System\Library\Mail($this->config->get('config_mail_engine'), $mail_option);

@@ -22,13 +22,10 @@ class GoogleAnalytics extends \Ventocart\System\Engine\Controller
 			'text' => $this->language->get('text_home'),
 			'href' => $this->url->link('common/dashboard', 'user_token=' . $this->session->data['user_token'])
 		];
-		if (!isset($this->request->get['store_id'])) {
-			$this->request->get['store_id'] = "0";
-		}
-		$store_id = $this->request->get['store_id'];
+
 		$data['breadcrumbs'][] = [
 			'text' => $this->language->get('text_extension'),
-			'href' => $this->url->link('marketplace/extension', 'user_token=' . $this->session->data['user_token'] . '&type=analytics&store_id=' . $store_id)
+			'href' => $this->url->link('marketplace/extension', 'user_token=' . $this->session->data['user_token'] . '&type=analytics')
 		];
 
 		$data['breadcrumbs'][] = [
@@ -37,13 +34,13 @@ class GoogleAnalytics extends \Ventocart\System\Engine\Controller
 		];
 
 
-		$data['store_id'] = $this->request->get['store_id'];
-		$data['store_tag'] = $this->model_setting_setting->getValue('analytics_google_analytics_tag', $store_id);
+
+		$data['store_tag'] = $this->model_setting_setting->getValue('analytics_google_analytics_tag');
 
 		$data['save'] = $this->url->link('extension/ventocart/analytics/google_analytics.save', 'user_token=' . $this->session->data['user_token']);
 		$data['back'] = $this->url->link('marketplace/extension', 'user_token=' . $this->session->data['user_token'] . '&type=analytics');
 
-		$data['status'] = $this->model_setting_setting->getValue('analytics_google_analytics_status', $store_id);
+		$data['status'] = $this->model_setting_setting->getValue('analytics_google_analytics_status');
 
 		$data['header'] = $this->load->controller('common/header');
 		$data['column_left'] = $this->load->controller('common/column_left');
@@ -68,7 +65,7 @@ class GoogleAnalytics extends \Ventocart\System\Engine\Controller
 		if (!$json) {
 			$this->load->model('setting/setting');
 
-			$this->model_setting_setting->editSetting('analytics_google_analytics', $this->request->post, $this->request->post['store_id']);
+			$this->model_setting_setting->editSetting('analytics_google_analytics', $this->request->post);
 
 			$json['success'] = $this->language->get('text_success');
 		}

@@ -30,15 +30,7 @@
             <div class="mb-3">
               <label for="input-value" class="form-label">{{ entry_value }}</label> <input type="text" name="filter_value" value="{{ filter_value }}" placeholder="{{ entry_value }}" id="input-value" class="form-control"/>
             </div>
-            <div class="mb-3">
-              <label for="input-store" class="form-label">{{ entry_store }}</label> <select name="filter_store_id" id="input-store" class="form-select">
-                <option value=""></option>
-                <option value="0"{% if filter_store_id == '0' %} selected{% endif %}>{{ text_default }}</option>
-                {% for store in stores %}
-                  <option value="{{ store.store_id }}"{% if store.store_id == filter_store_id %} selected{% endif %}>{{ store.name }}</option>
-                {% endfor %}
-              </select>
-            </div>
+         
             <div class="mb-3">
               <label for="input-language" class="form-label">{{ entry_language }}</label> <select name="filter_language_id" id="input-language" class="form-select">
                 <option value=""></option>
@@ -90,11 +82,7 @@ $('#button-filter').on('click', function () {
         url += '&filter_value=' + encodeURIComponent(filter_value);
     }
 
-    var filter_store_id = $('#input-store').val();
-
-    if (filter_store_id) {
-        url += '&filter_store_id=' + filter_store_id;
-    }
+ 
 
     var filter_language_id = $('#input-language').val();
 

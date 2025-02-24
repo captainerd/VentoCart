@@ -14,7 +14,7 @@ class Customer extends \Ventocart\System\Engine\Model
 	 */
 	public function addCustomer(array $data): int
 	{
-		$this->db->query("INSERT INTO `" . DB_PREFIX . "customer` SET `store_id` = '" . (int) $data['store_id'] . "', `customer_group_id` = '" . (int) $data['customer_group_id'] . "', `firstname` = '" . $this->db->escape((string) $data['firstname']) . "', `lastname` = '" . $this->db->escape((string) $data['lastname']) . "', `email` = '" . $this->db->escape((string) $data['email']) . "', `telephone` = '" . $this->db->escape((string) $data['telephone']) . "', `custom_field` = '" . $this->db->escape(isset($data['custom_field']) ? json_encode($data['custom_field']) : json_encode([])) . "', `newsletter` = '" . (isset($data['newsletter']) ? (bool) $data['newsletter'] : 0) . "', `password` = '" . $this->db->escape(password_hash(html_entity_decode($data['password'], ENT_QUOTES, 'UTF-8'), PASSWORD_DEFAULT)) . "', `status` = '" . (isset($data['status']) ? (bool) $data['status'] : 0) . "', `safe` = '" . (isset($data['safe']) ? (bool) $data['safe'] : 0) . "', `commenter` = '" . (isset($data['commenter']) ? (bool) $data['commenter'] : 0) . "', `date_added` = NOW()");
+		$this->db->query("INSERT INTO `" . DB_PREFIX . "customer` SET  `customer_group_id` = '" . (int) $data['customer_group_id'] . "', `firstname` = '" . $this->db->escape((string) $data['firstname']) . "', `lastname` = '" . $this->db->escape((string) $data['lastname']) . "', `email` = '" . $this->db->escape((string) $data['email']) . "', `telephone` = '" . $this->db->escape((string) $data['telephone']) . "', `custom_field` = '" . $this->db->escape(isset($data['custom_field']) ? json_encode($data['custom_field']) : json_encode([])) . "', `newsletter` = '" . (isset($data['newsletter']) ? (bool) $data['newsletter'] : 0) . "', `password` = '" . $this->db->escape(password_hash(html_entity_decode($data['password'], ENT_QUOTES, 'UTF-8'), PASSWORD_DEFAULT)) . "', `status` = '" . (isset($data['status']) ? (bool) $data['status'] : 0) . "', `safe` = '" . (isset($data['safe']) ? (bool) $data['safe'] : 0) . "', `commenter` = '" . (isset($data['commenter']) ? (bool) $data['commenter'] : 0) . "', `date_added` = NOW()");
 
 		return $this->db->getLastId();
 	}
@@ -27,7 +27,7 @@ class Customer extends \Ventocart\System\Engine\Model
 	 */
 	public function editCustomer(int $customer_id, array $data): void
 	{
-		$this->db->query("UPDATE `" . DB_PREFIX . "customer` SET `store_id` = '" . (int) $data['store_id'] . "', `customer_group_id` = '" . (int) $data['customer_group_id'] . "', `firstname` = '" . $this->db->escape((string) $data['firstname']) . "', `lastname` = '" . $this->db->escape((string) $data['lastname']) . "', `email` = '" . $this->db->escape((string) $data['email']) . "', `telephone` = '" . $this->db->escape((string) $data['telephone']) . "', `custom_field` = '" . $this->db->escape(isset($data['custom_field']) ? json_encode($data['custom_field']) : json_encode([])) . "', `newsletter` = '" . (isset($data['newsletter']) ? (bool) $data['newsletter'] : 0) . "', `status` = '" . (isset($data['status']) ? (bool) $data['status'] : 0) . "', `safe` = '" . (isset($data['safe']) ? (bool) $data['safe'] : 0) . "', `commenter` = '" . (isset($data['commenter']) ? (bool) $data['commenter'] : 0) . "' WHERE `customer_id` = '" . (int) $customer_id . "'");
+		$this->db->query("UPDATE `" . DB_PREFIX . "customer` SET  `customer_group_id` = '" . (int) $data['customer_group_id'] . "', `firstname` = '" . $this->db->escape((string) $data['firstname']) . "', `lastname` = '" . $this->db->escape((string) $data['lastname']) . "', `email` = '" . $this->db->escape((string) $data['email']) . "', `telephone` = '" . $this->db->escape((string) $data['telephone']) . "', `custom_field` = '" . $this->db->escape(isset($data['custom_field']) ? json_encode($data['custom_field']) : json_encode([])) . "', `newsletter` = '" . (isset($data['newsletter']) ? (bool) $data['newsletter'] : 0) . "', `status` = '" . (isset($data['status']) ? (bool) $data['status'] : 0) . "', `safe` = '" . (isset($data['safe']) ? (bool) $data['safe'] : 0) . "', `commenter` = '" . (isset($data['commenter']) ? (bool) $data['commenter'] : 0) . "' WHERE `customer_id` = '" . (int) $customer_id . "'");
 
 		if ($data['password']) {
 			$this->db->query("UPDATE `" . DB_PREFIX . "customer` SET `password` = '" . $this->db->escape(password_hash(html_entity_decode($data['password'], ENT_QUOTES, 'UTF-8'), PASSWORD_DEFAULT)) . "' WHERE `customer_id` = '" . (int) $customer_id . "'");
@@ -140,9 +140,7 @@ class Customer extends \Ventocart\System\Engine\Model
 			$sql .= " AND `c`.`email` IS NOT NULL AND `c`.`email` != ''";
 		}
 
-		if (isset($data['store_id']) && $data['store_id'] !== null) {
-			$sql .= " AND `c`.`store_id` = '" . (int) $data['store_id'] . "'";
-		}
+
 
 		if (!empty($data['filter_name'])) {
 			$sql .= " AND LCASE(CONCAT(`c`.`firstname`, ' ', `c`.`lastname`)) LIKE '" . $this->db->escape('%' . oc_strtolower($data['filter_name']) . '%') . "'";
@@ -269,9 +267,6 @@ class Customer extends \Ventocart\System\Engine\Model
 			$implode[] = "`c`.`email` IS NOT NULL AND `c`.`email` != ''";
 		}
 
-		if (!empty($data['store_id'])) {
-			$implode[] = "`c`.`store_id` = '" . (int) $data['store_id'] . "'";
-		}
 
 		if (!empty($implode)) {
 			$sql .= " WHERE " . implode(" AND ", $implode);
@@ -451,13 +446,11 @@ class Customer extends \Ventocart\System\Engine\Model
 	 *
 	 * @return int
 	 */
-	public function getTotalCustomersByCustomerGroupId(int $customer_group_id, ?int $store_id = null): int
+	public function getTotalCustomersByCustomerGroupId(int $customer_group_id): int
 	{
 		$sql = "SELECT COUNT(*) AS `total` FROM `" . DB_PREFIX . "customer` WHERE `customer_group_id` = '" . (int) $customer_group_id . "' AND `email` IS NOT NULL AND `email` != ''";
 
-		if ($store_id !== null) {
-			$sql .= " AND `store_id` = '" . (int) $store_id . "'";
-		}
+
 		$query = $this->db->query($sql);
 		if ($query->num_rows) {
 			return (int) $query->row['total'];
@@ -471,10 +464,7 @@ class Customer extends \Ventocart\System\Engine\Model
 	{
 		$sql = "SELECT COUNT(*) AS `total` FROM `" . DB_PREFIX . "newsletter`";
 
-		// Add store_id condition if provided
-		if ($filter['store_id'] !== null) {
-			$sql .= " WHERE `store_id` = '" . (int) $filter['store_id'] . "'";
-		}
+
 
 		$query = $this->db->query($sql);
 
@@ -485,10 +475,7 @@ class Customer extends \Ventocart\System\Engine\Model
 	{
 		$sql = "SELECT * FROM `" . DB_PREFIX . "newsletter`";
 
-		// Add store_id condition if provided
-		if ($filter['store_id'] !== null) {
-			$sql .= " WHERE `store_id` = '" . (int) $filter['store_id'] . "'";
-		}
+
 
 		// Add LIMIT and OFFSET if set in the $filter array
 		if (!empty($filter['start']) || !empty($filter['limit'])) {
@@ -726,7 +713,7 @@ class Customer extends \Ventocart\System\Engine\Model
 			$limit = 10;
 		}
 
-		$query = $this->db->query("SELECT `ip`, `store_id`, `country`, `date_added` FROM `" . DB_PREFIX . "customer_ip` WHERE `customer_id` = '" . (int) $customer_id . "' ORDER BY `date_added` DESC LIMIT " . (int) $start . "," . (int) $limit);
+		$query = $this->db->query("SELECT `ip`,   `country`, `date_added` FROM `" . DB_PREFIX . "customer_ip` WHERE `customer_id` = '" . (int) $customer_id . "' ORDER BY `date_added` DESC LIMIT " . (int) $start . "," . (int) $limit);
 
 		return $query->rows;
 	}

@@ -1,7 +1,9 @@
 <?php
 namespace Ventocart\Admin\Controller\Catalog;
-class Information extends \Ventocart\System\Engine\Controller {
-	public function index(): void {
+class Information extends \Ventocart\System\Engine\Controller
+{
+	public function index(): void
+	{
 		$this->load->language('catalog/information');
 
 		$this->document->setTitle($this->language->get('heading_title'));
@@ -46,13 +48,15 @@ class Information extends \Ventocart\System\Engine\Controller {
 		$this->response->setOutput($this->load->view('catalog/information', $data));
 	}
 
-	public function list(): void {
+	public function list(): void
+	{
 		$this->load->language('catalog/information');
 
 		$this->response->setOutput($this->getList());
 	}
 
-	protected function getList(): string {
+	protected function getList(): string
+	{
 		if (isset($this->request->get['sort'])) {
 			$sort = $this->request->get['sort'];
 		} else {
@@ -66,7 +70,7 @@ class Information extends \Ventocart\System\Engine\Controller {
 		}
 
 		if (isset($this->request->get['page'])) {
-			$page = (int)$this->request->get['page'];
+			$page = (int) $this->request->get['page'];
 		} else {
 			$page = 1;
 		}
@@ -90,7 +94,7 @@ class Information extends \Ventocart\System\Engine\Controller {
 		$data['informations'] = [];
 
 		$filter_data = [
-			'sort'  => $sort,
+			'sort' => $sort,
 			'order' => $order,
 			'start' => ($page - 1) * $this->config->get('config_pagination_admin'),
 			'limit' => $this->config->get('config_pagination_admin')
@@ -105,9 +109,9 @@ class Information extends \Ventocart\System\Engine\Controller {
 		foreach ($results as $result) {
 			$data['informations'][] = [
 				'information_id' => $result['information_id'],
-				'title'          => $result['title'],
-				'sort_order'     => $result['sort_order'],
-				'edit'           => $this->url->link('catalog/information.form', 'user_token=' . $this->session->data['user_token'] . '&information_id=' . $result['information_id'] . $url)
+				'title' => $result['title'],
+				'sort_order' => $result['sort_order'],
+				'edit' => $this->url->link('catalog/information.form', 'user_token=' . $this->session->data['user_token'] . '&information_id=' . $result['information_id'] . $url)
 			];
 		}
 
@@ -138,9 +142,9 @@ class Information extends \Ventocart\System\Engine\Controller {
 
 		$data['pagination'] = $this->load->controller('common/pagination', [
 			'total' => $information_total,
-			'page'  => $page,
+			'page' => $page,
 			'limit' => $this->config->get('config_pagination_admin'),
-			'url'   => $this->url->link('catalog/information.list', 'user_token=' . $this->session->data['user_token'] . $url . '&page={page}')
+			'url' => $this->url->link('catalog/information.list', 'user_token=' . $this->session->data['user_token'] . $url . '&page={page}')
 		]);
 
 		$data['results'] = sprintf($this->language->get('text_pagination'), ($information_total) ? (($page - 1) * $this->config->get('config_pagination_admin')) + 1 : 0, ((($page - 1) * $this->config->get('config_pagination_admin')) > ($information_total - $this->config->get('config_pagination_admin'))) ? $information_total : ((($page - 1) * $this->config->get('config_pagination_admin')) + $this->config->get('config_pagination_admin')), $information_total, ceil($information_total / $this->config->get('config_pagination_admin')));
@@ -151,7 +155,8 @@ class Information extends \Ventocart\System\Engine\Controller {
 		return $this->load->view('catalog/information_list', $data);
 	}
 
-	public function form(): void {
+	public function form(): void
+	{
 		$this->load->language('catalog/information');
 
 		$this->document->setTitle($this->language->get('heading_title'));
@@ -195,7 +200,7 @@ class Information extends \Ventocart\System\Engine\Controller {
 		}
 
 		if (isset($this->request->get['information_id'])) {
-			$data['information_id'] = (int)$this->request->get['information_id'];
+			$data['information_id'] = (int) $this->request->get['information_id'];
 		} else {
 			$data['information_id'] = 0;
 		}
@@ -210,29 +215,6 @@ class Information extends \Ventocart\System\Engine\Controller {
 			$data['information_description'] = [];
 		}
 
-		$this->load->model('setting/store');
-
-		$data['stores'] = [];
-
-		$data['stores'][] = [
-			'store_id' => 0,
-			'name'     => $this->language->get('text_default')
-		];
-
-		$stores = $this->model_setting_store->getStores();
-
-		foreach ($stores as $store) {
-			$data['stores'][] = [
-				'store_id' => $store['store_id'],
-				'name'     => $store['name']
-			];
-		}
-
-		if (isset($this->request->get['information_id'])) {
-			$data['information_store'] = $this->model_catalog_information->getStores($this->request->get['information_id']);
-		} else {
-			$data['information_store'] = [0];
-		}
 
 		if (!empty($information_info)) {
 			$data['bottom'] = $information_info['bottom'];
@@ -277,7 +259,8 @@ class Information extends \Ventocart\System\Engine\Controller {
 		$this->response->setOutput($this->load->view('catalog/information_form', $data));
 	}
 
-	public function save(): void {
+	public function save(): void
+	{
 		$this->load->language('catalog/information');
 
 		$json = [];
@@ -299,22 +282,22 @@ class Information extends \Ventocart\System\Engine\Controller {
 		if ($this->request->post['information_seo_url']) {
 			$this->load->model('design/seo_url');
 
-			foreach ($this->request->post['information_seo_url'] as $store_id => $language) {
-				foreach ($language as $language_id => $keyword) {
-					if ((oc_strlen(trim($keyword)) < 1) || (oc_strlen($keyword) > 64)) {
-						$json['error']['keyword_' . $store_id . '_' . $language_id] = $this->language->get('error_keyword');
-					}
+			foreach ($this->request->post['information_seo_url'] as $language_id => $keyword) {
 
-					if (preg_match('/[^a-zA-Z0-9\/_-]|[\p{Cyrillic}]+/u', $keyword)) {
-						$json['error']['keyword_' . $store_id . '_' . $language_id] = $this->language->get('error_keyword_character');
-					}
-
-					$seo_url_info = $this->model_design_seo_url->getSeoUrlByKeyword($keyword, $store_id);
-
-					if ($seo_url_info && (!isset($this->request->post['information_id']) || $seo_url_info['key'] != 'information_id' || $seo_url_info['value'] != (int)$this->request->post['information_id'])) {
-						$json['error']['keyword_' . $store_id . '_' . $language_id] = $this->language->get('error_keyword_exists');
-					}
+				if ((oc_strlen(trim($keyword)) < 1) || (oc_strlen($keyword) > 64)) {
+					$json['error']['keyword_' . $language_id] = $this->language->get('error_keyword');
 				}
+
+				if (preg_match('/[^a-zA-Z0-9\/_-]|[\p{Cyrillic}]+/u', $keyword)) {
+					$json['error']['keyword_' . $language_id] = $this->language->get('error_keyword_character');
+				}
+
+				$seo_url_info = $this->model_design_seo_url->getSeoUrlByKeyword($keyword);
+
+				if ($seo_url_info && (!isset($this->request->post['information_id']) || $seo_url_info['key'] != 'information_id' || $seo_url_info['value'] != (int) $this->request->post['information_id'])) {
+					$json['error']['keyword_' . $language_id] = $this->language->get('error_keyword_exists');
+				}
+
 			}
 		}
 
@@ -338,7 +321,8 @@ class Information extends \Ventocart\System\Engine\Controller {
 		$this->response->setOutput(json_encode($json));
 	}
 
-	public function delete(): void {
+	public function delete(): void
+	{
 		$this->load->language('catalog/information');
 
 		$json = [];
@@ -372,11 +356,7 @@ class Information extends \Ventocart\System\Engine\Controller {
 				$json['error'] = $this->language->get('error_return');
 			}
 
-			$store_total = $this->model_setting_store->getTotalStoresByInformationId($information_id);
 
-			if ($store_total) {
-				$json['error'] = sprintf($this->language->get('error_store'), $store_total);
-			}
 		}
 
 		if (!$json) {

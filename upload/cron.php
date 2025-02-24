@@ -34,8 +34,6 @@ $config->set('application', 'Catalog');
 // Set the default time zone
 date_default_timezone_set($config->get('date_timezone'));
 
-// Store
-$config->set('config_store_id', 0);
 
 // Logging
 $log = new \Ventocart\System\Library\Log($config->get('error_filename'));

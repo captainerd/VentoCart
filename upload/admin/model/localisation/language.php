@@ -221,7 +221,7 @@ class Language extends \Ventocart\System\Engine\Model
 		$query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "seo_url` WHERE `language_id` = '" . (int) $this->config->get('config_language_id') . "'");
 
 		foreach ($query->rows as $seo_url) {
-			$this->db->query("INSERT INTO `" . DB_PREFIX . "seo_url` SET `store_id` = '" . (int) $seo_url['store_id'] . "', `language_id` = '" . (int) $language_id . "', `key` = '" . $this->db->escape($seo_url['key']) . "', `value` = '" . $this->db->escape($seo_url['value']) . "', `keyword` = '" . $this->db->escape($seo_url['keyword']) . "', `sort_order` = '" . (int) $seo_url['sort_order'] . "'");
+			$this->db->query("INSERT INTO `" . DB_PREFIX . "seo_url` SET   `language_id` = '" . (int) $language_id . "', `key` = '" . $this->db->escape($seo_url['key']) . "', `value` = '" . $this->db->escape($seo_url['value']) . "', `keyword` = '" . $this->db->escape($seo_url['keyword']) . "', `sort_order` = '" . (int) $seo_url['sort_order'] . "'");
 		}
 
 		return $language_id;

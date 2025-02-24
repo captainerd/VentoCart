@@ -5,11 +5,13 @@ namespace Ventocart\Admin\Controller\Cms;
  *
  * @package Ventocart\Admin\Controller\Cms
  */
-class Topic extends \Ventocart\System\Engine\Controller {
+class Topic extends \Ventocart\System\Engine\Controller
+{
 	/**
 	 * @return void
 	 */
-	public function index(): void {
+	public function index(): void
+	{
 		$this->load->language('cms/topic');
 
 		$this->document->setTitle($this->language->get('heading_title'));
@@ -57,7 +59,8 @@ class Topic extends \Ventocart\System\Engine\Controller {
 	/**
 	 * @return void
 	 */
-	public function list(): void {
+	public function list(): void
+	{
 		$this->load->language('cms/topic');
 
 		$this->response->setOutput($this->getList());
@@ -66,21 +69,22 @@ class Topic extends \Ventocart\System\Engine\Controller {
 	/**
 	 * @return string
 	 */
-	protected function getList(): string {
+	protected function getList(): string
+	{
 		if (isset($this->request->get['sort'])) {
-			$sort = (string)$this->request->get['sort'];
+			$sort = (string) $this->request->get['sort'];
 		} else {
 			$sort = 't.sort_order';
 		}
 
 		if (isset($this->request->get['order'])) {
-			$order = (string)$this->request->get['order'];
+			$order = (string) $this->request->get['order'];
 		} else {
 			$order = 'ASC';
 		}
 
 		if (isset($this->request->get['page'])) {
-			$page = (int)$this->request->get['page'];
+			$page = (int) $this->request->get['page'];
 		} else {
 			$page = 1;
 		}
@@ -104,7 +108,7 @@ class Topic extends \Ventocart\System\Engine\Controller {
 		$data['topics'] = [];
 
 		$filter_data = [
-			'sort'  => $sort,
+			'sort' => $sort,
 			'order' => $order,
 			'start' => ($page - 1) * $this->config->get('config_pagination_admin'),
 			'limit' => $this->config->get('config_pagination_admin')
@@ -116,11 +120,11 @@ class Topic extends \Ventocart\System\Engine\Controller {
 
 		foreach ($results as $result) {
 			$data['topics'][] = [
-				'topic_id'   => $result['topic_id'],
-				'name'       => $result['name'],
-				'status'     => $result['status'],
+				'topic_id' => $result['topic_id'],
+				'name' => $result['name'],
+				'status' => $result['status'],
 				'sort_order' => $result['sort_order'],
-				'edit'       => $this->url->link('cms/topic.form', 'user_token=' . $this->session->data['user_token'] . '&topic_id=' . $result['topic_id'] . $url)
+				'edit' => $this->url->link('cms/topic.form', 'user_token=' . $this->session->data['user_token'] . '&topic_id=' . $result['topic_id'] . $url)
 			];
 		}
 
@@ -149,9 +153,9 @@ class Topic extends \Ventocart\System\Engine\Controller {
 
 		$data['pagination'] = $this->load->controller('common/pagination', [
 			'total' => $topic_total,
-			'page'  => $page,
+			'page' => $page,
 			'limit' => $this->config->get('config_pagination_admin'),
-			'url'   => $this->url->link('cms/topic.list', 'user_token=' . $this->session->data['user_token'] . $url . '&page={page}')
+			'url' => $this->url->link('cms/topic.list', 'user_token=' . $this->session->data['user_token'] . $url . '&page={page}')
 		]);
 
 		$data['results'] = sprintf($this->language->get('text_pagination'), ($topic_total) ? (($page - 1) * $this->config->get('config_pagination_admin')) + 1 : 0, ((($page - 1) * $this->config->get('config_pagination_admin')) > ($topic_total - $this->config->get('config_pagination_admin'))) ? $topic_total : ((($page - 1) * $this->config->get('config_pagination_admin')) + $this->config->get('config_pagination_admin')), $topic_total, ceil($topic_total / $this->config->get('config_pagination_admin')));
@@ -165,7 +169,8 @@ class Topic extends \Ventocart\System\Engine\Controller {
 	/**
 	 * @return void
 	 */
-	public function form(): void {
+	public function form(): void
+	{
 		$this->load->language('cms/topic');
 
 		$this->document->setTitle($this->language->get('heading_title'));
@@ -210,7 +215,7 @@ class Topic extends \Ventocart\System\Engine\Controller {
 		}
 
 		if (isset($this->request->get['topic_id'])) {
-			$data['topic_id'] = (int)$this->request->get['topic_id'];
+			$data['topic_id'] = (int) $this->request->get['topic_id'];
 		} else {
 			$data['topic_id'] = 0;
 		}
@@ -239,29 +244,8 @@ class Topic extends \Ventocart\System\Engine\Controller {
 			}
 		}
 
-		$data['stores'] = [];
 
-		$data['stores'][] = [
-			'store_id' => 0,
-			'name'     => $this->language->get('text_default')
-		];
 
-		$this->load->model('setting/store');
-
-		$stores = $this->model_setting_store->getStores();
-
-		foreach ($stores as $store) {
-			$data['stores'][] = [
-				'store_id' => $store['store_id'],
-				'name'     => $store['name']
-			];
-		}
-
-		if (isset($this->request->get['topic_id'])) {
-			$data['topic_store'] = $this->model_cms_topic->getStores($this->request->get['topic_id']);
-		} else {
-			$data['topic_store'] = [0];
-		}
 
 		if (!empty($topic_info)) {
 			$data['sort_order'] = $topic_info['sort_order'];
@@ -293,7 +277,8 @@ class Topic extends \Ventocart\System\Engine\Controller {
 	/**
 	 * @return void
 	 */
-	public function save(): void {
+	public function save(): void
+	{
 		$this->load->language('cms/topic');
 
 		$json = [];
@@ -315,22 +300,22 @@ class Topic extends \Ventocart\System\Engine\Controller {
 		if ($this->request->post['topic_seo_url']) {
 			$this->load->model('design/seo_url');
 
-			foreach ($this->request->post['topic_seo_url'] as $store_id => $language) {
-				foreach ($language as $language_id => $keyword) {
-					if ((oc_strlen(trim($keyword)) < 1) || (oc_strlen($keyword) > 64)) {
-						$json['error']['keyword_' . $store_id . '_' . $language_id] = $this->language->get('error_keyword');
-					}
+			foreach ($this->request->post['topic_seo_url'] as $language_id => $keyword) {
 
-					if (preg_match('/[^a-zA-Z0-9\/_-]|[\p{Cyrillic}]+/u', $keyword)) {
-						$json['error']['keyword_' . $store_id . '_' . $language_id] = $this->language->get('error_keyword_character');
-					}
-
-					$seo_url_info = $this->model_design_seo_url->getSeoUrlByKeyword($keyword, $store_id);
-
-					if ($seo_url_info && (!isset($this->request->post['topic_id']) || $seo_url_info['key'] != 'topic_id' || $seo_url_info['value'] != (int)$this->request->post['topic_id'])) {
-						$json['error']['keyword_' . $store_id . '_' . $language_id] = $this->language->get('error_keyword_exists');
-					}
+				if ((oc_strlen(trim($keyword)) < 1) || (oc_strlen($keyword) > 64)) {
+					$json['error']['keyword_' . $language_id] = $this->language->get('error_keyword');
 				}
+
+				if (preg_match('/[^a-zA-Z0-9\/_-]|[\p{Cyrillic}]+/u', $keyword)) {
+					$json['error']['keyword_' . $language_id] = $this->language->get('error_keyword_character');
+				}
+
+				$seo_url_info = $this->model_design_seo_url->getSeoUrlByKeyword($keyword);
+
+				if ($seo_url_info && (!isset($this->request->post['topic_id']) || $seo_url_info['key'] != 'topic_id' || $seo_url_info['value'] != (int) $this->request->post['topic_id'])) {
+					$json['error']['keyword_' . $language_id] = $this->language->get('error_keyword_exists');
+				}
+
 			}
 		}
 
@@ -357,7 +342,8 @@ class Topic extends \Ventocart\System\Engine\Controller {
 	/**
 	 * @return void
 	 */
-	public function delete(): void {
+	public function delete(): void
+	{
 		$this->load->language('cms/topic');
 
 		$json = [];

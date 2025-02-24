@@ -5,17 +5,19 @@ namespace Ventocart\Admin\Controller\Mail;
  *
  * @package Ventocart\Admin\Controller\Mail
  */
-class Subscription extends \Ventocart\System\Engine\Controller {
+class Subscription extends \Ventocart\System\Engine\Controller
+{
     // admin/controller/sale/subscription/addHistory/after
-	/**
-	 * @param string $route
-	 * @param array  $args
-	 * @param mixed  $output
-	 *
-	 * @return void
-	 * @throws \Exception
-	 */
-	public function history(string &$route, array &$args, &$output): void {
+    /**
+     * @param string $route
+     * @param array  $args
+     * @param mixed  $output
+     *
+     * @return void
+     * @throws \Exception
+     */
+    public function history(string &$route, array &$args, &$output): void
+    {
         if (isset($args[0])) {
             $subscription_id = $args[0];
         } else {
@@ -44,9 +46,9 @@ class Subscription extends \Ventocart\System\Engine\Controller {
         $this->load->model('sale/subscription');
 
         $filter_data = [
-            'filter_subscription_id'        => $subscription_id,
+            'filter_subscription_id' => $subscription_id,
             'filter_subscription_status_id' => $subscription_status_id,
-            'filter_date_next'              => date('Y-m-d H:i:s')
+            'filter_date_next' => date('Y-m-d H:i:s')
         ];
 
         $subscriptions = $this->model_checkout_subscription->getSubscriptions($filter_data);
@@ -77,23 +79,12 @@ class Subscription extends \Ventocart\System\Engine\Controller {
                             $customer_info = $this->model_customer_customer->getCustomer($subscription['customer_id']);
 
                             if ($customer_info) {
-                                // Settings
-                                $this->load->model('setting/setting');
 
-                                // Store
-                                $store_info = $this->model_setting_setting->getSetting('config', $customer_info['store_id']);
+                                $from = $this->config->get('config_email');
+                                $store_name = $this->config->get('config_name');
+                                $store_url = HTTP_CATALOG;
+                                $alert_email = $this->config->get('config_mail_alert_email');
 
-                                if ($store_info) {
-                                    $from = $store_info['config_email'];
-                                    $store_name = $store_info['config_name'];
-                                    $store_url = $store_info['config_url'];
-                                    $alert_email = $store_info['config_mail_alert_email'];
-                                } else {
-                                    $from = $this->config->get('config_email');
-                                    $store_name = $this->config->get('config_name');
-                                    $store_url = HTTP_CATALOG;
-                                    $alert_email = $this->config->get('config_mail_alert_email');
-                                }
 
                                 // Languages
                                 $this->load->model('localisation/language');
@@ -159,15 +150,16 @@ class Subscription extends \Ventocart\System\Engine\Controller {
 
     // admin/controller/sale/subscription/addTransaction/after
 
-	/**
-	 * @param string $route
-	 * @param array  $args
-	 * @param mixed  $output
-	 *
-	 * @return void
-	 * @throws \Exception
-	 */
-	public function transaction(string &$route, array &$args, &$output): void {
+    /**
+     * @param string $route
+     * @param array  $args
+     * @param mixed  $output
+     *
+     * @return void
+     * @throws \Exception
+     */
+    public function transaction(string &$route, array &$args, &$output): void
+    {
         if (isset($args[0])) {
             $subscription_id = $args[0];
         } else {
@@ -214,9 +206,9 @@ class Subscription extends \Ventocart\System\Engine\Controller {
         $this->load->model('sale/subscription');
 
         $filter_data = [
-            'filter_subscription_id'        => $subscription_id,
+            'filter_subscription_id' => $subscription_id,
             'filter_subscription_status_id' => $this->config->get('config_subscription_canceled_status_id'),
-            'filter_date_next'              => date('Y-m-d H:i:s')
+            'filter_date_next' => date('Y-m-d H:i:s')
         ];
 
         $subscriptions = $this->model_checkout_subscription->getSubscriptions($filter_data);

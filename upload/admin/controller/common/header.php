@@ -5,11 +5,13 @@ namespace Ventocart\Admin\Controller\Common;
  *
  * @package Ventocart\Admin\Controller\Common
  */
-class Header extends \Ventocart\System\Engine\Controller {
+class Header extends \Ventocart\System\Engine\Controller
+{
 	/**
 	 * @return string
 	 */
-	public function index(): string {
+	public function index(): string
+	{
 		$data['lang'] = $this->language->get('code');
 		$data['direction'] = $this->language->get('direction');
 
@@ -58,7 +60,7 @@ class Header extends \Ventocart\System\Engine\Controller {
 			foreach ($results as $result) {
 				$data['notifications'][] = [
 					'title' => $result['title'],
-					'href'  => $this->url->link('tool/notification.info', 'user_token=' . $this->session->data['user_token'] . '&notification_id=' . $result['notification_id'])
+					'href' => $this->url->link('tool/notification.info', 'user_token=' . $this->session->data['user_token'] . '&notification_id=' . $result['notification_id'])
 				];
 			}
 
@@ -74,7 +76,7 @@ class Header extends \Ventocart\System\Engine\Controller {
 			if ($user_info) {
 				$data['firstname'] = $user_info['firstname'];
 				$data['lastname'] = $user_info['lastname'];
-			}  else {
+			} else {
 				$data['firstname'] = '';
 				$data['lastname'] = '';
 			}
@@ -97,14 +99,6 @@ class Header extends \Ventocart\System\Engine\Controller {
 
 			$this->load->model('setting/store');
 
-			$results = $this->model_setting_store->getStores();
-
-			foreach ($results as $result) {
-				$data['stores'][] = [
-					'name' => $result['name'],
-					'href' => $result['url']
-				];
-			}
 
 			$data['logout'] = $this->url->link('common/logout', 'user_token=' . $this->session->data['user_token']);
 		}

@@ -5,26 +5,28 @@ namespace Ventocart\Admin\Model\Design;
  *
  * @package Ventocart\Admin\Model\Design
  */
-class Layout extends \Ventocart\System\Engine\Model {
+class Layout extends \Ventocart\System\Engine\Model
+{
 	/**
 	 * @param array $data
 	 *
 	 * @return int
 	 */
-	public function addLayout(array $data): int {
-		$this->db->query("INSERT INTO `" . DB_PREFIX . "layout` SET `name` = '" . $this->db->escape((string)$data['name']) . "'");
+	public function addLayout(array $data): int
+	{
+		$this->db->query("INSERT INTO `" . DB_PREFIX . "layout` SET `name` = '" . $this->db->escape((string) $data['name']) . "'");
 
 		$layout_id = $this->db->getLastId();
 
 		if (isset($data['layout_route'])) {
 			foreach ($data['layout_route'] as $layout_route) {
-				$this->db->query("INSERT INTO `" . DB_PREFIX . "layout_route` SET `layout_id` = '" . (int)$layout_id . "', `store_id` = '" . (int)$layout_route['store_id'] . "', `route` = '" . $this->db->escape($layout_route['route']) . "'");
+				$this->db->query("INSERT INTO `" . DB_PREFIX . "layout_route` SET `layout_id` = '" . (int) $layout_id . "', `route` = '" . $this->db->escape($layout_route['route']) . "'");
 			}
 		}
 
 		if (isset($data['layout_module'])) {
 			foreach ($data['layout_module'] as $layout_module) {
-				$this->db->query("INSERT INTO `" . DB_PREFIX . "layout_module` SET `layout_id` = '" . (int)$layout_id . "', `code` = '" . $this->db->escape($layout_module['code']) . "', `position` = '" . $this->db->escape($layout_module['position']) . "', `sort_order` = '" . (int)$layout_module['sort_order'] . "'");
+				$this->db->query("INSERT INTO `" . DB_PREFIX . "layout_module` SET `layout_id` = '" . (int) $layout_id . "', `code` = '" . $this->db->escape($layout_module['code']) . "', `position` = '" . $this->db->escape($layout_module['position']) . "', `sort_order` = '" . (int) $layout_module['sort_order'] . "'");
 			}
 		}
 
@@ -37,22 +39,23 @@ class Layout extends \Ventocart\System\Engine\Model {
 	 *
 	 * @return void
 	 */
-	public function editLayout(int $layout_id, array $data): void {
-		$this->db->query("UPDATE `" . DB_PREFIX . "layout` SET `name` = '" . $this->db->escape((string)$data['name']) . "' WHERE `layout_id` = '" . (int)$layout_id . "'");
+	public function editLayout(int $layout_id, array $data): void
+	{
+		$this->db->query("UPDATE `" . DB_PREFIX . "layout` SET `name` = '" . $this->db->escape((string) $data['name']) . "' WHERE `layout_id` = '" . (int) $layout_id . "'");
 
-		$this->db->query("DELETE FROM `" . DB_PREFIX . "layout_route` WHERE `layout_id` = '" . (int)$layout_id . "'");
+		$this->db->query("DELETE FROM `" . DB_PREFIX . "layout_route` WHERE `layout_id` = '" . (int) $layout_id . "'");
 
 		if (isset($data['layout_route'])) {
 			foreach ($data['layout_route'] as $layout_route) {
-				$this->db->query("INSERT INTO `" . DB_PREFIX . "layout_route` SET `layout_id` = '" . (int)$layout_id . "', `store_id` = '" . (int)$layout_route['store_id'] . "', `route` = '" . $this->db->escape($layout_route['route']) . "'");
+				$this->db->query("INSERT INTO `" . DB_PREFIX . "layout_route` SET `layout_id` = '" . (int) $layout_id . "', `route` = '" . $this->db->escape($layout_route['route']) . "'");
 			}
 		}
 
-		$this->db->query("DELETE FROM `" . DB_PREFIX . "layout_module` WHERE `layout_id` = '" . (int)$layout_id . "'");
+		$this->db->query("DELETE FROM `" . DB_PREFIX . "layout_module` WHERE `layout_id` = '" . (int) $layout_id . "'");
 
 		if (isset($data['layout_module'])) {
 			foreach ($data['layout_module'] as $layout_module) {
-				$this->db->query("INSERT INTO `" . DB_PREFIX . "layout_module` SET `layout_id` = '" . (int)$layout_id . "', `code` = '" . $this->db->escape($layout_module['code']) . "', `position` = '" . $this->db->escape($layout_module['position']) . "', `sort_order` = '" . (int)$layout_module['sort_order'] . "'");
+				$this->db->query("INSERT INTO `" . DB_PREFIX . "layout_module` SET `layout_id` = '" . (int) $layout_id . "', `code` = '" . $this->db->escape($layout_module['code']) . "', `position` = '" . $this->db->escape($layout_module['position']) . "', `sort_order` = '" . (int) $layout_module['sort_order'] . "'");
 			}
 		}
 	}
@@ -62,15 +65,16 @@ class Layout extends \Ventocart\System\Engine\Model {
 	 *
 	 * @return void
 	 */
-	public function deleteLayout(int $layout_id): void {
-		$this->db->query("DELETE FROM `" . DB_PREFIX . "layout` WHERE `layout_id` = '" . (int)$layout_id . "'");
-		$this->db->query("DELETE FROM `" . DB_PREFIX . "layout_route` WHERE `layout_id` = '" . (int)$layout_id . "'");
-		$this->db->query("DELETE FROM `" . DB_PREFIX . "layout_module` WHERE `layout_id` = '" . (int)$layout_id . "'");
-		$this->db->query("DELETE FROM `" . DB_PREFIX . "category_to_layout` WHERE `layout_id` = '" . (int)$layout_id . "'");
-		$this->db->query("DELETE FROM `" . DB_PREFIX . "product_to_layout` WHERE `layout_id` = '" . (int)$layout_id . "'");
-		$this->db->query("DELETE FROM `" . DB_PREFIX . "information_to_layout` WHERE `layout_id` = '" . (int)$layout_id . "'");
-		$this->db->query("DELETE FROM `" . DB_PREFIX . "article_to_layout` WHERE `layout_id` = '" . (int)$layout_id . "'");
-		$this->db->query("DELETE FROM `" . DB_PREFIX . "article_category_to_layout` WHERE `layout_id` = '" . (int)$layout_id . "'");
+	public function deleteLayout(int $layout_id): void
+	{
+		$this->db->query("DELETE FROM `" . DB_PREFIX . "layout` WHERE `layout_id` = '" . (int) $layout_id . "'");
+		$this->db->query("DELETE FROM `" . DB_PREFIX . "layout_route` WHERE `layout_id` = '" . (int) $layout_id . "'");
+		$this->db->query("DELETE FROM `" . DB_PREFIX . "layout_module` WHERE `layout_id` = '" . (int) $layout_id . "'");
+		$this->db->query("DELETE FROM `" . DB_PREFIX . "category_to_layout` WHERE `layout_id` = '" . (int) $layout_id . "'");
+		$this->db->query("DELETE FROM `" . DB_PREFIX . "product_to_layout` WHERE `layout_id` = '" . (int) $layout_id . "'");
+		$this->db->query("DELETE FROM `" . DB_PREFIX . "information_to_layout` WHERE `layout_id` = '" . (int) $layout_id . "'");
+		$this->db->query("DELETE FROM `" . DB_PREFIX . "article_to_layout` WHERE `layout_id` = '" . (int) $layout_id . "'");
+		$this->db->query("DELETE FROM `" . DB_PREFIX . "article_category_to_layout` WHERE `layout_id` = '" . (int) $layout_id . "'");
 	}
 
 	/**
@@ -78,8 +82,9 @@ class Layout extends \Ventocart\System\Engine\Model {
 	 *
 	 * @return array
 	 */
-	public function getLayout(int $layout_id): array {
-		$query = $this->db->query("SELECT DISTINCT * FROM `" . DB_PREFIX . "layout` WHERE `layout_id` = '" . (int)$layout_id . "'");
+	public function getLayout(int $layout_id): array
+	{
+		$query = $this->db->query("SELECT DISTINCT * FROM `" . DB_PREFIX . "layout` WHERE `layout_id` = '" . (int) $layout_id . "'");
 
 		return $query->row;
 	}
@@ -89,7 +94,8 @@ class Layout extends \Ventocart\System\Engine\Model {
 	 *
 	 * @return array
 	 */
-	public function getLayouts(array $data = []): array {
+	public function getLayouts(array $data = []): array
+	{
 		$sql = "SELECT * FROM `" . DB_PREFIX . "layout`";
 
 		$sort_data = ['name'];
@@ -115,7 +121,7 @@ class Layout extends \Ventocart\System\Engine\Model {
 				$data['limit'] = 20;
 			}
 
-			$sql .= " LIMIT " . (int)$data['start'] . "," . (int)$data['limit'];
+			$sql .= " LIMIT " . (int) $data['start'] . "," . (int) $data['limit'];
 		}
 
 		$query = $this->db->query($sql);
@@ -128,8 +134,9 @@ class Layout extends \Ventocart\System\Engine\Model {
 	 *
 	 * @return array
 	 */
-	public function getRoutes(int $layout_id): array {
-		$query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "layout_route` WHERE `layout_id` = '" . (int)$layout_id . "'");
+	public function getRoutes(int $layout_id): array
+	{
+		$query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "layout_route` WHERE `layout_id` = '" . (int) $layout_id . "'");
 
 		return $query->rows;
 	}
@@ -139,8 +146,9 @@ class Layout extends \Ventocart\System\Engine\Model {
 	 *
 	 * @return array
 	 */
-	public function getModules(int $layout_id): array {
-		$query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "layout_module` WHERE `layout_id` = '" . (int)$layout_id . "' ORDER BY `position` ASC, `sort_order` ASC");
+	public function getModules(int $layout_id): array
+	{
+		$query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "layout_module` WHERE `layout_id` = '" . (int) $layout_id . "' ORDER BY `position` ASC, `sort_order` ASC");
 
 		return $query->rows;
 	}
@@ -148,9 +156,10 @@ class Layout extends \Ventocart\System\Engine\Model {
 	/**
 	 * @return int
 	 */
-	public function getTotalLayouts(): int {
+	public function getTotalLayouts(): int
+	{
 		$query = $this->db->query("SELECT COUNT(*) AS `total` FROM `" . DB_PREFIX . "layout`");
 
-		return (int)$query->row['total'];
+		return (int) $query->row['total'];
 	}
 }

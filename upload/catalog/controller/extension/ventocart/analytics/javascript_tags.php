@@ -19,7 +19,7 @@ class JavaScriptTags extends \Ventocart\System\Engine\Controller
 		}
 
 
-		$myTag = $this->model_setting_setting->getValue('analytics_javascript_tags_tag', $this->config->get('config_store_id'));
+		$myTag = $this->model_setting_setting->getValue('analytics_javascript_tags_tag');
 
 		return $myTag;
 	}

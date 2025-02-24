@@ -341,11 +341,7 @@ class AbandonedCart extends \Ventocart\System\Engine\Controller
             $cart['langcode'] = array_key_first(array_filter($langCollection, function ($language) use ($languageId) {
                 return $language['language_id'] == $languageId;
             }));
-            $storeId = 0;
-            if (!empty($cart['store_id'])) {
-                $storeId = $cart['store_id'];
-            }
-            $cart['store_id'] = $storeId;
+
 
             $message = $this->MarkUp($settings['abandonedcart_template'][$languageId], $cart);
             $subject = $settings['abandonedcart_subject'][$languageId];
@@ -416,21 +412,14 @@ class AbandonedCart extends \Ventocart\System\Engine\Controller
         $template = html_entity_decode($template);
         $cart['products'] = $this->model_marketing_abandonedcart->getCartProducts($cart);
         // Get store ID and set default if not provided
-        $storeId = isset($cart['store_id']) ? $cart['store_id'] : 0;
 
         // Get store name and URL
-        if ($storeId == 0) {
-            $store_name = $this->config->get('config_name');  // Default store name
-            $store_url = HTTP_CATALOG;  // Default store URL
-        } else {
-            $this->load->model('setting/store');
-            $store_info = $this->model_setting_store->getStore($storeId);
 
-            $store_name = $store_info ? $store_info['name'] : $this->config->get('config_name');
-            $store_url = $store_info ? $store_info['url'] : HTTP_CATALOG;
-        }
+        $store_name = $this->config->get('config_name');  // Default store name
+        $store_url = HTTP_CATALOG;  // Default store URL
 
-        $setting = $this->model_setting_setting->getSetting('config', $storeId);
+
+        $setting = $this->model_setting_setting->getSetting('config');
         $logo = isset($setting['config_logo']) ? $setting['config_logo'] : $this->config->get('config_logo');
 
         $logo = $store_url . 'image/' . html_entity_decode($logo, ENT_QUOTES, 'UTF-8');

@@ -91,8 +91,7 @@ class Product extends \Ventocart\System\Engine\Model
             `" . DB_PREFIX . "product` p
         LEFT JOIN 
             `" . DB_PREFIX . "product_description` pd ON (p.product_id = pd.product_id AND pd.language_id = '" . (int) $this->config->get('config_language_id') . "')
-        LEFT JOIN 
-            `" . DB_PREFIX . "product_to_store` p2s ON (p2s.product_id = p.product_id AND p2s.store_id = '" . (int) $this->config->get('config_store_id') . "')
+      
         LEFT JOIN 
             `" . DB_PREFIX . "product_viewed` pv ON (pv.product_id = p.product_id)
         WHERE 
@@ -141,7 +140,13 @@ class Product extends \Ventocart\System\Engine\Model
 			`viewed` = `viewed` + 1,
 			`date` = NOW()
 	");
-		$query = $this->db->query("SELECT DISTINCT *, `pd`.`name`, `p`.`image`, " . $this->statement['discount'] . ", " . $this->statement['special'] . ", " . $this->statement['reward'] . ", " . $this->statement['review'] . " FROM `" . DB_PREFIX . "product_to_store` `p2s` LEFT JOIN `" . DB_PREFIX . "product` `p` ON (`p`.`product_id` = `p2s`.`product_id` AND `p`.`status` = '1' AND `p`.`date_available` <= NOW()) LEFT JOIN `" . DB_PREFIX . "product_description` `pd` ON (`p`.`product_id` = `pd`.`product_id`) WHERE `p2s`.`store_id` = '" . (int) $this->config->get('config_store_id') . "' AND `p2s`.`product_id` = '" . (int) $product_id . "' AND `pd`.`language_id` = '" . (int) $this->config->get('config_language_id') . "'");
+		$query = $this->db->query("SELECT DISTINCT *, `pd`.`name`, `p`.`image`, " . $this->statement['discount'] . ", " . $this->statement['special'] . ", " . $this->statement['reward'] . ", " . $this->statement['review'] . " 
+	FROM `" . DB_PREFIX . "product` `p` 
+	LEFT JOIN `" . DB_PREFIX . "product_description` `pd` ON (`p`.`product_id` = `pd`.`product_id`) 
+	WHERE `p`.`product_id` = '" . (int) $product_id . "' 
+	AND `p`.`status` = '1' 
+	AND `p`.`date_available` <= NOW() 
+	AND `pd`.`language_id` = '" . (int) $this->config->get('config_language_id') . "'");
 
 		if ($query->num_rows) {
 			$product_data = $query->row;
@@ -187,7 +192,7 @@ class Product extends \Ventocart\System\Engine\Model
 			$this->statement['reward'] . ", " .
 			$this->statement['review'] . "
 		FROM `" . DB_PREFIX . "product` `p`
-		INNER JOIN `" . DB_PREFIX . "product_to_store` `p2s` ON (`p`.`product_id` = `p2s`.`product_id` AND `p2s`.`store_id` = '" . (int) $this->config->get('config_store_id') . "')
+ 
 		JOIN `" . DB_PREFIX . "product_description` `pd` ON (`p`.`product_id` = `pd`.`product_id` AND `pd`.`language_id` = '" . (int) $this->config->get('config_language_id') . "')
 			AND `p`.`status` = '1' AND `p`.`date_available` <= NOW() ";
 
@@ -226,13 +231,10 @@ class Product extends \Ventocart\System\Engine\Model
 			$sql .= " AND `pd`.`name` LIKE '%" . $this->db->escape($data['filter_name']) . "%'";
 		}
 
-		// Availability filter
-
+		// Availability filter (simplified to check p.stock_status_id)
 		if (!empty($data['filter_availability'])) {
-
-			$sql .= " INNER JOIN `" . DB_PREFIX . "product` `pffa` ON (`pffa`.`product_id` = `p2s`.`product_id` AND `pffa`.`status` = '1' AND `pffa`.`stock_status_id` IN (" . implode(',', array_map('intval', $data['filter_availability'])) . ") AND `pffa`.`date_available` <= NOW())";
+			$sql .= " AND p.stock_status_id IN (" . implode(',', array_map('intval', $data['filter_availability'])) . ")";
 		}
-
 
 		// Legacy filter
 
@@ -688,21 +690,6 @@ class Product extends \Ventocart\System\Engine\Model
 		return $query->rows;
 	}
 
-	/**
-	 * @param int $product_id
-	 *
-	 * @return int
-	 */
-	public function getLayoutId(int $product_id): int
-	{
-		$query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "product_to_layout` WHERE `product_id` = '" . (int) $product_id . "' AND `store_id` = '" . (int) $this->config->get('config_store_id') . "'");
-
-		if ($query->num_rows) {
-			return (int) $query->row['layout_id'];
-		} else {
-			return 0;
-		}
-	}
 
 	/**
 	 * @param int $product_id
@@ -711,7 +698,12 @@ class Product extends \Ventocart\System\Engine\Model
 	 */
 	public function getRelated(int $product_id): array
 	{
-		$sql = "SELECT DISTINCT *, `pd`.`name` AS `name`, `p`.`image`, " . $this->statement['discount'] . ", " . $this->statement['special'] . ", " . $this->statement['reward'] . ", " . $this->statement['review'] . " FROM `" . DB_PREFIX . "product_related` `pr` LEFT JOIN `" . DB_PREFIX . "product_to_store` `p2s` ON (`p2s`.`product_id` = `pr`.`product_id` AND `p2s`.`store_id` = '" . (int) $this->config->get('config_store_id') . "') LEFT JOIN `" . DB_PREFIX . "product` `p` ON (`p`.`product_id` = `pr`.`related_id` AND `p`.`status` = '1' AND `p`.`date_available` <= NOW()) LEFT JOIN `" . DB_PREFIX . "product_description` `pd` ON (`p`.`product_id` = `pd`.`product_id`) WHERE `pr`.`product_id` = '" . (int) $product_id . "' AND `pd`.`language_id` = '" . (int) $this->config->get('config_language_id') . "'";
+		$sql = "SELECT DISTINCT *, `pd`.`name` AS `name`, `p`.`image`, " . $this->statement['discount'] . ", " . $this->statement['special'] . ", " . $this->statement['reward'] . ", " . $this->statement['review'] . " 
+		FROM `" . DB_PREFIX . "product_related` `pr` 
+		LEFT JOIN `" . DB_PREFIX . "product` `p` ON (`p`.`product_id` = `pr`.`related_id` AND `p`.`status` = '1' AND `p`.`date_available` <= NOW()) 
+		LEFT JOIN `" . DB_PREFIX . "product_description` `pd` ON (`p`.`product_id` = `pd`.`product_id`) 
+		WHERE `pr`.`product_id` = '" . (int) $product_id . "' 
+		AND `pd`.`language_id` = '" . (int) $this->config->get('config_language_id') . "'";
 
 		$product_data = $this->cache->get('product.' . md5($sql));
 
@@ -735,7 +727,15 @@ class Product extends \Ventocart\System\Engine\Model
 	 */
 	public function getSpecials(array $data = []): array
 	{
-		$sql = "SELECT DISTINCT *, `pd`.`name`, `p`.`image`, `p`.`price`, " . $this->statement['discount'] . ", " . $this->statement['special'] . ", " . $this->statement['reward'] . ", " . $this->statement['review'] . " FROM `" . DB_PREFIX . "product_special` `ps2` LEFT JOIN `" . DB_PREFIX . "product_to_store` `p2s` ON (`ps2`.`product_id` = `p2s`.`product_id` AND `p2s`.`store_id` = '" . (int) $this->config->get('config_store_id') . "' AND `ps2`.`customer_group_id` = '" . (int) $this->config->get('config_customer_group_id') . "' AND ((`ps2`.`date_start` = '0000-00-00' OR `ps2`.`date_start` < NOW()) AND (`ps2`.`date_end` = '0000-00-00' OR `ps2`.`date_end` > NOW()))) LEFT JOIN `" . DB_PREFIX . "product` `p` ON (`p`.`product_id` = `p2s`.`product_id` AND `p`.`status` = '1' AND `p`.`date_available` <= NOW()) LEFT JOIN `" . DB_PREFIX . "product_description` `pd` ON (`pd`.`product_id` = `p`.`product_id`) WHERE `pd`.`language_id` = '" . (int) $this->config->get('config_language_id') . "' GROUP BY `ps2`.`product_id`";
+		$sql = "SELECT DISTINCT *, `pd`.`name`, `p`.`image`, `p`.`price`, " . $this->statement['discount'] . ", " . $this->statement['special'] . ", " . $this->statement['reward'] . ", " . $this->statement['review'] . " 
+		FROM `" . DB_PREFIX . "product_special` `ps2` 
+		LEFT JOIN `" . DB_PREFIX . "product` `p` ON (`p`.`product_id` = `ps2`.`product_id` AND `p`.`status` = '1' AND `p`.`date_available` <= NOW()) 
+		LEFT JOIN `" . DB_PREFIX . "product_description` `pd` ON (`pd`.`product_id` = `p`.`product_id`) 
+		WHERE `pd`.`language_id` = '" . (int) $this->config->get('config_language_id') . "' 
+		AND `ps2`.`customer_group_id` = '" . (int) $this->config->get('config_customer_group_id') . "' 
+		AND ((`ps2`.`date_start` = '0000-00-00' OR `ps2`.`date_start` < NOW()) 
+		AND (`ps2`.`date_end` = '0000-00-00' OR `ps2`.`date_end` > NOW())) 
+		GROUP BY `ps2`.`product_id`";
 
 		$sort_data = [
 			'pd.name',
@@ -793,7 +793,14 @@ class Product extends \Ventocart\System\Engine\Model
 	 */
 	public function getTotalSpecials(): int
 	{
-		$query = $this->db->query("SELECT COUNT(DISTINCT `ps`.`product_id`) AS `total` FROM `" . DB_PREFIX . "product_special` `ps` LEFT JOIN `" . DB_PREFIX . "product_to_store` `p2s` ON (`p2s`.`product_id` = `ps`.`product_id` AND `p2s`.`store_id` = '" . (int) $this->config->get('config_store_id') . "' AND `ps`.`customer_group_id` = '" . (int) $this->config->get('config_customer_group_id') . "' AND ((`ps`.`date_start` = '0000-00-00' OR `ps`.`date_start` < NOW()) AND (`ps`.`date_end` = '0000-00-00' OR `ps`.`date_end` > NOW()))) LEFT JOIN `" . DB_PREFIX . "product` `p` ON (`p2s`.`product_id` = `p`.`product_id` AND `p`.`status` = '1' AND `p`.`date_available` <= NOW())");
+		$query = $this->db->query("SELECT COUNT(DISTINCT `ps`.`product_id`) AS `total` 
+		FROM `" . DB_PREFIX . "product_special` `ps` 
+		LEFT JOIN `" . DB_PREFIX . "product` `p` ON (`ps`.`product_id` = `p`.`product_id` 
+		AND `p`.`status` = '1' 
+		AND `p`.`date_available` <= NOW()) 
+		WHERE `ps`.`customer_group_id` = '" . (int) $this->config->get('config_customer_group_id') . "' 
+		AND ((`ps`.`date_start` = '0000-00-00' OR `ps`.`date_start` < NOW()) 
+		AND (`ps`.`date_end` = '0000-00-00' OR `ps`.`date_end` > NOW()))");
 
 		if (isset($query->row['total'])) {
 			return (int) $query->row['total'];
@@ -811,7 +818,7 @@ class Product extends \Ventocart\System\Engine\Model
 	 */
 	public function addReport(int $product_id, string $ip, string $country = ''): void
 	{
-		$this->db->query("INSERT INTO `" . DB_PREFIX . "product_report` SET `product_id` = '" . (int) $product_id . "', `store_id` = '" . (int) $this->config->get('config_store_id') . "', `ip` = '" . $this->db->escape($ip) . "', `country` = '" . $this->db->escape($country) . "', `date_added` = NOW()");
+		$this->db->query("INSERT INTO `" . DB_PREFIX . "product_report` SET `product_id` = '" . (int) $product_id . "',  `ip` = '" . $this->db->escape($ip) . "', `country` = '" . $this->db->escape($country) . "', `date_added` = NOW()");
 	}
 
 	/**

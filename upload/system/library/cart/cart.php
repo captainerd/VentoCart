@@ -204,7 +204,13 @@ class Cart
 
 				$stock = true;
 
-				$product_query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "product_to_store` `p2s` LEFT JOIN `" . DB_PREFIX . "product` p ON (p2s.`product_id` = p.`product_id`) LEFT JOIN `" . DB_PREFIX . "product_description` pd ON (p.`product_id` = pd.`product_id`) WHERE p2s.`store_id` = '" . (int) $this->config->get('config_store_id') . "' AND p2s.`product_id` = '" . (int) $cart['product_id'] . "' AND pd.`language_id` = '" . (int) $this->config->get('config_language_id') . "' AND p.`date_available` <= NOW() AND p.`status` = '1'");
+				$product_query = $this->db->query("SELECT * 
+				FROM `" . DB_PREFIX . "product` p 
+				LEFT JOIN `" . DB_PREFIX . "product_description` pd ON (p.`product_id` = pd.`product_id`) 
+				WHERE p.`product_id` = '" . (int) $cart['product_id'] . "' 
+				AND pd.`language_id` = '" . (int) $this->config->get('config_language_id') . "' 
+				AND p.`date_available` <= NOW() 
+				AND p.`status` = '1'");
 
 
 				if ($cart['type'] == 1 && !empty($this->session->data['virtual_product'][$cart['cart_id']])) {

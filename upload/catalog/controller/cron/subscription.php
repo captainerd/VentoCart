@@ -172,7 +172,7 @@ class Subscription extends \Ventocart\System\Engine\Controller
 
 					// Store Details
 					$order_data['invoice_prefix'] = $order_info['invoice_prefix'];
-					$order_data['store_id'] = $order_info['store_id'];
+
 					$order_data['store_name'] = $order_info['store_name'];
 					$order_data['store_url'] = $order_info['store_url'];
 

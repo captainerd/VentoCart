@@ -86,7 +86,6 @@ class Order extends \Ventocart\System\Engine\Model
 				'order_id' => $order_query->row['order_id'],
 				'invoice_no' => $order_query->row['invoice_no'],
 				'invoice_prefix' => $order_query->row['invoice_prefix'],
-				'store_id' => $order_query->row['store_id'],
 				'store_name' => $order_query->row['store_name'],
 				'store_url' => $order_query->row['store_url'],
 				'customer_id' => $order_query->row['customer_id'],
@@ -186,10 +185,6 @@ class Order extends \Ventocart\System\Engine\Model
 
 		if (!empty($data['filter_order_id'])) {
 			$sql .= " AND `o`.`order_id` = '" . (int) $data['filter_order_id'] . "'";
-		}
-
-		if (isset($data['filter_store_id']) && $data['filter_store_id'] !== '') {
-			$sql .= " AND `o`.`store_id` = '" . (int) $data['filter_store_id'] . "'";
 		}
 
 		if (!empty($data['filter_customer_id'])) {
@@ -446,10 +441,6 @@ class Order extends \Ventocart\System\Engine\Model
 			$sql .= " AND `order_id` = '" . (int) $data['filter_order_id'] . "'";
 		}
 
-		if (isset($data['filter_store_id']) && $data['filter_store_id'] !== '') {
-			$sql .= " AND `store_id` = '" . (int) $data['filter_store_id'] . "'";
-		}
-
 		if (!empty($data['filter_customer_id'])) {
 			$sql .= " AND `customer_id` = '" . (int) $data['filter_customer_id'] . "'";
 		}
@@ -479,17 +470,6 @@ class Order extends \Ventocart\System\Engine\Model
 		return (int) $query->row['total'];
 	}
 
-	/**
-	 * @param int $store_id
-	 *
-	 * @return int
-	 */
-	public function getTotalOrdersByStoreId(int $store_id): int
-	{
-		$query = $this->db->query("SELECT COUNT(*) AS `total` FROM `" . DB_PREFIX . "order` WHERE `store_id` = '" . (int) $store_id . "'");
-
-		return (int) $query->row['total'];
-	}
 
 
 
@@ -614,9 +594,7 @@ class Order extends \Ventocart\System\Engine\Model
 			$sql .= " AND `order_id` = '" . (int) $data['filter_order_id'] . "'";
 		}
 
-		if (isset($data['filter_store_id']) && $data['filter_store_id'] !== '') {
-			$sql .= " AND `store_id` = '" . (int) $data['filter_store_id'] . "'";
-		}
+
 
 		if (!empty($data['filter_customer_id'])) {
 			$sql .= " AND `customer_id` = '" . (int) $data['filter_customer_id'] . "'";

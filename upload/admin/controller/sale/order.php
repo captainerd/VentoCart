@@ -29,11 +29,7 @@ class Order extends \Ventocart\System\Engine\Controller
 			$filter_customer = '';
 		}
 
-		if (isset($this->request->get['filter_store_id'])) {
-			$filter_store_id = (int) $this->request->get['filter_store_id'];
-		} else {
-			$filter_store_id = '';
-		}
+
 
 		if (isset($this->request->get['filter_order_status'])) {
 			$filter_order_status = $this->request->get['filter_order_status'];
@@ -79,9 +75,6 @@ class Order extends \Ventocart\System\Engine\Controller
 			$url .= '&filter_customer=' . urlencode(html_entity_decode($this->request->get['filter_customer'], ENT_QUOTES, 'UTF-8'));
 		}
 
-		if (isset($this->request->get['filter_store_id'])) {
-			$url .= '&filter_store_id=' . (int) $this->request->get['filter_store_id'];
-		}
 
 		if (isset($this->request->get['filter_order_status'])) {
 			$url .= '&filter_order_status=' . $this->request->get['filter_order_status'];
@@ -136,21 +129,10 @@ class Order extends \Ventocart\System\Engine\Controller
 
 		$data['stores'] = [];
 
-		$data['stores'][] = [
-			'store_id' => 0,
-			'name' => $this->language->get('text_default')
-		];
-
 		$this->load->model('setting/store');
 
-		$stores = $this->model_setting_store->getStores();
 
-		foreach ($stores as $store) {
-			$data['stores'][] = [
-				'store_id' => $store['store_id'],
-				'name' => $store['name']
-			];
-		}
+
 
 		$this->load->model('localisation/order_status');
 
@@ -159,7 +141,6 @@ class Order extends \Ventocart\System\Engine\Controller
 		$data['filter_order_id'] = $filter_order_id;
 		$data['filter_customer_id'] = $filter_customer_id;
 		$data['filter_customer'] = $filter_customer;
-		$data['filter_store_id'] = $filter_store_id;
 		$data['filter_order_status'] = $filter_order_status;
 		$data['filter_order_status_id'] = $filter_order_status_id;
 		$data['filter_total'] = $filter_total;
@@ -202,11 +183,7 @@ class Order extends \Ventocart\System\Engine\Controller
 			$filter_customer = '';
 		}
 
-		if (isset($this->request->get['filter_store_id'])) {
-			$filter_store_id = (int) $this->request->get['filter_store_id'];
-		} else {
-			$filter_store_id = '';
-		}
+
 
 		if (isset($this->request->get['filter_order_status'])) {
 			$filter_order_status = $this->request->get['filter_order_status'];
@@ -270,9 +247,6 @@ class Order extends \Ventocart\System\Engine\Controller
 			$url .= '&filter_customer=' . urlencode(html_entity_decode($this->request->get['filter_customer'], ENT_QUOTES, 'UTF-8'));
 		}
 
-		if (isset($this->request->get['filter_store_id'])) {
-			$url .= '&filter_store_id=' . (int) $this->request->get['filter_store_id'];
-		}
 
 		if (isset($this->request->get['filter_order_status'])) {
 			$url .= '&filter_order_status=' . $this->request->get['filter_order_status'];
@@ -314,7 +288,6 @@ class Order extends \Ventocart\System\Engine\Controller
 			'filter_order_id' => $filter_order_id,
 			'filter_customer_id' => $filter_customer_id,
 			'filter_customer' => $filter_customer,
-			'filter_store_id' => $filter_store_id,
 			'filter_order_status' => $filter_order_status,
 			'filter_order_status_id' => $filter_order_status_id,
 			'filter_total' => $filter_total,
@@ -358,10 +331,6 @@ class Order extends \Ventocart\System\Engine\Controller
 
 		if (isset($this->request->get['filter_customer'])) {
 			$url .= '&filter_customer=' . urlencode(html_entity_decode($this->request->get['filter_customer'], ENT_QUOTES, 'UTF-8'));
-		}
-
-		if (isset($this->request->get['filter_store_id'])) {
-			$url .= '&filter_store_id=' . (int) $this->request->get['filter_store_id'];
 		}
 
 		if (isset($this->request->get['filter_order_status'])) {
@@ -410,10 +379,6 @@ class Order extends \Ventocart\System\Engine\Controller
 
 		if (isset($this->request->get['filter_customer'])) {
 			$url .= '&filter_customer=' . urlencode(html_entity_decode($this->request->get['filter_customer'], ENT_QUOTES, 'UTF-8'));
-		}
-
-		if (isset($this->request->get['filter_store_id'])) {
-			$url .= '&filter_store_id=' . (int) $this->request->get['filter_store_id'];
 		}
 
 		if (isset($this->request->get['filter_order_status'])) {
@@ -499,10 +464,6 @@ class Order extends \Ventocart\System\Engine\Controller
 
 		if (isset($this->request->get['filter_customer'])) {
 			$url .= '&filter_customer=' . urlencode(html_entity_decode($this->request->get['filter_customer'], ENT_QUOTES, 'UTF-8'));
-		}
-
-		if (isset($this->request->get['filter_store_id'])) {
-			$url .= '&filter_store_id=' . (int) $this->request->get['filter_store_id'];
 		}
 
 		if (isset($this->request->get['filter_order_status'])) {
@@ -683,11 +644,6 @@ class Order extends \Ventocart\System\Engine\Controller
 		}
 
 
-		if (!empty($order_info)) {
-			$store_id = $order_info['store_id'];
-		} else {
-			$store_id = 0;
-		}
 
 		if (!empty($order_info)) {
 			$language = $order_info['language_code'];
@@ -695,34 +651,6 @@ class Order extends \Ventocart\System\Engine\Controller
 			$language = $this->config->get('config_language');
 		}
 
-		// Create a store instance using loader class to call controllers, models, views, libraries
-		$this->load->model('setting/store');
-
-
-		// Store
-		$data['stores'] = [];
-
-		$data['stores'][] = [
-			'store_id' => 0,
-			'name' => $this->config->get('config_name')
-		];
-
-		$this->load->model('setting/store');
-
-		$results = $this->model_setting_store->getStores();
-
-		foreach ($results as $result) {
-			$data['stores'][] = [
-				'store_id' => $result['store_id'],
-				'name' => $result['name']
-			];
-		}
-
-		if (!empty($order_info)) {
-			$data['store_id'] = $order_info['store_id'];
-		} else {
-			$data['store_id'] = $this->config->get('config_store_id');
-		}
 
 		// Language
 		$this->load->model('localisation/language');
@@ -1130,7 +1058,7 @@ class Order extends \Ventocart\System\Engine\Controller
 			$order_info = $this->model_sale_order->getOrder($order_id);
 
 			if ($order_info) {
-				$store_info = $this->model_setting_setting->getSetting('config', $order_info['store_id']);
+				$store_info = $this->model_setting_setting->getSetting('config');
 
 				if ($store_info) {
 					$store_address = $store_info['config_address'];
@@ -1368,7 +1296,7 @@ class Order extends \Ventocart\System\Engine\Controller
 
 			// Make sure there is a shipping method
 			if ($order_info && $order_info['shipping_method']) {
-				$store_info = $this->model_setting_setting->getSetting('config', $order_info['store_id']);
+				$store_info = $this->model_setting_setting->getSetting('config');
 
 				if ($store_info) {
 					$store_address = $store_info['config_address'];

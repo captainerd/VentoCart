@@ -72,33 +72,23 @@ class Category extends \Ventocart\System\Engine\Model
 			}
 		}
 
-		if (isset($data['category_store'])) {
-			foreach ($data['category_store'] as $store_id) {
-				$this->db->query("INSERT INTO `" . DB_PREFIX . "category_to_store` SET `category_id` = '" . (int) $category_id . "', `store_id` = '" . (int) $store_id . "'");
-			}
-		}
 
 
 		$this->load->model('design/seo_url');
 
-		foreach ($data['category_seo_url'] as $store_id => $language) {
+		foreach ($data['category_seo_url'] as $language) {
 			foreach ($language as $language_id => $keyword) {
-				$seo_url_info = $this->model_design_seo_url->getSeoUrlByKeyValue('path', $parent_path, $store_id, $language_id);
+				$seo_url_info = $this->model_design_seo_url->getSeoUrlByKeyValue('path', $parent_path, $language_id);
 
 				if ($seo_url_info) {
 					$keyword = $seo_url_info['keyword'] . '/' . $keyword;
 				}
 
-				$this->db->query("INSERT INTO `" . DB_PREFIX . "seo_url` SET `store_id` = '" . (int) $store_id . "', `language_id` = '" . (int) $language_id . "', `key` = 'path', `value`= '" . $this->db->escape($path_new) . "', `keyword` = '" . $this->db->escape($this->convertToSeoFriendly($keyword)) . "'");
+				$this->db->query("INSERT INTO `" . DB_PREFIX . "seo_url` SET   `language_id` = '" . (int) $language_id . "', `key` = 'path', `value`= '" . $this->db->escape($path_new) . "', `keyword` = '" . $this->db->escape($this->convertToSeoFriendly($keyword)) . "'");
 			}
 		}
 
-		// Set which layout to use with this category
-		if (isset($data['category_layout'])) {
-			foreach ($data['category_layout'] as $store_id => $layout_id) {
-				$this->db->query("INSERT INTO `" . DB_PREFIX . "category_to_layout` SET `category_id` = '" . (int) $category_id . "', `store_id` = '" . (int) $store_id . "', `layout_id` = '" . (int) $layout_id . "'");
-			}
-		}
+
 
 		return $category_id;
 	}
@@ -174,13 +164,6 @@ class Category extends \Ventocart\System\Engine\Model
 		}
 
 
-		$this->db->query("DELETE FROM `" . DB_PREFIX . "category_to_store` WHERE `category_id` = '" . (int) $category_id . "'");
-
-		if (isset($data['category_store'])) {
-			foreach ($data['category_store'] as $store_id) {
-				$this->db->query("INSERT INTO `" . DB_PREFIX . "category_to_store` SET `category_id` = '" . (int) $category_id . "', `store_id` = '" . (int) $store_id . "'");
-			}
-		}
 
 
 
@@ -196,20 +179,20 @@ class Category extends \Ventocart\System\Engine\Model
 
 		$this->db->query("DELETE FROM `" . DB_PREFIX . "seo_url` WHERE `key` = 'path' AND `value` = '" . $path_old . "'");
 
-		foreach ($data['category_seo_url'] as $store_id => $language) {
-			foreach ($language as $language_id => $keyword) {
-				$parent_info = $this->model_design_seo_url->getSeoUrlByKeyValue('path', $path_parent, $store_id, $language_id);
+		foreach ($data['category_seo_url'] as $language_id => $keyword) {
 
-				if ($parent_info) {
-					$keyword = $parent_info['keyword'] . '/' . $keyword;
-				}
+			$parent_info = $this->model_design_seo_url->getSeoUrlByKeyValue('path', $path_parent, $language_id);
+
+			if ($parent_info) {
+				$keyword = $parent_info['keyword'] . '/' . $keyword;
+			}
 
 
-				// Generate the SQL query
-				$sql = "
-				INSERT INTO `" . DB_PREFIX . "seo_url` (`store_id`, `language_id`, `key`, `value`, `keyword`) 
+			// Generate the SQL query
+			$sql = "
+				INSERT INTO `" . DB_PREFIX . "seo_url` ( `language_id`, `key`, `value`, `keyword`) 
 				VALUES (
-					'" . (int) $store_id . "', 
+			  
 					'" . (int) $language_id . "', 
 					'path', 
 					'" . $this->db->escape($path_new) . "', 
@@ -219,22 +202,15 @@ class Category extends \Ventocart\System\Engine\Model
 					`value` = '" . $this->db->escape($path_new) . "', 
 					`keyword` = '" . $this->db->escape($keyword) . "';  
 			";
-				$this->db->query($sql);
-				// update all of its children urls with the new /parent/children
-				$this->updateSeoChildren($category_id, $keyword, $language_id, $store_id);
-			}
+			$this->db->query($sql);
+			// update all of its children urls with the new /parent/children
+			$this->updateSeoChildren($category_id, $keyword, $language_id);
+
 		}
 
-		// Layouts
-		$this->db->query("DELETE FROM `" . DB_PREFIX . "category_to_layout` WHERE `category_id` = '" . (int) $category_id . "'");
 
-		if (isset($data['category_layout'])) {
-			foreach ($data['category_layout'] as $store_id => $layout_id) {
-				$this->db->query("INSERT INTO `" . DB_PREFIX . "category_to_layout` SET `category_id` = '" . (int) $category_id . "', `store_id` = '" . (int) $store_id . "', `layout_id` = '" . (int) $layout_id . "'");
-			}
-		}
 	}
-	public function updateSeoChildren(int $category_id, string $category_path, int $language_id, int $store_id)
+	public function updateSeoChildren(int $category_id, string $category_path, int $language_id)
 	{
 		// Get all child categories where parent_id = $category_id
 		$query = $this->db->query("
@@ -254,7 +230,6 @@ class Category extends \Ventocart\System\Engine\Model
 				LEFT JOIN `" . DB_PREFIX . "seo_url` su 
 					ON su.`value` = c.`path` 
 					AND su.`language_id` = '" . (int) $language_id . "' 
-					AND su.`store_id` = '" . (int) $store_id . "'
 				WHERE c.`category_id` = '" . (int) $child_category_id . "'
 				AND su.`key` = 'path'
 			");
@@ -280,11 +255,11 @@ class Category extends \Ventocart\System\Engine\Model
 				WHERE `value` = '" . $this->db->escape($my_old_path) . "' 
 				AND `key` = 'path'
 				AND `language_id` = '" . (int) $language_id . "' 
-				AND `store_id` = '" . (int) $store_id . "'
+ 
 			");
 
 			// Recursive call to update the child's children
-			$this->updateSeoChildren($child_category_id, $new_path, $language_id, $store_id);
+			$this->updateSeoChildren($child_category_id, $new_path, $language_id);
 		}
 	}
 
@@ -304,8 +279,7 @@ class Category extends \Ventocart\System\Engine\Model
 		$this->db->query("DELETE FROM `" . DB_PREFIX . "category` WHERE `category_id` = '" . (int) $category_id . "'");
 		$this->db->query("DELETE FROM `" . DB_PREFIX . "category_description` WHERE `category_id` = '" . (int) $category_id . "'");
 		$this->db->query("DELETE FROM `" . DB_PREFIX . "category_filter` WHERE `category_id` = '" . (int) $category_id . "'");
-		$this->db->query("DELETE FROM `" . DB_PREFIX . "category_to_store` WHERE `category_id` = '" . (int) $category_id . "'");
-		$this->db->query("DELETE FROM `" . DB_PREFIX . "category_to_layout` WHERE `category_id` = '" . (int) $category_id . "'");
+
 		$this->db->query("DELETE FROM `" . DB_PREFIX . "product_to_category` WHERE `category_id` = '" . (int) $category_id . "'");
 		$this->db->query("DELETE FROM `" . DB_PREFIX . "coupon_category` WHERE `category_id` = '" . (int) $category_id . "'");
 
@@ -470,37 +444,14 @@ class Category extends \Ventocart\System\Engine\Model
 		$query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "seo_url` WHERE `key` = 'path' AND `value` = '" . $this->db->escape($this->getCategoryPath($category_id)) . "'");
 
 		foreach ($query->rows as $result) {
-			$category_seo_url_data[$result['store_id']][$result['language_id']] = $result['keyword'];
+			$category_seo_url_data[$result['language_id']] = $result['keyword'];
 		}
 
 		return $category_seo_url_data;
 	}
 
-	public function getStores(int $category_id): array
-	{
-		$category_store_data = [];
 
-		$query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "category_to_store` WHERE `category_id` = '" . (int) $category_id . "'");
 
-		foreach ($query->rows as $result) {
-			$category_store_data[] = $result['store_id'];
-		}
-
-		return $category_store_data;
-	}
-
-	public function getLayouts(int $category_id): array
-	{
-		$category_layout_data = [];
-
-		$query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "category_to_layout` WHERE `category_id` = '" . (int) $category_id . "'");
-
-		foreach ($query->rows as $result) {
-			$category_layout_data[$result['store_id']] = $result['layout_id'];
-		}
-
-		return $category_layout_data;
-	}
 
 	public function getTotalCategories(): int
 	{
@@ -509,12 +460,7 @@ class Category extends \Ventocart\System\Engine\Model
 		return (int) $query->row['total'];
 	}
 
-	public function getTotalCategoriesByLayoutId(int $layout_id): int
-	{
-		$query = $this->db->query("SELECT COUNT(*) AS `total` FROM `" . DB_PREFIX . "category_to_layout` WHERE `layout_id` = '" . (int) $layout_id . "'");
 
-		return (int) $query->row['total'];
-	}
 
 	private function convertToSeoFriendly($text)
 	{

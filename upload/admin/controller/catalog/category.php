@@ -321,18 +321,11 @@ class Category extends \Ventocart\System\Engine\Controller
 		$data['stores'] = [];
 
 		$data['stores'][] = [
-			'store_id' => 0,
+
 			'name' => $this->language->get('text_default')
 		];
 
-		$stores = $this->model_setting_store->getStores();
 
-		foreach ($stores as $store) {
-			$data['stores'][] = [
-				'store_id' => $store['store_id'],
-				'name' => $store['name']
-			];
-		}
 
 		if (isset($this->request->get['category_id'])) {
 			$data['category_store'] = $this->model_catalog_category->getStores($this->request->get['category_id']);
@@ -354,17 +347,16 @@ class Category extends \Ventocart\System\Engine\Controller
 		if (isset($this->request->get['category_id'])) {
 			$results = $this->model_catalog_category->getSeoUrls($this->request->get['category_id']);
 
-			foreach ($results as $store_id => $languages) {
-				foreach ($languages as $language_id => $keyword) {
-					$pos = strrpos($keyword, '/');
+			foreach ($results as $language_id => $keyword) {
+				$pos = strrpos($keyword, '/');
 
-					if ($pos !== false) {
-						$keyword = substr($keyword, $pos + 1);
-					}
-
-					$data['category_seo_url'][$store_id][$language_id] = $keyword;
+				if ($pos !== false) {
+					$keyword = substr($keyword, $pos + 1);
 				}
+
+				$data['category_seo_url'][$language_id] = $keyword;
 			}
+
 		}
 
 		$this->load->model('design/layout');
@@ -413,22 +405,22 @@ class Category extends \Ventocart\System\Engine\Controller
 		if ($this->request->post['category_seo_url']) {
 			$this->load->model('design/seo_url');
 
-			foreach ($this->request->post['category_seo_url'] as $store_id => $language) {
-				foreach ($language as $language_id => $keyword) {
-
-					if ((oc_strlen(trim($keyword)) < 1) || (oc_strlen($keyword) > 64)) {
-						$json['error']['keyword_' . $store_id . '_' . $language_id] = $this->language->get('error_keyword');
-					}
+			foreach ($this->request->post['category_seo_url'] as $language_id => $keyword) {
 
 
+				if ((oc_strlen(trim($keyword)) < 1) || (oc_strlen($keyword) > 64)) {
+					$json['error']['keyword_' . $language_id] = $this->language->get('error_keyword');
+				}
 
-					$seo_url_info = $this->model_design_seo_url->getSeoUrlByKeyword($keyword, $store_id);
 
-					if ($seo_url_info && (!isset($this->request->post['category_id']) || $seo_url_info['key'] != 'path' || $seo_url_info['value'] != $this->model_catalog_category->getCategoryPath($this->request->post['category_id']))) {
-						$json['error']['keyword_' . $store_id . '_' . $language_id] = $this->language->get('error_keyword_exists');
-					}
+
+				$seo_url_info = $this->model_design_seo_url->getSeoUrlByKeyword($keyword);
+
+				if ($seo_url_info && (!isset($this->request->post['category_id']) || $seo_url_info['key'] != 'path' || $seo_url_info['value'] != $this->model_catalog_category->getCategoryPath($this->request->post['category_id']))) {
+					$json['error']['keyword_' . $language_id] = $this->language->get('error_keyword_exists');
 				}
 			}
+
 		}
 
 		if (isset($json['error']) && !isset($json['error']['warning'])) {

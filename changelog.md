@@ -1,3 +1,43 @@
+#### **What's New in VentoCart v7.0.0.0** 🚀  
+
+**Breaking Changes (Major Removals)** 
+
+This release **removes** support for: 
+- **Multi-Store Feature** 🏪❌ – Due to minimal usage and unnecessary complexity, multi-store functionality has been completely removed, improving performance by eliminating extra left joins.
+- **Layout Overrides** 🛠️❌ – This feature saw little to no adoption and introduced performance overhead. It has now been removed for a cleaner and more efficient system.
+
+**If you rely on these features, we recommend sticking to v6.1.0.7** 
+
+### **New Features & Enhancements**  
+
+- **💰 Price Filter Module** – Added a new **price filter** module, allowing users to refine products by price range.
+- **📱 Mobile Menu Improvements** – Fixed dropdowns on mobile for a smoother navigation experience.
+- **🔎 Search Enhancement** – Added **autocomplete** functionality to the search bar for faster product discovery.
+- **🖊️ Theme Editor Fix** – Non-editable file types are now properly excluded from the theme editor.
+- **📌 Wishlist Count Fix** – The wishlist count in the "My Account" icon now updates correctly.
+- **🔗 Navigation Fix** – Prevented unnecessary tab-following in certain link structures.
+
+### **Bug Fixes & Maintenance**  
+
+- **⚙️ Admin Language Fix** – Resolved inconsistencies in admin panel language strings caused by the extension list.
+- **↩️ Back Button Fix** – `$this->e()` was breaking URLs in the admin topic module, affecting the back button functionality—now fixed.
+- **💲 Price Filter Null Fields** – Allowed **null** values in the price filter module, to work with min or max only prices.
+- **🔧 Config Fixes** – Adjusted configurations to ensure stability and proper loading.
+- **🔄 SEO & Menu Adjustments** – Fixed issues with links and dropdowns in mobile menu
+
+### **Upgrade Instructions**  
+Upgrade Instructions
+
+    Database Cleanup (For Multi-Store Users)
+        If you previously used multi-store, use phpMyAdmin or a similar tool to clean your database.
+        Remove all store_id references in tables like category, product, etc., keeping only the main store’s data.
+        Export the cleaned tables and import them into the new installation.
+
+    Fresh Install Recommended
+        Since this version removes multi-store and layout overrides, a fresh install is recommended for best performance.
+---
+This release focuses on **performance, usability, and cleaning up unnecessary features**. VentoCart is now **leaner, faster, and more efficient!** 🚀 
+ 
 ## What's New in VentoCart v6.1.0.7
 
 **Upgrade Instructions:** 

@@ -6,7 +6,7 @@ class Order extends \Ventocart\System\Engine\Model
 	{
 		$this->db->query("INSERT INTO `" . DB_PREFIX . "order` SET
 		`invoice_prefix` = '" . $this->db->escape((string) $data['invoice_prefix']) . "',
-		`store_id` = '" . (int) $data['store_id'] . "',
+	 
 		`store_name` = '" . $this->db->escape((string) $data['store_name']) . "',
 		`store_url` = '" . $this->db->escape((string) $data['store_url']) . "',
 		`customer_id` = '" . (int) $data['customer_id'] . "',
@@ -146,7 +146,7 @@ class Order extends \Ventocart\System\Engine\Model
 			UPDATE `" . DB_PREFIX . "order` 
 			SET 
 				`invoice_prefix` = '" . $this->db->escape((string) $data['invoice_prefix']) . "',
-				`store_id` = '" . (int) $data['store_id'] . "',
+			 
 				`store_name` = '" . $this->db->escape((string) $data['store_name']) . "',
 				`store_url` = '" . $this->db->escape((string) $data['store_url']) . "',
 				`customer_id` = '" . (int) $data['customer_id'] . "',

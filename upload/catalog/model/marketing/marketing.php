@@ -5,13 +5,15 @@ namespace Ventocart\Catalog\Model\Marketing;
  *
  * @package Ventocart\Catalog\Model\Marketing
  */
-class Marketing extends \Ventocart\System\Engine\Model {
+class Marketing extends \Ventocart\System\Engine\Model
+{
 	/**
 	 * @param string $code
 	 *
 	 * @return array
 	 */
-	public function getMarketingByCode(string $code): array {
+	public function getMarketingByCode(string $code): array
+	{
 		$query = $this->db->query("SELECT DISTINCT * FROM `" . DB_PREFIX . "marketing` WHERE `code` = '" . $this->db->escape($code) . "'");
 
 		return $query->row;
@@ -24,7 +26,8 @@ class Marketing extends \Ventocart\System\Engine\Model {
 	 *
 	 * @return void
 	 */
-	public function addReport(int $marketing_id, string $ip, string $country = ''): void {
-		$this->db->query("INSERT INTO `" . DB_PREFIX . "marketing_report` SET `marketing_id` = '" . (int)$marketing_id . "', `store_id` = '" . (int)$this->config->get('config_store_id') . "', `ip` = '" . $this->db->escape($ip) . "', `country` = '" . $this->db->escape($country) . "', `date_added` = NOW()");
+	public function addReport(int $marketing_id, string $ip, string $country = ''): void
+	{
+		$this->db->query("INSERT INTO `" . DB_PREFIX . "marketing_report` SET `marketing_id` = '" . (int) $marketing_id . "', `ip` = '" . $this->db->escape($ip) . "', `country` = '" . $this->db->escape($country) . "', `date_added` = NOW()");
 	}
 }

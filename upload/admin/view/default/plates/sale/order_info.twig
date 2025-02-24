@@ -90,19 +90,6 @@
 
         <div id="collapse-order"  >
           <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-xl-4">
-
-            <div class="col">
-              <form id="form-store" class="mb-3">
-                <div class="form-floating">
-                  <select name="store_id" id="input-store" class="form-select">
-                    {% for store in stores %}
-                      <option value="{{ store.store_id }}"{% if store.store_id == store_id %} selected{% endif %}>{{ store.name }}</option>
-                    {% endfor %}
-                  </select> <label for="input-store">{{ entry_store }}</label>
-                </div>
-              </form>
-            </div>
-
             <div class="col">
               <form id="form-language" class="mb-3">
                 <div class="form-floating">
@@ -1242,7 +1229,7 @@ $('#form-customer').on('submit', function(e) {
     e.preventDefault();
 
     $.ajax({
-        url: 'index.php?route=sale/order.call&user_token={{ user_token }}&action=sale/customer&store_id=' + $('#input-store').val() + '&language=' + $('#input-language').val(),
+        url: 'index.php?route=sale/order.call&user_token={{ user_token }}&action=sale/customer&language=' + $('#input-language').val(),
         type: 'post',
         data: $('#form-customer').serialize(),
         dataType: 'json',
@@ -1511,7 +1498,7 @@ $('#form-product-add').on('submit', function(e) {
     e.preventDefault();
 
     $.ajax({
-        url: 'index.php?route=sale/order.call&user_token={{ user_token }}&action=sale/cart.addProduct&store_id=' + $('#input-store').val() + '&language=' + $('#input-language').val(),
+        url: 'index.php?route=sale/order.call&user_token={{ user_token }}&action=sale/cart.addProduct&language=' + $('#input-language').val(),
         type: 'post',
         data: $('#form-product-add').serialize(),
         dataType: 'json',
@@ -1561,7 +1548,7 @@ $('#order-products').on('submit', 'form', function(e) {
     var element = this;
 
     $.ajax({
-        url: 'index.php?route=sale/order.call&user_token={{ user_token }}&store_id=' + $('#input-store').val() + '&language=' + $('#input-language').val() + '&action=sale/cart.remove',
+        url: 'index.php?route=sale/order.call&user_token={{ user_token }}&language=' + $('#input-language').val() + '&action=sale/cart.remove',
         type: 'post',
         data: $(element).serialize(),
         dataType: 'json',
@@ -1615,7 +1602,7 @@ $('#input-currency').on('change', function(e) {
     e.preventDefault();
 
     $.ajax({
-        url: 'index.php?route=sale/order.call&user_token={{ user_token }}&store_id=' + $('#input-store').val() + '&language=' + $('#input-language').val() + '&action=localisation/currency',
+        url: 'index.php?route=sale/order.call&user_token={{ user_token }}&language=' + $('#input-language').val() + '&action=localisation/currency',
         type: 'post',
         data: $('#form-currency').serialize(),
         dataType: 'json',
@@ -1649,7 +1636,7 @@ $('#form-coupon').on('submit', function(e) {
     e.preventDefault();
 
     $.ajax({
-        url: 'index.php?route=sale/order.call&user_token={{ user_token }}&store_id=' + $('#input-store').val() + '&language=' + $('#input-language').val() + '&action=sale/coupon',
+        url: 'index.php?route=sale/order.call&user_token={{ user_token }}&language=' + $('#input-language').val() + '&action=sale/coupon',
         type: 'post',
         data: $('#form-coupon').serialize(),
         dataType: 'json',
@@ -1685,7 +1672,7 @@ $('#form-reward').on('submit', function(e) {
     e.preventDefault();
 
     $.ajax({
-        url: 'index.php?route=sale/order.call&user_token={{ user_token }}&store_id=' + $('#input-store').val() + '&language=' + $('#input-language').val() + '&action=sale/reward',
+        url: 'index.php?route=sale/order.call&user_token={{ user_token }}&language=' + $('#input-language').val() + '&action=sale/reward',
         type: 'post',
         data: $('#form-reward').serialize(),
         dataType: 'json',
@@ -1793,7 +1780,7 @@ $('#form-affiliate').on('submit', function(e) {
     e.preventDefault();
 
     $.ajax({
-        url: 'index.php?route=sale/order.call&user_token={{ user_token }}&store_id=' + $('#input-store').val() + '&language=' + $('#input-language').val() + '&action=sale/affiliate',
+        url: 'index.php?route=sale/order.call&user_token={{ user_token }}&language=' + $('#input-language').val() + '&action=sale/affiliate',
         type: 'post',
         data: $('#form-affiliate').serialize(),
         dataType: 'json',
@@ -1929,7 +1916,7 @@ $('#form-payment-address').on('submit', function(e) {
     e.preventDefault();
 
     $.ajax({
-        url: 'index.php?route=sale/order.call&user_token={{ user_token }}&store_id=' + $('#input-store').val() + '&language=' + $('#input-language').val() + '&action=sale/payment_address'  + "&order_id={{order_id}}",
+        url: 'index.php?route=sale/order.call&user_token={{ user_token }}&language=' + $('#input-language').val() + '&action=sale/payment_address'  + "&order_id={{order_id}}",
         type: 'post',
         data: $('#form-payment-address').serialize(),
         dataType: 'json',
@@ -2102,7 +2089,7 @@ $('#form-shipping-address').on('submit', function(e) {
     e.preventDefault();
 
     $.ajax({
-        url: 'index.php?route=sale/order.call&user_token={{ user_token }}&action=sale/shipping_address&store_id=' + $('#input-store').val() + '&language=' + $('#input-language').val(),
+        url: 'index.php?route=sale/order.call&user_token={{ user_token }}&action=sale/shipping_address&language=' + $('#input-language').val(),
         type: 'post',
         data: $('#form-shipping-address').serialize(),
         dataType: 'json',
@@ -2224,7 +2211,7 @@ $('#button-shipping-methods').on('click', function() {
     var element = this;
 
     $.ajax({
-        url: 'index.php?route=sale/order.call&user_token={{ user_token }}&action=sale/shipping_method&store_id=' + $('#input-store').val() + '&language=' + $('#input-language').val(),
+        url: 'index.php?route=sale/order.call&user_token={{ user_token }}&action=sale/shipping_method&language=' + $('#input-language').val(),
         dataType: 'json',
         beforeSend: function() {
             $(element).button('loading');
@@ -2283,7 +2270,7 @@ $('#form-shipping-method').on('submit', function(e) {
     var element = this;
 
     $.ajax({
-        url: 'index.php?route=sale/order.call&user_token={{ user_token }}&action=sale/shipping_method.save&store_id=' + $('#input-store').val() + '&language=' + $('#input-language').val(),
+        url: 'index.php?route=sale/order.call&user_token={{ user_token }}&action=sale/shipping_method.save&language=' + $('#input-language').val(),
         type: 'post',
         data: $('#form-shipping-method').serialize(),
         dataType: 'json',
@@ -2325,7 +2312,7 @@ $('#button-payment-methods').on('click', function() {
     var element = this;
 
     $.ajax({
-        url: 'index.php?route=sale/order.call&user_token={{ user_token }}&action=sale/payment_method&store_id=' + $('#input-store').val() + '&language=' + $('#input-language').val()  + "&order_id={{order_id}}",
+        url: 'index.php?route=sale/order.call&user_token={{ user_token }}&action=sale/payment_method&language=' + $('#input-language').val()  + "&order_id={{order_id}}",
         dataType: 'json',
         beforeSend: function() {
             $(element).button('loading');
@@ -2384,7 +2371,7 @@ $('#form-payment-method').on('submit', function(e) {
     var element = this;
 
     $.ajax({
-        url: 'index.php?route=sale/order.call&user_token={{ user_token }}&action=sale/payment_method.save&store_id=' + $('#input-store').val() + '&language=' + $('#input-language').val(),
+        url: 'index.php?route=sale/order.call&user_token={{ user_token }}&action=sale/payment_method.save&language=' + $('#input-language').val(),
         type: 'post',
         data: $('#form-payment-method').serialize(),
         dataType: 'json',
@@ -2425,7 +2412,7 @@ $('#form-comment').on('submit', function(e) {
     var element = this;
 
     $.ajax({
-        url: 'index.php?route=sale/order.call&user_token={{ user_token }}&action=sale/order.comment&store_id=' + $('#input-store').val() + '&language=' + $('#input-language').val(),
+        url: 'index.php?route=sale/order.call&user_token={{ user_token }}&action=sale/order.comment&language=' + $('#input-language').val(),
         type: 'post',
         data: $('#form-comment').serialize(),
         dataType: 'json',
@@ -2459,7 +2446,7 @@ $('#form-comment').on('submit', function(e) {
 // Refresh all products and totals
 $('#button-refresh').on('click', function() {
   $.ajax({
-    url: 'index.php?route=sale/order.call&user_token={{ user_token }}&action=sale/cart&store_id=' + $('#input-store').val() + '&language=' + $('#input-language').val()  + "&order_id={{order_id}}",
+    url: 'index.php?route=sale/order.call&user_token={{ user_token }}&action=sale/cart&language=' + $('#input-language').val()  + "&order_id={{order_id}}",
     dataType: 'json',
     beforeSend: function() {
         $('#button-refresh').button('loading');
@@ -2556,7 +2543,7 @@ $('#button-confirm').on('click', function() {
     var element = this;
 
     $.ajax({
-        url: 'index.php?route=sale/order.call&user_token={{ user_token }}&action=sale/order.confirm&store_id=' + $('#input-store').val() + '&language=' + $('#input-language').val() + "&order_id={{order_id}}" ,
+        url: 'index.php?route=sale/order.call&user_token={{ user_token }}&action=sale/order.confirm&language=' + $('#input-language').val() + "&order_id={{order_id}}" ,
         dataType: 'json',
         beforeSend: function() {
             $(element).button('loading');
@@ -2619,7 +2606,7 @@ $('#form-history').on('submit', function(e) {
     e.preventDefault();
 
     $.ajax({
-        url: 'index.php?route=sale/order.call&user_token={{ user_token }}&action=sale/order.addHistory&store_id=' + $('#input-store').val() + '&language=' + $('#input-language').val() + '&order_id=' + $('#input-order-id').val(),
+        url: 'index.php?route=sale/order.call&user_token={{ user_token }}&action=sale/order.addHistory&language=' + $('#input-language').val() + '&order_id=' + $('#input-order-id').val(),
         type: 'post',
         dataType: 'json',
         data: $('#form-history').serialize(),

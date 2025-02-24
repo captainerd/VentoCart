@@ -251,7 +251,6 @@ class Order extends \Ventocart\System\Engine\Model
 			// Store Details
 			$order_data['invoice_prefix'] = $this->config->get('config_invoice_prefix');
 
-			$order_data['store_id'] = $this->config->get('config_store_id');
 			$order_data['store_name'] = $this->config->get('config_name');
 			$order_data['store_url'] = $this->config->get('config_url');
 

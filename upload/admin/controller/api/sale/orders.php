@@ -11,7 +11,7 @@ class Orders extends \Ventocart\System\Engine\Controller
 		$data['stores'] = [];
 
 		$data['stores'][] = [
-			'store_id' => 0,
+
 			'name' => $this->language->get('text_default')
 		];
 
@@ -21,7 +21,7 @@ class Orders extends \Ventocart\System\Engine\Controller
 
 		foreach ($stores as $store) {
 			$data['stores'][] = [
-				'store_id' => $store['store_id'],
+
 				'name' => $store['name']
 			];
 		}
@@ -54,7 +54,7 @@ class Orders extends \Ventocart\System\Engine\Controller
 		$filter_order_id = (int) $this->getRequestParam('filter_order_id', '');
 		$filter_customer_id = $this->getRequestParam('filter_customer_id', '');
 		$filter_customer = $this->getRequestParam('filter_customer', '');
-		$filter_store_id = $this->getRequestParam('filter_store_id', '');
+
 		$filter_order_status = $this->getRequestParam('filter_order_status', '');
 		$filter_order_status_id = $this->getRequestParam('filter_order_status_id', '');
 		$filter_total = $this->getRequestParam('filter_total', '');
@@ -71,7 +71,6 @@ class Orders extends \Ventocart\System\Engine\Controller
 			'filter_order_id' => $filter_order_id,
 			'filter_customer_id' => $filter_customer_id,
 			'filter_customer' => $filter_customer,
-			'filter_store_id' => $filter_store_id,
 			'filter_order_status' => $filter_order_status,
 			'filter_order_status_id' => $filter_order_status_id,
 			'filter_total' => $filter_total,
@@ -344,11 +343,7 @@ class Orders extends \Ventocart\System\Engine\Controller
 			$session->destroy();
 		}
 
-		if (!empty($order_info)) {
-			$store_id = $order_info['store_id'];
-		} else {
-			$store_id = 0;
-		}
+
 
 		if (!empty($order_info)) {
 			$language = $order_info['language_code'];
@@ -359,55 +354,10 @@ class Orders extends \Ventocart\System\Engine\Controller
 		// Create a store instance using loader class to call controllers, models, views, libraries
 		$this->load->model('setting/store');
 
-		$store = $this->model_setting_store->createStoreInstance($store_id, $language);
 
-		// 2. Store the new session ID so we're not creating new session on every page load
-		$this->session->data['api_session'] = $store->session->getId();
-
-		// 3. To use the order API it requires an API ID.
-		$store->session->data['api_id'] = (int) $this->config->get('config_api_id');
-
-		if (!empty($order_info)) {
-			// 4. Add the request vars and remove the unneeded ones
-			$store->request->get = $this->request->post;
-			$store->request->post = $this->request->post;
-
-			// 5. Load the order data
-			$store->request->get['route'] = 'api/sale/orders.load';
-			//$store->request->get['language'] = $language;
-
-			unset($store->request->get['user_token']);
-			unset($store->request->get['action']);
-
-			$store->load->controller($store->request->get['route']);
-		}
-
-		// Store
-		$data['stores'] = [];
-
-		$data['stores'][] = [
-			'store_id' => 0,
-			'name' => $this->config->get('config_name')
-		];
 
 		$this->load->model('setting/store');
 
-		$results = $this->model_setting_store->getStores();
-
-		foreach ($results as $result) {
-			$data['stores'][] = [
-				'store_id' => $result['store_id'],
-				'name' => $result['name']
-			];
-		}
-
-		if (!empty($order_info)) {
-			$data['store_id'] = $order_info['store_id'];
-		} else {
-			$data['store_id'] = $this->config->get('config_store_id');
-		}
-
-		// Language
 		$this->load->model('localisation/language');
 
 		//$data['languages'] = $this->model_localisation_language->getLanguages();
@@ -802,11 +752,7 @@ class Orders extends \Ventocart\System\Engine\Controller
 	// Method to call the store front API and return a response.
 	public function call(): void
 	{
-		if (isset($this->request->post['store_id'])) {
-			$store_id = (int) $this->request->post['store_id'];
-		} else {
-			$store_id = 0;
-		}
+
 
 		if (isset($this->request->post['language'])) {
 			$language = $this->request->post['language'];
@@ -826,28 +772,7 @@ class Orders extends \Ventocart\System\Engine\Controller
 			$session_id = '';
 		}
 
-		if ($action) {
-			// 1. Create a store instance using loader class to call controllers, models, views, libraries
-			$this->load->model('setting/store');
 
-			$store = $this->model_setting_store->createStoreInstance($store_id, $language, $session_id);
-
-			// 2. Add the request vars and remove the unneeded ones
-			$store->request->get = $this->request->post;
-			$store->request->post = $this->request->post;
-
-			$store->request->get['route'] = 'api/' . $action;
-
-			// 3. Remove the unneeded keys
-			unset($store->request->get['action']);
-			unset($store->request->get['user_token']);
-
-			// Call the required API controller
-			$store->load->controller($store->request->get['route']);
-
-			$this->response->addHeader('Content-Type: application/json');
-			$this->response->setOutput($store->response->getOutput());
-		}
 	}
 
 

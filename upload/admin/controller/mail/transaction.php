@@ -48,17 +48,10 @@ class Transaction extends \Ventocart\System\Engine\Controller
 		if ($customer_info) {
 			$this->load->language('mail/transaction');
 
-			$this->load->model('setting/store');
 
-			$store_info = $this->model_setting_store->getStore($customer_info['store_id']);
+			$store_name = html_entity_decode($this->config->get('config_name'), ENT_QUOTES, 'UTF-8');
+			$store_url = $this->config->get('config_url');
 
-			if ($store_info) {
-				$store_name = html_entity_decode($store_info['name'], ENT_QUOTES, 'UTF-8');
-				$store_url = isset($store_info['store_url']) ? $store_info['store_url'] : $this->config->get('site_url');
-			} else {
-				$store_name = html_entity_decode($this->config->get('config_name'), ENT_QUOTES, 'UTF-8');
-				$store_url = $this->config->get('config_url');
-			}
 
 			$this->load->model('localisation/language');
 

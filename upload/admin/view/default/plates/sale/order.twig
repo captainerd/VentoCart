@@ -32,15 +32,7 @@
               <input type="text" name="filter_customer" value="{{ filter_customer }}" placeholder="{{ entry_customer }}" id="input-customer" data-oc-target="autocomplete-customer" class="form-control" autocomplete="off"/>
               <ul id="autocomplete-customer" class="dropdown-menu"></ul>
             </div>
-            <div class="mb-3">
-              <label for="input-store" class="form-label">{{ entry_store }}</label>
-              <select name="filter_store_id" id="input-store" class="form-select">
-                <option value=""></option>
-                {% for store in stores %}
-                  <option value="{{ store.store_id }}"{% if store.store_id == filter_store_id %} selected{% endif %}>{{ store.name }}</option>
-                {% endfor %}
-              </select>
-            </div>
+        
             <div class="mb-3">
               <label for="input-order-status" class="form-label">{{ entry_order_status }}</label>
               <select name="filter_order_status_id" id="input-order-status" class="form-select">
@@ -104,13 +96,7 @@ $('#button-filter').on('click', function () {
     if (filter_customer) {
         url += '&filter_customer=' + encodeURIComponent(filter_customer);
     }
-
-    var filter_store_id = $('#input-store').val();
-
-    if (filter_store_id !== '') {
-        url += '&filter_store_id=' + filter_store_id;
-    }
-
+ 
     var filter_order_status_id = $('#input-order-status').val();
 
     if (filter_order_status_id !== '') {

@@ -11,7 +11,7 @@ class GiftCards extends \Ventocart\System\Engine\Model
     public function updateGiftCard($data): void
     {
         // Extract data from the $data array
-        $store_id = isset($data['store_id']) ? (int) $data['store_id'] : 0;
+
         $expires = isset($data['expires']) ? (int) $data['expires'] : 12;
         $giftcard_id = isset($data['giftcard_id']) ? (int) $data['giftcard_id'] : 0;
         $physical = isset($data['physical']) ? (int) $data['physical'] : 0;
@@ -28,7 +28,6 @@ class GiftCards extends \Ventocart\System\Engine\Model
                     fixed = '" . (int) $fixed . "',
                     amount = '" . $this->db->escape($amount) . "',
                     card_name = '" . $this->db->escape($card_name) . "',
-                    store_id = '" . $this->db->escape($store_id) . "',
                     expires_months = '" . $this->db->escape($expires) . "',
                     physical  = '" . $this->db->escape($physical) . "',
                     date_added = '" . $this->db->escape($date_added) . "'";
@@ -41,7 +40,6 @@ class GiftCards extends \Ventocart\System\Engine\Model
                     fixed = '" . (int) $fixed . "',
                     amount = '" . $this->db->escape($amount) . "',
                     card_name = '" . $this->db->escape($card_name) . "',
-                    store_id = '" . $this->db->escape($store_id) . "',
                     expires_months = '" . $this->db->escape($expires) . "',
                     physical  = '" . $this->db->escape($physical) . "' 
                     WHERE giftcard_id = '" . (int) $giftcard_id . "'";
@@ -86,7 +84,7 @@ class GiftCards extends \Ventocart\System\Engine\Model
 
     public function deleteGiftCard($giftcard_id)
     {
-        // Use the database connection to delete the gift card
+
         $this->db->query("DELETE FROM " . DB_PREFIX . "giftcards WHERE giftcard_id = " . (int) $giftcard_id);
     }
 

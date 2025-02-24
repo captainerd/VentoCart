@@ -159,20 +159,6 @@
                             </div>
 
 
-                            <!-- Store Selection -->
-                            <?php if (!empty($stores)): ?>
-                                <div class="mb-3">
-                                    <label for="storeSelect" class="form-label"><?= $entry_select_store ?></label>
-                                    <select class="form-control" id="storeSelect" name="store_id" required>
-                                        <option value=""><?= $entry_select_store ?></option>
-                                        <?php foreach ($stores as $store): ?>
-                                            <option value="<?= $store['store_id'] ?>" <?= (isset($giftcard['store_id']) && $giftcard['store_id'] == $store['store_id']) ? 'selected' : '' ?>>
-                                                <?= $store['name'] ?>
-                                            </option>
-                                        <?php endforeach; ?>
-                                    </select>
-                                </div>
-                            <?php endif; ?>
 
                             <!-- Amount Inputs -->
                             <div class="amount-container" id="amountContainer" style="display: none;">
@@ -724,7 +710,7 @@
         // Set card type
         $('#cardType').val(card.fixed);
         $('#expires').val(card.expires_months);
-        $('#storeSelect').val(card.store_id);
+
         // Fill amounts if fixed
 
         if (parseInt(card.fixed) == 1) {

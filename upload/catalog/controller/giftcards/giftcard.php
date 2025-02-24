@@ -55,11 +55,10 @@ class GiftCard extends \Ventocart\System\Engine\Controller
         $data['footer'] = $this->load->controller('common/footer');
         $data['header'] = $this->load->controller('common/header');
 
-        $store_id = $this->config->get('config_store_id');
 
         // Get the store URL for the active store
         $this->load->model('setting/store');
-        $store_info = $this->model_setting_store->getStore($store_id);
+        $store_info = $this->model_setting_store->getStore();
         if (empty($store_info['url'])) {
 
             $data['siteurl'] = $this->config->get('site_url');
@@ -93,9 +92,7 @@ class GiftCard extends \Ventocart\System\Engine\Controller
         // Initialize filters
         $filters = [];
 
-        if (isset($this->request->get['store_id'])) {
-            $filters['store_id'] = (int) $this->request->get['store_id'];
-        }
+
 
         if (isset($this->request->get['physical'])) {
             $filters['physical'] = (int) $this->request->get['physical'];
@@ -175,11 +172,10 @@ class GiftCard extends \Ventocart\System\Engine\Controller
             $data['agree_label'] = sprintf($this->language->get('entry_i_agree_terms'), $this->url->link('information/information.info', 'language=' . $this->config->get('config_language') . '&information_id=' . $this->config->get('config_account_id')), $information_info['title']);
         }
 
-        $store_id = $this->config->get('config_store_id');
 
         // Get the store URL for the active store
         $this->load->model('setting/store');
-        $store_info = $this->model_setting_store->getStore($store_id);
+        $store_info = $this->model_setting_store->getStore();
         if (empty($store_info['url'])) {
 
             $data['siteurl'] = HTTP_SERVER;

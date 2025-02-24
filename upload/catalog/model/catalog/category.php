@@ -14,7 +14,14 @@ class Category extends \Ventocart\System\Engine\Model
 	 */
 	public function getCategory(int $category_id): array
 	{
-		$query = $this->db->query("SELECT DISTINCT * FROM `" . DB_PREFIX . "category` `c` LEFT JOIN `" . DB_PREFIX . "category_description` `cd` ON (`c`.`category_id` = `cd`.`category_id`) LEFT JOIN `" . DB_PREFIX . "category_to_store` `c2s` ON (`c`.`category_id` = `c2s`.`category_id`) WHERE `c`.`category_id` = '" . (int) $category_id . "' AND `cd`.`language_id` = '" . (int) $this->config->get('config_language_id') . "' AND `c2s`.`store_id` = '" . (int) $this->config->get('config_store_id') . "' AND `c`.`status` = '1'");
+		$query = $this->db->query("SELECT DISTINCT * 
+		FROM `" . DB_PREFIX . "category` `c` 
+		LEFT JOIN `" . DB_PREFIX . "category_description` `cd` ON (`c`.`category_id` = `cd`.`category_id`) 
+		WHERE `c`.`category_id` = '" . (int) $category_id . "' 
+		AND `cd`.`language_id` = '" . (int) $this->config->get('config_language_id') . "'  
+		AND `c`.`status` = '1'");
+
+
 		$pattern = '/\[link=(.*?)\]/';
 		$query->row['redirect_url'] = '';
 		if ($query->num_rows > 0) {
@@ -35,7 +42,13 @@ class Category extends \Ventocart\System\Engine\Model
 	 */
 	public function getCategories(int $parent_id = 0): array
 	{
-		$query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "category` `c` LEFT JOIN `" . DB_PREFIX . "category_description` `cd` ON (`c`.`category_id` = `cd`.`category_id`) LEFT JOIN `" . DB_PREFIX . "category_to_store` `c2s` ON (`c`.`category_id` = `c2s`.`category_id`) WHERE `c`.`parent_id` = '" . (int) $parent_id . "' AND `cd`.`language_id` = '" . (int) $this->config->get('config_language_id') . "' AND `c2s`.`store_id` = '" . (int) $this->config->get('config_store_id') . "' AND `c`.`status` = '1' ORDER BY `c`.`sort_order`, LCASE(`cd`.`name`)");
+		$query = $this->db->query("SELECT * 
+		FROM `" . DB_PREFIX . "category` `c` 
+		LEFT JOIN `" . DB_PREFIX . "category_description` `cd` ON (`c`.`category_id` = `cd`.`category_id`) 
+		WHERE `c`.`parent_id` = '" . (int) $parent_id . "' 
+		AND `cd`.`language_id` = '" . (int) $this->config->get('config_language_id') . "'  
+		AND `c`.`status` = '1' 
+		ORDER BY `c`.`sort_order`, LCASE(`cd`.`name`)");
 
 		$categories = [];
 		foreach ($query->rows as $row) {
@@ -240,12 +253,8 @@ class Category extends \Ventocart\System\Engine\Model
 	 */
 	public function getLayoutId(int $category_id): int
 	{
-		$query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "category_to_layout` WHERE `category_id` = '" . (int) $category_id . "' AND `store_id` = '" . (int) $this->config->get('config_store_id') . "'");
 
-		if ($query->num_rows) {
-			return (int) $query->row['layout_id'];
-		} else {
-			return 0;
-		}
+		return 0;
+
 	}
 }

@@ -50,14 +50,14 @@ class Newsletter extends \Ventocart\System\Engine\Model
         }
 
         // Check if the email already exists in the newsletter table
-        $query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "newsletter` WHERE `email` = '" . $this->db->escape($email) . "' AND `store_id` = '" . (int) $this->config->get('config_store_id') . "'");
+        $query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "newsletter` WHERE `email` = '" . $this->db->escape($email) . "'");
 
         if ($query->num_rows > 0) {
             return 'text_already_subscribed';
         }
 
         // Insert the new email into the newsletter table
-        $this->db->query("INSERT INTO `" . DB_PREFIX . "newsletter` (`email`, `store_id`, `session_id`) VALUES ('" . $this->db->escape($email) . "', '" . (int) $this->config->get('config_store_id') . "', '" . $this->session->getId() . "')");
+        $this->db->query("INSERT INTO `" . DB_PREFIX . "newsletter` (`email`, `session_id`) VALUES ('" . $this->db->escape($email) . "', '" . $this->session->getId() . "')");
 
         return 'text_success';
     }
@@ -75,7 +75,7 @@ class Newsletter extends \Ventocart\System\Engine\Model
     {
 
         // Check if the email exists in the newsletter table
-        $query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "newsletter` WHERE `email` = '" . $this->db->escape($email) . "' AND `store_id` = '" . (int) $this->config->get('config_store_id') . "'");
+        $query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "newsletter` WHERE `email` = '" . $this->db->escape($email) . "'");
 
 
         if ($query->num_rows > 0) {
@@ -83,13 +83,13 @@ class Newsletter extends \Ventocart\System\Engine\Model
 
 
             // Delete the email from the newsletter table if it's not in the customer table
-            $this->db->query("DELETE FROM `" . DB_PREFIX . "newsletter` WHERE `email` = '" . $this->db->escape($email) . "' AND `store_id` = '" . (int) $this->config->get('config_store_id') . "'");
+            $this->db->query("DELETE FROM `" . DB_PREFIX . "newsletter` WHERE `email` = '" . $this->db->escape($email) . "'");
 
 
             return 'text_unsubscribe_success';
         } else {
 
-            $customer_query = $this->db->query("SELECT `newsletter` FROM `" . DB_PREFIX . "customer` WHERE `email` = '" . $this->db->escape($email) . "' AND `store_id` = '" . (int) $this->config->get('config_store_id') . "'");
+            $customer_query = $this->db->query("SELECT `newsletter` FROM `" . DB_PREFIX . "customer` WHERE `email` = '" . $this->db->escape($email) . "'");
 
 
             if ($customer_query->num_rows > 0) {

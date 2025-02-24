@@ -990,20 +990,10 @@ class Affiliate extends \Ventocart\System\Engine\Controller
 		$results = $this->model_marketing_affiliate->getReports($customer_id, ($page - 1) * $limit, $limit);
 
 		foreach ($results as $result) {
-			$store_info = $this->model_setting_store->getStore($result['store_id']);
-
-			if ($store_info) {
-				$store = $store_info['name'];
-			} elseif (!$result['store_id']) {
-				$store = $this->config->get('config_name');
-			} else {
-				$store = '';
-			}
 
 			$data['reports'][] = [
 				'ip' => $result['ip'],
 				'account' => $this->model_customer_customer->getTotalCustomersByIp($result['ip']),
-				'store' => $store,
 				'country' => $result['country'],
 				'date_added' => date($this->language->get('datetime_format'), strtotime($result['date_added'])),
 				'filter_ip' => $this->url->link('customer/customer', 'user_token=' . $this->session->data['user_token'] . '&filter_ip=' . $result['ip'])

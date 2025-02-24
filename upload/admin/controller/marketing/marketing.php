@@ -5,11 +5,13 @@ namespace Ventocart\Admin\Controller\Marketing;
  *
  * @package Ventocart\Admin\Controller\Marketing
  */
-class Marketing extends \Ventocart\System\Engine\Controller {
+class Marketing extends \Ventocart\System\Engine\Controller
+{
 	/**
 	 * @return void
 	 */
-	public function index(): void {
+	public function index(): void
+	{
 		$this->load->language('marketing/marketing');
 
 		$this->document->setTitle($this->language->get('heading_title'));
@@ -102,7 +104,8 @@ class Marketing extends \Ventocart\System\Engine\Controller {
 	/**
 	 * @return void
 	 */
-	public function list(): void {
+	public function list(): void
+	{
 		$this->load->language('marketing/marketing');
 
 		$this->response->setOutput($this->getList());
@@ -111,7 +114,8 @@ class Marketing extends \Ventocart\System\Engine\Controller {
 	/**
 	 * @return string
 	 */
-	protected function getList(): string {
+	protected function getList(): string
+	{
 		if (isset($this->request->get['filter_name'])) {
 			$filter_name = $this->request->get['filter_name'];
 		} else {
@@ -125,31 +129,31 @@ class Marketing extends \Ventocart\System\Engine\Controller {
 		}
 
 		if (isset($this->request->get['filter_date_from'])) {
-			$filter_date_from = (string)$this->request->get['filter_date_from'];
+			$filter_date_from = (string) $this->request->get['filter_date_from'];
 		} else {
 			$filter_date_from = '';
 		}
 
 		if (isset($this->request->get['filter_date_to'])) {
-			$filter_date_to = (string)$this->request->get['filter_date_to'];
+			$filter_date_to = (string) $this->request->get['filter_date_to'];
 		} else {
 			$filter_date_to = '';
 		}
 
 		if (isset($this->request->get['sort'])) {
-			$sort = (string)$this->request->get['sort'];
+			$sort = (string) $this->request->get['sort'];
 		} else {
 			$sort = 'm.name';
 		}
 
 		if (isset($this->request->get['order'])) {
-			$order = (string)$this->request->get['order'];
+			$order = (string) $this->request->get['order'];
 		} else {
 			$order = 'ASC';
 		}
 
 		if (isset($this->request->get['page'])) {
-			$page = (int)$this->request->get['page'];
+			$page = (int) $this->request->get['page'];
 		} else {
 			$page = 1;
 		}
@@ -189,14 +193,14 @@ class Marketing extends \Ventocart\System\Engine\Controller {
 		$data['marketings'] = [];
 
 		$filter_data = [
-			'filter_name'       => $filter_name,
-			'filter_code'       => $filter_code,
-			'filter_date_from'  => $filter_date_from,
-			'filter_date_to'    => $filter_date_to,
-			'sort'              => $sort,
-			'order'             => $order,
-			'start'             => ($page - 1) * $this->config->get('config_pagination_admin'),
-			'limit'             => $this->config->get('config_pagination_admin')
+			'filter_name' => $filter_name,
+			'filter_code' => $filter_code,
+			'filter_date_from' => $filter_date_from,
+			'filter_date_to' => $filter_date_to,
+			'sort' => $sort,
+			'order' => $order,
+			'start' => ($page - 1) * $this->config->get('config_pagination_admin'),
+			'limit' => $this->config->get('config_pagination_admin')
 		];
 
 		$this->load->model('marketing/marketing');
@@ -206,12 +210,12 @@ class Marketing extends \Ventocart\System\Engine\Controller {
 		foreach ($results as $result) {
 			$data['marketings'][] = [
 				'marketing_id' => $result['marketing_id'],
-				'name'         => $result['name'],
-				'code'         => $result['code'],
-				'clicks'       => $result['clicks'],
-				'orders'       => $result['orders'],
-				'date_added'   => date($this->language->get('date_format_short'), strtotime($result['date_added'])),
-				'edit'         => $this->url->link('marketing/marketing.form', 'user_token=' . $this->session->data['user_token'] . '&marketing_id=' . $result['marketing_id'] . $url)
+				'name' => $result['name'],
+				'code' => $result['code'],
+				'clicks' => $result['clicks'],
+				'orders' => $result['orders'],
+				'date_added' => date($this->language->get('date_format_short'), strtotime($result['date_added'])),
+				'edit' => $this->url->link('marketing/marketing.form', 'user_token=' . $this->session->data['user_token'] . '&marketing_id=' . $result['marketing_id'] . $url)
 			];
 		}
 
@@ -273,9 +277,9 @@ class Marketing extends \Ventocart\System\Engine\Controller {
 
 		$data['pagination'] = $this->load->controller('common/pagination', [
 			'total' => $marketing_total,
-			'page'  => $page,
+			'page' => $page,
 			'limit' => $this->config->get('config_pagination_admin'),
-			'url'   => $this->url->link('marketing/marketing.list', 'user_token=' . $this->session->data['user_token'] . $url . '&page={page}')
+			'url' => $this->url->link('marketing/marketing.list', 'user_token=' . $this->session->data['user_token'] . $url . '&page={page}')
 		]);
 
 		$data['results'] = sprintf($this->language->get('text_pagination'), ($marketing_total) ? (($page - 1) * $this->config->get('config_pagination_admin')) + 1 : 0, ((($page - 1) * $this->config->get('config_pagination_admin')) > ($marketing_total - $this->config->get('config_pagination_admin'))) ? $marketing_total : ((($page - 1) * $this->config->get('config_pagination_admin')) + $this->config->get('config_pagination_admin')), $marketing_total, ceil($marketing_total / $this->config->get('config_pagination_admin')));
@@ -289,7 +293,8 @@ class Marketing extends \Ventocart\System\Engine\Controller {
 	/**
 	 * @return void
 	 */
-	public function form(): void {
+	public function form(): void
+	{
 		$this->load->language('marketing/marketing');
 
 		$this->document->setTitle($this->language->get('heading_title'));
@@ -348,7 +353,7 @@ class Marketing extends \Ventocart\System\Engine\Controller {
 		}
 
 		if (isset($this->request->get['marketing_id'])) {
-			$data['marketing_id'] = (int)$this->request->get['marketing_id'];
+			$data['marketing_id'] = (int) $this->request->get['marketing_id'];
 		} else {
 			$data['marketing_id'] = 0;
 		}
@@ -387,7 +392,8 @@ class Marketing extends \Ventocart\System\Engine\Controller {
 	/**
 	 * @return void
 	 */
-	public function save(): void {
+	public function save(): void
+	{
 		$this->load->language('marketing/marketing');
 
 		$json = [];
@@ -429,7 +435,8 @@ class Marketing extends \Ventocart\System\Engine\Controller {
 	/**
 	 * @return void
 	 */
-	public function delete(): void {
+	public function delete(): void
+	{
 		$this->load->language('marketing/marketing');
 
 		$json = [];
@@ -461,7 +468,8 @@ class Marketing extends \Ventocart\System\Engine\Controller {
 	/**
 	 * @return void
 	 */
-	public function report(): void {
+	public function report(): void
+	{
 		$this->load->language('marketing/marketing');
 
 		$this->response->setOutput($this->getReport());
@@ -470,15 +478,16 @@ class Marketing extends \Ventocart\System\Engine\Controller {
 	/**
 	 * @return string
 	 */
-	public function getReport(): string {
+	public function getReport(): string
+	{
 		if (isset($this->request->get['marketing_id'])) {
-			$marketing_id = (int)$this->request->get['marketing_id'];
+			$marketing_id = (int) $this->request->get['marketing_id'];
 		} else {
 			$marketing_id = 0;
 		}
 
 		if (isset($this->request->get['page']) && $this->request->get['route'] == 'marketing/marketing.report') {
-			$page = (int)$this->request->get['page'];
+			$page = (int) $this->request->get['page'];
 		} else {
 			$page = 1;
 		}
@@ -494,23 +503,14 @@ class Marketing extends \Ventocart\System\Engine\Controller {
 		$results = $this->model_marketing_marketing->getReports($marketing_id, ($page - 1) * $limit, $limit);
 
 		foreach ($results as $result) {
-			$store_info = $this->model_setting_store->getStore($result['store_id']);
 
-			if ($store_info) {
-				$store = $store_info['name'];
-			} elseif (!$result['store_id']) {
-				$store = $this->config->get('config_name');
-			} else {
-				$store = '';
-			}
 
 			$data['reports'][] = [
-				'ip'         => $result['ip'],
-				'account'    => $this->model_customer_customer->getTotalCustomersByIp($result['ip']),
-				'store'      => $store,
-				'country'    => $result['country'],
+				'ip' => $result['ip'],
+				'account' => $this->model_customer_customer->getTotalCustomersByIp($result['ip']),
+				'country' => $result['country'],
 				'date_added' => date($this->language->get('datetime_format'), strtotime($result['date_added'])),
-				'filter_ip'  => $this->url->link('customer/customer', 'user_token=' . $this->session->data['user_token'] . '&filter_ip=' . $result['ip'])
+				'filter_ip' => $this->url->link('customer/customer', 'user_token=' . $this->session->data['user_token'] . '&filter_ip=' . $result['ip'])
 			];
 		}
 
@@ -518,9 +518,9 @@ class Marketing extends \Ventocart\System\Engine\Controller {
 
 		$data['pagination'] = $this->load->controller('common/pagination', [
 			'total' => $report_total,
-			'page'  => $page,
+			'page' => $page,
 			'limit' => $limit,
-			'url'   => $this->url->link('marketing/marketing.report', 'user_token=' . $this->session->data['user_token'] . '&marketing_id=' . $marketing_id . '&page={page}')
+			'url' => $this->url->link('marketing/marketing.report', 'user_token=' . $this->session->data['user_token'] . '&marketing_id=' . $marketing_id . '&page={page}')
 		]);
 
 		$data['results'] = sprintf($this->language->get('text_pagination'), ($report_total) ? (($page - 1) * $limit) + 1 : 0, ((($page - 1) * $limit) > ($report_total - $limit)) ? $report_total : ((($page - 1) * $limit) + $limit), $report_total, ceil($report_total / $limit));

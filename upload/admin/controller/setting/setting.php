@@ -12,7 +12,7 @@ class Setting extends \Ventocart\System\Engine\Controller
 	 */
 	public function index(): void
 	{
-		$this->load->language('setting/setting');
+		$data = $this->load->language('setting/setting');
 
 		$this->document->setTitle($this->language->get('heading_title'));
 

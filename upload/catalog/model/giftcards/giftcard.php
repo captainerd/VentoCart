@@ -19,19 +19,25 @@ class GiftCard extends \Ventocart\System\Engine\Model
      */
     public function getGiftCards($start = 0, $limit = 10, $filters = []): array
     {
-        $store_id = $this->config->get('config_store_id');
+
         $language_id = $this->config->get('config_language_id');
-
-        $sql = "SELECT * FROM " . DB_PREFIX . "giftcards WHERE store_id = '" . (int) $store_id . "'";
-
+        $sql = "SELECT * FROM " . DB_PREFIX . "giftcards";
 
         // Apply filters if available
+        $filterConditions = [];
+
         if (isset($filters['physical'])) {
-            $sql .= " AND physical = '" . (int) $filters['physical'] . "'";
+            $filterConditions[] = "physical = '" . (int) $filters['physical'] . "'";
         }
         if (isset($filters['giftcard_id'])) {
-            $sql .= " AND giftcard_id = '" . (int) $filters['giftcard_id'] . "'";
+            $filterConditions[] = "giftcard_id = '" . (int) $filters['giftcard_id'] . "'";
         }
+
+        // If there are filter conditions, add WHERE clause
+        if (!empty($filterConditions)) {
+            $sql .= " WHERE " . implode(" AND ", $filterConditions);
+        }
+
 
         $sql .= " LIMIT " . (int) $start . ", " . (int) $limit;
         $query = $this->db->query($sql);
@@ -68,14 +74,14 @@ class GiftCard extends \Ventocart\System\Engine\Model
     /**
      * Get the total number of gift cards
      *
-     * @param array $filters Optional filters for gift cards (e.g., store_id, physical)
+     * @param array $filters Optional filters for gift cards (e.g.,  , physical)
      *
      * @return int The total number of gift cards
      */
     public function getTotalGiftCards($filters = []): int
     {
-        $store_id = $this->config->get('config_store_id');
-        $sql = "SELECT COUNT(*) AS total FROM " . DB_PREFIX . "giftcards WHERE store_id = '" . (int) $store_id . "'";
+
+        $sql = "SELECT COUNT(*) AS total FROM " . DB_PREFIX . "giftcards ";
         if (!empty($filters['physical'])) {
             $sql .= " AND physical = '" . (int) $filters['physical'] . "'";
         }
@@ -195,8 +201,8 @@ class GiftCard extends \Ventocart\System\Engine\Model
             $expires_months = isset($giftcard_info['expires_months']) ? (int) $giftcard_info['expires_months'] : 12; // Default to 12 months if not set
             $expires_date = date('Y-m-d', strtotime('+' . $expires_months . ' months'));
 
-            $store_id = $giftcard_info['store_id'];
-            $store_info = $this->model_setting_store->getStore($store_id);
+
+            $store_info = $this->model_setting_store->getStore();
             // Update the original gift card entry
             $this->db->query("UPDATE " . DB_PREFIX . "customer_giftcard 
                                SET status = 1, 

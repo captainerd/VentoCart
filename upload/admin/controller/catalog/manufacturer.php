@@ -1,7 +1,9 @@
 <?php
 namespace Ventocart\Admin\Controller\Catalog;
-class Manufacturer extends \Ventocart\System\Engine\Controller {
-	public function index(): void {
+class Manufacturer extends \Ventocart\System\Engine\Controller
+{
+	public function index(): void
+	{
 		$this->load->language('catalog/manufacturer');
 
 		$this->document->setTitle($this->language->get('heading_title'));
@@ -46,13 +48,15 @@ class Manufacturer extends \Ventocart\System\Engine\Controller {
 		$this->response->setOutput($this->load->view('catalog/manufacturer', $data));
 	}
 
-	public function list(): void {
+	public function list(): void
+	{
 		$this->load->language('catalog/manufacturer');
 
 		$this->response->setOutput($this->getList());
 	}
 
-	protected function getList(): string {
+	protected function getList(): string
+	{
 		if (isset($this->request->get['sort'])) {
 			$sort = $this->request->get['sort'];
 		} else {
@@ -66,7 +70,7 @@ class Manufacturer extends \Ventocart\System\Engine\Controller {
 		}
 
 		if (isset($this->request->get['page'])) {
-			$page = (int)$this->request->get['page'];
+			$page = (int) $this->request->get['page'];
 		} else {
 			$page = 1;
 		}
@@ -90,7 +94,7 @@ class Manufacturer extends \Ventocart\System\Engine\Controller {
 		$data['manufacturers'] = [];
 
 		$filter_data = [
-			'sort'  => $sort,
+			'sort' => $sort,
 			'order' => $order,
 			'start' => ($page - 1) * $this->config->get('config_pagination_admin'),
 			'limit' => $this->config->get('config_pagination_admin')
@@ -105,9 +109,9 @@ class Manufacturer extends \Ventocart\System\Engine\Controller {
 		foreach ($results as $result) {
 			$data['manufacturers'][] = [
 				'manufacturer_id' => $result['manufacturer_id'],
-				'name'            => $result['name'],
-				'sort_order'      => $result['sort_order'],
-				'edit'            => $this->url->link('catalog/manufacturer.form', 'user_token=' . $this->session->data['user_token'] . '&manufacturer_id=' . $result['manufacturer_id'] . $url)
+				'name' => $result['name'],
+				'sort_order' => $result['sort_order'],
+				'edit' => $this->url->link('catalog/manufacturer.form', 'user_token=' . $this->session->data['user_token'] . '&manufacturer_id=' . $result['manufacturer_id'] . $url)
 			];
 		}
 
@@ -138,9 +142,9 @@ class Manufacturer extends \Ventocart\System\Engine\Controller {
 
 		$data['pagination'] = $this->load->controller('common/pagination', [
 			'total' => $manufacturer_total,
-			'page'  => $page,
+			'page' => $page,
 			'limit' => $this->config->get('config_pagination_admin'),
-			'url'   => $this->url->link('catalog/manufacturer.list', 'user_token=' . $this->session->data['user_token'] . $url . '&page={page}')
+			'url' => $this->url->link('catalog/manufacturer.list', 'user_token=' . $this->session->data['user_token'] . $url . '&page={page}')
 		]);
 
 		$data['results'] = sprintf($this->language->get('text_pagination'), ($manufacturer_total) ? (($page - 1) * $this->config->get('config_pagination_admin')) + 1 : 0, ((($page - 1) * $this->config->get('config_pagination_admin')) > ($manufacturer_total - $this->config->get('config_pagination_admin'))) ? $manufacturer_total : ((($page - 1) * $this->config->get('config_pagination_admin')) + $this->config->get('config_pagination_admin')), $manufacturer_total, ceil($manufacturer_total / $this->config->get('config_pagination_admin')));
@@ -151,7 +155,8 @@ class Manufacturer extends \Ventocart\System\Engine\Controller {
 		return $this->load->view('catalog/manufacturer_list', $data);
 	}
 
-	public function form(): void {
+	public function form(): void
+	{
 		$this->load->language('catalog/manufacturer');
 
 		$this->document->setTitle($this->language->get('heading_title'));
@@ -194,7 +199,7 @@ class Manufacturer extends \Ventocart\System\Engine\Controller {
 		}
 
 		if (isset($this->request->get['manufacturer_id'])) {
-			$data['manufacturer_id'] = (int)$this->request->get['manufacturer_id'];
+			$data['manufacturer_id'] = (int) $this->request->get['manufacturer_id'];
 		} else {
 			$data['manufacturer_id'] = 0;
 		}
@@ -210,18 +215,10 @@ class Manufacturer extends \Ventocart\System\Engine\Controller {
 		$data['stores'] = [];
 
 		$data['stores'][] = [
-			'store_id' => 0,
-			'name'     => $this->language->get('text_default')
+
+			'name' => $this->language->get('text_default')
 		];
 
-		$stores = $this->model_setting_store->getStores();
-
-		foreach ($stores as $store) {
-			$data['stores'][] = [
-				'store_id' => $store['store_id'],
-				'name'     => $store['name']
-			];
-		}
 
 		if (isset($this->request->get['manufacturer_id'])) {
 			$data['manufacturer_store'] = $this->model_catalog_manufacturer->getStores($this->request->get['manufacturer_id']);
@@ -280,7 +277,8 @@ class Manufacturer extends \Ventocart\System\Engine\Controller {
 		$this->response->setOutput($this->load->view('catalog/manufacturer_form', $data));
 	}
 
-	public function save(): void {
+	public function save(): void
+	{
 		$this->load->language('catalog/manufacturer');
 
 		$json = [];
@@ -296,23 +294,23 @@ class Manufacturer extends \Ventocart\System\Engine\Controller {
 		if ($this->request->post['manufacturer_seo_url']) {
 			$this->load->model('design/seo_url');
 
-			foreach ($this->request->post['manufacturer_seo_url'] as $store_id => $language) {
-				foreach ($language as $language_id => $keyword) {
-					if ((oc_strlen(trim($keyword)) < 1) || (oc_strlen($keyword) > 64)) {
-						$json['error']['keyword_' . $store_id . '_' . $language_id] = $this->language->get('error_keyword');
-					}
+			foreach ($this->request->post['manufacturer_seo_url'] as $language_id => $keyword) {
 
-					if (preg_match('/[^a-zA-Z0-9\/_-]|[\p{Cyrillic}]+/u', $keyword)) {
-						$json['error']['keyword_' . $store_id . '_' . $language_id] = $this->language->get('error_keyword_character');
-					}
+				if ((oc_strlen(trim($keyword)) < 1) || (oc_strlen($keyword) > 64)) {
+					$json['error']['keyword_' . $language_id] = $this->language->get('error_keyword');
+				}
 
-					$seo_url_info = $this->model_design_seo_url->getSeoUrlByKeyword($keyword, $store_id);
+				if (preg_match('/[^a-zA-Z0-9\/_-]|[\p{Cyrillic}]+/u', $keyword)) {
+					$json['error']['keyword_' . $language_id] = $this->language->get('error_keyword_character');
+				}
 
-					if ($seo_url_info && ($seo_url_info['key'] != 'manufacturer_id' || !isset($this->request->post['manufacturer_id']) || $seo_url_info['value'] != (int)$this->request->post['manufacturer_id'])) {
-						$json['error']['keyword_' . $store_id . '_' . $language_id] = $this->language->get('error_keyword_exists');
-					}
+				$seo_url_info = $this->model_design_seo_url->getSeoUrlByKeyword($keyword);
+
+				if ($seo_url_info && ($seo_url_info['key'] != 'manufacturer_id' || !isset($this->request->post['manufacturer_id']) || $seo_url_info['value'] != (int) $this->request->post['manufacturer_id'])) {
+					$json['error']['keyword_' . $language_id] = $this->language->get('error_keyword_exists');
 				}
 			}
+
 		}
 
 		if (isset($json['error']) && !isset($json['error']['warning'])) {
@@ -335,7 +333,8 @@ class Manufacturer extends \Ventocart\System\Engine\Controller {
 		$this->response->setOutput(json_encode($json));
 	}
 
-	public function delete(): void {
+	public function delete(): void
+	{
 		$this->load->language('catalog/manufacturer');
 
 		$json = [];
@@ -374,7 +373,8 @@ class Manufacturer extends \Ventocart\System\Engine\Controller {
 		$this->response->setOutput(json_encode($json));
 	}
 
-	public function autocomplete(): void {
+	public function autocomplete(): void
+	{
 		$json = [];
 
 		if (isset($this->request->get['filter_name'])) {
@@ -382,8 +382,8 @@ class Manufacturer extends \Ventocart\System\Engine\Controller {
 
 			$filter_data = [
 				'filter_name' => $this->request->get['filter_name'],
-				'start'       => 0,
-				'limit'       => 5
+				'start' => 0,
+				'limit' => 5
 			];
 
 			$results = $this->model_catalog_manufacturer->getManufacturers($filter_data);
@@ -391,7 +391,7 @@ class Manufacturer extends \Ventocart\System\Engine\Controller {
 			foreach ($results as $result) {
 				$json[] = [
 					'manufacturer_id' => $result['manufacturer_id'],
-					'name'            => strip_tags(html_entity_decode($result['name'], ENT_QUOTES, 'UTF-8'))
+					'name' => strip_tags(html_entity_decode($result['name'], ENT_QUOTES, 'UTF-8'))
 				];
 			}
 		}

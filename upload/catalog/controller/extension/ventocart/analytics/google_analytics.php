@@ -19,7 +19,7 @@ class GoogleAnalytics extends \Ventocart\System\Engine\Controller
         }
 
 
-        $myTag = $this->model_setting_setting->getValue('analytics_google_analytics_tag', $this->config->get('config_store_id'));
+        $myTag = $this->model_setting_setting->getValue('analytics_google_analytics_tag');
 
         $fixer = md5(rand(1000000, 1000000000));
         // Encode the tag ID using Base64 in PHP

@@ -159,7 +159,7 @@ class Confirm extends \Ventocart\System\Engine\Controller
 			$order_data['invoice_prefix'] = $this->config->get('config_invoice_prefix');
 
 			// Store Details
-			$order_data['store_id'] = $this->config->get('config_store_id');
+
 			$order_data['store_name'] = $this->config->get('config_name');
 			$order_data['store_url'] = $this->config->get('config_url');
 

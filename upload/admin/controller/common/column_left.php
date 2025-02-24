@@ -489,7 +489,7 @@ class ColumnLeft extends \Ventocart\System\Engine\Controller
 			if ($this->user->hasPermission('access', 'setting/setting')) {
 				$system[] = [
 					'name' => $this->language->get('text_setting'),
-					'href' => $this->url->link('setting/store', 'user_token=' . $this->session->data['user_token']),
+					'href' => $this->url->link('setting/setting', 'user_token=' . $this->session->data['user_token']),
 					'children' => []
 				];
 			}

@@ -176,7 +176,6 @@ class AbandonedCart extends \Ventocart\System\Engine\Model
                 ca.*,
                 c.date_added AS cart_date_added,
                 cu.language_id,
-                cu.store_id,
                 cu.firstname,
                 cu.email
             FROM `" . DB_PREFIX . "cart_abandoned` ca

@@ -57,7 +57,6 @@ class Order extends \Ventocart\System\Engine\Model
 				'order_id' => $order_query->row['order_id'],
 				'invoice_no' => $order_query->row['invoice_no'],
 				'invoice_prefix' => $order_query->row['invoice_prefix'],
-				'store_id' => $order_query->row['store_id'],
 				'store_name' => $order_query->row['store_name'],
 				'store_url' => $order_query->row['store_url'],
 				'customer_id' => $order_query->row['customer_id'],
@@ -129,7 +128,7 @@ class Order extends \Ventocart\System\Engine\Model
 			$limit = 1;
 		}
 
-		$query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "order` WHERE `customer_id` = '" . (int) $this->customer->getId() . "' AND `order_status_id` > '0' AND `store_id` = '" . (int) $this->config->get('config_store_id') . "' ORDER BY `order_id` DESC LIMIT " . (int) $start . "," . (int) $limit);
+		$query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "order` WHERE `customer_id` = '" . (int) $this->customer->getId() . "' AND `order_status_id` > '0'  ORDER BY `order_id` DESC LIMIT " . (int) $start . "," . (int) $limit);
 
 		return $query->rows;
 	}
@@ -151,7 +150,7 @@ class Order extends \Ventocart\System\Engine\Model
 			$limit = 1;
 		}
 
-		$query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "order` WHERE `subscription_id` = '" . (int) $subscription_id . "' AND `customer_id` = '" . (int) $this->customer->getId() . "' AND `order_status_id` > '0' AND `store_id` = '" . (int) $this->config->get('config_store_id') . "' ORDER BY `order_id` DESC LIMIT " . (int) $start . "," . (int) $limit);
+		$query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "order` WHERE `subscription_id` = '" . (int) $subscription_id . "'  ORDER BY `order_id` DESC LIMIT " . (int) $start . "," . (int) $limit);
 
 		return $query->rows;
 	}
@@ -258,7 +257,7 @@ class Order extends \Ventocart\System\Engine\Model
 	 */
 	public function getTotalOrders(): int
 	{
-		$query = $this->db->query("SELECT COUNT(*) AS `total` FROM `" . DB_PREFIX . "order` `o` WHERE `customer_id` = '" . (int) $this->customer->getId() . "' AND `o`.`order_status_id` > '0' AND `o`.`store_id` = '" . (int) $this->config->get('config_store_id') . "'");
+		$query = $this->db->query("SELECT COUNT(*) AS `total` FROM `" . DB_PREFIX . "order` `o` WHERE `customer_id` = '" . (int) $this->customer->getId() . "' AND `o`.`order_status_id` > '0' ");
 
 		if ($query->num_rows) {
 			return (int) $query->row['total'];

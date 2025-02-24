@@ -8,24 +8,19 @@ namespace Ventocart\Catalog\Model\Setting;
 class Store extends \Ventocart\System\Engine\Model
 {
 	/**
-	 * @param int $store_id
-	 *
-	 * @return array
-	 */
-	public function getStore(int $store_id): array
+				   
+					   * @return array
+					   */
+	public function getStore(): array
 	{
 
-		if ($store_id == 0) {
-			return [
-				'store_id' => 0,
-				'name' => $this->config->get('config_name'),
-				'url' => defined('HTTP_CATALOG') ? HTTP_CATALOG : HTTP_SERVER
-			];
-		}
 
-		$query = $this->db->query("SELECT DISTINCT * FROM `" . DB_PREFIX . "store` WHERE `store_id` = '" . (int) $store_id . "'");
+		return [
 
-		return $query->row;
+			'name' => $this->config->get('config_name'),
+			'url' => defined('HTTP_CATALOG') ? HTTP_CATALOG : HTTP_SERVER
+		];
+
 	}
 
 	/**
@@ -45,7 +40,7 @@ class Store extends \Ventocart\System\Engine\Model
 	 */
 	public function getStores(array $data = [], bool $withDefault = false): array
 	{
-		$sql = "SELECT * FROM `" . DB_PREFIX . "store` WHERE store_id > '0' ORDER BY `url`";
+		$sql = "SELECT * FROM `" . DB_PREFIX . "store`  ORDER BY `url`";
 
 		$store_data = $this->cache->get('store.' . md5($sql));
 
@@ -59,7 +54,7 @@ class Store extends \Ventocart\System\Engine\Model
 		if (count($store_data) > 0 && $withDefault) {
 			// Add the default store at the beginning of the array
 			array_unshift($store_data, [
-				'store_id' => 0,
+
 				'name' => $this->config->get('config_name'),
 				'url' => defined('HTTP_CATALOG') ? HTTP_CATALOG : HTTP_SERVER
 			]);

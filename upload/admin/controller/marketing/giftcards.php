@@ -32,8 +32,6 @@ class GiftCards extends \Ventocart\System\Engine\Controller
         $data['column_left'] = $this->load->controller('common/column_left');
         $data['footer'] = $this->load->controller('common/footer');
 
-
-        $stores = $this->model_setting_store->getStores([], true);
         $data['giftcard_terms'] = $this->config->get('giftcard_terms') ?: 0;
         $this->load->model('catalog/information');
 
@@ -55,12 +53,7 @@ class GiftCards extends \Ventocart\System\Engine\Controller
         $data['articles'] = $articles;
 
 
-        foreach ($stores as $store) {
-            $data['stores'][] = [
-                'store_id' => $store['store_id'],
-                'name' => $store['name']
-            ];
-        }
+
 
 
         $this->response->setOutput($this->load->view('marketing/giftcards', $data));
@@ -103,7 +96,7 @@ class GiftCards extends \Ventocart\System\Engine\Controller
         $amount = isset($this->request->post['amount']) ? $this->request->post['amount'] : '';
 
         $this->request->post['physical'] = isset($this->request->post['physical']) && $this->request->post['physical'] === 'true' ? true : false;
-        $this->request->post['store_id'] = isset($this->request->post['store_id']) && is_numeric($this->request->post['store_id']) ? $this->request->post['store_id'] : 0;
+
         $card_type = isset($this->request->post['card_type']) ? (int) $this->request->post['card_type'] : '';
 
         if (($card_type != 0 && $card_type != 1)) {

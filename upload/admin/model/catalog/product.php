@@ -31,12 +31,7 @@ class Product extends \Ventocart\System\Engine\Model
 			}
 		}
 
-		// Stores
-		if (isset($data['product_store'])) {
-			foreach ($data['product_store'] as $store_id) {
-				$this->db->query("INSERT INTO `" . DB_PREFIX . "product_to_store` SET `product_id` = '" . (int) $product_id . "', `store_id` = '" . (int) $store_id . "'");
-			}
-		}
+
 
 		// Downloads
 		if (isset($data['product_download'])) {
@@ -129,19 +124,14 @@ class Product extends \Ventocart\System\Engine\Model
 
 
 		if (isset($data['product_seo_url'])) {
-			foreach ($data['product_seo_url'] as $store_id => $language) {
+			foreach ($data['product_seo_url'] as $language) {
 				foreach ($language as $language_id => $keyword) {
-					$this->db->query("INSERT INTO `" . DB_PREFIX . "seo_url` SET `store_id` = '" . (int) $store_id . "', `language_id` = '" . (int) $language_id . "', `key` = 'product_id', `value` = '" . (int) $product_id . "', `keyword` = '" . $this->db->escape($this->convertToSeoFriendly($keyword)) . "'");
+					$this->db->query("INSERT INTO `" . DB_PREFIX . "seo_url` SET   `language_id` = '" . (int) $language_id . "', `key` = 'product_id', `value` = '" . (int) $product_id . "', `keyword` = '" . $this->db->escape($this->convertToSeoFriendly($keyword)) . "'");
 				}
 			}
 		}
 
-		// Layout
-		if (isset($data['product_layout'])) {
-			foreach ($data['product_layout'] as $store_id => $layout_id) {
-				$this->db->query("INSERT INTO `" . DB_PREFIX . "product_to_layout` SET `product_id` = '" . (int) $product_id . "', `store_id` = '" . (int) $store_id . "', `layout_id` = '" . (int) $layout_id . "'");
-			}
-		}
+
 
 		$this->cache->delete('product');
 
@@ -267,15 +257,9 @@ class Product extends \Ventocart\System\Engine\Model
 			}
 		}
 
-		// Stores
-		$this->db->query("DELETE FROM `" . DB_PREFIX . "product_to_store` WHERE `product_id` = '" . (int) $product_id . "'");
 
 
-		if (isset($data['product_store'])) {
-			foreach (array_unique($data['product_store']) as $store_id) {
-				$this->db->query("INSERT INTO `" . DB_PREFIX . "product_to_store` SET `product_id` = '" . (int) $product_id . "', `store_id` = '" . (int) $store_id . "'");
-			}
-		}
+
 
 		// Downloads
 		$this->db->query("DELETE FROM `" . DB_PREFIX . "product_to_download` WHERE `product_id` = '" . (int) $product_id . "'");
@@ -407,21 +391,14 @@ class Product extends \Ventocart\System\Engine\Model
 		$this->db->query("DELETE FROM `" . DB_PREFIX . "seo_url` WHERE `key` = 'product_id' AND `value` = '" . (int) $product_id . "'");
 
 		if (isset($data['product_seo_url'])) {
-			foreach ($data['product_seo_url'] as $store_id => $language) {
-				foreach ($language as $language_id => $keyword) {
-					$this->db->query("INSERT INTO `" . DB_PREFIX . "seo_url` SET `store_id` = '" . (int) $store_id . "', `language_id` = '" . (int) $language_id . "', `key` = 'product_id', `value` = '" . (int) $product_id . "', `keyword` = '" . $this->db->escape($this->convertToSeoFriendly($keyword)) . "'");
-				}
+			foreach ($data['product_seo_url'] as $language_id => $keyword) {
+
+				$this->db->query("INSERT INTO `" . DB_PREFIX . "seo_url` SET  `language_id` = '" . (int) $language_id . "', `key` = 'product_id', `value` = '" . (int) $product_id . "', `keyword` = '" . $this->db->escape($this->convertToSeoFriendly($keyword)) . "'");
+
 			}
 		}
 
-		// Layout
-		$this->db->query("DELETE FROM `" . DB_PREFIX . "product_to_layout` WHERE `product_id` = '" . (int) $product_id . "'");
 
-		if (isset($data['product_layout'])) {
-			foreach ($data['product_layout'] as $store_id => $layout_id) {
-				$this->db->query("INSERT INTO `" . DB_PREFIX . "product_to_layout` SET `product_id` = '" . (int) $product_id . "', `store_id` = '" . (int) $store_id . "', `layout_id` = '" . (int) $layout_id . "'");
-			}
-		}
 
 		$this->cache->delete('product');
 	}
@@ -493,14 +470,13 @@ class Product extends \Ventocart\System\Engine\Model
 
 		return true;
 	}
-	public function SEOKeywordExists($product_id, $store_id, $language_id, $seoKeyword)
+	public function SEOKeywordExists($product_id, $language_id, $seoKeyword)
 	{
 		$query = $this->db->query("
 			SELECT COUNT(*) AS total
 			FROM `" . DB_PREFIX . "seo_url`
 			WHERE
-				`store_id` = '" . (int) $store_id . "'
-				AND `language_id` = '" . (int) $language_id . "'
+	  `language_id` = '" . (int) $language_id . "'
 				AND `key` = 'product_id'
 				AND `value` != '" . (int) $product_id . "'
 				AND `keyword` = '" . $this->db->escape($seoKeyword) . "'
@@ -698,7 +674,7 @@ class Product extends \Ventocart\System\Engine\Model
 		$this->db->query("DELETE FROM `" . DB_PREFIX . "product_to_category` WHERE `product_id` = '" . (int) $product_id . "'");
 		$this->db->query("DELETE FROM `" . DB_PREFIX . "product_to_download` WHERE `product_id` = '" . (int) $product_id . "'");
 		$this->db->query("DELETE FROM `" . DB_PREFIX . "product_to_layout` WHERE `product_id` = '" . (int) $product_id . "'");
-		$this->db->query("DELETE FROM `" . DB_PREFIX . "product_to_store` WHERE `product_id` = '" . (int) $product_id . "'");
+
 
 		$this->db->query("DELETE FROM `" . DB_PREFIX . "review` WHERE `product_id` = '" . (int) $product_id . "'");
 		$this->db->query("DELETE FROM `" . DB_PREFIX . "seo_url` WHERE `key` = 'product_id' AND `value` = '" . (int) $product_id . "'");
@@ -1067,18 +1043,7 @@ class Product extends \Ventocart\System\Engine\Model
 		return $product_download_data;
 	}
 
-	public function getStores(int $product_id): array
-	{
-		$product_store_data = [];
 
-		$query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "product_to_store` WHERE `product_id` = '" . (int) $product_id . "'");
-
-		foreach ($query->rows as $result) {
-			$product_store_data[] = $result['store_id'];
-		}
-
-		return $product_store_data;
-	}
 
 	private function convertToSeoFriendly($text)
 	{
@@ -1104,24 +1069,13 @@ class Product extends \Ventocart\System\Engine\Model
 		$query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "seo_url` WHERE `key` = 'product_id' AND `value` = '" . (int) $product_id . "'");
 
 		foreach ($query->rows as $result) {
-			$product_seo_url_data[$result['store_id']][$result['language_id']] = $result['keyword'];
+			$product_seo_url_data[$result['language_id']] = $result['keyword'];
 		}
 
 		return $product_seo_url_data;
 	}
 
-	public function getLayouts(int $product_id): array
-	{
-		$product_layout_data = [];
 
-		$query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "product_to_layout` WHERE `product_id` = '" . (int) $product_id . "'");
-
-		foreach ($query->rows as $result) {
-			$product_layout_data[$result['store_id']] = $result['layout_id'];
-		}
-
-		return $product_layout_data;
-	}
 
 	public function getRelated(int $product_id): array
 	{
@@ -1261,7 +1215,7 @@ class Product extends \Ventocart\System\Engine\Model
 			$limit = 10;
 		}
 
-		$query = $this->db->query("SELECT `ip`, `store_id`, `country`, `date_added` FROM `" . DB_PREFIX . "product_report` WHERE `product_id` = '" . (int) $product_id . "' ORDER BY `date_added` ASC LIMIT " . (int) $start . "," . (int) $limit);
+		$query = $this->db->query("SELECT `ip`,   `country`, `date_added` FROM `" . DB_PREFIX . "product_report` WHERE `product_id` = '" . (int) $product_id . "' ORDER BY `date_added` ASC LIMIT " . (int) $start . "," . (int) $limit);
 
 		return $query->rows;
 	}

@@ -55,7 +55,6 @@
        
             <li class="nav-item"><a href="#tab-reward" data-bs-toggle="tab" class="nav-link"><span class="fa-solid mx-1 fa-trophy"></span>  {{ tab_reward }}</a></li>
   
-            <li class="nav-item"><a href="#tab-design" data-bs-toggle="tab" class="nav-link"><span class="fa-solid mx-1 fa-paint-brush"></span>  {{ tab_design }}</a></li>
             <li class="nav-item"><a href="#tab-report" data-bs-toggle="tab" class="nav-link"><span class="fa-solid mx-1 fa-chart-bar"></span> {{ tab_report }}</a></li>
           </ul>
 
@@ -136,36 +135,7 @@
             </div>
 
     
-            <div id="tab-design" class="tab-pane">
-
-              <div class="table-responsive">
-                <table id="product-layout" class="table table-bordered table-hover">
-                  <thead>
-                    <tr>
-                      <td class="text-start">{{ entry_store }}</td>
-                      <td class="text-start">{{ entry_layout }}
-                   
-                      </td>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {% for store in stores %}
-                      <tr>
-                        <td class="text-start">{{ store.name }}</td>
-                        <td class="text-start"><select name="product_layout[{{ store.store_id }}]" class="form-select">
-                            <option value=""></option>
-                            {% for layout in layouts %}
-                              <option value="{{ layout.layout_id }}"{% if product_layout[store.store_id] and product_layout[store.store_id] == layout.layout_id %} selected{% endif %}>{{ layout.name }}</option>
-                            {% endfor %}
-                          </select></td>
-                      </tr>
-                    {% endfor %}
-                  </tbody>
-                </table>
-              </div>
-
-            </div>
-
+          
 
             <div id="tab-report" class="tab-pane">
               <fieldset>
@@ -251,7 +221,7 @@ $('#report').on('click', '.pagination a', function (e) {
  
       $('input[name="product_description[' + index + '][meta_title]"]').val(metaTitleValue);
        metaTitleValue = metaTitleValue.toLowerCase().replace(/\s+/g, '-');
-      $('input[name$="['+ index + ']"][name^="product_seo_url"]').each(function() {
+ $('input[name="product_seo_url['+ index + ']"]').each(function() {
       if ($(this).val().length === 0) {
         canWriteSeo = true;
       }

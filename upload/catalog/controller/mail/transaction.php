@@ -5,7 +5,8 @@ namespace Ventocart\Catalog\Controller\Mail;
  *
  * @package Ventocart\Catalog\Controller\Mail
  */
-class Transaction extends \Ventocart\System\Engine\Controller {
+class Transaction extends \Ventocart\System\Engine\Controller
+{
 	// catalog/model/account/customer/addTransaction/after
 	/**
 	 * @param string $route
@@ -15,7 +16,8 @@ class Transaction extends \Ventocart\System\Engine\Controller {
 	 * @return void
 	 * @throws \Exception
 	 */
-	public function index(string &$route, array &$args, &$output): void {
+	public function index(string &$route, array &$args, &$output): void
+	{
 		$this->load->language('mail/transaction');
 
 		$this->load->model('account/customer');
@@ -25,7 +27,7 @@ class Transaction extends \Ventocart\System\Engine\Controller {
 		if ($customer_info) {
 			$this->load->model('setting/store');
 
-			$store_info = $this->model_setting_store->getStore($customer_info['store_id']);
+			$store_info = $this->model_setting_store->getStore();
 
 			if ($store_info) {
 				$store_name = html_entity_decode($store_info['name'], ENT_QUOTES, 'UTF-8');
@@ -68,12 +70,12 @@ class Transaction extends \Ventocart\System\Engine\Controller {
 
 			if ($this->config->get('config_mail_engine')) {
 				$mail_option = [
-					'parameter'     => $this->config->get('config_mail_parameter'),
+					'parameter' => $this->config->get('config_mail_parameter'),
 					'smtp_hostname' => $this->config->get('config_mail_smtp_hostname'),
 					'smtp_username' => $this->config->get('config_mail_smtp_username'),
 					'smtp_password' => html_entity_decode($this->config->get('config_mail_smtp_password'), ENT_QUOTES, 'UTF-8'),
-					'smtp_port'     => $this->config->get('config_mail_smtp_port'),
-					'smtp_timeout'  => $this->config->get('config_mail_smtp_timeout')
+					'smtp_port' => $this->config->get('config_mail_smtp_port'),
+					'smtp_timeout' => $this->config->get('config_mail_smtp_timeout')
 				];
 
 				$mail = new \Ventocart\System\Library\Mail($this->config->get('config_mail_engine'), $mail_option);

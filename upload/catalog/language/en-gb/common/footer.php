@@ -16,6 +16,6 @@ $_['text_affiliate'] = "Affiliate";
 $_['text_special'] = "Specials";
 $_['text_giftcards'] = "Gift Cards";
 $_['text_account'] = "My Account";
-$_['text_order'] = "Order History";
 $_['text_newsletter'] = "Newsletter";
+$_['text_order'] = "Order History";
 $_['text_wishlist'] = "Wish List";

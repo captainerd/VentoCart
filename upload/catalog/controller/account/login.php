@@ -173,6 +173,7 @@ class Login extends \Ventocart\System\Engine\Controller
 
 		if (!$json) {
 			// Add customer details into session
+			$this->session->data = [];
 			$this->session->data['customer'] = [
 				'customer_id' => $customer_info['customer_id'],
 				'customer_group_id' => $customer_info['customer_group_id'],

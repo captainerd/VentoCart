@@ -5,14 +5,16 @@ namespace Ventocart\Catalog\Model\Catalog;
  *
  * @package Ventocart\Catalog\Model\Catalog
  */
-class Manufacturer extends \Ventocart\System\Engine\Model {
+class Manufacturer extends \Ventocart\System\Engine\Model
+{
 	/**
 	 * @param int $manufacturer_id
 	 *
 	 * @return array
 	 */
-	public function getManufacturer(int $manufacturer_id): array {
-		$query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "manufacturer` `m` LEFT JOIN `" . DB_PREFIX . "manufacturer_to_store` `m2s` ON (`m`.`manufacturer_id` = `m2s`.`manufacturer_id`) WHERE `m`.`manufacturer_id` = '" . (int)$manufacturer_id . "' AND `m2s`.`store_id` = '" . (int)$this->config->get('config_store_id') . "'");
+	public function getManufacturer(int $manufacturer_id): array
+	{
+		$query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "manufacturer` `m`   WHERE `m`.`manufacturer_id` = '" . (int) $manufacturer_id . "'");
 
 		return $query->row;
 	}
@@ -22,8 +24,10 @@ class Manufacturer extends \Ventocart\System\Engine\Model {
 	 *
 	 * @return array
 	 */
-	public function getManufacturers(array $data = []): array {
-		$sql = "SELECT * FROM `" . DB_PREFIX . "manufacturer` `m` LEFT JOIN `" . DB_PREFIX . "manufacturer_to_store` `m2s` ON (`m`.`manufacturer_id` = `m2s`.`manufacturer_id`) WHERE `m2s`.`store_id` = '" . (int)$this->config->get('config_store_id') . "'";
+	public function getManufacturers(array $data = []): array
+	{
+		$sql = "SELECT * 
+		FROM `" . DB_PREFIX . "manufacturer` `m`";
 
 		$sort_data = [
 			'name',
@@ -51,7 +55,7 @@ class Manufacturer extends \Ventocart\System\Engine\Model {
 				$data['limit'] = 20;
 			}
 
-			$sql .= " LIMIT " . (int)$data['start'] . "," . (int)$data['limit'];
+			$sql .= " LIMIT " . (int) $data['start'] . "," . (int) $data['limit'];
 		}
 
 		$manufacturer_data = $this->cache->get('manufacturer.' . md5($sql));
@@ -67,18 +71,5 @@ class Manufacturer extends \Ventocart\System\Engine\Model {
 		return $manufacturer_data;
 	}
 
-	/**
-	 * @param int $manufacturer_id
-	 *
-	 * @return int
-	 */
-	public function getLayoutId(int $manufacturer_id): int {
-		$query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "manufacturer_to_layout` WHERE `manufacturer_id` = '" . (int)$manufacturer_id . "' AND `store_id` = '" . (int)$this->config->get('config_store_id') . "'");
 
-		if ($query->num_rows) {
-			return (int)$query->row['layout_id'];
-		} else {
-			return 0;
-		}
-	}
 }

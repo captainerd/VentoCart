@@ -23,12 +23,10 @@ class Store extends \Ventocart\System\Engine\Controller
 		if ($status) {
 			$this->load->language('extension/ventocart/module/store');
 
-			$data['store_id'] = $this->config->get('config_store_id');
-
 			$data['stores'] = [];
 
 			$data['stores'][] = [
-				'store_id' => 0,
+
 				'name' => $this->language->get('text_default'),
 				'url' => HTTP_SERVER . 'index.php?route=common/home&session_id=' . $this->session->getId()
 			];
@@ -39,7 +37,7 @@ class Store extends \Ventocart\System\Engine\Controller
 
 			foreach ($results as $result) {
 				$data['stores'][] = [
-					'store_id' => $result['store_id'],
+
 					'name' => $result['name'],
 					'url' => $result['url'] . 'index.php?route=common/home&session_id=' . $this->session->getId()
 				];

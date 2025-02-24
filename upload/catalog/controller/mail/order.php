@@ -91,12 +91,12 @@ class Order extends \Ventocart\System\Engine\Controller
 
 		$this->load->model('setting/store');
 
-		$store_info = $this->model_setting_store->getStore($order_info['store_id']);
+		$store_info = $this->model_setting_store->getStore();
 
 		if ($store_info) {
 			$this->load->model('setting/setting');
 
-			$store_logo = html_entity_decode($this->model_setting_setting->getValue('config_logo', $store_info['store_id']), ENT_QUOTES, 'UTF-8');
+			$store_logo = html_entity_decode($this->model_setting_setting->getValue('config_logo'), ENT_QUOTES, 'UTF-8');
 			$store_name = html_entity_decode($store_info['name'], ENT_QUOTES, 'UTF-8');
 			$store_url = $store_info['url'];
 		}
@@ -348,7 +348,7 @@ class Order extends \Ventocart\System\Engine\Controller
 
 		$this->load->model('setting/setting');
 
-		$from = $this->model_setting_setting->getValue('config_email', $order_info['store_id']);
+		$from = $this->model_setting_setting->getValue('config_email');
 
 		if (!$from) {
 			$from = $this->config->get('config_email');
@@ -398,7 +398,7 @@ class Order extends \Ventocart\System\Engine\Controller
 
 		$this->load->model('setting/store');
 
-		$store_info = $this->model_setting_store->getStore($order_info['store_id']);
+		$store_info = $this->model_setting_store->getStore();
 
 		if ($store_info) {
 			$store_name = html_entity_decode($store_info['name'], ENT_QUOTES, 'UTF-8');
@@ -456,7 +456,7 @@ class Order extends \Ventocart\System\Engine\Controller
 
 		$this->load->model('setting/setting');
 
-		$from = $this->model_setting_setting->getValue('config_email', $order_info['store_id']);
+		$from = $this->model_setting_setting->getValue('config_email');
 
 		if (!$from) {
 			$from = $this->config->get('config_email');

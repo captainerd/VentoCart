@@ -5,7 +5,8 @@ namespace Ventocart\Admin\Controller\Mail;
  *
  * @package Ventocart\Admin\Controller\Mail
  */
-class Gdpr extends \Ventocart\System\Engine\Controller {
+class Gdpr extends \Ventocart\System\Engine\Controller
+{
 	// admin/model/customer/gdpr/editStatus
 	/**
 	 * @param string $route
@@ -14,7 +15,8 @@ class Gdpr extends \Ventocart\System\Engine\Controller {
 	 *
 	 * @return void
 	 */
-	public function index(string &$route, array &$args, &$output): void {
+	public function index(string &$route, array &$args, &$output): void
+	{
 		$this->load->model('customer/gdpr');
 
 		$gdpr_info = $this->model_customer_gdpr->getGdpr($args[0]);
@@ -23,17 +25,17 @@ class Gdpr extends \Ventocart\System\Engine\Controller {
 			// Choose which mail to send
 
 			// Export plus complete
-			if ($gdpr_info['action'] == 'export' && (int)$args[1] == 3) {
+			if ($gdpr_info['action'] == 'export' && (int) $args[1] == 3) {
 				$this->export($gdpr_info);
 			}
 
 			// Approve plus processing
-			if ($gdpr_info['action'] == 'approve' && (int)$args[1] == 2) {
+			if ($gdpr_info['action'] == 'approve' && (int) $args[1] == 2) {
 				$this->approve($gdpr_info);
 			}
 
 			// Remove plus complete
-			if ($gdpr_info['action'] == 'remove' && (int)$args[1] == 3) {
+			if ($gdpr_info['action'] == 'remove' && (int) $args[1] == 3) {
 				$this->remove($gdpr_info);
 			}
 
@@ -50,22 +52,13 @@ class Gdpr extends \Ventocart\System\Engine\Controller {
 	 * @return void
 	 * @throws \Exception
 	 */
-	public function export(array $gdpr_info): void {
-		$this->load->model('setting/store');
+	public function export(array $gdpr_info): void
+	{
 
-		$store_info = $this->model_setting_store->getStore($gdpr_info['store_id']);
+		$store_logo = html_entity_decode($this->config->get('config_logo'), ENT_QUOTES, 'UTF-8');
+		$store_name = html_entity_decode($this->config->get('config_name'), ENT_QUOTES, 'UTF-8');
+		$store_url = HTTP_CATALOG;
 
-		if ($store_info) {
-			$this->load->model('setting/setting');
-
-			$store_logo = html_entity_decode($this->model_setting_setting->getValue('config_logo', $store_info['store_id']), ENT_QUOTES, 'UTF-8');
-			$store_name = html_entity_decode($store_info['name'], ENT_QUOTES, 'UTF-8');
-			$store_url = $store_info['url'];
-		} else {
-			$store_logo = html_entity_decode($this->config->get('config_logo'), ENT_QUOTES, 'UTF-8');
-			$store_name = html_entity_decode($this->config->get('config_name'), ENT_QUOTES, 'UTF-8');
-			$store_url = HTTP_CATALOG;
-		}
 
 		// Send the email in the correct language
 		$this->load->model('localisation/language');
@@ -125,13 +118,13 @@ class Gdpr extends \Ventocart\System\Engine\Controller {
 			foreach ($results as $result) {
 				$address = [
 					'firstname' => $result['firstname'],
-					'lastname'  => $result['lastname'],
+					'lastname' => $result['lastname'],
 					'address_1' => $result['address_1'],
 					'phone' => $result['phone'],
-					'city'      => $result['city'],
-					'postcode'  => $result['postcode'],
-					'country'   => $result['country'],
-					'zone'      => $result['zone']
+					'city' => $result['city'],
+					'postcode' => $result['postcode'],
+					'country' => $result['country'],
+					'zone' => $result['zone']
 				];
 
 				if (!in_array($address, $data['addresses'])) {
@@ -151,13 +144,13 @@ class Gdpr extends \Ventocart\System\Engine\Controller {
 			if ($order_info['payment_country_id']) {
 				$address = [
 					'firstname' => $order_info['payment_firstname'],
-					'lastname'  => $order_info['payment_lastname'],
+					'lastname' => $order_info['payment_lastname'],
 					'address_1' => $order_info['payment_address_1'],
 					'phone' => $order_info['payment_phone'],
-					'city'      => $order_info['payment_city'],
-					'postcode'  => $order_info['payment_postcode'],
-					'country'   => $order_info['payment_country'],
-					'zone'      => $order_info['payment_zone']
+					'city' => $order_info['payment_city'],
+					'postcode' => $order_info['payment_postcode'],
+					'country' => $order_info['payment_country'],
+					'zone' => $order_info['payment_zone']
 				];
 
 				if (!in_array($address, $data['addresses'])) {
@@ -168,13 +161,13 @@ class Gdpr extends \Ventocart\System\Engine\Controller {
 			if ($order_info['shipping_country_id']) {
 				$address = [
 					'firstname' => $order_info['shipping_firstname'],
-					'lastname'  => $order_info['shipping_lastname'],
+					'lastname' => $order_info['shipping_lastname'],
 					'address_1' => $order_info['shipping_address_1'],
 					'phone' => $order_info['shipping_phone'],
-					'city'      => $order_info['shipping_city'],
-					'postcode'  => $order_info['shipping_postcode'],
-					'country'   => $order_info['shipping_country'],
-					'zone'      => $order_info['shipping_zone']
+					'city' => $order_info['shipping_city'],
+					'postcode' => $order_info['shipping_postcode'],
+					'country' => $order_info['shipping_country'],
+					'zone' => $order_info['shipping_zone']
 				];
 
 				if (!in_array($address, $data['addresses'])) {
@@ -191,7 +184,7 @@ class Gdpr extends \Ventocart\System\Engine\Controller {
 
 			foreach ($results as $result) {
 				$data['ips'][] = [
-					'ip'         => $result['ip'],
+					'ip' => $result['ip'],
 					'date_added' => date($this->language->get('mail_datetime_format'), strtotime($result['date_added']))
 				];
 			}
@@ -202,12 +195,12 @@ class Gdpr extends \Ventocart\System\Engine\Controller {
 
 		if ($this->config->get('config_mail_engine')) {
 			$mail_option = [
-				'parameter'     => $this->config->get('config_mail_parameter'),
+				'parameter' => $this->config->get('config_mail_parameter'),
 				'smtp_hostname' => $this->config->get('config_mail_smtp_hostname'),
 				'smtp_username' => $this->config->get('config_mail_smtp_username'),
 				'smtp_password' => html_entity_decode($this->config->get('config_mail_smtp_password'), ENT_QUOTES, 'UTF-8'),
-				'smtp_port'     => $this->config->get('config_mail_smtp_port'),
-				'smtp_timeout'  => $this->config->get('config_mail_smtp_timeout')
+				'smtp_port' => $this->config->get('config_mail_smtp_port'),
+				'smtp_timeout' => $this->config->get('config_mail_smtp_timeout')
 			];
 
 			$mail = new \Ventocart\System\Library\Mail($this->config->get('config_mail_engine'), $mail_option);
@@ -226,22 +219,13 @@ class Gdpr extends \Ventocart\System\Engine\Controller {
 	 * @return void
 	 * @throws \Exception
 	 */
-	public function approve(array $gdpr_info): void {
-		$this->load->model('setting/store');
+	public function approve(array $gdpr_info): void
+	{
 
-		$store_info = $this->model_setting_store->getStore($gdpr_info['store_id']);
+		$store_logo = html_entity_decode($this->config->get('config_logo'), ENT_QUOTES, 'UTF-8');
+		$store_name = html_entity_decode($this->config->get('config_name'), ENT_QUOTES, 'UTF-8');
+		$store_url = HTTP_CATALOG;
 
-		if ($store_info) {
-			$this->load->model('setting/setting');
-
-			$store_logo = html_entity_decode($this->model_setting_setting->getValue('config_logo', $store_info['store_id']), ENT_QUOTES, 'UTF-8');
-			$store_name = html_entity_decode($store_info['name'], ENT_QUOTES, 'UTF-8');
-			$store_url = $store_info['url'];
-		} else {
-			$store_logo = html_entity_decode($this->config->get('config_logo'), ENT_QUOTES, 'UTF-8');
-			$store_name = html_entity_decode($this->config->get('config_name'), ENT_QUOTES, 'UTF-8');
-			$store_url = HTTP_CATALOG;
-		}
 
 		// Send the email in the correct language
 		$this->load->model('localisation/language');
@@ -293,12 +277,12 @@ class Gdpr extends \Ventocart\System\Engine\Controller {
 
 		if ($this->config->get('config_mail_engine')) {
 			$mail_option = [
-				'parameter'     => $this->config->get('config_mail_parameter'),
+				'parameter' => $this->config->get('config_mail_parameter'),
 				'smtp_hostname' => $this->config->get('config_mail_smtp_hostname'),
 				'smtp_username' => $this->config->get('config_mail_smtp_username'),
 				'smtp_password' => html_entity_decode($this->config->get('config_mail_smtp_password'), ENT_QUOTES, 'UTF-8'),
-				'smtp_port'     => $this->config->get('config_mail_smtp_port'),
-				'smtp_timeout'  => $this->config->get('config_mail_smtp_timeout')
+				'smtp_port' => $this->config->get('config_mail_smtp_port'),
+				'smtp_timeout' => $this->config->get('config_mail_smtp_timeout')
 			];
 
 			$mail = new \Ventocart\System\Library\Mail($this->config->get('config_mail_engine'), $mail_option);
@@ -317,22 +301,13 @@ class Gdpr extends \Ventocart\System\Engine\Controller {
 	 * @return void
 	 * @throws \Exception
 	 */
-	public function deny(array $gdpr_info): void {
-		$this->load->model('setting/store');
+	public function deny(array $gdpr_info): void
+	{
 
-		$store_info = $this->model_setting_store->getStore($gdpr_info['store_id']);
+		$store_logo = html_entity_decode($this->config->get('config_logo'), ENT_QUOTES, 'UTF-8');
+		$store_name = html_entity_decode($this->config->get('config_name'), ENT_QUOTES, 'UTF-8');
+		$store_url = HTTP_CATALOG;
 
-		if ($store_info) {
-			$this->load->model('setting/setting');
-
-			$store_logo = html_entity_decode($this->model_setting_setting->getValue('config_logo', $store_info['store_id']), ENT_QUOTES, 'UTF-8');
-			$store_name = html_entity_decode($store_info['name'], ENT_QUOTES, 'UTF-8');
-			$store_url = $store_info['url'];
-		} else {
-			$store_logo = html_entity_decode($this->config->get('config_logo'), ENT_QUOTES, 'UTF-8');
-			$store_name = html_entity_decode($this->config->get('config_name'), ENT_QUOTES, 'UTF-8');
-			$store_url = HTTP_CATALOG;
-		}
 
 		// Send the email in the correct language
 		$this->load->model('localisation/language');
@@ -384,12 +359,12 @@ class Gdpr extends \Ventocart\System\Engine\Controller {
 
 		if ($this->config->get('config_mail_engine')) {
 			$mail_option = [
-				'parameter'     => $this->config->get('config_mail_parameter'),
+				'parameter' => $this->config->get('config_mail_parameter'),
 				'smtp_hostname' => $this->config->get('config_mail_smtp_hostname'),
 				'smtp_username' => $this->config->get('config_mail_smtp_username'),
 				'smtp_password' => html_entity_decode($this->config->get('config_mail_smtp_password'), ENT_QUOTES, 'UTF-8'),
-				'smtp_port'     => $this->config->get('config_mail_smtp_port'),
-				'smtp_timeout'  => $this->config->get('config_mail_smtp_timeout')
+				'smtp_port' => $this->config->get('config_mail_smtp_port'),
+				'smtp_timeout' => $this->config->get('config_mail_smtp_timeout')
 			];
 
 			$mail = new \Ventocart\System\Library\Mail($this->config->get('config_mail_engine'), $mail_option);
@@ -408,22 +383,13 @@ class Gdpr extends \Ventocart\System\Engine\Controller {
 	 * @return void
 	 * @throws \Exception
 	 */
-	public function remove(array $gdpr_info): void {
-		$this->load->model('setting/store');
+	public function remove(array $gdpr_info): void
+	{
 
-		$store_info = $this->model_setting_store->getStore($gdpr_info['store_id']);
+		$store_logo = html_entity_decode($this->config->get('config_logo'), ENT_QUOTES, 'UTF-8');
+		$store_name = html_entity_decode($this->config->get('config_name'), ENT_QUOTES, 'UTF-8');
+		$store_url = HTTP_CATALOG;
 
-		if ($store_info) {
-			$this->load->model('setting/setting');
-
-			$store_logo = html_entity_decode($this->model_setting_setting->getValue('config_logo', $store_info['store_id']), ENT_QUOTES, 'UTF-8');
-			$store_name = html_entity_decode($store_info['name'], ENT_QUOTES, 'UTF-8');
-			$store_url = $store_info['url'];
-		} else {
-			$store_logo = html_entity_decode($this->config->get('config_logo'), ENT_QUOTES, 'UTF-8');
-			$store_name = html_entity_decode($this->config->get('config_name'), ENT_QUOTES, 'UTF-8');
-			$store_url = HTTP_CATALOG;
-		}
 
 		// Send the email in the correct language
 		$this->load->model('localisation/language');
@@ -473,12 +439,12 @@ class Gdpr extends \Ventocart\System\Engine\Controller {
 
 		if ($this->config->get('config_mail_engine')) {
 			$mail_option = [
-				'parameter'     => $this->config->get('config_mail_parameter'),
+				'parameter' => $this->config->get('config_mail_parameter'),
 				'smtp_hostname' => $this->config->get('config_mail_smtp_hostname'),
 				'smtp_username' => $this->config->get('config_mail_smtp_username'),
 				'smtp_password' => html_entity_decode($this->config->get('config_mail_smtp_password'), ENT_QUOTES, 'UTF-8'),
-				'smtp_port'     => $this->config->get('config_mail_smtp_port'),
-				'smtp_timeout'  => $this->config->get('config_mail_smtp_timeout')
+				'smtp_port' => $this->config->get('config_mail_smtp_port'),
+				'smtp_timeout' => $this->config->get('config_mail_smtp_timeout')
 			];
 
 			$mail = new \Ventocart\System\Library\Mail($this->config->get('config_mail_engine'), $mail_option);

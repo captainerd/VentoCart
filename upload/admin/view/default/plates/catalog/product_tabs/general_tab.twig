@@ -68,27 +68,21 @@
           </div>
 
           <div id="product-seo" class="table-responsive">
-            <table class="table table-bordered table-hover">
-              <thead>
-                <tr>
-                  <td class="text-start">{{ entry_store }}</td>
-                  <td class="text-start">{{ entry_keyword }}</td>
-                </tr>
-              </thead>
-              <tbody>
-                {% for store in stores %}
-                  <tr>
-                    <td class="text-start">{{ store.name }}</td>
-                    <td class="text-start">
-     
-                        <div class="input-group">
-                          <div class="input-group-text"><img src="{{ language.image }}" title="{{ language.name }}"/></div>
-                          <input type="text" name="product_seo_url[{{ store.store_id }}][{{ language.language_id }}]" value="{% if product_seo_url[store.store_id][language.language_id] %}{{ product_seo_url[store.store_id][language.language_id] }}{% endif %}" id="input-keyword-{{ store.store_id }}-{{ language.language_id }}" placeholder="{{ entry_keyword }}" class="form-control seoinput"/>
-                        </div>
-                        <div id="error-keyword-{{ store.store_id }}-{{ language.language_id }}" class="invalid-feedback"></div>
-            
-                  </tr>
-                {% endfor %}
+          
+   <div class="row mb-3">
+  <label for="input-keyword-{{ language.language_id }}" class="col-sm-2 col-form-label">
+    <img src="{{ language.image }}" title="{{ language.name }}" class="me-2"/> {{ entry_keyword }}
+  </label>
+  <div class="col-sm-10">
+    <input type="text" name="product_seo_url[{{ language.language_id }}]" 
+           value="{% if product_seo_url[language.language_id] %}{{ product_seo_url[language.language_id] }}{% endif %}" 
+           id="input-keyword-{{ language.language_id }}" 
+           placeholder="{{ entry_keyword }}" 
+           class="form-control seoinput"/>
+    <div id="error-keyword-{{ language.language_id }}" class="invalid-feedback"></div>
+  </div>
+</div>
+
               </tbody>
             </table>
           </div>

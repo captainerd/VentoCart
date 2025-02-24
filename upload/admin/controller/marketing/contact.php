@@ -71,12 +71,9 @@ class Contact extends \Ventocart\System\Engine\Controller
 			}
 
 		} else {
-			if (!isset($this->request->get['store_id'])) {
-				$json['error']['message'] = $this->language->get('error_store_id');
-			} else {
-				$this->request->post['store_id'] = $this->request->get['store_id'];
-				$this->request->post['to'] = $this->request->get['to'];
-			}
+
+			$this->request->post['to'] = $this->request->get['to'];
+
 		}
 
 
@@ -88,11 +85,10 @@ class Contact extends \Ventocart\System\Engine\Controller
 			$this->load->model('marketing/affiliate');
 			$this->load->model('sale/order');
 
-			$store_id = $this->request->post['store_id'];
 
-			$store_info = $this->model_setting_store->getStore($store_id);
+			$store_info = $this->model_setting_store->getStore();
 
-			$setting = $this->model_setting_setting->getSetting('config', $store_id);
+			$setting = $this->model_setting_setting->getSetting('config');
 
 
 			$store_url = $store_info['url'];
@@ -127,13 +123,13 @@ class Contact extends \Ventocart\System\Engine\Controller
 						'start' => ($page - 1) * $limit,
 						'limit' => $limit,
 						'emails' => 1,
-						'store_id' => $store_id,
+
 					];
 					if (isset($this->request->get['download'])) {
 						$customer_data = [
 							'filter_newsletter' => 1,
 							'emails' => 1,
-							'store_id' => $store_id,
+
 						];
 					}
 
@@ -153,13 +149,13 @@ class Contact extends \Ventocart\System\Engine\Controller
 						'start' => ($page - 1) * $limit,
 						'limit' => $limit,
 						'emails' => 1,
-						'store_id' => $store_id,
+
 					];
 					if (isset($this->request->get['download'])) {
 						$customer_data = [
 							'filter_newsletter' => 1,
 							'emails' => 1,
-							'store_id' => $store_id,
+
 						];
 					}
 					$emails = [];
@@ -189,12 +185,12 @@ class Contact extends \Ventocart\System\Engine\Controller
 						'start' => ($page - 1) * $limit,
 						'limit' => $limit,
 						'emails' => 1,
-						'store_id' => $store_id,
+
 					];
 					if (isset($this->request->get['download'])) {
 						$customer_data = [
 							'emails' => 1,
-							'store_id' => $store_id,
+
 						];
 					}
 					$email_total = $this->model_customer_customer->getTotalCustomers($customer_data);
@@ -211,13 +207,13 @@ class Contact extends \Ventocart\System\Engine\Controller
 						'start' => ($page - 1) * $limit,
 						'limit' => $limit,
 						'emails' => 1,
-						'store_id' => $store_id,
+
 					];
 					if (isset($this->request->get['download'])) {
 						$customer_data = [
 							'emails' => 1,
 							'filter_customer_group_id' => $this->request->post['customer_group_id'],
-							'store_id' => $store_id,
+
 						];
 					}
 					$email_total = $this->model_customer_customer->getTotalCustomers($customer_data);
@@ -248,12 +244,12 @@ class Contact extends \Ventocart\System\Engine\Controller
 						'start' => ($page - 1) * $limit,
 						'limit' => $limit,
 						'emails' => 1,
-						'store_id' => $store_id,
+
 					];
 					if (isset($this->request->get['download'])) {
 						$affiliate_data = [
 							'emails' => 1,
-							'store_id' => $store_id,
+
 						];
 					}
 					$email_total = $this->model_marketing_affiliate->getTotalAffiliates($affiliate_data);

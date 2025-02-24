@@ -5,23 +5,30 @@ namespace Ventocart\Catalog\Model\Cms;
  *
  * @package Ventocart\Catalog\Model\Cms
  */
-class Article extends \Ventocart\System\Engine\Model {
+class Article extends \Ventocart\System\Engine\Model
+{
 	/**
 	 * @param int $article_id
 	 *
 	 * @return array
 	 */
-	public function getArticle(int $article_id): array {
-		$sql = "SELECT DISTINCT * FROM `" . DB_PREFIX . "article` `a` LEFT JOIN `" . DB_PREFIX . "article_description` `ad` ON (`a`.`article_id` = `ad`.`article_id`) LEFT JOIN `" . DB_PREFIX . "article_to_store` `a2s` ON (`a`.`article_id` = `a2s`.`article_id`) WHERE `a`.`article_id` = '" . (int)$article_id . "' AND `ad`.`language_id` = '" . (int)$this->config->get('config_language_id') . "' AND `a2s`.`store_id` = '" . (int)$this->config->get('config_store_id') . "' AND `a`.`status` = '1'";
+	public function getArticle(int $article_id): array
+	{
+		$sql = "SELECT DISTINCT * 
+		FROM `" . DB_PREFIX . "article` `a` 
+		LEFT JOIN `" . DB_PREFIX . "article_description` `ad` ON (`a`.`article_id` = `ad`.`article_id`) 
+		WHERE `a`.`article_id` = '" . (int) $article_id . "' 
+		AND `ad`.`language_id` = '" . (int) $this->config->get('config_language_id') . "'  
+		AND `a`.`status` = '1'";
 
-		$article_data = $this->cache->get('article.'. md5($sql));
+		$article_data = $this->cache->get('article.' . md5($sql));
 
 		if (!$article_data) {
 			$query = $this->db->query($sql);
 
 			$article_data = $query->row;
 
-			$this->cache->set('article.'. md5($sql), $article_data);
+			$this->cache->set('article.' . md5($sql), $article_data);
 		}
 
 		return $article_data;
@@ -32,8 +39,13 @@ class Article extends \Ventocart\System\Engine\Model {
 	 *
 	 * @return array
 	 */
-	public function getArticles(array $data = []): array {
-		$sql = "SELECT * FROM `" . DB_PREFIX . "article` `a` LEFT JOIN `" . DB_PREFIX . "article_description` `ad` ON (`a`.`article_id` = `ad`.`article_id`) LEFT JOIN `" . DB_PREFIX . "article_to_store` `a2s` ON (`a`.`article_id` = `a2s`.`article_id`) WHERE `ad`.`language_id` = '" . (int)$this->config->get('config_language_id') . "' AND `a2s`.`store_id` = '" . (int)$this->config->get('config_store_id') . "' AND `a`.`status` = '1'";
+	public function getArticles(array $data = []): array
+	{
+		$sql = "SELECT * 
+		FROM `" . DB_PREFIX . "article` `a` 
+		LEFT JOIN `" . DB_PREFIX . "article_description` `ad` ON (`a`.`article_id` = `ad`.`article_id`) 
+		WHERE `ad`.`language_id` = '" . (int) $this->config->get('config_language_id') . "' 
+		AND `a`.`status` = '1'";
 
 		if (!empty($data['filter_search'])) {
 			$sql .= " AND (";
@@ -50,7 +62,7 @@ class Article extends \Ventocart\System\Engine\Model {
 				$sql .= " (" . implode(" OR ", $implode) . ")";
 			}
 
-			$sql .= " OR `ad`.`description` LIKE '" . $this->db->escape('%' . (string)$data['filter_search'] . '%') . "'";
+			$sql .= " OR `ad`.`description` LIKE '" . $this->db->escape('%' . (string) $data['filter_search'] . '%') . "'";
 
 			$implode = [];
 
@@ -66,7 +78,7 @@ class Article extends \Ventocart\System\Engine\Model {
 		}
 
 		if (!empty($data['filter_topic_id'])) {
-			$sql .= " AND `a`.`topic_id` = '" . (int)$data['filter_topic_id'] . "'";
+			$sql .= " AND `a`.`topic_id` = '" . (int) $data['filter_topic_id'] . "'";
 		}
 
 		if (!empty($data['filter_author'])) {
@@ -84,17 +96,17 @@ class Article extends \Ventocart\System\Engine\Model {
 				$data['limit'] = 20;
 			}
 
-			$sql .= " LIMIT " . (int)$data['start'] . "," . (int)$data['limit'];
+			$sql .= " LIMIT " . (int) $data['start'] . "," . (int) $data['limit'];
 		}
 
-		$article_data = $this->cache->get('article.'. md5($sql));
+		$article_data = $this->cache->get('article.' . md5($sql));
 
 		if (!$article_data) {
 			$query = $this->db->query($sql);
 
 			$article_data = $query->rows;
 
-			$this->cache->set('article.'. md5($sql), $article_data);
+			$this->cache->set('article.' . md5($sql), $article_data);
 		}
 
 		return $article_data;
@@ -103,8 +115,12 @@ class Article extends \Ventocart\System\Engine\Model {
 	/**
 	 * @return int
 	 */
-	public function getTotalArticles(array $data = []): int {
-		$sql = "SELECT COUNT(*) AS `total` FROM `" . DB_PREFIX . "article` `a` LEFT JOIN `" . DB_PREFIX . "article_description` `ad` ON (`a`.`article_id` = `ad`.`article_id`) LEFT JOIN `" . DB_PREFIX . "article_to_store` `a2s` ON (`a`.`article_id` = `a2s`.`article_id`) WHERE `ad`.`language_id` = '" . (int)$this->config->get('config_language_id') . "' AND `a2s`.`store_id` = '" . (int)$this->config->get('config_store_id') . "'";
+	public function getTotalArticles(array $data = []): int
+	{
+
+		$sql = "SELECT COUNT(*) AS `total` FROM `" . DB_PREFIX . "article` `a` 
+		LEFT JOIN `" . DB_PREFIX . "article_description` `ad` ON (`a`.`article_id` = `ad`.`article_id`) 
+		WHERE `ad`.`language_id` = '" . (int) $this->config->get('config_language_id') . "'";
 
 		if (!empty($data['filter_search'])) {
 			$sql .= " AND (";
@@ -121,7 +137,7 @@ class Article extends \Ventocart\System\Engine\Model {
 				$sql .= " (" . implode(" OR ", $implode) . ")";
 			}
 
-			$sql .= " OR `ad`.`description` LIKE '" . $this->db->escape('%' . (string)$data['filter_search'] . '%') . "'";
+			$sql .= " OR `ad`.`description` LIKE '" . $this->db->escape('%' . (string) $data['filter_search'] . '%') . "'";
 
 			$implode = [];
 
@@ -137,7 +153,7 @@ class Article extends \Ventocart\System\Engine\Model {
 		}
 
 		if (!empty($data['filter_topic_id'])) {
-			$sql .= " AND `a`.`topic_id` = '" . (int)$data['filter_topic_id'] . "'";
+			$sql .= " AND `a`.`topic_id` = '" . (int) $data['filter_topic_id'] . "'";
 		}
 
 		if (!empty($data['filter_author'])) {
@@ -146,7 +162,7 @@ class Article extends \Ventocart\System\Engine\Model {
 
 		$query = $this->db->query($sql);
 
-		return (int)$query->row['total'];
+		return (int) $query->row['total'];
 	}
 
 	/**
@@ -154,11 +170,12 @@ class Article extends \Ventocart\System\Engine\Model {
 	 *
 	 * @return array
 	 */
-	public function getLayoutId(int $article_id): int {
-		$query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "article_to_layout` WHERE `article_id` = '" . (int)$article_id . "' AND `store_id` = '" . (int)$this->config->get('config_store_id') . "'");
+	public function getLayoutId(int $article_id): int
+	{
+		$query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "article_to_layout` WHERE `article_id` = '" . (int) $article_id . "'");
 
 		if ($query->num_rows) {
-			return (int)$query->row['layout_id'];
+			return (int) $query->row['layout_id'];
 		} else {
 			return 0;
 		}
@@ -170,8 +187,9 @@ class Article extends \Ventocart\System\Engine\Model {
 	 *
 	 * @return int
 	 */
-	public function addComment(int $article_id, array $data): int {
-		$this->db->query("INSERT INTO `" . DB_PREFIX . "article_comment` SET `article_id` = '" . (int)$article_id . "', `customer_id` = '" . (int)$this->customer->getId() . "', `author` = '" . $this->db->escape((string)$data['author']) . "', `comment` = '" . $this->db->escape((string)$data['comment']) . "', `status` = '" . (bool)!empty($data['status']) . "', `date_added` = NOW()");
+	public function addComment(int $article_id, array $data): int
+	{
+		$this->db->query("INSERT INTO `" . DB_PREFIX . "article_comment` SET `article_id` = '" . (int) $article_id . "', `customer_id` = '" . (int) $this->customer->getId() . "', `author` = '" . $this->db->escape((string) $data['author']) . "', `comment` = '" . $this->db->escape((string) $data['comment']) . "', `status` = '" . (bool) !empty($data['status']) . "', `date_added` = NOW()");
 
 		return $this->db->getLastId();
 	}
@@ -181,7 +199,8 @@ class Article extends \Ventocart\System\Engine\Model {
 	 *
 	 * @return array
 	 */
-	public function getComments(int $article_id, int $start = 0, int $limit = 10): array {
+	public function getComments(int $article_id, int $start = 0, int $limit = 10): array
+	{
 		if ($start < 0) {
 			$start = 0;
 		}
@@ -190,16 +209,16 @@ class Article extends \Ventocart\System\Engine\Model {
 			$limit = 10;
 		}
 
-		$sql = "SELECT * FROM `" . DB_PREFIX . "article_comment` WHERE `article_id` = '" . (int)$article_id . "' AND `status` = '1' ORDER BY `date_added` DESC LIMIT " . (int)$start . "," . (int)$limit;
+		$sql = "SELECT * FROM `" . DB_PREFIX . "article_comment` WHERE `article_id` = '" . (int) $article_id . "' AND `status` = '1' ORDER BY `date_added` DESC LIMIT " . (int) $start . "," . (int) $limit;
 
-		$comment_data = $this->cache->get('comment.'. md5($sql));
+		$comment_data = $this->cache->get('comment.' . md5($sql));
 
 		if (!$comment_data) {
 			$query = $this->db->query($sql);
 
 			$comment_data = $query->rows;
 
-			$this->cache->set('comment.'. md5($sql), $comment_data);
+			$this->cache->set('comment.' . md5($sql), $comment_data);
 		}
 
 		return $comment_data;
@@ -210,9 +229,10 @@ class Article extends \Ventocart\System\Engine\Model {
 	 *
 	 * @return int
 	 */
-	public function getTotalComments(int $article_id): int {
-		$query = $this->db->query("SELECT COUNT(*) AS `total` FROM `" . DB_PREFIX . "article_comment` WHERE `article_id` = '" . (int)$article_id . "' AND `status` = '1'");
+	public function getTotalComments(int $article_id): int
+	{
+		$query = $this->db->query("SELECT COUNT(*) AS `total` FROM `" . DB_PREFIX . "article_comment` WHERE `article_id` = '" . (int) $article_id . "' AND `status` = '1'");
 
-		return (int)$query->row['total'];
+		return (int) $query->row['total'];
 	}
 }

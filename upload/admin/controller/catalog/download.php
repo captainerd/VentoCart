@@ -1,7 +1,9 @@
 <?php
 namespace Ventocart\Admin\Controller\Catalog;
-class Download extends \Ventocart\System\Engine\Controller {
-	public function index(): void {
+class Download extends \Ventocart\System\Engine\Controller
+{
+	public function index(): void
+	{
 		$this->load->language('catalog/download');
 
 		$this->document->setTitle($this->language->get('heading_title'));
@@ -46,13 +48,15 @@ class Download extends \Ventocart\System\Engine\Controller {
 		$this->response->setOutput($this->load->view('catalog/download', $data));
 	}
 
-	public function list(): void {
+	public function list(): void
+	{
 		$this->load->language('catalog/download');
 
 		$this->response->setOutput($this->getList());
 	}
 
-	protected function getList(): string {
+	protected function getList(): string
+	{
 		if (isset($this->request->get['sort'])) {
 			$sort = $this->request->get['sort'];
 		} else {
@@ -66,7 +70,7 @@ class Download extends \Ventocart\System\Engine\Controller {
 		}
 
 		if (isset($this->request->get['page'])) {
-			$page = (int)$this->request->get['page'];
+			$page = (int) $this->request->get['page'];
 		} else {
 			$page = 1;
 		}
@@ -90,7 +94,7 @@ class Download extends \Ventocart\System\Engine\Controller {
 		$data['downloads'] = [];
 
 		$filter_data = [
-			'sort'  => $sort,
+			'sort' => $sort,
 			'order' => $order,
 			'start' => ($page - 1) * $this->config->get('config_pagination_admin'),
 			'limit' => $this->config->get('config_pagination_admin')
@@ -105,9 +109,9 @@ class Download extends \Ventocart\System\Engine\Controller {
 		foreach ($results as $result) {
 			$data['downloads'][] = [
 				'download_id' => $result['download_id'],
-				'name'        => $result['name'],
-				'date_added'  => date($this->language->get('date_format_short'), strtotime($result['date_added'])),
-				'edit'        => $this->url->link('catalog/download.form', 'user_token=' . $this->session->data['user_token'] . '&download_id=' . $result['download_id'] . $url)
+				'name' => $result['name'],
+				'date_added' => date($this->language->get('date_format_short'), strtotime($result['date_added'])),
+				'edit' => $this->url->link('catalog/download.form', 'user_token=' . $this->session->data['user_token'] . '&download_id=' . $result['download_id'] . $url)
 			];
 		}
 
@@ -138,9 +142,9 @@ class Download extends \Ventocart\System\Engine\Controller {
 
 		$data['pagination'] = $this->load->controller('common/pagination', [
 			'total' => $download_total,
-			'page'  => $page,
+			'page' => $page,
 			'limit' => $this->config->get('config_pagination_admin'),
-			'url'   => $this->url->link('catalog/download.list', 'user_token=' . $this->session->data['user_token'] . $url . '&page={page}')
+			'url' => $this->url->link('catalog/download.list', 'user_token=' . $this->session->data['user_token'] . $url . '&page={page}')
 		]);
 
 		$data['results'] = sprintf($this->language->get('text_pagination'), ($download_total) ? (($page - 1) * $this->config->get('config_pagination_admin')) + 1 : 0, ((($page - 1) * $this->config->get('config_pagination_admin')) > ($download_total - $this->config->get('config_pagination_admin'))) ? $download_total : ((($page - 1) * $this->config->get('config_pagination_admin')) + $this->config->get('config_pagination_admin')), $download_total, ceil($download_total / $this->config->get('config_pagination_admin')));
@@ -151,7 +155,8 @@ class Download extends \Ventocart\System\Engine\Controller {
 		return $this->load->view('catalog/download_list', $data);
 	}
 
-	public function form(): void {
+	public function form(): void
+	{
 		$this->load->language('catalog/download');
 
 		$this->document->setTitle($this->language->get('heading_title'));
@@ -161,7 +166,7 @@ class Download extends \Ventocart\System\Engine\Controller {
 		// Use the ini_get('upload_max_filesize') for the max file size
 		$data['error_upload_size'] = sprintf($this->language->get('error_upload_size'), ini_get('upload_max_filesize'));
 
-		$data['config_file_max_size'] = ((int)preg_filter('/[^0-9]/', '', ini_get('upload_max_filesize')) * 1024 * 1024);
+		$data['config_file_max_size'] = ((int) preg_filter('/[^0-9]/', '', ini_get('upload_max_filesize')) * 1024 * 1024);
 
 		$url = '';
 
@@ -200,7 +205,7 @@ class Download extends \Ventocart\System\Engine\Controller {
 		}
 
 		if (isset($this->request->get['download_id'])) {
-			$data['download_id'] = (int)$this->request->get['download_id'];
+			$data['download_id'] = (int) $this->request->get['download_id'];
 		} else {
 			$data['download_id'] = 0;
 		}
@@ -238,7 +243,8 @@ class Download extends \Ventocart\System\Engine\Controller {
 		$this->response->setOutput($this->load->view('catalog/download_form', $data));
 	}
 
-	public function save(): void {
+	public function save(): void
+	{
 		$this->load->language('catalog/download');
 
 		$json = [];
@@ -266,7 +272,7 @@ class Download extends \Ventocart\System\Engine\Controller {
 		}
 
 		if (preg_match('/[^a-zA-Z0-9\/_.-]|[\p{Cyrillic}]+/u', $this->request->post['filename'])) {
-		 	$json['error']['filename'] = $this->language->get('error_filename_character');
+			$json['error']['filename'] = $this->language->get('error_filename_character');
 		}
 
 		if ((oc_strlen($this->request->post['mask']) < 3) || (oc_strlen($this->request->post['mask']) > 128)) {
@@ -297,7 +303,8 @@ class Download extends \Ventocart\System\Engine\Controller {
 		$this->response->setOutput(json_encode($json));
 	}
 
-	public function delete(): void {
+	public function delete(): void
+	{
 		$this->load->language('catalog/download');
 
 		$json = [];
@@ -336,21 +343,23 @@ class Download extends \Ventocart\System\Engine\Controller {
 		$this->response->setOutput(json_encode($json));
 	}
 
-	public function report(): void {
+	public function report(): void
+	{
 		$this->load->language('catalog/download');
 
 		$this->response->setOutput($this->getReport());
 	}
 
-	private function getReport(): string {
+	private function getReport(): string
+	{
 		if (isset($this->request->get['download_id'])) {
-			$download_id = (int)$this->request->get['download_id'];
+			$download_id = (int) $this->request->get['download_id'];
 		} else {
 			$download_id = 0;
 		}
 
 		if (isset($this->request->get['page']) && $this->request->get['route'] == 'catalog/download.report') {
-			$page = (int)$this->request->get['page'];
+			$page = (int) $this->request->get['page'];
 		} else {
 			$page = 1;
 		}
@@ -366,23 +375,20 @@ class Download extends \Ventocart\System\Engine\Controller {
 		$results = $this->model_catalog_download->getReports($download_id, ($page - 1) * $limit, $limit);
 
 		foreach ($results as $result) {
-			$store_info = $this->model_setting_store->getStore($result['store_id']);
+			$store_info = $this->model_setting_store->getStore();
 
 			if ($store_info) {
 				$store = $store_info['name'];
-			} elseif (!$result['store_id']) {
-				$store = $this->config->get('config_name');
-			} else {
-				$store = '';
+
 			}
 
 			$data['reports'][] = [
-				'ip'         => $result['ip'],
-				'account'    => $this->model_customer_customer->getTotalCustomersByIp($result['ip']),
-				'store'      => $store,
-				'country'    => $result['country'],
+				'ip' => $result['ip'],
+				'account' => $this->model_customer_customer->getTotalCustomersByIp($result['ip']),
+				'store' => $store,
+				'country' => $result['country'],
 				'date_added' => date($this->language->get('datetime_format'), strtotime($result['date_added'])),
-				'filter_ip'  => $this->url->link('customer/customer', 'user_token=' . $this->session->data['user_token'] . '&filter_ip=' . $result['ip'])
+				'filter_ip' => $this->url->link('customer/customer', 'user_token=' . $this->session->data['user_token'] . '&filter_ip=' . $result['ip'])
 			];
 		}
 
@@ -390,9 +396,9 @@ class Download extends \Ventocart\System\Engine\Controller {
 
 		$data['pagination'] = $this->load->controller('common/pagination', [
 			'total' => $report_total,
-			'page'  => $page,
+			'page' => $page,
 			'limit' => $limit,
-			'url'   => $this->url->link('catalog/download.report', 'user_token=' . $this->session->data['user_token'] . '&download_id=' . $download_id . '&page={page}')
+			'url' => $this->url->link('catalog/download.report', 'user_token=' . $this->session->data['user_token'] . '&download_id=' . $download_id . '&page={page}')
 		]);
 
 		$data['results'] = sprintf($this->language->get('text_pagination'), ($report_total) ? (($page - 1) * $limit) + 1 : 0, ((($page - 1) * $limit) > ($report_total - $limit)) ? $report_total : ((($page - 1) * $limit) + $limit), $report_total, ceil($report_total / $limit));
@@ -400,7 +406,8 @@ class Download extends \Ventocart\System\Engine\Controller {
 		return $this->load->view('catalog/download_report', $data);
 	}
 
-	public function upload(): void {
+	public function upload(): void
+	{
 		$this->load->language('catalog/download');
 
 		$json = [];
@@ -474,7 +481,8 @@ class Download extends \Ventocart\System\Engine\Controller {
 		$this->response->setOutput(json_encode($json));
 	}
 
-	public function download(): void {
+	public function download(): void
+	{
 		$this->load->language('catalog/download');
 
 		if (isset($this->request->get['filename'])) {
@@ -526,7 +534,8 @@ class Download extends \Ventocart\System\Engine\Controller {
 		}
 	}
 
-	public function autocomplete(): void {
+	public function autocomplete(): void
+	{
 		$json = [];
 
 		if (isset($this->request->get['filter_name'])) {
@@ -534,8 +543,8 @@ class Download extends \Ventocart\System\Engine\Controller {
 
 			$filter_data = [
 				'filter_name' => $this->request->get['filter_name'],
-				'start'       => 0,
-				'limit'       => 5
+				'start' => 0,
+				'limit' => 5
 			];
 
 			$results = $this->model_catalog_download->getDownloads($filter_data);
@@ -543,7 +552,7 @@ class Download extends \Ventocart\System\Engine\Controller {
 			foreach ($results as $result) {
 				$json[] = [
 					'download_id' => $result['download_id'],
-					'name'        => strip_tags(html_entity_decode($result['name'], ENT_QUOTES, 'UTF-8'))
+					'name' => strip_tags(html_entity_decode($result['name'], ENT_QUOTES, 'UTF-8'))
 				];
 			}
 		}
