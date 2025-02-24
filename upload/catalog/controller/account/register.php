@@ -289,6 +289,8 @@ class Register extends \Ventocart\System\Engine\Controller
 			unset($this->session->data['shipping_methods']);
 			unset($this->session->data['payment_method']);
 			unset($this->session->data['payment_methods']);
+			unset($this->session->data['payment_address']);
+			unset($this->session->data['shipping_address']);
 
 			$json['redirect'] = $this->url->link('account/success', '', true);
 		}
