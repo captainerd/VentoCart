@@ -1,3 +1,11 @@
+<?php
+$videoExtensions = ['mp4', 'avi', 'mkv'];
+$mediaExtension = pathinfo($thumb, PATHINFO_EXTENSION);
+$isVideo = in_array($mediaExtension, $videoExtensions);
+if (!isset($poster)) {
+    $poster = '';
+}
+?>
 <form id="form-product" method="post" data-oc-toggle="ajax" data-oc-load="<?= $this->e($action) ?>"
     data-oc-target="#product">
     <div class="row" id="product-list">
