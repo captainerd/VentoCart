@@ -2,12 +2,15 @@
 $videoExtensions = ['mp4', 'avi', 'mkv'];
 $mediaExtension = pathinfo($thumb, PATHINFO_EXTENSION);
 $isVideo = in_array($mediaExtension, $videoExtensions);
+if (!isset($poster)) {
+    $poster = '';
+}
 ?>
 <div class=" p-1 bg-white thumbnail-container border">
     <div>
         <?php if ($isVideo): ?>
             <a href="<?= $href ?>" class="product-link text-center text-decoration-none">
-                <video style="object-fit: cover;" class="product-thumb" muted loop>
+                <video poster="<?= $poster ?>" style="object-fit: cover;" class="product-thumb" muted loop>
                     <source src="<?= $thumb ?>" type="video/<?= $mediaExtension ?>">
                     Your browser does not support the video tag.
                 </video>
