@@ -1,4 +1,4 @@
-### **What's New in VentoCart v7.0.0.1** 🚀  
+#### **What's New in VentoCart v7.0.0.1** 🚀  
 
 #### **Theme**  
 - Fixed various language inconsistencies 🗣️  
