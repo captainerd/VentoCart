@@ -38,8 +38,30 @@ class MoreInCategory extends \Ventocart\System\Engine\Controller
         $this->load->language('product/thumb');
         if ($results) {
             foreach ($results as $result) {
+                $poster = '';
+
                 if ($result['image']) {
+
+                    // Video poster creation
+                    $fileExtension = strtolower(pathinfo($result['image'], PATHINFO_EXTENSION));
+
+                    if (in_array($fileExtension, ['mp4', 'mkv', 'avi'])) {
+
+                        // Prepare the resized video thumbnail, the URL is the same as the video
+                        $image_format = $this->config->get('config_image_filetype');
+                        if ($image_format == 'as_uploaded') {
+                            $image_format = ".png";  // Default to PNG if 'as_uploaded' is chosen
+                        }
+                        $image = $result['image'];
+
+                        $poster = substr_replace($result['image'], '.png', strrpos($result['image'], '.'));  // Only modify the $poster variable
+                        $poster = $this->model_tool_image->resize(html_entity_decode($poster, ENT_QUOTES, 'UTF-8'), $setting['width'], $setting['height']);
+
+                    }
                     $image = $this->model_tool_image->resize(html_entity_decode($result['image'], ENT_QUOTES, 'UTF-8'), $setting['width'], $setting['height']);
+
+
+
                 } else {
                     $image = $this->model_tool_image->resize('placeholder.png', $setting['width'], $setting['height']);
                 }
@@ -72,6 +94,7 @@ class MoreInCategory extends \Ventocart\System\Engine\Controller
                     'price' => $price,
                     'special' => $special,
                     'tax' => $tax,
+                    'poster' => $poster,
                     'setWidth' => $setting['width'],
                     'setHeight' => $setting['height'],
                     'minimum' => $result['minimum'] > 0 ? $result['minimum'] : 1,
