@@ -16,49 +16,102 @@
       </ol>
     </div>
   </div>
-  <div class="container-fluid">
-    <div class="row">
-      <div id="filter-product" class="col-lg-3 col-md-12 order-lg-last d-none d-lg-block mb-3">
-        <div class="card">
-          <div class="card-header"><i class="fa-solid fa-filter"></i> {{ text_filter }}</div>
-          <div class="card-body">
-            <div class="mb-3">
-              <label for="input-name" class="form-label">{{ entry_name }}</label>
-              <input type="text" name="filter_name" value="{{ filter_name }}" placeholder="{{ entry_name }}" id="input-name" data-oc-target="autocomplete-name" class="form-control" autocomplete="off"/>
-              <ul id="autocomplete-name" class="dropdown-menu"></ul>
-            </div>
-            <div class="mb-3">
-              <label for="input-model" class="form-label">{{ entry_model }}</label>
-              <input type="text" name="filter_model" value="{{ filter_model }}" placeholder="{{ entry_model }}" id="input-model" data-oc-target="autocomplete-model" class="form-control" autocomplete="off"/>
-              <ul id="autocomplete-model" class="dropdown-menu"></ul>
-            </div>
-            <div class="mb-3">
-              <label for="input-price" class="form-label">{{ entry_price }}</label> <input type="text" name="filter_price" value="{{ filter_price }}" placeholder="{{ entry_price }}" id="input-price" class="form-control"/>
-            </div>
-            <div class="mb-3">
-              <label for="input-quantity" class="form-label">{{ entry_quantity }}</label> <input type="text" name="filter_quantity" value="{{ filter_quantity }}" placeholder="{{ entry_quantity }}" id="input-quantity" class="form-control"/>
-            </div>
-            <div class="mb-3">
-              <label for="input-status" class="form-label">{{ entry_status }}</label> <select name="filter_status" id="input-status" class="form-select">
-                <option value=""></option>
-                <option value="1"{% if filter_status == '1' %} selected{% endif %}>{{ text_enabled }}</option>
-                <option value="0"{% if filter_status == '0' %} selected{% endif %}>{{ text_disabled }}</option>
-              </select>
-            </div>
-            <div class="text-end">
-              <button type="button" id="button-filter" class="btn btn-light"><i class="fa-solid fa-filter"></i> {{ button_filter }}</button>
-            </div>
-          </div>
+<div class="container-fluid">
+  <div class="row mb-3"> 
+  
+  <div id="filter-product" class="col ">
+  <div class="card">
+    <div class="card-header"><i class="fa-solid fa-filter"></i> {{ text_filter }}</div>
+    <div class="card-body">
+      
+      <!-- Nav Tabs -->
+      <ul class="nav nav-tabs" id="filterTabs" role="tablist">
+           <li class="nav-item" role="presentation">
+          <button class="nav-link  active" id="category-tab" data-bs-toggle="tab" data-bs-target="#category" type="button" role="tab">{{ entry_category }}</button>
+        </li>
+        <li class="nav-item" role="presentation">
+          <button class="nav-link  " id="name-tab" data-bs-toggle="tab" data-bs-target="#name" type="button" role="tab">{{ entry_name }}</button>
+        </li>
+        <li class="nav-item" role="presentation">
+          <button class="nav-link" id="model-tab" data-bs-toggle="tab" data-bs-target="#model" type="button" role="tab">{{ entry_model }}</button>
+        </li>
+        <li class="nav-item" role="presentation">
+          <button class="nav-link" id="price-tab" data-bs-toggle="tab" data-bs-target="#price" type="button" role="tab">{{ entry_price }}</button>
+        </li>
+        <li class="nav-item" role="presentation">
+          <button class="nav-link" id="quantity-tab" data-bs-toggle="tab" data-bs-target="#quantity" type="button" role="tab">{{ entry_quantity }}</button>
+        </li>
+        <li class="nav-item" role="presentation">
+          <button class="nav-link" id="status-tab" data-bs-toggle="tab" data-bs-target="#status" type="button" role="tab">{{ entry_status }}</button>
+        </li>
+      </ul>
+
+      <!-- Tab Content -->
+      <div class="tab-content mt-3" id="filterTabContent">
+    <div class="tab-pane fade show active" id="category" role="tabpanel">
+    <label for="input-category" class="form-label">{{ entry_category }}</label>
+ 
+<select name="filter_category" id="input-category" class="form-select">
+    <option value="">{{ text_all }}</option>
+    {% for category in categories %}
+        <option value="{{ category.category_id }}" {% if category.category_id == filter_category %}selected{% endif %}>{{ category.name }}</option>
+    {% endfor %}
+</select>
+
+</div>
+
+
+        <div class="tab-pane fade " id="name" role="tabpanel">
+          <label for="input-name" class="form-label">{{ entry_name }}</label>
+          <input type="text" name="filter_name" value="{{ filter_name }}" placeholder="{{ entry_name }}" id="input-name" data-oc-target="autocomplete-name" class="form-control" autocomplete="off"/>
+          <ul id="autocomplete-name" class="dropdown-menu"></ul>
+        </div>
+        <div class="tab-pane fade" id="model" role="tabpanel">
+          <label for="input-model" class="form-label">{{ entry_model }}</label>
+          <input type="text" name="filter_model" value="{{ filter_model }}" placeholder="{{ entry_model }}" id="input-model" data-oc-target="autocomplete-model" class="form-control" autocomplete="off"/>
+          <ul id="autocomplete-model" class="dropdown-menu"></ul>
+        </div>
+        <div class="tab-pane fade" id="price" role="tabpanel">
+          <label for="input-price" class="form-label">{{ entry_price }}</label>
+          <input type="text" name="filter_price" value="{{ filter_price }}" placeholder="{{ entry_price }}" id="input-price" class="form-control"/>
+        </div>
+        <div class="tab-pane fade" id="quantity" role="tabpanel">
+          <label for="input-quantity" class="form-label">{{ entry_quantity }}</label>
+          <input type="text" name="filter_quantity" value="{{ filter_quantity }}" placeholder="{{ entry_quantity }}" id="input-quantity" class="form-control"/>
+        </div>
+        <div class="tab-pane fade" id="status" role="tabpanel">
+          <label for="input-status" class="form-label">{{ entry_status }}</label>
+          <select name="filter_status" id="input-status" class="form-select">
+            <option value=""></option>
+            <option value="1"{% if filter_status == '1' %} selected{% endif %}>{{ text_enabled }}</option>
+            <option value="0"{% if filter_status == '0' %} selected{% endif %}>{{ text_disabled }}</option>
+          </select>
         </div>
       </div>
-      <div class="col col-lg-9 col-md-12">
-        <div class="card">
-          <div class="card-header"><i class="fa-solid fa-list"></i> {{ text_list }}</div>
-          <div id="product" class="card-body">{{ list }}</div>
-        </div>
+
+      <!-- Filter Button Outside Tabs -->
+      <div class="text-end mt-3">
+        <button type="button" id="button-filter" class="btn btn-light"><i class="fa-solid fa-filter"></i> {{ button_filter }}</button>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+  
+  
+  </div>
+
+  <div class="row">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-header"><i class="fa-solid fa-list"></i> {{ text_list }}</div>
+        <div id="product" class="card-body">{{ list }}</div>
       </div>
     </div>
   </div>
+</div>
+
 </div>
 <div class="modal" tabindex="-1" role="dialog" id="deleteConfirmationModal">
   <div class="modal-dialog" role="document">
@@ -128,6 +181,13 @@ $('#button-filter').on('click', function () {
     if (filter_status !== '') {
         url += '&filter_status=' + filter_status;
     }
+
+        // Get the selected category and add it to the URL
+    var filter_category = $('#input-category').val();
+    if (filter_category) {
+        url += '&filter_category=' + filter_category;
+    }
+
 
     window.history.pushState({}, null, 'index.php?route=catalog/product&user_token={{ user_token }}' + url);
 
@@ -229,6 +289,27 @@ $('#delete-product').on('click', function (e) {
     handleDelete();
 });
 
+$(document).ready(function () {
+  // Event delegation: Bind the click event to a parent container
+  // This will work even if the product rows are added dynamically
+  $(document).on('click', '.product-row', function (event) {
+    // Prevent toggling when clicking directly on a link or button
+    if ($(event.target).is('a, button')) {
+      return;
+    }
+
+    var checkbox = $(this).find('input[type=checkbox]');
+    if (checkbox.length) {
+      // Toggle checkbox state
+      checkbox.prop('checked', !checkbox.prop('checked'));
+
+      // Add or remove the 'selected' class based on checkbox state
+      $(this).toggleClass('selected', checkbox.prop('checked'));
+    }
+  });
+});
 
 //--></script>
+
+
 {{ footer }}

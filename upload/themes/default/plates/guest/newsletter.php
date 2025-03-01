@@ -20,7 +20,7 @@
                     <p><?= $text_description ?></p>
 
                     <!-- Combined subscription/unsubscription form -->
-                    <form action="" method="get" class="mt-4">
+                    <form action="/index.php" method="get" class="mt-4">
                         <input type="hidden" name="route" value="guest/newsletter">
                         <div class="form-group">
                             <label for="email"><?= $entry_email ?></label>

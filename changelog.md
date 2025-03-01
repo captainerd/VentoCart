@@ -1,3 +1,27 @@
+### **What's New in VentoCart v7.0.0.1** 🚀  
+
+#### **Theme**  
+- Fixed various language inconsistencies 🗣️  
+- Added eye toggle to password input for the registration form with a single password field 👀🔒  
+- Added an extra product thumbnail for the categories list-view mode 🖼️  
+- Adjusted banner module heights for improved consistency 📏  
+- Removed language code occurrences from URLs for cleaner structure 🌍  
+
+#### **Admin**  
+- Introduced a **"Features" tab** in settings to enable/disable various system-wide features such as reviews, gift cards, etc. ⚙️  
+- Redesigned the catalog/product list to be more condensed in list view, ensuring a mobile-first experience. Also redesigned the filter placement in a tabular format for improved mobile accessibility 📱  
+- Added a **category filter** to the product list for better navigation 🛒  
+
+#### **Bug Fixes**  
+- Fixed the SEO URL bug that was breaking functionality 🐞🔧  
+- Resolved the issue where `$poster` was undefined when no poster was set for videos 🎥  
+- Fixed a broken affiliate link in the footer 🔗  
+- Fixed the loader issue for controllers that were running only the index method when stored in the registry 🛠️  
+
+### **Installer**
+- Added a one-file installer.php to the "releases" section of the repo. This file automates the download and extraction of VentoCart files for fresh installations.
+---
+ 
 #### **What's New in VentoCart v7.0.0.0** 🚀  
 
 **Breaking Changes (Major Removals)** 

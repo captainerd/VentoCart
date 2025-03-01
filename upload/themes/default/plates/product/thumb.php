@@ -2,6 +2,9 @@
 $videoExtensions = ['mp4', 'avi', 'mkv'];
 $mediaExtension = pathinfo($thumb, PATHINFO_EXTENSION);
 $isVideo = in_array($mediaExtension, $videoExtensions);
+if (!isset($poster)) {
+    $poster = '';
+}
 ?>
 <div class=" h-100 rounded  bg-white thumbnail-container  border">
     <a href="<?= $href ?>" class="product-link  text-primary-emphasis text-center text-decoration-none">

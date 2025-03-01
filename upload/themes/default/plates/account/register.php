@@ -235,10 +235,14 @@
           <legend><?= $text_your_password ?></legend>
           <div class="row mb-3 required">
             <label for="input-password" class="col-sm-2 col-form-label"><?= $entry_password ?></label>
-            <div class="col-sm-10">
+            <div class="col-sm-10 position-relative">
               <input type="password" name="password" value="" placeholder="<?= $entry_password ?>" id="input-password"
-                class="form-control">
+                class="form-control" oninput="showFirstChar()">
               <div id="error-password" class="invalid-feedback"></div>
+              <span id="toggle-password" class="position-absolute top-50 end-0 me-3"
+                style="transform: translateY(-50%); cursor: pointer;">
+                <i class="fas fa-eye-slash" id="eye-icon"></i>
+              </span>
             </div>
           </div>
         </fieldset>
@@ -336,4 +340,35 @@ $('#input-customer-group').on('change', function() {
   });
 
   //--></script>
+
+<script>
+  let passwordInput = document.getElementById('input-password');
+  let eyeIcon = document.getElementById('eye-icon');
+  let togglePassword = document.getElementById('toggle-password');
+
+  // Toggle password visibility
+  togglePassword.addEventListener('click', function () {
+    if (passwordInput.type === 'password') {
+      passwordInput.type = 'text';
+      eyeIcon.classList.remove('fa-eye-slash');
+      eyeIcon.classList.add('fa-eye');
+    } else {
+      passwordInput.type = 'password';
+      eyeIcon.classList.remove('fa-eye');
+      eyeIcon.classList.add('fa-eye-slash');
+    }
+  });
+
+  // Show the first character for 2 seconds when typing
+  function showFirstChar() {
+    if (passwordInput.value.length > 0) {
+      passwordInput.setAttribute('type', 'text'); // Make it visible initially
+      setTimeout(function () {
+        passwordInput.setAttribute('type', 'password'); // Hide it after 2 seconds
+      }, 700);
+    }
+  }
+</script>
+
+
 <?= $footer ?>

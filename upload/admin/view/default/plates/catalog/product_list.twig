@@ -5,6 +5,21 @@
         <div class="col-12">
           <div class="d-flex flex-column flex-sm-row justify-content-between align-items-start p-3 border-bottom product-row">
             
+            <!-- Product Image -->
+            <div class="me-3 mb-2 mb-sm-0 product-image" style="flex: 0 0 60px;">
+                 {% if product.image ends with '.avi' or product.image ends with '.mp4' or product.image ends with '.mkv' %}
+
+                    <video class="img-thumbnail" style="max-width: 40px; display: block;" >
+                        <source src="{{ product.image }}" type="video/{{ product.image|split('.')|last }}">
+                        Your browser does not support the video tag.
+                    </video>
+
+                {% else %}
+                    <img src="{{ product.image }}" alt="{{ product.name }}" class="img-thumbnail" style="max-width: 40px; display: block;">
+
+                {% endif %}
+            </div>
+            
             <!-- Checkbox (visible at the start) -->
             <div class="me-3 mb-2 mb-sm-0">
               <input type="checkbox" name="selected[]" value="{{ product.product_id }}" class="form-check-input" onclick="toggleCheckbox(this)">
@@ -12,16 +27,13 @@
             
             <!-- Product details (table-like) -->
             <div class="d-flex flex-column flex-sm-row w-100 justify-content-between align-items-start">
-              <!-- Product name and edit link with increased width on larger screens -->
-             <div class="product-col product-name mb-2 mb-sm-0" style="flex: 1 1 100%; word-wrap: break-word; overflow-wrap: break-word;">
-  <a title="{{ product.name }}" href="{{ product.edit }}" class="text-decoration-none" {% if sort == 'pd.name' %} class="{{ order|lower }}"{% endif %}>
-    {{ product.name }}
-  </a>
-</div>
-
+              <!-- Product name and edit link -->
+              <div class="product-col product-name mb-2 mx-2 mb-sm-0" style="flex: 1 1 100%; word-wrap: break-word; overflow-wrap: break-word;">
+                <a title="{{ product.name }}" href="{{ product.edit }}" class="text-decoration-none">{{ product.name }}</a>
+              </div>
               
               <!-- Product status -->
-              <div class="product-col product-status mb-2 mb-sm-0" style="flex: 1 1 20%;">
+              <div class="product-col product-status mb-2  mx-2 mb-sm-0" style="flex: 1 1 20%;">
                 {% if product.status %}
                   <span class="text-success">{{ text_enabled }}</span>
                 {% else %}
@@ -30,12 +42,12 @@
               </div>
 
               <!-- Product model -->
-              <div class="product-col product-model mb-2 mb-sm-0" style="flex: 1 1 40%;">
+              <div class="product-col product-model mb-2 mb-sm-0  mx-2" style="flex: 1 1 40%;">
                 {{ product.model }}
               </div>
 
               <!-- Price and special price -->
-              <div class="product-col product-price mb-2 mb-sm-0" style="flex: 1 1 20%;">
+              <div class="product-col product-price mb-2 mb-sm-0 mx-2" style="flex: 1 1 20%;">
                 {% if product.special %}
                   <span style="text-decoration: line-through;">{{ product.price }}</span>
                   <span class="text-danger">{{ product.special }}</span>
@@ -45,7 +57,7 @@
               </div>
 
               <!-- Quantity with badges -->
-              <div class="product-col product-quantity mb-2 mb-sm-0" style="flex: 1 1 20%;">
+              <div class="product-col product-quantity mb-2  mx-2 mb-sm-0" style="flex: 1 1 20%;">
                 {% if product.quantity <= 0 %}
                   <span class="badge bg-warning">{{ product.quantity }}</span>
                 {% elseif product.quantity <= 5 %}
@@ -77,13 +89,5 @@
   </div>
 </form>
 
-<script>
-  function toggleCheckbox(checkbox) {
-    var card = checkbox.closest('.d-flex');
-    if (checkbox.checked) {
-      card.classList.add('selected');
-    } else {
-      card.classList.remove('selected');
-    }
-  }
-</script>
+ 
+

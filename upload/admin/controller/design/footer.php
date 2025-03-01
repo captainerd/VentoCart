@@ -150,7 +150,7 @@ class Footer extends \Ventocart\System\Engine\Controller
                             $text = $link['text_key'];
 
                             // Add URL conditions
-                            if ($url === 'affiliate/account') {
+                            if ($url === 'account/affiliate') {
                                 $new_section_content .= "\r" . '<?php if ($affiliate): ?>';
                             } elseif ($url === 'guest/order') {
                                 $new_section_content .= "\r" . '<?php if ($guestorder): ?>';
@@ -158,6 +158,8 @@ class Footer extends \Ventocart\System\Engine\Controller
                                 $new_section_content .= "\r" . '<?php if ($gdpr): ?>';
                             } elseif ($url === 'cms/blog') {
                                 $new_section_content .= "\r" . '<?php if ($blog): ?>';
+                            } elseif ($url === 'giftcards/giftcard') {
+                                $new_section_content .= "\r" . '<?php if ($giftcards): ?>';
                             }
 
                             // Add list item
@@ -165,13 +167,15 @@ class Footer extends \Ventocart\System\Engine\Controller
                         <li><a href="<?= $url->link(\'' . $url . '\') ?>"><?= $' . $text . ' ?></a></li>';
 
                             // Close conditions
-                            if ($url === 'affiliate/account') {
+                            if ($url === 'account/affiliate') {
                                 $new_section_content .= "\r" . '<?php endif; ?>';
                             } elseif ($url === 'guest/order') {
                                 $new_section_content .= "\r" . '<?php endif; ?>';
                             } elseif ($url === 'information/gdpr') {
                                 $new_section_content .= "\r" . '<?php endif; ?>';
                             } elseif ($url === 'cms/blog') {
+                                $new_section_content .= "\r" . '<?php endif; ?>';
+                            } elseif ($url === 'giftcards/giftcard') {
                                 $new_section_content .= "\r" . '<?php endif; ?>';
                             }
                         }

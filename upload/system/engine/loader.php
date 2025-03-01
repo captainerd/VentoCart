@@ -69,12 +69,13 @@ class Loader
 	{
 		$key = 'controller_' . $route;
 		$method = 'index';
+		if (strpos($route, '.') !== false) {
+			[$route, $method] = explode('.', $route, 2); // Extract method from route
+		}
 
 		if (!$this->registry->has($key)) {
 			$className = 'Ventocart\\' . $this->config->get('application') . '\\Controller\\' . str_replace(['_', '/'], ['', '\\'], ucwords($route, '_/'));
-			if (strpos($className, '.') !== false) {
-				[$className, $method] = explode('.', $className, 2);
-			}
+
 
 			if (class_exists($className)) {
 				$controller = new $className($this->registry);

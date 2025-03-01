@@ -1,4 +1,5 @@
-<div id="carousel-banner-<?= $module ?>" class="splide splide-<?= $module ?>" aria-label="Banner Carousel">
+<div style="height: <?= $height ?>px !important;" id="carousel-banner-<?= $module ?>"
+  class="splide splide-<?= $module ?>" aria-label="Banner Carousel">
   <div class="splide__track">
     <ul class="splide__list">
       <?php foreach (array_chunk($banners, $items) as $carousel): ?>
@@ -8,7 +9,8 @@
               <div class="col-<?= round(12 / $items) ?> text-center">
                 <?php if ($banner['link']): ?>
                   <a href="<?= $banner['link'] ?>">
-                    <div class="banner" style="background-image: url('<?= $banner['image'] ?>'); height: <?= $height ?>px;">
+                    <div class="banner"
+                      style="background-image: url('<?= $banner['image'] ?>'); height: <?= $height ?>px !important; ">
                       <div class="banner-content">
                         <h2 class="banner-title"><?= $banner['title'] ?></h2>
                         <h3 class="banner-description"><?= $banner['description'] ?></h3>
@@ -16,7 +18,8 @@
                     </div>
                   </a>
                 <?php else: ?>
-                  <div class="banner" style="background-image: url('<?= $banner['image'] ?>'); height: <?= $height ?>px;">
+                  <div class="banner"
+                    style="background-image: url('<?= $banner['image'] ?>'); height: <?= $height ?>px !important; ">
                     <div class="banner-content">
                       <h2 class="banner-title"><?= $banner['title'] ?></h2>
                       <h3 class="banner-description"><?= $banner['description'] ?></h3>

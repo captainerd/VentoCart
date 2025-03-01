@@ -13,25 +13,26 @@
   <?php if (isset($keyw) || isset($ds)): ?>
     <meta name="keywords" content="<?= $keywords ?>">
   <?php endif; ?>
-  <script src="themes/<?= $theme_name ?>/assets/core/js/jquery/jquery-3.7.1.min.js"></script>
-  <script src="themes/<?= $theme_name ?>/assets/core/js/jquery/datetimepicker/moment.min.js"></script>
-  <script src="themes/<?= $theme_name ?>/assets/core/js/jquery/datetimepicker/moment-with-locales.min.js"></script>
-  <script src="themes/<?= $theme_name ?>/assets/core/js/jquery/datetimepicker/daterangepicker.js"></script>
-  <link href="themes/<?= $theme_name ?>/assets/core/js/jquery/datetimepicker/daterangepicker.css" rel="stylesheet"
+  <script src="/themes/<?= $theme_name ?>/assets/core/js/jquery/jquery-3.7.1.min.js"></script>
+  <script src="/themes/<?= $theme_name ?>/assets/core/js/jquery/datetimepicker/moment.min.js"></script>
+  <script src="/themes/<?= $theme_name ?>/assets/core/js/jquery/datetimepicker/moment-with-locales.min.js"></script>
+  <script src="/themes/<?= $theme_name ?>/assets/core/js/jquery/datetimepicker/daterangepicker.js"></script>
+  <link href="/themes/<?= $theme_name ?>/assets/core/js/jquery/datetimepicker/daterangepicker.css" rel="stylesheet"
     type="text/css">
-  <link href="themes/<?= $theme_name ?>/assets/core/css/bootstrap.css" rel="stylesheet" type="text/css">
-  <link href="themes/<?= $theme_name ?>/assets/core/fonts/fontawesome/css/all.min.css" rel="stylesheet" type="text/css">
-  <link href="themes/<?= $theme_name ?>/assets/core/css/stylesheet.css" rel="stylesheet" type="text/css">
+  <link href="/themes/<?= $theme_name ?>/assets/core/css/bootstrap.css" rel="stylesheet" type="text/css">
+  <link href="/themes/<?= $theme_name ?>/assets/core/fonts/fontawesome/css/all.min.css" rel="stylesheet"
+    type="text/css">
+  <link href="/themes/<?= $theme_name ?>/assets/core/css/stylesheet.css" rel="stylesheet" type="text/css">
   <link href="https://fonts.googleapis.com/css?family=Aldrich" rel="stylesheet" type="text/css">
-  <link href="themes/<?= $theme_name ?>/assets/core/css/photoswipe.css" rel="stylesheet" type="text/css">
-  <link href="themes/<?= $theme_name ?>/assets/core/css/splide/splide.min.css" rel="stylesheet" type="text/css">
-  <link href="themes/<?= $theme_name ?>/assets/core/css/splide/themes/splide-vento.css" rel="stylesheet"
+  <link href="/themes/<?= $theme_name ?>/assets/core/css/photoswipe.css" rel="stylesheet" type="text/css">
+  <link href="/themes/<?= $theme_name ?>/assets/core/css/splide/splide.min.css" rel="stylesheet" type="text/css">
+  <link href="/themes/<?= $theme_name ?>/assets/core/css/splide/themes/splide-vento.css" rel="stylesheet"
     type="text/css">
-  <script src="themes/<?= $theme_name ?>/assets/core/js/splide/splide.min.js"></script>
-  <script src="themes/<?= $theme_name ?>/assets/core/js/product.js"></script>
+  <script src="/themes/<?= $theme_name ?>/assets/core/js/splide/splide.min.js"></script>
+  <script src="/themes/<?= $theme_name ?>/assets/core/js/product.js"></script>
 
 
-  <script src="themes/<?= $theme_name ?>/assets/core/js/common.js"></script>
+  <script src="/themes/<?= $theme_name ?>/assets/core/js/common.js"></script>
   <?php foreach ($styles as $style): ?>
     <link href="<?= $style['href'] ?>" type="text/css" rel="<?= $style['rel'] ?>" media="<?= $style['media'] ?>">
   <?php endforeach; ?>
@@ -53,8 +54,9 @@
   <!-- desktop logo header area -->
   <div class="logo-container bg-white d-none d-md-flex   justify-content-center align-items-center p-5">
     <!-- Logo -->
-    <a href="<?= $home ?>" class="logo-link me-3">
-      <img src="<?= $this->e($logo) ?>" title="<?= $this->e($name) ?>" alt="<?= $this->e($name) ?>" class="img-fluid" />
+    <a href="/" class="logo-link me-3">
+      <img src="/<?= $this->e($logo) ?>" title="<?= $this->e($name) ?>" alt="<?= $this->e($name) ?>"
+        class="img-fluid" />
     </a>
 
     <!-- Phone Icon with pulsing circle -->

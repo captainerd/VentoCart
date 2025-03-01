@@ -16,7 +16,6 @@ class Category extends \Ventocart\System\Engine\Controller
 		/* Product related */
 
 
-
 		$path = isset($this->request->get['path']) ? (string) $this->request->get['path'] : '';
 		$filter = isset($this->request->get['filter']) ? $this->request->get['filter'] : '';
 		$filter_option = isset($this->request->get['filter_option']) ? $this->request->get['filter_option'] : '';
@@ -223,7 +222,13 @@ class Category extends \Ventocart\System\Engine\Controller
 			];
 
 			$results = $this->model_catalog_product->getProducts($filter_data);
-
+			$data['listview'] = 0;
+			if (isset($this->request->get['listview'])) {
+				$this->session->data['listview'] = $this->request->get['listview'];
+			}
+			if (isset($this->session->data['listview'])) {
+				$data['listview'] = $this->session->data['listview'];
+			}
 			foreach ($results as $result) {
 				$description = trim(strip_tags(html_entity_decode($result['description'], ENT_QUOTES, 'UTF-8')));
 
@@ -255,6 +260,10 @@ class Category extends \Ventocart\System\Engine\Controller
 					$tax = false;
 				}
 
+
+
+
+
 				$product_data = [
 					'product_id' => $result['product_id'],
 					'name' => $result['name'],
@@ -269,8 +278,13 @@ class Category extends \Ventocart\System\Engine\Controller
 					'rating' => $result['rating'],
 					'href' => $this->url->link('product/product', 'product_id=' . $result['product_id'] . $url)
 				];
+				if ($data['listview']) {
+					$data['products'][] = $this->load->controller('product/thumb.listview', $product_data);
+				} else {
 
-				$data['products'][] = $this->load->controller('product/thumb', $product_data);
+					$data['products'][] = $this->load->controller('product/thumb', $product_data);
+				}
+
 
 			}
 
@@ -380,6 +394,8 @@ class Category extends \Ventocart\System\Engine\Controller
 				'value' => 'p.model-DESC',
 				'href' => $this->url->link('product/category', 'sort=p.model&order=DESC' . $url)
 			];
+
+
 
 
 

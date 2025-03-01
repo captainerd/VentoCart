@@ -81,15 +81,12 @@ class BoughtWith extends \Ventocart\System\Engine\Controller
                     'setHeight' => $setting['height'],
                     'minimum' => $result['minimum'] > 0 ? $result['minimum'] : 1,
                     'rating' => $result['rating'],
-                    'href' => $this->url->link('product/product', 'language=' . $this->config->get('config_language') . '&product_id=' . $result['product_id'])
+                    'href' => $this->url->link('product/product', 'product_id=' . $result['product_id'])
                 ];
-                $product_data['cart'] = $this->url->link('common/cart.info', 'language=' . $this->config->get('config_language'));
+                $product_data['cart'] = $this->url->link('common/cart.info');
 
-                $product_data['add_to_cart'] = $this->url->link('checkout/cart.add', 'language=' . $this->config->get('config_language'));
-                $product_data['add_to_wishlist'] = $this->url->link('account/wishlist.add', 'language=' . $this->config->get('config_language'));
-                $product_data['add_to_compare'] = $this->url->link('product/compare.add', 'language=' . $this->config->get('config_language'));
+                $product_data['add_to_cart'] = $this->url->link('checkout/cart.add');
 
-                $product_data['review_status'] = (int) $this->config->get('config_review_status');
 
                 $data['products'][] = $this->load->view('product/quick_thumb', $product_data);
 

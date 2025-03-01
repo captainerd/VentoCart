@@ -25,7 +25,7 @@ class Image extends \Ventocart\System\Engine\Model
 
 		if (in_array($fileExtension, ['mp4', 'mkv', 'avi'])) {
 
-			return $this->config->get('config_url') . 'image/' . $filename;
+			return "/" . $this->config->get('config_url') . 'image/' . $filename;
 
 		}
 		if (!is_file(DIR_IMAGE . $filename) || substr(str_replace('\\', '/', realpath(DIR_IMAGE . $filename)), 0, strlen(DIR_IMAGE)) != DIR_IMAGE) {
@@ -88,6 +88,6 @@ class Image extends \Ventocart\System\Engine\Model
 
 		$image_new = str_replace(' ', '%20', $image_new);  // fix bug when attach image on email (gmail.com). it is automatically changing space from " " to +
 
-		return $this->config->get('config_url') . 'image/' . $image_new;
+		return "/" . $this->config->get('config_url') . 'image/' . $image_new;
 	}
 }

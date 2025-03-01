@@ -9,7 +9,9 @@ class GiftCard extends \Ventocart\System\Engine\Controller
 {
     public function index(): void
     {
-
+        if (!$this->config->get('config_giftcard_status')) {
+            return;
+        }
         /*
                 $this->load->bridge('Admin');
                 $this->load->model('setting/event');

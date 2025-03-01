@@ -145,6 +145,9 @@ function setupConfigurations($appConfig, $adminConfig, $weburl, $host, $user, $p
     recursiveRenameDirectory("../admin", "../" . $adminDir);
     sleep(2);
     unlink('../index.php');
+    if (file_exists('../installer.php')) {
+        unlink('../installer.php');
+    }
     rename('../index.php.bak', '../index.php');
 
     if (function_exists('opcache_reset')) {

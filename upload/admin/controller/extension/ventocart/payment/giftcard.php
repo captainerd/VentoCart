@@ -12,6 +12,7 @@ class GiftCard extends \Ventocart\System\Engine\Controller
      */
     public function index(): void
     {
+
         $this->load->language('extension/ventocart/payment/giftcard');
 
         $this->document->setTitle($this->language->get('heading_title'));

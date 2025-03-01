@@ -38,9 +38,9 @@
       <div class="col-sm-3">
         <!-- link section --><h5><?= $text_extra ?></h5><ul class='list-unstyled'>
                         <li><a href="<?= $url->link('product/manufacturer') ?>"><?= $text_manufacturer ?></a></li><?php if ($affiliate): ?>
-                        <li><a href="<?= $url->link('affiliate/account') ?>"><?= $text_affiliate ?></a></li><?php endif; ?>
-                        <li><a href="<?= $url->link('product/special') ?>"><?= $text_special ?></a></li>
-                        <li><a href="<?= $url->link('giftcards/giftcard') ?>"><?= $text_giftcards ?></a></li></ul><!-- end section -->
+                        <li><a href="<?= $url->link('account/affiliate') ?>"><?= $text_affiliate ?></a></li><?php endif; ?>
+                        <li><a href="<?= $url->link('product/special') ?>"><?= $text_special ?></a></li><?php if ($giftcards): ?>
+                        <li><a href="<?= $url->link('giftcards/giftcard') ?>"><?= $text_giftcards ?></a></li><?php endif; ?></ul><!-- end section -->
       </div>
       <div class="col-sm-3">
         <!-- link section --><h5><?= $text_account ?></h5><ul class='list-unstyled'>
@@ -56,7 +56,7 @@
 </footer>
 
 <?= $cookie ?>
-<script src="themes/<?= $theme_name ?>/assets/core/js/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="/themes/<?= $theme_name ?>/assets/core/js/bootstrap/js/bootstrap.bundle.min.js"></script>
 
 <?php foreach ($scripts as $script): ?>
   <script src="<?= $script['href'] ?>"></script>

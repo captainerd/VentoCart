@@ -68,14 +68,14 @@
 
 
 
-
       <div class="row">
-        <div class="col-md-12  mb-2">
+        <div class="col-md-12 mb-2">
           <div class="card">
             <div class="card-header">
               <strong class="card-title"><?= $this->e($text_my_orders) ?></strong>
             </div>
-            <div class="card-body p-2   align-items-center text-center  icon-cards">
+            <div class="card-body p-2 align-items-center text-center icon-cards">
+
 
               <a href="<?= $order ?>" class="btn btn-link" data-toggle="tooltip" data-placement="bottom"
                 title="<?= $this->e($text_order) ?>">
@@ -83,33 +83,39 @@
                 <span class="d-block"><?= $this->e($text_my_orders) ?></span>
               </a>
 
-              <a href="<?= $subscription ?>" class="btn btn-link" data-toggle="tooltip" data-placement="bottom"
-                title="<?= $this->e($text_subscription) ?>">
-                <i class="fas fa-box-open fa-2x"></i>
-                <span class="d-block"><?= $this->e($text_subscription) ?></span>
-              </a>
 
-              <a href="<?= $giftcard_link ?>" class="btn btn-link" data-toggle="tooltip" data-placement="bottom"
-                title="<?= $this->e($text_giftcards) ?>">
-                <i class="fas fa-gift fa-2x"></i>
-                <span class="d-block"><?= $this->e($text_giftcards) ?></span>
-              </a>
+              <?php if ($config_subscription_status): ?>
+                <a href="<?= $subscription ?>" class="btn btn-link" data-toggle="tooltip" data-placement="bottom"
+                  title="<?= $this->e($text_subscription) ?>">
+                  <i class="fas fa-box-open fa-2x"></i>
+                  <span class="d-block"><?= $this->e($text_subscription) ?></span>
+                </a>
+              <?php endif; ?>
 
-              <a href="<?= $download ?>" class="btn btn-link" data-toggle="tooltip" data-placement="bottom"
-                title="<?= $this->e($text_download) ?>">
-                <i class="fas fa-download fa-2x"></i>
-                <span class="d-block"><?= $this->e($text_download) ?></span>
-              </a>
+              <?php if ($config_giftcard_status): ?>
+                <a href="<?= $giftcard_link ?>" class="btn btn-link" data-toggle="tooltip" data-placement="bottom"
+                  title="<?= $this->e($text_giftcards) ?>">
+                  <i class="fas fa-gift fa-2x"></i>
+                  <span class="d-block"><?= $this->e($text_giftcards) ?></span>
+                </a>
+              <?php endif; ?>
 
-              <?php if ($reward): ?>
+              <?php if ($config_download_status): ?>
+                <a href="<?= $download ?>" class="btn btn-link" data-toggle="tooltip" data-placement="bottom"
+                  title="<?= $this->e($text_download) ?>">
+                  <i class="fas fa-download fa-2x"></i>
+                  <span class="d-block"><?= $this->e($text_download) ?></span>
+                </a>
+              <?php endif; ?>
 
+              <?php if ($config_reward_status && $reward): ?>
                 <a href="<?= $reward ?>" class="btn btn-link" data-toggle="tooltip" data-placement="bottom"
                   title="<?= $this->e($text_reward) ?>">
                   <i class="fas fa-gift fa-2x"></i>
                   <span class="d-block"><?= $this->e($text_reward) ?></span>
                 </a>
-
               <?php endif; ?>
+
 
               <a href="<?= $return ?>" class="btn btn-link" data-toggle="tooltip" data-placement="bottom"
                 title="<?= $this->e($text_return) ?>">
@@ -118,11 +124,11 @@
               </a>
 
 
-
             </div>
           </div>
         </div>
       </div>
+
 
 
 

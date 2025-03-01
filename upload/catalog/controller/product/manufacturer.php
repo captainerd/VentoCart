@@ -12,6 +12,17 @@ class Manufacturer extends \Ventocart\System\Engine\Controller
 	 */
 	public function index(): void
 	{
+
+		$data['continue'] = $this->url->link('common/home');
+
+		$data['column_left'] = $this->load->controller('common/column_left');
+		$data['column_right'] = $this->load->controller('common/column_right');
+		$data['content_top'] = $this->load->controller('common/content_top');
+		$data['content_bottom'] = $this->load->controller('common/content_bottom');
+		$data['footer'] = $this->load->controller('common/footer');
+		$data['header'] = $this->load->controller('common/header');
+
+
 		$this->load->language('product/manufacturer');
 
 		$this->load->model('catalog/manufacturer');
@@ -52,6 +63,15 @@ class Manufacturer extends \Ventocart\System\Engine\Controller
 			];
 		}
 
+
+
+		$this->response->setOutput($this->load->view('product/manufacturer_list', $data));
+	}
+
+
+	public function info()
+	{
+
 		$data['continue'] = $this->url->link('common/home');
 
 		$data['column_left'] = $this->load->controller('common/column_left');
@@ -61,12 +81,7 @@ class Manufacturer extends \Ventocart\System\Engine\Controller
 		$data['footer'] = $this->load->controller('common/footer');
 		$data['header'] = $this->load->controller('common/header');
 
-		$this->response->setOutput($this->load->view('product/manufacturer_list', $data));
-	}
 
-
-	public function info()
-	{
 		$this->load->language('product/manufacturer');
 
 		if (isset($this->request->get['manufacturer_id'])) {
@@ -341,14 +356,7 @@ class Manufacturer extends \Ventocart\System\Engine\Controller
 			$data['order'] = $order;
 			$data['limit'] = $limit;
 
-			$data['continue'] = $this->url->link('common/home');
 
-			$data['column_left'] = $this->load->controller('common/column_left');
-			$data['column_right'] = $this->load->controller('common/column_right');
-			$data['content_top'] = $this->load->controller('common/content_top');
-			$data['content_bottom'] = $this->load->controller('common/content_bottom');
-			$data['footer'] = $this->load->controller('common/footer');
-			$data['header'] = $this->load->controller('common/header');
 
 			$this->response->setOutput($this->load->view('product/manufacturer_info', $data));
 		} else {

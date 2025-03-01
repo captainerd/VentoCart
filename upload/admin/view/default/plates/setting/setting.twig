@@ -23,6 +23,7 @@
             <li class="nav-item"><a href="#tab-general" data-bs-toggle="tab" class="nav-link active">{{ tab_general }}</a></li>
             <li class="nav-item"><a href="#tab-store" data-bs-toggle="tab" class="nav-link">{{ tab_store }}</a></li>
             <li class="nav-item"><a href="#tab-local" data-bs-toggle="tab" class="nav-link">{{ tab_local }}</a></li>
+            <li class="nav-item"><a href="#tab-features" data-bs-toggle="tab" class="nav-link">{{ text_features }}</a></li>
             <li class="nav-item"><a href="#tab-option" data-bs-toggle="tab" class="nav-link">{{ tab_option }}</a></li>
             <li class="nav-item"><a href="#tab-image" data-bs-toggle="tab" class="nav-link">{{ tab_image }}</a></li>
             <li class="nav-item"><a href="#tab-mail" data-bs-toggle="tab" class="nav-link">{{ tab_mail }}</a></li>
@@ -269,6 +270,95 @@
                 </div>
               </fieldset>
             </div>
+<div id="tab-features" class="tab-pane">
+  <fieldset>
+    <legend>{{ text_features }}</legend>
+ <!-- Reviews Status -->
+    <div class="row mt-2 mb-3">
+                        <label class="col-sm-2 col-form-label">{{ entry_review_status }}</label>
+                        <div class="col-sm-10">
+                          <div class="form-check form-switch form-switch-lg">
+                            <input type="hidden" name="config_review_status" value="0"/> <input type="checkbox" name="config_review_status" value="1" id="input-review-status" class="form-check-input"{% if config_review_status %} checked{% endif %}/>
+                          </div>
+                          <div class="form-text">{{ help_review }}</div>
+                        </div>
+                      </div>
+
+                      
+    <!-- Affiliate Status -->
+    <div class="row mt-2 mb-3">
+      <label class="col-sm-2 col-form-label">{{ entry_affiliate_status }}</label>
+      <div class="col-sm-10">
+        <div class="form-check form-switch form-switch-lg">
+          <input type="hidden" name="config_affiliate_status" value="0"/>
+          <input type="checkbox" name="config_affiliate_status" value="1" id="input-affiliate-status" class="form-check-input"{% if config_affiliate_status %} checked{% endif %}/>
+        </div>
+        <div class="form-text">{{ help_affiliate_status }}</div>
+      </div>
+    </div>
+
+    <!-- Downloads -->
+    <div class="row mb-3">
+      <label class="col-sm-2 col-form-label">{{ entry_download_status }}</label>
+      <div class="col-sm-10">
+        <div class="form-check form-switch form-switch-lg">
+          <input type="hidden" name="config_download_status" value="0"/>
+          <input type="checkbox" name="config_download_status" value="1" id="input-download-status" class="form-check-input"{% if config_download_status %} checked{% endif %}/>
+        </div>
+        <div class="form-text">{{ help_download_status }}</div>
+      </div>
+    </div>
+
+    <!-- Subscriptions -->
+    <div class="row mb-3">
+      <label class="col-sm-2 col-form-label">{{ entry_subscription_status }}</label>
+      <div class="col-sm-10">
+        <div class="form-check form-switch form-switch-lg">
+          <input type="hidden" name="config_subscription_status" value="0"/>
+          <input type="checkbox" name="config_subscription_status" value="1" id="input-subscription-status" class="form-check-input"{% if config_subscription_status %} checked{% endif %}/>
+        </div>
+        <div class="form-text">{{ help_subscription_status }}</div>
+      </div>
+    </div>
+
+    <!-- Gift Cards -->
+    <div class="row mb-3">
+      <label class="col-sm-2 col-form-label">{{ entry_giftcard_status }}</label>
+      <div class="col-sm-10">
+        <div class="form-check form-switch form-switch-lg">
+          <input type="hidden" name="config_giftcard_status" value="0"/>
+          <input type="checkbox" name="config_giftcard_status" value="1" id="input-giftcard-status" class="form-check-input"{% if config_giftcard_status %} checked{% endif %}/>
+        </div>
+        <div class="form-text">{{ help_giftcard_status }}</div>
+      </div>
+    </div>
+
+    <!-- Reward Points -->
+    <div class="row mb-3">
+      <label class="col-sm-2 col-form-label">{{ entry_reward_status }}</label>
+      <div class="col-sm-10">
+        <div class="form-check form-switch form-switch-lg">
+          <input type="hidden" name="config_reward_status" value="0"/>
+          <input type="checkbox" name="config_reward_status" value="1" id="input-reward-status" class="form-check-input"{% if config_reward_status %} checked{% endif %}/>
+        </div>
+        <div class="form-text">{{ help_reward_status }}</div>
+      </div>
+    </div>
+
+    <!-- Blog -->
+    <div class="row mb-3">
+      <label class="col-sm-2 col-form-label">{{ entry_blog_status }}</label>
+      <div class="col-sm-10">
+        <div class="form-check form-switch form-switch-lg">
+          <input type="hidden" name="config_blog_status" value="0"/>
+          <input type="checkbox" name="config_blog_status" value="1" id="input-blog-status" class="form-check-input"{% if config_blog_status %} checked{% endif %}/>
+        </div>
+        <div class="form-text">{{ help_blog_status }}</div>
+      </div>
+    </div>
+
+  </fieldset>
+</div>
 
             <div id="tab-option" class="tab-pane">
 
@@ -338,15 +428,7 @@
                   <h2 class="accordion-header"><button type="button" class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#collapse-review">{{ text_review }}</button></h2>
                   <div id="collapse-review" class="accordion-collapse collapse" data-bs-parent="#accordion-option">
                     <div class="accordion-body">
-                      <div class="row mt-2 mb-3">
-                        <label class="col-sm-2 col-form-label">{{ entry_review_status }}</label>
-                        <div class="col-sm-10">
-                          <div class="form-check form-switch form-switch-lg">
-                            <input type="hidden" name="config_review_status" value="0"/> <input type="checkbox" name="config_review_status" value="1" id="input-review-status" class="form-check-input"{% if config_review_status %} checked{% endif %}/>
-                          </div>
-                          <div class="form-text">{{ help_review }}</div>
-                        </div>
-                      </div>
+                   
                       <div class="row mt-2 mb-3">
                         <label class="col-sm-2 col-form-label">{{ entry_review_purchased }}</label>
                         <div class="col-sm-10">
@@ -861,15 +943,7 @@
                   <h2 class="accordion-header"><button type="button" class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#collapse-affiliate">{{ text_affiliate }}</button></h2>
                   <div id="collapse-affiliate" class="accordion-collapse collapse" data-bs-parent="#accordion-option">
                     <div class="accordion-body">
-                      <div class="row mt-2 mb-3">
-                        <label class="col-sm-2 col-form-label">{{ entry_affiliate_status }}</label>
-                        <div class="col-sm-10">
-                          <div class="form-check form-switch form-switch-lg">
-                            <input type="hidden" name="config_affiliate_status" value="0"/> <input type="checkbox" name="config_affiliate_status" value="1" id="input-affiliate-status" class="form-check-input"{% if config_affiliate_status %} checked{% endif %}/>
-                          </div>
-                          <div class="form-text">{{ help_affiliate_status }}</div>
-                        </div>
-                      </div>
+                
                       <div class="row mb-3">
                         <label for="input-affiliate-group" class="col-sm-2 col-form-label">{{ entry_affiliate_group }}</label>
                         <div class="col-sm-10">

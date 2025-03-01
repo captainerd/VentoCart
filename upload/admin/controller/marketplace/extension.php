@@ -50,7 +50,7 @@ class Extension extends \Ventocart\System\Engine\Controller
 		$data['categories'] = $this->model_marketplace_extension->getCategories();
 
 		if (isset($this->request->get['which'])) {
-
+			$this->load->language('extension/module');
 			$data['extension'] = $this->load->controller('marketplace/loadlists.getList', $this->request->get['which']);
 
 		} else {

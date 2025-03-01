@@ -198,6 +198,8 @@ $_['entry_infinite_scroll'] = 'Infinite Scroll';
 $_['error_image_filetype'] = 'Error image file type';
 $_['error_image_quality'] = 'Error image quality';
 
+
+
 // Help
 $_['help_geocode'] = 'Please enter your store location geocode manually.';
 $_['help_open'] = 'Fill in your store\'s opening times.';
@@ -313,3 +315,17 @@ $_['error_log_extension'] = 'Error Log Filename extension needs to be .log!';
 $_['error_encryption'] = 'Encryption Key must be between 32 and 1024 characters!';
 
 
+// Features Tab
+$_['text_features'] = 'Features';
+$_['entry_affiliate_status'] = 'Affiliate Program';
+$_['help_affiliate_status'] = 'Enable or disable the affiliate program for your store.';
+$_['entry_download_status'] = 'Enable Downloads';
+$_['help_download_status'] = 'Allow customers to download digital products after purchase.';
+$_['entry_subscription_status'] = 'Enable Subscriptions';
+$_['help_subscription_status'] = 'Allow customers to subscribe to products or services.';
+$_['entry_giftcard_status'] = 'Enable Gift Cards';
+$_['help_giftcard_status'] = 'Enable the ability to sell gift cards.';
+$_['entry_reward_status'] = 'Enable Reward Points';
+$_['help_reward_status'] = 'Allow customers to earn and redeem reward points.';
+$_['entry_blog_status'] = 'Enable Blog';
+$_['help_blog_status'] = 'Enable or disable the blog section for news and articles.';

@@ -26,7 +26,11 @@ class Product extends \Ventocart\System\Engine\Controller
 		} else {
 			$filter_price = '';
 		}
-
+		if (isset($this->request->get['filter_category'])) {
+			$filter_category = $this->request->get['filter_category'];
+		} else {
+			$filter_category = '';
+		}
 		if (isset($this->request->get['filter_quantity'])) {
 			$filter_quantity = $this->request->get['filter_quantity'];
 		} else {
@@ -60,7 +64,9 @@ class Product extends \Ventocart\System\Engine\Controller
 		if (isset($this->request->get['filter_status'])) {
 			$url .= '&filter_status=' . $this->request->get['filter_status'];
 		}
-
+		if (isset($this->request->get['filter_category'])) {
+			$url .= '&filter_category=' . $this->request->get['filter_category'];
+		}
 		if (isset($this->request->get['sort'])) {
 			$url .= '&sort=' . $this->request->get['sort'];
 		}
@@ -96,15 +102,49 @@ class Product extends \Ventocart\System\Engine\Controller
 		$data['filter_price'] = $filter_price;
 		$data['filter_quantity'] = $filter_quantity;
 		$data['filter_status'] = $filter_status;
+		$data['filter_category'] = $filter_category;
 
 		$data['user_token'] = $this->session->data['user_token'];
 
 		$data['header'] = $this->load->controller('common/header');
 		$data['column_left'] = $this->load->controller('common/column_left');
 		$data['footer'] = $this->load->controller('common/footer');
+		$this->load->model('catalog/category');
+		$data['categories'] = $this->formatCategories($this->model_catalog_category->getCategories());
 
 		$this->response->setOutput($this->load->view('catalog/product', $data));
 	}
+	private function formatCategories($categories, $parentId = 0, $prefix = '')
+	{
+		$result = [];
+		$children = array_filter($categories, fn($cat) => $cat['parent_id'] == $parentId);
+		$total = count($children);
+		$index = 0;
+
+		foreach ($children as $category) {
+			$index++;
+			$isLast = ($index == $total);
+
+			// Add the branch symbol
+			$branch = $isLast ? '└── ' : '├── ';
+
+			// Add the current category to the result array
+			$result[] = [
+				'name' => $prefix . $branch . $category['name'],
+				'category_id' => $category['category_id']
+			];
+
+			// Recursively process subcategories
+			// If it's the last child, avoid the '│' in the prefix, otherwise keep it for the others
+			$childPrefix = $prefix . ($isLast ? '&nbsp;    ' : '&nbsp;&nbsp;   '); // Only keep '│' for non-last items
+			$result = array_merge($result, $this->formatCategories($categories, $category['category_id'], $childPrefix));
+		}
+
+		return $result;
+	}
+
+
+
 
 	public function list(): void
 	{
@@ -150,7 +190,11 @@ class Product extends \Ventocart\System\Engine\Controller
 		} else {
 			$sort = 'pd.name';
 		}
-
+		if (isset($this->request->get['filter_category'])) {
+			$filter_category = $this->request->get['filter_category'];
+		} else {
+			$filter_category = '';
+		}
 		if (isset($this->request->get['order'])) {
 			$order = $this->request->get['order'];
 		} else {
@@ -188,7 +232,9 @@ class Product extends \Ventocart\System\Engine\Controller
 		if (isset($this->request->get['page'])) {
 			$url .= '&page=' . $this->request->get['page'];
 		}
-
+		if (isset($this->request->get['filter_category'])) {
+			$url .= '&filter_category=' . $this->request->get['filter_category'];
+		}
 		$data['action'] = $this->url->link('catalog/product.list', 'user_token=' . $this->session->data['user_token'] . $url);
 
 		$data['products'] = [];
@@ -198,6 +244,7 @@ class Product extends \Ventocart\System\Engine\Controller
 			'filter_model' => $filter_model,
 			'filter_price' => $filter_price,
 			'filter_quantity' => $filter_quantity,
+			'filter_category' => $filter_category,
 			'filter_status' => $filter_status,
 			'sort' => $sort,
 			'order' => $order,
@@ -612,6 +659,15 @@ class Product extends \Ventocart\System\Engine\Controller
 		$data['save'] = $this->url->link('catalog/product.save', 'user_token=' . $this->session->data['user_token']);
 		$data['back'] = $this->url->link('catalog/product', 'user_token=' . $this->session->data['user_token'] . $url);
 		$data['upload'] = $this->url->link('tool/upload.upload', 'user_token=' . $this->session->data['user_token']);
+
+
+		$data['config_affiliate_status'] = $this->config->get('config_affiliate_status');
+		$data['config_download_status'] = $this->config->get('config_download_status');
+		$data['config_subscription_status'] = $this->config->get('config_subscription_status');
+		$data['config_giftcard_status'] = $this->config->get('config_giftcard_status');
+		$data['config_reward_status'] = $this->config->get('config_reward_status');
+		$data['config_blog_status'] = $this->config->get('config_blog_status');
+
 
 		if (isset($this->request->get['product_id'])) {
 			$data['product_id'] = (int) $this->request->get['product_id'];

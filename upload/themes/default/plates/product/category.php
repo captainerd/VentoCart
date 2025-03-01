@@ -118,7 +118,7 @@ data-bs-target="#offcanvasLeft" aria-controls="offcanvasLeft">
 
 
             <?php if ($infiniteScroll): ?>
-              <div id="product-list" class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4">
+              <div id="product-list" class="row <?= $listview ? 'row-cols-1 product-list' : 'row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4' ?>">
               </div>
             <?php endif; ?>
 
@@ -165,7 +165,7 @@ data-bs-target="#offcanvasLeft" aria-controls="offcanvasLeft">
     </div>
   <?php endif ?>
   <?php if (count($products) > 0): ?>
-    <div id="product-list" class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4">
+    <div id="product-list" class="row <?= $listview ? 'row-cols-1 product-list' : 'row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4' ?>">
       <?php foreach ($products as $product): ?>
         <div class="col mb-3">
           <?= $product ?>

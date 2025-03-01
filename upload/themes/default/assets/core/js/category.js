@@ -155,14 +155,19 @@ $(document).ready(function () {
     // Legacy relevant parts
 
     $('#button-list').on('click', function () {
-
+        // Change the class for the product list
         $('#product-list').attr('class', 'row row-cols-1 product-list');
 
+        // Toggle active classes for buttons
         $('#button-grid').removeClass('active');
         $('#button-list').addClass('active');
 
+        // Store the preference in localStorage
         localStorage.setItem('display', 'list');
+
+        updateViewParam(1);
     });
+
 
     // Product Grid
     $('#button-grid').on('click', function () {
@@ -173,9 +178,19 @@ $(document).ready(function () {
         $('#button-grid').addClass('active');
 
         localStorage.setItem('display', 'grid');
-    });
 
+        updateViewParam(0);
+
+    });
+    function updateViewParam(param) {
+        var currentUrl = window.location.href.split('?')[0];
+        var urlParams = new URLSearchParams(window.location.search);
+        urlParams.set('listview', param);
+        var newUrl = currentUrl + '?' + urlParams.toString();
+        window.location.href = newUrl;
+    }
     // Local Storage
+
     if (localStorage.getItem('display') == 'list') {
         $('#product-list').attr('class', 'row row-cols-1 product-list');
         $('#button-list').addClass('active');

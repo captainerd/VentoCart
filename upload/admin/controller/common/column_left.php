@@ -46,7 +46,7 @@ class ColumnLeft extends \Ventocart\System\Engine\Controller
 				];
 			}
 
-			if ($this->user->hasPermission('access', 'catalog/subscription_plan')) {
+			if ($this->user->hasPermission('access', 'catalog/subscription_plan') && $this->config->get('config_subscription_status')) {
 				$catalog[] = [
 					'name' => $this->language->get('text_subscription_plan'),
 					'href' => $this->url->link('catalog/subscription_plan', 'user_token=' . $this->session->data['user_token']),
@@ -99,7 +99,7 @@ class ColumnLeft extends \Ventocart\System\Engine\Controller
 				];
 			}
 
-			if ($this->user->hasPermission('access', 'catalog/download')) {
+			if ($this->user->hasPermission('access', 'catalog/download') && $this->config->get('config_download_status')) {
 				$catalog[] = [
 					'name' => $this->language->get('text_download'),
 					'href' => $this->url->link('catalog/download', 'user_token=' . $this->session->data['user_token']),
@@ -167,7 +167,7 @@ class ColumnLeft extends \Ventocart\System\Engine\Controller
 				];
 			}
 
-			if ($cms) {
+			if ($cms && $this->config->get('config_blog_status')) {
 				$data['menus'][] = [
 					'id' => 'menu-cms',
 					'icon' => 'fa-regular fa-newspaper',
@@ -432,7 +432,7 @@ class ColumnLeft extends \Ventocart\System\Engine\Controller
 					'children' => []
 				];
 			}
-			if ($this->user->hasPermission('access', 'marketing/giftcards')) {
+			if ($this->user->hasPermission('access', 'marketing/giftcards') && $this->config->get('config_giftcard_status')) {
 				$marketing[] = [
 					'name' => $this->language->get('text_giftcards'),
 					'href' => $this->url->link('marketing/giftcards', 'user_token=' . $this->session->data['user_token']),
@@ -441,7 +441,7 @@ class ColumnLeft extends \Ventocart\System\Engine\Controller
 			}
 
 
-			if ($this->user->hasPermission('access', 'marketing/affiliate')) {
+			if ($this->user->hasPermission('access', 'marketing/affiliate') && $this->config->get('config_affiliate_status')) {
 				$marketing[] = [
 					'name' => $this->language->get('text_affiliate'),
 					'href' => $this->url->link('marketing/affiliate', 'user_token=' . $this->session->data['user_token']),

@@ -28,13 +28,13 @@ class Latest extends \Ventocart\System\Engine\Controller
 
 		if ($results) {
 			foreach ($results as $result) {
-
+				$poster = '';
 
 				if ($result['image']) {
 
 					// Video poster creation
 					$fileExtension = strtolower(pathinfo($result['image'], PATHINFO_EXTENSION));
-					$poster = '';
+
 
 					if (in_array($fileExtension, ['mp4', 'mkv', 'avi'])) {
 
@@ -93,7 +93,7 @@ class Latest extends \Ventocart\System\Engine\Controller
 					'setHeight' => $setting['height'],
 					'minimum' => $result['minimum'] > 0 ? $result['minimum'] : 1,
 					'rating' => $result['rating'],
-					'href' => $this->url->link('product/product', 'language=' . $this->config->get('config_language') . '&product_id=' . $result['product_id'])
+					'href' => $this->url->link('product/product', 'product_id=' . $result['product_id'])
 				];
 
 				$data['products'][] = $this->load->controller('product/thumb', $product_data);

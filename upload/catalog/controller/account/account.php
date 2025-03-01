@@ -91,7 +91,12 @@ class Account extends \Ventocart\System\Engine\Controller
 			$data['affiliate'] = '';
 		}
 
-
+		$data['config_affiliate_status'] = $this->config->get('config_affiliate_status');
+		$data['config_download_status'] = $this->config->get('config_download_status');
+		$data['config_subscription_status'] = $this->config->get('config_subscription_status');
+		$data['config_giftcard_status'] = $this->config->get('config_giftcard_status');
+		$data['config_reward_status'] = $this->config->get('config_reward_status');
+		$data['config_blog_status'] = $this->config->get('config_blog_status');
 
 		$this->response->setOutput($this->load->view('account/account', $data));
 	}

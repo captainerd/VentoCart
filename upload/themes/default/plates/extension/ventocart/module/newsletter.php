@@ -1,7 +1,7 @@
 <?php if (!$is_home): ?>
     <div class="d-flex justify-content-center align-items-center">
         <div class="bg-light subscribe-module p-3 shadow-sm border mb-3" style="max-width: 600px;">
-            <form action="" method="get" class="form-newsletter">
+            <form action="/index.php" method="get" class="form-newsletter">
                 <div class="alert alert-info d-flex align-items-center p-3" role="alert">
                     <i class="fa-solid fa-exclamation-circle fa-2x me-3"></i> <?= $text_promo ?>
                 </div>
@@ -31,7 +31,7 @@
                 </div>
                 <div class="modal-body p-3">
                     <!-- Your subscription form -->
-                    <form action="" method="get" class="form-newsletter">
+                    <form action="/index.php" method="get" class="form-newsletter">
                         <div class="alert alert-info d-flex align-items-center p-3" role="alert">
                             <i class="fa-solid fa-exclamation-circle fa-2x me-3"></i> <?= $text_promo ?>
                         </div>
@@ -77,7 +77,7 @@
             var formData = $(this).serialize();  // Serialize the form data
 
             $.ajax({
-                url: '?route=guest/newsletter',
+                url: '/index.php?route=guest/newsletter',
                 type: 'GET',
                 data: formData + '&json=true',
                 dataType: 'json',

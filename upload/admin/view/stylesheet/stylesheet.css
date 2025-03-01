@@ -960,3 +960,7 @@ td {
     transition: background-color 0.3s ease;
 
 }
+
+.product-row:hover {
+    background-color: #f5fbf2;
+}

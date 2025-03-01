@@ -278,8 +278,13 @@ class Setting extends \Ventocart\System\Engine\Controller
 		$data['config_stock_warning'] = $this->config->get('config_stock_warning');
 		$data['config_stock_checkout'] = $this->config->get('config_stock_checkout');
 
-		// Affiliate
 		$data['config_affiliate_status'] = $this->config->get('config_affiliate_status');
+		$data['config_download_status'] = $this->config->get('config_download_status');
+		$data['config_subscription_status'] = $this->config->get('config_subscription_status');
+		$data['config_giftcard_status'] = $this->config->get('config_giftcard_status');
+		$data['config_reward_status'] = $this->config->get('config_reward_status');
+		$data['config_blog_status'] = $this->config->get('config_blog_status');
+
 		$data['config_affiliate_group_id'] = $this->config->get('config_affiliate_group_id');
 		$data['config_affiliate_approval'] = $this->config->get('config_affiliate_approval');
 		$data['config_affiliate_auto'] = (bool) $this->config->get('config_affiliate_auto');

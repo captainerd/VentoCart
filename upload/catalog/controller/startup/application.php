@@ -427,19 +427,6 @@ class Application extends \Ventocart\System\Engine\Controller
 		// Build the url
 		$url = '';
 
-		if ($url_info['scheme']) {
-			$url .= $url_info['scheme'];
-		}
-
-		$url .= '://';
-
-		if ($url_info['host']) {
-			$url .= $url_info['host'];
-		}
-
-		if (isset($url_info['port'])) {
-			$url .= ':' . $url_info['port'];
-		}
 
 		parse_str($url_info['query'], $query);
 
@@ -478,8 +465,6 @@ class Application extends \Ventocart\System\Engine\Controller
 
 		array_multisort($sort_order, SORT_ASC, $paths);
 
-		// Build the path
-		$url .= str_replace('/index.php', '', $url_info['path']);
 
 		foreach ($paths as $result) {
 			$url .= '/' . $result['keyword'];
@@ -489,8 +474,9 @@ class Application extends \Ventocart\System\Engine\Controller
 		if ($query) {
 			$url .= '?' . str_replace(['%2F'], ['/'], http_build_query($query));
 		}
+		$url = str_replace('/index.php', '', $url);
 
-		return $url;
+		return rtrim(HTTP_SERVER, '/') . $url;
 	}
 
 

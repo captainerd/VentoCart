@@ -35,7 +35,7 @@ class CategoryList extends \Ventocart\System\Engine\Controller
             $path = $this->model_extension_ventocart_module_categorylist->getCategoryPath($index);
 
             // For child categories, generate path with both parent_id and category_id
-            $url = $this->url->link('product/category', 'language=' . $this->config->get('config_language') . '&path=' . $path);
+            $url = $this->url->link('product/category', 'path=' . $path);
 
             $cats[] = [
                 'url' => $url,

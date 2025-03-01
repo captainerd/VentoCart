@@ -20,7 +20,7 @@
                     <p><?= $text_description ?></p>
 
                     <!-- Form starts here -->
-                    <form action="?route=guest/order.get" method="post" class="mt-4 ">
+                    <form action="/?route=guest/order.get" method="post" class="mt-4 ">
                         <div class="form-group">
                             <label for="order-id"><?= $entry_order_id ?? 'Enter Order ID' ?></label>
                             <input type="text" class="form-control" id="order-id" name="order_id" required>

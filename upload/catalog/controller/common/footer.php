@@ -16,10 +16,7 @@ class Footer extends \Ventocart\System\Engine\Controller
 
 		$this->load->model('cms/article');
 
-		$data['blog'] = $this->model_cms_article->getTotalArticles();
-
-
-
+		$data['blog'] = ($this->model_cms_article->getTotalArticles() > 0) ? $this->config->get('config_blog_status') : 0;
 		$data['contact'] = $this->url->link('information/contact');
 		$data['return'] = $this->url->link('account/returns.add');
 
@@ -33,11 +30,10 @@ class Footer extends \Ventocart\System\Engine\Controller
 		$data['manufacturer'] = $this->url->link('product/manufacturer');
 
 
-		if ($this->config->get('config_affiliate_status')) {
-			$data['affiliate'] = $this->url->link('account/affiliate');
-		} else {
-			$data['affiliate'] = '';
-		}
+
+		$data['affiliate'] = $this->config->get('config_affiliate_status');
+		$data['giftcards'] = $this->config->get('config_giftcard_status');
+
 		if ($this->config->get('config_checkout_guest')) {
 
 			$data['guestorder'] = $this->url->link('guest/order');
@@ -46,6 +42,7 @@ class Footer extends \Ventocart\System\Engine\Controller
 
 			$data['guestorder'] = false;
 		}
+
 		$data['url'] = $this->url;
 		$data['powered'] = sprintf($this->language->get('text_powered'), $this->config->get('config_name'), date('Y', time()));
 
