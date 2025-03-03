@@ -71,7 +71,7 @@ class Layout extends \Ventocart\System\Engine\Model
 		$this->db->query("DELETE FROM `" . DB_PREFIX . "layout_route` WHERE `layout_id` = '" . (int) $layout_id . "'");
 		$this->db->query("DELETE FROM `" . DB_PREFIX . "layout_module` WHERE `layout_id` = '" . (int) $layout_id . "'");
 		$this->db->query("DELETE FROM `" . DB_PREFIX . "category_to_layout` WHERE `layout_id` = '" . (int) $layout_id . "'");
-		$this->db->query("DELETE FROM `" . DB_PREFIX . "product_to_layout` WHERE `layout_id` = '" . (int) $layout_id . "'");
+
 		$this->db->query("DELETE FROM `" . DB_PREFIX . "information_to_layout` WHERE `layout_id` = '" . (int) $layout_id . "'");
 		$this->db->query("DELETE FROM `" . DB_PREFIX . "article_to_layout` WHERE `layout_id` = '" . (int) $layout_id . "'");
 		$this->db->query("DELETE FROM `" . DB_PREFIX . "article_category_to_layout` WHERE `layout_id` = '" . (int) $layout_id . "'");
