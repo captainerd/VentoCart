@@ -76,16 +76,16 @@ class Category extends \Ventocart\System\Engine\Model
 
 		$this->load->model('design/seo_url');
 
-		foreach ($data['category_seo_url'] as $language) {
-			foreach ($language as $language_id => $keyword) {
-				$seo_url_info = $this->model_design_seo_url->getSeoUrlByKeyValue('path', $parent_path, $language_id);
+		foreach ($data['category_seo_url'] as $language_id => $keyword) {
 
-				if ($seo_url_info) {
-					$keyword = $seo_url_info['keyword'] . '/' . $keyword;
-				}
+			$seo_url_info = $this->model_design_seo_url->getSeoUrlByKeyValue('path', $parent_path, $language_id);
 
-				$this->db->query("INSERT INTO `" . DB_PREFIX . "seo_url` SET   `language_id` = '" . (int) $language_id . "', `key` = 'path', `value`= '" . $this->db->escape($path_new) . "', `keyword` = '" . $this->db->escape($this->convertToSeoFriendly($keyword)) . "'");
+			if ($seo_url_info) {
+				$keyword = $seo_url_info['keyword'] . '/' . $keyword;
 			}
+
+			$this->db->query("INSERT INTO `" . DB_PREFIX . "seo_url` SET   `language_id` = '" . (int) $language_id . "', `key` = 'path', `value`= '" . $this->db->escape($path_new) . "', `keyword` = '" . $this->db->escape($this->convertToSeoFriendly($keyword)) . "'");
+
 		}
 
 
