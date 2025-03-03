@@ -275,9 +275,49 @@ class Application extends \Ventocart\System\Engine\Controller
 		}
 	}
 
+	public function APISession(): void
+	{
 
+		$session = new \Ventocart\System\Library\Session($this->config->get('session_engine'), $this->registry);
+		$this->registry->set('session', $session);
+		// Check if API token exists in request headers or query parameters
+		$apitoken = isset($this->request->get['apitoken']) ? $this->request->get['apitoken'] : (isset($this->request->server['HTTP_APITOKEN']) ? $this->request->server['HTTP_APITOKEN'] : '');
+		$session_id = '';
+		// If a token exists, validate it
+		if ($apitoken && $apitoken != "refresh") {
+			$decodedToken = base64_decode(urldecode($apitoken));
+			$sessionData = json_decode($decodedToken, true);
+
+			// If session data exists and the session is not expired, start session with existing session ID
+			if ($sessionData && isset($sessionData['sessionId']) && $sessionData['expires'] > time()) {
+				$session_id = $session->start($sessionData['sessionId']);
+
+			}
+		}
+
+		// If the token is invalid or doesn't exist, generate a new session and Apitoken
+		$session->start($session_id);
+		$sessionId = $session->getId();
+
+		$expires = time() + (int) $this->config->get('config_session_expire');
+
+		$sessionData = [
+			'sessionId' => $sessionId,
+			'expires' => $expires,
+		];
+		header("Access-Control-Expose-Headers: Apitoken");
+		// Create new Apitoken and return it in the response header
+		$apitoken = base64_encode(json_encode($sessionData));
+		header("Apitoken: $apitoken");
+
+
+	}
 	public function session(): void
 	{
+		if (isset($this->request->get['apitoken'])) {
+			$this->APISession();
+			return;
+		}
 		$session = new \Ventocart\System\Library\Session($this->config->get('session_engine'), $this->registry);
 		$this->registry->set('session', $session);
 
