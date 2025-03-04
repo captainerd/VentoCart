@@ -732,87 +732,71 @@ class Product extends \Ventocart\System\Engine\Model
 
 	public function getProducts(array $data = []): array
 	{
-		// Start building the SQL query
-		$sql = "SELECT * FROM `" . DB_PREFIX . "product` p
-				LEFT JOIN `" . DB_PREFIX . "product_description` pd ON (p.`product_id` = pd.`product_id`)
-				LEFT JOIN `" . DB_PREFIX . "product_to_category` p2c ON (p.`product_id` = p2c.`product_id`)
-				WHERE pd.`language_id` = '" . (int) $this->config->get('config_language_id') . "'";
+		// Select only necessary columns
+		$sql = "SELECT 
+					p.`product_id`, 
+					p.`model`, 
+					p.`price`, 
+					                p.`image`, 
+					p.`quantity`, 
+					p.`status`, 
+					p.`sort_order`,
+					IFNULL(pd.`name`, '') AS name,
+					IFNULL(p2c.`category_id`, 0) AS category_id
+				FROM `" . DB_PREFIX . "product` p
+				LEFT JOIN `" . DB_PREFIX . "product_description` pd 
+					ON p.`product_id` = pd.`product_id` 
+					AND pd.`language_id` = '" . (int) $this->config->get('config_language_id') . "'
+				LEFT JOIN `" . DB_PREFIX . "product_to_category` p2c 
+					ON p.`product_id` = p2c.`product_id`
+				WHERE 1";
 
-		// Filter by product name
+		// Filters
 		if (!empty($data['filter_name'])) {
 			$sql .= " AND pd.`name` LIKE '" . $this->db->escape((string) $data['filter_name'] . '%') . "'";
 		}
-
-		// Filter by product model
 		if (!empty($data['filter_model'])) {
 			$sql .= " AND p.`model` LIKE '" . $this->db->escape((string) $data['filter_model'] . '%') . "'";
 		}
-
-		// Filter by product price
 		if (!empty($data['filter_price'])) {
 			$sql .= " AND p.`price` LIKE '" . $this->db->escape((string) $data['filter_price'] . '%') . "'";
 		}
-
-		// Filter by product quantity
 		if (isset($data['filter_quantity']) && $data['filter_quantity'] !== '') {
 			$sql .= " AND p.`quantity` = '" . (int) $data['filter_quantity'] . "'";
 		}
-
-		// Filter by product status
 		if (isset($data['filter_status']) && $data['filter_status'] !== '') {
 			$sql .= " AND p.`status` = '" . (int) $data['filter_status'] . "'";
 		}
-
-		// Apply category filter only if provided
 		if (isset($data['filter_category']) && $data['filter_category'] !== '') {
 			$sql .= " AND p2c.`category_id` = '" . (int) $data['filter_category'] . "'";
 		}
 
-		// Group by product
+		// Group by product_id to avoid duplicate rows
 		$sql .= " GROUP BY p.`product_id`";
 
 		// Sorting options
-		$sort_data = [
-			'pd.name',
-			'p.model',
-			'p.price',
-			'p.quantity',
-			'p.status',
-			'p.sort_order'
-		];
-
-		// Apply sorting if provided
+		$sort_data = ['pd.name', 'p.model', 'p.price', 'p.quantity', 'p.status', 'p.sort_order'];
 		if (isset($data['sort']) && in_array($data['sort'], $sort_data)) {
 			$sql .= " ORDER BY " . $data['sort'];
 		} else {
 			$sql .= " ORDER BY pd.`name`";
 		}
 
-		// Apply order (ASC or DESC)
-		if (isset($data['order']) && ($data['order'] == 'DESC')) {
-			$sql .= " DESC";
-		} else {
-			$sql .= " ASC";
-		}
+		$sql .= (isset($data['order']) && $data['order'] == 'DESC') ? " DESC" : " ASC";
 
 		// Pagination
 		if (isset($data['start']) || isset($data['limit'])) {
-			if ($data['start'] < 0) {
-				$data['start'] = 0;
-			}
+			$data['start'] = max(0, (int) $data['start']);
+			$data['limit'] = max(1, (int) $data['limit']);
 
-			if ($data['limit'] < 1) {
-				$data['limit'] = 20;
-			}
-
-			$sql .= " LIMIT " . (int) $data['start'] . "," . (int) $data['limit'];
+			$sql .= " LIMIT " . $data['start'] . "," . $data['limit'];
 		}
 
 		// Execute the query
 		$query = $this->db->query($sql);
-
 		return $query->rows;
 	}
+
 
 
 	public function getDescriptions(int $product_id): array
