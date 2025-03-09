@@ -54,8 +54,8 @@ class Installer extends \Ventocart\System\Engine\Controller
 
 
 	/* 
-																																																																																																																																																																																																																																																																																																								   Extracts an theme out into a zip file
-																																																																																																																																																																																																																																																																																																								   */
+																																																																																																																																																																																																																																																																																																											Extracts an theme out into a zip file
+																																																																																																																																																																																																																																																																																																											*/
 
 	public function downloadTheme(): void
 	{
@@ -108,8 +108,8 @@ class Installer extends \Ventocart\System\Engine\Controller
 		}
 	}
 	/* 
-																																																																																																																																																																																																																																																																																																											   Extracts an extension out into a zip file
-																																																																																																																																																																																																																																																																																																										 */
+																																																																																																																																																																																																																																																																																																														Extracts an extension out into a zip file
+																																																																																																																																																																																																																																																																																																												  */
 	public function download(): void
 	{
 		$code = $this->request->get['code'];
@@ -640,8 +640,6 @@ class Installer extends \Ventocart\System\Engine\Controller
 								}
 							}
 
-							// Record path in the database
-							$this->model_setting_extension->addPath($extension_install_id, $target_path);
 						} else {
 							// If it's not part of the theme directory, skip it
 							continue;
@@ -731,8 +729,7 @@ class Installer extends \Ventocart\System\Engine\Controller
 						}
 					}
 
-					// Record path in the database
-					$this->model_setting_extension->addPath($extension_install_id, $target_path);
+
 				}
 
 				$zip->close();
@@ -1153,11 +1150,7 @@ class Installer extends \Ventocart\System\Engine\Controller
 				}
 			}
 
-			// Remove associated paths from the database
-			$results = $this->model_setting_extension->getPathsByExtensionInstallId($extension_install_id);
-			foreach ($results as $result) {
-				$this->model_setting_extension->deletePath($result['extension_path_id']);
-			}
+
 
 			// Deactivate extension
 			$this->model_setting_extension->editStatus($extension_install_id, 0);
