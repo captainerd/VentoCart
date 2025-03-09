@@ -34,7 +34,7 @@ class Setting extends \Ventocart\System\Engine\Controller
 		];
 
 		$data['save'] = $this->url->link('setting/setting.save', 'user_token=' . $this->session->data['user_token']);
-		$data['back'] = $this->url->link('setting/store', 'user_token=' . $this->session->data['user_token']);
+		$data['back'] = $this->url->link('common/dashboard', 'user_token=' . $this->session->data['user_token']);
 
 		// General
 		$data['config_meta_title'] = $this->config->get('config_meta_title');
