@@ -525,7 +525,7 @@ $isVideo = in_array($popupExtension, $videoExtensions);
       <?php if ($tags): ?>
         <p><?= $this->e($text_tags ) ?>
         <?php for ($i = 0; $i <= count($tags) - 1; $i++): ?>
-            <a href="<?= $tags[$i]['href']  ?>"><?= $this->e($tags[$i]['tag'] ) ?></a><?php if (!$loop['end']): ?>,<?php endif; ?>
+            <a href="<?= $tags[$i]['href']  ?>"><?= $this->e($tags[$i]['tag'] ) ?></a><?php if (isset($loop) && !$loop['end']): ?>,<?php endif; ?>
               <?php endfor; ?>
         </p>
       <?php endif; ?>
