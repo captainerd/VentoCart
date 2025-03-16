@@ -11,6 +11,7 @@ $_['text_points'] = 'Price in reward points:';
 $_['text_stock'] = 'Availability:';
 $_['text_instock'] = 'In Stock';
 $_['text_tax'] = 'Ex Tax:';
+$_['text_tax_amount'] = 'VAT:';
 $_['text_discount'] = ' or more ';
 $_['text_option'] = 'Available Options';
 $_['text_minimum'] = 'This product has a minimum quantity of %s';

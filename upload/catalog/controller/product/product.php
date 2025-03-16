@@ -395,7 +395,13 @@ class Product extends \Ventocart\System\Engine\Controller
 			$data['taxrates'] = $this->tax->getRates(0, $product_info['tax_class_id']);
 
 			if ($this->customer->isLogged() || !$this->config->get('config_customer_price')) {
-				$data['price'] = $this->currency->format($this->tax->calculate($product_info['price'], $product_info['tax_class_id'], $this->config->get('config_tax')), $this->session->data['currency']);
+				// Calculate the tax amount and format it
+				$withtax = $this->tax->calculate($product_info['price'], $product_info['tax_class_id'], $this->config->get('config_tax'));
+				$tax_amount = $withtax - $product_info['price'];
+
+				// Format the tax amount according to the store's currency
+				$data['tax_amount'] = $this->currency->format($tax_amount, $this->session->data['currency']);
+				$data['price'] = $this->currency->format($withtax, $this->session->data['currency']);
 			} else {
 				$data['price'] = false;
 			}
@@ -611,7 +617,8 @@ class Product extends \Ventocart\System\Engine\Controller
 			if ($this->config->get('config_product_report_status')) {
 				$this->model_catalog_product->addReport($this->request->get['product_id'], $this->request->server['REMOTE_ADDR']);
 			}
-
+			$data['display_without_tax'] = $this->config->get('config_tax_display_without_tax');
+			$data['display_amount_tax'] = $this->config->get('config_tax_display_amount_tax');
 			$data['language'] = $this->config->get('config_language');
 
 			$data['column_left'] = $this->load->controller('common/column_left');

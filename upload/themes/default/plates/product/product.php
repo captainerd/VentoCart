@@ -392,11 +392,13 @@ $isVideo = in_array($popupExtension, $videoExtensions);
                 </li>
                 <?php endif; ?>
           
-                <?php if ((isset($tax) && $tax != $price) && (isset($tax) && isset($special) && $tax != $special)): ?>
+                <?php if ((isset($tax) && $tax != $price) && (isset($tax) && isset($special) && $tax != $special) && $display_without_tax): ?>
                   <li><?= $this->e($text_tax ) ?> <span id="exTaxTxt"><?= $this->e($tax ) ?> </span></li> 
             
                 <?php endif; ?>
-          
+                <?php if (isset($display_amount_tax) && $display_amount_tax): ?>
+    <li><?= $this->e($text_tax_amount) ?> <span id="taxAmount"><?= $this->e($tax_amount) ?></span></li>
+<?php endif; ?>
                 <?php if ($points): ?>
                   <li><?= $this->e($text_points ) ?> <?= $this->e($points ) ?></li>
                 <?php endif; ?>

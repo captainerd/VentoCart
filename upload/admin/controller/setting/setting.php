@@ -197,6 +197,8 @@ class Setting extends \Ventocart\System\Engine\Controller
 
 		// Tax
 		$data['config_tax'] = $this->config->get('config_tax');
+		$data['config_tax_display_without_tax'] = $this->config->get('config_tax_display_without_tax');
+		$data['config_tax_display_amount_tax'] = $this->config->get('config_tax_display_amount_tax');
 		$data['config_tax_default'] = $this->config->get('config_tax_default');
 		$data['config_tax_customer'] = $this->config->get('config_tax_customer');
 

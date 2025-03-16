@@ -550,6 +550,30 @@
                           </div>
                         </div>
                       </div>
+
+                      <div class="row mt-2 mb-3">
+    <!-- Display Tax Without Tax Option -->
+    <label class="col-sm-2 col-form-label">{{ entry_tax_display_without_tax }}</label>
+    <div class="col-sm-10">
+        <div class="form-check form-switch form-switch-lg">
+            <input type="hidden" name="config_tax_display_without_tax" value="0"/>
+            <input type="checkbox" name="config_tax_display_without_tax" value="1" id="input-tax-display-without-tax" class="form-check-input" {% if config_tax_display_without_tax %} checked{% endif %}/>
+        </div>
+    </div>
+</div>
+
+<div class="row mt-2 mb-3">
+    <!-- Display Tax Amount Option -->
+    <label class="col-sm-2 col-form-label">{{ entry_tax_display_amount_tax }}</label>
+    <div class="col-sm-10">
+        <div class="form-check form-switch form-switch-lg">
+            <input type="hidden" name="config_tax_display_amount_tax" value="0"/>
+            <input type="checkbox" name="config_tax_display_amount_tax" value="1" id="input-tax-display-amount-tax" class="form-check-input" {% if config_tax_display_amount_tax %} checked{% endif %}/>
+        </div>
+    </div>
+</div>
+
+
                       <div class="row mb-3">
                         <label for="input-tax-default" class="col-sm-2 col-form-label">{{ entry_tax_default }}</label>
                         <div class="col-sm-10">
