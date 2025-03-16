@@ -21,7 +21,7 @@ class Tax extends \Ventocart\System\Engine\Model
 				$totals[] = [
 					'extension' => 'ventocart',
 					'code' => 'tax',
-					'title' => $this->tax->getRateName($key),
+					'title' => $this->language->get($this->tax->getRateName($key)),
 					'value' => $value,
 					'sort_order' => (int) $this->config->get('total_tax_sort_order')
 				];
