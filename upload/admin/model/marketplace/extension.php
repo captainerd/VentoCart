@@ -13,7 +13,7 @@ class Extension extends \Ventocart\System\Engine\Model
     public function getList($extensionType): string
     {
 
-        $commonExtLanguage = ['analytics', 'captcha', 'currency', 'feed', 'fraud', 'language', 'marketing', 'marketplace', 'other'];
+        $commonExtLanguage = ['analytics', 'captcha', 'currency', 'total', 'feed', 'fraud', 'language', 'marketing', 'marketplace', 'other'];
 
         $data = $this->loadExtLanguage($extensionType);
 
@@ -261,10 +261,12 @@ class Extension extends \Ventocart\System\Engine\Model
         $names = [
             "analytics",
             "currency",
+            "total",
             "feed",
             "module",
             "report",
             "captcha",
+            "other",
             "dashboard",
             "fraud",
             "payment",
@@ -301,7 +303,7 @@ class Extension extends \Ventocart\System\Engine\Model
 
     private function loadExtLanguage($extension, $prefix = "")
     {
-        $commonExtLanguage = ['analytics', 'captcha', 'currency', 'feed', 'fraud', 'language', 'marketing', 'marketplace', 'other', 'importers'];
+        $commonExtLanguage = ['analytics', 'captcha', 'currency', 'total', 'feed', 'fraud', 'language', 'marketing', 'marketplace', 'other', 'importers'];
 
         if (!in_array($extension, $commonExtLanguage)) {
             return $this->language->loadForAPI("extension/$extension");
