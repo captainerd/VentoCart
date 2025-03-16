@@ -66,16 +66,15 @@
 data-bs-target="#offcanvasLeft" aria-controls="offcanvasLeft">
 <i class="fas fa-cog"></i>  
 </button>
-</div>
-              <div class="mb-3">
-                <a href="<?= $compare ?>" id="compare-total" class="btn btn-primary  "><i
-                    class="fa-solid fa-arrow-right-arrow-left"></i> <span class="d-none d-xl-inline">
-                    <?= $text_compare ?>
-                  </span></a>
-              </div>
+</div> 
             </div>
             <div class="col-lg-1 d-none d-lg-block">
               <div class="btn-group">
+              <a href="<?= $compare ?>" id="compare-total" class="btn btn-primary  "><i
+              data-bs-toggle="tooltip"
+              title="<?=  $text_compare  ?>"  class="fa-solid fa-arrow-right-arrow-left"></i> <span class="d-none d-xl-inline">
+                   
+                  </span></a>
                 <button type="button" id="button-list" class="btn btn-light" data-bs-toggle="tooltip"
                   title="<?= $this->e($button_list) ?>"><i class="fa-solid fa-table-list"></i></button>
                 <button type="button" id="button-grid" class="btn btn-light" data-bs-toggle="tooltip"
