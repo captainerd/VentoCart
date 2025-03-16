@@ -230,10 +230,15 @@ class Category extends \Ventocart\System\Engine\Controller
 				$data['listview'] = $this->session->data['listview'];
 			}
 			foreach ($results as $result) {
+
 				$description = trim(strip_tags(html_entity_decode($result['description'], ENT_QUOTES, 'UTF-8')));
 
-				if (oc_strlen($description) > $this->config->get('config_product_description_length')) {
-					$description = oc_substr($description, 0, $this->config->get('config_product_description_length')) . '..';
+				if (mb_strlen($description, 'UTF-8') > $this->config->get('config_product_description_length')) {
+
+					$description = html_entity_decode($description, ENT_QUOTES, 'UTF-8') . '..';
+					$description = mb_substr($description, 0, $this->config->get('config_product_description_length'), 'UTF-8');
+
+
 				}
 
 				if (is_file(DIR_IMAGE . html_entity_decode($result['image'], ENT_QUOTES, 'UTF-8'))) {

@@ -6,8 +6,7 @@ if (!isset($poster)) {
     $poster = '';
 }
 ?>
-<form id="form-product" method="post" data-oc-toggle="ajax" data-oc-load="<?= $this->e($action) ?>"
-    data-oc-target="#product">
+<form id="form-product" method="post" data-oc-toggle="ajax" data-oc-load="<?= $action ?>" data-oc-target="#product">
     <div class="row" id="product-list">
         <div class="col-12">
             <div
@@ -24,7 +23,7 @@ if (!isset($poster)) {
                             Your browser does not support the video tag.
                         </video>
                     <?php else: ?>
-                        <img src="<?= $thumb ?>" alt="<?= $this->e($name) ?>" class="img-thumbnail"
+                        <img src="<?= $thumb ?>" alt="<?= $name ?>" class="img-thumbnail"
                             style="max-width: 40px; display: block;">
                     <?php endif; ?>
                 </div>
@@ -36,25 +35,23 @@ if (!isset($poster)) {
                     <!-- Product name -->
                     <div class="product-col product-name mb-2 mx-2 mb-sm-0"
                         style="flex: 1 1 100%; word-wrap: break-word; overflow-wrap: break-word;">
-                        <a title="<?= $this->e($name) ?>" href="<?= $href ?>"
-                            class="text-decoration-none"><?= $this->e($name) ?></a>
+                        <a title="<?= $name ?>" href="<?= $href ?>" class="text-decoration-none"><?= $name ?></a>
                     </div>
 
                     <!-- Product Description -->
                     <div class="product-col product-description mb-2 mx-2 mb-sm-0"
                         style="flex: 2 1 100%; word-wrap: break-word; overflow-wrap: break-word;">
-                        <span><?= $this->e($description) ?></span>
+                        <span><?= $description ?></span>
                     </div>
 
                     <!-- Add to Cart Button -->
                     <div class="product-col add-to-cart text-center mb-2 mx-2 mb-sm-0" style="flex: 1 1 20%;">
-                        <form method="post" data-oc-toggle="ajax" data-oc-load="<?= $this->e($cart) ?>"
+                        <form method="post" data-oc-toggle="ajax" data-oc-load="<?= $cart ?>"
                             data-oc-target="#header-cart">
-                            <input type="hidden" name="product_id" value="<?= $this->e($product_id) ?>" />
-                            <input type="hidden" name="quantity" value="<?= $this->e($minimum) ?>" />
-                            <button type="submit" data-oc-where="cart" formaction="<?= $this->e($add_to_cart) ?>"
-                                class="btn btn-secondary" data-bs-toggle="tooltip"
-                                title="<?= $this->e($button_cart) ?>">
+                            <input type="hidden" name="product_id" value="<?= $product_id ?>" />
+                            <input type="hidden" name="quantity" value="<?= $minimum ?>" />
+                            <button type="submit" data-oc-where="cart" formaction="<?= $add_to_cart ?>"
+                                class="btn btn-secondary" data-bs-toggle="tooltip" title="<?= $button_cart ?>">
                                 <i class="fa-solid fa-shopping-cart"></i>
                             </button>
                         </form>
