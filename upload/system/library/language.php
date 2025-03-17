@@ -74,12 +74,16 @@ class Language
 	 */
 	public function set(string $key, $value = ''): void
 	{
-		if ((!is_string($value) || empty($value))) {
-			$value = 'en-gb';
-		}
-		$this->data[$key] = $value;
-	}
 
+		$this->data[$key] = $value;
+
+	}
+	public function setAll($values): void
+	{
+
+		$this->data = $values;
+
+	}
 	/**
 	 * Get all language strings with an optional prefix
 	 *
