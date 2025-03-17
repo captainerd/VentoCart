@@ -44,6 +44,10 @@ class Topic extends \Ventocart\System\Engine\Controller
 
 		$articles = $this->model_cms_article->getArticles(['limit' => $setting['limit_topics'], 'start' => 0]);
 
+		if (empty($topics) || empty($articles)) {
+			return '';
+		}
+
 		$data['hide_date'] = $setting['hidedate'];
 		foreach ($articles as $article) {
 			$topicDescription = html_entity_decode($article['description']);

@@ -78,7 +78,7 @@ class Article extends \Ventocart\System\Engine\Model
 		$this->db->query("DELETE FROM `" . DB_PREFIX . "article` WHERE `article_id` = '" . (int) $article_id . "'");
 		$this->db->query("DELETE FROM `" . DB_PREFIX . "article_comment` WHERE `article_id` = '" . (int) $article_id . "'");
 		$this->db->query("DELETE FROM `" . DB_PREFIX . "article_description` WHERE `article_id` = '" . (int) $article_id . "'");
-		$this->db->query("DELETE FROM `" . DB_PREFIX . "article_to_layout` WHERE `article_id` = '" . (int) $article_id . "'");
+
 		$this->db->query("DELETE FROM `" . DB_PREFIX . "seo_url` WHERE `key` = 'article_id' AND `value` = '" . (int) $article_id . "'");
 
 		$this->cache->delete('article');

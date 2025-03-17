@@ -165,21 +165,7 @@ class Article extends \Ventocart\System\Engine\Model
 		return (int) $query->row['total'];
 	}
 
-	/**
-	 * @param int $article_id
-	 *
-	 * @return array
-	 */
-	public function getLayoutId(int $article_id): int
-	{
-		$query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "article_to_layout` WHERE `article_id` = '" . (int) $article_id . "'");
 
-		if ($query->num_rows) {
-			return (int) $query->row['layout_id'];
-		} else {
-			return 0;
-		}
-	}
 
 	/**
 	 * @param int   $product_id
