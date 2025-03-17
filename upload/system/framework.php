@@ -154,7 +154,7 @@ $template->addPath(DIR_TEMPLATE . "/plates/");
 // Language
 $language = new \Ventocart\System\Library\Language($config->get('language_code'));
 $language->addPath(DIR_LANGUAGE);
-$language->load('default');
+
 $registry->set('language', $language);
 
 // Url

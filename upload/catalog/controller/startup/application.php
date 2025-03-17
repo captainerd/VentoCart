@@ -203,19 +203,12 @@ class Application extends \Ventocart\System\Engine\Controller
 		}
 		$this->session->data['language'] = $code;
 
-
-
 		$this->load->model('localisation/language');
 
 		self::$languages = $this->model_localisation_language->getLanguages();
 
 		if (isset(self::$languages[$code])) {
 			$language_info = self::$languages[$code];
-
-			// If extension switch add language directory
-			if ($language_info['extension']) {
-				$this->language->addPath('extension/' . $language_info['extension'], DIR_EXTENSION . $language_info['extension'] . '/catalog/language/');
-			}
 
 			// Set the config language_id key
 			$this->config->set('config_language_id', $language_info['language_id']);

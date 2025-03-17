@@ -80,8 +80,9 @@ class Language
 	}
 	public function setAll($values): void
 	{
-
-		$this->data = $values;
+		if ($values) {
+			$this->data = $values;
+		}
 
 	}
 	/**
