@@ -94,7 +94,9 @@ class Loader
 			}
 
 			$this->registry->event->trigger($this->config->get('application') . '/controller/' . $route . '/before', [&$args]);
+			$lang = $this->registry->language->all();
 			$output = $controller->$method(...$args);
+			$this->registry->language->setAll($lang);
 			$this->registry->event->trigger($this->config->get('application') . '/controller/' . $route . '/after', [&$args, &$output]);
 			return $output;
 		}

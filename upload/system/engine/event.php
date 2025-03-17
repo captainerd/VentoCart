@@ -52,7 +52,9 @@ class Event
         if (!empty(($this->actions[$eventName]))) {
             foreach ($this->actions[$eventName] as $callback) {
                 if ($callback['status']) {
+                    $lang = $this->registry->language->all();
                     $this->runController($callback['action'], $this->registry, ...$params);
+                    $this->registry->language->setAll($lang);
                 }
             }
         }
