@@ -78,13 +78,7 @@ class Language
 		$this->data[$key] = $value;
 
 	}
-	public function setAll($values): void
-	{
-		if ($values) {
-			$this->data = $values;
-		}
 
-	}
 	/**
 	 * Get all language strings with an optional prefix
 	 *

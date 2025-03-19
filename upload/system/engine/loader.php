@@ -139,7 +139,7 @@ class Loader
 	{
 
 		$this->registry->event->trigger($this->config->get('application') . '/view/' . $route . '/before', [&$data]);
-		$output = $this->template->render($route, $data + $this->language->all(), $code);
+		$output = $this->template->render($route, $data + $this->language->data, $code);
 		$this->registry->event->trigger($this->config->get('application') . '/view/' . $route . '/after', [&$args, &$output]);
 		return $output;
 	}
