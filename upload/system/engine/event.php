@@ -47,14 +47,11 @@ class Event
      */
     public function trigger(string $eventName, ...$params)
     {
-
         // If there are listeners for the event
         if (!empty(($this->actions[$eventName]))) {
             foreach ($this->actions[$eventName] as $callback) {
                 if ($callback['status']) {
-                    $lang = $this->registry->language->all();
                     $this->runController($callback['action'], $this->registry, ...$params);
-                    $this->registry->language->setAll($lang);
                 }
             }
         }
@@ -65,10 +62,10 @@ class Event
 
         // Sanitize route and determine method
         $route = preg_replace('/[^a-zA-Z0-9_|\/\.]/', '', $route);
-        $pos = strrpos($route, '.');
-        $method = $pos !== false ? substr($route, $pos + 1) : 'index';
-        $route = $pos !== false ? substr($route, 0, $pos) : $route;
-
+        $method = 'index';
+        if (strpos($route, '.') !== false) {
+            [$route, $method] = explode('.', $route, 2); // Extract method from route
+        }
         // Prevent calls to magic methods
         if (substr($method, 0, 2) === '__') {
             return new \Exception('Error: Calls to magic methods are not allowed!');
@@ -85,8 +82,9 @@ class Event
             // Ensure the method is callable and execute it
             if (is_callable([$controller, $method])) {
                 // Manually call the method and pass arguments, including $route by reference
-
-                return $controller->$method($route, ...$args);
+                $output = $controller->$method($route, ...$args);
+                $controller->__flush();
+                return $output;
             } else {
                 return new \Exception('Error: Could not call route ' . $route . '!');
             }

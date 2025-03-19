@@ -22,7 +22,7 @@ class Language
 	/**
 	 * @var array
 	 */
-	protected array $data = [];
+	public array $data = [];
 	/**
 	 * @var array
 	 */
@@ -154,58 +154,11 @@ class Language
 			}
 		}
 
-		$this->data = array_merge($this->data, $_);
+		$this->data = $_ + $this->data;
 		return $this->data;
 	}
 
-	/**
-	 * Load language data from a file and return it isolated as an associative array for API use
-	 *
-	 * @param string $filePath
-	 * @return array
-	 */
-	public function loadForAPI(string $filename): array
-	{
 
-		$filePath = $this->directory . $this->code . '/' . $filename . '.php';
-		$namespace = '';
-		$parts = explode('/', $filename);
-
-		foreach ($parts as $part) {
-			if (!$namespace) {
-				$namespace .= $part;
-			} else {
-				$namespace .= '/' . $part;
-			}
-
-			if (isset($this->path[$namespace])) {
-				$filePath = $this->path[$namespace] . $this->code . substr($filename, strlen($namespace)) . '.php';
-			}
-		}
-		if (!file_exists($filePath)) {
-			throw new \Exception("Language file not found: " . $filePath);
-		}
-
-		$lines = file($filePath, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
-		$languageArray = [];
-		foreach ($lines as $line) {
-			if (substr($line, 0, 2) === '$_') {
-
-				$str = str_replace("_['", "'", substr($line, 2));
-
-				if (preg_match("/\['([a-zA-Z0-9_]+)'\]\s*=\s*'([^']+)';/", $str, $matches)) {
-					if (strlen($matches[1]) > 1) {
-						$languageArray[$matches[1]] = $matches[2];
-					}
-				}
-			}
-		}
-		foreach ($matches as $match) {
-			$languageArray[$match[1]] = $match[2];
-		}
-
-		return $languageArray;
-	}
 
 
 }

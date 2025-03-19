@@ -74,29 +74,23 @@ class Loader
 		}
 
 		if (!$this->registry->has($key)) {
-			$className = 'Ventocart\\' . $this->config->get('application') . '\\Controller\\' . str_replace(['_', '/'], ['', '\\'], ucwords($route, '_/'));
+			$controller = $this->factory->controller($route);
+			$this->registry->set($key, $controller);
 
-
-			if (class_exists($className)) {
-				$controller = new $className($this->registry);
-				$this->registry->set($key, $controller);
-			} else {
-				// If class doesn't exist, throw an exception (let parent decide)
-				throw new \Exception("Controller class not found: $className");
-			}
 		} else {
 			$controller = $this->registry->get($key);
 		}
 
 		if (isset($controller)) {
 			if (!method_exists($controller, $method)) {
-				throw new \Exception("Method '$method' not found in controller '$className'");
+				throw new \Exception("Method '$method' not found in controller '$route'");
 			}
 
 			$this->registry->event->trigger($this->config->get('application') . '/controller/' . $route . '/before', [&$args]);
-			$lang = $this->registry->language->all();
+
 			$output = $controller->$method(...$args);
-			$this->registry->language->setAll($lang);
+			$controller->__flush();
+
 			$this->registry->event->trigger($this->config->get('application') . '/controller/' . $route . '/after', [&$args, &$output]);
 			return $output;
 		}
@@ -119,19 +113,11 @@ class Loader
 
 		// Check if the model is already loaded in the registry
 		if (!$this->registry->has($key)) {
-			$className = 'Ventocart\\' . $this->config->get('application') . '\\Model\\' . str_replace(['_', '/'], ['', '\\'], ucwords($route, '_/'));
-
-			// Load the model if it exists
-			if (class_exists($className)) {
-
-				// Wrap the instance with the ModelWrapper
-				$wrappedInstance = new \Ventocart\System\Engine\Wrapper(new $className($this->registry), $route, $this->registry);
-
-				// Store the wrapped instance in the registry
-				$this->registry->set($key, $wrappedInstance);
-			} else {
-				throw new \Exception('Error: Could not load model ' . $className . '!');
-			}
+			$model = $this->factory->model($route);
+			// Wrap the instance with the ModelWrapper
+			$wrappedInstance = new \Ventocart\System\Engine\Wrapper($model, $route, $this->registry);
+			// Store the wrapped instance in the registry
+			$this->registry->set($key, $wrappedInstance);
 		}
 
 		// Retrieve and return the wrapped model instance
@@ -152,9 +138,8 @@ class Loader
 	public function view(string $route, array $data = [], string $code = ''): string
 	{
 
-
 		$this->registry->event->trigger($this->config->get('application') . '/view/' . $route . '/before', [&$data]);
-		$output = $this->template->render($route, array_merge($this->language->all(), $data), $code);
+		$output = $this->template->render($route, $data + $this->language->all(), $code);
 		$this->registry->event->trigger($this->config->get('application') . '/view/' . $route . '/after', [&$args, &$output]);
 		return $output;
 	}

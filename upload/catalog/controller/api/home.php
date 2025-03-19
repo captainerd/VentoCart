@@ -41,7 +41,7 @@ class Home extends \Ventocart\System\Engine\Controller
 
         $res = $this->model_api_collector->getCollection();
         $data = $res['product/product'];
-        $data['lang_values'] = $this->language->loadForAPI('product/product');
+        $data['lang_values'] = $this->language->load('product/product');
 
         $this->response->setOutput(json_encode($data));
 

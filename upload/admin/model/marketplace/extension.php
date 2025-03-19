@@ -306,10 +306,10 @@ class Extension extends \Ventocart\System\Engine\Model
         $commonExtLanguage = ['analytics', 'captcha', 'currency', 'total', 'feed', 'fraud', 'language', 'marketing', 'marketplace', 'other', 'importers'];
 
         if (!in_array($extension, $commonExtLanguage)) {
-            return $this->language->loadForAPI("extension/$extension");
+            return $this->language->load("extension/$extension");
         } else {
             // Load language file
-            $data = $this->language->loadForAPI("extension/basic");
+            $data = $this->language->load("extension/basic");
 
             // Heading
             $extensiontxt = ucfirst(trim($extension));

@@ -1,11 +1,5 @@
 <?php
-/**
- * @package      VentoCart
- * @author       Daniel Kerr
- * @copyright    Copyright (c) 2005 - 2022, VentoCart, Ltd. (https://www.ventocart.com/)
- * @license      https://opensource.org/licenses/GPL-3.0
- * @link         https://www.ventocart.com
- */
+
 namespace Ventocart\System\Engine;
 /**
  * Class Controller
@@ -18,7 +12,7 @@ class Controller
 	 * @var object|\Ventocart\System\Engine\Registry
 	 */
 	protected $registry;
-
+	protected $langdata;
 	/**
 	 * Constructor
 	 *
@@ -27,8 +21,21 @@ class Controller
 	public function __construct(\Ventocart\System\Engine\Registry $registry)
 	{
 		$this->registry = $registry;
+		$this->langdata = $this->registry->language->data;
 	}
-
+	/**
+	 * __flush
+	 *
+	 *
+	 * @return void
+	 */
+	public function __flush(): void
+	{
+		if ($this->langdata) {
+			$this->registry->language->data = $this->langdata;
+			$this->langdata = [];
+		}
+	}
 	/**
 	 * __get
 	 *
