@@ -366,7 +366,10 @@ class ZoneShipping extends \Ventocart\System\Engine\Model
                 WHERE shipping_entry_id = '" . (int) $shippingEntryId . "'
           ");
 
-
+        $this->db->query("
+          DELETE FROM " . DB_PREFIX . "shipping_pfixed 
+          WHERE shipping_entry_id = '" . (int) $shippingEntryId . "'
+      ");
         // Check if any rows were affected
         return $this->db->countAffected() > 0;
     }
