@@ -574,7 +574,7 @@ class Product extends \Ventocart\System\Engine\Model
 		} else {
 			$images = 0;
 		}
-
+		$this->db->query("DELETE FROM `" . DB_PREFIX . "shipping_pfixed` WHERE `product_id` = '" . (int) $product_id . "'");
 		if ($all == 1) {
 
 			//For a VentoCart revision:
