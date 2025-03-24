@@ -2,17 +2,14 @@
  
 VentoCart is a high-performance fork of OpenCart 4, featuring extensive optimizations for speed, numerous bug fixes, 
 and modern e-commerce capabilities. With a focus on cutting-edge features, VentoCart includes a completely revamped 
-architecture, a premium default theme, and integrated PayPal and Stripe support for secure payments, including client card saving 
+architecture, a premium default theme, and shipped with PayPal and Stripe extensions for secure payments, including client card saving 
 and subscription payment options.
 
 As of now, it supports importing oc4 and oc3 Extensions, classes, file paths, and load paths are automatically converted, oc3 will need some manual porting.
-
  
 **Contribute to VentoCart!**
 
 Did you find a bug? Don’t just ignore it! Open a bug report on the repo – your feedback keeps this project alive and improving.
-
-Are you a developer who fixed a bug, refactored some messy code, or used the Twig converter tool to switch to Plates? Don't keep those improvements to yourself! Submit a pull request and help make VentoCart even better. Your contributions are incredibly valuable, and together we can make this platform stronger than ever!
  
 ## Key Features:
 - **SEO and Optimizations::**  Extensive SEO and core framework optimizations to increase web vitals and performance, consistent image formats/conversions, Canonical URLs, and more.
@@ -46,7 +43,6 @@ Are you a developer who fixed a bug, refactored some messy code, or used the Twi
 - **Abandoned Carts ** Provides detailed analytics on cart activity and allows you to browse and review customer carts with a tracking system for cart recoveries via mail
 
 ![Screenshot from 2024-12-11 09-39-04](https://github.com/user-attachments/assets/d9832de9-b4a4-4ac0-a244-f8d716a8d43f)
-
 
 
 ![screen1](https://github.com/captainerd/VentoCart/assets/58100748/a8b1eb21-3e8a-4107-82ff-9936cc0cc0f0)
