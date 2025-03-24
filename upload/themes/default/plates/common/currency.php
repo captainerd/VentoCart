@@ -6,9 +6,11 @@
         <a href="#" class="nav-link dropdown-toggle" role="button" aria-expanded="false">
           <?php foreach ($currencies as $currency): ?>
             <?php if ($currency['symbol_left'] && $currency['code'] == $code): ?>
-              <span class="font-weight-bold"><?= $currency['symbol_left'] ?>       <?= $currency['code'] ?></span>
+              <span class="font-weight-bold"><?= htmlentities($currency['symbol_left'], ENT_QUOTES, 'UTF-8') ?>
+                <?= $currency['code'] ?></span>
             <?php elseif ($currency['symbol_right'] && $currency['code'] == $code): ?>
-              <span class="font-weight-bold"><?= $currency['symbol_right'] ?>       <?= $currency['code'] ?></span>
+              <span class="font-weight-bold"><?= htmlentities($currency['symbol_right'], ENT_QUOTES, 'UTF-8') ?>
+                <?= $currency['code'] ?></span>
             <?php endif; ?>
           <?php endforeach; ?>
         </a>
