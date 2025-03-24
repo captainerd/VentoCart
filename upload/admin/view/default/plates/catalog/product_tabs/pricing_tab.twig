@@ -36,6 +36,82 @@
         </div>
       </div>
     </fieldset>
+    {% if advanced_shipping %}
+  <legend>{{ text_shipping }}</legend>
+  <div class="row mb-3">
+    <label for="shipping-package" class="col-sm-2 col-form-label">{{ text_select_package }}</label>
+    <div class="col-sm-10">
+      <select name="shipping_package" id="shipping-package" class="form-control">
+        {% for package in shipping_packages %}
+          <option value="{{ package.shipping_entry_id }}">
+            {{ package.displayName[language_id] }}
+          </option>
+        {% endfor %}
+      </select>
+    </div>
+  </div>
+  
+  <div class="row mb-3">
+    <label for="fixed-price" class="col-sm-2 col-form-label">{{ text_fixed_price }}</label>
+    <div class="col-sm-10">
+      <input type="text" name="fixed_price" id="fixed-price" class="form-control" placeholder="{{ text_enter_price }}"/>
+    </div>
+    <!-- Help text for Fixed Price -->
+    <div class="col-sm-10 offset-sm-2">
+      <div class="form-text">{{ help_fixed_price }}</div>
+    </div>
+  </div>
+<input type="hidden"   id="shipping-fixed-prices" name="shipping_fixed_prices"/>
+
+<script>
+    $(document).ready(function () {
+        // Internal JSON object to store shipping_entry_id and price
+        let shippingPrices = {{ shipping_fixed_prices | raw }};
+
+        // Function to update the hidden input with the JSON data
+        function updateHiddenInput() {
+            $('#shipping-fixed-prices').val(JSON.stringify(shippingPrices));
+            console.log('Updated JSON:', shippingPrices);
+        }
+
+        // Function to update the fixed price input based on dropdown selection
+        function updateFixedPrice() {
+            let shippingEntryId = $('#shipping-package').val(); // Get value directly from dropdown
+            if (shippingPrices[shippingEntryId] !== undefined) {
+                $('#fixed-price').val(shippingPrices[shippingEntryId]);
+            } else {
+                $('#fixed-price').val(''); // Clear if no price is stored
+            }
+        }
+
+        // On dropdown change
+        $('#shipping-package').on('change', function () {
+            updateFixedPrice();
+        });
+
+        // On fixed price input change
+        $('#fixed-price').on('input', function () {
+            let shippingEntryId = $('#shipping-package').val();
+            let price = $(this).val().trim();
+
+            if (price === '') {
+                delete shippingPrices[shippingEntryId];
+            } else {
+                shippingPrices[shippingEntryId] = price;
+            }
+
+            updateHiddenInput();
+        });
+
+        // Initialize on load
+        updateFixedPrice(); // ✅ Show price on load
+        updateHiddenInput(); // ✅ Set hidden input on load
+    });
+</script>
+
+
+{% endif %}
+
     <fieldset>
 
     <h4>{{text_quantity_discount}}</h4>

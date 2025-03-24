@@ -22,6 +22,7 @@
             </ol>
         </div>
     </div>
+
     <form id="form-shipping" method="post">
         <div class="container-fluid">
             <div class="card">
@@ -30,7 +31,13 @@
                     <?= $text_edit ?>
                 </div>
                 <div class="card-body">
-
+                    <?php if (isset($no_sku_found)): ?>
+                        <div class="alert alert-danger">
+                            <?= $error_no_sku_found ?>:
+                            <hr>
+                            <strong><?= $no_sku_found ?></strong>
+                        </div>
+                    <?php endif; ?>
                     <div class="mb-3 row">
                         <label for="input-status" class="col-sm-2 col-form-label"><?= $entry_status ?></label>
                         <div class="col-sm-10">
@@ -285,11 +292,30 @@
                                                 <span class="sr-only">Loading...</span>
                                             </div>
                                             <div class="col-sm-10">
+
                                                 <textarea name="postal_codes" id="input-postal-codes"
                                                     class="form-control" rows="5"></textarea>
                                                 <div class="form-text"><?= $help_postal_codes ?></div>
                                             </div>
                                         </div>
+
+
+                                        <div class="mb-3 row">
+                                            <label for="input-postal-codes"
+                                                class="col-sm-2 col-form-label"><?= $entry_overrides ?></label>
+                                            <div class="spinner-border text-primary" style="display:none"
+                                                id="loading-productfixed" role="status">
+                                                <span class="sr-only">Loading...</span>
+                                            </div>
+                                            <div class="col-sm-10">
+
+                                                <textarea name="product_fixed" id="input-product-fixed"
+                                                    class="form-control" rows="5"></textarea>
+                                                <div class="form-text"><?= $help_overrides ?></div>
+                                            </div>
+                                        </div>
+
+
                                         <div class="row mb-3">
                                             <label for="input-sort-order"
                                                 class="col-sm-2 col-form-label"><?= $entry_sort_order ?></label>
@@ -471,29 +497,54 @@
         });
 
         function loadPostalCodes(shippingEntryId) {
-            // Make AJAX request
+            // Make AJAX request for fixed prices
+            $("#loading-productfixed").show();
+
+            $.ajax({
+                url: 'index.php?route=extension/ventocart/shipping/zoneshipping.getProductFixed&user_token=<?= $user_token ?>',
+                type: 'POST',
+                dataType: 'json',
+                data: { shipping_entry_id: shippingEntryId },
+                success: function (response) {
+                    if (response.fixedPrices) {
+                        var fixedPrices = response.fixedPrices.replace(/,/g, '\n');
+                        $('textarea[name="product_fixed"]').val(fixedPrices);
+                    } else {
+                        // Clear the input if empty
+                        $('textarea[name="product_fixed"]').val('');
+                    }
+                    $("#loading-productfixed").hide(); // ✅ Always hide loading spinner
+                },
+                error: function (xhr, status, error) {
+                    $("#loading-productfixed").hide();
+                    console.error(error);
+                }
+            });
+
+            // Make AJAX request for postal codes
             $("#loading-postalcode").show();
+
             $.ajax({
                 url: 'index.php?route=extension/ventocart/shipping/zoneshipping.getPostalCodes&user_token=<?= $user_token ?>',
                 type: 'POST',
-                dataType: 'json', // Expect JSON response
-                data: { shipping_entry_id: shippingEntryId }, // Send shipping entry ID as data
+                dataType: 'json',
+                data: { shipping_entry_id: shippingEntryId },
                 success: function (response) {
-                    // Handle success response
                     if (response.postalCodes) {
                         var postalCodes = response.postalCodes.replace(/,/g, '\n');
-
                         $('textarea[name="postal_codes"]').val(postalCodes);
+                    } else {
+                        $('textarea[name="postal_codes"]').val('');
                     }
-                    $("#loading-postalcode").hide();
+                    $("#loading-postalcode").hide(); // ✅ Always hide loading spinner
                 },
                 error: function (xhr, status, error) {
                     $("#loading-postalcode").hide();
                     console.error(error);
                 }
             });
-
         }
+
         $('#form-shipping').on('submit', function (event) {
             event.preventDefault(); // Prevent default form submission
 

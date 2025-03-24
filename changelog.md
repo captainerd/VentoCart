@@ -1,3 +1,35 @@
+#### **What's New in VentoCart v7.0.0.2**
+
+### **New Features**
+- **Advanced Shipping**: Added the ability to define specific prices for shipping packages based on products. Users can now set pricing directly from the **Product Edit** page (Pricing Tab) or through the **Advanced Extension** by SKU.
+
+### **Refactoring**
+- **Engine**: Optimized language handling, memory management, and path building for improved performance and scalability plus language consistency.
+
+### **Fixes**
+- **Language**: 
+  - Resolved conflicts in language keys to avoid inconsistencies.
+  - Improved clarity for product tax and options.
+
+- **CMS**: 
+  - Fixed bug that occurred when admins deleted articles, now properly hides the module on empty articles.
+
+- **Admin Extensions**:
+  - Fixed the issue with revealing modules for the total category correctly.
+  - Resolved back button functionality in admin settings.
+
+- **Theme**:
+  - Merged compare button with other buttons for a streamlined design.
+  - Fixed cart notification badge in list view mode for the category page.
+
+- **Product**: 
+  - Fixed issue with short product descriptions being cut off.
+
+- **Miscellaneous**:
+  - Disabled removing underscores in filenames when installing extensions, to maintain file integrity.
+
+---
+
 #### **What's New in VentoCart v7.0.0.1** 🚀  
 
 #### **Theme**  

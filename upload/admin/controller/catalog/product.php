@@ -554,7 +554,6 @@ class Product extends \Ventocart\System\Engine\Controller
 		$this->document->addScript('view/javascript/tinymce/tinymce.min.js');
 
 
-
 		$data['text_form'] = !isset($this->request->get['product_id']) ? $this->language->get('text_add') : $this->language->get('text_edit');
 
 		$data['error_upload_size'] = sprintf($this->language->get('error_upload_size'), $this->config->get('config_file_max_size'));
@@ -1126,6 +1125,27 @@ class Product extends \Ventocart\System\Engine\Controller
 			$data['product_layout'] = [];
 		}
 
+		$data['advanced_shipping'] = $this->config->get('shipping_zoneshipping_status');
+
+
+		// Get the shipping zones
+
+		// Get the language_id
+
+		if ($data['advanced_shipping']) {
+			$language_id = $this->config->get('config_language_id');
+			$this->load->model('extension/ventocart/shipping/zoneshipping');
+
+			$data['shipping_packages'] = $this->model_extension_ventocart_shipping_zoneshipping->getAllShippingZones();
+			$data['language_id'] = $language_id;
+			$data['shipping_fixed_prices'] = json_encode(
+				$this->model_extension_ventocart_shipping_zoneshipping->getProductFixed($product_id)
+			);
+
+		}
+
+
+
 		$data['report'] = $this->getReport();
 		$data['tabOptions'] = $this->loadOptions($product_id);
 		$data['user_token'] = $this->session->data['user_token'];
@@ -1138,6 +1158,7 @@ class Product extends \Ventocart\System\Engine\Controller
 		$data['images_tab'] = $this->load->view('catalog/product_tabs/images_tab', $data);
 		$data['attributes_tab'] = $this->load->view('catalog/product_tabs/attributes_tab', $data);
 		$data['general_tab'] = $this->load->view('catalog/product_tabs/general_tab', $data);
+
 		$data['data_tab'] = $this->load->view('catalog/product_tabs/data_tab', $data);
 		$data['links_tab'] = $this->load->view('catalog/product_tabs/links_tab', $data);
 		$data['subscription_tab'] = $this->load->view('catalog/product_tabs/subscription_tab', $data);
@@ -1155,6 +1176,25 @@ class Product extends \Ventocart\System\Engine\Controller
 		if (!$this->user->hasPermission('modify', 'catalog/product')) {
 			$json['error']['warning'] = $this->language->get('error_permission');
 		}
+
+
+
+		if ($this->config->get('shipping_zoneshipping_status')) {
+			$this->load->model('extension/ventocart/shipping/zoneshipping');
+
+			if (!empty($this->request->post['shipping_fixed_prices'])) {
+				$this->request->post['shipping_fixed_prices'] = html_entity_decode($this->request->post['shipping_fixed_prices']);
+				$shipping_fixed_prices = json_decode($this->request->post['shipping_fixed_prices'], true);
+
+				if (json_last_error() === JSON_ERROR_NONE) {
+					$this->model_extension_ventocart_shipping_zoneshipping->saveProductFixed($shipping_fixed_prices, $this->request->post['product_id']);
+				} else {
+					$json['error']['shipping_fixed_prices'] = 'Invalid JSON data';
+				}
+			}
+		}
+
+
 
 		foreach ($this->request->post['product_description'] as $language_id => $value) {
 			if ((oc_strlen(trim($value['name'])) < 1) || (oc_strlen($value['name']) > 255)) {

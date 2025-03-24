@@ -12,6 +12,10 @@ class ColumnLeft extends \Ventocart\System\Engine\Controller
 	 */
 	public function index(): string
 	{
+
+		//retain heading_title
+
+
 		if (isset($this->request->get['user_token']) && isset($this->session->data['user_token']) && ((string) $this->request->get['user_token'] == $this->session->data['user_token'])) {
 			$this->load->language('common/column_left');
 
@@ -179,6 +183,7 @@ class ColumnLeft extends \Ventocart\System\Engine\Controller
 
 			$this->load->model('marketplace/extension');
 			$extcategories = $this->model_marketplace_extension->getCategories();
+
 			$extChild = [];
 
 			foreach ($extcategories as $category) {
@@ -823,6 +828,7 @@ class ColumnLeft extends \Ventocart\System\Engine\Controller
 			} else {
 				$data['statistics_status'] = false;
 			}
+
 
 			return $this->load->view('common/column_left', $data);
 		} else {

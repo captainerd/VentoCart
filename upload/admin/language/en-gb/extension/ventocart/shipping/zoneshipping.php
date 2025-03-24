@@ -26,12 +26,14 @@ $_['entry_add_to_pricelist'] = 'Add To Price List';
 $_['entry_select'] = "Select";
 $_['entry_sort_order'] = 'Sort Order';
 $_['entry_default_price'] = "Default Price";
+$_['entry_overrides'] = 'Product Override';
 $_['help_default_price'] = 'Price when no postal code found to match in the zone';
 $_['help_price'] = 'Price when found a matching postal code in the zone';
 $_['help_volumetric'] = 'Shipping companies primarily use  [dimensional weight], fill this by the price list of the shipping company. 5000 or 4000 for Europe (Cm-Kg), 139 or 166 for US (Inch-Lbs) ';
 $_['entry_volumetric'] = "Volumetric";
-
+$_['error_no_sku_found'] = '<strong>Error!</strong> The following SKU codes for fixed prices were not saved because they were not found';
 $_['entry_display_name'] = "Shipping Package";
+$_['help_overrides'] = 'Overrides the shipping cost for specific products by their SKU. Enter SKU=Price pairs, separated by commas, new lines, or semicolons. If a SKU is not found, the price will not be saved. Example: ABCD=13.30, XYZ=25.50';
 
 $_['help_name'] = "Internal use name, eg. [South Zone]";
 $_['help_volumetric_length'] = 'US. Companies use Inches, Europe uses Centimeters, consult the shipping company price list.';

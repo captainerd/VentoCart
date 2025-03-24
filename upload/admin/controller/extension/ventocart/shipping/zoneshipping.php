@@ -60,6 +60,13 @@ class ZoneShipping extends \Ventocart\System\Engine\Controller
         $data['column_left'] = $this->load->controller('common/column_left');
         $data['footer'] = $this->load->controller('common/footer');
 
+        if (isset($this->session->data['no_sku_found'])) {
+            $data['no_sku_found'] = $this->session->data['no_sku_found'];
+
+            $data['error_no_sku_found'] = $this->language->get('error_no_sku_found');
+
+            unset($this->session->data['no_sku_found']);
+        }
         $this->response->setOutput($this->load->view('extension/ventocart/shipping/zoneshipping', $data));
     }
 
@@ -100,19 +107,22 @@ class ZoneShipping extends \Ventocart\System\Engine\Controller
         // If no permission error, proceed
         if (!$json) {
             // Validate and sanitize posted data
-            $name = isset ($this->request->post['name']) ? trim($this->request->post['name']) : '';
-            $displayName = isset ($this->request->post['displayName']) ? $this->request->post['displayName'] : [];
-            $countryId = isset ($this->request->post['geo_zone_id']) ? (int) $this->request->post['geo_zone_id'] : 0;
-  
-            $pricelist = isset ($this->request->post['price_list']) ? $this->request->post['price_list'] : [];
+            $name = isset($this->request->post['name']) ? trim($this->request->post['name']) : '';
+            $displayName = isset($this->request->post['displayName']) ? $this->request->post['displayName'] : [];
+            $countryId = isset($this->request->post['geo_zone_id']) ? (int) $this->request->post['geo_zone_id'] : 0;
 
-            $volumetric = isset ($this->request->post['volumetric']) ? (float) $this->request->post['volumetric'] : 0;
+            $pricelist = isset($this->request->post['price_list']) ? $this->request->post['price_list'] : [];
 
-            $weightClassId = isset ($this->request->post['weight_class_id']) ? (int) $this->request->post['weight_class_id'] : 0;
-            $entry_sort_order = isset ($this->request->post['geo_zone_id']) ? (int) $this->request->post['entry_sort_order'] : 0;
+            $volumetric = isset($this->request->post['volumetric']) ? (float) $this->request->post['volumetric'] : 0;
 
-            $postalCodes = isset ($this->request->post['postal_codes']) ? $this->request->post['postal_codes'] : '';
-            $shippingEntryId = isset ($this->request->post['shipping_entry_id']) ? (int) $this->request->post['shipping_entry_id'] : 0;
+            $weightClassId = isset($this->request->post['weight_class_id']) ? (int) $this->request->post['weight_class_id'] : 0;
+            $entry_sort_order = isset($this->request->post['geo_zone_id']) ? (int) $this->request->post['entry_sort_order'] : 0;
+
+            $postalCodes = isset($this->request->post['postal_codes']) ? $this->request->post['postal_codes'] : '';
+
+            $product_fixed = isset($this->request->post['product_fixed']) ? $this->request->post['product_fixed'] : '';
+
+            $shippingEntryId = isset($this->request->post['shipping_entry_id']) ? (int) $this->request->post['shipping_entry_id'] : 0;
             // Validate other required fields as needed
 
 
@@ -123,11 +133,11 @@ class ZoneShipping extends \Ventocart\System\Engine\Controller
                 $json['error'] = $this->language->get('text_error_fill_form');
             }
             // Check if any required field is empty
-            if (empty ($name) || !is_numeric($countryId)) {
+            if (empty($name) || !is_numeric($countryId)) {
                 $json['error'] = $this->language->get('text_error_fill_form');
             } else {
                 // Check if weight or length/width/height is provided
-                if (empty ($pricelist)) {
+                if (empty($pricelist)) {
                     $json['error'] = $this->language->get('text_error_no_pricelist');
                 }
             }
@@ -135,7 +145,7 @@ class ZoneShipping extends \Ventocart\System\Engine\Controller
             if (!$json) {
                 $this->load->model('extension/ventocart/shipping/zoneshipping');
                 // Call model function to save or edit the data
-                $shippingEntryId = $this->model_extension_ventocart_shipping_zoneshipping->saveOrUpdateEntry($shippingEntryId, $name, $displayName, $volumetric, $countryId, $pricelist, $weightClassId, $entry_sort_order, $postalCodes);
+                $shippingEntryId = $this->model_extension_ventocart_shipping_zoneshipping->saveOrUpdateEntry($shippingEntryId, $name, $displayName, $volumetric, $countryId, $pricelist, $weightClassId, $entry_sort_order, $postalCodes, $product_fixed);
 
                 if ($shippingEntryId !== false) {
                     $json['success'] = $this->language->get('text_success');
@@ -161,7 +171,7 @@ class ZoneShipping extends \Ventocart\System\Engine\Controller
         // If no permission error, proceed
         if (!$json) {
             // Validate and sanitize posted data
-            $shippingEntryId = isset ($this->request->post['shipping_entry_id']) ? (int) $this->request->post['shipping_entry_id'] : 0;
+            $shippingEntryId = isset($this->request->post['shipping_entry_id']) ? (int) $this->request->post['shipping_entry_id'] : 0;
 
             // Check if shipping_entry_id is provided
             if ($shippingEntryId == 0) {
@@ -183,6 +193,43 @@ class ZoneShipping extends \Ventocart\System\Engine\Controller
         $this->response->addHeader('Content-Type: application/json');
         $this->response->setOutput(json_encode($json));
     }
+    public function getProductFixed(): void
+    {
+        $json = [];
+
+        $this->load->language('extension/ventocart/shipping/zoneshipping');
+
+        // Validate permissions
+        if (!$this->user->hasPermission('modify', 'extension/ventocart/shipping/zoneshipping')) {
+            $json['error'] = $this->language->get('error_permission');
+        }
+        // Validate and sanitize posted data
+        $shippingEntryId = isset($this->request->post['shipping_entry_id']) ? (int) $this->request->post['shipping_entry_id'] : 0;
+
+        // Check if shipping_entry_id is provided
+        if ($shippingEntryId == 0) {
+            $json['error'] = 'Shipping Entry ID is required';
+        } else {
+            if (!$json) {
+
+
+                $this->load->model('extension/ventocart/shipping/zoneshipping');
+
+                // Get fixed prices for the product
+                $result = $this->model_extension_ventocart_shipping_zoneshipping->getProductFixedWithSku($shippingEntryId);
+
+                if ($result) {
+                    $json['fixedPrices'] = $result;
+                } else {
+                    $json['fixedPrices'] = '';
+                }
+            }
+        }
+
+        // Send JSON response
+        $this->response->addHeader('Content-Type: application/json');
+        $this->response->setOutput(json_encode($json));
+    }
 
     public function getPostalCodes(): void
     {
@@ -196,7 +243,7 @@ class ZoneShipping extends \Ventocart\System\Engine\Controller
         // If no permission error, proceed
         if (!$json) {
             // Validate and sanitize posted data
-            $shippingEntryId = isset ($this->request->post['shipping_entry_id']) ? (int) $this->request->post['shipping_entry_id'] : 0;
+            $shippingEntryId = isset($this->request->post['shipping_entry_id']) ? (int) $this->request->post['shipping_entry_id'] : 0;
 
             // Check if shipping_entry_id is provided
             if ($shippingEntryId == 0) {
@@ -232,7 +279,7 @@ class ZoneShipping extends \Ventocart\System\Engine\Controller
         // If no permission error, proceed
         if (!$json) {
             // Validate and sanitize posted data
-            $displayName = isset ($this->request->post['displayName']) ? $this->request->post['displayName'] : 0;
+            $displayName = isset($this->request->post['displayName']) ? $this->request->post['displayName'] : 0;
 
             // Check if shipping_entry_id is provided
             if ($displayName == 0) {
