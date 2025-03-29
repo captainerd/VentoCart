@@ -117,7 +117,7 @@ class Language extends \Ventocart\System\Engine\Model
 						  vo.group_id, 
 						  " . (int) $language_id . " AS language_id,
 						   vo.option_n
-				 FROM ve_options vo
+				 FROM " . DB_PREFIX . "options vo
 	 
 				 WHERE vo.language_id = " . (int) $this->config->get('config_language_id') . "
 				
@@ -125,7 +125,7 @@ class Language extends \Ventocart\System\Engine\Model
 	 
 				SELECT  " . (int) $this->config->get('config_language_id') . "
 	 
-				FROM ve_options vo_existing
+				FROM " . DB_PREFIX . "options vo_existing
 	 
 				WHERE vo_existing.group_id = vo.group_id
 	 
