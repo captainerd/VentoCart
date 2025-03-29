@@ -134,7 +134,7 @@ class Contact extends \Ventocart\System\Engine\Controller
 		if ((oc_strlen($this->request->post['enquiry']) < 10) || (oc_strlen($this->request->post['enquiry']) > 3000)) {
 			$json['error']['enquiry'] = $this->language->get('error_enquiry');
 		}
-		$from = $this->request->post[$this->session->data['email_token']];
+
 		// Captcha
 		$this->load->model('setting/extension');
 
@@ -149,6 +149,7 @@ class Contact extends \Ventocart\System\Engine\Controller
 		}
 
 		if (!$json) {
+			$from = $this->request->post[$this->session->data['email_token']];
 			if ($this->config->get('config_mail_engine')) {
 				$mail_option = [
 					'parameter' => $this->config->get('config_mail_parameter'),
