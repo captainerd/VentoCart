@@ -134,7 +134,7 @@ class Contact extends \Ventocart\System\Engine\Controller
 		if ((oc_strlen($this->request->post['enquiry']) < 10) || (oc_strlen($this->request->post['enquiry']) > 3000)) {
 			$json['error']['enquiry'] = $this->language->get('error_enquiry');
 		}
-
+		$from = $this->request->post[$this->session->data['email_token']];
 		// Captcha
 		$this->load->model('setting/extension');
 
@@ -162,7 +162,7 @@ class Contact extends \Ventocart\System\Engine\Controller
 				$mail = new \Ventocart\System\Library\Mail($this->config->get('config_mail_engine'), $mail_option);
 				$mail->setTo($this->config->get('config_email'));
 				// Less spam and fix bug when using SMTP like sendgrid.
-				$mail->setFrom($this->config->get('config_email'));
+				$mail->setFrom($from);
 				$mail->setReplyTo($this->request->post[$this->session->data['email_token']]);
 				$mail->setSender(html_entity_decode($this->request->post['name'], ENT_QUOTES, 'UTF-8'));
 				$mail->setSubject(html_entity_decode(sprintf($this->language->get('email_subject'), $this->request->post['name']), ENT_QUOTES, 'UTF-8'));
