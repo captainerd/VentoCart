@@ -38,7 +38,7 @@ class Footer extends \Ventocart\System\Engine\Controller
 
         $sections = [];
         $this->load->model('localisation/language');
-        $language_code = $code = $this->config->get('config_language');
+        $language_code = $this->config->get('config_language');
 
         $languages = $this->model_localisation_language->getLanguages();
         $this->load->bridge('Catalog');
@@ -87,6 +87,7 @@ class Footer extends \Ventocart\System\Engine\Controller
                                     $text = [];
                                     if (isset($languages) && is_array($languages)) {
                                         foreach ($languages as $language) {
+                                            $this->load->language('common/footer', '', $language['code']);
                                             if (isset($language['language_id'])) {
                                                 $text[$language['language_id']][strip_tags($link_matches[2][$key])] = $this->language->get(strip_tags($link_matches[2][$key]));
                                             }
