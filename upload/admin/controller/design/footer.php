@@ -200,21 +200,25 @@ class Footer extends \Ventocart\System\Engine\Controller
         // Language entries processing
         $this->load->model('localisation/language');
         $langfiles = [];
+
+
         foreach ($sections as $section) {
             foreach ($section['text'] as $language_id => $text) {
                 $language_code = $this->model_localisation_language->getLanguage($language_id)['code'];
-                $langfiles[$language_code][$section['text_key']] = reset($text);
+                $langfiles[$language_code][$section['text_key']] = $text[$section['text_key']];
             }
 
             foreach ($section['links'] as $link) {
                 foreach ($link['text'] as $language_id => $text) {
+
                     $language_code = $this->model_localisation_language->getLanguage($language_id)['code'];
-                    $langfiles[$language_code][$link['text_key']] = reset($text);
+                    $langfiles[$language_code][$link['text_key']] = $text[$link['text_key']];
                 }
             }
         }
 
         foreach ($langfiles as $code => $texts) {
+
             $footer_file = DIR_CATALOG . "language/" . $code . "/common/footer.php";
             $new_content = "<?php\r\n";
 
