@@ -588,7 +588,7 @@ class FileManager extends \Ventocart\System\Engine\Controller
 
 					// If directory use the remove directory function
 					if (is_dir($file)) {
-						rmdir($file);
+						$this->deleteDirectory($file);
 					}
 				}
 			}
@@ -598,5 +598,31 @@ class FileManager extends \Ventocart\System\Engine\Controller
 
 		$this->response->addHeader('Content-Type: application/json');
 		$this->response->setOutput(json_encode($json));
+	}
+
+	private function deleteDirectory(string $dir): bool
+	{
+		if (!is_dir($dir)) {
+			return false;
+		}
+
+		$items = scandir($dir);
+		foreach ($items as $item) {
+			if ($item === '.' || $item === '..') {
+				continue;
+			}
+
+			$path = $dir . DIRECTORY_SEPARATOR . $item;
+			if (is_dir($path)) {
+				// Recursively delete subdirectories
+				$this->deleteDirectory($path);
+			} else {
+				// Delete file
+				unlink($path);
+			}
+		}
+
+		// Remove the directory itself
+		return rmdir($dir);
 	}
 }
