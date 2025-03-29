@@ -104,6 +104,8 @@ img {
     // Initialize variables
 var cropper = null;
 var image = null;
+var tempFiles = [];
+var atFile = -1;
 var save = document.querySelector('.save');
 var dwn = document.querySelector('.download');
 var cropped = null;
@@ -251,7 +253,7 @@ save.addEventListener('click', function (e) {
     let imgSrc = cropper.getCroppedCanvas({}).toDataURL();
     
     // Show cropped image
-    $('#mod-content').show();
+ 
     cropped.src = imgSrc;
    
     dwn.download = $('#cropper').data('filename');
@@ -272,6 +274,7 @@ if (directory) {
     
     url += '&directory=' + encodeURIComponent(directory);
 }
+   
  
 
     // Make an AJAX request to upload the image
@@ -294,15 +297,15 @@ if (directory) {
                      //remove cropper generated html
     
                 $('.result').html('');
-                cropper.destroy(); //destroy old cropper.
-                $('#cropper').hide();  
+                   $('#mod-content').show();
+cropAndSnapShot();
                 alert(json['error']);
             }
             if (json['success']) {
            
                 //remove cropper generated html
-                cropper.destroy(); //destroy old cropper.
-                $('#cropper').hide();  
+           $('#mod-content').show();
+cropAndSnapShot();
                 $('.result').html('');
                 $('#button-refresh').trigger('click');
                 setTimeout(() => {
@@ -380,6 +383,7 @@ if ($('#input-directory').val()) {
   });
 
   $('#modal-image').on('click', '#button-upload', function () {
+      
   var snapshotFile = null
       $('#form-upload').remove();
 
@@ -388,122 +392,15 @@ if ($('#input-directory').val()) {
       $('#form-upload input[name=\'file[]\']').trigger('click');
 
       $('#form-upload input[name=\'file[]\']').on('change', function () {
+     tempFiles = this.files;
+     atFile = -1;
  
-        
-
-
-          for (i = 0; i < this.files.length; i++) {
-
-              if ((this.files[0].size / 1024) > {{ config_file_max_size }}) {
-                  $(this).val('');
-
-                  alert('{{ error_upload_size }}');
-              }
-  var file = this.files[0]; // Get the selected file
-let videoExt = ['avi', 'mp4', 'mkv']; // Allowed video extensions
- var snapshotFile = null
-// File extension check
-let fileExtension = file.name.split('.').pop().toLowerCase(); // Extract file extension
- 
-  if (videoExt.includes(fileExtension)) {
-            // Create video and canvas elements on the fly
-            let video = document.createElement('video');
-            let canvas = document.createElement('canvas');
-            let ctx = canvas.getContext('2d');
- 
-            // Set up the video
-            video.src = URL.createObjectURL(file);
-            video.muted = true; // Mute video to avoid autoplay sound issues
-            video.playsInline = true; // For consistent behavior across devices
-
-            // Wait for the video to load metadata
-            video.addEventListener('loadeddata', function () {
-                    // Get the duration of the video
-    let videoDuration = video.duration;
-
-    // Calculate snapshot time as 20% of the video's duration or use 3 seconds as a fallback
-    let snapshotTime = Math.min(videoDuration * 0.2, 3);
-                video.currentTime = snapshotTime; // Seek to 3 second to ensure the video has loaded enough frames
-            });
-
-            // Capture the snapshot when the video is ready
-            video.addEventListener('seeked', function () {
-                // Set canvas dimensions to match video
-                canvas.width = video.videoWidth;
-                canvas.height = video.videoHeight;
- 
-                // Draw the video frame on the canvas
-                ctx.drawImage(video, 0, 0, video.videoWidth, video.videoHeight);
-
-                // Convert canvas to a Blob
-                canvas.toBlob(function (blob) {
-                    // Create a new file object for the snapshot
-                   let originalFileName = file.name.substring(0, file.name.lastIndexOf('.')) || file.name;
-    
-    // Create the snapshot file with the original base name and .png extension
-    snapshotFile = new File([blob], `${originalFileName}.png`, { type: 'image/png' });
-
-   let formData = new FormData( );
-              formData.append('file[]', snapshotFile);
-
-                        // Proceed with upload
-                        uploadFiles(formData);
-                    // Log the form data or send it via AJAX
-                    console.log('Snapshot added to upload:', snapshotFile);
-
-                    // Optional: Clean up
-                    URL.revokeObjectURL(video.src);
-                }, 'image/png');
-            });
-
-            // Start video loading
-            video.load();
-        }
-
-
-
-
-  //We only crop images to keep ratio for catalog (products, categories)
-  if (file && window.location.href.indexOf("index.php?route=catalog") !== -1) {
-
-$('#cropper').data('filename', file.name);
-image = new Image();
-image.src = URL.createObjectURL(file);
-
-image.onload = function() {
-  var width = this.width;
-  var height = this.height;
-  var ratio = width / height;
-
-  if (ratio != 1) {
-    // Ask for confirmation
-    var userConfirmed = window.confirm("{{confirm_image_crop}}");
-    
-    if (userConfirmed) {
-      $('#mod-content').hide();
-      $('#cropper').show();
-
-      result = document.querySelector('.result');
-      img_result = document.querySelector('.img-result');
-      cropped = document.querySelector('.cropped');
-      result.appendChild(image);
-      cropper = new Cropper(image, {
-        aspectRatio: 1, 
-        viewMode: 1, 
-      });
-
-      $('#form-upload input[name=\'file[]\']').val('');
-    } else {
-      // If the user cancels, you can add any other logic here
-      // For example, do not proceed with any cropping-related actions
-    }
-    return; // Since ratio != 1 it needs cropping before uploading.
-  }
-};
-}
-
- }
+cropAndSnapShot();
 });
+
+
+
+ 
 
       if (typeof timer != 'undefined') {
           clearInterval(timer);
@@ -518,6 +415,7 @@ image.onload = function() {
           }
       }, 500);
   });
+ 
 function uploadFiles(formData) {
         let url = 'index.php?route=common/filemanager.upload&user_token={{ user_token }}';
         let directory = $('#input-directory').val();
@@ -545,6 +443,7 @@ function uploadFiles(formData) {
         });
     }
   $('#modal-image').on('click', '#button-folder', function () {
+        
       $('#modal-folder').slideToggle();
   });
 
@@ -583,6 +482,8 @@ function uploadFiles(formData) {
   });
 
   $('#modal-image').on('click', '#button-delete', function (e) {
+
+   
       if (confirm('{{ text_confirm }}')) {
           $.ajax({
               url: 'index.php?route=common/filemanager.delete&user_token={{ user_token }}',
@@ -614,6 +515,7 @@ function uploadFiles(formData) {
   });
 
   $('#modal-image').on('click', 'a.directory', function (e) {
+    
       e.preventDefault();
       $('#modal-image .modal-body').load($(this).attr('href'));
   });
@@ -675,7 +577,9 @@ $('{{ target|escape('js') }}').val('catalog/'+ $(this).find('.form-check-input')
   
  
   $('#cropper').on('click', '.cancelcrop', function () {
-    $('#cropper').hide();
+   
+cropAndSnapShot();
+   
     $('#mod-content').show();
   });
   $('#modal-image').on('click', '#button-crop', function () {
@@ -726,6 +630,142 @@ $('#clear-button').click(function() {
     // Clear the aspect ratio constraint
     cropper.setAspectRatio(eval('0/0'));
 });
+
+
+  
+ function cropAndSnapShot() {
+    atFile++;
+    if (cropper) {
+        cropper.destroy(); //destroy old cropper.
+        $('#cropper').hide();
+    }
+
+    if (!tempFiles?.[atFile]) {
+       
+        return;
+    }
+
+     if ((tempFiles[atFile].size / 1024) > {{ config_file_max_size }}) { 
+       $(this).val('');
+       alert('{{ error_upload_size }}');
+     }
+
+    var file = tempFiles[atFile]; // Get the selected file
+    let videoExt = ['avi', 'mp4', 'mkv']; // Allowed video extensions
+    var snapshotFile = null
+    // File extension check
+    let fileExtension = file.name.split('.').pop().toLowerCase(); // Extract file extension
+
+    if (videoExt.includes(fileExtension)) {
+        // Create video and canvas elements on the fly
+        let video = document.createElement('video');
+        let canvas = document.createElement('canvas');
+        let ctx = canvas.getContext('2d');
+
+        // Set up the video
+        video.src = URL.createObjectURL(file);
+        video.muted = true; // Mute video to avoid autoplay sound issues
+        video.playsInline = true; // For consistent behavior across devices
+
+        // Wait for the video to load metadata
+        video.addEventListener('loadeddata', function() {
+            // Get the duration of the video
+            let videoDuration = video.duration;
+
+            // Calculate snapshot time as 20% of the video's duration or use 3 seconds as a fallback
+            let snapshotTime = Math.min(videoDuration * 0.2, 3);
+            video.currentTime = snapshotTime; // Seek to 3 second to ensure the video has loaded enough frames
+        });
+
+        // Capture the snapshot when the video is ready
+        video.addEventListener('seeked', function() {
+            // Set canvas dimensions to match video
+            canvas.width = video.videoWidth;
+            canvas.height = video.videoHeight;
+
+            // Draw the video frame on the canvas
+            ctx.drawImage(video, 0, 0, video.videoWidth, video.videoHeight);
+
+            // Convert canvas to a Blob
+            canvas.toBlob(function(blob) {
+                // Create a new file object for the snapshot
+                let originalFileName = file.name.substring(0, file.name.lastIndexOf('.')) || file.name;
+
+                // Create the snapshot file with the original base name and .png extension
+                snapshotFile = new File([blob], `${originalFileName}.png`, {
+                    type: 'image/png'
+                });
+
+                let formData = new FormData();
+                formData.append('file[]', snapshotFile);
+
+                // Proceed with upload
+                uploadFiles(formData);
+                // Log the form data or send it via AJAX
+                console.log('Snapshot added to upload:', snapshotFile);
+
+                // Optional: Clean up
+                URL.revokeObjectURL(video.src);
+            }, 'image/png');
+        });
+
+        // Start video loading
+        video.load();
+    }
+
+    //We only crop images to keep ratio for catalog (products, categories)
+    if (file && window.location.href.indexOf("index.php?route=catalog") !== -1) {
+
+        $('#cropper').data('filename', file.name);
+        let image = new Image();
+        image.src = URL.createObjectURL(file);
+
+        image.onload = function() {
+            var width = this.width;
+            var height = this.height;
+            var ratio = width / height;
+
+            if (ratio != 1) {
+                // Ask for confirmation
+                var userConfirmed = window.confirm("{{confirm_image_crop}} \r\rFile: " + file.name);
+
+                if (userConfirmed) {
+                    $('#mod-content').hide();
+                    $('#cropper').show();
+
+                    result = document.querySelector('.result');
+                    img_result = document.querySelector('.img-result');
+                    cropped = document.querySelector('.cropped');
+                    result.appendChild(image);
+                    cropper = new Cropper(image, {
+                        aspectRatio: 1,
+                        viewMode: 1,
+                    });
+                        $('#form-upload input[name="file[]"]')[0].files = (function () {
+                          const dataTransfer = new DataTransfer();
+                         Array.from($('#form-upload input[name="file[]"]')[0].files)
+                        .filter(f => f.name !== file.name) // Filter out the file
+                        .forEach(f => dataTransfer.items.add(f));  
+
+                           return dataTransfer.files; // Return the new FileList
+                        })();
+                } else {
+                      
+          
+                        cropAndSnapShot();
+                    
+                }
+                //return; // Since ratio != 1 it needs cropping before uploading.
+            } else {
+                if (atFile < files.length - 1) {
+
+                    cropAndSnapShot();
+                }
+            }
+        };
+    }
+
+}
 
  </script>
 </div> 
