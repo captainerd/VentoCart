@@ -110,8 +110,8 @@ class Footer extends \Ventocart\System\Engine\Controller
             $this->bridge->kill();
         }
 
-        $lang = $this->model_localisation_language->getLanguageByCode($_COOKIE['language']);
-        $data['mylangid'] = $lang['language_id'];
+
+        $data['mylangid'] = $this->config->get('config_language_id');
 
         $data['languages'] = $languages;
         $data['sections'] = $sections;
