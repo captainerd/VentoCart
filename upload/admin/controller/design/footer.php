@@ -62,11 +62,10 @@ class Footer extends \Ventocart\System\Engine\Controller
                             if (isset($languages) && is_array($languages)) {
                                 foreach ($languages as $language) {
                                     if (isset($language['code']) && isset($language['language_id'])) {
-                                        if (isset($language_code) && $language_code == $language['code']) {
-                                            $data['mylangid'] = $language['language_id'];
-                                        }
+
                                         $this->load->language('common/footer', '', $language['code']);
                                         $section['text'][$language['language_id']][strip_tags($title_match[1])] = $this->language->get(strip_tags($title_match[1]));
+                                        $this->load->language('common/footer');
                                     }
                                 }
                             }
@@ -110,6 +109,9 @@ class Footer extends \Ventocart\System\Engine\Controller
 
             $this->bridge->kill();
         }
+
+        $lang = $this->model_localisation_language->getLanguageByCode($_COOKIE['language']);
+        $data['mylangid'] = $lang['language_id'];
 
         $data['languages'] = $languages;
         $data['sections'] = $sections;
