@@ -7,7 +7,7 @@ namespace Ventocart\Catalog\Controller\Startup;
  */
 class Application extends \Ventocart\System\Engine\Controller
 {
-	private $dbquery;
+
 	/**
 	 * @return void
 	 */
