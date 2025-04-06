@@ -99,7 +99,46 @@ class Loader
 	}
 
 
+	/**
+	 * postrender
+	 *
+	 * Finds any placeholder directives like [controller=information/contact]
+	 * and replaces them with the rendered output of the specified controller.
+	 *
+	 * @param array $data
+	 * @return array
+	 */
+	protected function postrender(array $data): array
+	{
 
+		array_walk_recursive($data, function (&$value) {
+
+			if (is_string($value) && preg_match_all('/\[controller=([^,\]]+)((?:,[^\]]+)*)\]/', $value, $matches, PREG_SET_ORDER)) {
+				foreach ($matches as $match) {
+
+					$route = $match[1];
+					$params = [];
+
+					if (!empty($match[2])) {
+						$parts = explode(',', ltrim($match[2], ','));
+						foreach ($parts as $part) {
+							[$k, $v] = explode('=', $part, 2);
+							$params[$k] = $v;
+						}
+					}
+
+					$result = $this->load->controller($route, $params);
+
+
+					if ($result) {
+						$value = str_replace($match[0], $result, $value);
+					}
+				}
+			}
+		});
+
+		return $data;
+	}
 	/**
 	 * Model
 	 *
@@ -137,6 +176,8 @@ class Loader
 	 */
 	public function view(string $route, array $data = [], string $code = ''): string
 	{
+		// Apply postrender controller injection before rendering
+		$data = $this->postrender($data);
 
 		$this->registry->event->trigger($this->config->get('application') . '/view/' . $route . '/before', [&$data]);
 		$output = $this->template->render($route, $data + $this->language->data, $code);
