@@ -550,17 +550,4 @@ return array(
           'sort_order' => '1',
         ),
     ),
-  'Catalog/model/checkout/order/deleteOrder/before' =>
-    array(
-      0 =>
-        array(
-          'event_id' => 46,
-          'code' => 'paypal_order_delete_order',
-          'description' => '',
-          'trigger' => 'catalog/model/checkout/order/deleteOrder/before',
-          'action' => 'extension/paypal/payment/paypal.order_delete_order_before',
-          'status' => true,
-          'sort_order' => 5,
-        ),
-    ),
 );
