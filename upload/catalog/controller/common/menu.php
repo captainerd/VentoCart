@@ -101,7 +101,7 @@ class Menu extends \Ventocart\System\Engine\Controller
 				'image' => $category['image'],
 				'children' => $children_data,
 				'column' => $category['column'] ? $category['column'] : 1,
-				'href' => (strpos($category['redirect_url'], 'http') === 0)
+				'href' => (strpos($category['redirect_url'], 'http') === 0 || strpos($category['redirect_url'], '/') === 0)
 					? $category['redirect_url']
 					: $this->url->link($category['redirect_url'] ? $category['redirect_url'] : 'product/category' . '&path=' . $category['path'])
 			];
