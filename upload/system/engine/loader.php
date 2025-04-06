@@ -102,7 +102,7 @@ class Loader
 	/**
 	 * postrender
 	 *
-	 * Finds any placeholder directives like [controller=information/contact]
+	 * Finds any placeholder directives like [plugin=information/contact]
 	 * and replaces them with the rendered output of the specified controller.
 	 *
 	 * @param array $data
@@ -110,10 +110,12 @@ class Loader
 	 */
 	protected function postrender(array $data): array
 	{
-
+		if (APPLICATION == 'Admin') {
+			return $data;
+		}
 		array_walk_recursive($data, function (&$value) {
 
-			if (is_string($value) && preg_match_all('/\[controller=([^,\]]+)((?:,[^\]]+)*)\]/', $value, $matches, PREG_SET_ORDER)) {
+			if (is_string($value) && preg_match_all('/\[plugin=([^,\]]+)((?:,[^\]]+)*)\]/', $value, $matches, PREG_SET_ORDER)) {
 				foreach ($matches as $match) {
 
 					$route = $match[1];

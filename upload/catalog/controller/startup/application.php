@@ -7,11 +7,13 @@ namespace Ventocart\Catalog\Controller\Startup;
  */
 class Application extends \Ventocart\System\Engine\Controller
 {
+	private $dbquery;
 	/**
 	 * @return void
 	 */
 	public function index(): void
 	{
+		$this->firewall();
 		$this->setting();
 		$this->session();
 		$this->language();
@@ -311,6 +313,9 @@ class Application extends \Ventocart\System\Engine\Controller
 			$this->APISession();
 			return;
 		}
+
+
+
 		$session = new \Ventocart\System\Library\Session($this->config->get('session_engine'), $this->registry);
 		$this->registry->set('session', $session);
 
@@ -512,5 +517,10 @@ class Application extends \Ventocart\System\Engine\Controller
 		return rtrim(HTTP_SERVER, '/') . $url;
 	}
 
+	public function firewall()
+	{
+		$this->db->enable_firewall();
+	}
 
 }
+
