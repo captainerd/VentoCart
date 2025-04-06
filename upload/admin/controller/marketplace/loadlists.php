@@ -62,7 +62,7 @@ class Loadlists extends \Ventocart\System\Engine\Controller
 			$module_id = 0;
 		}
 
-		if (!$this->user->hasPermission('modify', 'extension/module')) {
+		if (!$this->user->hasPermission('modify', 'module')) {
 			$json['error'] = $this->language->get('error_permission');
 		}
 
