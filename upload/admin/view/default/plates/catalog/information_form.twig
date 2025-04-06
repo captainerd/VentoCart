@@ -12,7 +12,7 @@
         {% endfor %}
       </ol>
     </div>
-  </div>
+  </div> 
   <div class="container-fluid">
     <div class="card">
       <div class="card-header"><i class="fa-solid fa-pencil"></i> {{ text_form }}</div>
@@ -28,10 +28,18 @@
                <input type="hidden" name="bottom" value="0"/>
                     <input type="hidden" name="bottom" value="1" id="input-bottom" class="form-check-input"{% if bottom %} checked{% endif %}/>
                
-                
-                
-            
-              <div class="row mb-3">
+<div class="accordion mb-3" id="settingsAccordion">
+    <div class="accordion-item">
+        <h2 class="accordion-header" id="headingSettings">
+            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSettings" aria-expanded="false" aria-controls="collapseSettings">
+       <i class="fa fa-cogs ms-3 me-2 fs-4 text-primary" style="cursor: pointer;"></i>  {{ button_settings }}
+            </button>
+        </h2>
+        <div id="collapseSettings" class="accordion-collapse collapse" aria-labelledby="headingSettings" data-bs-parent="#settingsAccordion">
+            <div class="accordion-body">
+
+
+                      <div class="row mb-3">
                 <label for="input-status" class="col-sm-2 col-form-label">{{ entry_status }}</label>
                 <div class="col-sm-10">
                   <div class="form-check form-switch form-switch-lg">
@@ -40,12 +48,57 @@
                   </div>
                 </div>
               </div>
-              <div class="row mb-3">
+<div class="row mb-3">
+    <label for="input-status" class="col-sm-2 col-form-label">{{ entry_top_menu }}</label>
+    <div class="col-sm-10">
+        <div class="form-check form-switch form-switch-lg">
+            <input type="hidden" name="topmenu" value="0"/>
+            <input type="checkbox" name="topmenu" value="1" id="input-status" class="form-check-input" {% if topmenu == 1 %} checked{% endif %}/>
+        </div>
+    </div>
+ 
+    <label for="input-parent" class="col-sm-2 col-form-label">{{ entry_parent }}</label>
+    <div class="col-sm-10">
+        <div class="input-group">
+            <input type="text" name="path" value="{{ parent_name }}" placeholder="{{ entry_parent }}" id="input-parent" data-oc-target="autocomplete-parent" class="form-control" autocomplete="off"/>
+            <input type="hidden" name="parent_id" value="{{ parent_id }}" id="input-parent-id"/>
+            <div class="input-group-append">
+                <button class="btn btn-outline-secondary" type="button" id="input-parent-select">{{ button_select }}</button>
+            </div>
+        </div>
+        <ul id="autocomplete-parent" class="dropdown-menu"></ul>
+        <div class="form-text">{{ help_parent }}</div>
+        <div id="error-parent" class="invalid-feedback"></div>
+    </div>
+</div>
+ <div class="row mb-3">
+            <label for="input-footer-link" class="col-sm-2 col-form-label">{{ entry_footer_link }}</label>
+<div class="col-sm-10">
+    <div class="input-group">
+        <input type="text" name="footer_link" value="{{ footer_link_name }}" placeholder="{{ entry_footer_link }}" id="input-footer-link" data-oc-target="autocomplete-footer-link" class="form-control" autocomplete="off"/>
+        <input type="hidden" name="footer_link_id" value="{{ footer_link_id }}" id="input-footer-link-id"/>
+        <div class="input-group-append">
+            <button class="btn btn-outline-secondary" type="button" id="input-footer-link-select">{{ button_select }}</button>
+        </div>
+    </div>
+    <ul id="autocomplete-footer-link" class="dropdown-menu"></ul>
+    <div class="form-text">{{ help_footer_link }}</div>
+    <div id="error-footer-link" class="invalid-feedback"></div>
+</div></div>
+
+            <div class="row mb-3">
                 <label for="input-sort-order" class="col-sm-2 col-form-label">{{ entry_sort_order }}</label>
                 <div class="col-sm-10">
                   <input type="text" name="sort_order" value="{{ sort_order }}" placeholder="{{ entry_sort_order }}" id="input-sort-order" class="form-control"/>
                 </div>
               </div>
+
+
+           </div>
+        </div>
+    </div>
+</div>
+           
               
               <ul class="nav nav-tabs">
                 {% for language in languages %}
@@ -127,6 +180,63 @@
   </div>
 </div>
 <script ><!--
+
+
+$('#input-parent').autocomplete({
+    'source': function (request, response) {
+        $.ajax({
+            url: 'index.php?route=catalog/category.autocomplete&user_token={{ user_token }}&filter_name=' + encodeURIComponent(request),
+            dataType: 'json',
+            success: function (json) {
+                json.unshift({
+                    'name': '{{ text_none }}',
+                    'category_id': '0'
+                });
+
+                response($.map(json, function (item) {
+                    return {
+                        value: item['category_id'],
+                        label: item['name']
+                    }
+                }));
+            }
+        });
+    },
+    'select': function (item) {
+        $('#input-parent').val(item['label']);
+        $('#input-parent-id').val(item['value']);
+    }
+});
+
+$('#input-footer-link').autocomplete({
+    'source': function (request, response) {
+        $.ajax({
+            url: 'index.php?route=design/footer.autocomplete&user_token={{ user_token }}&filter_name=' + encodeURIComponent(request),
+            dataType: 'json',
+            success: function (json) {
+                // If you want to add an option like 'None' or a default empty entry, you can unshift it here
+                json.unshift({
+                    'name': '{{ text_none }}',
+                    'key': '0'
+                });
+
+                // Map the response into the format the autocomplete expects
+                response($.map(json, function (item) {
+                    return {
+                        value: item['key'],   // Using the 'key' for the hidden field
+                        label: item['name']   // Using the 'name' for the visible label
+                    }
+                }));
+            }
+        });
+    },
+    'select': function (item) {
+        // When an item is selected, set the input value and the hidden ID field
+        $('#input-footer-link').val(item['label']); // Set the visible input field to the selected label (name)
+        $('#input-footer-link-id').val(item['value']); // Set the hidden input field to the selected key
+    }
+});
+
   initTinyMCE();
 //--></script>
 {{ footer }} 

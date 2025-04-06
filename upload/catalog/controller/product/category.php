@@ -162,15 +162,18 @@ class Category extends \Ventocart\System\Engine\Controller
 			$results = $this->model_catalog_category->getCategories($category_id);
 
 			foreach ($results as $result) {
-
+				// Skip the result if it has a redirect_url
+				if (!empty($result['redirect_url'])) {
+					continue; // Skip to the next iteration
+				}
 				$filter_data = [
 					'filter_category_id' => $result['category_id'],
 					'filter_sub_category' => false
 				];
 
 				$data['categories'][] = [
-					'name' => !empty($result['redirect_url']) ? $result['name'] : $result['name'] . ($this->config->get('config_product_count') ? ' (' . $this->model_catalog_product->getTotalProducts($filter_data) . ')' : ''),
-					'href' => !empty($result['redirect_url']) ? $result['redirect_url'] : $this->url->link('product/category', 'path=' . $this->request->get['path'] . '_' . $result['category_id'] . $url)
+					'name' => $result['name'] . ($this->config->get('config_product_count') ? ' (' . $this->model_catalog_product->getTotalProducts($filter_data) . ')' : ''),
+					'href' => $this->url->link('product/category', 'path=' . $this->request->get['path'] . '_' . $result['category_id'] . $url)
 				];
 			}
 

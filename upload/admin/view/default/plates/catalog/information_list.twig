@@ -1,10 +1,6 @@
 <form id="form-information" method="post" data-oc-toggle="ajax" data-oc-load="{{ action }}" data-oc-target="#information">
 	<div class="table-responsive">
-	<div class="alert alert-info alert-dismissible   show" role="alert">
-    <i class="fas fa-info-circle me-2"></i>
-    {{ help_footer }}
-    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-</div>
+ 
 
 		<table class="table table-bordered table-hover">
 			<thead>
@@ -12,7 +8,7 @@
 					<td class="text-center" style="width: 1px;"><input type="checkbox" onclick="$('input[name*=\'selected\']').prop('checked', $(this).prop('checked'));" class="form-check-input"/></td>
 					<td class="text-start"><a href="{{ sort_title }}"{% if sort == 'id.title' %} class="{{ order|lower }}"{% endif %}>{{ column_title }}</a></td>
 					<td class="text-end"><a href="{{ sort_sort_order }}"{% if sort == 'i.sort_order' %} class="{{ order|lower }}"{% endif %}>{{ column_sort_order }}</a></td>
-					<td class="text-start">Route</td> <!-- Added Route column header -->
+			 
 					<td class="text-end">{{ column_action }}</td>
 				</tr>
 			</thead>
@@ -23,18 +19,7 @@
 							<td class="text-center"><input type="checkbox" name="selected[]" value="{{ information.information_id }}" class="form-check-input"/></td>
 							<td class="text-start">{{ information.title }}</td>
 							<td class="text-end">{{ information.sort_order }}</td>
-							<td class="text-start">
-								<!-- Button that shows the route and copies it to clipboard -->
-								<button 
-									class="btn btn-light float-end copy-route-btn" 
-									data-route="information/information&information_id={{ information.information_id }}" 
-									title="Click to Copy Route"
-								>
-									<i class="fas fa-link"></i> 
-									<span class="route-text">information/information&information_id={{ information.information_id }}</span> 
-									<i class="fas fa-copy ms-2"></i> <!-- FontAwesome Copy icon -->
-								</button>
-							</td> <!-- Added the route column -->
+						 
 							<td class="text-end">
 								<a href="{{ information.edit }}" data-bs-toggle="tooltip" title="{{ button_edit }}" class="btn btn-primary">
 									<i class="fa-solid fa-pencil"></i>
@@ -56,28 +41,4 @@
 	</div>
 </form>
 
-<!-- Script to handle copy to clipboard -->
-<script>
-	document.addEventListener('DOMContentLoaded', function () {
-		// Adding click event to all buttons with the class 'copy-route-btn'
-		const copyBtns = document.querySelectorAll('.copy-route-btn');
-
-		copyBtns.forEach(button => {
-			button.addEventListener('click', function() {
-				// Get the route from data-route attribute
-				const route = button.getAttribute('data-route');
-				
-				// Create a temporary input element to copy the route
-				const tempInput = document.createElement('input');
-				document.body.appendChild(tempInput);
-				tempInput.value = route;
-				tempInput.select();
-				document.execCommand('copy'); // Copy the content to clipboard
-				document.body.removeChild(tempInput);
-
-				// Optionally, you can alert the user or change the button's appearance
-				alert('{{ text_copied }} :\r ' + route);
-			});
-		});
-	});
-</script>
+ 

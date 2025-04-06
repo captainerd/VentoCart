@@ -93,10 +93,7 @@ class Menu extends \Ventocart\System\Engine\Controller
 
 		foreach ($categories as $category) {
 
-
 			$children_data = $this->buildMenu($category['category_id']);
-
-
 
 			$menu[] = [
 				'name' => $category['name'],
@@ -104,7 +101,9 @@ class Menu extends \Ventocart\System\Engine\Controller
 				'image' => $category['image'],
 				'children' => $children_data,
 				'column' => $category['column'] ? $category['column'] : 1,
-				'href' => strlen($category['redirect_url']) > 0 ? $category['redirect_url'] : $this->url->link('product/category' . '&path=' . $category['path'])
+				'href' => (strpos($category['redirect_url'], 'http') === 0)
+					? $category['redirect_url']
+					: $this->url->link($category['redirect_url'] ? $category['redirect_url'] : 'product/category' . '&path=' . $category['path'])
 			];
 
 		}

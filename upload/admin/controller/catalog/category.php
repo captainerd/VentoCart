@@ -126,12 +126,16 @@ class Category extends \Ventocart\System\Engine\Controller
 
 		foreach ($results as $result) {
 
+			// Initialize category data
 			$data['categories'][$result['category_id']] = [
 				'category_id' => (int) $result['category_id'],
 				'parent_id' => (int) $result['parent_id'],
 				'name' => $result['name'],
 				'sort_order' => (int) $result['sort_order'],
-				'edit' => $this->url->link('catalog/category.form', 'user_token=' . $this->session->data['user_token'] . '&category_id=' . $result['category_id'] . $url)
+				// Adjust edit link based on the presence of a [link=...] in meta_title
+				'edit' => (preg_match('/\[link=(.*?)\]/', $result['meta_title'], $matches) && $this->toAdminPath($matches[1]))
+					? $this->url->link($this->toAdminPath($matches[1]), 'user_token=' . $this->session->data['user_token'] . $url) // Use the extracted URL
+					: $this->url->link('catalog/category.form', 'user_token=' . $this->session->data['user_token'] . '&category_id=' . $result['category_id'] . $url)
 			];
 		}
 
@@ -173,6 +177,22 @@ class Category extends \Ventocart\System\Engine\Controller
 		$data['order'] = "ASC";
 
 		return $this->load->view('catalog/category_list', $data);
+	}
+	private function toAdminPath($link)
+	{
+
+		// If it starts with "information&", replace with "catalog/information.form&"
+		if (strpos($link, 'information/information&') === 0) {
+			return 'catalog/information.form&' . substr($link, strlen('information&'));
+		}
+
+		// If it starts with "cms/blog.info&", replace with "cms/article.form&"
+		if (strpos($link, 'cms/blog.info&') === 0) {
+			return 'cms/article.form&' . substr($link, strlen('cms/blog.info&'));
+		}
+
+		// Return the link as is if no conditions match
+		return false;
 	}
 
 	public function form(): void

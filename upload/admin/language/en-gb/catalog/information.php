@@ -14,7 +14,10 @@ $_['text_copied'] = 'Route copied to clipboard';
 $_['column_title'] = 'Information Title';
 $_['column_sort_order'] = 'Sort Order';
 $_['column_action'] = 'Action';
-
+$_['entry_parent'] = 'Parent:';
+$_['button_settings'] = 'Settings';
+$_['entry_top_menu'] = 'Top Menu';
+$_['entry_footer_link'] = 'Footer Parent';
 // Entry
 $_['entry_title'] = 'Information Title';
 $_['entry_description'] = 'Description';
@@ -28,9 +31,6 @@ $_['entry_status'] = 'Status';
 $_['entry_sort_order'] = 'Sort Order';
 $_['entry_layout'] = 'Layout Override';
 
-// Help
-$_['help_bottom'] = 'Display in the bottom footer.';
-$_['help_footer'] = 'To add an information article to the footer links, click on its route to copy it, then navigate to <strong>Design > Footer Links</strong> to paste it.';
 
 // Error
 $_['error_warning'] = 'Warning: Please check the form carefully for errors!';

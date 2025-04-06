@@ -1,3 +1,47 @@
+## 🚀 What's New in VentoCart v7.0.1.0
+
+### 🎉 Feature: Menu-Ready Articles  
+Making **Vento** turn into **VentoCMS** too! 
+Now you can control menus with your articles (information pages) in a proper CMS-style workflow. 
+Stick them to the **top menu** or the **footer** directly from the article editor, no detours. 
+Ordering? Drag & drop still rules — from **Catalog → Categories** for top menu, or **Design → Footer** for the footer one.
+
+Also added a shiny new accordion **“Settings” section** inside the Admin → Catalog → Information form to group both the new and old settings in a clean, polished way.
+
+#### Heads-up:  
+- From now on, **categories that are redirects or articles (not product-related)** are hidden from product category pagination. Keep it relevant.
+
+### 🐛 BugFix: Category Path Updates  
+- Fixed a sneaky little bug where changing a category’s parent didn’t update its full path — especially when there were long ancestral bloodlines. 
+**Pathfinding: now smarter, less awkward.**
+
+### 🌐 BugFix: Admin Language Switching  
+- Switching the admin language… actually switches now. It was more of a placebo before.
+
+### 🧹 BugFix & Refactor: Footer Logic Overhaul  
+- All logic related to updating and retrieving footer content in Admin → Design → Footer has been moved to its **own dedicated model file**, like it should’ve been since forever. 
+- **Language-aware footer sections**: The footer now adapts to the admin’s selected language. Multilingual clarity, restored.
+
+### 📧 BugFix: Contact Form Email  
+- The **“From”** address now correctly reflects the email provided by the customer. No more sending emails on behalf of nobody.
+
+### 🌍 BugFix: Add New Language  
+- Fixed an error in Admin → System → Localisation → Languages where adding a new language would throw a tantrum. All calm now.
+
+### 🖼️ BugFix: Multi-File Crop  
+- You can now crop multiple uploaded images one by one. No more stopping after the first — **mass upload, mass crop** 
+
+### 🧹 BugFix: Recursive Directory Delete  
+Fixed an issue where File Manager would refuse to delete folders that weren’t empty.  Now it recursively deletes like a champ (responsibly, of course).
+
+## Other:
+
+Migration: No database schema change, so a c/p or upgrade click via admin should be enough.
+
+Bug Report Credits: BlackSoll21 
+
+---
+
 #### **What's New in VentoCart v7.0.0.2**
 
 ### **New Features**

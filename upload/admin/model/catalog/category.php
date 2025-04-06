@@ -108,14 +108,12 @@ class Category extends \Ventocart\System\Engine\Model
 		}
 		$path_old = $this->getCategoryPath($category_id);
 
-		$path_new = $this->getCategoryPath($data['parent_id']) . "_" . $category_id;
+		$path_new = $this->getCategoryPerentPath($data['parent_id']) . "_" . $category_id;
 		if ($data['parent_id'] == 0) {
 			$path_new = $category_id; // skip because we dont have parent
 		}
 
 		$this->db->query("UPDATE `" . DB_PREFIX . "category` SET `parent_id` = '" . (int) $data['parent_id'] . "', `top` = '" . (isset($data['top']) ? (int) $data['top'] : 0) . "', `column` = '" . (int) $data['column'] . "', `sort_order` = '" . (int) $data['sort_order'] . "', `status` = '" . (bool) (isset($data['status']) ? $data['status'] : 0) . "', `date_modified` = NOW() WHERE `category_id` = '" . (int) $category_id . "'");
-
-		// Get the new path after the update
 
 
 		// Update the category with the new path
@@ -267,11 +265,11 @@ class Category extends \Ventocart\System\Engine\Model
 	public function deleteCategory(int $category_id): void
 	{
 		$query = $this->db->query("
-		SELECT * 
-		FROM `" . DB_PREFIX . "category` 
-		WHERE `path` LIKE  '%" . (int) $category_id . "_%'
-	");
-
+    SELECT * 
+    FROM `" . DB_PREFIX . "category` 
+    WHERE `path` LIKE  '%" . (int) $category_id . "_%' 
+    OR `parent_id` = " . (int) $category_id . "
+");
 		foreach ($query->rows as $result) {
 			$this->deleteCategory($result['category_id']);
 		}
@@ -323,7 +321,7 @@ class Category extends \Ventocart\System\Engine\Model
 		$sql = "
 		SELECT 
 			c.*, 
-			cd.`name` 
+			cd.`name` , cd.meta_title
 		FROM `" . DB_PREFIX . "category` c
 		LEFT JOIN `" . DB_PREFIX . "category_description` cd 
 			ON c.`category_id` = cd.`category_id`
@@ -481,20 +479,26 @@ class Category extends \Ventocart\System\Engine\Model
 
 	public function getCategoryPerentPath($category_id)
 	{
-		$sql = $this->db->query("
-			SELECT c2.path 
-			FROM " . DB_PREFIX . "category c1
-			LEFT JOIN " . DB_PREFIX . "category c2
-			ON c1.parent_id = c2.category_id
-			WHERE c1.category_id = '" . (int) $category_id . "'
-		");
+		$path = [];
 
-		if ($sql->num_rows) {
+		while ($category_id) {
+			$query = $this->db->query("
+            SELECT `parent_id`, `category_id`
+            FROM `" . DB_PREFIX . "category`
+            WHERE `category_id` = '" . (int) $category_id . "'
+        ");
 
-			return $sql->row['path'];
-		} else {
-			return $category_id;
+			if (!$query->num_rows) {
+				break; // Safety: category doesn't exist
+			}
+
+			$row = $query->row;
+			array_unshift($path, $row['category_id']);
+
+			$category_id = $row['parent_id'];
 		}
+
+		return implode('_', $path);
 	}
 	public function getCategoryPath($category_id)
 	{

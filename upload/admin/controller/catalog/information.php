@@ -217,22 +217,24 @@ class Information extends \Ventocart\System\Engine\Controller
 
 
 		if (!empty($information_info)) {
-			$data['bottom'] = $information_info['bottom'];
-		} else {
-			$data['bottom'] = 0;
+			$data['bottom'] = $information_info['bottom'] ?? 0;
+			$data['status'] = $information_info['status'] ?? true;
+			$data['sort_order'] = $information_info['sort_order'] ?? '';
+			$data['parent_id'] = isset($information_info['parent_id']) ? $information_info['parent_id'] : 0;
+			$data['topmenu'] = isset($information_info['topmenu']) ? $information_info['topmenu'] : 0;
+			$data['parent_name'] = isset($information_info['parent_name']) ? $information_info['parent_name'] : '';
+
+
+			$this->load->model('design/footer');
+			$linkkey = 'information_id_' . $information_info['information_id'];
+			$footerdata = $this->model_design_footer->getKeyParent($linkkey);
+			$this->load->language('catalog/information');
+			if ($footerdata) {
+				$data['footer_link_id'] = $footerdata['key'];
+				$data['footer_link_name'] = $footerdata['text'];
+			}
 		}
 
-		if (!empty($information_info)) {
-			$data['status'] = $information_info['status'];
-		} else {
-			$data['status'] = true;
-		}
-
-		if (!empty($information_info)) {
-			$data['sort_order'] = $information_info['sort_order'];
-		} else {
-			$data['sort_order'] = '';
-		}
 
 		if (isset($this->request->get['information_id'])) {
 			$data['information_seo_url'] = $this->model_catalog_information->getSeoUrls($this->request->get['information_id']);
@@ -306,16 +308,45 @@ class Information extends \Ventocart\System\Engine\Controller
 		}
 
 		if (!$json) {
+			// Load necessary models
 			$this->load->model('catalog/information');
 
-			if (!$this->request->post['information_id']) {
+			// If no 'information_id' is provided, add a new information entry, otherwise edit the existing one
+			if (empty($this->request->post['information_id'])) {
+				// Add new information entry
 				$json['information_id'] = $this->model_catalog_information->addInformation($this->request->post);
 			} else {
+				// Edit existing information entry
 				$this->model_catalog_information->editInformation($this->request->post['information_id'], $this->request->post);
+				$json['information_id'] = $this->request->post['information_id']; // Use existing ID in case of edit
 			}
 
+			// If a footer link ID is provided, update the footer link
+			if (isset($this->request->post['footer_link_id'])) {
+				// Load footer model
+				$this->load->model('design/footer');
+				$linkkey = 'information_id_' . $json['information_id'];
+				if ($this->request->post['footer_link_id'] == "0") {
+					$this->model_design_footer->deleteLinkKey($linkkey);
+				}
+				if ($this->request->post['footer_link_id']) {
+					// Prepare element array with translations for each language
+					$element = [];
+					foreach ($this->request->post['information_description'] as $language_id => $info_desc) {
+						$element[$language_id] = $info_desc['title'];  // Assuming 'title' contains the translation
+					}
+
+					// Create a unique linkkey using the newly generated information ID
+
+
+					// Call the model's method to update footer link
+					$this->model_design_footer->updateToKey($this->request->post['footer_link_id'], $element, $linkkey, 'information/information&information_id=' . $json['information_id']);
+				}
+			}
+			$this->load->language('catalog/information');
 			$json['success'] = $this->language->get('text_success');
 		}
+
 
 		$this->response->addHeader('Content-Type: application/json');
 		$this->response->setOutput(json_encode($json));
