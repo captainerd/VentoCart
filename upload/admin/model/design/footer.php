@@ -223,7 +223,7 @@ class Footer extends \Ventocart\System\Engine\Model
 
 
     // Function to validate the structure of the sections array
-    private function validateFooterLinksFormat($sections)
+    private function validateFooterLinksFormat(&$sections)
     {
         // Check if $sections is a non-empty array
         if (empty($sections) || !is_array($sections)) {
@@ -231,7 +231,7 @@ class Footer extends \Ventocart\System\Engine\Model
         }
 
         // Loop through each section to validate its format
-        foreach ($sections as $section) {
+        foreach ($sections as &$section) {
             // Check that the section has a valid 'text_key' field and it's a string
             if (empty($section['text_key']) || !is_string($section['text_key'])) {
                 return false; // If 'text_key' is missing or not a string, return false
@@ -243,7 +243,10 @@ class Footer extends \Ventocart\System\Engine\Model
             }
 
             // Validate the structure inside 'text'
-            foreach ($section['text'] as $language_id => $text_array) {
+            foreach ($section['text'] as $language_id => &$text_array) {
+                if (empty($text_array[$section['text_key']])) {
+                    $text_array[$section['text_key']] = reset($text_array);
+                }
                 if (!is_array($text_array) || empty($text_array[$section['text_key']]) || !is_string($text_array[$section['text_key']])) {
                     return false; // If text_array does not contain the expected text_key or it's not a string, return false
                 }
@@ -255,7 +258,9 @@ class Footer extends \Ventocart\System\Engine\Model
             }
 
             // Validate each link
-            foreach ($section['links'] as $link) {
+            foreach ($section['links'] as &$link) {
+
+
                 if (empty($link['url']) || !is_string($link['url'])) {
                     return false; // If 'url' is missing or not a string
                 }
@@ -267,7 +272,10 @@ class Footer extends \Ventocart\System\Engine\Model
                 }
 
                 // Validate each language-specific 'text' under the link
-                foreach ($link['text'] as $language_id => $text_array) {
+                foreach ($link['text'] as $language_id => &$text_array) {
+                    if (empty($text_array[$link['text_key']])) {
+                        $text_array[$link['text_key']] = reset($text_array);
+                    }
                     if (!is_array($text_array) || empty($text_array[$link['text_key']]) || !is_string($text_array[$link['text_key']])) {
                         return false; // If text_array does not contain the expected text_key or it's not a string
                     }
