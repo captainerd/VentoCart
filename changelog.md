@@ -1,3 +1,18 @@
+## 🚀 What's New in VentoCart v7.0.1.2
+
+### 🐛 Bug Fix: Design/Footer
+- Fixed an issue preventing the saving of new footer links manually added via Design/Footer.
+
+### 🎉 Dev Feature: Plugins
+- VentoCart is now more modular with the introduction of Plugin technology, alongside traditional modules/extensions. (Read more: [Introducing Plugins](https://ventocart.com/blog/posts/documentation/introducing-plugins))
+
+### 🎉 Dev Feature: DB Flipping
+- Introduced DB Flipping for future-proofing database query manipulation and expected query results via the event system. (Read more: [Database Flippers](https://ventocart.com/blog/posts/documentation/for-developers-introducing-database-flippers))
+
+- This version focuses on modularity and extensibility for developers and does not introduce changes for non-developer users. The patch version has been updated accordingly.
+
+--- 
+
 ## 🚀 What's New in VentoCart v7.0.1.0
 
 ### 🎉 Feature: Menu-Ready Articles  
