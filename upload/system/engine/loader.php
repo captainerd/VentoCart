@@ -2,7 +2,8 @@
 
 namespace Ventocart\System\Engine;
 
-use Throwable;
+use Ventocart\Admin\Controller\Error\Exception;
+
 
 /**
  * Class Loader
@@ -130,7 +131,7 @@ class Loader
 					// Handle controller call
 					try {
 						$result = $this->load->controller($match[1], ...$params);
-					} catch (\Throwable $e) {
+					} catch (\Exception $e) {
 						$result = '';
 					}
 					// Replace the plugin tag with the result
