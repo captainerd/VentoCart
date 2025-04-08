@@ -105,7 +105,7 @@ class Product extends \Ventocart\System\Engine\Model
 		$product_data = $this->cache->get('latest_products.' . md5($sql));
 
 		if (!$product_data) {
-			$query = $this->db->query($sql);
+			$query = $this->db->query($sql, 'get_most_viewed');
 
 			$product_data = $query->rows;
 
@@ -146,7 +146,7 @@ class Product extends \Ventocart\System\Engine\Model
 	WHERE `p`.`product_id` = '" . (int) $product_id . "' 
 	AND `p`.`status` = '1' 
 	AND `p`.`date_available` <= NOW() 
-	AND `pd`.`language_id` = '" . (int) $this->config->get('config_language_id') . "'");
+	AND `pd`.`language_id` = '" . (int) $this->config->get('config_language_id') . "'", 'get_most_viewed');
 
 		if ($query->num_rows) {
 			$product_data = $query->row;
@@ -327,7 +327,7 @@ class Product extends \Ventocart\System\Engine\Model
 
 		if (!$product_data) {
 
-			$query = $this->db->query($sql);
+			$query = $this->db->query($sql, 'get_products');
 
 			$product_data = $query->rows;
 
@@ -345,7 +345,7 @@ class Product extends \Ventocart\System\Engine\Model
 	 */
 	public function getCategories(int $product_id): array
 	{
-		$query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "product_to_category` WHERE `product_id` = '" . (int) $product_id . "'");
+		$query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "product_to_category` WHERE `product_id` = '" . (int) $product_id . "'", 'get_categories');
 
 		return $query->rows;
 	}
@@ -599,7 +599,7 @@ class Product extends \Ventocart\System\Engine\Model
 			po.option_id
 		ORDER BY 
 			po.sort_order
-	");
+	", 'get_options');
 
 
 		foreach ($product_option_query->rows as $product_option) {
@@ -660,7 +660,7 @@ class Product extends \Ventocart\System\Engine\Model
 	 */
 	public function getImages(int $product_id): array
 	{
-		$query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "product_image` WHERE `product_id` = '" . (int) $product_id . "' ORDER BY `sort_order` ASC");
+		$query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "product_image` WHERE `product_id` = '" . (int) $product_id . "' ORDER BY `sort_order` ASC", 'get_images');
 
 		return $query->rows;
 	}
@@ -708,7 +708,7 @@ class Product extends \Ventocart\System\Engine\Model
 		$product_data = $this->cache->get('product.' . md5($sql));
 
 		if (!$product_data) {
-			$query = $this->db->query($sql);
+			$query = $this->db->query($sql, 'get_related');
 
 			$product_data = $query->rows;
 
@@ -778,7 +778,7 @@ class Product extends \Ventocart\System\Engine\Model
 		$product_data = $this->cache->get('product.' . md5($sql));
 
 		if (!$product_data) {
-			$query = $this->db->query($sql);
+			$query = $this->db->query($sql, 'get_related');
 
 			$product_data = $query->rows;
 

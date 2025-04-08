@@ -296,6 +296,7 @@ class UserPermission extends \Ventocart\System\Engine\Controller
 		$data['extensions'] = [
 			"analytics",
 			"currency",
+			"plugins",
 			"other",
 			"feed",
 			"module",

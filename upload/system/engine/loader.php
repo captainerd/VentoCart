@@ -2,6 +2,8 @@
 
 namespace Ventocart\System\Engine;
 
+use Throwable;
+
 /**
  * Class Loader
  *
@@ -110,28 +112,28 @@ class Loader
 	 */
 	protected function postrender(array $data): array
 	{
-		if (APPLICATION == 'Admin') {
+		if (APPLICATION === 'Admin') {
 			return $data;
 		}
+
 		array_walk_recursive($data, function (&$value) {
-
-			if (is_string($value) && preg_match_all('/\[plugin=([^,\]]+)((?:,[^\]]+)*)\]/', $value, $matches, PREG_SET_ORDER)) {
+			if (is_string($value) && preg_match_all('/\[plugin=([^,\]]+)([^]]*)\]/', $value, $matches, PREG_SET_ORDER)) {
 				foreach ($matches as $match) {
+					// Remove spaces after commas and clean the string
+					$match[2] = trim(html_entity_decode($match[2]), ',');
+					// If there's more than one argument, split it by commas
+					$params = empty($match[2]) ? [] : explode(',', $match[2]);
+					$params = array_map(function ($p) {
+						return trim(preg_replace('/^[\p{Z}\s\xA0]+|[\p{Z}\s\xA0]+$/u', '', $p));
+					}, $params);
 
-					$route = $match[1];
-					$params = [];
-
-					if (!empty($match[2])) {
-						$parts = explode(',', ltrim($match[2], ','));
-						foreach ($parts as $part) {
-							[$k, $v] = explode('=', $part, 2);
-							$params[$k] = $v;
-						}
+					// Handle controller call
+					try {
+						$result = $this->load->controller($match[1], ...$params);
+					} catch (\Throwable $e) {
+						$result = '';
 					}
-
-					$result = $this->load->controller($route, $params);
-
-
+					// Replace the plugin tag with the result
 					if ($result) {
 						$value = str_replace($match[0], $result, $value);
 					}
@@ -141,6 +143,9 @@ class Loader
 
 		return $data;
 	}
+
+
+
 	/**
 	 * Model
 	 *

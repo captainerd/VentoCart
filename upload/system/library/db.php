@@ -13,6 +13,7 @@ class DB
 	 */
 	private object $adaptor;
 	private bool $firewall;
+	private array $flippers = [];
 	/**
 	 * Constructor
 	 *
@@ -36,26 +37,44 @@ class DB
 			throw new \Exception('Error: Could not load database adaptor ' . $adaptor . '!');
 		}
 	}
+	/**
+	 * Register a flipper (query modifier).
+	 *
+	 * @param string $tag    The tag that identifies the type of query (e.g., 'search_query').
+	 * @param callable $call The function that modifies the query.
+	 */
+	public function registerFlipper(string $tag, callable $call)
+	{
+		$this->flippers[] = ['tag' => $tag, 'call' => $call];
+	}
 
 	public function enable_firewall()
 	{
 		$this->firewall = true;
 	}
 	/**
-	 * Query
+	 * Execute a query, applying optional flippers.
 	 *
-	 * @param string $sql SQL statement to be executed
+	 * @param string $sql    The SQL statement to execute.
+	 * @param string $flipper Optional tag to apply specific query modifications.
 	 *
-	 * @return mixed
+	 * @return mixed The result of the query execution.
 	 */
-	public function query(string $sql)
+	public function query(string $sql, string $flipper = '')
 	{
+		// If a flipper tag is provided, apply the corresponding modifier
+		if ($flipper && isset($this->flippers[$flipper])) {
+			// Apply the callback to modify the query
+			return $this->flippers[$flipper]['call']($sql); // Return the flipper Query result
+		}
+
 		// If firewall is enabled, sanitize parameters
 		if ($this->firewall) {
 			$sql = $this->sanitizeData($sql);
 		}
 		return $this->adaptor->query($sql);
 	}
+
 	/**
 	 * Sanitize SQL String
 	 *
