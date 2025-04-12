@@ -338,12 +338,12 @@ function recursiveDeleteDirectory($path)
 
     // Close the directory handle
     closedir($dirHandle);
-
-    // Remove the directory itself
-    if (!rmdir($path)) {
-        return false; // Failed to remove the directory
+    if (is_dir($path) && !(new \FilesystemIterator($path))->valid()) {
+        // Remove the directory itself
+        if (@!rmdir($path)) {
+            return false; // Failed to remove the directory
+        }
     }
-
     return true;
 }
 

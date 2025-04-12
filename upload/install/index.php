@@ -1,5 +1,5 @@
 <?php
-if ($_GET['passed']) {
+if (isset($_GET['passed'])) {
     include("finalize.php");
     exit();
 }
@@ -127,7 +127,7 @@ function clearOnOrOff($setting)
 }
 // HTML output
 ?>
-<?php if ($_GET['passed'] != 1): ?>
+<?php if (!isset($_GET['passed']) || (isset($_GET['passed']) && $_GET['passed'] != 1)): ?>
     <!DOCTYPE html>
     <html lang="en">
 
