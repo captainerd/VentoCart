@@ -1,3 +1,4 @@
+<?= $header ?>
 <!-- Section 1 -->
 <section class="section bg-white text-dark">
     <div class="container">
@@ -15,9 +16,12 @@
                 </a>
             </div>
             <div class="col-md-6">
-                <img src="https://fastly.picsum.photos/id/0/5000/3333.jpg" alt="Visual 1"
-                    class="img-fluid rounded shadow" data-ve="string|image_1" data-ve-type="image"
-                    style="border: 4px solid #eee;">
+
+                <img src="<?= isset($image_1['src']) ? $image_1['src'] : 'https://fastly.picsum.photos/id/26/4209/2769.jpg' ?>"
+                    alt="<?= isset($image_1['alt']) ? $image_1['alt'] : 'Image' ?>" class="img-fluid rounded shadow"
+                    data-ve="string|image_1" data-ve-type="image" style="border: 4px solid #ccc;">
+
+
             </div>
         </div>
     </div>
@@ -40,9 +44,9 @@
                 </a>
             </div>
             <div class="col-md-6">
-                <img src="https://fastly.picsum.photos/id/26/4209/2769.jpg" alt="Visual 2"
-                    class="img-fluid rounded shadow" data-ve="string|image_2" data-ve-type="image"
-                    style="border: 4px solid #ccc;">
+                <img data-ve="string|image_2" data-ve-type="image" style="position: relative; top: 66px;"
+                    src="<?= isset($image_2['src']) ? $image_2['src'] : 'https://fastly.picsum.photos/id/26/4209/2769.jpg' ?>"
+                    src="<?= isset($image_2['alt']) ? $image_2['alt'] : '' ?>" data-ve="string|image_2">
             </div>
         </div>
     </div>
@@ -67,11 +71,11 @@
 
             <div class="splide__track">
                 <ul class="splide__list">
-                    <?php foreach ($gallery_images_section_3_2 as $image): ?>
-                        <li class="splide__slide" data-ve="item|gallery_images_section_3_2">
-                            <img src="<?= $image['src'] ?>"
-                                alt="<?= isset($image['alt']) ? htmlspecialchars($image['alt']) : 'Gallery Image' ?>"
-                                class="img-fluid rounded shadow" style="max-height: 150px; object-fit: cover; width: 100%;">
+                    <?php foreach ($gallery_images_section_3_2 as $index => $image): ?>
+                        <li class="splide__slide" data-ve="item|gallery_images_section_3_2" data-ve-index="<?= $index ?>">
+                            <img width="100%"
+                                src="<?= isset($image['src']) ? $image['src'] : 'https://fastly.picsum.photos/id/26/4209/2769.jpg' ?>"
+                                alt="<?= isset($image['alt']) ? $image['alt'] : 'Image' ?>" style="border: 4px solid #ccc;">
                         </li>
                     <?php endforeach; ?>
                 </ul>
@@ -93,9 +97,9 @@
     <div class="container">
         <div class="row align-items-center">
             <div class="col-md-6">
-                <img src="https://fastly.picsum.photos/id/96/4752/3168.jpg" alt="Visual 3"
-                    class="img-fluid rounded shadow" data-ve="string|image_3" data-ve-type="image"
-                    style="border: 4px solid #ddd;">
+                <img src="<?= isset($image_3['src']) ? $image_3['src'] : 'https://fastly.picsum.photos/id/26/4209/2769.jpg' ?>"
+                    alt="<?= isset($image_3['alt']) ? $image_3['alt'] : 'Image' ?>" class="img-fluid rounded shadow"
+                    data-ve="string|image_3" data-ve-type="image" style="border: 4px solid #ccc;">
             </div>
             <div class="col-md-6">
                 <h3 data-ve="string|section_4_title" data-ve-type="text" class="section-title mb-3 text-gradient-hover">
@@ -132,3 +136,7 @@
         }).mount();
     });
 </script>
+
+
+
+<?= $footer ?>

@@ -267,11 +267,11 @@
 
         // Check if the type is "item"
         if (type === 'item') {
-          const index = $el.index();  // Get the index of the item
+          const index = parseInt($el.data('ve-index'), 10);
 
           // Create a delete button and append it next to the element
-          const $deleteBtn = $('<button class="delete-btn btn btn-sm btn-danger">x</button>');
-          $el.append($deleteBtn);
+          const $deleteBtn = $('<button style="position: relative; top: 40px; left:5px;" class="delete-btn btn btn btn-danger">x</button>');
+          $el.prepend($deleteBtn);
 
           // Add event listener for the delete button
           $deleteBtn.on('click', function () {
