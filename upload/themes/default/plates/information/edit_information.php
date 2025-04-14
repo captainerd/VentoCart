@@ -159,8 +159,8 @@
       content: '✏️';
       position: absolute;
       top: 5px;
-      right: 50px;
-      font-size: 16px;
+      left: -30px;
+      font-size: 19px;
       color: #007bff;
       cursor: pointer;
     }
