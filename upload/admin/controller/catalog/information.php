@@ -110,7 +110,7 @@ class Information extends \Ventocart\System\Engine\Controller
 			$data['informations'][] = [
 				'information_id' => $result['information_id'],
 				'title' => $result['title'],
-				'sort_order' => $result['sort_order'],
+
 				'edit' => $this->url->link('catalog/information.form', 'user_token=' . $this->session->data['user_token'] . '&information_id=' . $result['information_id'] . $url)
 			];
 		}
@@ -128,7 +128,6 @@ class Information extends \Ventocart\System\Engine\Controller
 		}
 
 		$data['sort_title'] = $this->url->link('catalog/information.list', 'user_token=' . $this->session->data['user_token'] . '&sort=id.title' . $url);
-		$data['sort_sort_order'] = $this->url->link('catalog/information.list', 'user_token=' . $this->session->data['user_token'] . '&sort=i.sort_order' . $url);
 
 		$url = '';
 
@@ -178,6 +177,9 @@ class Information extends \Ventocart\System\Engine\Controller
 			$url .= '&page=' . $this->request->get['page'];
 		}
 
+		$script_path = $_SERVER['SCRIPT_NAME']; // /cp-admin/index.php
+		$admin_dir = basename(dirname($script_path)); // cp-admin
+		$data['admin_dir'] = $admin_dir;
 		$data['breadcrumbs'] = [];
 
 		$data['breadcrumbs'][] = [
@@ -214,12 +216,53 @@ class Information extends \Ventocart\System\Engine\Controller
 		} else {
 			$data['information_description'] = [];
 		}
-
+		$theme = $this->model_setting_setting->getConfigValue('THEME_NAME');
+		$directory = DIR_VENTOCART . 'themes/' . $theme . '/plates/information/pages';
 
 		if (!empty($information_info)) {
+			$data['selected_template'] = $information_info['template'] ?? '';
+			if (!is_file($directory . '/' . $data['selected_template'])) {
+				$data['selected_template'] = '';
+			} else {
+				$template_data = $this->extractTemplateVariables($directory . '/' . $data['selected_template']);
+				// Loop through language id's
+				// Loop through language descriptions (each language's content)
+				foreach ($data['information_description'] as $language_id => &$description) {
+
+					// Decode existing json (if it's a JSON string)
+					$existing_data = [];
+					if (is_string($description['description'])) {
+						$decoded = json_decode($description['description'], true);
+						if (json_last_error() === JSON_ERROR_NONE) {
+							$existing_data = $decoded;
+						} else {
+							$existing_data = $template_data;
+						}
+					}
+
+					// Sanitize: Remove keys that are not in template
+					foreach ($existing_data as $key => $value) {
+						if (!array_key_exists($key, $template_data)) {
+							unset($existing_data[$key]);
+						}
+					}
+
+					// Fill in missing keys from template_data
+					foreach ($template_data as $key => $default) {
+						if (!array_key_exists($key, $existing_data)) {
+							$existing_data[$key] = $default;
+						}
+					}
+
+					// Re-encode and save back
+					$description['description'] = json_encode($existing_data, JSON_UNESCAPED_UNICODE);
+					$description['description'] = htmlspecialchars($description['description'], ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
+				}
+			}
+
 			$data['bottom'] = $information_info['bottom'] ?? 0;
 			$data['status'] = $information_info['status'] ?? true;
-			$data['sort_order'] = $information_info['sort_order'] ?? '';
+
 			$data['parent_id'] = isset($information_info['parent_id']) ? $information_info['parent_id'] : 0;
 			$data['topmenu'] = isset($information_info['topmenu']) ? $information_info['topmenu'] : 0;
 			$data['parent_name'] = isset($information_info['parent_name']) ? $information_info['parent_name'] : '';
@@ -236,21 +279,27 @@ class Information extends \Ventocart\System\Engine\Controller
 		}
 
 
+		$page_templates = [];
+
+		// Scan directory and filter out . and ..
+		if (is_dir($directory)) {
+			$files = scandir($directory);
+			foreach ($files as $file) {
+				if ($file === '.' || $file === '..') {
+					continue;
+				}
+				if (is_file($directory . '/' . $file) && preg_match('/\.(php|tpl|twig)$/', $file)) {
+					$page_templates[] = $file;
+				}
+			}
+		}
+		$data['templates'] = $page_templates;
 		if (isset($this->request->get['information_id'])) {
 			$data['information_seo_url'] = $this->model_catalog_information->getSeoUrls($this->request->get['information_id']);
 		} else {
 			$data['information_seo_url'] = [];
 		}
 
-		$this->load->model('design/layout');
-
-		$data['layouts'] = $this->model_design_layout->getLayouts();
-
-		if (isset($this->request->get['information_id'])) {
-			$data['information_layout'] = $this->model_catalog_information->getLayouts($this->request->get['information_id']);
-		} else {
-			$data['information_layout'] = [];
-		}
 
 		$data['user_token'] = $this->session->data['user_token'];
 
@@ -266,6 +315,11 @@ class Information extends \Ventocart\System\Engine\Controller
 		$this->load->language('catalog/information');
 
 		$json = [];
+
+
+		$theme = $this->model_setting_setting->getConfigValue('THEME_NAME');
+		$directory = DIR_VENTOCART . 'themes/' . $theme . '/plates/information/pages';
+
 
 		if (!$this->user->hasPermission('modify', 'catalog/information')) {
 			$json['error']['warning'] = $this->language->get('error_permission');
@@ -402,5 +456,30 @@ class Information extends \Ventocart\System\Engine\Controller
 
 		$this->response->addHeader('Content-Type: application/json');
 		$this->response->setOutput(json_encode($json));
+	}
+	private function extractTemplateVariables($templatePath)
+	{
+		if (!is_file($templatePath)) {
+			return [];
+		}
+
+		$content = file_get_contents($templatePath);
+
+		// Match all data-ve="type|key"
+		preg_match_all('/data-ve=["\'](string|array)\|([a-zA-Z0-9_]+)["\']/', $content, $matches, PREG_SET_ORDER);
+
+		$result = [];
+
+		foreach ($matches as $match) {
+			$type = $match[1];
+			$key = $match[2];
+
+			// Only set if not already found (avoid duplicates)
+			if (!isset($result[$key])) {
+				$result[$key] = ($type === 'array') ? [] : '';
+			}
+		}
+
+		return $result;
 	}
 }

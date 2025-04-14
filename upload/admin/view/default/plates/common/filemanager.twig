@@ -327,10 +327,14 @@ if ($('#input-directory').val()) {
     url += '&directory=' + encodeURIComponent($('#input-directory').val());
 }  
  
- $('#modal-image .modal-body').load('index.php?route=common/filemanager.list&user_token={{ user_token }}' + url);
+$('#modal-image .modal-body').load(
+  (getURLVar('admin_dir') ? `/${getURLVar('admin_dir')}/` : '')
+  + 'index.php?route=common/filemanager.list&user_token='
+  + (getURLVar('admin_token') || getURLVar('user_token'))
+  + url
+);
 
  
-
  
   $('#cropper').hide();
   $('#modal-image').on('click', '#button-parent', function (e) {
@@ -537,6 +541,7 @@ $(this).find('.form-check-input').trigger('change');
 }
  
   });
+ 
   $('#modal-image').on('dblclick', 'a.thumbnail', function (e) {
 //handle single select
 if (multiselect == true) { return; }
@@ -562,8 +567,16 @@ if (type === 'video') {
     $image.attr('src', val);
     $thumbnail.replaceWith($image);
 }
+ let target = '{{ target   }}';
  
-$('{{ target|escape('js') }}').val('catalog/'+ $(this).find('.form-check-input').val())
+if (typeof window[target] === 'function') {
+  // If it's a function, invoke it with the selected URL
+ 
+  window[target]('catalog/' + $(this).find('.form-check-input').val());
+} else {
+$('{{ target|escape('js') }}').val('catalog/'+ $(this).find('.form-check-input').val());
+ }
+  
  $('#modal-image').modal('hide');
 
 
@@ -593,6 +606,7 @@ cropAndSnapShot();
       cropped = document.querySelector('.cropped');
     let selectedImage = selectedCheckboxes.closest('.thumbnail').find('img');
     let imgSrc = selectedImage.attr('src');
+  
     $('#mod-content').hide();
     let randomNumber = Math.floor(1000 + Math.random() * 9000);
     let originalFilename = imgSrc.substring(imgSrc.lastIndexOf('/') + 1);

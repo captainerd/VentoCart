@@ -63,7 +63,7 @@
             <input type="text" name="path" value="{{ parent_name }}" placeholder="{{ entry_parent }}" id="input-parent" data-oc-target="autocomplete-parent" class="form-control" autocomplete="off"/>
             <input type="hidden" name="parent_id" value="{{ parent_id }}" id="input-parent-id"/>
             <div class="input-group-append">
-                <button class="btn btn-outline-secondary" type="button" id="input-parent-select">{{ button_select }}</button>
+                
             </div>
         </div>
         <ul id="autocomplete-parent" class="dropdown-menu"></ul>
@@ -78,20 +78,29 @@
         <input type="text" name="footer_link" value="{{ footer_link_name }}" placeholder="{{ entry_footer_link }}" id="input-footer-link" data-oc-target="autocomplete-footer-link" class="form-control" autocomplete="off"/>
         <input type="hidden" name="footer_link_id" value="{{ footer_link_id }}" id="input-footer-link-id"/>
         <div class="input-group-append">
-            <button class="btn btn-outline-secondary" type="button" id="input-footer-link-select">{{ button_select }}</button>
+       
         </div>
     </div>
     <ul id="autocomplete-footer-link" class="dropdown-menu"></ul>
     <div class="form-text">{{ help_footer_link }}</div>
     <div id="error-footer-link" class="invalid-feedback"></div>
 </div></div>
+<div class="row mb-3">
+  <label for="input-template" class="col-sm-2 col-form-label">{{ entry_template }}</label>
+  <div class="col-sm-10">
+    <select name="template" id="input-template" class="form-select">
+      <option value="">{{ text_none }}</option>
+      {% for template in templates %}
+        <option value="{{ template }}"{{ template == selected_template ? ' selected' : '' }}>
+          {{ template }}
+        </option>
+      {% endfor %}
+    </select>
+   
+  </div>
+</div>
 
-            <div class="row mb-3">
-                <label for="input-sort-order" class="col-sm-2 col-form-label">{{ entry_sort_order }}</label>
-                <div class="col-sm-10">
-                  <input type="text" name="sort_order" value="{{ sort_order }}" placeholder="{{ entry_sort_order }}" id="input-sort-order" class="form-control"/>
-                </div>
-              </div>
+     
 
 
            </div>
@@ -119,7 +128,31 @@
                       <label for="input-description-{{ language.language_id }}" class="col-sm-2 col-form-label">{{ entry_description }}</label>
                       <div class="col-sm-10">
                         <div id="input-description-{{ language.language_id }}">
-                          <textarea name="information_description[{{ language.language_id }}][description]" placeholder="{{ entry_description }}" data-oc-toggle="ckeditor" data-lang="{{ ckeditor }}" class="form-control">{{ information_description[language.language_id] ? information_description[language.language_id].description }}</textarea>
+
+                   {% if selected_template is empty %}
+    <textarea name="information_description[{{ language.language_id }}][description]" 
+              placeholder="{{ entry_description }}" 
+              data-oc-toggle="ckeditor" 
+              data-lang="{{ ckeditor }}" 
+              class="form-control">
+        {{ information_description[language.language_id].description }}
+    </textarea>
+{% else %}
+<div class="alert alert-success" role="alert">
+      {{ text_edit_from_page }} 
+    <a target="_blank" href="/?route=information/information.edit&information_id={{ information_id }}&iframe=true&language_id={{ language.language_id }}&admin_token={{ user_token }}&admin_dir={{admin_dir}}" class="btn btn-success btn-sm float-right">
+        {{ button_edit }}
+    </a>
+</div>
+
+ 
+   <input type="hidden" 
+       name="information_description[{{ language.language_id }}][description]" 
+       value="{{ information_description[language.language_id].description | raw }}" />
+
+{% endif %}
+
+                  
                         </div>
                       </div>
                     </div>
