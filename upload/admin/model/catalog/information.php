@@ -5,7 +5,10 @@ class Information extends \Ventocart\System\Engine\Model
 	public function addInformation(array $data): int
 	{
 
-		$this->db->query("INSERT INTO `" . DB_PREFIX . "information` SET `template` = '" . (int) $data['template'] . "', `bottom` = '" . (isset($data['bottom']) ? (int) $data['bottom'] : 0) . "', `status` = '" . (bool) (isset($data['status']) ? $data['status'] : 0) . "'");
+
+
+
+		$this->db->query("INSERT INTO `" . DB_PREFIX . "information` SET `template` = '" . $data['template'] . "', `bottom` = '" . (isset($data['bottom']) ? (int) $data['bottom'] : 0) . "', `status` = '" . (bool) (isset($data['status']) ? $data['status'] : 0) . "'");
 
 		$information_id = $this->db->getLastId();
 
@@ -54,7 +57,8 @@ class Information extends \Ventocart\System\Engine\Model
 
 	public function editInformation(int $information_id, array $data): void
 	{
-		$this->db->query("UPDATE `" . DB_PREFIX . "information` SET `template` = '" . (int) $data['template'] . "', `bottom` = '" . (isset($data['bottom']) ? (int) $data['bottom'] : 0) . "', `status` = '" . (bool) (isset($data['status']) ? $data['status'] : 0) . "' WHERE `information_id` = '" . (int) $information_id . "'");
+
+		$this->db->query("UPDATE `" . DB_PREFIX . "information` SET `template` = '" . $data['template'] . "', `bottom` = '" . (isset($data['bottom']) ? (int) $data['bottom'] : 0) . "', `status` = '" . (bool) (isset($data['status']) ? $data['status'] : 0) . "' WHERE `information_id` = '" . (int) $information_id . "'");
 
 		$this->db->query("DELETE FROM `" . DB_PREFIX . "information_description` WHERE `information_id` = '" . (int) $information_id . "'");
 
@@ -186,7 +190,6 @@ class Information extends \Ventocart\System\Engine\Model
 
 		$sort_data = [
 			'id.title',
-
 		];
 
 		if (isset($data['sort']) && in_array($data['sort'], $sort_data)) {
