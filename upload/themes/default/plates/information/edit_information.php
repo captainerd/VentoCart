@@ -136,7 +136,7 @@
       border: 1px dashed blue;
     }
 
-    [data-ve-type="image"]::after {
+    [data-ve^="array|"]::after {
       content: '\00ff0b';
       display: inline-block;
       margin: -8px -8px 0 5px;
@@ -265,31 +265,53 @@
         const veAttr = $el.data('ve');
         const [type, key] = veAttr.split('|');
 
-        // Check if the type is "item"
+        // Only proceed if it's an item
         if (type === 'item') {
           const index = parseInt($el.data('ve-index'), 10);
 
-          // Create a delete button and append it next to the element
-          const $deleteBtn = $('<button style="position: relative; top: 40px; left:5px;" class="delete-btn btn btn btn-danger">x</button>');
-          $el.prepend($deleteBtn);
+          // Detect the parent 'array' type (image, text, etc.)
+          const $arrayParent = $el.closest('[data-ve^="array|"]');
+          const parentType = $arrayParent.data('ve-type') || 'unknown';
 
-          // Add event listener for the delete button
+          // Create delete button
+          const $deleteBtn = $('<button class="delete-btn btn btn-sm btn-danger" title="Delete"><i class="fas fa-trash-alt"></i></button>');
+
+          // Style it differently if it's an image
+          if (parentType === 'image') {
+            // Position absolute in center top-right
+            $deleteBtn.css({
+              position: 'absolute',
+              top: '8px',
+              right: '8px',
+              zIndex: 10,
+              padding: '4px 8px',
+              fontSize: '14px',
+            });
+
+            // Ensure the image container is relatively positioned
+            $el.css('position', 'relative');
+          } else {
+            // For text or other types, keep inline
+            $deleteBtn.addClass('ms-2'); // margin-start Bootstrap class for spacing
+          }
+
+          // Append and bind click event
+          $el.append($deleteBtn);
+
           $deleteBtn.on('click', function () {
-            // Log the delete action to the console
             console.log(`Delete button clicked for item at index ${index} in ${key}`);
 
-            // Remove the item from the templateData array
             if (Array.isArray(templateData[key])) {
-              templateData[key].splice(index, 1);  // Remove the item at the current index
+              templateData[key].splice(index, 1);
               console.log(`Item deleted. Updated ${key}:`, templateData[key]);
 
-              // Update the hidden input and submit the form
               $('#viewDataInput').val(JSON.stringify(templateData));
-              $postForm.submit();  // Submit the form to update the changes
+              $postForm.submit();
             }
           });
         }
       });
+
 
 
       // Function to handle the editing logic
@@ -412,19 +434,17 @@
 
       // Function to handle array editor
       function setupArrayEditor($el, key) {
-        const $addBtn = $('<span class="add-btn">➕ Add</span>');
-        $el.append($addBtn);
 
-        $addBtn.on('click', function (e) {
-          e.stopPropagation();
 
-          const typeAttr = $el.data('ve-type');
-          if (typeAttr === 'image') {
-            setupImageSelector($el, key, true);  // Open image selector for array of images
-          } else {
-            openTextInput($el, key);  // Open text input for text arrays
-          }
-        });
+
+
+        const typeAttr = $el.data('ve-type');
+        if (typeAttr === 'image') {
+
+        } else {
+          openTextInput($el, key);  // Open text input for text arrays
+        }
+
 
         function openTextInput($el, key) {
           const $modal = $(
@@ -438,7 +458,7 @@
           );
           $('body').append($modal);
 
-          const offset = $addBtn.offset();
+          const offset = $el.offset();
           const modalWidth = 300;
           let left = offset.left;
           if (left + modalWidth > $(window).width()) {
@@ -446,7 +466,7 @@
           }
 
           $modal.css({
-            top: offset.top + $addBtn.height() + 5,
+            top: offset.top + $el.height() + 5,
             left: left,
             display: 'block',
             width: modalWidth + 'px',

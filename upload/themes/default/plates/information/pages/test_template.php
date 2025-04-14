@@ -26,6 +26,18 @@
         </div>
     </div>
 </section>
+<!-- Bootstrap List Group for Text Items -->
+<ul class="list-group" data-ve="array|text_items_section_1" data-ve-type="text" aria-label="Editable Text List">
+    <?php foreach ($text_items_section_1 as $index => $text): ?>
+        <li class="list-group-item d-flex justify-content-between align-items-center" data-ve="item|text_items_section_1"
+            data-ve-index="<?= $index ?>">
+
+            <span><?= htmlspecialchars($text) ?></span>
+
+            <!-- Optional: Delete button already added by JS -->
+        </li>
+    <?php endforeach; ?>
+</ul>
 
 <!-- Section 2 -->
 <section class="section bg-light text-dark">
