@@ -555,7 +555,7 @@ $('#form-product').on('submit', function(e) {
     e.preventDefault();
 
     $.ajax({
-        url: 'index.php?route=checkout/cart.add&language=<?= $this->e($language ) ?>',
+        url: '/index.php?route=checkout/cart.add&language=<?= $this->e($language ) ?>',
         type: 'post',
         data: $('#form-product').serialize(),
         dataType: 'json',
