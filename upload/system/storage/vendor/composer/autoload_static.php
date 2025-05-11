@@ -32,6 +32,10 @@ class ComposerStaticInit723df5bcd9366cc0d09a11e95c1b3994
             'Psr\\Http\\Message\\' => 17,
             'Psr\\Http\\Client\\' => 16,
         ),
+        'N' => 
+        array (
+            'Natsos\\Storage\\' => 15,
+        ),
         'J' => 
         array (
             'JmesPath\\' => 9,
@@ -73,6 +77,10 @@ class ComposerStaticInit723df5bcd9366cc0d09a11e95c1b3994
         'Psr\\Http\\Client\\' => 
         array (
             0 => __DIR__ . '/..' . '/psr/http-client/src',
+        ),
+        'Natsos\\Storage\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/src',
         ),
         'JmesPath\\' => 
         array (
