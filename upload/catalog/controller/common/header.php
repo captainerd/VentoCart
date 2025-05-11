@@ -32,11 +32,8 @@ class Header extends \Ventocart\System\Engine\Controller
 		$data['direction'] = $this->language->get('direction');
 
 		$data['title'] = $this->document->getTitle();
-		$data['base'] = $this->config->get('config_url');
 		$data['description'] = $this->document->getDescription();
 		$data['keywords'] = $this->document->getKeywords();
-
-
 		$data['theme_name'] = THEME_NAME;
 
 		$data['links'] = $this->document->getLinks();
