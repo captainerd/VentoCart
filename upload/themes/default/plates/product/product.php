@@ -126,20 +126,20 @@ $isVideo = in_array($popupExtension, $videoExtensions);
                 </li>
         <?php endforeach; ?>
                 </ul>
-
+   </div>
                 </section>
 
               
                 
               <?php endif; ?>
 
-            </div>
+          
           </div>
         <?php endif; ?>
 
       
     
- 
+ </div>
      
 
         <div class="col-sm">
@@ -440,9 +440,10 @@ $isVideo = in_array($popupExtension, $videoExtensions);
                 <?php if ($minimum > 1): ?>
                   <div class="alert alert-info"><i class="fa-solid fa-circle-info"></i> <?= $this->e($text_minimum ) ?></div>
                 <?php endif; ?>
+                 </form>
               </div>
        
-            </form>
+        
 
             
           </div>
@@ -534,7 +535,7 @@ $isVideo = in_array($popupExtension, $videoExtensions);
    
 
       <?=  $content_bottom  ?></div>
-    <?=  $column_right   ?></div>
+    <?=  $column_right   ?> 
  
 <script > 
   window.picontWidth = <?=$picont_width?>;
